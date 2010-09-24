@@ -1,0 +1,71 @@
+
+[49926]
+description = Achromat
+thickness_l1 = 4.
+thickness_l2 = 1.5
+material_l1 = N-BaF10
+material_l2 = N-SF56
+radius = 4.5
+curvature_s1 = 0.09532888465204957
+curvature_s2 = -0.12376237623762376
+curvature_s3 = -0.026157467957101756
+type = Doublet
+
+
+[45893]
+description = DCX
+material = N-BK7
+thickness = 3.5
+radius = 12.5
+curvature_s2 = -0.0077730275942479591
+curvature_s1 = 0.0077730275942479591
+type = SphericalLens
+
+[49371]
+description = Achromat
+thickness_l1 = 11.0
+thickness_l2 = 2.2
+material_l1 = N-BaF10
+material_l2 = N-SF10
+radius = 15.0
+curvature_s1 = 0.028727377190462509
+curvature_s2 = -0.045207956600361664
+curvature_s3 = -0.0049144879103597411
+type = Doublet
+
+[49391]
+description = Achromat
+thickness_l1 = 9.5
+thickness_l2 = 4.0
+material_l1 = N-BAK4
+material_l2 = N-SF10
+radius = 25.0
+curvature_s1 = 0.010325245224574084
+curvature_s2 = -0.013561160835367509
+curvature_s3 = -0.0041385589537722969
+type = Doublet
+
+[49392]
+description = Achromat
+thickness_l1 = 9.0
+thickness_l2 = 3.5
+material_l1 = N-BAK4
+material_l2 = N-SF10
+radius = 25.0
+curvature_s1 = 0.0076640098099325571
+curvature_s2 = -0.010064412238325281
+curvature_s3 = -0.0031230480949406623
+type = Doublet
+
+[49393]
+description = Achromat
+thickness_l1 = 9.75
+thickness_l2 = 3.5
+material_l1 = N-BAK4
+material_l2 = N-SF10
+radius = 25.0
+curvature_s1 = 0.0061504397564425854
+curvature_s2 = -0.0080762397027943789
+curvature_s3 = -0.0024839783397088777
+type = Doublet
+

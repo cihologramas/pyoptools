@@ -1,0 +1,6737 @@
+[45029]
+description = PCV
+material = BK7
+thickness = 3.5
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = -0.0386996904025
+type = SphericalLens
+
+[45025]
+description = PCV
+material = BK7
+thickness = 3.5
+radius = 10.0
+curvature_s2 = 0.0
+curvature_s1 = -0.0386996904025
+type = SphericalLens
+
+[45027]
+description = PCV
+material = BK7
+thickness = 3.5
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = -0.0193498452012
+type = SphericalLens
+
+[45021]
+description = PCV
+material = SF11
+thickness = 3.5
+radius = 10.0
+curvature_s2 = 0.0
+curvature_s1 = -0.0424808836024
+type = SphericalLens
+
+[45023]
+description = PCV
+material = BK7
+thickness = 3.5
+radius = 10.0
+curvature_s2 = 0.0
+curvature_s1 = -0.0483792936623
+type = SphericalLens
+
+[48298]
+description = UV DCX
+material = F_Silica
+thickness = 3.42
+radius = 12.5
+curvature_s2 = -0.00876577840112
+curvature_s1 = 0.00876577840112
+type = SphericalLens
+
+[48299]
+description = UV DCX
+material = F_Silica
+thickness = 3.68
+radius = 12.5
+curvature_s2 = -0.00730140186916
+curvature_s1 = 0.00730140186916
+type = SphericalLens
+
+[45806]
+description = NIR Achromat
+thickness_l1 = 6.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 12.5
+curvature_s3 = -0.00152320604408
+curvature_s2 = -0.0175407823189
+curvature_s1 = 0.0175407823189
+type = Doublet
+thickness_l2 = 4.0
+
+[48295]
+description = UV DCX
+material = F_Silica
+thickness = 5.52
+radius = 12.5
+curvature_s2 = -0.0184706316956
+curvature_s1 = 0.0184706316956
+type = SphericalLens
+
+[47129]
+description = Ball Lens
+material = S-LAH79
+thickness = 2.0
+radius = 1.0
+curvature_s2 = -1.0
+curvature_s1 = 1.0
+type = SphericalLens
+
+[47128]
+description = Ball Lens
+material = S-LAH79
+thickness = 1.0
+radius = 0.5
+curvature_s2 = -2.0
+curvature_s1 = 2.0
+type = SphericalLens
+
+[45802]
+description = NIR Achromat
+thickness_l1 = 9.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 12.5
+curvature_s3 = -0.00752332229913
+curvature_s2 = -0.039169604387
+curvature_s1 = 0.0344708721131
+type = Doublet
+thickness_l2 = 4.0
+
+[45803]
+description = NIR Achromat
+thickness_l1 = 8.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 12.5
+curvature_s3 = -0.00620925178516
+curvature_s2 = -0.0351493848858
+curvature_s1 = 0.0315556958031
+type = Doublet
+thickness_l2 = 4.0
+
+[45800]
+description = NIR Achromat
+thickness_l1 = 11.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 12.5
+curvature_s3 = -0.0114259597806
+curvature_s2 = -0.0497265042268
+curvature_s1 = 0.042735042735
+type = Doublet
+thickness_l2 = 4.0
+
+[45801]
+description = NIR Achromat
+thickness_l1 = 11.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 12.5
+curvature_s3 = -0.00944019635608
+curvature_s2 = -0.0449236298293
+curvature_s1 = 0.0380662352493
+type = Doublet
+thickness_l2 = 4.0
+
+[32935]
+description = Achromat
+thickness_l1 = 8.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 20.0
+curvature_s3 = -0.00318836883051
+curvature_s2 = -0.00919963201472
+curvature_s1 = 0.00641025641026
+type = Doublet
+thickness_l2 = 4.5
+
+[32937]
+description = PCX
+material = BK7
+thickness = 3.0
+radius = 10.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0276395798784
+type = SphericalLens
+
+[32939]
+description = DCX
+material = BK7
+thickness = 3.0
+radius = 7.5
+curvature_s2 = -0.0195465207193
+curvature_s1 = 0.0195465207193
+type = SphericalLens
+
+[48351]
+description = Negative Achromat
+thickness_l1 = 4.0
+material_l1 = BaF10
+material_l2 = FD10
+radius = 6.25
+curvature_s3 = 0.00616370808679
+curvature_s2 = 0.0579374275782
+curvature_s1 = -0.0470809792844
+type = Doublet
+thickness_l2 = 8.0
+
+[32307]
+description = Achromat
+thickness_l1 = 2.3
+material_l1 = BK7
+material_l2 = SF5
+radius = 3.125
+curvature_s3 = -0.0257334019557
+curvature_s2 = -0.0689179875948
+curvature_s1 = 0.0432152117545
+type = Doublet
+thickness_l2 = 0.9
+
+[32305]
+description = Achromat
+thickness_l1 = 2.3
+material_l1 = BK7
+material_l2 = SF5
+radius = 3.125
+curvature_s3 = -0.0310848616724
+curvature_s2 = -0.089605734767
+curvature_s1 = 0.0650618087183
+type = Doublet
+thickness_l2 = 0.9
+
+[32303]
+description = Achromat
+thickness_l1 = 2.7
+material_l1 = BK7
+material_l2 = SF5
+radius = 3.125
+curvature_s3 = -0.0400320256205
+curvature_s2 = -0.114810562572
+curvature_s1 = 0.0813008130081
+type = Doublet
+thickness_l2 = 0.9
+
+[32301]
+description = Achromat
+thickness_l1 = 2.7
+material_l1 = SSKN8
+material_l2 = SF10
+radius = 3.125
+curvature_s3 = -0.00359932332721
+curvature_s2 = -0.137931034483
+curvature_s1 = 0.125786163522
+type = Doublet
+thickness_l2 = 0.6
+
+[08019]
+description = UV DCX
+material = F_Silica
+thickness = 10.31
+radius = 25.4
+curvature_s2 = -0.0111061750333
+curvature_s1 = 0.0111061750333
+type = SphericalLens
+
+[45126]
+description = PCX
+material = BK7
+thickness = 2.4
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0268744961032
+type = SphericalLens
+
+[32710]
+description = DCX
+material = BK7
+thickness = 4.8
+radius = 9.0
+curvature_s2 = -0.0273224043716
+curvature_s1 = 0.0273224043716
+type = SphericalLens
+
+[32309]
+description = Achromat
+thickness_l1 = 5.25
+material_l1 = BaFN11
+material_l2 = SF10
+radius = 6.25
+curvature_s3 = -0.013133701077
+curvature_s2 = -0.106951871658
+curvature_s1 = 0.071530758226
+type = Doublet
+thickness_l2 = 1.1
+
+[08011]
+description = UV PCX
+material = F_Silica
+thickness = 6.59
+radius = 25.4
+curvature_s2 = 0.0
+curvature_s1 = 0.0109063147562
+type = SphericalLens
+
+[43471]
+radius = 25.0
+type = SphericalMirror
+description = Spherical Mirror
+
+[43470]
+radius = 25.0
+type = SphericalMirror
+description = Spherical Mirror
+
+[31858]
+description = DCX
+material = SF5
+thickness = 2.3
+radius = 1.5
+curvature_s2 = -0.285714285714
+curvature_s1 = 0.285714285714
+type = SphericalLens
+
+[31859]
+description = DCX
+material = BK7
+thickness = 2.0
+radius = 1.5
+curvature_s2 = -0.2331002331
+curvature_s1 = 0.2331002331
+type = SphericalLens
+
+[43570]
+radius = 127.0
+type = SphericalMirror
+description = Spherical Mirror
+
+[45933]
+description = Half Ball Lens
+material = bk7
+thickness = 1.0
+radius = 1.0
+curvature_s2 = 0.0
+curvature_s1 = 1.0
+type = SphericalLens
+
+[43572]
+radius = 158.75
+type = SphericalMirror
+description = Spherical Mirror
+
+[45936]
+description = Half Ball Lens
+material = bk7
+thickness = 4.0
+radius = 4.0
+curvature_s2 = 0.0
+curvature_s1 = 0.25
+type = SphericalLens
+
+[45937]
+description = Half Ball Lens
+material = bk7
+thickness = 5.0
+radius = 5.0
+curvature_s2 = 0.0
+curvature_s1 = 0.2
+type = SphericalLens
+
+[45934]
+description = Half Ball Lens
+material = bk7
+thickness = 2.0
+radius = 2.0
+curvature_s2 = 0.0
+curvature_s1 = 0.5
+type = SphericalLens
+
+[45935]
+description = Half Ball Lens
+material = bk7
+thickness = 3.0
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.333333333333
+type = SphericalLens
+
+[32625]
+description = DCX
+material = BK7
+thickness = 5.0
+radius = 12.5
+curvature_s2 = -0.0196850393701
+curvature_s1 = 0.0196850393701
+type = SphericalLens
+
+[32627]
+description = DCX
+material = BK7
+thickness = 3.5
+radius = 12.5
+curvature_s2 = -0.013044612575
+curvature_s1 = 0.013044612575
+type = SphericalLens
+
+[43590]
+radius = 101.6
+type = SphericalMirror
+description = Spherical Mirror
+
+[32013]
+description = DCX
+material = BK7
+thickness = 3.48
+radius = 6.0
+curvature_s2 = -0.0555247084953
+curvature_s1 = 0.0555247084953
+type = SphericalLens
+
+[48294]
+description = UV DCX
+material = F_Silica
+thickness = 5.66
+radius = 12.5
+curvature_s2 = -0.0222518914108
+curvature_s1 = 0.0222518914108
+type = SphericalLens
+
+[32010]
+description = PCX
+material = SF5
+thickness = 2.6
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = 0.1100110011
+type = SphericalLens
+
+[32017]
+description = DCX
+material = BK7
+thickness = 2.75
+radius = 4.5
+curvature_s2 = -0.074294205052
+curvature_s1 = 0.074294205052
+type = SphericalLens
+
+[32015]
+description = DCX
+material = SF5
+thickness = 3.85
+radius = 6.0
+curvature_s2 = -0.0651890482399
+curvature_s1 = 0.0651890482399
+type = SphericalLens
+
+[32019]
+description = DCX
+material = SF5
+thickness = 3.45
+radius = 4.5
+curvature_s2 = -0.0878734622144
+curvature_s1 = 0.0878734622144
+type = SphericalLens
+
+[45804]
+description = NIR Achromat
+thickness_l1 = 8.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 12.5
+curvature_s3 = -0.00401832355541
+curvature_s2 = -0.0295857988166
+curvature_s1 = 0.0275709953129
+type = Doublet
+thickness_l2 = 4.0
+
+[45805]
+description = NIR Achromat
+thickness_l1 = 6.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 12.5
+curvature_s3 = -0.00254965452181
+curvature_s2 = -0.02331002331
+curvature_s1 = 0.0227479526843
+type = Doublet
+thickness_l2 = 4.0
+
+[46009]
+description = Mounted Achromat Pair
+thickness_l1 = 3.0
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF10
+thickness_l5 = -44.64
+material_l3 = 
+material_l2 = BaFN10
+radius = 12.5
+thickness_l3 = 3.72
+thickness_l4 = 6.0
+curvature_s3 = -0.0472366556448
+curvature_s2 = 0.0621890547264
+curvature_s1 = 0.00842743974381
+thickness_l2 = 11.04
+type = AchromatPair
+curvature_s6 = -0.00769585962752
+curvature_s5 = -0.0224014336918
+curvature_s4 = 0.0162680982593
+
+[46008]
+description = Mounted Achromat Pair
+thickness_l1 = 2.5
+material_l4 = BaFN10
+material_l5 = SF10
+material_l1 = SF10
+thickness_l5 = -21.98
+material_l3 = 
+material_l2 = BaFN11
+radius = 12.5
+thickness_l3 = 3.14
+thickness_l4 = 9.0
+curvature_s3 = -0.0357525920629
+curvature_s2 = 0.053050397878
+curvature_s1 = 0.00653851183471
+thickness_l2 = 9.5
+type = AchromatPair
+curvature_s6 = -0.00465918091599
+curvature_s5 = -0.0454959053685
+curvature_s4 = 0.0289603243556
+
+[43971]
+radius = 76.2
+type = SphericalMirror
+description = Spherical Mirror
+
+[46003]
+description = Mounted Achromat Pair
+thickness_l1 = 3.0
+material_l4 = BaFN11
+material_l5 = Sf10
+material_l1 = SF10
+thickness_l5 = -18.85
+material_l3 = 
+material_l2 = BaFN10
+radius = 12.5
+thickness_l3 = 1.57
+thickness_l4 = 9.5
+curvature_s3 = -0.0472366556448
+curvature_s2 = 0.0621890547264
+curvature_s1 = 0.00842743974381
+thickness_l2 = 11.04
+type = AchromatPair
+curvature_s6 = -0.00653851183471
+curvature_s5 = -0.053050397878
+curvature_s4 = 0.0357525920629
+
+[46002]
+description = Mounted Achromat Pair
+thickness_l1 = 3.0
+material_l4 = BaFN10
+material_l5 = SF10
+material_l1 = SF10
+thickness_l5 = -16.08
+material_l3 = 
+material_l2 = BaFN10
+radius = 12.5
+thickness_l3 = 0.54
+thickness_l4 = 11.04
+curvature_s3 = -0.0472366556448
+curvature_s2 = 0.0621890547264
+curvature_s1 = 0.00842743974381
+thickness_l2 = 11.04
+type = AchromatPair
+curvature_s6 = -0.00842743974381
+curvature_s5 = -0.0621890547264
+curvature_s4 = 0.0472366556448
+
+[46001]
+description = Mounted Achromat Pair
+thickness_l1 = 1.33
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF5
+thickness_l5 = -26.33
+material_l3 = 
+material_l2 = BK7
+radius = 6.25
+thickness_l3 = 2.97
+thickness_l4 = 3.5
+curvature_s3 = -0.0403714170367
+curvature_s2 = 0.0555247084953
+curvature_s1 = 0.0195427008013
+thickness_l2 = 3.73
+type = AchromatPair
+curvature_s6 = -0.0127632418634
+curvature_s5 = -0.0379794910748
+curvature_s4 = 0.0273897562312
+
+[46000]
+description = Mounted Achromat Pair
+thickness_l1 = 1.33
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF5
+thickness_l5 = -18.01
+material_l3 = 
+material_l2 = BK7
+radius = 6.25
+thickness_l3 = 2.76
+thickness_l4 = 3.73
+curvature_s3 = -0.0403714170367
+curvature_s2 = 0.0555247084953
+curvature_s1 = 0.0195427008013
+thickness_l2 = 3.73
+type = AchromatPair
+curvature_s6 = -0.0195427008013
+curvature_s5 = -0.0555247084953
+curvature_s4 = 0.0403714170367
+
+[46007]
+description = Mounted Achromat Pair
+thickness_l1 = 3.0
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF10
+thickness_l5 = -33.77
+material_l3 = 
+material_l2 = BaFN10
+radius = 12.5
+thickness_l3 = 2.59
+thickness_l4 = 7.0
+curvature_s3 = -0.0472366556448
+curvature_s2 = 0.0621890547264
+curvature_s1 = 0.00842743974381
+thickness_l2 = 11.04
+type = AchromatPair
+curvature_s6 = -0.0104231811549
+curvature_s5 = -0.0296120817293
+curvature_s4 = 0.021533161068
+
+[46006]
+description = Mounted Achromat Pair
+thickness_l1 = 2.5
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF10
+thickness_l5 = -33.77
+material_l3 = 
+material_l2 = BaFN10
+radius = 12.5
+thickness_l3 = 3.09
+thickness_l4 = 7.0
+curvature_s3 = -0.0289603243556
+curvature_s2 = 0.0454959053685
+curvature_s1 = 0.00465918091599
+thickness_l2 = 9.0
+type = AchromatPair
+curvature_s6 = -0.0104231811549
+curvature_s5 = -0.0296120817293
+curvature_s4 = 0.021533161068
+
+[46005]
+description = Mounted Achromat Pair
+thickness_l1 = 2.5
+material_l4 = BaFN11
+material_l5 = Sf10
+material_l1 = SF10
+thickness_l5 = -18.85
+material_l3 = 
+material_l2 = BaFN11
+radius = 12.5
+thickness_l3 = 2.69
+thickness_l4 = 9.5
+curvature_s3 = -0.0357525920629
+curvature_s2 = 0.053050397878
+curvature_s1 = 0.00653851183471
+thickness_l2 = 9.5
+type = AchromatPair
+curvature_s6 = -0.00653851183471
+curvature_s5 = -0.053050397878
+curvature_s4 = 0.0357525920629
+
+[46004]
+description = Mounted Achromat Pair
+thickness_l1 = 3.0
+material_l4 = BaFN10
+material_l5 = SF10
+material_l1 = SF10
+thickness_l5 = -21.98
+material_l3 = 
+material_l2 = BaFN10
+radius = 12.5
+thickness_l3 = 2.12
+thickness_l4 = 9.0
+curvature_s3 = -0.0472366556448
+curvature_s2 = 0.0621890547264
+curvature_s1 = 0.00842743974381
+thickness_l2 = 11.04
+type = AchromatPair
+curvature_s6 = -0.00465918091599
+curvature_s5 = -0.0454959053685
+curvature_s4 = 0.0289603243556
+
+[45168]
+description = DCX
+material = BK7
+thickness = 8.8
+radius = 20.0
+curvature_s2 = -0.0165125495376
+curvature_s1 = 0.0165125495376
+type = SphericalLens
+
+[47317]
+description = NIR Achromat
+thickness_l1 = 14.5
+material_l1 = LAKN22
+material_l2 = SFL6
+radius = 25.0
+curvature_s3 = -0.00202142712755
+curvature_s2 = -0.0167392032139
+curvature_s1 = 0.0167392032139
+type = Doublet
+thickness_l2 = 5.5
+
+[47318]
+description = NIR Achromat
+thickness_l1 = 11.0
+material_l1 = LAKN22
+material_l2 = SFL6
+radius = 25.0
+curvature_s3 = -0.00111769308148
+curvature_s2 = -0.0115154306771
+curvature_s1 = 0.0115154306771
+type = Doublet
+thickness_l2 = 5.5
+
+[45164]
+description = DCX
+material = BK7
+thickness = 6.55
+radius = 15.0
+curvature_s2 = -0.0197355437142
+curvature_s1 = 0.0197355437142
+type = SphericalLens
+
+[45166]
+description = DCX
+material = BK7
+thickness = 4.96
+radius = 15.0
+curvature_s2 = -0.0130429111778
+curvature_s1 = 0.0130429111778
+type = SphericalLens
+
+[45160]
+description = DCX
+material = BK7
+thickness = 2.74
+radius = 6.0
+curvature_s2 = -0.02035002035
+curvature_s1 = 0.02035002035
+type = SphericalLens
+
+[45162]
+description = DCX
+material = BK7
+thickness = 6.6
+radius = 12.5
+curvature_s2 = -0.0284981476204
+curvature_s1 = 0.0284981476204
+type = SphericalLens
+
+[48293]
+description = UV DCX
+material = F_Silica
+thickness = 10.9
+radius = 12.5
+curvature_s2 = -0.0474833808167
+curvature_s1 = 0.0474833808167
+type = SphericalLens
+
+[48020]
+description = ZNSE PCX
+material = ZNSE
+thickness = 2.6
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.00714489854244
+type = SphericalLens
+
+[45118]
+description = PCX
+material = SF11
+thickness = 2.0
+radius = 1.5
+curvature_s2 = 0.0
+curvature_s1 = 0.425531914894
+type = SphericalLens
+
+[45080]
+description = PCX
+material = BK7
+thickness = 2.0
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.129032258065
+type = SphericalLens
+
+[45113]
+description = Laser Focusing Singlets
+material = BK7
+thickness = 3.45
+radius = 2.5
+curvature_s2 = -0.0488997555012
+curvature_s1 = 0.322580645161
+type = SphericalLens
+
+[45114]
+description = Laser Focusing Singlets
+material = BK7
+thickness = 2.5
+radius = 2.5
+curvature_s2 = -0.0326904217064
+curvature_s1 = 0.215982721382
+type = SphericalLens
+
+[45115]
+description = Laser Focusing Singlets
+material = BK7
+thickness = 2.65
+radius = 2.5
+curvature_s2 = -0.0307881773399
+curvature_s1 = 0.20325203252
+type = SphericalLens
+
+[45116]
+description = Laser Focusing Singlets
+material = BK7
+thickness = 2.15
+radius = 2.5
+curvature_s2 = -0.028901734104
+curvature_s1 = 0.190839694656
+type = SphericalLens
+
+[47380]
+description = NIR Achromat
+thickness_l1 = 6.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 12.5
+curvature_s3 = -0.000932914143911
+curvature_s2 = -0.0118119536971
+curvature_s1 = 0.0118119536971
+type = Doublet
+thickness_l2 = 4.0
+
+[45666]
+description = Drum Lens
+material = LaSFN9
+thickness = 5.0
+radius = 2.0
+curvature_s2 = -0.4
+curvature_s1 = 0.4
+type = SphericalLens
+
+[45664]
+description = Drum Lens
+material = LaSFN9
+thickness = 3.0
+radius = 1.2
+curvature_s2 = -0.666666666667
+curvature_s1 = 0.666666666667
+type = SphericalLens
+
+[45665]
+description = Drum Lens
+material = LaSFN9
+thickness = 4.0
+radius = 1.6
+curvature_s2 = -0.5
+curvature_s1 = 0.5
+type = SphericalLens
+
+[45663]
+description = Drum Lens
+material = LaSFN9
+thickness = 2.5
+radius = 1.0
+curvature_s2 = -0.8
+curvature_s1 = 0.8
+type = SphericalLens
+
+[45701]
+description = UV PCV
+material = F_Silica
+thickness = 2.0
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = -0.121212121212
+type = SphericalLens
+
+[32474]
+description = PCX
+material = BK7
+thickness = 1.4
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.10752688172
+type = SphericalLens
+
+[32476]
+description = PCX
+material = BK7
+thickness = 4.3
+radius = 10.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0193498452012
+type = SphericalLens
+
+[32470]
+description = PCX
+material = SF5
+thickness = 1.75
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.165289256198
+type = SphericalLens
+
+[32472]
+description = PCX
+material = BK7
+thickness = 1.6
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.161290322581
+type = SphericalLens
+
+[32005]
+description = PCX
+material = SF5
+thickness = 3.35
+radius = 7.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0661375661376
+type = SphericalLens
+
+[45228]
+description = PCX
+material = LaSFN30
+thickness = 1.87
+radius = 2.5
+curvature_s2 = 0.0
+curvature_s1 = 0.248756218905
+type = SphericalLens
+
+[30976]
+description = Achromat
+thickness_l1 = 13.08
+material_l1 = BK7
+material_l3 = SF2
+material_l2 = 
+radius = 38.28
+curvature_s2 = -0.00290528762347
+curvature_s1 = 0.00201122262223
+type = Triplet
+thickness_l3 = 10.16
+thickness_l2 = 0.1
+
+[32979]
+description = DCX
+material = SF11
+thickness = 16.0
+radius = 25.0
+curvature_s2 = -0.0133725595079
+curvature_s1 = 0.0133725595079
+type = SphericalLens
+
+[32872]
+description = DCX
+material = BK7
+thickness = 2.8
+radius = 6.0
+curvature_s2 = -0.0135189941868
+curvature_s1 = 0.0135189941868
+type = SphericalLens
+
+[32874]
+description = DCX
+material = BK7
+thickness = 3.5
+radius = 12.5
+curvature_s2 = -0.00777302759425
+curvature_s1 = 0.00777302759425
+type = SphericalLens
+
+[32876]
+description = DCX
+material = BK7
+thickness = 3.4
+radius = 12.5
+curvature_s2 = -0.0064716541548
+curvature_s1 = 0.0064716541548
+type = SphericalLens
+
+[32878]
+description = DCX
+material = BK7
+thickness = 3.2
+radius = 12.5
+curvature_s2 = -0.00554323725055
+curvature_s1 = 0.00554323725055
+type = SphericalLens
+
+[32973]
+description = PCX
+material = BK7
+thickness = 10.0
+radius = 25.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0193498452012
+type = SphericalLens
+
+[32975]
+description = PCX
+material = BK7
+thickness = 9.0
+radius = 25.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0128998968008
+type = SphericalLens
+
+[45205]
+description = Achromat
+thickness_l1 = 1.5
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 2.0
+curvature_s3 = -0.0383877159309
+curvature_s2 = -0.286532951289
+curvature_s1 = 0.173611111111
+type = Doublet
+thickness_l2 = 1.03
+
+[45206]
+description = Achromat
+thickness_l1 = 1.73
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 2.5
+curvature_s3 = -0.0294464075383
+curvature_s2 = -0.227790432802
+curvature_s1 = 0.139470013947
+type = Doublet
+thickness_l2 = 1.03
+
+[45207]
+description = Achromat
+thickness_l1 = 1.55
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 2.5
+curvature_s3 = -0.0186671644577
+curvature_s2 = -0.15479876161
+curvature_s1 = 0.0937207122774
+type = Doublet
+thickness_l2 = 1.03
+
+[32002]
+description = PCX
+material = SF5
+thickness = 3.8
+radius = 9.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0550660792952
+type = SphericalLens
+
+[45368]
+description = PCX
+material = BK7
+thickness = 32.68
+radius = 37.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0257997936017
+type = SphericalLens
+
+[45365]
+description = PCX
+material = BK7
+thickness = 4.3
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0227634873663
+type = SphericalLens
+
+[45208]
+description = Achromat
+thickness_l1 = 3.06
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 3.125
+curvature_s3 = -0.024384296513
+curvature_s2 = -0.229885057471
+curvature_s1 = 0.143266475645
+type = Doublet
+thickness_l2 = 1.03
+
+[45209]
+description = Achromat
+thickness_l1 = 6.23
+material_l1 = BaFN10
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = -0.0176865935621
+curvature_s2 = -0.129533678756
+curvature_s1 = 0.0943396226415
+type = Doublet
+thickness_l2 = 1.5
+
+[45361]
+description = PCX
+material = BK7
+thickness = 3.23
+radius = 10.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0386996904025
+type = SphericalLens
+
+[45015]
+description = PCV
+material = SF11
+thickness = 2.2
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = -0.106157112527
+type = SphericalLens
+
+[32997]
+description = DCV
+material = BK7
+thickness = 2.5
+radius = 12.5
+curvature_s2 = 0.0191938579655
+curvature_s1 = -0.0191938579655
+type = SphericalLens
+
+[45017]
+description = PCV
+material = BK7
+thickness = 3.5
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = -0.0806451612903
+type = SphericalLens
+
+[32995]
+description = DCV
+material = BK7
+thickness = 5.0
+radius = 12.5
+curvature_s2 = 0.00959692898273
+curvature_s1 = -0.00959692898273
+type = SphericalLens
+
+[55278]
+description = Mounted Achromat Pair
+thickness_l1 = 2.5
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF5
+thickness_l5 = -44.64
+material_l3 = 
+material_l2 = BK7
+radius = 12.5
+thickness_l3 = 5.63
+thickness_l4 = 6.0
+curvature_s3 = -0.0162680982593
+curvature_s2 = 0.0224014336918
+curvature_s1 = 0.00769585962752
+thickness_l2 = 6.0
+type = AchromatPair
+curvature_s6 = -0.00769585962752
+curvature_s5 = -0.0224014336918
+curvature_s4 = 0.0162680982593
+
+[32993]
+description = DCV
+material = SF11
+thickness = 2.5
+radius = 12.5
+curvature_s2 = 0.0251382604324
+curvature_s1 = -0.0251382604324
+type = SphericalLens
+
+[48021]
+description = ZNSE PCX
+material = ZNSE
+thickness = 2.4
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.00476394645324
+type = SphericalLens
+
+[32991]
+description = DCV
+material = SF11
+thickness = 2.0
+radius = 10.0
+curvature_s2 = 0.0314267756128
+curvature_s1 = -0.0314267756128
+type = SphericalLens
+
+[55274]
+description = Mounted Achromat Pair
+thickness_l1 = 1.2
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF10
+thickness_l5 = -18.01
+material_l3 = 
+material_l2 = SSKN8
+radius = 6.25
+thickness_l3 = 2.4
+thickness_l4 = 3.73
+curvature_s3 = -0.0626174076393
+curvature_s2 = 0.0666666666667
+curvature_s1 = 0.00189311474168
+thickness_l2 = 4.5
+type = AchromatPair
+curvature_s6 = -0.0195427008013
+curvature_s5 = -0.0555247084953
+curvature_s4 = 0.0403714170367
+
+[55275]
+description = Mounted Achromat Pair
+thickness_l1 = 1.33
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF5
+thickness_l5 = -22.32
+material_l3 = 
+material_l2 = BK7
+radius = 6.25
+thickness_l3 = 2.89
+thickness_l4 = 3.5
+curvature_s3 = -0.0403714170367
+curvature_s2 = 0.0555247084953
+curvature_s1 = 0.0195427008013
+thickness_l2 = 3.73
+type = AchromatPair
+curvature_s6 = -0.015444015444
+curvature_s5 = -0.0448028673835
+curvature_s4 = 0.0325414904003
+
+[55276]
+description = Mounted Achromat Pair
+thickness_l1 = 2.4
+material_l4 = SSKN8
+material_l5 = SF10
+material_l1 = SF10
+thickness_l5 = -29.95
+material_l3 = 
+material_l2 = SSKN8
+radius = 12.5
+thickness_l3 = 3.32
+thickness_l4 = 9.0
+curvature_s3 = -0.0313087038197
+curvature_s2 = 0.0333889816361
+curvature_s1 = 0.000971071771915
+thickness_l2 = 9.0
+type = AchromatPair
+curvature_s6 = -0.000971071771915
+curvature_s5 = -0.0333889816361
+curvature_s4 = 0.0313087038197
+
+[55277]
+description = Mounted Achromat Pair
+thickness_l1 = 2.5
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF5
+thickness_l5 = -33.77
+material_l3 = 
+material_l2 = BK7
+radius = 12.5
+thickness_l3 = 4.85
+thickness_l4 = 7.0
+curvature_s3 = -0.021533161068
+curvature_s2 = 0.0296120817293
+curvature_s1 = 0.0104231811549
+thickness_l2 = 7.0
+type = AchromatPair
+curvature_s6 = -0.0104231811549
+curvature_s5 = -0.0296120817293
+curvature_s4 = 0.021533161068
+
+[55270]
+description = Mounted Achromat Pair
+thickness_l1 = 1.1
+material_l4 = BaFN11
+material_l5 = sf10
+material_l1 = SF10
+thickness_l5 = -9.35
+material_l3 = 
+material_l2 = BAFN11
+radius = 6.25
+thickness_l3 = 1.75
+thickness_l4 = 5.25
+curvature_s3 = -0.071530758226
+curvature_s2 = 0.106951871658
+curvature_s1 = 0.013133701077
+thickness_l2 = 5.25
+type = AchromatPair
+curvature_s6 = -0.013133701077
+curvature_s5 = -0.106951871658
+curvature_s4 = 0.071530758226
+
+[55271]
+description = Mounted Achromat Pair
+thickness_l1 = 1.25
+material_l4 = BaFN10
+material_l5 = SF10
+material_l1 = SF10
+thickness_l5 = -10.99
+material_l3 = 
+material_l2 = BaFN10
+radius = 6.25
+thickness_l3 = 2.2
+thickness_l4 = 5.0
+curvature_s3 = -0.0579038795599
+curvature_s2 = 0.090991810737
+curvature_s1 = 0.0093431748108
+thickness_l2 = 5.0
+type = AchromatPair
+curvature_s6 = -0.0093431748108
+curvature_s5 = -0.090991810737
+curvature_s4 = 0.0579038795599
+
+[55272]
+description = Mounted Achromat Pair
+thickness_l1 = 1.5
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF5
+thickness_l5 = -22.32
+material_l3 = 
+material_l2 = BK7
+radius = 6.25
+thickness_l3 = 3.01
+thickness_l4 = 3.5
+curvature_s3 = -0.0325414904003
+curvature_s2 = 0.0448028673835
+curvature_s1 = 0.015444015444
+thickness_l2 = 3.5
+type = AchromatPair
+curvature_s6 = -0.015444015444
+curvature_s5 = -0.0448028673835
+curvature_s4 = 0.0325414904003
+
+[55273]
+description = Mounted Achromat Pair
+thickness_l1 = 1.25
+material_l4 = SK11
+material_l5 = SF5
+material_l1 = SF10
+thickness_l5 = -15.54
+material_l3 = 
+material_l2 = BaFN10
+radius = 6.25
+thickness_l3 = 2.43
+thickness_l4 = 3.68
+curvature_s3 = -0.0579038795599
+curvature_s2 = 0.090991810737
+curvature_s1 = 0.0093431748108
+thickness_l2 = 5.0
+type = AchromatPair
+curvature_s6 = -0.0169952413324
+curvature_s5 = -0.0643500643501
+curvature_s4 = 0.0435919790759
+
+[45381]
+description = PCV
+material = SF11
+thickness = 2.25
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = -0.070821529745
+type = SphericalLens
+
+[45383]
+description = PCV
+material = SF11
+thickness = 3.0
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = -0.0471920717319
+type = SphericalLens
+
+[45289]
+description = PCX
+material = BK7
+thickness = 5.0
+radius = 25.0
+curvature_s2 = 0.0
+curvature_s1 = 0.00386996904025
+type = SphericalLens
+
+[32909]
+description = DCX
+material = K5
+thickness = 8.0
+radius = 20.0
+curvature_s2 = -0.00968898362562
+curvature_s1 = 0.00968898362562
+type = SphericalLens
+
+[32905]
+description = DCX
+material = K5
+thickness = 5.0
+radius = 12.5
+curvature_s2 = -0.00239498012166
+curvature_s1 = 0.00239498012166
+type = SphericalLens
+
+[32907]
+description = DCX
+material = K5
+thickness = 8.0
+radius = 20.0
+curvature_s2 = -0.0121521448536
+curvature_s1 = 0.0121521448536
+type = SphericalLens
+
+[32901]
+description = DCX
+material = K5
+thickness = 4.0
+radius = 6.0
+curvature_s2 = -0.0409836065574
+curvature_s1 = 0.0409836065574
+type = SphericalLens
+
+[32903]
+description = DCX
+material = K5
+thickness = 5.0
+radius = 12.5
+curvature_s2 = -0.00479984640492
+curvature_s1 = 0.00479984640492
+type = SphericalLens
+
+[32724]
+description = Achromat
+thickness_l1 = 9.0
+material_l1 = SSKN8
+material_l2 = SF10
+radius = 12.5
+curvature_s3 = -0.000971071771915
+curvature_s2 = -0.0333889816361
+curvature_s1 = 0.0313087038197
+type = Doublet
+thickness_l2 = 2.4
+
+[32720]
+description = Achromat
+thickness_l1 = 6.0
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 7.5
+curvature_s3 = -0.00778573653068
+curvature_s2 = -0.0759301442673
+curvature_s1 = 0.0482625482625
+type = Doublet
+thickness_l2 = 1.5
+
+[32722]
+description = Achromat
+thickness_l1 = 8.0
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 10.0
+curvature_s3 = -0.00583941605839
+curvature_s2 = -0.0568828213879
+curvature_s1 = 0.0361925443359
+type = Doublet
+thickness_l2 = 2.0
+
+[32718]
+description = DCX
+material = BK7
+thickness = 4.0
+radius = 12.5
+curvature_s2 = -0.00970873786408
+curvature_s1 = 0.00970873786408
+type = SphericalLens
+
+[32299]
+description = Achromat
+thickness_l1 = 3.0
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 3.125
+curvature_s3 = -0.0195427008013
+curvature_s2 = -0.189035916824
+curvature_s1 = 0.115874855156
+type = Doublet
+thickness_l2 = 0.8
+
+[43540]
+radius = 12.7
+type = SphericalMirror
+description = Spherical Mirror
+
+[43542]
+radius = 12.7
+type = SphericalMirror
+description = Spherical Mirror
+
+[43544]
+radius = 25.4
+type = SphericalMirror
+description = Spherical Mirror
+
+[43546]
+radius = 25.4
+type = SphericalMirror
+description = Spherical Mirror
+
+[43548]
+radius = 25.4
+type = SphericalMirror
+description = Spherical Mirror
+
+[48349]
+description = Negative Achromat
+thickness_l1 = 1.44
+material_l1 = BaF10
+material_l2 = FD10
+radius = 4.5
+curvature_s3 = 0.0617283950617
+curvature_s2 = 0.163666121113
+curvature_s1 = -0.0281610813855
+type = Doublet
+thickness_l2 = 2.88
+
+[43831]
+description = Ball Lens
+material = sapphire
+thickness = 6.35
+radius = 3.175
+curvature_s2 = -0.314465408805
+curvature_s1 = 0.314465408805
+type = SphericalLens
+
+[45226]
+description = PCX
+material = BaF10
+thickness = 1.39
+radius = 2.0
+curvature_s2 = 0.0
+curvature_s1 = 0.186567164179
+type = SphericalLens
+
+[43398]
+description = PCX
+material = LaSFN9
+thickness = 0.8
+radius = 1.25
+curvature_s2 = 0.0
+curvature_s1 = 0.588235294118
+type = SphericalLens
+
+[43399]
+description = PCX
+material = LaSFN9
+thickness = 0.8
+radius = 1.25
+curvature_s2 = 0.0
+curvature_s1 = 0.471698113208
+type = SphericalLens
+
+[43394]
+description = PCX
+material = LaSFN9
+thickness = 0.8
+radius = 0.75
+curvature_s2 = 0.0
+curvature_s1 = 1.17647058824
+type = SphericalLens
+
+[43395]
+description = PCX
+material = LaSFN9
+thickness = 0.8
+radius = 0.75
+curvature_s2 = 0.0
+curvature_s1 = 0.78125
+type = SphericalLens
+
+[43396]
+description = PCX
+material = LaSFN9
+thickness = 0.8
+radius = 1.0
+curvature_s2 = 0.0
+curvature_s1 = 0.78125
+type = SphericalLens
+
+[43397]
+description = PCX
+material = LaSFN9
+thickness = 0.8
+radius = 1.0
+curvature_s2 = 0.0
+curvature_s1 = 0.588235294118
+type = SphericalLens
+
+[45224]
+description = PCX
+material = LaSFN30
+thickness = 1.7
+radius = 2.0
+curvature_s2 = 0.0
+curvature_s1 = 0.311526479751
+type = SphericalLens
+
+[48277]
+description = UV PCX
+material = F_Silica
+thickness = 3.42
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0174520069808
+type = SphericalLens
+
+[48274]
+description = UV PCX
+material = F_Silica
+thickness = 5.84
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.043630017452
+type = SphericalLens
+
+[45590]
+description = PCX
+material = LaSFN9
+thickness = 0.8
+radius = 1.25
+curvature_s2 = 0.0
+curvature_s1 = 0.392156862745
+type = SphericalLens
+
+[48275]
+description = UV PCX
+material = F_Silica
+thickness = 4.43
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0290782204129
+type = SphericalLens
+
+[32712]
+description = DCX
+material = BK7
+thickness = 5.3
+radius = 10.0
+curvature_s2 = -0.0245881485124
+curvature_s1 = 0.0245881485124
+type = SphericalLens
+
+[48279]
+description = UV PCX
+material = F_Silica
+thickness = 3.01
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0124641655241
+type = SphericalLens
+
+[45407]
+description = Achromat
+thickness_l1 = 3.72
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 2.5
+curvature_s3 = -0.0547945205479
+curvature_s2 = -0.323624595469
+curvature_s1 = 0.179856115108
+type = Doublet
+thickness_l2 = 1.03
+
+[45408]
+description = Achromat
+thickness_l1 = 1.61
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 2.5
+curvature_s3 = -0.01322926313
+curvature_s2 = -0.115874855156
+curvature_s1 = 0.0708717221828
+type = Doublet
+thickness_l2 = 1.03
+
+[45409]
+description = Achromat
+thickness_l1 = 2.1
+material_l1 = BK7
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = -0.00968804495253
+curvature_s2 = -0.0279876854184
+curvature_s1 = 0.0201531640468
+type = Doublet
+thickness_l2 = 1.6
+
+[47269]
+description = Half Ball Lens
+material = bk7
+thickness = 1.5
+radius = 1.5
+curvature_s2 = 0.0
+curvature_s1 = 0.666666666667
+type = SphericalLens
+
+[43642]
+description = Ball Lens
+material = sapphire
+thickness = 2.0
+radius = 1.0
+curvature_s2 = -1.0
+curvature_s1 = 1.0
+type = SphericalLens
+
+[43640]
+description = Ball Lens
+material = sapphire
+thickness = 1.5
+radius = 0.75
+curvature_s2 = -1.33333333333
+curvature_s1 = 1.33333333333
+type = SphericalLens
+
+[43646]
+description = Ball Lens
+material = sapphire
+thickness = 5.0
+radius = 2.5
+curvature_s2 = -0.4
+curvature_s1 = 0.4
+type = SphericalLens
+
+[32855]
+description = PCX
+material = BK7
+thickness = 2.5
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0322372662798
+type = SphericalLens
+
+[43644]
+description = Ball Lens
+material = sapphire
+thickness = 3.0
+radius = 1.5
+curvature_s2 = -0.666666666667
+curvature_s1 = 0.666666666667
+type = SphericalLens
+
+[46531]
+description = Drum Lens
+material = LASFN9
+thickness = 4.0
+radius = 2.0
+curvature_s2 = 0.0
+curvature_s1 = 0.4
+type = SphericalLens
+
+[46530]
+description = Drum Lens
+material = LASFN9
+thickness = 3.2
+radius = 1.6
+curvature_s2 = 0.0
+curvature_s1 = 0.5
+type = SphericalLens
+
+[45238]
+description = PCX
+material = SF11
+thickness = 4.6
+radius = 10.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0636942675159
+type = SphericalLens
+
+[45234]
+description = PCX
+material = BK7
+thickness = 1.6
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0403063280935
+type = SphericalLens
+
+[45589]
+description = PCX
+material = LaSFN9
+thickness = 0.8
+radius = 0.5
+curvature_s2 = 0.0
+curvature_s1 = 1.17647058824
+type = SphericalLens
+
+[45588]
+description = PCX
+material = LaSFN9
+thickness = 0.8
+radius = 0.5
+curvature_s2 = 0.0
+curvature_s1 = 1.96078431373
+type = SphericalLens
+
+[45220]
+description = Negative Achromat
+thickness_l1 = 2.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = 0.014450867052
+curvature_s2 = 0.04260758415
+curvature_s1 = -0.0324359390204
+type = Doublet
+thickness_l2 = 1.56
+
+[48350]
+description = Negative Achromat
+thickness_l1 = 2.0
+material_l1 = BaF10
+material_l2 = FD10
+radius = 6.25
+curvature_s3 = 0.0123274161736
+curvature_s2 = 0.115874855156
+curvature_s1 = -0.0941619585687
+type = Doublet
+thickness_l2 = 4.0
+
+[45232]
+description = PCX
+material = BK7
+thickness = 1.42
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0921658986175
+type = SphericalLens
+
+[36187]
+description = Hastings Triplet
+thickness_l1 = 0.89
+material_l1 =   F2
+material_l3 =   F2
+material_l2 =   K5
+radius = 4.0
+curvature_s2 = -0.214592274678
+curvature_s1 = 0.105485232068
+type = Triplet
+thickness_l3 = 0.89
+thickness_l2 = 5.4
+
+[48302]
+description = UV DCX
+material = F_Silica
+thickness = 3.09
+radius = 12.5
+curvature_s2 = -0.00364166059723
+curvature_s1 = 0.00364166059723
+type = SphericalLens
+
+[47675]
+description = Steinheil Triplet 
+thickness_l1 = 4.0
+material_l1 = BASF64
+material_l3 = BASF64
+material_l2 = BK7
+radius = 6.25
+curvature_s2 = -0.121654501217
+curvature_s1 = 0.0638977635783
+type = Triplet
+thickness_l3 = 4.0
+thickness_l2 = 10.0
+
+[48303]
+description = UV DCX
+material = F_Silica
+thickness = 3.35
+radius = 12.5
+curvature_s2 = -0.00218373987291
+curvature_s1 = 0.00218373987291
+type = SphericalLens
+
+[48300]
+description = UV DCX
+material = F_Silica
+thickness = 3.38
+radius = 12.5
+curvature_s2 = -0.00546896363139
+curvature_s1 = 0.00546896363139
+type = SphericalLens
+
+[45248]
+description = PCX
+material = BK7
+thickness = 10.0
+radius = 25.0
+curvature_s2 = 0.0
+curvature_s1 = 0.015479876161
+type = SphericalLens
+
+[45120]
+description = PCX
+material = BK7
+thickness = 1.3
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0645161290323
+type = SphericalLens
+
+[45122]
+description = PCX
+material = BK7
+thickness = 2.3
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0537345513165
+type = SphericalLens
+
+[45124]
+description = PCX
+material = BK7
+thickness = 2.7
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0460617227084
+type = SphericalLens
+
+[45539]
+description = Ball Lens
+material = LaSFN9
+thickness = 1.5
+radius = 0.75
+curvature_s2 = -1.33333333333
+curvature_s1 = 1.33333333333
+type = SphericalLens
+
+[45536]
+description = Ball Lens
+material = BK7
+thickness = 8.0
+radius = 4.0
+curvature_s2 = -0.25
+curvature_s1 = 0.25
+type = SphericalLens
+
+[45537]
+description = Ball Lens
+material = BK7
+thickness = 10.0
+radius = 5.0
+curvature_s2 = -0.2
+curvature_s1 = 0.2
+type = SphericalLens
+
+[45242]
+description = PCX
+material = BK7
+thickness = 6.0
+radius = 15.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0322476620445
+type = SphericalLens
+
+[45535]
+description = Ball Lens
+material = BK7
+thickness = 6.0
+radius = 3.0
+curvature_s2 = -0.333333333333
+curvature_s1 = 0.333333333333
+type = SphericalLens
+
+[45244]
+description = PCX
+material = BK7
+thickness = 6.0
+radius = 15.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0161238310223
+type = SphericalLens
+
+[45533]
+description = Ball Lens
+material = BK7
+thickness = 4.0
+radius = 2.0
+curvature_s2 = -0.5
+curvature_s1 = 0.5
+type = SphericalLens
+
+[45530]
+description = Ball Lens
+material = BK7
+thickness = 2.0
+radius = 1.0
+curvature_s2 = -1.0
+curvature_s1 = 1.0
+type = SphericalLens
+
+[45531]
+description = Ball Lens
+material = BK7
+thickness = 2.5
+radius = 1.25
+curvature_s2 = -0.8
+curvature_s1 = 0.8
+type = SphericalLens
+
+[32893]
+description = PCX
+material = K5
+thickness = 3.2
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.00478011472275
+type = SphericalLens
+
+[32891]
+description = PCX
+material = K5
+thickness = 3.2
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.00956022944551
+type = SphericalLens
+
+[32897]
+description = PCX
+material = K5
+thickness = 7.0
+radius = 20.0
+curvature_s2 = 0.0
+curvature_s1 = 0.019120458891
+type = SphericalLens
+
+[32895]
+description = PCX
+material = K5
+thickness = 8.0
+radius = 20.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0239005736138
+type = SphericalLens
+
+[32899]
+description = PCX
+material = K5
+thickness = 5.0
+radius = 20.0
+curvature_s2 = 0.0
+curvature_s1 = 0.00956022944551
+type = SphericalLens
+
+[47130]
+description = Ball Lens
+material = S-LAH79
+thickness = 5.0
+radius = 2.5
+curvature_s2 = -0.4
+curvature_s1 = 0.4
+type = SphericalLens
+
+[47131]
+description = Ball Lens
+material = S-LAH79
+thickness = 8.0
+radius = 4.0
+curvature_s2 = -0.25
+curvature_s1 = 0.25
+type = SphericalLens
+
+[48315]
+description = UV PCV
+material = F_Silica
+thickness = 2.0
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = -0.043630017452
+type = SphericalLens
+
+[32311]
+description = Achromat
+thickness_l1 = 5.0
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 6.25
+curvature_s3 = -0.0093431748108
+curvature_s2 = -0.090991810737
+curvature_s1 = 0.0579038795599
+type = Doublet
+thickness_l2 = 1.25
+
+[32313]
+description = Achromat
+thickness_l1 = 4.5
+material_l1 = SSKN8
+material_l2 = SF10
+radius = 6.25
+curvature_s3 = -0.00189311474168
+curvature_s2 = -0.0666666666667
+curvature_s1 = 0.0626174076393
+type = Doublet
+thickness_l2 = 1.2
+
+[32315]
+description = Achromat
+thickness_l1 = 3.73
+material_l1 = BK7
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = -0.0195427008013
+curvature_s2 = -0.0555247084953
+curvature_s1 = 0.0403714170367
+type = Doublet
+thickness_l2 = 1.33
+
+[32317]
+description = Achromat
+thickness_l1 = 3.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = -0.015444015444
+curvature_s2 = -0.0448028673835
+curvature_s1 = 0.0325414904003
+type = Doublet
+thickness_l2 = 1.5
+
+[32319]
+description = Achromat
+thickness_l1 = 11.0
+material_l1 = BaFN11
+material_l2 = SF10
+radius = 12.5
+curvature_s3 = -0.00759589821496
+curvature_s2 = -0.0606428138266
+curvature_s1 = 0.04086636698
+type = Doublet
+thickness_l2 = 2.5
+
+[08021]
+description = UV DCX
+material = F_Silica
+thickness = 5.83
+radius = 25.4
+curvature_s2 = -0.00438000963602
+curvature_s1 = 0.00438000963602
+type = SphericalLens
+
+[08020]
+description = UV DCX
+material = F_Silica
+thickness = 7.78
+radius = 25.4
+curvature_s2 = -0.00733621891277
+curvature_s1 = 0.00733621891277
+type = SphericalLens
+
+[31857]
+description = PCX
+material = BK7
+thickness = 3.57
+radius = 9.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0537056928034
+type = SphericalLens
+
+[31854]
+description = PCX
+material = BK7
+thickness = 2.41
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = 0.107296137339
+type = SphericalLens
+
+[31861]
+description = DCX
+material = BK7
+thickness = 2.25
+radius = 3.0
+curvature_s2 = -0.112233445567
+curvature_s1 = 0.112233445567
+type = SphericalLens
+
+[31860]
+description = DCX
+material = SF5
+thickness = 2.54
+radius = 3.0
+curvature_s2 = -0.131752305665
+curvature_s1 = 0.131752305665
+type = SphericalLens
+
+[48430]
+description = Half Ball Lens
+material = sapphire
+thickness = 1.59
+radius = 1.59
+curvature_s2 = 0.0
+curvature_s1 = 0.62893081761
+type = SphericalLens
+
+[31855]
+description = PCX
+material = BK7
+thickness = 2.8
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0805152979066
+type = SphericalLens
+
+[43462]
+radius = 6.0
+type = SphericalMirror
+description = Spherical Mirror
+
+[43463]
+radius = 6.0
+type = SphericalMirror
+description = Spherical Mirror
+
+[43466]
+radius = 12.5
+type = SphericalMirror
+description = Spherical Mirror
+
+[43467]
+radius = 17.5
+type = SphericalMirror
+description = Spherical Mirror
+
+[43464]
+radius = 12.5
+type = SphericalMirror
+description = Spherical Mirror
+
+[43465]
+radius = 12.5
+type = SphericalMirror
+description = Spherical Mirror
+
+[46120]
+description = Ball Lens
+material = sapphire
+thickness = 2.38
+radius = 1.19
+curvature_s2 = -0.840336134454
+curvature_s1 = 0.840336134454
+type = SphericalLens
+
+[46121]
+description = Ball Lens
+material = sapphire
+thickness = 3.18
+radius = 1.59
+curvature_s2 = -0.62893081761
+curvature_s1 = 0.62893081761
+type = SphericalLens
+
+[46122]
+description = Ball Lens
+material = sapphire
+thickness = 4.76
+radius = 2.38
+curvature_s2 = -0.420168067227
+curvature_s1 = 0.420168067227
+type = SphericalLens
+
+[43469]
+radius = 25.0
+type = SphericalMirror
+description = Spherical Mirror
+
+[46232]
+radius = 5.0
+type = SphericalMirror
+description = Spherical Mirror
+
+[46234]
+radius = 7.5
+type = SphericalMirror
+description = Spherical Mirror
+
+[46235]
+radius = 7.5
+type = SphericalMirror
+description = Spherical Mirror
+
+[46236]
+radius = 7.5
+type = SphericalMirror
+description = Spherical Mirror
+
+[46237]
+radius = 10.0
+type = SphericalMirror
+description = Spherical Mirror
+
+[43998]
+description = Mounted Achromat Pair
+thickness_l1 = 1.25
+material_l4 = SSKN8
+material_l5 = SF10
+material_l1 = SF10
+thickness_l5 = -15.0
+material_l3 = 
+material_l2 = BaFN10
+radius = 6.25
+thickness_l3 = 2.12
+thickness_l4 = 4.5
+curvature_s3 = -0.0579038795599
+curvature_s2 = 0.090991810737
+curvature_s1 = 0.0093431748108
+thickness_l2 = 5.0
+type = AchromatPair
+curvature_s6 = -0.00189311474168
+curvature_s5 = -0.0666666666667
+curvature_s4 = 0.0626174076393
+
+[43999]
+description = Mounted Achromat Pair
+thickness_l1 = 1.2
+material_l4 = SSKN8
+material_l5 = SF10
+material_l1 = SF10
+thickness_l5 = -15.0
+material_l3 = 
+material_l2 = SSKN8
+radius = 6.25
+thickness_l3 = 2.05
+thickness_l4 = 4.5
+curvature_s3 = -0.0626174076393
+curvature_s2 = 0.0666666666667
+curvature_s1 = 0.00189311474168
+thickness_l2 = 4.5
+type = AchromatPair
+curvature_s6 = -0.00189311474168
+curvature_s5 = -0.0666666666667
+curvature_s4 = 0.0626174076393
+
+[43992]
+description = Mounted Achromat Pair
+thickness_l1 = 1.5
+material_l4 = BaFN10
+material_l5 = SF5
+material_l1 = SF5
+thickness_l5 = -7.72
+material_l3 = 
+material_l2 = BaFN10
+radius = 6.25
+thickness_l3 = 0.92
+thickness_l4 = 6.23
+curvature_s3 = -0.0943396226415
+curvature_s2 = 0.129533678756
+curvature_s1 = 0.0176865935621
+thickness_l2 = 6.23
+type = AchromatPair
+curvature_s6 = -0.0176865935621
+curvature_s5 = -0.129533678756
+curvature_s4 = 0.0943396226415
+
+[43993]
+description = Mounted Achromat Pair
+thickness_l1 = 1.5
+material_l4 = BaFN11
+material_l5 = sf10
+material_l1 = SF5
+thickness_l5 = -9.35
+material_l3 = 
+material_l2 = BaFN10
+radius = 6.25
+thickness_l3 = 1.33
+thickness_l4 = 5.25
+curvature_s3 = -0.0943396226415
+curvature_s2 = 0.129533678756
+curvature_s1 = 0.0176865935621
+thickness_l2 = 6.23
+type = AchromatPair
+curvature_s6 = -0.013133701077
+curvature_s5 = -0.106951871658
+curvature_s4 = 0.071530758226
+
+[32007]
+description = PCX
+material = SF5
+thickness = 3.0
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0825082508251
+type = SphericalLens
+
+[43996]
+description = Mounted Achromat Pair
+thickness_l1 = 1.1
+material_l4 = BaFN10
+material_l5 = SF10
+material_l1 = SF10
+thickness_l5 = -10.99
+material_l3 = 
+material_l2 = BAFN11
+radius = 6.25
+thickness_l3 = 1.97
+thickness_l4 = 5.0
+curvature_s3 = -0.071530758226
+curvature_s2 = 0.106951871658
+curvature_s1 = 0.013133701077
+thickness_l2 = 5.25
+type = AchromatPair
+curvature_s6 = -0.0093431748108
+curvature_s5 = -0.090991810737
+curvature_s4 = 0.0579038795599
+
+[43997]
+description = Mounted Achromat Pair
+thickness_l1 = 1.1
+material_l4 = SSKN8
+material_l5 = SF10
+material_l1 = SF10
+thickness_l5 = -15.0
+material_l3 = 
+material_l2 = BAFN11
+radius = 6.25
+thickness_l3 = 1.9
+thickness_l4 = 4.5
+curvature_s3 = -0.071530758226
+curvature_s2 = 0.106951871658
+curvature_s1 = 0.013133701077
+thickness_l2 = 5.25
+type = AchromatPair
+curvature_s6 = -0.00189311474168
+curvature_s5 = -0.0666666666667
+curvature_s4 = 0.0626174076393
+
+[43994]
+description = Mounted Achromat Pair
+thickness_l1 = 1.5
+material_l4 = BaFN10
+material_l5 = SF10
+material_l1 = SF5
+thickness_l5 = -10.99
+material_l3 = 
+material_l2 = BaFN10
+radius = 6.25
+thickness_l3 = 1.56
+thickness_l4 = 5.0
+curvature_s3 = -0.0943396226415
+curvature_s2 = 0.129533678756
+curvature_s1 = 0.0176865935621
+thickness_l2 = 6.23
+type = AchromatPair
+curvature_s6 = -0.0093431748108
+curvature_s5 = -0.090991810737
+curvature_s4 = 0.0579038795599
+
+[43995]
+description = Mounted Achromat Pair
+thickness_l1 = 1.5
+material_l4 = SSKN8
+material_l5 = SF10
+material_l1 = SF5
+thickness_l5 = -15.0
+material_l3 = 
+material_l2 = BaFN10
+radius = 6.25
+thickness_l3 = 1.48
+thickness_l4 = 4.5
+curvature_s3 = -0.0943396226415
+curvature_s2 = 0.129533678756
+curvature_s1 = 0.0176865935621
+thickness_l2 = 6.23
+type = AchromatPair
+curvature_s6 = -0.00189311474168
+curvature_s5 = -0.0666666666667
+curvature_s4 = 0.0626174076393
+
+[46010]
+description = Mounted Achromat Pair
+thickness_l1 = 2.5
+material_l4 = BaFN10
+material_l5 = SF10
+material_l1 = SF10
+thickness_l5 = -21.98
+material_l3 = 
+material_l2 = BaFN10
+radius = 12.5
+thickness_l3 = 4.11
+thickness_l4 = 9.0
+curvature_s3 = -0.0289603243556
+curvature_s2 = 0.0454959053685
+curvature_s1 = 0.00465918091599
+thickness_l2 = 9.0
+type = AchromatPair
+curvature_s6 = -0.00465918091599
+curvature_s5 = -0.0454959053685
+curvature_s4 = 0.0289603243556
+
+[46011]
+description = Mounted Achromat Pair
+thickness_l1 = 2.5
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF10
+thickness_l5 = -33.77
+material_l3 = 
+material_l2 = BaFN11
+radius = 12.5
+thickness_l3 = 3.7
+thickness_l4 = 7.0
+curvature_s3 = -0.0357525920629
+curvature_s2 = 0.053050397878
+curvature_s1 = 0.00653851183471
+thickness_l2 = 9.5
+type = AchromatPair
+curvature_s6 = -0.0104231811549
+curvature_s5 = -0.0296120817293
+curvature_s4 = 0.021533161068
+
+[46012]
+description = Mounted Achromat Pair
+thickness_l1 = 2.5
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF10
+thickness_l5 = -44.64
+material_l3 = 
+material_l2 = BaFN11
+radius = 12.5
+thickness_l3 = 4.27
+thickness_l4 = 6.0
+curvature_s3 = -0.0357525920629
+curvature_s2 = 0.053050397878
+curvature_s1 = 0.00653851183471
+thickness_l2 = 9.5
+type = AchromatPair
+curvature_s6 = -0.00769585962752
+curvature_s5 = -0.0224014336918
+curvature_s4 = 0.0162680982593
+
+[47673]
+description = Steinheil Triplet 
+thickness_l1 = 2.0
+material_l1 = N-BASF64
+material_l3 = N-BASF64
+material_l2 = BK7
+radius = 3.125
+curvature_s2 = -0.244498777506
+curvature_s1 = 0.128040973111
+type = Triplet
+thickness_l3 = 2.0
+thickness_l2 = 5.0
+
+[45178]
+description = Achromat
+thickness_l1 = 9.0
+material_l1 = BaK4
+material_l2 = SF10
+radius = 20.0
+curvature_s3 = -0.00206735440657
+curvature_s2 = -0.00674445268766
+curvature_s1 = 0.00512925728355
+type = Doublet
+thickness_l2 = 4.1
+
+[45179]
+description = Achromat
+thickness_l1 = 9.0
+material_l1 = BaK4
+material_l2 = SF10
+radius = 25.0
+curvature_s3 = -0.00312304809494
+curvature_s2 = -0.0100644122383
+curvature_s1 = 0.00766400980993
+type = Doublet
+thickness_l2 = 3.5
+
+[45177]
+description = DCX
+material = LaSFN30
+thickness = 2.6
+radius = 2.25
+curvature_s2 = -0.151975683891
+curvature_s1 = 0.151975683891
+type = SphericalLens
+
+[45174]
+description = Achromat
+thickness_l1 = 6.27
+material_l1 = BaFN11
+material_l2 = SF10
+radius = 7.5
+curvature_s3 = -0.0117219552221
+curvature_s2 = -0.0892857142857
+curvature_s1 = 0.0556483027268
+type = Doublet
+thickness_l2 = 1.76
+
+[45175]
+description = Achromat
+thickness_l1 = 8.4
+material_l1 = BaFN11
+material_l2 = SF10
+radius = 10.0
+curvature_s3 = -0.00947149081265
+curvature_s2 = -0.0727272727273
+curvature_s1 = 0.0467071461934
+type = Doublet
+thickness_l2 = 1.76
+
+[45172]
+description = DCX
+material = BK7
+thickness = 4.93
+radius = 25.0
+curvature_s2 = -0.00388243972512
+curvature_s1 = 0.00388243972512
+type = SphericalLens
+
+[45173]
+description = Achromat
+thickness_l1 = 2.3
+material_l1 = BK7
+material_l2 = SF5
+radius = 3.125
+curvature_s3 = -0.0202716399757
+curvature_s2 = -0.0579038795599
+curvature_s1 = 0.0399201596806
+type = Doublet
+thickness_l2 = 1.0
+
+[45170]
+description = DCX
+material = BK7
+thickness = 5.05
+radius = 25.0
+curvature_s2 = -0.00485767026134
+curvature_s1 = 0.00485767026134
+type = SphericalLens
+
+[45827]
+description = NIR Achromat
+thickness_l1 = 5.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 7.5
+curvature_s3 = -0.00532311295646
+curvature_s2 = -0.0576036866359
+curvature_s1 = 0.0576036866359
+type = Doublet
+thickness_l2 = 2.0
+
+[45823]
+description = NIR Achromat
+thickness_l1 = 1.8
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 1.5
+curvature_s3 = 0.0
+curvature_s2 = -0.129701686122
+curvature_s1 = 0.129701686122
+type = Doublet
+thickness_l2 = 1.0
+
+[48319]
+description = UV PCV
+material = F_Silica
+thickness = 2.5
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = -0.0109063147562
+type = SphericalLens
+
+[43638]
+description = Ball Lens
+material = sapphire
+thickness = 1.0
+radius = 0.5
+curvature_s2 = -2.0
+curvature_s1 = 2.0
+type = SphericalLens
+
+[47174]
+description = CAF2 PCX
+material = CAF2
+thickness = 5.4
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0398406374502
+type = SphericalLens
+
+[47175]
+description = CAF2 PCX
+material = CAF2
+thickness = 4.1
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0250626566416
+type = SphericalLens
+
+[47176]
+description = CAF2 PCX
+material = CAF2
+thickness = 2.8
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.01
+type = SphericalLens
+
+[47177]
+description = CAF2 PCX
+material = CAF2
+thickness = 2.2
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.00250062515629
+type = SphericalLens
+
+[45305]
+description = PCX
+material = BK7
+thickness = 3.0
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0358294518094
+type = SphericalLens
+
+[45828]
+description = Negative Achromat
+thickness_l1 = 2.0
+material_l1 = BaF10
+material_l2 = FD10
+radius = 4.5
+curvature_s3 = 0.00911161731207
+curvature_s2 = 0.0821692686935
+curvature_s1 = -0.056338028169
+type = Doublet
+thickness_l2 = 2.55
+
+[45307]
+description = PCX
+material = BK7
+thickness = 3.0
+radius = 9.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0358294518094
+type = SphericalLens
+
+[45303]
+description = PCX
+material = BK7
+thickness = 4.5
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.129032258065
+type = SphericalLens
+
+[47377]
+description = NIR Achromat
+thickness_l1 = 3.5
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 4.5
+curvature_s3 = -0.00375375375375
+curvature_s2 = -0.0599520383693
+curvature_s1 = 0.0599520383693
+type = Doublet
+thickness_l2 = 2.0
+
+[47073]
+description = ZNSE PCX
+material = ZNSE
+thickness = 2.8
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.00942063118229
+type = SphericalLens
+
+[47072]
+description = ZNSE PCX
+material = ZNSE
+thickness = 3.1
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0139938427092
+type = SphericalLens
+
+[47075]
+description = ZNSE PCX
+material = ZNSE
+thickness = 2.3
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.00355618776671
+type = SphericalLens
+
+[47074]
+description = ZNSE PCX
+material = ZNSE
+thickness = 2.5
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.00554569653949
+type = SphericalLens
+
+[47378]
+description = NIR Achromat
+thickness_l1 = 3.5
+material_l1 = LAKNS22
+material_l2 = SFL6
+radius = 4.5
+curvature_s3 = -0.00306720240469
+curvature_s2 = -0.0447427293065
+curvature_s1 = 0.0447427293065
+type = Doublet
+thickness_l2 = 2.0
+
+[47076]
+description = ZNSE PCX
+material = ZNSE
+thickness = 2.1
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0014323159116
+type = SphericalLens
+
+[32862]
+description = PCX
+material = BK7
+thickness = 3.5
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.015475085113
+type = SphericalLens
+
+[45783]
+description = NIR Achromat
+thickness_l1 = 4.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 3.0
+curvature_s3 = -0.0863557858377
+curvature_s2 = -0.239234449761
+curvature_s1 = 0.136239782016
+type = Doublet
+thickness_l2 = 1.3
+
+[45785]
+description = NIR Achromat
+thickness_l1 = 3.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 3.0
+curvature_s3 = -0.0140508641281
+curvature_s2 = -0.126103404792
+curvature_s1 = 0.113636363636
+type = Doublet
+thickness_l2 = 1.2
+
+[45784]
+description = NIR Achromat
+thickness_l1 = 3.2
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 3.0
+curvature_s3 = -0.0143225436838
+curvature_s2 = -0.16694490818
+curvature_s1 = 0.146198830409
+type = Doublet
+thickness_l2 = 1.0
+
+[45787]
+description = NIR Achromat
+thickness_l1 = 3.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 3.0
+curvature_s3 = -0.00517625135877
+curvature_s2 = -0.0746268656716
+curvature_s1 = 0.0716845878136
+type = Doublet
+thickness_l2 = 1.3
+
+[45786]
+description = NIR Achromat
+thickness_l1 = 3.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 3.0
+curvature_s3 = -0.00741839762611
+curvature_s2 = -0.0940733772342
+curvature_s1 = 0.088573959256
+type = Doublet
+thickness_l2 = 1.3
+
+[45789]
+description = NIR Achromat
+thickness_l1 = 3.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 3.0
+curvature_s3 = -0.00336258784761
+curvature_s2 = -0.0526315789474
+curvature_s1 = 0.0515729757607
+type = Doublet
+thickness_l2 = 1.3
+
+[45788]
+description = NIR Achromat
+thickness_l1 = 3.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 3.0
+curvature_s3 = -0.00406388426058
+curvature_s2 = -0.061804697157
+curvature_s1 = 0.0600240096038
+type = Doublet
+thickness_l2 = 1.3
+
+[32868]
+description = DCX
+material = BK7
+thickness = 2.6
+radius = 3.0
+curvature_s2 = -0.0410509031199
+curvature_s1 = 0.0410509031199
+type = SphericalLens
+
+[45271]
+description = Achromat
+thickness_l1 = 8.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 25.0
+curvature_s3 = -0.00150643246663
+curvature_s2 = -0.00448028673835
+curvature_s1 = 0.00327075292732
+type = Doublet
+thickness_l2 = 4.0
+
+[45270]
+description = Achromat
+thickness_l1 = 6.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 20.0
+curvature_s3 = -0.00149772346034
+curvature_s2 = -0.00446269189575
+curvature_s1 = 0.0032753594707
+type = Doublet
+thickness_l2 = 4.0
+
+[45273]
+description = PCX
+material = BK7
+thickness = 1.08
+radius = 1.5
+curvature_s2 = 0.0
+curvature_s1 = 0.161290322581
+type = SphericalLens
+
+[45275]
+description = PCX
+material = BK7
+thickness = 2.5
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0193498452012
+type = SphericalLens
+
+[45277]
+description = PCX
+material = BK7
+thickness = 3.0
+radius = 10.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0128998968008
+type = SphericalLens
+
+[48316]
+description = UV PCV
+material = F_Silica
+thickness = 2.5
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = -0.0290866783013
+type = SphericalLens
+
+[45279]
+description = PCX
+material = BK7
+thickness = 5.6
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0483792936623
+type = SphericalLens
+
+[48318]
+description = UV PCV
+material = F_Silica
+thickness = 2.5
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = -0.0145433391507
+type = SphericalLens
+
+[45372]
+description = PCX
+material = BK7
+thickness = 8.74
+radius = 37.5
+curvature_s2 = 0.0
+curvature_s1 = 0.00967492260062
+type = SphericalLens
+
+[45373]
+description = PCV
+material = SF11
+thickness = 1.0
+radius = 1.5
+curvature_s2 = 0.0
+curvature_s1 = -0.212314225053
+type = SphericalLens
+
+[45375]
+description = PCV
+material = SF11
+thickness = 1.0
+radius = 1.5
+curvature_s2 = 0.0
+curvature_s1 = -0.14164305949
+type = SphericalLens
+
+[31380]
+radius = 76.2
+type = SphericalMirror
+description = Spherical Mirror
+
+[45377]
+description = PCV
+material = SF11
+thickness = 1.5
+radius = 1.5
+curvature_s2 = 0.0
+curvature_s1 = -0.070821529745
+type = SphericalLens
+
+[45007]
+description = PCV
+material = SF11
+thickness = 1.5
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = -0.212314225053
+type = SphericalLens
+
+[48034]
+description = UV DCX
+material = F_Silica
+thickness = 7.09
+radius = 6.0
+curvature_s2 = -0.102669404517
+curvature_s1 = 0.102669404517
+type = SphericalLens
+
+[48035]
+description = UV DCX
+material = F_Silica
+thickness = 4.37
+radius = 6.0
+curvature_s2 = -0.0567214974475
+curvature_s1 = 0.0567214974475
+type = SphericalLens
+
+[48036]
+description = UV DCX
+material = F_Silica
+thickness = 3.52
+radius = 6.0
+curvature_s2 = -0.0371195248701
+curvature_s1 = 0.0371195248701
+type = SphericalLens
+
+[48037]
+description = UV DCX
+material = F_Silica
+thickness = 3.29
+radius = 6.0
+curvature_s2 = -0.0316856780735
+curvature_s1 = 0.0316856780735
+type = SphericalLens
+
+[48038]
+description = UV DCX
+material = F_Silica
+thickness = 2.99
+radius = 6.0
+curvature_s2 = -0.0245218244237
+curvature_s1 = 0.0245218244237
+type = SphericalLens
+
+[48039]
+description = UV DCX
+material = F_Silica
+thickness = 2.59
+radius = 6.0
+curvature_s2 = -0.0146284376829
+curvature_s1 = 0.0146284376829
+type = SphericalLens
+
+[45009]
+description = PCV
+material = BK7
+thickness = 1.5
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = -0.161290322581
+type = SphericalLens
+
+[48429]
+description = Half Ball Lens
+material = sapphire
+thickness = 1.0
+radius = 1.0
+curvature_s2 = 0.0
+curvature_s1 = 1.0
+type = SphericalLens
+
+[48428]
+description = Half Ball Lens
+material = sapphire
+thickness = 0.5
+radius = 0.5
+curvature_s2 = 0.0
+curvature_s1 = 2.0
+type = SphericalLens
+
+[32971]
+description = PCX
+material = SF11
+thickness = 12.0
+radius = 25.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0254841997961
+type = SphericalLens
+
+[48424]
+description = PCX
+material = SF11
+thickness = 5.0
+radius = 9.0
+curvature_s2 = 0.0
+curvature_s1 = 0.070771408351
+type = SphericalLens
+
+[43709]
+description = Ball Lens
+material = BK7
+thickness = 1.5
+radius = 0.75
+curvature_s2 = -1.33333333333
+curvature_s1 = 1.33333333333
+type = SphericalLens
+
+[43708]
+description = Ball Lens
+material = BK7
+thickness = 1.0
+radius = 0.5
+curvature_s2 = -2.0
+curvature_s1 = 2.0
+type = SphericalLens
+
+[32500]
+description = Achromat
+thickness_l1 = 8.25
+material_l1 = BK7
+material_l2 = SF5
+radius = 15.0
+curvature_s3 = -0.0077579519007
+curvature_s2 = -0.0225733634312
+curvature_s1 = 0.01629726206
+type = Doublet
+thickness_l2 = 2.8
+
+[32502]
+description = Achromat
+thickness_l1 = 8.1
+material_l1 = BK7
+material_l2 = SF5
+radius = 15.0
+curvature_s3 = -0.00510542706897
+curvature_s2 = -0.0152508769254
+curvature_s1 = 0.0109517029898
+type = Doublet
+thickness_l2 = 2.6
+
+[45098]
+description = PCX
+material = SF5
+thickness = 8.0
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0594530321046
+type = SphericalLens
+
+[32919]
+description = Achromat
+thickness_l1 = 5.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.00338123415046
+curvature_s2 = -0.00946611132147
+curvature_s1 = 0.00622161388664
+type = Doublet
+thickness_l2 = 2.5
+
+[32917]
+description = Achromat
+thickness_l1 = 8.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.00395100750691
+curvature_s2 = -0.011460004584
+curvature_s1 = 0.0080567193039
+type = Doublet
+thickness_l2 = 4.0
+
+[32915]
+description = Achromat
+thickness_l1 = 5.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 9.0
+curvature_s3 = -0.0099890120867
+curvature_s2 = -0.0287935502447
+curvature_s1 = 0.0201328769881
+type = Doublet
+thickness_l2 = 2.5
+
+[45091]
+description = Achromat
+thickness_l1 = 4.32
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 4.5
+curvature_s3 = -0.0135391280802
+curvature_s2 = -0.135501355014
+curvature_s1 = 0.0808407437348
+type = Doublet
+thickness_l2 = 1.15
+
+[45090]
+description = Achromat
+thickness_l1 = 1.47
+material_l1 = BK7
+material_l2 = SF5
+radius = 1.5
+curvature_s3 = -0.0829875518672
+curvature_s2 = -0.251256281407
+curvature_s1 = 0.190114068441
+type = Doublet
+thickness_l2 = 1.03
+
+[32911]
+description = DCX
+material = K5
+thickness = 8.0
+radius = 20.0
+curvature_s2 = -0.00480931082576
+curvature_s1 = 0.00480931082576
+type = SphericalLens
+
+[45089]
+description = Achromat
+thickness_l1 = 1.97
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 1.5
+curvature_s3 = -0.0460829493088
+curvature_s2 = -0.423728813559
+curvature_s1 = 0.242130750605
+type = Doublet
+thickness_l2 = 1.03
+
+[48320]
+description = UV PCV
+material = F_Silica
+thickness = 2.5
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = -0.00870246279697
+type = SphericalLens
+
+[45086]
+description = PCX
+material = BK7
+thickness = 3.0
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0645161290323
+type = SphericalLens
+
+[48047]
+description = UV PCV
+material = F_Silica
+thickness = 2.0
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = -0.0727272727273
+type = SphericalLens
+
+[48046]
+description = UV PCV
+material = F_Silica
+thickness = 2.0
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = -0.087260034904
+type = SphericalLens
+
+[32321]
+description = Achromat
+thickness_l1 = 9.5
+material_l1 = BaFN11
+material_l2 = SF10
+radius = 12.5
+curvature_s3 = -0.00653851183471
+curvature_s2 = -0.053050397878
+curvature_s1 = 0.0357525920629
+type = Doublet
+thickness_l2 = 2.5
+
+[32323]
+description = Achromat
+thickness_l1 = 9.0
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 12.5
+curvature_s3 = -0.00465918091599
+curvature_s2 = -0.0454959053685
+curvature_s1 = 0.0289603243556
+type = Doublet
+thickness_l2 = 2.5
+
+[32325]
+description = Achromat
+thickness_l1 = 7.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.0104231811549
+curvature_s2 = -0.0296120817293
+curvature_s1 = 0.021533161068
+type = Doublet
+thickness_l2 = 2.5
+
+[45084]
+description = PCX
+material = SF11
+thickness = 4.0
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.106157112527
+type = SphericalLens
+
+[32327]
+description = Achromat
+thickness_l1 = 6.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.00769585962752
+curvature_s2 = -0.0224014336918
+curvature_s1 = 0.0162680982593
+type = Doublet
+thickness_l2 = 2.5
+
+[43552]
+radius = 25.4
+type = SphericalMirror
+description = Spherical Mirror
+
+[43550]
+radius = 25.4
+type = SphericalMirror
+description = Spherical Mirror
+
+[43556]
+radius = 38.1
+type = SphericalMirror
+description = Spherical Mirror
+
+[43554]
+radius = 38.1
+type = SphericalMirror
+description = Spherical Mirror
+
+[46116]
+description = Ball Lens
+material = sapphire
+thickness = 0.4
+radius = 0.2
+curvature_s2 = -5.0
+curvature_s1 = 5.0
+type = SphericalLens
+
+[46119]
+description = Ball Lens
+material = sapphire
+thickness = 1.58
+radius = 0.79
+curvature_s2 = -1.26582278481
+curvature_s1 = 1.26582278481
+type = SphericalLens
+
+[46118]
+description = Ball Lens
+material = sapphire
+thickness = 0.79
+radius = 0.395
+curvature_s2 = -2.5
+curvature_s1 = 2.5
+type = SphericalLens
+
+[43558]
+radius = 38.1
+type = SphericalMirror
+description = Spherical Mirror
+
+[32955]
+description = PCX
+material = BK7
+thickness = 1.5
+radius = 1.5
+curvature_s2 = 0.0
+curvature_s1 = 0.215053763441
+type = SphericalLens
+
+[30120]
+description = Hastings Triplet
+thickness_l1 = 1.14
+material_l1 =   F2
+material_l3 =   F2
+material_l2 =  BK7
+radius = 7.505
+curvature_s2 = -0.10752688172
+curvature_s1 = 0.0526315789474
+type = Triplet
+thickness_l3 = 1.14
+thickness_l2 = 10.21
+
+[43821]
+description = Ball Lens
+material = sapphire
+thickness = 2.78
+radius = 1.39
+curvature_s2 = -0.719424460432
+curvature_s1 = 0.719424460432
+type = SphericalLens
+
+[43827]
+description = Ball Lens
+material = sapphire
+thickness = 5.55
+radius = 2.775
+curvature_s2 = -0.359712230216
+curvature_s1 = 0.359712230216
+type = SphericalLens
+
+[43829]
+description = Ball Lens
+material = sapphire
+thickness = 6.0
+radius = 3.0
+curvature_s2 = -0.333333333333
+curvature_s1 = 0.333333333333
+type = SphericalLens
+
+[08063]
+description = UV PCX
+material = F_Silica
+thickness = 5.85
+radius = 25.4
+curvature_s2 = 0.0
+curvature_s1 = 0.00872448089339
+type = SphericalLens
+
+[08084]
+description = UV DCX
+material = F_Silica
+thickness = 4.29
+radius = 9.0
+curvature_s2 = -0.0277854959711
+curvature_s1 = 0.0277854959711
+type = SphericalLens
+
+[08081]
+description = UV DCX
+material = F_Silica
+thickness = 3.98
+radius = 5.0
+curvature_s2 = -0.0763358778626
+curvature_s1 = 0.0763358778626
+type = SphericalLens
+
+[08080]
+description = UV DCX
+material = F_Silica
+thickness = 5.39
+radius = 5.0
+curvature_s2 = -0.121506682868
+curvature_s1 = 0.121506682868
+type = SphericalLens
+
+[08083]
+description = UV DCX
+material = F_Silica
+thickness = 7.64
+radius = 9.0
+curvature_s2 = -0.058651026393
+curvature_s1 = 0.058651026393
+type = SphericalLens
+
+[08008]
+description = UV PCX
+material = F_Silica
+thickness = 14.21
+radius = 25.4
+curvature_s2 = 0.0
+curvature_s1 = 0.0290782204129
+type = SphericalLens
+
+[43674]
+radius = 4.5
+type = SphericalMirror
+description = Spherical Mirror
+
+[45436]
+description = PCX
+material = BK7
+thickness = 2.05
+radius = 7.5
+curvature_s2 = 0.0
+curvature_s1 = 0.032144005143
+type = SphericalLens
+
+[45434]
+description = PCX
+material = BK7
+thickness = 1.77
+radius = 2.5
+curvature_s2 = 0.0
+curvature_s1 = 0.16077170418
+type = SphericalLens
+
+[45432]
+description = PCX
+material = BK7
+thickness = 1.52
+radius = 2.0
+curvature_s2 = 0.0
+curvature_s1 = 0.16077170418
+type = SphericalLens
+
+[45430]
+description = PCX
+material = BK7
+thickness = 1.64
+radius = 2.0
+curvature_s2 = 0.0
+curvature_s1 = 0.19267822736
+type = SphericalLens
+
+[45186]
+description = DCX
+material = BK7
+thickness = 2.38
+radius = 2.25
+curvature_s2 = -0.112612612613
+curvature_s1 = 0.112612612613
+type = SphericalLens
+
+[45236]
+description = PCX
+material = BK7
+thickness = 1.93
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0879507475814
+type = SphericalLens
+
+[46528]
+description = Drum Lens
+material = LASFN9
+thickness = 2.0
+radius = 1.0
+curvature_s2 = 0.0
+curvature_s1 = 0.8
+type = SphericalLens
+
+[46529]
+description = Drum Lens
+material = LASFN9
+thickness = 2.4
+radius = 1.2
+curvature_s2 = 0.0
+curvature_s1 = 0.666666666667
+type = SphericalLens
+
+[45181]
+description = Achromat
+thickness_l1 = 9.0
+material_l1 = BaK4
+material_l2 = SF10
+radius = 25.0
+curvature_s3 = -0.00140878801967
+curvature_s2 = -0.00609644577211
+curvature_s1 = 0.00577667379123
+type = Doublet
+thickness_l2 = 3.5
+
+[45180]
+description = Achromat
+thickness_l1 = 9.75
+material_l1 = BaK4
+material_l2 = SF10
+radius = 25.0
+curvature_s3 = -0.00248397833971
+curvature_s2 = -0.00807623970279
+curvature_s1 = 0.00615043975644
+type = Doublet
+thickness_l2 = 3.5
+
+[46524]
+description = Drum Lens
+material = BK7
+thickness = 2.0
+radius = 1.0
+curvature_s2 = 0.0
+curvature_s1 = 0.8
+type = SphericalLens
+
+[46525]
+description = Drum Lens
+material = BK7
+thickness = 2.4
+radius = 1.2
+curvature_s2 = 0.0
+curvature_s1 = 0.666666666667
+type = SphericalLens
+
+[46526]
+description = Drum Lens
+material = BK7
+thickness = 3.2
+radius = 1.6
+curvature_s2 = 0.0
+curvature_s1 = 0.5
+type = SphericalLens
+
+[46527]
+description = Drum Lens
+material = BK7
+thickness = 4.0
+radius = 2.0
+curvature_s2 = 0.0
+curvature_s1 = 0.4
+type = SphericalLens
+
+[45222]
+description = Negative Achromat
+thickness_l1 = 2.0
+material_l1 = BaF10
+material_l2 = FD10
+radius = 12.5
+curvature_s3 = 0.00242324375409
+curvature_s2 = 0.0220896841175
+curvature_s1 = -0.0141703273346
+type = Doublet
+thickness_l2 = 2.57
+
+[32860]
+description = PCX
+material = BK7
+thickness = 3.0
+radius = 9.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0268672756582
+type = SphericalLens
+
+[48340]
+description = DCV
+material = SF11
+thickness = 2.25
+radius = 4.5
+curvature_s2 = 0.0684931506849
+curvature_s1 = -0.0684931506849
+type = SphericalLens
+
+[45221]
+description = Negative Achromat
+thickness_l1 = 2.5
+material_l1 = BaF10
+material_l2 = FD10
+radius = 12.5
+curvature_s3 = 0.00458736639295
+curvature_s2 = 0.0406834825061
+curvature_s1 = -0.0281610813855
+type = Doublet
+thickness_l2 = 4.06
+
+[32866]
+description = PCX
+material = BK7
+thickness = 3.5
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0110533878634
+type = SphericalLens
+
+[45082]
+description = PCX
+material = SF11
+thickness = 3.0
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = 0.14164305949
+type = SphericalLens
+
+[45230]
+description = PCX
+material = BK7
+thickness = 1.64
+radius = 2.5
+curvature_s2 = 0.0
+curvature_s1 = 0.193423597679
+type = SphericalLens
+
+[70163]
+description = Achromat
+thickness_l1 = 15.42
+material_l1 = BK7
+material_l3 = SF2
+material_l2 = 
+radius = 64.01
+curvature_s2 = -0.00128308762205
+curvature_s1 = 0.00088361078712
+type = Triplet
+thickness_l3 = 10.92
+thickness_l2 = 0.1
+
+[32864]
+description = PCX
+material = BK7
+thickness = 3.5
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0128949065119
+type = SphericalLens
+
+[45132]
+description = DCX
+material = BK7
+thickness = 1.6
+radius = 1.5
+curvature_s2 = -0.110864745011
+curvature_s1 = 0.110864745011
+type = SphericalLens
+
+[46231]
+radius = 5.0
+type = SphericalMirror
+description = Spherical Mirror
+
+[45130]
+description = DCX
+material = BK7
+thickness = 1.8
+radius = 1.5
+curvature_s2 = -0.170068027211
+curvature_s1 = 0.170068027211
+type = SphericalLens
+
+[46233]
+radius = 5.0
+type = SphericalMirror
+description = Spherical Mirror
+
+[45136]
+description = Achromat
+thickness_l1 = 3.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = -0.0162919517758
+curvature_s2 = -0.0497017892644
+curvature_s1 = 0.0372856077554
+type = Doublet
+thickness_l2 = 1.5
+
+[45137]
+description = Achromat
+thickness_l1 = 3.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = -0.0127632418634
+curvature_s2 = -0.0379794910748
+curvature_s1 = 0.0273897562312
+type = Doublet
+thickness_l2 = 1.5
+
+[45134]
+description = DCX
+material = BK7
+thickness = 2.3
+radius = 3.0
+curvature_s2 = -0.0326690623979
+curvature_s1 = 0.0326690623979
+type = SphericalLens
+
+[45135]
+description = Achromat
+thickness_l1 = 2.3
+material_l1 = BK7
+material_l2 = SF5
+radius = 3.125
+curvature_s3 = -0.0254517688979
+curvature_s2 = -0.0740192450037
+curvature_s1 = 0.0552181115406
+type = Doublet
+thickness_l2 = 0.9
+
+[46238]
+radius = 10.0
+type = SphericalMirror
+description = Spherical Mirror
+
+[46239]
+radius = 10.0
+type = SphericalMirror
+description = Spherical Mirror
+
+[45138]
+description = Achromat
+thickness_l1 = 5.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 7.5
+curvature_s3 = -0.0110144289019
+curvature_s2 = -0.0419815281276
+curvature_s1 = 0.0372995151063
+type = Doublet
+thickness_l2 = 1.5
+
+[45139]
+description = Achromat
+thickness_l1 = 5.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 7.5
+curvature_s3 = -0.00689560060681
+curvature_s2 = -0.0274273176083
+curvature_s1 = 0.0252461499621
+type = Doublet
+thickness_l2 = 2.5
+
+[45824]
+description = NIR Achromat
+thickness_l1 = 4.2
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 4.5
+curvature_s3 = -0.0250689395839
+curvature_s2 = -0.126422250316
+curvature_s1 = 0.103305785124
+type = Doublet
+thickness_l2 = 2.0
+
+[32496]
+description = Achromat
+thickness_l1 = 11.0
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 15.0
+curvature_s3 = -0.00491448791036
+curvature_s2 = -0.0452079566004
+curvature_s1 = 0.0287273771905
+type = Doublet
+thickness_l2 = 2.2
+
+[45826]
+description = NIR Achromat
+thickness_l1 = 5.65
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 7.5
+curvature_s3 = -0.00832085205525
+curvature_s2 = -0.0669344042838
+curvature_s1 = 0.0669344042838
+type = Doublet
+thickness_l2 = 3.7
+
+[32494]
+description = Achromat
+thickness_l1 = 5.7
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.00505791310505
+curvature_s2 = -0.015103458692
+curvature_s1 = 0.0109445113276
+type = Doublet
+thickness_l2 = 2.2
+
+[45820]
+description = Achromat
+thickness_l1 = 3.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 4.5
+curvature_s3 = -0.0104231811549
+curvature_s2 = -0.0296120817293
+curvature_s1 = 0.021533161068
+type = Doublet
+thickness_l2 = 1.6
+
+[32492]
+description = Achromat
+thickness_l1 = 6.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.00615649818383
+curvature_s2 = -0.0183318056829
+curvature_s1 = 0.0131095962244
+type = Doublet
+thickness_l2 = 2.4
+
+[32490]
+description = DCX
+material = SF5
+thickness = 8.0
+radius = 12.5
+curvature_s2 = -0.0313087038197
+curvature_s1 = 0.0313087038197
+type = SphericalLens
+
+[32884]
+description = Achromat
+thickness_l1 = 6.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.00442419147901
+curvature_s2 = -0.0125976316453
+curvature_s1 = 0.00916086478564
+type = Doublet
+thickness_l2 = 3.0
+
+[32886]
+description = Achromat
+thickness_l1 = 9.5
+material_l1 = BaK4
+material_l2 = SF10
+radius = 25.0
+curvature_s3 = -0.00413855895377
+curvature_s2 = -0.0135611608354
+curvature_s1 = 0.0103252452246
+type = Doublet
+thickness_l2 = 4.0
+
+[32887]
+description = PCX
+material = K5
+thickness = 3.0
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0531067445566
+type = SphericalLens
+
+[32880]
+description = DCX
+material = BK7
+thickness = 7.5
+radius = 17.5
+curvature_s2 = -0.0140686550366
+curvature_s1 = 0.0140686550366
+type = SphericalLens
+
+[32882]
+description = Achromat
+thickness_l1 = 3.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = -0.0104231811549
+curvature_s2 = -0.0296120817293
+curvature_s1 = 0.021533161068
+type = Doublet
+thickness_l2 = 1.6
+
+[32498]
+description = Achromat
+thickness_l1 = 8.4
+material_l1 = SSKN8
+material_l2 = SF10
+radius = 15.0
+curvature_s3 = -0.00108455164635
+curvature_s2 = -0.0258531540848
+curvature_s1 = 0.024685262898
+type = Doublet
+thickness_l2 = 3.0
+
+[45293]
+description = DCX
+material = BK7
+thickness = 2.5
+radius = 4.5
+curvature_s2 = -0.0217013888889
+curvature_s1 = 0.0217013888889
+type = SphericalLens
+
+[45291]
+description = DCX
+material = BK7
+thickness = 2.0
+radius = 3.0
+curvature_s2 = -0.0271223216707
+curvature_s1 = 0.0271223216707
+type = SphericalLens
+
+[45297]
+description = DCX
+material = BK7
+thickness = 5.3
+radius = 12.5
+curvature_s2 = -0.0247402276101
+curvature_s1 = 0.0247402276101
+type = SphericalLens
+
+[45295]
+description = DCX
+material = BK7
+thickness = 5.3
+radius = 10.0
+curvature_s2 = -0.0332446808511
+curvature_s1 = 0.0332446808511
+type = SphericalLens
+
+[45299]
+description = DCX
+material = BK7
+thickness = 8.0
+radius = 20.0
+curvature_s2 = -0.00242665437162
+curvature_s1 = 0.00242665437162
+type = SphericalLens
+
+[32953]
+description = PCX
+material = BK7
+thickness = 1.8
+radius = 1.5
+curvature_s2 = 0.0
+curvature_s1 = 0.322580645161
+type = SphericalLens
+
+[32957]
+description = PCX
+material = BK7
+thickness = 1.5
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0806451612903
+type = SphericalLens
+
+[45379]
+description = PCV
+material = SF11
+thickness = 2.25
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = -0.1414427157
+type = SphericalLens
+
+[32959]
+description = PCX
+material = BK7
+thickness = 2.5
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0716845878136
+type = SphericalLens
+
+[08043]
+description = UV DCV
+material = F_Silica
+thickness = 3.5
+radius = 25.4
+curvature_s2 = 0.00435198885891
+curvature_s1 = -0.00435198885891
+type = SphericalLens
+
+[31377]
+radius = 31.75
+type = SphericalMirror
+description = Spherical Mirror
+
+[08042]
+description = UV DCV
+material = F_Silica
+thickness = 3.5
+radius = 25.4
+curvature_s2 = 0.00724165399377
+curvature_s1 = -0.00724165399377
+type = SphericalLens
+
+[45345]
+description = Achromat
+thickness_l1 = 2.3
+material_l1 = BK7
+material_l2 = SF5
+radius = 3.125
+curvature_s3 = -0.0130753138075
+curvature_s2 = -0.0380517503805
+curvature_s1 = 0.02691065662
+type = Doublet
+thickness_l2 = 1.0
+
+[45347]
+description = Achromat
+thickness_l1 = 3.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 4.5
+curvature_s3 = -0.0175254118472
+curvature_s2 = -0.0506329113924
+curvature_s1 = 0.0359324469996
+type = Doublet
+thickness_l2 = 1.3
+
+[45346]
+description = Achromat
+thickness_l1 = 5.0
+material_l1 = BaFN10
+material_l2 = SF57
+radius = 4.5
+curvature_s3 = -0.0381970970206
+curvature_s2 = -0.142653352354
+curvature_s1 = 0.119474313023
+type = Doublet
+thickness_l2 = 2.0
+
+[45349]
+description = Achromat
+thickness_l1 = 3.85
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 9.0
+curvature_s3 = -0.00440975437668
+curvature_s2 = -0.0381097560976
+curvature_s1 = 0.0235238767349
+type = Doublet
+thickness_l2 = 2.0
+
+[45348]
+description = Achromat
+thickness_l1 = 6.91
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 9.0
+curvature_s3 = -0.00748615062135
+curvature_s2 = -0.0698812019567
+curvature_s1 = 0.0482392667631
+type = Doublet
+thickness_l2 = 2.0
+
+[31379]
+radius = 53.975
+type = SphericalMirror
+description = Spherical Mirror
+
+[31378]
+radius = 38.1
+type = SphericalMirror
+description = Spherical Mirror
+
+[48317]
+description = UV PCV
+material = F_Silica
+thickness = 2.5
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = -0.021815008726
+type = SphericalLens
+
+[45370]
+description = PCX
+material = BK7
+thickness = 11.45
+radius = 37.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0128998968008
+type = SphericalLens
+
+[48296]
+description = UV DCX
+material = F_Silica
+thickness = 4.87
+radius = 12.5
+curvature_s2 = -0.0145878920496
+curvature_s1 = 0.0145878920496
+type = SphericalLens
+
+[08010]
+description = UV PCX
+material = F_Silica
+thickness = 7.86
+radius = 25.4
+curvature_s2 = 0.0
+curvature_s1 = 0.0145369966565
+type = SphericalLens
+
+[50107]
+description = Achromat
+thickness_l1 = 12.37
+material_l1 = BK7
+material_l3 = SF2
+material_l2 = 
+radius = 51.155
+curvature_s2 = -0.00159897665494
+curvature_s1 = 0.00110116393027
+type = Triplet
+thickness_l3 = 8.76
+thickness_l2 = 0.1
+
+[48297]
+description = UV DCX
+material = F_Silica
+thickness = 3.78
+radius = 12.5
+curvature_s2 = -0.0109781534746
+curvature_s1 = 0.0109781534746
+type = SphericalLens
+
+[08041]
+description = UV DCV
+material = F_Silica
+thickness = 3.5
+radius = 25.4
+curvature_s2 = 0.010841283608
+curvature_s1 = -0.010841283608
+type = SphericalLens
+
+[45825]
+description = NIR Achromat
+thickness_l1 = 3.5
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 4.5
+curvature_s3 = -0.00449236298293
+curvature_s2 = -0.0908265213442
+curvature_s1 = 0.0908265213442
+type = Doublet
+thickness_l2 = 2.0
+
+[48328]
+description = UV DCV
+material = F_Silica
+thickness = 2.5
+radius = 12.5
+curvature_s2 = 0.0108601216334
+curvature_s1 = -0.0108601216334
+type = SphericalLens
+
+[48329]
+description = UV DCV
+material = F_Silica
+thickness = 2.5
+radius = 12.5
+curvature_s2 = 0.00869565217391
+curvature_s1 = -0.00869565217391
+type = SphericalLens
+
+[08030]
+description = UV PCV
+material = F_Silica
+thickness = 3.5
+radius = 25.4
+curvature_s2 = 0.0
+curvature_s1 = -0.0290782204129
+type = SphericalLens
+
+[08031]
+description = UV PCV
+material = F_Silica
+thickness = 3.5
+radius = 25.4
+curvature_s2 = 0.0
+curvature_s1 = -0.0218102508179
+type = SphericalLens
+
+[08032]
+description = UV PCV
+material = F_Silica
+thickness = 3.5
+radius = 25.4
+curvature_s2 = 0.0
+curvature_s1 = -0.0145369966565
+type = SphericalLens
+
+[08033]
+description = UV PCV
+material = F_Silica
+thickness = 3.5
+radius = 25.4
+curvature_s2 = 0.0
+curvature_s1 = -0.0109063147562
+type = SphericalLens
+
+[45148]
+description = PCX
+material = BK7
+thickness = 2.38
+radius = 2.25
+curvature_s2 = 0.0
+curvature_s1 = 0.215053763441
+type = SphericalLens
+
+[45142]
+description = PCX
+material = LaSFN30
+thickness = 1.8
+radius = 1.5
+curvature_s2 = 0.0
+curvature_s1 = 0.276243093923
+type = SphericalLens
+
+[45140]
+description = Achromat
+thickness_l1 = 8.47
+material_l1 = SSKN8
+material_l2 = SF10
+radius = 15.0
+curvature_s3 = -0.00125056275324
+curvature_s2 = -0.0314366551399
+curvature_s1 = 0.0306748466258
+type = Doublet
+thickness_l2 = 2.99
+
+[45146]
+description = PCX
+material = BK7
+thickness = 7.01
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0552181115406
+type = SphericalLens
+
+[45144]
+description = PCX
+material = LaSFN30
+thickness = 2.59
+radius = 2.25
+curvature_s2 = 0.0
+curvature_s1 = 0.277008310249
+type = SphericalLens
+
+[45240]
+description = PCX
+material = BaFN10
+thickness = 4.5
+radius = 10.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0497512437811
+type = SphericalLens
+
+[45128]
+description = PCX
+material = BK7
+thickness = 4.7
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0322476620445
+type = SphericalLens
+
+[45549]
+description = Drum Lens
+material = bk7
+thickness = 3.0
+radius = 1.2
+curvature_s2 = -0.666666666667
+curvature_s1 = 0.666666666667
+type = SphericalLens
+
+[45548]
+description = Drum Lens
+material = bk7
+thickness = 2.5
+radius = 1.0
+curvature_s2 = -0.8
+curvature_s1 = 0.8
+type = SphericalLens
+
+[45547]
+description = Ball Lens
+material = LaSFN9
+thickness = 10.0
+radius = 5.0
+curvature_s2 = -0.2
+curvature_s1 = 0.2
+type = SphericalLens
+
+[45546]
+description = Ball Lens
+material = LaSFN9
+thickness = 8.0
+radius = 4.0
+curvature_s2 = -0.25
+curvature_s1 = 0.25
+type = SphericalLens
+
+[45545]
+description = Ball Lens
+material = LaSFN9
+thickness = 6.0
+radius = 3.0
+curvature_s2 = -0.333333333333
+curvature_s1 = 0.333333333333
+type = SphericalLens
+
+[45544]
+description = Ball Lens
+material = LaSFN9
+thickness = 5.0
+radius = 2.5
+curvature_s2 = -0.4
+curvature_s1 = 0.4
+type = SphericalLens
+
+[45542]
+description = Ball Lens
+material = LaSFN9
+thickness = 3.0
+radius = 1.5
+curvature_s2 = -0.666666666667
+curvature_s1 = 0.666666666667
+type = SphericalLens
+
+[45541]
+description = Ball Lens
+material = LaSFN9
+thickness = 2.5
+radius = 1.25
+curvature_s2 = -0.8
+curvature_s1 = 0.8
+type = SphericalLens
+
+[45540]
+description = Ball Lens
+material = LaSFN9
+thickness = 2.0
+radius = 1.0
+curvature_s2 = -1.0
+curvature_s1 = 1.0
+type = SphericalLens
+
+[45246]
+description = PCX
+material = BK7
+thickness = 11.0
+radius = 25.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0257997936017
+type = SphericalLens
+
+[48327]
+description = UV DCV
+material = F_Silica
+thickness = 2.5
+radius = 12.5
+curvature_s2 = 0.021630975557
+curvature_s1 = -0.021630975557
+type = SphericalLens
+
+[42817]
+description = Achromat
+thickness_l1 = 11.43
+material_l1 = BK7
+material_l2 = SF2
+radius = 31.75
+curvature_s3 = -0.00146903278881
+curvature_s2 = -0.00505382321726
+curvature_s1 = 0.00343808017603
+type = Doublet
+thickness_l2 = 10.16
+
+[47181]
+description = ZNSE PCX
+material = ZNSE
+thickness = 2.9
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0112183082791
+type = SphericalLens
+
+[47182]
+description = ZNSE PCX
+material = ZNSE
+thickness = 2.2
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.00280497040756
+type = SphericalLens
+
+[48273]
+description = UV PCX
+material = F_Silica
+thickness = 7.25
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0574052812859
+type = SphericalLens
+
+[45792]
+description = NIR Achromat
+thickness_l1 = 8.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 6.0
+curvature_s3 = -0.0221680336954
+curvature_s2 = -0.104275286757
+curvature_s1 = 0.0761614623001
+type = Doublet
+thickness_l2 = 2.5
+
+[45793]
+description = NIR Achromat
+thickness_l1 = 4.5
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 6.0
+curvature_s3 = -0.0118863663378
+curvature_s2 = -0.0727272727273
+curvature_s1 = 0.0642673521851
+type = Doublet
+thickness_l2 = 2.5
+
+[45790]
+description = NIR Achromat
+thickness_l1 = 3.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 3.0
+curvature_s3 = -0.00219886538546
+curvature_s2 = -0.0453103760761
+curvature_s1 = 0.0458505272811
+type = Doublet
+thickness_l2 = 1.3
+
+[45791]
+description = NIR Achromat
+thickness_l1 = 8.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 6.0
+curvature_s3 = -0.0268240343348
+curvature_s2 = -0.115606936416
+curvature_s1 = 0.0829875518672
+type = Doublet
+thickness_l2 = 2.5
+
+[45796]
+description = NIR Achromat
+thickness_l1 = 4.5
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 6.0
+curvature_s3 = -0.00399217533634
+curvature_s2 = -0.0456412596988
+curvature_s1 = 0.043840420868
+type = Doublet
+thickness_l2 = 2.5
+
+[45797]
+description = NIR Achromat
+thickness_l1 = 3.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 6.0
+curvature_s3 = -0.00310472228259
+curvature_s2 = -0.0354609929078
+curvature_s1 = 0.0350754121361
+type = Doublet
+thickness_l2 = 2.5
+
+[45794]
+description = NIR Achromat
+thickness_l1 = 4.5
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 6.0
+curvature_s3 = -0.00730994152047
+curvature_s2 = -0.0607533414338
+curvature_s1 = 0.0562746201463
+type = Doublet
+thickness_l2 = 2.5
+
+[45795]
+description = NIR Achromat
+thickness_l1 = 4.5
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 6.0
+curvature_s3 = -0.00515889393314
+curvature_s2 = -0.0521648408972
+curvature_s1 = 0.0494315373208
+type = Doublet
+thickness_l2 = 2.5
+
+[32857]
+description = PCX
+material = BK7
+thickness = 2.5
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0230255583698
+type = SphericalLens
+
+[45798]
+description = NIR Achromat
+thickness_l1 = 3.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 6.0
+curvature_s3 = -0.00238100907164
+curvature_s2 = -0.0295770482106
+curvature_s1 = 0.0294811320755
+type = Doublet
+thickness_l2 = 2.5
+
+[45799]
+description = NIR Achromat
+thickness_l1 = 3.0
+material_l1 = LakN22
+material_l2 = SFL6
+radius = 6.0
+curvature_s3 = -0.00176956698696
+curvature_s2 = -0.0236406619385
+curvature_s1 = 0.0237473284256
+type = Doublet
+thickness_l2 = 2.5
+
+[32853]
+description = PCX
+material = BK7
+thickness = 2.5
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0402900886382
+type = SphericalLens
+
+[32851]
+description = PCX
+material = BK7
+thickness = 1.6
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0268672756582
+type = SphericalLens
+
+[45262]
+description = Achromat
+thickness_l1 = 1.68
+material_l1 = BK7
+material_l2 = SF5
+radius = 1.5
+curvature_s3 = -0.0683994528044
+curvature_s2 = -0.194174757282
+curvature_s1 = 0.135317997294
+type = Doublet
+thickness_l2 = 1.0
+
+[45263]
+description = Achromat
+thickness_l1 = 2.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 3.125
+curvature_s3 = -0.015479876161
+curvature_s2 = -0.0453514739229
+curvature_s1 = 0.0324991875203
+type = Doublet
+thickness_l2 = 1.0
+
+[45260]
+description = PCX
+material = BK7
+thickness = 3.0
+radius = 7.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0193498452012
+type = SphericalLens
+
+[48301]
+description = UV DCX
+material = F_Silica
+thickness = 3.21
+radius = 12.5
+curvature_s2 = -0.00437196694793
+curvature_s1 = 0.00437196694793
+type = SphericalLens
+
+[45266]
+description = Achromat
+thickness_l1 = 4.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 9.0
+curvature_s3 = -0.00615043975644
+curvature_s2 = -0.0180245133381
+curvature_s1 = 0.0130005200208
+type = Doublet
+thickness_l2 = 2.0
+
+[45267]
+description = Achromat
+thickness_l1 = 5.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 10.0
+curvature_s3 = -0.0119345984008
+curvature_s2 = -0.0355618776671
+curvature_s1 = 0.0278396436526
+type = Doublet
+thickness_l2 = 2.0
+
+[45264]
+description = Achromat
+thickness_l1 = 2.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 4.5
+curvature_s3 = -0.0216731686173
+curvature_s2 = -0.0625782227785
+curvature_s1 = 0.0451263537906
+type = Doublet
+thickness_l2 = 1.5
+
+[45265]
+description = Achromat
+thickness_l1 = 3.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = -0.00767695378474
+curvature_s2 = -0.0225275963055
+curvature_s1 = 0.0162495937602
+type = Doublet
+thickness_l2 = 1.5
+
+[45268]
+description = Achromat
+thickness_l1 = 3.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.00133240952939
+curvature_s2 = -0.00430904468479
+curvature_s1 = 0.00343985415018
+type = Doublet
+thickness_l2 = 2.5
+
+[45269]
+description = Achromat
+thickness_l1 = 4.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 15.0
+curvature_s3 = -0.00253190196476
+curvature_s2 = -0.00746547219112
+curvature_s1 = 0.00542299349241
+type = Doublet
+thickness_l2 = 2.5
+
+[45031]
+description = PCV
+material = SF11
+thickness = 3.5
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = -0.0509683995923
+type = SphericalLens
+
+[45037]
+description = PCV
+material = BK7
+thickness = 5.0
+radius = 25.0
+curvature_s2 = 0.0
+curvature_s1 = -0.0193498452012
+type = SphericalLens
+
+[48431]
+description = Half Ball Lens
+material = sapphire
+thickness = 2.38
+radius = 2.38
+curvature_s2 = 0.0
+curvature_s1 = 0.420168067227
+type = SphericalLens
+
+[48432]
+description = Half Ball Lens
+material = sapphire
+thickness = 2.5
+radius = 2.5
+curvature_s2 = 0.0
+curvature_s1 = 0.4
+type = SphericalLens
+
+[48433]
+description = Half Ball Lens
+material = sapphire
+thickness = 3.18
+radius = 3.175
+curvature_s2 = 0.0
+curvature_s1 = 0.314465408805
+type = SphericalLens
+
+[45039]
+description = PCV
+material = BK7
+thickness = 5.0
+radius = 25.0
+curvature_s2 = 0.0
+curvature_s1 = -0.015479876161
+type = SphericalLens
+
+[48282]
+description = UV PCX
+material = F_Silica
+thickness = 2.44
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.00545286002508
+type = SphericalLens
+
+[48281]
+description = UV PCX
+material = F_Silica
+thickness = 2.71
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.00872524212547
+type = SphericalLens
+
+[48280]
+description = UV PCX
+material = F_Silica
+thickness = 2.88
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0108742931709
+type = SphericalLens
+
+[45819]
+description = Achromat
+thickness_l1 = 3.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 4.5
+curvature_s3 = -0.0127632418634
+curvature_s2 = -0.0379794910748
+curvature_s1 = 0.0273897562312
+type = Doublet
+thickness_l2 = 1.5
+
+[45818]
+description = Achromat
+thickness_l1 = 3.73
+material_l1 = BK7
+material_l2 = SF5
+radius = 4.5
+curvature_s3 = -0.0195427008013
+curvature_s2 = -0.0555247084953
+curvature_s1 = 0.0403714170367
+type = Doublet
+thickness_l2 = 1.33
+
+[55280]
+description = Mounted Achromat Pair
+thickness_l1 = 2.5
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF5
+thickness_l5 = -44.64
+material_l3 = 
+material_l2 = BK7
+radius = 12.5
+thickness_l3 = 5.24
+thickness_l4 = 6.0
+curvature_s3 = -0.021533161068
+curvature_s2 = 0.0296120817293
+curvature_s1 = 0.0104231811549
+thickness_l2 = 7.0
+type = AchromatPair
+curvature_s6 = -0.00769585962752
+curvature_s5 = -0.0224014336918
+curvature_s4 = 0.0162680982593
+
+[43710]
+description = Ball Lens
+material = BK7
+thickness = 2.5
+radius = 1.25
+curvature_s2 = -0.8
+curvature_s1 = 0.8
+type = SphericalLens
+
+[43711]
+description = Ball Lens
+material = BK7
+thickness = 3.0
+radius = 1.5
+curvature_s2 = -0.666666666667
+curvature_s1 = 0.666666666667
+type = SphericalLens
+
+[43712]
+description = Ball Lens
+material = BK7
+thickness = 5.0
+radius = 2.5
+curvature_s2 = -0.4
+curvature_s1 = 0.4
+type = SphericalLens
+
+[43713]
+description = Ball Lens
+material = SF8
+thickness = 2.0
+radius = 1.0
+curvature_s2 = -1.0
+curvature_s1 = 1.0
+type = SphericalLens
+
+[43714]
+description = Ball Lens
+material = SF8
+thickness = 2.5
+radius = 1.25
+curvature_s2 = -0.8
+curvature_s1 = 0.8
+type = SphericalLens
+
+[43715]
+description = Ball Lens
+material = SF8
+thickness = 3.0
+radius = 1.5
+curvature_s2 = -0.666666666667
+curvature_s1 = 0.666666666667
+type = SphericalLens
+
+[43716]
+description = Ball Lens
+material = SF8
+thickness = 4.0
+radius = 2.0
+curvature_s2 = -0.5
+curvature_s1 = 0.5
+type = SphericalLens
+
+[45419]
+description = Achromat
+thickness_l1 = 11.05
+material_l1 = BK7
+material_l2 = SF5
+radius = 37.5
+curvature_s3 = -0.00189861401177
+curvature_s2 = -0.00552730488614
+curvature_s1 = 0.00405679513185
+type = Doublet
+thickness_l2 = 6.0
+
+[45440]
+description = PCX
+material = BK7
+thickness = 2.35
+radius = 10.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0241080038573
+type = SphericalLens
+
+[45088]
+description = DCX
+material = BK7
+thickness = 3.7
+radius = 6.0
+curvature_s2 = -0.0329380764163
+curvature_s1 = 0.0329380764163
+type = SphericalLens
+
+[45418]
+description = Achromat
+thickness_l1 = 13.59
+material_l1 = BK7
+material_l2 = SF5
+radius = 37.5
+curvature_s3 = -0.00250419452583
+curvature_s2 = -0.00728119994175
+curvature_s1 = 0.0054333061668
+type = Doublet
+thickness_l2 = 6.0
+
+[32923]
+description = Achromat
+thickness_l1 = 8.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 20.0
+curvature_s3 = -0.004860976084
+curvature_s2 = -0.0141382723031
+curvature_s1 = 0.0101358199878
+type = Doublet
+thickness_l2 = 4.0
+
+[32921]
+description = Achromat
+thickness_l1 = 9.6
+material_l1 = SSKN8
+material_l2 = SF10
+radius = 20.0
+curvature_s3 = -0.000806016104202
+curvature_s2 = -0.0161212316621
+curvature_s1 = 0.0153327200245
+type = Doublet
+thickness_l2 = 4.2
+
+[32927]
+description = Achromat
+thickness_l1 = 8.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 20.0
+curvature_s3 = -0.00211380738987
+curvature_s2 = -0.00591610956635
+curvature_s1 = 0.00388862964691
+type = Doublet
+thickness_l2 = 4.0
+
+[32925]
+description = Achromat
+thickness_l1 = 8.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 20.0
+curvature_s3 = -0.00395100750691
+curvature_s2 = -0.011460004584
+curvature_s1 = 0.0080567193039
+type = Doublet
+thickness_l2 = 4.0
+
+[08009]
+description = UV PCX
+material = F_Silica
+thickness = 10.68
+radius = 25.4
+curvature_s2 = 0.0
+curvature_s1 = 0.0218102508179
+type = SphericalLens
+
+[32706]
+description = DCX
+material = BK7
+thickness = 4.0
+radius = 7.5
+curvature_s2 = -0.0327868852459
+curvature_s1 = 0.0327868852459
+type = SphericalLens
+
+[30229]
+description = Hastings Triplet
+thickness_l1 = 3.5
+material_l1 = F2
+material_l3 = F2
+material_l2 = BK7
+radius = 11.5
+curvature_s2 = -0.0550964187328
+curvature_s1 = 0.0307881773399
+type = Triplet
+thickness_l3 = 3.5
+thickness_l2 = 11.0
+
+[32708]
+description = DCX
+material = BK7
+thickness = 5.5
+radius = 9.0
+curvature_s2 = -0.0369276218612
+curvature_s1 = 0.0369276218612
+type = SphericalLens
+
+[43966]
+radius = 63.5
+type = SphericalMirror
+description = Spherical Mirror
+
+[48056]
+description = UV DCV
+material = F_Silica
+thickness = 2.0
+radius = 6.0
+curvature_s2 = 0.0308641975309
+curvature_s1 = -0.0308641975309
+type = SphericalLens
+
+[48057]
+description = UV DCV
+material = F_Silica
+thickness = 2.0
+radius = 6.0
+curvature_s2 = 0.024055809478
+curvature_s1 = -0.024055809478
+type = SphericalLens
+
+[48054]
+description = UV DCV
+material = F_Silica
+thickness = 2.0
+radius = 6.0
+curvature_s2 = 0.0536480686695
+curvature_s1 = -0.0536480686695
+type = SphericalLens
+
+[48055]
+description = UV DCV
+material = F_Silica
+thickness = 2.0
+radius = 6.0
+curvature_s2 = 0.0359582883855
+curvature_s1 = -0.0359582883855
+type = SphericalLens
+
+[32478]
+description = PCX
+material = BK7
+thickness = 4.9
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0386996904025
+type = SphericalLens
+
+[43568]
+radius = 76.2
+type = SphericalMirror
+description = Spherical Mirror
+
+[43566]
+radius = 76.2
+type = SphericalMirror
+description = Spherical Mirror
+
+[43564]
+radius = 76.2
+type = SphericalMirror
+description = Spherical Mirror
+
+[43562]
+radius = 76.2
+type = SphericalMirror
+description = Spherical Mirror
+
+[43560]
+radius = 38.1
+type = SphericalMirror
+description = Spherical Mirror
+
+[31856]
+description = PCX
+material = BK7
+thickness = 3.18
+radius = 7.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0644329896907
+type = SphericalLens
+
+[43819]
+description = Ball Lens
+material = sapphire
+thickness = 2.5
+radius = 1.25
+curvature_s2 = -0.8
+curvature_s1 = 0.8
+type = SphericalLens
+
+[45700]
+description = UV PCV
+material = F_Silica
+thickness = 2.0
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = -0.161290322581
+type = SphericalLens
+
+[08070]
+description = UV DCX
+material = F_Silica
+thickness = 6.56
+radius = 25.4
+curvature_s2 = -0.0054839594187
+curvature_s1 = 0.0054839594187
+type = SphericalLens
+
+[08071]
+description = UV DCX
+material = F_Silica
+thickness = 4.41
+radius = 25.4
+curvature_s2 = -0.00218450313476
+curvature_s1 = 0.00218450313476
+type = SphericalLens
+
+[08074]
+description = UV PCV
+material = F_Silica
+thickness = 3.5
+radius = 25.4
+curvature_s2 = 0.0
+curvature_s1 = -0.00872448089339
+type = SphericalLens
+
+[08075]
+description = UV PCV
+material = F_Silica
+thickness = 4.0
+radius = 25.4
+curvature_s2 = 0.0
+curvature_s1 = -0.00436243074641
+type = SphericalLens
+
+[43585]
+radius = 38.1
+type = SphericalMirror
+description = Spherical Mirror
+
+[45702]
+description = UV PCV
+material = F_Silica
+thickness = 2.0
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = -0.0806451612903
+type = SphericalLens
+
+[45399]
+description = Steinheil Triplet 
+thickness_l1 = 2.88
+material_l1 = BASF1
+material_l3 = BASF1
+material_l2 = BK7
+radius = 4.5
+curvature_s2 = -0.169779286927
+curvature_s1 = 0.0803212851406
+type = Triplet
+thickness_l3 = 2.88
+thickness_l2 = 7.2
+
+[45094]
+description = PCX
+material = SF5
+thickness = 5.5
+radius = 7.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0991080277502
+type = SphericalLens
+
+[45428]
+description = PCX
+material = BK7
+thickness = 2.26
+radius = 2.0
+curvature_s2 = 0.0
+curvature_s1 = 0.32154340836
+type = SphericalLens
+
+[45096]
+description = PCX
+material = BK7
+thickness = 3.0
+radius = 7.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0483792936623
+type = SphericalLens
+
+[45420]
+description = Negative Achromat
+thickness_l1 = 1.0
+material_l1 = BaF10
+material_l2 = FD10
+radius = 3.125
+curvature_s3 = 0.0888888888889
+curvature_s2 = 0.235849056604
+curvature_s1 = -0.0405515004055
+type = Doublet
+thickness_l2 = 2.0
+
+[45421]
+description = Negative Achromat
+thickness_l1 = 1.0
+material_l1 = BaF10
+material_l2 = FD10
+radius = 3.125
+curvature_s3 = 0.00913742690058
+curvature_s2 = 0.0871080139373
+curvature_s1 = -0.0569151963574
+type = Doublet
+thickness_l2 = 2.0
+
+[45422]
+description = Negative Achromat
+thickness_l1 = 2.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = 0.00925925925926
+curvature_s2 = 0.0272851296044
+curvature_s1 = -0.0217060994139
+type = Doublet
+thickness_l2 = 4.06
+
+[45423]
+description = Negative Achromat
+thickness_l1 = 2.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = 0.00489835904972
+curvature_s2 = 0.0145201103528
+curvature_s1 = -0.0108342361863
+type = Doublet
+thickness_l2 = 4.06
+
+[45424]
+description = Negative Achromat
+thickness_l1 = 2.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = 0.019786307875
+curvature_s2 = 0.0572082379863
+curvature_s1 = -0.0461680517082
+type = Doublet
+thickness_l2 = 1.56
+
+[45426]
+description = PCX
+material = BK7
+thickness = 1.26
+radius = 1.5
+curvature_s2 = 0.0
+curvature_s1 = 0.12853470437
+type = SphericalLens
+
+[32913]
+description = Achromat
+thickness_l1 = 5.0
+material_l1 = SSKN8
+material_l2 = SF10
+radius = 9.0
+curvature_s3 = -0.00185632077223
+curvature_s2 = -0.0389711613406
+curvature_s1 = 0.0368731563422
+type = Doublet
+thickness_l2 = 2.3
+
+[45092]
+description = Achromat
+thickness_l1 = 3.89
+material_l1 = BK7
+material_l2 = SF5
+radius = 4.5
+curvature_s3 = -0.0252780586451
+curvature_s2 = -0.0832639467111
+curvature_s1 = 0.0651041666667
+type = Doublet
+thickness_l2 = 1.3
+
+[45219]
+description = Negative Achromat
+thickness_l1 = 2.0
+material_l1 = BaF10
+material_l2 = FD10
+radius = 6.25
+curvature_s3 = 0.00911161731207
+curvature_s2 = 0.0821692686935
+curvature_s1 = -0.056338028169
+type = Doublet
+thickness_l2 = 2.55
+
+[45218]
+description = Achromat
+thickness_l1 = 14.46
+material_l1 = SK11
+material_l2 = SF5
+radius = 20.0
+curvature_s3 = -0.00803148341499
+curvature_s2 = -0.0317057704502
+curvature_s1 = 0.0267881060809
+type = Doublet
+thickness_l2 = 3.0
+
+[47302]
+description = NIR Mounted Achromat Pair
+thickness_l1 = 4.0
+material_l4 = LakN22
+material_l5 = SFL6
+material_l1 = SFL6
+thickness_l5 = -57.01
+material_l3 = 
+material_l2 = LAKN22
+radius = 12.5
+thickness_l3 = 5.45
+thickness_l4 = 6.0
+curvature_s3 = -0.0175407823189
+curvature_s2 = 0.0175407823189
+curvature_s1 = 0.00152320604408
+thickness_l2 = 6.0
+type = AchromatPair
+curvature_s6 = -0.00152320604408
+curvature_s5 = -0.0175407823189
+curvature_s4 = 0.0175407823189
+
+[47301]
+description = NIR Mounted Achromat Pair
+thickness_l1 = 4.0
+material_l4 = LakN22
+material_l5 = SFL6
+material_l1 = SFL6
+thickness_l5 = -57.01
+material_l3 = 
+material_l2 = LAKN22
+radius = 12.5
+thickness_l3 = 5.05
+thickness_l4 = 6.0
+curvature_s3 = -0.0227479526843
+curvature_s2 = 0.02331002331
+curvature_s1 = 0.00254965452181
+thickness_l2 = 6.0
+type = AchromatPair
+curvature_s6 = -0.00152320604408
+curvature_s5 = -0.0175407823189
+curvature_s4 = 0.0175407823189
+
+[47300]
+description = NIR Mounted Achromat Pair
+thickness_l1 = 4.0
+material_l4 = LakN22
+material_l5 = SFL6
+material_l1 = SFL6
+thickness_l5 = -42.9
+material_l3 = 
+material_l2 = LAKN22
+radius = 12.5
+thickness_l3 = 4.66
+thickness_l4 = 6.0
+curvature_s3 = -0.0227479526843
+curvature_s2 = 0.02331002331
+curvature_s1 = 0.00254965452181
+thickness_l2 = 6.0
+type = AchromatPair
+curvature_s6 = -0.00254965452181
+curvature_s5 = -0.02331002331
+curvature_s4 = 0.0227479526843
+
+[45213]
+description = Achromat
+thickness_l1 = 5.01
+material_l1 = SK11
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.0068282690338
+curvature_s2 = -0.0260620276257
+curvature_s1 = 0.0179597701149
+type = Doublet
+thickness_l2 = 3.0
+
+[45212]
+description = Achromat
+thickness_l1 = 7.89
+material_l1 = SK11
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.0120598166908
+curvature_s2 = -0.0467726847521
+curvature_s1 = 0.0347826086957
+type = Doublet
+thickness_l2 = 3.0
+
+[45211]
+description = Achromat
+thickness_l1 = 11.04
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 12.5
+curvature_s3 = -0.00842743974381
+curvature_s2 = -0.0621890547264
+curvature_s1 = 0.0472366556448
+type = Doublet
+thickness_l2 = 3.0
+
+[45210]
+description = Achromat
+thickness_l1 = 3.68
+material_l1 = SK11
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = -0.0169952413324
+curvature_s2 = -0.0643500643501
+curvature_s1 = 0.0435919790759
+type = Doublet
+thickness_l2 = 1.5
+
+[45217]
+description = Achromat
+thickness_l1 = 4.92
+material_l1 = SK11
+material_l2 = SF5
+radius = 15.0
+curvature_s3 = -0.00454380225373
+curvature_s2 = -0.0176709666019
+curvature_s1 = 0.0122654237704
+type = Doublet
+thickness_l2 = 2.5
+
+[45216]
+description = Achromat
+thickness_l1 = 3.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.00187230855645
+curvature_s2 = -0.00556730876294
+curvature_s1 = 0.00408747189863
+type = Doublet
+thickness_l2 = 2.5
+
+[45215]
+description = Achromat
+thickness_l1 = 3.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.00253819990862
+curvature_s2 = -0.00745934656124
+curvature_s1 = 0.00541008439732
+type = Doublet
+thickness_l2 = 2.5
+
+[45214]
+description = Achromat
+thickness_l1 = 3.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.00343265137993
+curvature_s2 = -0.00997904400758
+curvature_s1 = 0.00716691750878
+type = Doublet
+thickness_l2 = 2.5
+
+[47053]
+description = CAF2 PCX
+material = CAF2
+thickness = 3.4
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0166722240747
+type = SphericalLens
+
+[47052]
+description = CAF2 PCX
+material = CAF2
+thickness = 4.8
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0334448160535
+type = SphericalLens
+
+[45699]
+description = UV PCV
+material = F_Silica
+thickness = 2.0
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = -0.121212121212
+type = SphericalLens
+
+[45698]
+description = UV PCV
+material = F_Silica
+thickness = 2.0
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = -0.181818181818
+type = SphericalLens
+
+[45697]
+description = UV PCV
+material = F_Silica
+thickness = 2.0
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = -0.242130750605
+type = SphericalLens
+
+[45695]
+description = UV PCX
+material = F_Silica
+thickness = 2.0
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0807754442649
+type = SphericalLens
+
+[45694]
+description = UV PCX
+material = F_Silica
+thickness = 3.0
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = 0.121212121212
+type = SphericalLens
+
+[45693]
+description = UV PCX
+material = F_Silica
+thickness = 3.0
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = 0.16155088853
+type = SphericalLens
+
+[45692]
+description = UV PCX
+material = F_Silica
+thickness = 2.0
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.121212121212
+type = SphericalLens
+
+[45691]
+description = UV PCX
+material = F_Silica
+thickness = 2.0
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.181818181818
+type = SphericalLens
+
+[45690]
+description = UV PCX
+material = F_Silica
+thickness = 2.5
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.242130750605
+type = SphericalLens
+
+[45105]
+description = Achromat
+thickness_l1 = 12.07
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 20.0
+curvature_s3 = -0.00229436732821
+curvature_s2 = -0.0272257010618
+curvature_s1 = 0.0186011904762
+type = Doublet
+thickness_l2 = 4.0
+
+[45104]
+description = Achromat
+thickness_l1 = 5.98
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 9.0
+curvature_s3 = -0.00487733502414
+curvature_s2 = -0.0566893424036
+curvature_s1 = 0.037078235076
+type = Doublet
+thickness_l2 = 1.6
+
+[45103]
+description = Achromat
+thickness_l1 = 5.98
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 7.5
+curvature_s3 = -0.00487733502414
+curvature_s2 = -0.0566893424036
+curvature_s1 = 0.037078235076
+type = Doublet
+thickness_l2 = 1.6
+
+[45102]
+description = DCX
+material = SF11
+thickness = 4.2
+radius = 7.5
+curvature_s2 = -0.0291036088475
+curvature_s1 = 0.0291036088475
+type = SphericalLens
+
+[45100]
+description = DCX
+material = SF11
+thickness = 4.5
+radius = 7.5
+curvature_s2 = -0.0444247001333
+curvature_s1 = 0.0444247001333
+type = SphericalLens
+
+[32480]
+description = PCX
+material = BK7
+thickness = 4.5
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0257997936017
+type = SphericalLens
+
+[32482]
+description = PCX
+material = BK7
+thickness = 4.3
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0193498452012
+type = SphericalLens
+
+[32484]
+description = PCX
+material = SF5
+thickness = 6.35
+radius = 15.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0297353553375
+type = SphericalLens
+
+[32486]
+description = PCX
+material = BK7
+thickness = 6.1
+radius = 15.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0257997936017
+type = SphericalLens
+
+[32870]
+description = DCX
+material = BK7
+thickness = 3.3
+radius = 6.0
+curvature_s2 = -0.0272851296044
+curvature_s1 = 0.0272851296044
+type = SphericalLens
+
+[32488]
+description = PCX
+material = BK7
+thickness = 6.0
+radius = 15.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0193498452012
+type = SphericalLens
+
+[47016]
+description = Negative Achromat
+thickness_l1 = 2.5
+material_l1 = BK7
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = 0.00925925925926
+curvature_s2 = 0.0272851296044
+curvature_s1 = -0.0217060994139
+type = Doublet
+thickness_l2 = 3.0
+
+[45285]
+description = PCX
+material = BK7
+thickness = 5.0
+radius = 20.0
+curvature_s2 = 0.0
+curvature_s1 = 0.00644994840041
+type = SphericalLens
+
+[45287]
+description = PCX
+material = BK7
+thickness = 5.0
+radius = 20.0
+curvature_s2 = 0.0
+curvature_s1 = 0.00483746130031
+type = SphericalLens
+
+[45281]
+description = PCX
+material = BK7
+thickness = 3.2
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.00386996904025
+type = SphericalLens
+
+[45283]
+description = PCX
+material = BK7
+thickness = 3.2
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.00257997936017
+type = SphericalLens
+
+[32969]
+description = DCX
+material = BK7
+thickness = 2.6
+radius = 4.5
+curvature_s2 = -0.0550964187328
+curvature_s1 = 0.0550964187328
+type = SphericalLens
+
+[32967]
+description = DCX
+material = BK7
+thickness = 2.2
+radius = 3.0
+curvature_s2 = -0.0548847420417
+curvature_s1 = 0.0548847420417
+type = SphericalLens
+
+[32965]
+description = DCX
+material = BK7
+thickness = 2.4
+radius = 3.0
+curvature_s2 = -0.0834724540902
+curvature_s1 = 0.0834724540902
+type = SphericalLens
+
+[32963]
+description = PCX
+material = BK7
+thickness = 4.5
+radius = 10.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0322476620445
+type = SphericalLens
+
+[32961]
+description = PCX
+material = BK7
+thickness = 4.9
+radius = 10.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0483792936623
+type = SphericalLens
+
+[45352]
+description = Achromat
+thickness_l1 = 6.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 20.0
+curvature_s3 = -0.00172595315763
+curvature_s2 = -0.00501228008621
+curvature_s1 = 0.0035765379113
+type = Doublet
+thickness_l2 = 4.0
+
+[45353]
+description = Achromat
+thickness_l1 = 13.92
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 25.0
+curvature_s3 = -0.00224210219502
+curvature_s2 = -0.0212992545261
+curvature_s1 = 0.0144341801386
+type = Doublet
+thickness_l2 = 4.0
+
+[45350]
+description = Achromat
+thickness_l1 = 3.27
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 9.0
+curvature_s3 = -0.0034716195105
+curvature_s2 = -0.0305623471883
+curvature_s1 = 0.0188572506129
+type = Doublet
+thickness_l2 = 2.0
+
+[45351]
+description = Achromat
+thickness_l1 = 7.33
+material_l1 = BaFN11
+material_l2 = SF10
+radius = 10.0
+curvature_s3 = -0.0071540992989
+curvature_s2 = -0.062656641604
+curvature_s1 = 0.0412541254125
+type = Doublet
+thickness_l2 = 1.76
+
+[48276]
+description = UV PCX
+material = F_Silica
+thickness = 3.79
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0218102508179
+type = SphericalLens
+
+[45357]
+description = PCX
+material = BK7
+thickness = 1.54
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0429922613929
+type = SphericalLens
+
+[45354]
+description = Achromat
+thickness_l1 = 8.0
+material_l1 = BaK4
+material_l2 = SF10
+radius = 25.0
+curvature_s3 = -0.00174981189522
+curvature_s2 = -0.00571984213236
+curvature_s1 = 0.00440218348301
+type = Doublet
+thickness_l2 = 4.0
+
+[45355]
+description = PCX
+material = BK7
+thickness = 1.6
+radius = 2.5
+curvature_s2 = 0.0
+curvature_s1 = 0.129032258065
+type = SphericalLens
+
+[48278]
+description = UV PCX
+material = F_Silica
+thickness = 3.18
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0145369966565
+type = SphericalLens
+
+[45359]
+description = PCX
+material = BK7
+thickness = 1.83
+radius = 7.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0257997936017
+type = SphericalLens
+
+[32987]
+description = DCV
+material = SF11
+thickness = 1.5
+radius = 3.0
+curvature_s2 = 0.102669404517
+curvature_s1 = -0.102669404517
+type = SphericalLens
+
+[32981]
+description = DCX
+material = BK7
+thickness = 10.0
+radius = 25.0
+curvature_s2 = -0.00983961428712
+curvature_s1 = 0.00983961428712
+type = SphericalLens
+
+[32983]
+description = DCX
+material = BK7
+thickness = 9.0
+radius = 25.0
+curvature_s2 = -0.00651508241579
+curvature_s1 = 0.00651508241579
+type = SphericalLens
+
+[32989]
+description = DCV
+material = SF11
+thickness = 3.0
+radius = 6.0
+curvature_s2 = 0.0513610683102
+curvature_s1 = -0.0513610683102
+type = SphericalLens
+
+[48018]
+description = CAF2 DCX
+material = CAF2
+thickness = 5.3
+radius = 12.7
+curvature_s2 = -0.0200440970134
+curvature_s1 = 0.0200440970134
+type = SphericalLens
+
+[48019]
+description = CAF2 DCX
+material = CAF2
+thickness = 3.4
+radius = 12.7
+curvature_s2 = -0.00839489590329
+curvature_s1 = 0.00839489590329
+type = SphericalLens
+
+[48049]
+description = UV PCV
+material = F_Silica
+thickness = 2.0
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = -0.043630017452
+type = SphericalLens
+
+[48048]
+description = UV PCV
+material = F_Silica
+thickness = 2.0
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = -0.0545553737043
+type = SphericalLens
+
+[45078]
+description = PCX
+material = SF11
+thickness = 2.5
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.212314225053
+type = SphericalLens
+
+[31402]
+description = Achromat
+thickness_l1 = 11.94
+material_l1 = BK7
+material_l2 = SF2
+radius = 31.75
+curvature_s3 = -0.00175561797753
+curvature_s2 = -0.00639345310402
+curvature_s1 = 0.00490340296166
+type = Doublet
+thickness_l2 = 8.86
+
+[46115]
+description = Ball Lens
+material = sapphire
+thickness = 0.3
+radius = 0.15
+curvature_s2 = -6.66666666667
+curvature_s1 = 6.66666666667
+type = SphericalLens
+
+[43536]
+radius = 12.7
+type = SphericalMirror
+description = Spherical Mirror
+
+[46117]
+description = Ball Lens
+material = sapphire
+thickness = 0.5
+radius = 0.25
+curvature_s2 = -4.0
+curvature_s1 = 4.0
+type = SphericalLens
+
+[45363]
+description = PCX
+material = BK7
+thickness = 8.06
+radius = 12.5
+curvature_s2 = 0.0
+curvature_s1 = 0.0645161290323
+type = SphericalLens
+
+[43538]
+radius = 12.7
+type = SphericalMirror
+description = Spherical Mirror
+
+[32747]
+description = Ball Lens
+material = BK7
+thickness = 8.0
+radius = 4.0
+curvature_s2 = -0.25
+curvature_s1 = 0.25
+type = SphericalLens
+
+[32746]
+description = Ball Lens
+material = BK7
+thickness = 6.0
+radius = 3.0
+curvature_s2 = -0.333333333333
+curvature_s1 = 0.333333333333
+type = SphericalLens
+
+[32745]
+description = Ball Lens
+material = BK7
+thickness = 4.0
+radius = 2.0
+curvature_s2 = -0.5
+curvature_s1 = 0.5
+type = SphericalLens
+
+[32744]
+description = Ball Lens
+material = BK7
+thickness = 2.0
+radius = 1.0
+curvature_s2 = -1.0
+curvature_s1 = 1.0
+type = SphericalLens
+
+[32748]
+description = Ball Lens
+material = BK7
+thickness = 10.0
+radius = 5.0
+curvature_s2 = -0.2
+curvature_s1 = 0.2
+type = SphericalLens
+
+[48027]
+description = UV PCX
+material = F_Silica
+thickness = 2.9
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.043630017452
+type = SphericalLens
+
+[48026]
+description = UV PCX
+material = F_Silica
+thickness = 3.13
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0545256270447
+type = SphericalLens
+
+[48025]
+description = UV PCX
+material = F_Silica
+thickness = 3.55
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0727272727273
+type = SphericalLens
+
+[48024]
+description = UV PCX
+material = F_Silica
+thickness = 3.92
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.087260034904
+type = SphericalLens
+
+[45011]
+description = PCV
+material = BK7
+thickness = 2.0
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = -0.10752688172
+type = SphericalLens
+
+[55279]
+description = Mounted Achromat Pair
+thickness_l1 = 2.4
+material_l4 = BK7
+material_l5 = SF5
+material_l1 = SF10
+thickness_l5 = -33.77
+material_l3 = 
+material_l2 = SSKN8
+radius = 12.5
+thickness_l3 = 4.08
+thickness_l4 = 7.0
+curvature_s3 = -0.0313087038197
+curvature_s2 = 0.0333889816361
+curvature_s1 = 0.000971071771915
+thickness_l2 = 9.0
+type = AchromatPair
+curvature_s6 = -0.0104231811549
+curvature_s5 = -0.0296120817293
+curvature_s4 = 0.021533161068
+
+[45410]
+description = Achromat
+thickness_l1 = 1.98
+material_l1 = BK7
+material_l2 = SF5
+radius = 6.25
+curvature_s3 = -0.0085969738652
+curvature_s2 = -0.0248941996515
+curvature_s1 = 0.0179211469534
+type = Doublet
+thickness_l2 = 1.6
+
+[45413]
+description = Achromat
+thickness_l1 = 6.01
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 9.0
+curvature_s3 = -0.00653637492647
+curvature_s2 = -0.0616142945163
+curvature_s1 = 0.0412201154163
+type = Doublet
+thickness_l2 = 1.6
+
+[45412]
+description = Achromat
+thickness_l1 = 7.67
+material_l1 = BaFN10
+material_l2 = SF10
+radius = 9.0
+curvature_s3 = -0.00839489590329
+curvature_s2 = -0.0762776506484
+curvature_s1 = 0.0534759358289
+type = Doublet
+thickness_l2 = 1.6
+
+[45415]
+description = Achromat
+thickness_l1 = 5.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 15.0
+curvature_s3 = -0.00385460432487
+curvature_s2 = -0.0112082492715
+curvature_s1 = 0.00807950230266
+type = Doublet
+thickness_l2 = 2.5
+
+[45414]
+description = Achromat
+thickness_l1 = 5.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 12.5
+curvature_s3 = -0.00283720138455
+curvature_s2 = -0.00822774395261
+curvature_s1 = 0.00584692743963
+type = Doublet
+thickness_l2 = 2.5
+
+[45417]
+description = Achromat
+thickness_l1 = 17.94
+material_l1 = BK7
+material_l2 = SF5
+radius = 37.5
+curvature_s3 = -0.00346056684085
+curvature_s2 = -0.0103766732386
+curvature_s1 = 0.00841679993267
+type = Doublet
+thickness_l2 = 6.0
+
+[43823]
+description = Ball Lens
+material = sapphire
+thickness = 4.0
+radius = 2.0
+curvature_s2 = -0.5
+curvature_s1 = 0.5
+type = SphericalLens
+
+[45550]
+description = Drum Lens
+material = bk7
+thickness = 4.0
+radius = 1.6
+curvature_s2 = -0.5
+curvature_s1 = 0.5
+type = SphericalLens
+
+[45551]
+description = Drum Lens
+material = bk7
+thickness = 5.0
+radius = 2.0
+curvature_s2 = -0.4
+curvature_s1 = 0.4
+type = SphericalLens
+
+[45552]
+description = Ball Lens
+material = BK7
+thickness = 0.3
+radius = 0.15
+curvature_s2 = -6.66666666667
+curvature_s1 = 6.66666666667
+type = SphericalLens
+
+[45553]
+description = Ball Lens
+material = BK7
+thickness = 0.5
+radius = 0.25
+curvature_s2 = -4.0
+curvature_s1 = 4.0
+type = SphericalLens
+
+[45150]
+description = PCX
+material = BK7
+thickness = 9.31
+radius = 20.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0322268772156
+type = SphericalLens
+
+[47271]
+description = NIR Achromat
+thickness_l1 = 6.0
+material_l1 = LAKN22
+material_l2 = SFL6
+radius = 12.5
+curvature_s3 = -0.000706404261031
+curvature_s2 = -0.00885896527286
+curvature_s1 = 0.00885896527286
+type = Doublet
+thickness_l2 = 4.0
+
+[47270]
+description = Half Ball Lens
+material = bk7
+thickness = 2.5
+radius = 2.5
+curvature_s2 = 0.0
+curvature_s1 = 0.4
+type = SphericalLens
+
+[47057]
+description = CAF2 DCX
+material = CAF2
+thickness = 6.2
+radius = 12.7
+curvature_s2 = -0.0252461499621
+curvature_s1 = 0.0252461499621
+type = SphericalLens
+
+[47056]
+description = CAF2 DCX
+material = CAF2
+thickness = 12.2
+radius = 12.7
+curvature_s2 = -0.0544365813827
+curvature_s1 = 0.0544365813827
+type = SphericalLens
+
+[47055]
+description = CAF2 PCX
+material = CAF2
+thickness = 2.4
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0050002500125
+type = SphericalLens
+
+[47054]
+description = CAF2 PCX
+material = CAF2
+thickness = 3.0
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0125031257814
+type = SphericalLens
+
+[47721]
+description = Achromat
+thickness_l1 = 2.0
+material_l1 = LAKN22
+material_l2 = SFL6
+radius = 1.5
+curvature_s3 = -0.126903553299
+curvature_s2 = -0.448430493274
+curvature_s1 = 0.316455696203
+type = Doublet
+thickness_l2 = 1.0
+
+[45152]
+description = PCX
+material = BK7
+thickness = 5.07
+radius = 25.0
+curvature_s2 = 0.0
+curvature_s1 = 0.00967492260062
+type = SphericalLens
+
+[47051]
+description = CAF2 PCX
+material = CAF2
+thickness = 6.4
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.05
+type = SphericalLens
+
+[45019]
+description = PCV
+material = BK7
+thickness = 3.5
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = -0.0403063280935
+type = SphericalLens
+
+[47059]
+description = CAF2 DCX
+material = CAF2
+thickness = 4.1
+radius = 12.7
+curvature_s2 = -0.0126470216264
+curvature_s1 = 0.0126470216264
+type = SphericalLens
+
+[47058]
+description = CAF2 DCX
+material = CAF2
+thickness = 4.7
+radius = 12.7
+curvature_s2 = -0.0166333998669
+curvature_s1 = 0.0166333998669
+type = SphericalLens
+
+[47295]
+description = NIR Mounted Achromat Pair
+thickness_l1 = 4.0
+material_l4 = LakN22
+material_l5 = SFL6
+material_l1 = SFL6
+thickness_l5 = -33.8
+material_l3 = 
+material_l2 = LAKN22
+radius = 12.5
+thickness_l3 = 2.65
+thickness_l4 = 8.0
+curvature_s3 = -0.042735042735
+curvature_s2 = 0.0497265042268
+curvature_s1 = 0.0114259597806
+thickness_l2 = 11.0
+type = AchromatPair
+curvature_s6 = -0.00401832355541
+curvature_s5 = -0.0295857988166
+curvature_s4 = 0.0275709953129
+
+[47294]
+description = NIR Mounted Achromat Pair
+thickness_l1 = 4.0
+material_l4 = LakN22
+material_l5 = SFL6
+material_l1 = SFL6
+thickness_l5 = -28.45
+material_l3 = 
+material_l2 = LAKN22
+radius = 12.5
+thickness_l3 = 2.33
+thickness_l4 = 8.0
+curvature_s3 = -0.042735042735
+curvature_s2 = 0.0497265042268
+curvature_s1 = 0.0114259597806
+thickness_l2 = 11.0
+type = AchromatPair
+curvature_s6 = -0.00620925178516
+curvature_s5 = -0.0351493848858
+curvature_s4 = 0.0315556958031
+
+[47297]
+description = NIR Mounted Achromat Pair
+thickness_l1 = 4.0
+material_l4 = LakN22
+material_l5 = SFL6
+material_l1 = SFL6
+thickness_l5 = -57.01
+material_l3 = 
+material_l2 = LAKN22
+radius = 12.5
+thickness_l3 = 3.41
+thickness_l4 = 6.0
+curvature_s3 = -0.042735042735
+curvature_s2 = 0.0497265042268
+curvature_s1 = 0.0114259597806
+thickness_l2 = 11.0
+type = AchromatPair
+curvature_s6 = -0.00152320604408
+curvature_s5 = -0.0175407823189
+curvature_s4 = 0.0175407823189
+
+[47296]
+description = NIR Mounted Achromat Pair
+thickness_l1 = 4.0
+material_l4 = LakN22
+material_l5 = SFL6
+material_l1 = SFL6
+thickness_l5 = -42.9
+material_l3 = 
+material_l2 = LAKN22
+radius = 12.5
+thickness_l3 = 3.02
+thickness_l4 = 6.0
+curvature_s3 = -0.042735042735
+curvature_s2 = 0.0497265042268
+curvature_s1 = 0.0114259597806
+thickness_l2 = 11.0
+type = AchromatPair
+curvature_s6 = -0.00254965452181
+curvature_s5 = -0.02331002331
+curvature_s4 = 0.0227479526843
+
+[47293]
+description = NIR Mounted Achromat Pair
+thickness_l1 = 4.0
+material_l4 = LAKN22
+material_l5 = SFL6
+material_l1 = SFL6
+thickness_l5 = -20.11
+material_l3 = 
+material_l2 = LAKN22
+radius = 12.5
+thickness_l3 = 1.38
+thickness_l4 = 11.0
+curvature_s3 = -0.042735042735
+curvature_s2 = 0.0497265042268
+curvature_s1 = 0.0114259597806
+thickness_l2 = 11.0
+type = AchromatPair
+curvature_s6 = -0.0114259597806
+curvature_s5 = -0.0497265042268
+curvature_s4 = 0.042735042735
+
+[48028]
+description = UV PCX
+material = F_Silica
+thickness = 2.44
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0218102508179
+type = SphericalLens
+
+[47299]
+description = NIR Mounted Achromat Pair
+thickness_l1 = 4.0
+material_l4 = LakN22
+material_l5 = SFL6
+material_l1 = SFL6
+thickness_l5 = -42.9
+material_l3 = 
+material_l2 = LAKN22
+radius = 12.5
+thickness_l3 = 3.97
+thickness_l4 = 6.0
+curvature_s3 = -0.0315556958031
+curvature_s2 = 0.0351493848858
+curvature_s1 = 0.00620925178516
+thickness_l2 = 8.0
+type = AchromatPair
+curvature_s6 = -0.00254965452181
+curvature_s5 = -0.02331002331
+curvature_s4 = 0.0227479526843
+
+[47298]
+description = NIR Mounted Achromat Pair
+thickness_l1 = 4.0
+material_l4 = LakN22
+material_l5 = SFL6
+material_l1 = SFL6
+thickness_l5 = -28.45
+material_l3 = 
+material_l2 = LAKN22
+radius = 12.5
+thickness_l3 = 3.28
+thickness_l4 = 8.0
+curvature_s3 = -0.0315556958031
+curvature_s2 = 0.0351493848858
+curvature_s1 = 0.00620925178516
+thickness_l2 = 8.0
+type = AchromatPair
+curvature_s6 = -0.00620925178516
+curvature_s5 = -0.0351493848858
+curvature_s4 = 0.0315556958031
+
+[32849]
+description = PCX
+material = BK7
+thickness = 1.6
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0537345513165
+type = SphericalLens
+
+[08064]
+description = UV PCX
+material = F_Silica
+thickness = 5.37
+radius = 25.4
+curvature_s2 = 0.0
+curvature_s1 = 0.00727061218555
+type = SphericalLens
+
+[45154]
+description = PCX
+material = BK7
+thickness = 4.94
+radius = 25.0
+curvature_s2 = 0.0
+curvature_s1 = 0.00773933906044
+type = SphericalLens
+
+[45156]
+description = DCX
+material = BK7
+thickness = 2.74
+radius = 4.5
+curvature_s2 = -0.0364564345607
+curvature_s1 = 0.0364564345607
+type = SphericalLens
+
+[45529]
+description = Ball Lens
+material = BK7
+thickness = 1.5
+radius = 0.75
+curvature_s2 = -1.33333333333
+curvature_s1 = 1.33333333333
+type = SphericalLens
+
+[45528]
+description = Ball Lens
+material = BK7
+thickness = 1.0
+radius = 0.5
+curvature_s2 = -2.0
+curvature_s1 = 2.0
+type = SphericalLens
+
+[48339]
+description = PCV
+material = SF11
+thickness = 3.5
+radius = 6.0
+curvature_s2 = 0.0
+curvature_s1 = -0.070821529745
+type = SphericalLens
+
+[48338]
+description = PCV
+material = SF11
+thickness = 2.25
+radius = 4.5
+curvature_s2 = 0.0
+curvature_s1 = -0.106157112527
+type = SphericalLens
+
+[48337]
+description = PCV
+material = SF11
+thickness = 1.5
+radius = 3.0
+curvature_s2 = 0.0
+curvature_s1 = -0.14164305949
+type = SphericalLens
+
+[45158]
+description = DCX
+material = BK7
+thickness = 2.55
+radius = 4.5
+curvature_s2 = -0.0271960837639
+curvature_s1 = 0.0271960837639
+type = SphericalLens
+
+[43468]
+radius = 17.5
+type = SphericalMirror
+description = Spherical Mirror
+
+[45251]
+description = Hastings Triplet
+thickness_l1 = 1.1
+material_l1 = F2
+material_l3 = F2
+material_l2 = BK7
+radius = 6.25
+curvature_s2 = -0.136239782016
+curvature_s1 = 0.066889632107
+type = Triplet
+thickness_l3 = 1.1
+thickness_l2 = 7.98
+
+[45250]
+description = PCX
+material = BK7
+thickness = 9.0
+radius = 25.0
+curvature_s2 = 0.0
+curvature_s1 = 0.0110570544007
+type = SphericalLens
+
