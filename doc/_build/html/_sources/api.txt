@@ -1,0 +1,87 @@
+pyOpTools API
+=============
+.. module: pyoptools 
+
+The package :mod:`pyoptools` is divided in several modules. These
+modules separate the different functionalities:
+
+#. :mod:`pyoptools.raytrace`
+    This package contains the classes and functions used to perform the 
+    simulation of optical systems using 3D non-sequential raytracing 
+    algorithms.
+#. :mod:`pyoptools.wavefront`
+    This package contains the classes and functions used to perform the
+    simulation of wavefronts propagation.
+#. :mod:`pyoptools.misc`
+    This package contains miscellaneous classes and functions used by the
+    other packages, but that can not be classified in any of them. 
+
+
+
+ 
+:mod:`pyoptools.raytrace` API
+----------------------------------
+.. module:: pyoptools.raytrace
+
+
+The package :mod:`pyoptools.raytrace` is divided in several modules. These
+modules separate the different functionalities found.
+
+
+The defined submodules are: 
+
+.. toctree::
+    :maxdepth: 1
+   
+    calc.rst
+    comp_lib.rst
+    component.rst
+    config.rst
+    library.rst
+    mat_lib.rst
+    ray.rst
+    shape.rst
+    surface.rst
+    system.rst
+
+
+:mod:`pyoptools.wavefront` API
+------------------------------
+.. module:: pyoptools.wavefront
+
+The package :mod:`pyoptools.wavefront` is divided in several modules. These
+modules separate the different functionalities found.
+
+
+The defined submodules are: 
+
+.. toctree::
+    :maxdepth: 1
+    
+    field.rst
+    psurfrep.rst
+    zernike.rst
+    
+    
+
+:mod:`pyoptools.misc` API
+-----------------------------
+.. module:: pyoptools.misc
+
+The package :mod:`pyoptools.misc` is divided in several modules. These
+modules separate the different functionalities found.
+
+
+The defined submodules are: 
+
+.. toctree::
+    :maxdepth: 1
+    
+    cmisc.rst
+    definitions.rst
+    frft.rst
+    lsq.rst
+    pmisc.rst
+    plist.rst
+    Poly2D.rst
+    resources.rst
