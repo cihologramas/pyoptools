@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Project SYSTEM "Project-3.9.dtd">
+<!-- Project file for project wxRayTrace -->
+<!-- Saved: 2008-04-08, 16:23:18 -->
+<!-- Copyright (C) 2008 ,  -->
+<Project version="3.9">
+  <ProgLanguage mixed="0">Python</ProgLanguage>
+  <UIType>Other</UIType>
+  <Description></Description>
+  <Version>0.1</Version>
+  <Author></Author>
+  <Email></Email>
+  <Sources>
+    <Source>
+      <Dir>gui</Dir>
+      <Name>wxrayos.py</Name>
+    </Source>
+    <Source>
+      <Dir>gui</Dir>
+      <Name>__init__.py</Name>
+    </Source>
+    <Source>
+      <Dir>gui</Dir>
+      <Name>shell_frame.py</Name>
+    </Source>
+    <Source>
+      <Dir>gui</Dir>
+      <Name>RayTraMods.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>calc</Dir>
+      <Name>__init__.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>calc</Dir>
+      <Name>calc.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>component</Dir>
+      <Name>__init__.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>component</Dir>
+      <Name>component.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>comp_lib</Dir>
+      <Name>ccd.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>comp_lib</Dir>
+      <Name>prism.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>comp_lib</Dir>
+      <Name>spherical_lens.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>comp_lib</Dir>
+      <Name>cube.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>comp_lib</Dir>
+      <Name>__init__.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>comp_lib</Dir>
+      <Name>compound_lens.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>system</Dir>
+      <Name>__init__.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>system</Dir>
+      <Name>system.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>config</Dir>
+      <Name>config.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>mat_lib</Dir>
+      <Name>material.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>mat_lib</Dir>
+      <Name>__init__.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>surface</Dir>
+      <Name>surface.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>surface</Dir>
+      <Name>detector.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>surface</Dir>
+      <Name>spherical.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>surface</Dir>
+      <Name>cylindrical.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>surface</Dir>
+      <Name>taylor_poly.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>surface</Dir>
+      <Name>__init__.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>surface</Dir>
+      <Name>plane.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>surface</Dir>
+      <Name>stop.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>surface</Dir>
+      <Name>cylinder.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>misc</Dir>
+      <Name>misc.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>misc</Dir>
+      <Name>__init__.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>ray</Dir>
+      <Name>ray.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>ray</Dir>
+      <Name>ray_source.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Dir>ray</Dir>
+      <Name>__init__.py</Name>
+    </Source>
+    <Source>
+      <Dir>ray_trace</Dir>
+      <Name>__init__.py</Name>
+    </Source>
+    <Source>
+      <Dir>examples</Dir>
+      <Name>spherical_lens.py</Name>
+    </Source>
+    <Source>
+      <Dir>examples</Dir>
+      <Name>BeamSplitingCube.py</Name>
+    </Source>
+    <Source>
+      <Dir>examples</Dir>
+      <Name>right_angle_prism.py</Name>
+    </Source>
+    <Source>
+      <Dir>examples</Dir>
+      <Name>right_angle_prism_1.py</Name>
+    </Source>
+    <Source>
+      <Dir>examples</Dir>
+      <Name>doublet.py</Name>
+    </Source>
+    <Source>
+      <Dir>examples</Dir>
+      <Name>doublet_and_cube.py</Name>
+    </Source>
+    <Source>
+      <Dir>examples</Dir>
+      <Name>topografo_omar.py</Name>
+    </Source>
+    <Source>
+      <Dir>examples</Dir>
+      <Name>OB.py</Name>
+    </Source>
+    <Source>
+      <Dir>examples</Dir>
+      <Name>topografo.py</Name>
+    </Source>
+    <Source>
+      <Dir>examples</Dir>
+      <Name>cylinder_test.py</Name>
+    </Source>
+    <Source>
+      <Name>template.py</Name>
+    </Source>
+    <Source>
+      <Name>ez_setup.py</Name>
+    </Source>
+    <Source>
+      <Name>setup.py</Name>
+    </Source>
+    <Source>
+      <Name>wxRayTra.py</Name>
+    </Source>
+    <Source>
+      <Dir>gui</Dir>
+      <Name>plot_frame.py</Name>
+    </Source>
+    <Source>
+      <Dir>examples</Dir>
+      <Name>pupil_location.py</Name>
+    </Source>
+    <Source>
+      <Name>logger.ini</Name>
+    </Source>
+    <Source>
+      <Dir>gui</Dir>
+      <Name>logutils.py</Name>
+    </Source>
+    <Source>
+      <Dir>examples</Dir>
+      <Name>psf.py</Name>
+    </Source>
+    <Source>
+      <Dir>gui</Dir>
+      <Name>plotutils.py</Name>
+    </Source>
+    <Source>
+      <Dir>wavefront</Dir>
+      <Name>__init__.py</Name>
+    </Source>
+    <Source>
+      <Dir>wavefront</Dir>
+      <Name>zernike.py</Name>
+    </Source>
+  </Sources>
+  <Forms>
+  </Forms>
+  <Translations>
+  </Translations>
+  <Interfaces>
+  </Interfaces>
+  <Others>
+    <Other>
+      <Name>logger.ini</Name>
+    </Other>
+  </Others>
+  <Vcs>
+    <VcsType>Subversion</VcsType>
+    <VcsOptions>(dp0
+S'status'
+p1
+(lp2
+S''
+p3
+asS'log'
+p4
+(lp5
+g3
+asS'global'
+p6
+(lp7
+g3
+asS'update'
+p8
+(lp9
+g3
+asS'remove'
+p10
+(lp11
+g3
+asS'add'
+p12
+(lp13
+g3
+asS'tag'
+p14
+(lp15
+g3
+asS'export'
+p16
+(lp17
+g3
+asS'commit'
+p18
+(lp19
+g3
+asS'diff'
+p20
+(lp21
+g3
+asS'checkout'
+p22
+(lp23
+g3
+asS'history'
+p24
+(lp25
+g3
+as.</VcsOptions>
+    <VcsOtherData>(dp0
+S'standardLayout'
+p1
+I1
+s.</VcsOtherData>
+  </Vcs>
+  <FiletypeAssociations>
+    <FiletypeAssociation pattern="*.ui.h" type="FORMS" />
+    <FiletypeAssociation pattern="*.ui" type="FORMS" />
+    <FiletypeAssociation pattern="*.idl" type="INTERFACES" />
+    <FiletypeAssociation pattern="*.py" type="SOURCES" />
+    <FiletypeAssociation pattern="*.ptl" type="SOURCES" />
+  </FiletypeAssociations>
+</Project>
