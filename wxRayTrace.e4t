@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Tasks SYSTEM "Tasks-4.1.dtd">
+<!-- eric4 tasks file for project wxRayTrace -->
+<!-- Saved: 2009-03-12, 11:12:44 -->
+<Tasks version="4.1">
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: Needs to check the point number so the computer does not hung</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:33:51</Created>
+    <Resource>
+      <Filename>
+        <Dir>wavefront</Dir>
+        <Name>wavefront.py</Name>
+      </Filename>
+      <Linenumber>77</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: The intensities are not taken into account. This should be fixed</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:34:10</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>surface</Dir>
+        <Name>detector.py</Name>
+      </Filename>
+      <Linenumber>99</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: This can have problems if the ray is propagates in the X or Y direcction</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:34:23</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>surface</Dir>
+        <Name>spherical.py</Name>
+      </Filename>
+      <Linenumber>99</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: This function should be moved to a auxiliary functions module</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:34:50</Created>
+    <Resource>
+      <Filename>
+        <Dir>wavefront</Dir>
+        <Name>zernike.py</Name>
+      </Filename>
+      <Linenumber>25</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: Check if all modules use has strict traits</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:35:45</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>system</Dir>
+        <Name>system.py</Name>
+      </Filename>
+      <Linenumber>23</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: check if this can accept Material Instances</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:35:45</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>system</Dir>
+        <Name>system.py</Name>
+      </Filename>
+      <Linenumber>106</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: Need to check if this is working</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:35:45</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>system</Dir>
+        <Name>system.py</Name>
+      </Filename>
+      <Linenumber>115</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: Need to check if this is working</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:35:45</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>system</Dir>
+        <Name>system.py</Name>
+      </Filename>
+      <Linenumber>120</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: check if this method is nedded</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:35:45</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>system</Dir>
+        <Name>system.py</Name>
+      </Filename>
+      <Linenumber>216</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: design a method to delete components</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:35:45</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>system</Dir>
+        <Name>system.py</Name>
+      </Filename>
+      <Linenumber>217</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: Check if this method is working OK Need to check</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:35:45</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>system</Dir>
+        <Name>system.py</Name>
+      </Filename>
+      <Linenumber>300</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: All surfaces, elements and subsystems should know their</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:35:45</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>system</Dir>
+        <Name>system.py</Name>
+      </Filename>
+      <Linenumber>337</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: The hitlists of the surfaces inside a subsystem are not acurate</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:35:45</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>system</Dir>
+        <Name>system.py</Name>
+      </Filename>
+      <Linenumber>378</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: Need to find a solution when the two surfaces return more than one ray.</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:35:45</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>system</Dir>
+        <Name>system.py</Name>
+      </Filename>
+      <Linenumber>457</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: ri_0 and ri_1 must be equal. Needs to be checked</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:35:45</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>system</Dir>
+        <Name>system.py</Name>
+      </Filename>
+      <Linenumber>474</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: find an other solution to this problem</Summary>
+    <Description></Description>
+    <Created>2009-03-06, 17:36:40</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>surface</Dir>
+        <Name>taylor_poly.py</Name>
+      </Filename>
+      <Linenumber>201</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: This should not be done using the label</Summary>
+    <Description></Description>
+    <Created>2009-03-09, 14:54:02</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>calc</Dir>
+        <Name>calc.py</Name>
+      </Filename>
+      <Linenumber>585</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: This ccd should be infinitely big. Have to see how this can be done</Summary>
+    <Description></Description>
+    <Created>2009-03-09, 14:54:02</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>calc</Dir>
+        <Name>calc.py</Name>
+      </Filename>
+      <Linenumber>590</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: This should not be done using the label</Summary>
+    <Description></Description>
+    <Created>2009-03-09, 14:54:02</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>calc</Dir>
+        <Name>calc.py</Name>
+      </Filename>
+      <Linenumber>610</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: Include user files</Summary>
+    <Description></Description>
+    <Created>2009-03-09, 14:56:35</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>mat_lib</Dir>
+        <Name>material.py</Name>
+      </Filename>
+      <Linenumber>39</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: Need to check if the changes propagation is working, if not</Summary>
+    <Description></Description>
+    <Created>2009-03-12, 09:32:02</Created>
+    <Resource>
+      <Filename>
+        <Dir>ray_trace</Dir>
+        <Dir>component</Dir>
+        <Name>component.py</Name>
+      </Filename>
+      <Linenumber>208</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: This should be changed. It should import only the calculus libraries</Summary>
+    <Description></Description>
+    <Created>2009-03-12, 09:48:24</Created>
+    <Resource>
+      <Filename>
+        <Dir>examples</Dir>
+        <Name>aspherical.py</Name>
+      </Filename>
+      <Linenumber>4</Linenumber>
+    </Resource>
+  </Task>
+</Tasks>

@@ -1,0 +1,7 @@
+To be able to compile and use pyoptools, the following packages nedd to be added
+
+
+Cython >.12
+python-opengl
+python-dev
+python-tk -> this is because pylab. Need to check how to eliminate it
