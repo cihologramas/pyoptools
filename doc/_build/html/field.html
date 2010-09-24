@@ -1,0 +1,376 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyoptools.wavefront.field &mdash; pyOpTools v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyOpTools v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="pyOpTools API" href="api.html" />
+    <link rel="next" title="pyoptools.wavefront.psurfrep" href="psurfrep.html" />
+    <link rel="prev" title="pyoptools.raytrace.system" href="system.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="psurfrep.html" title="pyoptools.wavefront.psurfrep"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="system.html" title="pyoptools.raytrace.system"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">pyOpTools API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyoptools.wavefront.field">
+<h1><tt class="xref docutils literal"><span class="pre">pyoptools.wavefront.field</span></tt><a class="headerlink" href="#module-pyoptools.wavefront.field" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class-list">
+<h2><strong>Class List</strong><a class="headerlink" href="#class-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a title="pyoptools.wavefront.field.Field" class="reference internal" href="#pyoptools.wavefront.field.Field"><tt class="xref docutils literal"><span class="pre">Field</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="available-classes">
+<h2><strong>Available Classes</strong><a class="headerlink" href="#available-classes" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.wavefront.field.Field">
+<em class="property">class </em><tt class="descclassname">pyoptools.wavefront.field.</tt><tt class="descname">Field</tt><big>(</big><em>data</em>, <em>psize=(10e-3</em>, <em>10e-3)</em>, <em>l=442e-6</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to define an optical field distribution</p>
+<p>The sampled field uses an regular Cartesian sampling.</p>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.abs">
+<tt class="descname">abs</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.abs" title="Permalink to this definition">¶</a></dt>
+<dd>Returns an array containing the absolute value of the field</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.check_z">
+<tt class="descname">check_z</tt><big>(</big><em>self</em>, <em>n=1.</em>, <em>shape=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.check_z" title="Permalink to this definition">¶</a></dt>
+<dd>Given the field characteristics, return the tipical z&#8217;s that should
+be used in the different propagation algorithms.</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.conj">
+<tt class="descname">conj</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.conj" title="Permalink to this definition">¶</a></dt>
+<dd>Returns a conjugated field</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.intensity">
+<tt class="descname">intensity</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.intensity" title="Permalink to this definition">¶</a></dt>
+<dd>Returns an array containing the intensity of the field</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.propagate">
+<tt class="descname">propagate</tt><big>(</big><em>self</em>, <em>r</em>, <em>n=1.</em>, <em>method=&quot;auto&quot;</em>, <em>fix=False</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that calculates the free space propagation of an optical field.</p>
+<p>Input Values:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>r *</dt>
+<dd><p class="first last">Vector that goes from the source plane origin, to the destination
+plane origin. If r is not a vector but a floating point number, it
+assumes that the vector is (0,0,r).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>n *</dt>
+<dd><p class="first last">Media refraction index (Not implemented yet assume n=1)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>method *</dt>
+<dd><p class="first last">Propagation method
+&#8220;ae&#8221;   Angular espectrum propagation method
+&#8220;rsc&#8221;  Convolution with the Rayleigh Sommerfeld Kernel
+&#8220;rsi&#8221;  Propagate the field using the Rayleigh Sommerfeld integral
+&#8220;???&#8221;
+&#8220;auto&#8221; Automatically select the best propagation method given the
+field contitions.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>fix *</dt>
+<dd><p class="first last">If set to true, the field is resampled or resized, so the sampling
+conditions for the selected propagation method are met.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Returned Value</p>
+<p>Field instance containing the propagated optical field</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.propagate_ae">
+<tt class="descname">propagate_ae</tt><big>(</big><em>self</em>, <em>z</em>, <em>n</em>, <em>shape=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.propagate_ae" title="Permalink to this definition">¶</a></dt>
+<dd>Propagate the field a distance z using angular espectrum method.</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.propagate_ae_d">
+<tt class="descname">propagate_ae_d</tt><big>(</big><em>self</em>, <em>d</em>, <em>n</em>, <em>shape=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.propagate_ae_d" title="Permalink to this definition">¶</a></dt>
+<dd>Propagate the field a distance z using angular espectrum method.
+The observation plane is shifted by x,y units</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.propagate_fourier">
+<tt class="descname">propagate_fourier</tt><big>(</big><em>self</em>, <em>z</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.propagate_fourier" title="Permalink to this definition">¶</a></dt>
+<dd>Propagate the field using the fresnel approximation</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.propagate_fresnel">
+<tt class="descname">propagate_fresnel</tt><big>(</big><em>self</em>, <em>z</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.propagate_fresnel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.propagate_rs">
+<tt class="descname">propagate_rs</tt><big>(</big><em>self</em>, <em>z</em>, <em>n=1</em>, <em>shape=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.propagate_rs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that calculates the free space propagation of an optical field.</p>
+<p>This method calculates the optical propagation of a field, using 
+the Rayleigh Sommerfeld propagation kernel.
+Depending on the propagation distance, this method  selects between
+the angular spectrum method, and the Rayleigh Sommerfeld convolution method</p>
+<p>Input Values:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>z *</dt>
+<dd><p class="first last">Propagation distance.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>n *</dt>
+<dd><p class="first last">Media refraction index (Not implemented yet assume n=1)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>shape  *</dt>
+<dd><p class="first last">Tuple indicating the shape (number of pixels) of the returned field.
+If shape = None, the field size is preserved.
+The other parameters are kept.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Returned Value</p>
+<p>Field instance containing the propagated optical field</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.propagate_rsc">
+<tt class="descname">propagate_rsc</tt><big>(</big><em>self</em>, <em>z</em>, <em>n=1.</em>, <em>shape=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.propagate_rsc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Propagate the field a distance z making the convolution with the
+Rayleigh Sommerfeld kernel.</p>
+<p>To avoid noise, the kernel is calculated increasing the size of the matrix.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.propagate_rsc_d">
+<tt class="descname">propagate_rsc_d</tt><big>(</big><em>self</em>, <em>d=(0.</em>, <em>0.</em>, <em>0.)</em>, <em>n=1</em>, <em>shape=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.propagate_rsc_d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Propagate the field a distance z making the convolution with the
+Rayleigh Sommerfeld kernel.</p>
+<p>To avoid noise, the kernel is calculated increasing the size of the matrix.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.propagate_rsc_sc">
+<tt class="descname">propagate_rsc_sc</tt><big>(</big><em>self</em>, <em>z</em>, <em>scale=(1</em>, <em>1)</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.propagate_rsc_sc" title="Permalink to this definition">¶</a></dt>
+<dd>Propagate the field a distance z , scaling the output shape 
+by the values given in scale. The resolution remains the same.</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.propagate_rsi">
+<tt class="descname">propagate_rsi</tt><big>(</big><em>self</em>, <em>z</em>, <em>n</em>, <em>dfield=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.propagate_rsi" title="Permalink to this definition">¶</a></dt>
+<dd>Propagate the field a distance z, using the Rayleigh Sommerfeld integral.
+If dest is not given, the returned field has the same size and discretization
+of the propagated filed, else the Field class instance (dfield) is filled 
+with propagated values, keeping its size and discretization. The value of 
+the propagated field is returned.</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.propagate_rsi1">
+<tt class="descname">propagate_rsi1</tt><big>(</big><em>self</em>, <em>z</em>, <em>n</em>, <em>dfield=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.propagate_rsi1" title="Permalink to this definition">¶</a></dt>
+<dd>Propagate the field a distance z, using the Rayleigh Sommerfeld integral.
+If dest is not given, the returned field has the same size and discretization
+of the propagated filed, else the Field class instance (dfield) is filled 
+with propagated values, keeping its size and discretization. The value of 
+the propagated field is returned.</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.propagate_rsi_gpu">
+<tt class="descname">propagate_rsi_gpu</tt><big>(</big><em>self</em>, <em>z</em>, <em>n</em>, <em>dfield=None</em>, <em>offset=(0.</em>, <em>0.)</em>, <em>gpu=0</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.propagate_rsi_gpu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.rayrep">
+<tt class="descname">rayrep</tt><big>(</big><em>self</em>, <em>nx</em>, <em>ny</em>, <em>eps=1e-2</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.rayrep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to calculate the ray representation of the wavefront.</p>
+<p>nx  Number of samples to use in the x direction
+ny  Number of samples to use in the Y direction
+eps Allowed maximum value for lap a/ a (eikonal condition)</p>
+<dl class="docutils">
+<dt>Note: This ray representation has only information about the phase.</dt>
+<dd>the intensity, is not yet represented in the ray representation. 
+this needs to be solved.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.resample">
+<tt class="descname">resample</tt><big>(</big><em>self</em>, <em>samples</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.resample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a resampled optical field The size is not modified.</p>
+<ul>
+<li><dl class="first docutils">
+<dt>res *</dt>
+<dd><p class="first last">Tuple (rx,ry) indicating the new width and height of the optical
+field in pixels.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Note: In all resamples, the origin of the optical field is
+preserved (the origin is allways at the center)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.resize">
+<tt class="descname">resize</tt><big>(</big><em>self</em>, <em>samples</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a resized optical field. The resolution is not modified.</p>
+<ul>
+<li><dl class="first docutils">
+<dt>samples *</dt>
+<dd><p class="first last">Tuple (nx,ny) indicating the new number of samples of the
+optical field.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Note: In all resizes, the origin of the optical field is
+preserved (the origin is allways at the center)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.wavefront.field.Field.tilt">
+<tt class="descname">tilt</tt><big>(</big><em>self</em>, <em>r=(0.</em>, <em>0.</em>, <em>0.)</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.Field.tilt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate around the origin the field observation plane</p>
+<dl class="docutils">
+<dt>Idea Taken from: </dt>
+<dd>Free-space beam propagation between arbitrarily oriented planes based 
+on full diffraction theory: a fast Fourier transform approach.
+The interpolation algorithm suggested in the paper, does not work. This
+routine is based on a novel interpolation algorithm.</dd>
+<dt>r</dt>
+<dd>Tuple (rx,ry,rz) where rx is the rotation around the x axis, ry is
+the rotation around the y axis and rz is the rotation around the z axis 
+that must be issued to the object plane, to obtain the image plane.</dd>
+</dl>
+<p>The rotations are applied first to the z axis, and then to the y axis and finally to
+the x axis. 
+(need to verify this to check if this is consistent with wxRayTrace).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.wavefront.field</span></tt></a><ul>
+<li><a class="reference external" href="#class-list"><strong>Class List</strong></a></li>
+<li><a class="reference external" href="#available-classes"><strong>Available Classes</strong></a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="system.html"
+                                  title="previous chapter"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.system</span></tt></a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="psurfrep.html"
+                                  title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.wavefront.psurfrep</span></tt></a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/field.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="psurfrep.html" title="pyoptools.wavefront.psurfrep"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="system.html" title="pyoptools.raytrace.system"
+             >previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="api.html" >pyOpTools API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>

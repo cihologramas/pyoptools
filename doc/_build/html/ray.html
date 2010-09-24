@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyoptools.raytrace.ray &mdash; pyOpTools v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyOpTools v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="pyOpTools API" href="api.html" />
+    <link rel="next" title="pyoptools.raytrace.shape" href="shape.html" />
+    <link rel="prev" title="pyoptools.raytrace.mat_lib" href="mat_lib.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="shape.html" title="pyoptools.raytrace.shape"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mat_lib.html" title="pyoptools.raytrace.mat_lib"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">pyOpTools API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyoptools.raytrace.ray">
+<h1><tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.ray</span></tt><a class="headerlink" href="#module-pyoptools.raytrace.ray" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class-list">
+<h2><strong>Class List</strong><a class="headerlink" href="#class-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a title="pyoptools.raytrace.ray.Ray" class="reference internal" href="#pyoptools.raytrace.ray.Ray"><tt class="xref docutils literal"><span class="pre">Ray</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="function-list">
+<h2><strong>Function List</strong><a class="headerlink" href="#function-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a title="pyoptools.raytrace.ray.parallel_beam_c" class="reference internal" href="#pyoptools.raytrace.ray.parallel_beam_c"><tt class="xref docutils literal"><span class="pre">parallel_beam_c()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.ray.parallel_beam_p" class="reference internal" href="#pyoptools.raytrace.ray.parallel_beam_p"><tt class="xref docutils literal"><span class="pre">parallel_beam_p()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.ray.point_source_c" class="reference internal" href="#pyoptools.raytrace.ray.point_source_c"><tt class="xref docutils literal"><span class="pre">point_source_c()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.ray.point_source_p" class="reference internal" href="#pyoptools.raytrace.ray.point_source_p"><tt class="xref docutils literal"><span class="pre">point_source_p()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.ray.point_source_r" class="reference internal" href="#pyoptools.raytrace.ray.point_source_r"><tt class="xref docutils literal"><span class="pre">point_source_r()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="available-classes">
+<h2><strong>Available Classes</strong><a class="headerlink" href="#available-classes" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.ray.Ray">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.ray.</tt><tt class="descname">Ray</tt><big>(</big><em>pos=(0</em>, <em>0</em>, <em>0)</em>, <em>dir=(0</em>, <em>0</em>, <em>1)</em>, <em>double intensity=1.</em>, <em>double wavelength=.58929</em>, <em>n=None</em>, <em>label=&quot;&quot;</em>, <em>parent=None</em>, <em>double pop=0.</em>, <em>orig_surf=None</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to define a ray</p>
+<p><strong>ARGUMENTS</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>pos</td>
+<td>Tuple (x,y,z) containing the origin of the Ray</td>
+</tr>
+<tr><td>dir</td>
+<td>Tuple (x,y,z)  containing the direction vector of the Ray</td>
+</tr>
+<tr><td>intensity</td>
+<td>Floating point number representing the Intensity of the
+Ray.
+Warning: Check how can a physicaly correct deffinition
+can be made</td>
+</tr>
+<tr><td>wavelength</td>
+<td>Wavelenght of the ray in micrometers (.58929 by default)</td>
+</tr>
+<tr><td>n</td>
+<td>Refraction index of the point originating the ray.
+If the value is None, the ray was emitted from the media
+and its Refraction index is taken (not from inside a
+component)</td>
+</tr>
+<tr><td>label</td>
+<td>String used to follow the rays trough the system.</td>
+</tr>
+<tr><td>parent</td>
+<td>Ray where this ray comes from (used to follow ray
+trajectory).</td>
+</tr>
+<tr><td>childs</td>
+<td>List of rays originated by the interaction of this ray
+with an optical surface.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.ray.Ray.add_child">
+<tt class="descname">add_child</tt><big>(</big><em>self</em>, <em>cr</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray.add_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add childs to the current ray, and create the apropiate links</p>
+<dl class="docutils">
+<dt><em>cr</em></dt>
+<dd>Ray to include in the child list</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.ray.Ray.ch_coord_sys">
+<tt class="descname">ch_coord_sys</tt><big>(</big><em>self</em>, <em>np.ndarray no</em>, <em>np.ndarray ae</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray.ch_coord_sys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform the coordinate system of the Ray</p>
+<p>Parameters
+no     
+Tuple (X,Y,Z) containing the coordinates of the origin of the  new coordinate 
+system in the old coordinate system
+ae      
+Tuple (RX,RY,RZ) containing the rotation angles to be applied to the  old 
+coordinate system. The rotations are applied RZ first, then RY and last RX</p>
+<p>Note this has to be checked</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.ray.Ray.ch_coord_sys_inv">
+<tt class="descname">ch_coord_sys_inv</tt><big>(</big><em>self</em>, <em>no</em>, <em>ae</em>, <em>childs=False</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray.ch_coord_sys_inv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform the coordinate system of the Ray</p>
+<p>Parameters</p>
+<dl class="docutils">
+<dt><em>no</em></dt>
+<dd>Tuple (X,Y,Z) containing the coordinates of the origin of the
+old coordinate system in the new coordinate system</dd>
+<dt><em>ae</em></dt>
+<dd>Tuple (RX,RY,RZ) containing the rotation angles to be applied to
+the  old coordinate system. The rotations are applied RZ first,
+then RY and last RX</dd>
+<dt><em>childs</em></dt>
+<dd>Transform also the coordinate system of the childs. By default (False)
+don&#8217;t do it.</dd>
+</dl>
+<p>The rotation is made first, and then the traslation is made.
+Note, this has to be checked</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.ray.Ray.copy">
+<tt class="descname">copy</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray.copy" title="Permalink to this definition">¶</a></dt>
+<dd>Return a copy ray leaving the parent=None, and childs=[]</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.ray.Ray.get_final_rays">
+<tt class="descname">get_final_rays</tt><big>(</big><em>self</em>, <em>inc_zeros=True</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray.get_final_rays" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the final rays of the raytrace</p>
+<dl class="docutils">
+<dt><em>inc_zeros</em></dt>
+<dd>If inc_zeros == True, all the child rays are included.  
+If set to false, the rays with intensity==0 are not
+included</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.ray.Ray.optical_path">
+<tt class="descname">optical_path</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray.optical_path" title="Permalink to this definition">¶</a></dt>
+<dd>Return the optical path of the beam propagation from the origin of
+the origin ray, to the end of this ray (intersection with a surface)</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.ray.Ray.optical_path_parent">
+<tt class="descname">optical_path_parent</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray.optical_path_parent" title="Permalink to this definition">¶</a></dt>
+<dd>Return the optical path from the origin of the origin ray to the
+end of this ray parent (this ray origin)</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.ray.Ray.reverse">
+<tt class="descname">reverse</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray.reverse" title="Permalink to this definition">¶</a></dt>
+<dd>Return a copy ray leaving the parent=None, and childs=[], and
+inverting the ray direction.</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="available-functions">
+<h2><strong>Available Functions</strong><a class="headerlink" href="#available-functions" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.ray.parallel_beam_c">
+<tt class="descclassname">pyoptools.raytrace.ray.</tt><tt class="descname">parallel_beam_c</tt><big>(</big><em>origin=(0.</em>, <em>0.</em>, <em>0.)</em>, <em>direction=(0.</em>, <em>0.</em>, <em>0.)</em>, <em>size=(1.</em>, <em>1.)</em>, <em>num_rays=(10</em>, <em>10)</em>, <em>wavelength=0.58929</em>, <em>label=&quot;&quot;</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.parallel_beam_c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cartesian grid parallel beam</p>
+<p>This function creates a parallel beam, where the rays are organized in a 
+cartesian grid.</p>
+<p>Parameters:</p>
+<dl class="docutils">
+<dt><em>origin</em></dt>
+<dd>Tuple with the coordinates of the central ray origin</dd>
+<dt><em>direction</em></dt>
+<dd>Tuple with the rotation of the beam arround the XYZ axes.</dd>
+<dt><em>size</em></dt>
+<dd>Tuple with the beam&#8217;s width and the height.</dd>
+<dt><em>num_rays</em></dt>
+<dd>Tuple (nx,ny) containing the number of rays used to create the beam.</dd>
+<dt><em>label</em></dt>
+<dd>String used to identify the ray source</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.ray.parallel_beam_p">
+<tt class="descclassname">pyoptools.raytrace.ray.</tt><tt class="descname">parallel_beam_p</tt><big>(</big><em>origin=(0.</em>, <em>0.</em>, <em>0.)</em>, <em>direction=(0.</em>, <em>0.</em>, <em>0)</em>, <em>radius=0.5</em>, <em>num_rays=(5</em>, <em>10)</em>, <em>wavelength=0.58929</em>, <em>label=&quot;&quot;</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.parallel_beam_p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Polar grid parallel beam</p>
+<p>This function creates a parallel beam, where the rays are organized in a 
+polar grid.</p>
+<p>Parameters:</p>
+<dl class="docutils">
+<dt><em>origin</em></dt>
+<dd>Tuple with the coordinates of the central ray origin</dd>
+<dt><em>direction</em></dt>
+<dd>Tuple with the rotation of the beam arround the XYZ axes.</dd>
+<dt><em>r</em></dt>
+<dd>Beam radious</dd>
+<dt><em>num_rays</em></dt>
+<dd>Tuple (nr,na) containing the number of rays used to create the beam.</dd>
+<dt><em>label</em></dt>
+<dd>String used to identify the ray source</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.ray.point_source_c">
+<tt class="descclassname">pyoptools.raytrace.ray.</tt><tt class="descname">point_source_c</tt><big>(</big><em>origin=(0.</em>, <em>0.</em>, <em>0.)</em>, <em>direction=(0.</em>, <em>0.</em>, <em>0)</em>, <em>span=(pi/8</em>, <em>pi/8</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.point_source_c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Point source, with a cartesian beam distribution</p>
+<p>This function creates a point source, where the rays are organized in a 
+cartesian grid.</p>
+<p>Parameters:</p>
+<dl class="docutils">
+<dt><em>origin</em></dt>
+<dd>Tuple with the coordinates of the central ray origin</dd>
+<dt><em>direction</em></dt>
+<dd>Tuple with the rotation of the beam arround the XYZ axes.</dd>
+<dt><em>span</em></dt>
+<dd>Tuple angular size of the ray pencil.</dd>
+<dt><em>num_rays</em></dt>
+<dd>Tuple (nx,ny) containing the number of rays used to create the beam.</dd>
+<dt><em>label</em></dt>
+<dd>String used to identify the ray source</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.ray.point_source_p">
+<tt class="descclassname">pyoptools.raytrace.ray.</tt><tt class="descname">point_source_p</tt><big>(</big><em>origin=(0.</em>, <em>0.</em>, <em>0.)</em>, <em>direction=(0.</em>, <em>0.</em>, <em>0)</em>, <em>span=pi/8</em>, <em>num_rays=(10</em>, <em>10)</em>, <em>wavelength=0.58929</em>, <em>label=&quot;&quot;</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.point_source_p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Point source, with a polar beam distribution</p>
+<p>This function creates a point source, where the rays are organized in a 
+polar grid.</p>
+<p>Parameters:</p>
+<dl class="docutils">
+<dt><em>origin</em></dt>
+<dd>Tuple with the coordinates of the central ray origin</dd>
+<dt><em>direction</em></dt>
+<dd>Tuple with the rotation of the beam arround the XYZ axes.</dd>
+<dt><em>span</em></dt>
+<dd>Tuple angular size of the ray pencil.</dd>
+<dt><em>num_rays</em></dt>
+<dd>Tuple (nr,na) containing the number of rays used to create the beam</dd>
+<dt><em>label</em></dt>
+<dd>String used to identify the ray source</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.ray.point_source_r">
+<tt class="descclassname">pyoptools.raytrace.ray.</tt><tt class="descname">point_source_r</tt><big>(</big><em>origin=(0.</em>, <em>0.</em>, <em>0.)</em>, <em>direction=(0.</em>, <em>0.</em>, <em>0)</em>, <em>span=pi/8</em>, <em>num_rays=100</em>, <em>wavelength=0.58929</em>, <em>label=&quot;&quot;</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.point_source_r" title="Permalink to this definition">¶</a></dt>
+<dd><p>Point source, with a ranrom beam distribution</p>
+<p>This function creates a point source, where the rays are organized in a 
+random grid.</p>
+<p>Parameters:</p>
+<dl class="docutils">
+<dt><em>origin</em></dt>
+<dd>Tuple with the coordinates of the central ray origin</dd>
+<dt><em>direction</em></dt>
+<dd>Tuple with the rotation of the beam arround the XYZ axes.</dd>
+<dt><em>span</em></dt>
+<dd>Tuple angular size of the ray pencil.</dd>
+<dt><em>num_rays</em></dt>
+<dd>Number of rays used to create the beam</dd>
+<dt><em>label</em></dt>
+<dd>String used to identify the ray source</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.ray</span></tt></a><ul>
+<li><a class="reference external" href="#class-list"><strong>Class List</strong></a></li>
+<li><a class="reference external" href="#function-list"><strong>Function List</strong></a></li>
+<li><a class="reference external" href="#available-classes"><strong>Available Classes</strong></a></li>
+<li><a class="reference external" href="#available-functions"><strong>Available Functions</strong></a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="mat_lib.html"
+                                  title="previous chapter"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.mat_lib</span></tt></a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="shape.html"
+                                  title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.shape</span></tt></a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/ray.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="shape.html" title="pyoptools.raytrace.shape"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mat_lib.html" title="pyoptools.raytrace.mat_lib"
+             >previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="api.html" >pyOpTools API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>

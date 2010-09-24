@@ -1,0 +1,5 @@
+:mod:`pyoptools.raytrace.mat_lib`
+=================================
+
+.. automodule:: pyoptools.raytrace.mat_lib
+    :members:
