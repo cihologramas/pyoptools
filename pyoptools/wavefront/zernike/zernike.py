@@ -3,9 +3,11 @@ Module defining the Zernike polynomials
 """
 
 import types
-from scipy import factorial, arange
-from numpy import mgrid, sqrt, arccos, where, zeros,transpose, pi, cos, sin, ones
+from scipy import factorial, arange, comb as binomial
+from numpy import mgrid, sqrt, arccos, where, zeros,transpose, pi, cos, sin, ones, array,\
+                where
 from numpy.ma import masked_array
+from pyoptools.misc.Poly2D import *
 
 def polar_array(Rmax=1.,DS=0.1, pr=1.):
     """
@@ -146,37 +148,125 @@ def zernike(n,m,rho,theta):
 ##    
 ##
 ##
-##def ZK2TY(n,m):
-##    """
-##    Retorna los coeficientes de Taylor del P. de Zernike dado 
-##    """
-##    TC=N.zeros((n+1,n+1))
-##    mm=(n-m)/2
-##    am=abs(m)
-##    if m>0:
-##        B=mm
-##        if n%2==0:
-##            p=1
-##            q=(m/2)-1
-##        else:
-##            p=1
-##            q=(m-1)/2
-##    else:
-##        B=n-mm
-##        if n%2==0:
-##            p=0
-##            q=-(m/2)
-##        else:
-##            p=0
-##            q=-(m+1)/2
-##    for i in range(q+1):
-##        for j in range(B+1):
-##            for k in range(B-j+1):
-##                c=pow(-1,i+j)*binomial(am,2*i+p)*binomial(B-j,k)*int(scipy.factorial(n-j))/(int(scipy.factorial(j))*int(scipy.factorial(mm-j))*int(scipy.factorial(n-mm-j)))
-##                x_pow=2*(i+k)+p
-##                y_pow=n-2*(i+j+k)-p
-##                TC[y_pow,x_pow]=TC[y_pow,x_pow]+c
-##    return TC
+def zernike2taylor(n,m):
+    """
+    Returns the 2D taylor polynomial, that represents the given zernike
+    polynomial
+    
+    Arguments
+    
+        n,m     n and m orders of the Zernike polynomials
+    
+    Return Value
+    
+        poly2d instance containing the polynomial
+    """
+    TC=zeros((n+1,n+1))
+    mm=(n-m)/2
+    am=abs(m)
+    if m>0:
+        B=mm
+        if n%2==0:
+            p=1
+            q=(m/2)-1
+        else:
+            p=1
+            q=(m-1)/2
+    else:
+        B=n-mm
+        if n%2==0:
+            p=0
+            q=-(m/2)
+        else:
+            p=0
+            q=-(m+1)/2
+    for i in range(q+1):
+        for j in range(B+1):
+            for k in range(B-j+1):
+                c=pow(-1,i+j)*binomial(am,2*i+p)*binomial(B-j,k)*int(factorial(n-j))/(int(factorial(j))*int(factorial(mm-j))*int(factorial(n-mm-j)))
+                x_pow=2*(i+k)+p
+                y_pow=n-2*(i+j+k)-p
+                TC[y_pow,x_pow]=TC[y_pow,x_pow]+c
+            
+    n=TC.shape[0]-1
+    cohef=[0.]*ord2i(n)
+    for i in range(ord2i(n)):
+        px,py=i2pxpy(i)
+        cohef[i]=TC[px,py]
+    return poly2d(cohef)
+
+def i2nm(i):
+    """
+    Return the n and m orders of the i'th zernike polynomial
+       
+    index      0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
+    n-order    0  1  1  2  2  2  3  3  3  3  4  4  4  4  4
+    m-order    0 -1  1 -2  0  2 -3 -1  1  3 -4 -2  0  2  4  
+    """
+    # Calculate the polynomial order
+    #Order      0   1   2   3   4
+    #initindex  0   1   3   6   10
+    ia=array(i)
+    n=(1+(sqrt(8*(ia)+1)-3)/2).astype(int)
+    ni=n*(n+1)/2
+    m=-n+2*(i-ni)
+    return n, m
+    
+class ZernikeXY(object):
+    def __init__(self,cohef=[0]):
+        '''
+        Class used to evaluate the zernike polinomial with coheficients 
+        given by cohef, in Cartesian coordinates.
+        
+        
+        This class uses an internal Taylor representation of the polynomial
+        for all the calculations
+        '''
+        
+        
+        self.cohef=cohef
+    
+    
+    def __set_cohef__(self,cohef):
+        
+        # Save the coheficient list
+        self.__cohef__=cohef
+        
+        #Generate the taylor representation of the zernike polinomial
+        
+        p=poly2d([0])
+        
+        for i,c in enumerate(cohef):
+            n,m=i2nm(i)
+            p=p+c*zernike2taylor(n,m)
+        
+        self.poly=p
+
+    def __get_cohef__(self):
+        return self.__cohef__
+    cohef = property(__get_cohef__, __set_cohef__, None, "Coefficient list of the zernike polynomial")
+
+    def eval(self):
+        pass
+        
+    def evalm(self,x,y,mask=True):
+        '''
+        Evaluate the zernike polynomial 
+        
+        If mask is True, the polynomial gets only evaluated at the pupil
+        r<1., and a masked array is returned.
+        '''
+        
+        if mask:
+            r=x**2+y**2
+            m=where(r<1,False,True)
+            retval=masked_array(self.poly.meval(x,y),m)
+        else:
+            retval=self.poly.meval(x,y)
+        return retval
+            
+        
+        
 ##
 ##
 ##def Eval_Poly(M,x,y):

@@ -52,12 +52,6 @@ def spherical_wave(o=(0,0,-100),l=.633,size=(10000,10000),samples=(256,256),a=1.
     samples Tuple (nx,ny) indicating the number of samples to be used when
             creating the plane wave
     a       Amplitude of the plane wave
-    ph      Phase of the plane wave at the origin (center of the sampling)
-    size    Tuple (sx,sy) indicating the physical size of the window used
-            where the field is defined. It must have the same units as l
-    samples Tuple (nx,ny) indicating the number of samples to be used when
-            creating the plane wave
-    a       Amplitude of the plane wave
     ph      Phase of the spherical wave at the origin (center of the sampling)
     ======= ============================================================
     
@@ -83,6 +77,8 @@ def spherical_wave(o=(0,0,-100),l=.633,size=(10000,10000),samples=(256,256),a=1.
     f=a*exp(2.j*pi*sp/l+ ph)
     
     return Field(data=f, psize=(dx, dy), l=l)
+    
+
     
     
     
