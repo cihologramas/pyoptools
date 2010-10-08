@@ -5,4 +5,7 @@ from zernike import *
 
 __all__=["polar_array",
          "rnm",
-         "zernike"]
+         "zernike",
+         "zernike2taylor",
+         "i2nm",
+         "ZernikeXY"]

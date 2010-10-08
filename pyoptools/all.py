@@ -61,6 +61,7 @@ from pyoptools.raytrace.system import *
 from wavefront.field import *
 from wavefront.calc import *
 from wavefront.psurfrep import *
+from wavefront.zernike import *
 #~ 
 #~ 
 #Import graphic packages This should be imported somewhere else
