@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyoptools.raytrace.component &mdash; pyOpTools v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyOpTools v0.0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyoptools.raytrace.component">
+<h1><tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.component</span></tt><a class="headerlink" href="#module-pyoptools.raytrace.component" title="Permalink to this headline">¶</a></h1>
+<p>Module containing the component Class definition</p>
+<div class="section" id="class-list">
+<h2><strong>Class List</strong><a class="headerlink" href="#class-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a title="pyoptools.raytrace.component.Component" class="reference internal" href="#pyoptools.raytrace.component.Component"><tt class="xref docutils literal"><span class="pre">Component</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="available-classes">
+<h2><strong>Available Classes</strong><a class="headerlink" href="#available-classes" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.component.Component">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.component.</tt><tt class="descname">Component</tt><big>(</big><em>surflist=None</em>, <em>material=1.</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class used to define an optical component</p>
+<p>To create a component the the user must provide a list containing 
+the surfaces bounding the component, the vertex coordinates of each 
+surface, and the rotation angles describing its orientation. It must 
+also provide information about the material used to build the component.</p>
+<p>The material information of the component is given in the &#8220;material&#8221; 
+attribute. This information can be a <strong>Material</strong> class instance (some 
+default materials are defined in the <strong>mat_lib module</strong>), or a 
+refraction index for materials with constant refraction index.</p>
+<p><strong>ARGUMENTS:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>surflist</td>
+<td>A list of tuples of the form <em>(surface, (PosX,PosY,PosZ),
+(RotX,RotY,RotZ))</em> where surface is an instance of the
+:class:surface class, <em>PosX,PosY,PosZ</em> are the surface&#8217;s
+vertex coordinates, and <em>RotX,RotY,RotZ</em> are the rotation
+angles of the surface around the X , Y , and Z axes, in
+radians. The rotation about the Z axis if applied first,
+then the rotation about the Y axis, and finally the
+rotation about the X axis.</td>
+</tr>
+<tr><td>material</td>
+<td>Instance of the class Material with the material
+definition, or a floating point number to indicate a
+constant refraction index material</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.clear">
+<tt class="descname">clear</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.distance">
+<tt class="descname">distance</tt><big>(</big><em>self</em>, <em>Ray ri_</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distance length from a ray origin to a component, following the ray path.</p>
+<p>Method that calculates the distance traveled by a ray from its origin to
+the next surface of the component. It returns the phisical distance, not
+the optical distance</p>
+<dl class="docutils">
+<dt><em>Return value</em></dt>
+<dd>A tuple with the distance, the point of intersection using the
+coordinate system of the surface, and a pointer to the surface
+that is closest to the ray (distance,point of intersection, surface)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.get_surf_paths">
+<tt class="descname">get_surf_paths</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.get_surf_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that returns a list that contains the path for each surface.</p>
+<p>A path here is a list containing the keys needed to read each surface.</p>
+<p>This method is an auxiliary method so this works when called from a System</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.items">
+<tt class="descname">items</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.iter">
+<tt class="descname">iter</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.iter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.iteritems">
+<tt class="descname">iteritems</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.iteritems" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.iterkeys">
+<tt class="descname">iterkeys</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.iterkeys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.itervalues">
+<tt class="descname">itervalues</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.itervalues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.keys">
+<tt class="descname">keys</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.n">
+<tt class="descname">n</tt><big>(</big><em>self</em>, <em>wavelength=0.58929</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.n" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refraction index of the component at the specified wavelenght</p>
+<p>The wavelength should be given in um. If the wavelength is not given, it
+is assumed wavelength=0.58929 um</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.pop">
+<tt class="descname">pop</tt><big>(</big><em>self</em>, <em>*argv</em>, <em>**argkw</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.popitem">
+<tt class="descname">popitem</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.popitem" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.propagate">
+<tt class="descname">propagate</tt><big>(</big><em>self</em>, <em>Ray ri</em>, <em>n_m</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the next ray in the propagation</p>
+<p>Taking into account the interaction (refraction, reflection, ...)
+at the Component surfaces, return a list containing the resulting rays.
+n_m is the refraction index of the media surrounding the component.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.reset">
+<tt class="descname">reset</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the optical component</p>
+<p>Method that reset the optical surfaces that compose the Component. 
+For example the detector surfaces should be reseted before repeating the
+ray trace to erase the hit lists. Normally this method should not be 
+used directly. It is called when the reset method of the sistem class is
+called</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.setdefault">
+<tt class="descname">setdefault</tt><big>(</big><em>self</em>, <em>*argv</em>, <em>**argkw</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.setdefault" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.surf_changed">
+<tt class="descname">surf_changed</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.surf_changed" title="Permalink to this definition">¶</a></dt>
+<dd>Increases changes, to indicate that any of the surfaces used to build 
+the optical component was modified</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.update">
+<tt class="descname">update</tt><big>(</big><em>self</em>, <em>*argv</em>, <em>**argkw</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.values">
+<tt class="descname">values</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.viewitems">
+<tt class="descname">viewitems</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.viewitems" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.viewkeys">
+<tt class="descname">viewkeys</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.viewkeys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.component.Component.viewvalues">
+<tt class="descname">viewvalues</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.component.Component.viewvalues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.component</span></tt></a><ul>
+<li><a class="reference external" href="#class-list"><strong>Class List</strong></a></li>
+<li><a class="reference external" href="#available-classes"><strong>Available Classes</strong></a></li>
+</ul>
+</li>
+</ul>
+
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/pyoptools_raytrace_component.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>
