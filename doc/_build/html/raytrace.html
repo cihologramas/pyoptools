@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>A simple raytracing simulations using pyoptools &mdash; pyOpTools v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyOpTools v0.0.1 documentation" href="index.html" />
+    <link rel="up" title="pyOpTools tutorials" href="tutorials.html" />
+    <link rel="next" title="pyOpTools API" href="api.html" />
+    <link rel="prev" title="pyOpTools tutorials" href="tutorials.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="pyOpTools API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorials.html" title="pyOpTools tutorials"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="tutorials.html" accesskey="U">pyOpTools tutorials</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="a-simple-raytracing-simulations-using-pyoptools">
+<h1>A simple raytracing simulations using pyoptools<a class="headerlink" href="#a-simple-raytracing-simulations-using-pyoptools" title="Permalink to this headline">¶</a></h1>
+<p>A typical raytracing simulation using the <a title="" class="reference external" href="api.html#module-pyoptools.raytrace"><tt class="xref docutils literal"><span class="pre">pyoptools.raytrace</span></tt></a> is
+divided in the following steps:</p>
+<ol class="arabic simple">
+<li>Define an optical system</li>
+<li>Define the rays to propagate</li>
+<li>Introduce the rays in the system</li>
+<li>Perform the propagation</li>
+<li>Retreive information about the propagation</li>
+<li>Display results</li>
+</ol>
+<p>For a simple example, let&#8217;s assume we want to simulate the propagation
+of a ray bundle through an spherical lens. For this case, an ipython
+console will be used to perform the simulation:</p>
+<div class="highlight-python"><pre>$ ipython -pylab</pre>
+</div>
+<p>After the ipython console has started, it is needed to import the
+<tt class="xref docutils literal"><span class="pre">pyoptools</span></tt> module. This will import all the classes and functions
+defined in all submodules:</p>
+<div class="highlight-python"><pre>In [1]: from pyoptools import *</pre>
+</div>
+<p>Now it is possible to begin the definition of the surfaces that will be
+used to create the lens:</p>
+<div class="highlight-python"><pre>In [2]: S1=Spherical(curvature=1/100., shape=Circular(radius=20.))
+
+In [3]: S2=Spherical(curvature=1/200., shape=Circular(radius=20.))</pre>
+</div>
+<p>The class <tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.surface.Spherical</span></tt> receive in its constructor
+2 arguments:</p>
+<blockquote>
+<ul class="simple">
+<li>The first defines the curvature of the surface</li>
+<li>The second defines the shape of the surface. In this case, both
+surfaces are limited by a circular aperture with a  <cite>radius=20</cite>. Diferent
+shapes can be used. The predefined shapes can be found in
+<tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.shape</span></tt>.</li>
+</ul>
+</blockquote>
+<p>Using this 2 surfaces it is possible to define and simulate our system,
+but it might be problems if the rays go into or out from the lens through
+the edges, so it is better to define an edge surface:</p>
+<div class="highlight-python"><pre>In [4]: S3=Cylinder(radius=20,length=6.997)</pre>
+</div>
+<p>Now with all the required surfaces, we can assemble the lens:</p>
+<div class="highlight-python"><pre>In [5]: L1=Component(surflist=[(S1, (0, 0, -5), (0, 0, 0)), (S2, (0, 0, 5), (0, pi, 0)), (S3,(0,0,.509),(0,0,0))], material=schott["BK7"])</pre>
+</div>
+<p>The class <tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.component.Component</span></tt> receive in its
+constructor 2 arguments:</p>
+<p>The first argument <cite>surflist</cite>, gets a list of tuples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">surflist</span><span class="o">=</span><span class="p">[(</span><span class="n">S1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+          <span class="p">(</span><span class="n">S2</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+          <span class="p">(</span><span class="n">S3</span><span class="p">,(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">.</span><span class="mi">509</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))]</span>
+</pre></div>
+</div>
+<p>Each tuple contains 3 objects. The first object is the surface to use,
+the second is a tuple (or list or numpy vector) containing the
+coordinates of the surface&#8217;s vertex in the component optical system, and
+the third is a tuple containing 3 rotation angles to  be used to orientate
+the surface</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">????????????????????</p>
+</div>
+<p>The second argument <cite>material</cite> receive information about the material
+used to construct the lens. It can be a material defined in the
+<tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.mat_lib</span></tt>, a custom defined
+<tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.material.Material</span></tt> instance, or a floating point
+number if the refraction index is constant for all wavelengths.</p>
+<p>There are some predefined components, so there is no need to build all the
+components from surfaces. Check the module <tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.comp_lib</span></tt>
+for a list of predefined components.</p>
+<p>To be able top see some result, we will include one of this predefined components,
+that will act as a detector in our system:</p>
+<div class="highlight-python"><pre>In [6]: ccd=CCD(size=(10,10), transparent=False)</pre>
+</div>
+<p>This line will define an opaque ccd-like detector, with a 10 by 10 size.</p>
+<p>Now it is time to build the system. The system that will be created, has
+a lens located in the coordinate <tt class="docutils literal"><span class="pre">(0,20,0)</span></tt>, and the ccd detector located
+in <tt class="docutils literal"><span class="pre">(0,150,0)</span></tt>. Neither the ccd or the lens, will be rotated. By default,
+all surfaces in pyoptools, are defined as having their optical axis aligned
+to the <tt class="docutils literal"><span class="pre">Z</span></tt> axis, so the rotation tuple in this case is <tt class="docutils literal"><span class="pre">(0,0,0)</span></tt> for
+both elements. This information is given in the <tt class="docutils literal"><span class="pre">complist</span></tt> argument:</p>
+<div class="highlight-python"><pre>In [7]: S=System(complist=[(L1, (0, 0, 20), (0, 0, 0)),(ccd, (0, 0, 150), (0, 0, 0))], n=1)</pre>
+</div>
+<p>The <cite>n=1</cite> argument, indicates that our system is surrounded by a media
+having a refraction index of 1 (vacuum).</p>
+<p>Now we need to define a list containing the rays that will be propagated.
+This can be done defining instances of the <tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.ray.Ray</span></tt>
+and appending them to a list, or using some predefined ray sources, that
+are available in the module <tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.ray</span></tt>.</p>
+<p>For this example, a list containing 5 rays will be created:</p>
+<div class="highlight-python"><pre>In [8]: R=[Ray(pos=(0, 0, 0), dir=(0, 0, 1)), Ray(pos=(10, 0, 0), dir=(0, 0, 1)), Ray(pos=(-10, 0, 0), dir=(0, 0, 1)),Ray(pos=(0, 10, 0), dir=(0, 0, 1)), Ray(pos=(0, -10, 0), dir=(0, 0, 1)),]</pre>
+</div>
+<p>now the rays are going to be added to the system, and propagated:</p>
+<div class="highlight-python"><pre>In [9]: S.ray_add(R)
+
+In [10]: S.propagate()</pre>
+</div>
+<p>Finally, a 3D model of the system and the rays can be plotted::
+diagram in the CCD will be plotted:</p>
+<div class="highlight-python"><pre>In[11]: glPlotFrame(S)</pre>
+</div>
+<img alt="_images/sph1.png" src="_images/sph1.png" />
+<p>and and a spot can be obtained:</p>
+<div class="highlight-python"><pre>In[12]: spot_diagram(ccd)</pre>
+</div>
+<img alt="_images/spot1.png" src="_images/spot1.png" />
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="tutorials.html"
+                                  title="previous chapter">pyOpTools tutorials</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="api.html"
+                                  title="next chapter">pyOpTools API</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/raytrace.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="pyOpTools API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorials.html" title="pyOpTools tutorials"
+             >previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li>
+          <li><a href="tutorials.html" >pyOpTools tutorials</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>
