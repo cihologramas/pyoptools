@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyoptools.misc.Poly2D &mdash; pyOpTools v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyOpTools v0.0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyoptools.misc.Poly2D">
+<h1><tt class="xref docutils literal"><span class="pre">pyoptools.misc.Poly2D</span></tt><a class="headerlink" href="#module-pyoptools.misc.Poly2D" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class-list">
+<h2><strong>Class List</strong><a class="headerlink" href="#class-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a title="pyoptools.misc.Poly2D.poly2d" class="reference internal" href="#pyoptools.misc.Poly2D.poly2d"><tt class="xref docutils literal"><span class="pre">poly2d</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="available-classes">
+<h2><strong>Available Classes</strong><a class="headerlink" href="#available-classes" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.misc.Poly2D.poly2d">
+<em class="property">class </em><tt class="descclassname">pyoptools.misc.Poly2D.</tt><tt class="descname">poly2d</tt><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to define a 2D polynomial
+.. math::
+z=c0+
+c1*x+c2*y+
+c3*x^2+c4*x*y+c5*y^2+
+c6*x^3+c7*x^2*y+c8*x*y^2+c9*y^3+...</p>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.misc.Poly2D.poly2d.dxdy">
+<tt class="descname">dxdy</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.dxdy" title="Permalink to this definition">¶</a></dt>
+<dd><p>poly2d.dxdy(self)</p>
+<p>Function that calculates the derivative with respect to <tt class="docutils literal"><span class="pre">X</span></tt> and <tt class="docutils literal"><span class="pre">Y</span></tt> of a
+given polynomial represented as a matrix.</p>
+<p><strong>Return Value</strong></p>
+<blockquote>
+<dl class="docutils">
+<dt>(dx,dy) </dt>
+<dd>Tuple containing the Poly2D representing de derivative with 
+respect to <tt class="docutils literal"><span class="pre">X</span></tt>, and the Poly2D containing the derivative with 
+respect to <tt class="docutils literal"><span class="pre">Y</span></tt></dd>
+</dl>
+</blockquote>
+<p>Note: this method gets cached the first time it is called. If you modify
+the cohef attribute, the cache does not get updated</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.misc.Poly2D.poly2d.eval">
+<tt class="descname">eval</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>poly2d.eval(self, x, y)</p>
+<p>Evaluate the polynomial at x,y</p>
+<p>This is the general method written in numpy. In this method x and y
+can have any shape (number, vectors, matrices, etc).
+Because of its generality, this method is not the fastest.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd><table border="1" class="first last docutils">
+<colgroup>
+<col width="2%" />
+<col width="98%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>x</td>
+<td>Number, vector or matrix containing the values of x where
+the polynomial is goint to be evaluated.</td>
+</tr>
+<tr><td>y</td>
+<td>Number, vector or matrix containing the values of y where
+the polynomial is goint to be evaluated.</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<p>Return Value:</p>
+<blockquote>
+This method returns the polynomial evaluated Z=P(X,Y). Z will 
+have the same shape as X and Y</blockquote>
+<p>In order to increase speed, use peval to evaluate for a single point,
+or meval to evaluate for 2D matrices</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.misc.Poly2D.poly2d.eval_2">
+<tt class="descname">eval_2</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em>, <em>key</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.eval_2" title="Permalink to this definition">¶</a></dt>
+<dd>poly2d.eval_2(self, x, y, key)</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.misc.Poly2D.poly2d.gpu_eval">
+<tt class="descname">gpu_eval</tt><big>(</big><em>self</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=1</em><span class="optional">]</span>, <em>x</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=1</em><span class="optional">]</span>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.gpu_eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>poly2d.gpu_eval(self, ndarray x, ndarray y)</p>
+<p>Evaluate the polynomial using the GPU, x and y are vectors</p>
+<p>This method is similar to vveval, but using the GPU</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.misc.Poly2D.poly2d.gpu_eval1">
+<tt class="descname">gpu_eval1</tt><big>(</big><em>self</em>, <em>samples</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.gpu_eval1" title="Permalink to this definition">¶</a></dt>
+<dd>poly2d.gpu_eval1(self, samples)
+Evaluate the polynomial between -1 and 1 using the gpu</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.misc.Poly2D.poly2d.meval">
+<tt class="descname">meval</tt><big>(</big><em>self</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=2</em><span class="optional">]</span>, <em>x</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=2</em><span class="optional">]</span>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.meval" title="Permalink to this definition">¶</a></dt>
+<dd><p>poly2d.meval(self, ndarray x, ndarray y)</p>
+<p>Evaluate the polynomial at for the values given in the 2D matrices
+x, y.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd><table border="1" class="first last docutils">
+<colgroup>
+<col width="2%" />
+<col width="98%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>x</td>
+<td>2D matrix the values of x where the polynomial is going to
+be evaluated.</td>
+</tr>
+<tr><td>y</td>
+<td>2D matrix the values of y where the polynomial is going to
+be evaluated.</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<p>Return Value:</p>
+<blockquote>
+This method returns the polynomial evaluated Z=P(X,Y). Z will 
+have the same shape as x and y</blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.misc.Poly2D.poly2d.mevalr">
+<tt class="descname">mevalr</tt><big>(</big><em>self</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=2</em><span class="optional">]</span>, <em>x</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=2</em><span class="optional">]</span>, <em>y</em>, <em>double rot=0</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.mevalr" title="Permalink to this definition">¶</a></dt>
+<dd><p>poly2d.mevalr(self, ndarray x, ndarray y, double rot=0)</p>
+<p>Evaluate the polynomial at for the values given in the 2D matrices
+x, y rotated.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd><table border="1" class="first last docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>x</td>
+<td>2D matrix the values of x where the polynomial is going to
+be evaluated.</td>
+</tr>
+<tr><td>y</td>
+<td>2D matrix the values of y where the polynomial is going to
+be evaluated.</td>
+</tr>
+<tr><td>rot</td>
+<td>Angle to rotate the coordinate points x,y before evaluating
+the polynomial. Given in radians</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<p>Return Value:</p>
+<blockquote>
+This method returns the polynomial evaluated Z=P(x&#8217;, y&#8217;). Z will 
+have the same shape as x and y. x&#8217; and y&#8217; are calculated from
+rotating x and y</blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.misc.Poly2D.poly2d.peval">
+<tt class="descname">peval</tt><big>(</big><em>self</em>, <em>double x</em>, <em>double y</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.peval" title="Permalink to this definition">¶</a></dt>
+<dd><p>poly2d.peval(self, double x, double y) -&gt; double</p>
+<p>Evaluate the polynomial at the point x,y</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd><table border="1" class="first last docutils">
+<colgroup>
+<col width="2%" />
+<col width="98%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>x</td>
+<td>Floating point number containing the x value used to
+evaluate the polynomial.</td>
+</tr>
+<tr><td>y</td>
+<td>Floating point number containing the y value used to
+evaluate the polynomial.</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<p>Return Value:</p>
+<blockquote>
+This method returns the polynomial evaluated z=P(X,Y).</blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.misc.Poly2D.poly2d.vveval">
+<tt class="descname">vveval</tt><big>(</big><em>self</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=1</em><span class="optional">]</span>, <em>x</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=1</em><span class="optional">]</span>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.vveval" title="Permalink to this definition">¶</a></dt>
+<dd><p>poly2d.vveval(self, ndarray x, ndarray y)</p>
+<p>Evaluate the polynomials in a 2D mesh defined by the vectors x and y.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd><table border="1" class="first last docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>x</td>
+<td>1D vector with the values of x where the polynomial is going to
+be evaluated.</td>
+</tr>
+<tr><td>y</td>
+<td>1D vector with the values of y where the polynomial is going to
+be evaluated.</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<p>Return Value:</p>
+<blockquote>
+This method returns the polynomial evaluated Z=P(x,y). Z will 
+have the shape (nx, ny), where nx is the lenght of the x vector, 
+and ny is the lenght of the y vector.</blockquote>
+<p>This method is not really faster than meval, but it might be 
+useful when doing parallel programing paralelising, because needs 
+to transfer a smaller amount of information to the child processes 
+(vectors instead matrices).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.misc.Poly2D</span></tt></a><ul>
+<li><a class="reference external" href="#class-list"><strong>Class List</strong></a></li>
+<li><a class="reference external" href="#available-classes"><strong>Available Classes</strong></a></li>
+</ul>
+</li>
+</ul>
+
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/pyoptools_misc_Poly2D.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>

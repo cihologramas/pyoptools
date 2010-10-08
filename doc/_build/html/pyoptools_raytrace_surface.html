@@ -1,0 +1,757 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyoptools.raytrace.surface &mdash; pyOpTools v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyOpTools v0.0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyoptools.raytrace.surface">
+<h1><tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.surface</span></tt><a class="headerlink" href="#module-pyoptools.raytrace.surface" title="Permalink to this headline">¶</a></h1>
+<p>Module that defines all the clases that describe the optical surfaces</p>
+<div class="section" id="class-list">
+<h2><strong>Class List</strong><a class="headerlink" href="#class-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a title="pyoptools.raytrace.surface.Surface" class="reference internal" href="#pyoptools.raytrace.surface.Surface"><tt class="xref docutils literal"><span class="pre">Surface</span></tt></a></li>
+<li><a title="pyoptools.raytrace.surface.Cylindrical" class="reference internal" href="#pyoptools.raytrace.surface.Cylindrical"><tt class="xref docutils literal"><span class="pre">Cylindrical</span></tt></a></li>
+<li><a title="pyoptools.raytrace.surface.Plane" class="reference internal" href="#pyoptools.raytrace.surface.Plane"><tt class="xref docutils literal"><span class="pre">Plane</span></tt></a></li>
+<li><a title="pyoptools.raytrace.surface.Spherical" class="reference internal" href="#pyoptools.raytrace.surface.Spherical"><tt class="xref docutils literal"><span class="pre">Spherical</span></tt></a></li>
+<li><a title="pyoptools.raytrace.surface.ArrayDetector" class="reference internal" href="#pyoptools.raytrace.surface.ArrayDetector"><tt class="xref docutils literal"><span class="pre">ArrayDetector</span></tt></a></li>
+<li><a title="pyoptools.raytrace.surface.Aperture" class="reference internal" href="#pyoptools.raytrace.surface.Aperture"><tt class="xref docutils literal"><span class="pre">Aperture</span></tt></a></li>
+<li><a title="pyoptools.raytrace.surface.TaylorPoly" class="reference internal" href="#pyoptools.raytrace.surface.TaylorPoly"><tt class="xref docutils literal"><span class="pre">TaylorPoly</span></tt></a></li>
+<li><a title="pyoptools.raytrace.surface.Cylinder" class="reference internal" href="#pyoptools.raytrace.surface.Cylinder"><tt class="xref docutils literal"><span class="pre">Cylinder</span></tt></a></li>
+<li><a title="pyoptools.raytrace.surface.Aspherical" class="reference internal" href="#pyoptools.raytrace.surface.Aspherical"><tt class="xref docutils literal"><span class="pre">Aspherical</span></tt></a></li>
+<li><a title="pyoptools.raytrace.surface.RPPMask" class="reference internal" href="#pyoptools.raytrace.surface.RPPMask"><tt class="xref docutils literal"><span class="pre">RPPMask</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="available-classes">
+<h2><strong>Available Classes</strong><a class="headerlink" href="#available-classes" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.surface.Surface">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">Surface</tt><big>(</big><em>double reflectivity=0.</em>, <em>shape=Circular(radius=10.)</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface" title="Permalink to this definition">¶</a></dt>
+<dd><p><a title="pyoptools.raytrace.surface.Surface" class="reference internal" href="#pyoptools.raytrace.surface.Surface"><tt class="xref docutils literal"><span class="pre">Surface</span></tt></a> is an abstract superclass for all optical surface objects.
+This class defines an API that all subclasses must support.</p>
+<p>All Surface subclasses share the attributes reflectivity, and shape,
+that are defined as follows:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>reflectivity</td>
+<td>Float point number between 0 and 1. 0 indicates a
+completely transparent surface, 1 a completely reflective
+surface. A value between are beam spliters.</td>
+</tr>
+<tr><td>shape</td>
+<td>Instance of the <tt class="xref docutils literal"><span class="pre">Shape</span></tt>, that indicates the
+surface&#8217;s aperture shape.</td>
+</tr>
+</tbody>
+</table>
+<p>Each surface stores a hit_list, so the ray impact information can be 
+obtained. This list records the point of impact in the surface reference
+system, and a pointer to the hitting ray so intensity, wavelength, and other
+information about the ray can be retrieved. The reset method, clear this
+lists.</p>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.distance">
+<tt class="descname">distance</tt><big>(</big><em>self</em>, <em>Ray iray</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distance propagated by a ray until intersection with a surface.</p>
+<p>This method returns the distance propagated by a ray since its origin
+and its point of intersection with a surface.</p>
+<p><strong>Args:</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">iray</span></tt> </dt>
+<dd>Incident ray, iray must be in the coordinate system of the 
+surface</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<p>A tuple <tt class="docutils literal"><span class="pre">(distance,point_of_intersection,</span> <span class="pre">surface)</span></tt>, where:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">distance</span></tt></dt>
+<dd>The distance from the ray origin to the point of intersection 
+with the surface</dd>
+<dt><tt class="docutils literal"><span class="pre">point_of_intersection</span></tt></dt>
+<dd>The point of intersection using the coordinate system of the 
+surface</dd>
+<dt><tt class="docutils literal"><span class="pre">surface</span></tt></dt>
+<dd>a pointer to the surface</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.distance_s">
+<tt class="descname">distance_s</tt><big>(</big><em>self</em>, <em>Ray iray</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.distance_s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distance propagated by a ray until intersection with a surface.</p>
+<p>This method returns the distance propagated by a ray since its origin
+and its point of intersection with a surface. This method returns 
+positive and negative distances, and does not check for apertures.</p>
+<p>Arguments:</p>
+<blockquote>
+iray &#8211; incident ray</blockquote>
+<p>iray must be in the coordinate system of the surface</p>
+<p>Return value:</p>
+<blockquote>
+A tuple with the distance, the point of intersection using the
+coordinate system of the surface, and a pointer to the surface 
+(distance,point of intersection, surface)</blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.int_nor">
+<tt class="descname">int_nor</tt><big>(</big><em>self</em>, <em>Ray iray</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.int_nor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Point of intersection between a ray and a surface and the normal.</p>
+<p>Method that returns the point of intersection between a surface and
+a ray, and the vector normal to this point. I must return a tuple
+of the form <tt class="docutils literal"><span class="pre">((ix,iyi,z),(nx,ny,nz))</span></tt>, where <tt class="docutils literal"><span class="pre">ix,iy,iz</span></tt> are the 
+coordinates of the intersection point, and nx,ny,nz are the components 
+of the vector normal to the surface.</p>
+<p><strong>Arguments:</strong></p>
+<blockquote>
+iray &#8211; incident ray in the coordinate system of the surface.</blockquote>
+<p>This method uses surface.intersection, surface.normal, and 
+surface.shape.hit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.intersection">
+<tt class="descname">intersection</tt><big>(</big><em>self</em>, <em>Ray iray</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.intersection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Point of intersection between a ray and a surface.</p>
+<p>This method returns the point of intersection  between the surface
+and the ray. This intersection point is calculated in the coordinate
+system of the surface.</p>
+<p>If there is not a point of intersection ie: ray is outside of the
+element aperture, it must return (numpy.inf,numpy.inf,numpy.inf)</p>
+<p><strong>Arguments:</strong></p>
+<p>iray &#8211; incident ray</p>
+<p>iray must be in the coordinate system of the surface</p>
+<p><strong>Returns:</strong></p>
+<p>A vector [x,y,z] containing the coordinates of the point of 
+intersection between the ray and the surface. If there is no
+intersection returns [Inf, Inf, Inf].</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method does not need to be overloaded. Overload 
+<tt class="xref docutils literal"><span class="pre">surface._intersection()</span></tt> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.normal">
+<tt class="descname">normal</tt><big>(</big><em>self</em>, <em>int_p</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.normal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normal vector at the point ip.</p>
+<p>This method returns the normal vector at a specific intersection point, 
+given by ip. The normal vector must be normalized.</p>
+<p>This method must be overloaded in all Surface subclases. It contains
+the geometric specific code.</p>
+<p><strong>Arguments:</strong></p>
+<p>iray &#8211; incident ray in the coordinate system of the surface.</p>
+<p><strong>Returns:</strong></p>
+<p>An array [dx,dy,dz] indicating the vector normal to the surface</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.polylist">
+<tt class="descname">polylist</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.polylist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.propagate">
+<tt class="descname">propagate</tt><big>(</big><em>self</em>, <em>Ray ri</em>, <em>double ni</em>, <em>double nr</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to calculate the ray refracted on a surface.</p>
+<p>This method calculates the ray refracted (or rays refracted and 
+reflected)on a surface.</p>
+<p>Arguments:</p>
+<blockquote>
+<p>ri &#8211; incident ray</p>
+<p>ni &#8211; refraction index in the incident media n.</p>
+<p>nr &#8211; refraction index in the refracted media</p>
+</blockquote>
+<p>ri must be in the coordinate system of the surface</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.pw_cohef">
+<tt class="descname">pw_cohef</tt><big>(</big><em>self</em>, <em>ni</em>, <em>nr</em>, <em>ilimit</em>, <em>slimit</em>, <em>step</em>, <em>order</em>, <em>rsamples</em>, <em>zb</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.pw_cohef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to generate the taylor polinomial coheficients that can be 
+used to obtain the phase and intensity for diferent plane wave 
+inclinations.</p>
+<dl class="docutils">
+<dt>Notes: </dt>
+<dd><ul class="first last simple">
+<li>The pupil is normalized to the radius of the lens</li>
+<li>This method asumes a circular shaped pupil</li>
+<li>The phase is returned as an optical path</li>
+<li>The intensity is normalized to 1</li>
+</ul>
+</dd>
+</dl>
+<p>Arguments:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.pw_propagate">
+<tt class="descname">pw_propagate</tt><big>(</big><em>self</em>, <em>Ray ri</em>, <em>ni</em>, <em>nr</em>, <em>rsamples</em>, <em>shape</em>, <em>order</em>, <em>z</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.pw_propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to calculate wavefront emerging from the surface</p>
+<p>This method calculates the wavefront emerging from the optical surface
+when illuminated by an unity amplitude plane wave. 
+The k vector of the incoming PW is given by the direction of ri. 
+The wavelength of the PW is given by the wavelength of ri.
+The origin of ri is not used at all.</p>
+<p>Arguments:</p>
+<blockquote>
+<p>ri &#8211; surface incident ray</p>
+<p>ni &#8211; refraction index in the incident media n.</p>
+<p>nr &#8211; refraction index in the refracted media</p>
+<p>rsamples &#8211; number of rays used to sample the surface</p>
+<p>shape &#8211; shape of the output wavefront</p>
+<p>order &#8211; order of the polynomial fit</p>
+<p>z &#8211; Z position of the input and output plane. The origin is the surface vertex</p>
+</blockquote>
+<p>ri must be in the coordinate system of the surface
+Note: The ray comes from the negative side. Need to change this</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.pw_propagate1">
+<tt class="descname">pw_propagate1</tt><big>(</big><em>self</em>, <em>Ray ri</em>, <em>ni</em>, <em>nr</em>, <em>rsamples</em>, <em>isamples</em>, <em>knots</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.pw_propagate1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to calculate wavefront emerging from the surface</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method needs to be checked, because the incoming plane 
+wave has not a constant intensity. The ray distribution is 
+affected by the surface topography. it is better to use the 
+slow version pw_propagate.</p>
+</div>
+<p>This method calculates the wavefront emerging from the optical surface
+when illuminated by an unity amplitude plane wave. 
+The k vector of the incoming PW is given by the direction of ri. 
+The wavelength of the PW is given by the wavelength of ri.
+The origin of ri is not used at all.</p>
+<p>The input and output planes are located at z=0 in the surface coordinated 
+system.</p>
+<p>Note: this method needs to be checked, because the incoming plane wave
+has not a constant intensity. The ray distribution is affected by the 
+surface topography. it is better to use the slow version pw_propagate1.</p>
+<p>Note: The ray comes from the negative side. Need to change this</p>
+<p>Arguments:</p>
+<blockquote>
+<p>ri &#8211; isurface.pyncident ray</p>
+<p>ni &#8211; refraction index in the incident media n.</p>
+<p>nr &#8211; refraction index in the refracted media</p>
+</blockquote>
+<p>ri must be in the coordinate system of the surface</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.pw_propagate_list">
+<tt class="descname">pw_propagate_list</tt><big>(</big><em>self</em>, <em>Ray ri</em>, <em>ni</em>, <em>nr</em>, <em>rsamples</em>, <em>z</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.pw_propagate_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to calculate wavefront emerging from the surface</p>
+<p>This method calculates samples of the  wavefront emerging from 
+the optical surface when illuminated by an unity amplitude plane 
+wave. 
+The k vector of the incoming PW is given by the direction of ri. 
+The wavelength of the PW is given by the wavelength of ri.
+The origin of ri is not used at all.</p>
+<p>The returned value is a list containing the x,y coordinates of the ray list
+in the output surface, and the optical path at such point.</p>
+<p>To create an output matrix, this values must be interpolated.</p>
+<p>Arguments:</p>
+<blockquote>
+<p>ri &#8211; incident ray</p>
+<p>ni &#8211; refraction index in the incident media n.</p>
+<p>nr &#8211; refraction index in the refracted media</p>
+<p>rsamples &#8211; number of rays used to sample the surface (Tuple)</p>
+<p>z &#8211; Z position of the input and output plane. The origin is the surface vertex</p>
+</blockquote>
+<p>ri must be in the coordinate system of the surface
+Note: The ray comes from the negative side. Need to change this</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.reset">
+<tt class="descname">reset</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.reset" title="Permalink to this definition">¶</a></dt>
+<dd>Remove information from the hit_list</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.topo">
+<tt class="descname">topo</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.topo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that returns the topography of the surface</p>
+<p>The matrix returned is <img class="math" src="_images/math/efb828e27d254480c0724f9cc3e99891d3883978.png" alt="z=f(x,y)"/>. This method mus be overloaded in all 
+subclases of Surface.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Surface.wf_propagate">
+<tt class="descname">wf_propagate</tt><big>(</big><em>self</em>, <em>wf</em>, <em>ni</em>, <em>nr</em>, <em>samples</em>, <em>shape</em>, <em>knots</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.wf_propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to calculate wavefront emerging from the surface</p>
+<p>This method calculates the wavefront emerging from the optical surface
+when illuminated by an arbitrary wavefront.</p>
+<p>The input and output planes are located at z=0 in the surface coordinated 
+system.</p>
+<p>Arguments:</p>
+<blockquote>
+<p>wf &#8211; Field instance containing the incoming wavefront</p>
+<p>ni &#8211; refraction index in the incident media n.</p>
+<p>nr &#8211; refraction index in the refracted media.</p>
+<p>samples &#8211; Tuple containing the number of rays used to sample the field.</p>
+<p>shape &#8211; Tuple containing the shape of the output field</p>
+</blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.surface.Cylindrical">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">Cylindrical</tt><big>(</big><em>curvature=0.</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Cylindrical" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Class to define cylindrical surfaces.</strong></p>
+<p>Cylindrical is a class to define cylindrical optical surfaces,
+with an aperture given by the shape attribute.</p>
+<p>To define the cylindrical surface you should pass the size of the
+apperture, and the radius of curvature of the cylinder.</p>
+<p>The vertex of the surface is located at the origin of coordinates (0, 0, 0).</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">=</span><span class="n">Cylindrical</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">Rectangular</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)),</span><span class="n">curvature</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See Surface documentation for other options</p>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Cylindrical.normal">
+<tt class="descname">normal</tt><big>(</big><em>self</em>, <em>IP</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Cylindrical.normal" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Normal vector at the point ip.</strong></p>
+<p>This method returns the normal vector at a specific intersection point.</p>
+<p>This method is overloaded from the superclass Surface.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Cylindrical.topo">
+<tt class="descname">topo</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Cylindrical.topo" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Method that returns the topography of the surface</strong></p>
+<p>The matrix returned is z=f(x,y). This method is overloaded from the 
+superclass Surface.</p>
+</dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.surface.Plane">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">Plane</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Plane" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to define a plane surface.</p>
+<p>Description:</p>
+<p>Plane is a class to define rectangular plane surfaces.
+The surface shape is given by the shape arrtibute</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ps</span><span class="o">=</span><span class="n">Plane</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">Rectangular</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">15</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Plane.normal">
+<tt class="descname">normal</tt><big>(</big><em>self</em>, <em>ri</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Plane.normal" title="Permalink to this definition">¶</a></dt>
+<dd>Method that returns the normal to the surface</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Plane.topo">
+<tt class="descname">topo</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Plane.topo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.surface.Spherical">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">Spherical</tt><big>(</big><em>curvature=0.</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Spherical" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Class to define spherical surfaces.</strong></p>
+<p>Spherical is a class to define spherical optical surfaces.</p>
+<p>To define the spherical surface you should pass the shape
+of the apperture, and the radius of curvature of the sphere.</p>
+<p>The vertex of the surface is located at the origin of coordinates (0, 0, 0)
+and the aperture is centered also about the origin</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">=</span><span class="n">Spherical</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">Circular</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mi">60</span><span class="p">),</span><span class="n">curvature</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See Surface documentation for other options</p>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Spherical.normal">
+<tt class="descname">normal</tt><big>(</big><em>self</em>, <em>ip</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Spherical.normal" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Return the vector normal to the surface</strong></p>
+<p>This method returns the vector normal to the sphere at a point 
+<tt class="docutils literal"><span class="pre">int_p=(x,y,z)</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Spherical.topo">
+<tt class="descname">topo</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Spherical.topo" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Returns the Z value for a given X and Y</strong></p>
+<p>This method returns the topography of the spherical surface to be 
+used to plot the surface.</p>
+</dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.surface.ArrayDetector">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">ArrayDetector</tt><big>(</big><em>size=(10</em>, <em>10)</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.ArrayDetector" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>CCD like detector surface.</strong></p>
+<p>Description the ArrayDetector class acts similar as a real CCD device. It holds
+a list of the coordinates of the rays that hits it.</p>
+<blockquote>
+<p>Example of a CCD:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">=</span><span class="n">ArrayDetector</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</blockquote>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.ArrayDetector.get_color_histogram">
+<tt class="descname">get_color_histogram</tt><big>(</big><em>self</em>, <em>size=(256</em>, <em>256)</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.ArrayDetector.get_color_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that returns the number of ray impacts per unit of area of the
+detector. It simulates a color image.</p>
+<p>Parameter:</p>
+<dl class="docutils">
+<dt><em>size</em></dt>
+<dd>Size of the detector in pixels. The phisical size of the detector is
+given at the surface creation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.ArrayDetector.get_histogram">
+<tt class="descname">get_histogram</tt><big>(</big><em>self</em>, <em>size=(256</em>, <em>256)</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.ArrayDetector.get_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that returns the number of ray impacts per unit of area of the
+detector.</p>
+<p>Parameter:</p>
+<dl class="docutils">
+<dt><em>size</em></dt>
+<dd>Size of the detector in pixels. The phisical size of the detector is
+given at the surface creation.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.surface.Aperture">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">Aperture</tt><big>(</big><em>ap_shape=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Aperture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to define a surface with an apperture</p>
+<p>This class is used to define stops in the optical system. It receives two 
+parameters.</p>
+<p><strong>ARGUMENTS:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>shape</td>
+<td>It is a subclass of Shape, and defines the external shape of the
+stop</td>
+</tr>
+<tr><td>ap_shape</td>
+<td>It is a subclass of Shape, and defines the internal shape of the
+stop (the aperture shape).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>EXAMPLE</strong></p>
+<p>Creation of an aperture surface:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ap</span><span class="o">=</span><span class="n">Aperture</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">Rectangular</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">)),</span><span class="n">ap_shape</span><span class="o">=</span><span class="n">Circular</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">2.5</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Note: To create an stop component, use the Stop class from the comp_lib 
+module. It creates the aperture surface and encapsulate it in an component 
+that can be used in a System.</p>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Aperture.propagate">
+<tt class="descname">propagate</tt><big>(</big><em>self</em>, <em>Ray ri</em>, <em>double ni</em>, <em>double nr</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Aperture.propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>The OptSurf.propagate is overloaded so it can be decided if the rays
+continue propagating or not.</p>
+<p>Warning: This surface only checks if the ray continues or not. It does 
+not calculate refraction or reflection. It must not be used to create
+lenses or mirrors.</p>
+</dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.surface.TaylorPoly">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">TaylorPoly</tt><big>(</big><em>cohef=(0</em>, <em>0</em>, <em>0)</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.TaylorPoly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to define surfaces described by a Taylor polynomial</p>
+<p>Description</p>
+<p>The TaylorPoly class is used to define surfaces that can be described using 
+a Taylor polynomial.</p>
+<p>To define an TaylorPoly surface you should pass the shape of the apperture, 
+and a coefficient matrix.</p>
+<p>The coheficient matrix is a numpy matrix, that holds information about the
+coheficients of the polynomial.</p>
+<p>cohef= [[x0y0, x1y0, x2y0,...,xmy0],</p>
+<blockquote>
+<p>[x0y1, x1y1, x2y1,...,xmy1],</p>
+<p>[x0y2, x1y2, x2y2,...,xmy2],</p>
+<p>[ ... , ... , ... ,..., ... ],</p>
+<p>[x0yn, x1yn, x2yn,...,xmyn]]</p>
+</blockquote>
+<p>using this coheficients, the polynomial is defined as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">=</span> <span class="n">x0y0</span><span class="o">+</span><span class="n">x1y0</span><span class="o">*</span><span class="n">X</span> <span class="o">+</span> <span class="o">...</span> <span class="o">+</span> <span class="n">x0y1</span><span class="o">*</span><span class="n">Y</span> <span class="o">+</span><span class="n">x1y1</span><span class="o">*</span><span class="n">X</span><span class="o">*</span><span class="n">Y</span><span class="o">+...+</span> <span class="n">xmyn</span><span class="o">*</span><span class="n">X</span><span class="o">^</span><span class="n">m</span><span class="o">*</span><span class="n">Y</span><span class="o">^</span><span class="n">n</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">=</span><span class="n">TaylorPoly</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)),</span>                         <span class="n">cohef</span> <span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.TaylorPoly.eval_poly">
+<tt class="descname">eval_poly</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.TaylorPoly.eval_poly" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.TaylorPoly.normal">
+<tt class="descname">normal</tt><big>(</big><em>self</em>, <em>int_p</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.TaylorPoly.normal" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Return the vector normal to the surface</strong></p>
+<p>This method returns the vector normal to the polynomical surface at a 
+point <tt class="docutils literal"><span class="pre">int_p=(x,y,z)</span></tt>.</p>
+<p>Note: It uses <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> to calculate the <tt class="docutils literal"><span class="pre">z</span></tt> value and the normal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.TaylorPoly.topo">
+<tt class="descname">topo</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.TaylorPoly.topo" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Returns the Z value for a given X and Y</strong></p>
+<p>This method returns the topography of the polynomical surface to be 
+used to plot the surface.</p>
+</dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.surface.Cylinder">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">Cylinder</tt><big>(</big><em>radius=10.</em>, <em>length=10.</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Cylinder" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Class to define cylinder shaped surfaces.</strong></p>
+<p>Description:</p>
+<p>Cylinder is a class to define a tube or  a hollow cylinder surface.</p>
+<p>To define the cylinder surface you should pass the radius of the cilinder, 
+and its length</p>
+<p>The center of the cylinder is located at the origin of coordinates (0, 0, 0)
+and its length is parallel to the Z axis.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">=</span><span class="n">Cylinder</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">5.</span><span class="p">,</span><span class="n">length</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See Surface documentation for other options</p>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Cylinder.intersection">
+<tt class="descname">intersection</tt><big>(</big><em>self</em>, <em>Ray A</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Cylinder.intersection" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Point of intersection between a ray and the cylinder</strong></p>
+<p>This method returns the point of intersection  between the surface
+and the ray. This intersection point is calculated in the coordinate
+system of the surface.</p>
+<blockquote>
+iray &#8211; incident ray</blockquote>
+<p>iray must be in the coordinate system of the surface</p>
+<p>Note: Because of the way the cylinder is defined, it does not uses 
+shapes to define its boundary, for that reason, the <tt class="docutils literal"><span class="pre">intersection</span></tt>
+method ans not the <tt class="docutils literal"><span class="pre">_intersection</span> <span class="pre">method</span></tt> was overlodaded.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Cylinder.normal">
+<tt class="descname">normal</tt><big>(</big><em>self</em>, <em>int_p</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Cylinder.normal" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Normal vector at the point int_p.</strong></p>
+<p>This method returns the normal vector at a specific intersection point, 
+given by int_p.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Cylinder.polylist">
+<tt class="descname">polylist</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Cylinder.polylist" title="Permalink to this definition">¶</a></dt>
+<dd>Because this is a closed surface, the method had to be overloaded</dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.surface.Aspherical">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">Aspherical</tt><big>(</big><em>Ax=0.</em>, <em>Ay=0.</em>, <em>Kx=0.</em>, <em>Ky=0.</em>, <em>poly=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Aspherical" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Class that defines a high order aspherical surface</strong></p>
+<p>An aspherical surface is defined as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Z</span><span class="o">=</span><span class="p">(</span><span class="n">Ax</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">Ay</span><span class="o">*</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">Kx</span><span class="p">)</span><span class="o">*</span><span class="n">Ax</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">Ky</span><span class="p">)</span><span class="o">*</span><span class="n">Ay</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">+</span> <span class="n">poly2d</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The poly2d is defined by a array in the same way as it is defined in the
+TaylorPoly Class</p>
+<dl class="docutils">
+<dt>Example </dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">=</span><span class="n">Aspherical</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)),</span><span class="n">Ax</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span><span class="n">Ay</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span><span class="n">Kx</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ky</span><span class="o">=.</span><span class="mi">1</span>\ 
+<span class="go">                    poly =poly2d((0,1,1)))</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Aspherical.normal">
+<tt class="descname">normal</tt><big>(</big><em>self</em>, <em>int_p</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Aspherical.normal" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Return the vector normal to the surface</strong></p>
+<p>This method returns the vector normal to the asphere at a point 
+<tt class="docutils literal"><span class="pre">int_p=(x,y,z)</span></tt>.</p>
+<p>Note: It uses <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> to calculate the <tt class="docutils literal"><span class="pre">z</span></tt> value and the normal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.Aspherical.topo">
+<tt class="descname">topo</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Aspherical.topo" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Returns the Z value for a given X and Y</strong></p>
+<p>This method returns the topography of the aspherical surface to be 
+used to plot the surface.</p>
+</dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.surface.RPPMask">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">RPPMask</tt><big>(</big><em>poly2d phm=poly2d((0</em>, <em>0</em>, <em>0</em>, <em>0</em>, <em>0</em>, <em>0))</em>, <em>M=</em><span class="optional">[</span>, <em>1</em><span class="optional">]</span>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.RPPMask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to define a reflective plane phase mask.</p>
+<p>Description:</p>
+<p>RPPMask  is a class to define difractive plane surfaces. 
+If reflectivity is 1 the gratting is reflective, if it is 0 the 
+gratting is transmisive. If it is between 0 and 1, both transmited
+and reflected difracted rays are shown.</p>
+<p>The surface shape is given by the shape arrtibute</p>
+<p>The phm attribute is a poly2d instance, that contains the polinomial
+describing the phase modulation of the gratting. The X and Y input 
+values of the polynomial are in microns.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">=</span><span class="n">RPPMask</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">Rectangular</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">)),</span> <span class="n">phm</span><span class="o">=</span><span class="n">poly2d</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="mf">15.</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">M</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This is a 10 mm x 10 mm linear gratting that has a fringe each 15 microns</p>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.RPPMask.normal">
+<tt class="descname">normal</tt><big>(</big><em>self</em>, <em>ri</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.RPPMask.normal" title="Permalink to this definition">¶</a></dt>
+<dd>Method that returns the normal to the surface</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.RPPMask.propagate">
+<tt class="descname">propagate</tt><big>(</big><em>self</em>, <em>Ray ri</em>, <em>double ni</em>, <em>double nr</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.RPPMask.propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that calculates the propagation of a ray throug a difraction
+gratting.</p>
+<p>This method uses all the units in millimeters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.surface.RPPMask.topo">
+<tt class="descname">topo</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.RPPMask.topo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.surface</span></tt></a><ul>
+<li><a class="reference external" href="#class-list"><strong>Class List</strong></a></li>
+<li><a class="reference external" href="#available-classes"><strong>Available Classes</strong></a></li>
+</ul>
+</li>
+</ul>
+
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/pyoptools_raytrace_surface.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>

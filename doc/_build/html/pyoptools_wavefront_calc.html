@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyoptools.wavefront.calc &mdash; pyOpTools v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyOpTools v0.0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyoptools.wavefront.calc">
+<h1><tt class="xref docutils literal"><span class="pre">pyoptools.wavefront.calc</span></tt><a class="headerlink" href="#module-pyoptools.wavefront.calc" title="Permalink to this headline">¶</a></h1>
+<p>Collection of functions that calculate different things using fields.</p>
+<div class="section" id="function-list">
+<h2><strong>Function List</strong><a class="headerlink" href="#function-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a title="pyoptools.wavefront.calc.GScgh" class="reference internal" href="#pyoptools.wavefront.calc.GScgh"><tt class="xref docutils literal"><span class="pre">GScgh()</span></tt></a></li>
+<li><a title="pyoptools.wavefront.calc.GScghFr" class="reference internal" href="#pyoptools.wavefront.calc.GScghFr"><tt class="xref docutils literal"><span class="pre">GScghFr()</span></tt></a></li>
+<li><a title="pyoptools.wavefront.calc.GScghAE" class="reference internal" href="#pyoptools.wavefront.calc.GScghAE"><tt class="xref docutils literal"><span class="pre">GScghAE()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="available-functions">
+<h2><strong>Available Functions</strong><a class="headerlink" href="#available-functions" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.wavefront.calc.GScgh">
+<tt class="descclassname">pyoptools.wavefront.calc.</tt><tt class="descname">GScgh</tt><big>(</big><em>z</em>, <em>target</em>, <em>reference=1.</em>, <em>iterations=20</em>, <em>error=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.calc.GScgh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gerber Saxton Algorithm for Fourier CGH</p>
+<p>Function that calculates Fourier holographic optical elements using
+the Gerber Saxton algorithm. The algorithm uses the FFT implementation
+of the Fraunhoffer Transform.</p>
+<p><strong>ARGUMENTS:</strong></p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>z</td>
+<td>Propagation distance. This is used to calculate the
+resolution needed in the CGH</td>
+</tr>
+<tr><td>target</td>
+<td>Field used to represent the amplitude distribution
+to be obtained in the target plane.</td>
+</tr>
+<tr><td>reference</td>
+<td>Field used as reference to reconstruct the hologram. If
+not given, a unitary amplitude plane wave is used.</td>
+</tr>
+<tr><td>iterations</td>
+<td>Maximum number of iterations</td>
+</tr>
+<tr><td>error</td>
+<td>Expected error</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<dl class="docutils">
+<dt><strong>RETURN VALUE:</strong></dt>
+<dd><p class="first">(holo,err)</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>holo</td>
+<td>Field instance, containing the phase mask obtained from the
+iterative algorithm. The holo.res attribute contains the
+resolution of the calculated hologram for the given
+propagation distance. The holo.l attribute contains the
+wavelenght used to calculate the hologram.</td>
+</tr>
+<tr><td>err</td>
+<td>Final error obtained</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.wavefront.calc.GScghAE">
+<tt class="descclassname">pyoptools.wavefront.calc.</tt><tt class="descname">GScghAE</tt><big>(</big><em>z</em>, <em>target</em>, <em>reference=1.</em>, <em>iterations=20</em>, <em>error=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.calc.GScghAE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gerber Saxton Algorithm for to calculate CGS, using the Angular 
+Spectrum propagation method.</p>
+<p>Function that calculates a holographic optical elements using
+the Gerber Saxton algorithm.  has been multiplied into the CGH.</p>
+<p><strong>ARGUMENTS:</strong></p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>z</td>
+<td>propagation distance</td>
+</tr>
+<tr><td>target</td>
+<td>Field used to represent the amplitude distribution
+to be obtained in the target plane.</td>
+</tr>
+<tr><td>reference</td>
+<td>Field used as reference to reconstruct the hologram. If
+not given, a unitary amplitude plane wave is used.</td>
+</tr>
+<tr><td>iterations</td>
+<td>Maximum number of iterations</td>
+</tr>
+<tr><td>error</td>
+<td>Expected error</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<dl class="docutils">
+<dt><strong>RETURN VALUE:</strong></dt>
+<dd><p class="first">(holo,err)</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>holo</td>
+<td>Field instance, containing the phase mask obtained from the
+iterative algorithm. The holo.res attribute contains the
+resolution of the calculated hologram for the given
+propagation distance. The holo.l attribute contains the
+wavelenght used to calculate the hologram.</td>
+</tr>
+<tr><td>err</td>
+<td>Final error obtained</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt>
+<tt class="descclassname">pyoptools.wavefront.calc.</tt><tt class="descname">GScghAE</tt><big>(</big><em>z</em>, <em>target</em>, <em>reference=1.</em>, <em>iterations=20</em>, <em>error=None</em><big>)</big></dt>
+<dd><p>Gerber Saxton Algorithm for to calculate CGS, using the Angular 
+Spectrum propagation method.</p>
+<p>Function that calculates a holographic optical elements using
+the Gerber Saxton algorithm.  has been multiplied into the CGH.</p>
+<p><strong>ARGUMENTS:</strong></p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>z</td>
+<td>propagation distance</td>
+</tr>
+<tr><td>target</td>
+<td>Field used to represent the amplitude distribution
+to be obtained in the target plane.</td>
+</tr>
+<tr><td>reference</td>
+<td>Field used as reference to reconstruct the hologram. If
+not given, a unitary amplitude plane wave is used.</td>
+</tr>
+<tr><td>iterations</td>
+<td>Maximum number of iterations</td>
+</tr>
+<tr><td>error</td>
+<td>Expected error</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<dl class="docutils">
+<dt><strong>RETURN VALUE:</strong></dt>
+<dd><p class="first">(holo,err)</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>holo</td>
+<td>Field instance, containing the phase mask obtained from the
+iterative algorithm. The holo.res attribute contains the
+resolution of the calculated hologram for the given
+propagation distance. The holo.l attribute contains the
+wavelenght used to calculate the hologram.</td>
+</tr>
+<tr><td>err</td>
+<td>Final error obtained</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.wavefront.calc.GScghFr">
+<tt class="descclassname">pyoptools.wavefront.calc.</tt><tt class="descname">GScghFr</tt><big>(</big><em>z</em>, <em>target</em>, <em>reference=1.</em>, <em>iterations=20</em>, <em>error=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.calc.GScghFr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gerber Saxton Algorithm for Fresnel CGS</p>
+<p>Function that calculates a Fresnel holographic optical elements using
+the Gerber Saxton algorithm. The algorithm uses the FFT implementation
+of the Fresnel transform.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A Fresnel CGH can be interpreted as a Fourier CGH, where the
+Fourier transforming lens has been multiplied into the CGH.</p>
+</div>
+<p><strong>ARGUMENTS:</strong></p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>z</td>
+<td>propagation distance</td>
+</tr>
+<tr><td>target</td>
+<td>Field used to represent the amplitude distribution
+to be obtained in the target plane.</td>
+</tr>
+<tr><td>reference</td>
+<td>Field used as reference to reconstruct the hologram. If
+not given, a unitary amplitude plane wave is used.</td>
+</tr>
+<tr><td>iterations</td>
+<td>Maximum number of iterations</td>
+</tr>
+<tr><td>error</td>
+<td>Expected error</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<dl class="docutils">
+<dt><strong>RETURN VALUE:</strong></dt>
+<dd><p class="first">(holo,err)</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>holo</td>
+<td>Field instance, containing the phase mask obtained from the
+iterative algorithm. The holo.res attribute contains the
+resolution of the calculated hologram for the given
+propagation distance. The holo.l attribute contains the
+wavelenght used to calculate the hologram.</td>
+</tr>
+<tr><td>err</td>
+<td>Final error obtained</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt>
+<tt class="descclassname">pyoptools.wavefront.calc.</tt><tt class="descname">GScghFr</tt><big>(</big><em>z</em>, <em>target</em>, <em>reference=1.</em>, <em>iterations=20</em>, <em>error=None</em><big>)</big></dt>
+<dd><p>Gerber Saxton Algorithm for Fresnel CGS</p>
+<p>Function that calculates a Fresnel holographic optical elements using
+the Gerber Saxton algorithm. The algorithm uses the FFT implementation
+of the Fresnel transform.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A Fresnel CGH can be interpreted as a Fourier CGH, where the
+Fourier transforming lens has been multiplied into the CGH.</p>
+</div>
+<p><strong>ARGUMENTS:</strong></p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>z</td>
+<td>propagation distance</td>
+</tr>
+<tr><td>target</td>
+<td>Field used to represent the amplitude distribution
+to be obtained in the target plane.</td>
+</tr>
+<tr><td>reference</td>
+<td>Field used as reference to reconstruct the hologram. If
+not given, a unitary amplitude plane wave is used.</td>
+</tr>
+<tr><td>iterations</td>
+<td>Maximum number of iterations</td>
+</tr>
+<tr><td>error</td>
+<td>Expected error</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<dl class="docutils">
+<dt><strong>RETURN VALUE:</strong></dt>
+<dd><p class="first">(holo,err)</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>holo</td>
+<td>Field instance, containing the phase mask obtained from the
+iterative algorithm. The holo.res attribute contains the
+resolution of the calculated hologram for the given
+propagation distance. The holo.l attribute contains the
+wavelenght used to calculate the hologram.</td>
+</tr>
+<tr><td>err</td>
+<td>Final error obtained</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.wavefront.calc</span></tt></a><ul>
+<li><a class="reference external" href="#function-list"><strong>Function List</strong></a></li>
+<li><a class="reference external" href="#available-functions"><strong>Available Functions</strong></a></li>
+</ul>
+</li>
+</ul>
+
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/pyoptools_wavefront_calc.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>
