@@ -50,8 +50,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-pyoptools.wavefront.zernike">
-<h1><tt class="xref docutils literal"><span class="pre">pyoptools.wavefront.zernike</span></tt><a class="headerlink" href="#module-pyoptools.wavefront.zernike" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="pyoptools-wavefront-zernike">
+<h1><tt class="xref docutils literal"><span class="pre">pyoptools.wavefront.zernike</span></tt><a class="headerlink" href="#pyoptools-wavefront-zernike" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="class-list">
 <h2><strong>Class List</strong><a class="headerlink" href="#class-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -61,11 +61,11 @@
 <div class="section" id="function-list">
 <h2><strong>Function List</strong><a class="headerlink" href="#function-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a title="pyoptools.wavefront.zernike.polar_array" class="reference internal" href="#pyoptools.wavefront.zernike.polar_array"><tt class="xref docutils literal"><span class="pre">polar_array()</span></tt></a></li>
-<li><a title="pyoptools.wavefront.zernike.rnm" class="reference internal" href="#pyoptools.wavefront.zernike.rnm"><tt class="xref docutils literal"><span class="pre">rnm()</span></tt></a></li>
-<li><a title="pyoptools.wavefront.zernike.zernike" class="reference internal" href="#pyoptools.wavefront.zernike.zernike"><tt class="xref docutils literal"><span class="pre">zernike()</span></tt></a></li>
-<li><a title="pyoptools.wavefront.zernike.zernike2taylor" class="reference internal" href="#pyoptools.wavefront.zernike.zernike2taylor"><tt class="xref docutils literal"><span class="pre">zernike2taylor()</span></tt></a></li>
-<li><a title="pyoptools.wavefront.zernike.i2nm" class="reference internal" href="#pyoptools.wavefront.zernike.i2nm"><tt class="xref docutils literal"><span class="pre">i2nm()</span></tt></a></li>
+<li><tt class="xref docutils literal"><span class="pre">polar_array()</span></tt></li>
+<li><tt class="xref docutils literal"><span class="pre">rnm()</span></tt></li>
+<li><tt class="xref docutils literal"><span class="pre">zernike()</span></tt></li>
+<li><tt class="xref docutils literal"><span class="pre">zernike2taylor()</span></tt></li>
+<li><tt class="xref docutils literal"><span class="pre">i2nm()</span></tt></li>
 </ul>
 </div>
 <div class="section" id="available-classes">
@@ -74,118 +74,11 @@
 <div class="section" id="available-functions">
 <h2><strong>Available Functions</strong><a class="headerlink" href="#available-functions" title="Permalink to this headline">¶</a></h2>
 <hr class="docutils" />
-<dl class="function">
-<dt id="pyoptools.wavefront.zernike.i2nm">
-<tt class="descclassname">pyoptools.wavefront.zernike.</tt><tt class="descname">i2nm</tt><big>(</big><em>i</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.zernike.i2nm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the n and m orders of the i&#8217;th zernike polynomial</p>
-<p>index      0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
-n-order    0  1  1  2  2  2  3  3  3  3  4  4  4  4  4
-m-order    0 -1  1 -2  0  2 -3 -1  1  3 -4 -2  0  2  4</p>
-</dd></dl>
-
 <hr class="docutils" />
-<dl class="function">
-<dt id="pyoptools.wavefront.zernike.polar_array">
-<tt class="descclassname">pyoptools.wavefront.zernike.</tt><tt class="descname">polar_array</tt><big>(</big><em>Rmax=1.</em>, <em>DS=0.1</em>, <em>pr=1.</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.zernike.polar_array" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function that greates 2 square matrices one with rho, and the other with
-theta, to be able to calculate functions using polar coordinates.
-It is similar to the mgrid function.</p>
-<p>Arguments:</p>
-<dl class="docutils">
-<dt>Rmax</dt>
-<dd>Limit the pupil area -Rmax&lt;=X&lt;=Rmax -Rmax&lt;=Y&lt;=Rmax</dd>
-<dt>DS</dt>
-<dd>Step between pixels</dd>
-<dt>pr</dt>
-<dd>Pupil radius. Used to normalize the pupil.</dd>
-</dl>
-<p>TODO: This function should be moved to a auxiliary functions module</p>
-</dd></dl>
-
 <hr class="docutils" />
-<dl class="function">
-<dt id="pyoptools.wavefront.zernike.rnm">
-<tt class="descclassname">pyoptools.wavefront.zernike.</tt><tt class="descname">rnm</tt><big>(</big><em>n</em>, <em>m</em>, <em>rho</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.zernike.rnm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return an array with the zernike Rnm polynomial calculated at rho points.</p>
-<p><strong>ARGUMENTS:</strong></p>
-<blockquote>
-<table border="1" class="docutils">
-<colgroup>
-<col width="7%" />
-<col width="93%" />
-</colgroup>
-<tbody valign="top">
-<tr><td>n</td>
-<td>n order of the Zernike polynomial</td>
-</tr>
-<tr><td>m</td>
-<td>m order of the Zernike polynomial</td>
-</tr>
-<tr><td>rho</td>
-<td>Matrix containing the radial coordinates.</td>
-</tr>
-</tbody>
-</table>
-</blockquote>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">For rho&gt;1 the returned value is 0</p>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Values for rho&lt;0 are silently returned as rho=0</p>
-</div>
-</dd></dl>
-
 <hr class="docutils" />
-<dl class="function">
-<dt id="pyoptools.wavefront.zernike.zernike">
-<tt class="descclassname">pyoptools.wavefront.zernike.</tt><tt class="descname">zernike</tt><big>(</big><em>n</em>, <em>m</em>, <em>rho</em>, <em>theta</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.zernike.zernike" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the an array with the Zernike polynomial evaluated in the rho and 
-theta</p>
-<p>Arguments:</p>
-<dl class="docutils">
-<dt><em>n</em></dt>
-<dd>n order of the Zernike polynomial</dd>
-<dt><em>m</em></dt>
-<dd>m order of the Zernike polynomial</dd>
-<dt><em>rho</em></dt>
-<dd>Matrix containing the radial coordinates.</dd>
-<dt><em>theta</em></dt>
-<dd>Matrix containing the angular coordinates.</dd>
-</dl>
-<p>Note: For rho&gt;1 the returned value is 0</p>
-<p>Note: Values for rho&lt;0 are silently returned as rho=0</p>
-</dd></dl>
-
 <hr class="docutils" />
-<dl class="function">
-<dt id="pyoptools.wavefront.zernike.zernike2taylor">
-<tt class="descclassname">pyoptools.wavefront.zernike.</tt><tt class="descname">zernike2taylor</tt><big>(</big><em>n</em>, <em>m</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.zernike.zernike2taylor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the 2D taylor polynomial, that represents the given zernike
-polynomial</p>
-<p>Arguments</p>
-<blockquote>
-n,m     n and m orders of the Zernike polynomials</blockquote>
-<p>Return Value</p>
-<blockquote>
-poly2d instance containing the polynomial</blockquote>
-</dd></dl>
-
 <hr class="docutils" />
-<dl class="function">
-<dt>
-<tt class="descclassname">pyoptools.wavefront.zernike.</tt><tt class="descname">zernike2taylor</tt><big>(</big><em>n</em>, <em>m</em><big>)</big></dt>
-<dd><p>Returns the 2D taylor polynomial, that represents the given zernike
-polynomial</p>
-<p>Arguments</p>
-<blockquote>
-n,m     n and m orders of the Zernike polynomials</blockquote>
-<p>Return Value</p>
-<blockquote>
-poly2d instance containing the polynomial</blockquote>
-</dd></dl>
-
 </div>
 </div>
 
@@ -208,10 +101,10 @@ poly2d instance containing the polynomial</blockquote>
 
             <h4>Previous topic</h4>
             <p class="topless"><a href="pyoptools_wavefront_psurfrep.html"
-                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.wavefront.psurfrep</span></tt></a></p>
+                                  title="previous chapter"><tt class="docutils literal"><span class="pre">pyoptools.wavefront.psurfrep</span></tt></a></p>
             <h4>Next topic</h4>
             <p class="topless"><a href="pyoptools_misc_cmisc.html"
-                                  title="next chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.misc.cmisc</span></tt></a></p>
+                                  title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.misc.cmisc</span></tt></a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="_sources/pyoptools_wavefront_zernike.txt"
