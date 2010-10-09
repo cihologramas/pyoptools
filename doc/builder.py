@@ -138,7 +138,7 @@ def document_packages(packages):
                 #New Class found
                 line1=line.strip()
                 
-                if len(line1.split(" "))>1 and ((line1.split(" ")[0]=="class")or(line1.split(" ")[1]=="class"and (line1.split(" ")[0]=="def" or line1.split(" ")[0]=="cdef"))):
+                if len(line1.split(" "))>1 and line1.split(" ")[1]=="class"and (line1.split(" ")[0]=="def" or line1.split(" ")[0]=="cdef"):
                     break
                
                 #Deidentation found
