@@ -27,9 +27,6 @@
 **Available Classes**
 ---------------------
 
-
-.....
-
 .. autoclass:: Ray(pos=(0,0,0),dir=(0,0,1),double intensity=1.,double wavelength=.58929, n=None,label="",parent=None,double pop=0.,orig_surf=None, order=0)
     
     
@@ -44,11 +41,10 @@
     .. automethod:: optical_path(self)
     .. automethod:: optical_path_parent(self)
     .. automethod:: reverse(self)
+
+
 **Available Functions**
 -----------------------
-
-
-.....
 
 .. autofunction:: parallel_beam_c(origin=(0.,0.,0.),direction=(0.,0.,0.),size=(1.,1.),num_rays=(10,10),wavelength=0.58929, label="")
 

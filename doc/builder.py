@@ -122,7 +122,16 @@ def document_packages(packages):
             cl=""
             #Find the begining of the class definition
             for n,line in enumerate(code):
+                #find cython class definitions
                 if len(line.split())>1 and line.find(o)!=-1 and line.split()[1]=="class" and (line.split()[0]=="def" or line.split()[0]=="cdef"):
+                    #cl=line.split()[2][:-1]
+                    #cl=cl.split("(")[0]
+                    cl=o
+                    line1=line.strip()
+                    ide = len(line)-len(line1)
+                    break
+                #find python class definitions
+                if len(line.split())>1 and line.find(o)!=-1 and line.split()[0]=="class":
                     #cl=line.split()[2][:-1]
                     #cl=cl.split("(")[0]
                     cl=o
@@ -174,7 +183,7 @@ def document_packages(packages):
                 
                     
             if cl!="":
-                frst.write("\n.....\n\n")
+                if o != clist[0]: frst.write("\n.....\n\n")
                 frst.write(".. autoclass:: "+cl+signature+"\n")
                 frst.write("    \n    \n")
                 frst.write("    **AVAILABLE METHODS**\n\n")
@@ -217,10 +226,10 @@ def document_packages(packages):
                     
         if len(methods)>0:
             
-            frst.write("**Available Functions**\n-----------------------\n\n")
+            frst.write("\n\n**Available Functions**\n-----------------------\n\n")
             methods.sort()
             for method in methods:
-                frst.write("\n.....\n\n")
+                if method != methods[0]: frst.write("\n.....\n\n")
                 frst.write(".. autofunction:: "+method+"\n")
         
         frst.close()

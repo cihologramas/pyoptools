@@ -27,11 +27,17 @@
 **Available Classes**
 ---------------------
 
+.. autoclass:: ZernikeXY(cohef=[0])
+    
+    
+    **AVAILABLE METHODS**
+
+    .. automethod:: eval(self)
+    .. automethod:: evalm(self,x,y,mask=True)
+
+
 **Available Functions**
 -----------------------
-
-
-.....
 
 .. autofunction:: i2nm(i)
 

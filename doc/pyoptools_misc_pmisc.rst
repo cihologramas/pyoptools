@@ -22,11 +22,10 @@
 - :func:`unwrapv`
 - :func:`wavelength2RGB`
 
+
+
 **Available Functions**
 -----------------------
-
-
-.....
 
 .. autofunction:: cross(a,b)
 

@@ -14,11 +14,10 @@
 - :func:`frft2`
 - :func:`rs_kernel`
 
+
+
 **Available Functions**
 -----------------------
-
-
-.....
 
 .. autofunction:: frft(x,alpha)
 

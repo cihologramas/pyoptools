@@ -17,9 +17,6 @@
 **Available Classes**
 ---------------------
 
-
-.....
-
 .. autoclass:: System(complist=None, n=1., )
     
     

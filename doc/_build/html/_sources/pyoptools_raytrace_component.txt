@@ -17,9 +17,6 @@
 **Available Classes**
 ---------------------
 
-
-.....
-
 .. autoclass:: Component(surflist=None,material=1.)
     
     

@@ -17,9 +17,6 @@
 **Available Classes**
 ---------------------
 
-
-.....
-
 .. autoclass:: plist( a=None)
     
     

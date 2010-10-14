@@ -4,7 +4,7 @@ General Description
 The pyOpTools are a set of packages that allow
 the simulation of optical systems. Initially it was developed in 
 `Python <http://www.python.org>`_ using `Numpy <http://www.numpy.org>`_ and 
-`Scipy <http://www.scipy.org>`, but the computational intensive parts
+`Scipy <http://www.scipy.org>`_, but the computational intensive parts
 are now written in `Cython <http://www.cython.org>`_ to optimize for
 speed. It also uses `wxpython <http://wxpython.org>`_, 
 `matplotlib <http://www.matplotlib.org>`_ and `pyopengl <http://www.pyopengl.org>`_
