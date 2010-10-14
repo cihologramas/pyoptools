@@ -14,11 +14,10 @@
 - :func:`GScghFr`
 - :func:`GScghAE`
 
+
+
 **Available Functions**
 -----------------------
-
-
-.....
 
 .. autofunction:: GScgh(z,target,reference=1.,iterations=20,error=None)
 

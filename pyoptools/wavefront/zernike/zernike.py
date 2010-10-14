@@ -1,5 +1,4 @@
-"""
-Module defining the Zernike polynomials
+"""Module defining the Zernike polynomials
 """
 
 import types
@@ -11,20 +10,21 @@ from pyoptools.misc.Poly2D import *
 
 def polar_array(Rmax=1.,DS=0.1, pr=1.):
     """
-    Function that greates 2 square matrices one with rho, and the other with
-    theta, to be able to calculate functions using polar coordinates.
+    Function that generates 2 square matrices one with the rho coordinate,
+    and the other with the theta coordinate, to be able to calculate 
+    functions using polar coordinates.
+    
     It is similar to the mgrid function.
 
-    Arguments:
+    **Arguments**
     
-    Rmax
-        Limit the pupil area -Rmax<=X<=Rmax -Rmax<=Y<=Rmax
-    DS
-        Step between pixels
-    pr
-        Pupil radius. Used to normalize the pupil.
+    ==== ===================================================
+    Rmax Limit the pupil area -Rmax<=X<=Rmax -Rmax<=Y<=Rmax
+    DS   Step between pixels
+    pr   Pupil radius. Used to normalize the pupil.
+    ==== ===================================================
         
-    TODO: This function should be moved to a auxiliary functions module
+    ..  TODO:: This function should be moved to a auxiliary functions module
     """
     
     X,Y= mgrid[-Rmax:Rmax+DS:DS,-Rmax:Rmax+DS:DS]/pr
@@ -79,26 +79,20 @@ def rnm(n,m,rho):
 def zernike(n,m,rho,theta):
     """
     Returns the an array with the Zernike polynomial evaluated in the rho and 
-    theta
+    theta.
     
-    Arguments:
+    **ARGUMENTS:** 
     
+    ===== ==========================================     
+    n     n order of the Zernike polynomial
+    m     m order of the Zernike polynomial
+    rho   Matrix containing the radial coordinates. 
+    theta Matrix containing the angular coordinates.
+    ===== ==========================================
+ 
+    .. note:: For rho>1 the returned value is 0
     
-    *n*
-        n order of the Zernike polynomial
-    
-    *m*
-        m order of the Zernike polynomial
-        
-    *rho*
-        Matrix containing the radial coordinates. 
-       
-    *theta*
-        Matrix containing the angular coordinates.
-    
-    Note: For rho>1 the returned value is 0
-    
-    Note: Values for rho<0 are silently returned as rho=0
+    .. note:: Values for rho<0 are silently returned as rho=0
     """
     
     
@@ -153,12 +147,11 @@ def zernike2taylor(n,m):
     Returns the 2D taylor polynomial, that represents the given zernike
     polynomial
     
-    Arguments
+    **ARGUMENTS**
     
         n,m     n and m orders of the Zernike polynomials
     
-    Return Value
-    
+    **RETURN VALUE**
         poly2d instance containing the polynomial
     """
     TC=zeros((n+1,n+1))
@@ -199,9 +192,11 @@ def i2nm(i):
     """
     Return the n and m orders of the i'th zernike polynomial
        
-    index      0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
-    n-order    0  1  1  2  2  2  3  3  3  3  4  4  4  4  4
-    m-order    0 -1  1 -2  0  2 -3 -1  1  3 -4 -2  0  2  4  
+    ========= == == == == == == == == == == == == == == == ===
+    i          0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 ...
+    n-order    0  1  1  2  2  2  3  3  3  3  4  4  4  4  4 ...
+    m-order    0 -1  1 -2  0  2 -3 -1  1  3 -4 -2  0  2  4 ...
+    ========= == == == == == == == == == == == == == == == ===
     """
     # Calculate the polynomial order
     #Order      0   1   2   3   4
@@ -213,17 +208,32 @@ def i2nm(i):
     return n, m
     
 class ZernikeXY(object):
+    '''
+    Class used to evaluate the zernike polinomial with coheficients 
+    given by cohef, in Cartesian coordinates.
+        
+        
+    This class uses an internal Taylor representation of the polynomial
+    for all the calculations. The internal taylor representation, is 
+    generater from the cohef argument given in the constructor.
+    If cohef is changed, the internal taylor representation is build
+    again.
+    
+    **ARGUMENTS**
+    
+    cohef -- List containing the Zernike polynomial coheficients.
+    
+    The coheficients given in cohef are enumerated as follows
+    
+    ========= == == == == == == == == == == == == == == == ===
+    index      0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 ...
+    n-order    0  1  1  2  2  2  3  3  3  3  4  4  4  4  4 ...
+    m-order    0 -1  1 -2  0  2 -3 -1  1  3 -4 -2  0  2  4 ...
+    ========= == == == == == == == == == == == == == == == ===
+    '''
+    
     def __init__(self,cohef=[0]):
-        '''
-        Class used to evaluate the zernike polinomial with coheficients 
-        given by cohef, in Cartesian coordinates.
-        
-        
-        This class uses an internal Taylor representation of the polynomial
-        for all the calculations
-        '''
-        
-        
+            
         self.cohef=cohef
     
     
@@ -247,14 +257,28 @@ class ZernikeXY(object):
     cohef = property(__get_cohef__, __set_cohef__, None, "Coefficient list of the zernike polynomial")
 
     def eval(self):
+        """Not impremented yet"""
         pass
         
     def evalm(self,x,y,mask=True):
         '''
         Evaluate the zernike polynomial 
         
-        If mask is True, the polynomial gets only evaluated at the pupil
-        r<1., and a masked array is returned.
+        Method used to evaluate the zernike polynomial at the coordinates 
+        given by the 2D arrays x,y
+        
+        **ARGUMENTS**
+        
+            ==== ==============================================================
+            x    2D array containing the X coordinates where the Zernike 
+                 polynomial is to be evaluated.
+            y    2D array containing the Y coordinates where the Zernike 
+                 polynomial is to be evaluated.
+            mask Flag indicating if the evaluated values are to be masked. 
+                 If mask is True, the polynomial will only be evaluated at 
+                 the pupil sqrt(x**2+y**2)<1. , and a masked array is returned.
+            ==== ==============================================================
+        
         '''
         
         if mask:

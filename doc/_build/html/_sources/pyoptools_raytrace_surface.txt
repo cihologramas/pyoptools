@@ -26,9 +26,6 @@
 **Available Classes**
 ---------------------
 
-
-.....
-
 .. autoclass:: Surface(double reflectivity=0., shape=Circular(radius=10.))
     
     

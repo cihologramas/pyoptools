@@ -17,9 +17,6 @@
 **Available Classes**
 ---------------------
 
-
-.....
-
 .. autoclass:: Field(data=None,psize=(10e-3,10e-3), l=442e-6,amp_im=None,ph_im=None, amp_n=1/255., ph_n=2*pi/255.)
     
     

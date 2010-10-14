@@ -28,8 +28,8 @@ class PSurf:
     def __init__(self, s, ni=1,nr=1,ilimit=0, slimit=1.3, l=.633e-3 , step=0.05, order=10, rsamples=(500,500),zb=None):
         """
         
-        Arguments:
-        ==========
+        **ARGUMENTS**
+
         s  -- Optical surface to model
         ni,nr  -- Refraction index from the incident and refracted sides
         ilimit -- Inferior limit for incidence angle of the plane wave in radians
@@ -81,8 +81,8 @@ class PSurf:
     def pw_evaluate(self,np.ndarray[np.double_t, ndim=1] k, samples=(512,512), gpu=True):
         """Plane wave evaluate
         
-        Arguments:
-        ==========
+        **Arguments:**
+        
         k -- Propagation direction of the incident plane wave 
         
         """

@@ -102,8 +102,12 @@
 <dl>
 
 <dt><a href="pyoptools_misc_Poly2D.html#pyoptools.misc.Poly2D.poly2d.eval">eval() (pyoptools.misc.Poly2D.poly2d method)</a></dt>
+  <dd><dl>
+    <dt><a href="pyoptools_wavefront_zernike.html#pyoptools.wavefront.zernike.ZernikeXY.eval">(pyoptools.wavefront.zernike.ZernikeXY method)</a></dt>
+  </dl></dd>
 <dt><a href="pyoptools_misc_Poly2D.html#pyoptools.misc.Poly2D.poly2d.eval_2">eval_2() (pyoptools.misc.Poly2D.poly2d method)</a></dt></dl></td><td width="33%" valign="top"><dl>
 <dt><a href="pyoptools_raytrace_surface.html#pyoptools.raytrace.surface.TaylorPoly.eval_poly">eval_poly() (pyoptools.raytrace.surface.TaylorPoly method)</a></dt>
+<dt><a href="pyoptools_wavefront_zernike.html#pyoptools.wavefront.zernike.ZernikeXY.evalm">evalm() (pyoptools.wavefront.zernike.ZernikeXY method)</a></dt>
 </dl></td></tr></table>
 
 <h2 id="F">F</h2>
@@ -303,13 +307,14 @@
     <dt><a href="pyoptools_raytrace_surface.html#pyoptools.raytrace.surface.Surface.propagate">(pyoptools.raytrace.surface.Surface method)</a></dt>
     <dt><a href="pyoptools_raytrace_system.html#pyoptools.raytrace.system.System.propagate">(pyoptools.raytrace.system.System method)</a></dt>
     <dt><a href="pyoptools_wavefront_field.html#pyoptools.wavefront.field.Field.propagate">(pyoptools.wavefront.field.Field method)</a></dt>
+    <dt><a href="pyoptools_wavefront_psurfrep.html#pyoptools.wavefront.psurfrep.PSurf.propagate">(pyoptools.wavefront.psurfrep.PSurf method)</a></dt>
   </dl></dd>
 <dt><a href="pyoptools_wavefront_field.html#pyoptools.wavefront.field.Field.propagate_ae">propagate_ae() (pyoptools.wavefront.field.Field method)</a></dt>
 <dt><a href="pyoptools_wavefront_field.html#pyoptools.wavefront.field.Field.propagate_ae_d">propagate_ae_d() (pyoptools.wavefront.field.Field method)</a></dt>
 <dt><a href="pyoptools_wavefront_field.html#pyoptools.wavefront.field.Field.propagate_fraunhofer">propagate_fraunhofer() (pyoptools.wavefront.field.Field method)</a></dt>
 <dt><a href="pyoptools_wavefront_field.html#pyoptools.wavefront.field.Field.propagate_fresnel">propagate_fresnel() (pyoptools.wavefront.field.Field method)</a></dt>
-<dt><a href="pyoptools_raytrace_system.html#pyoptools.raytrace.system.System.propagate_ray">propagate_ray() (pyoptools.raytrace.system.System method)</a></dt></dl></td><td width="33%" valign="top"><dl>
-<dt><a href="pyoptools_raytrace_system.html#pyoptools.raytrace.system.System.propagate_ray_ns">propagate_ray_ns() (pyoptools.raytrace.system.System method)</a></dt>
+<dt><a href="pyoptools_raytrace_system.html#pyoptools.raytrace.system.System.propagate_ray">propagate_ray() (pyoptools.raytrace.system.System method)</a></dt>
+<dt><a href="pyoptools_raytrace_system.html#pyoptools.raytrace.system.System.propagate_ray_ns">propagate_ray_ns() (pyoptools.raytrace.system.System method)</a></dt></dl></td><td width="33%" valign="top"><dl>
 <dt><a href="pyoptools_wavefront_field.html#pyoptools.wavefront.field.Field.propagate_rs">propagate_rs() (pyoptools.wavefront.field.Field method)</a></dt>
 <dt><a href="pyoptools_wavefront_field.html#pyoptools.wavefront.field.Field.propagate_rsc">propagate_rsc() (pyoptools.wavefront.field.Field method)</a></dt>
 <dt><a href="pyoptools_wavefront_field.html#pyoptools.wavefront.field.Field.propagate_rsc_d">propagate_rsc_d() (pyoptools.wavefront.field.Field method)</a></dt>
@@ -317,8 +322,10 @@
 <dt><a href="pyoptools_wavefront_field.html#pyoptools.wavefront.field.Field.propagate_rsi">propagate_rsi() (pyoptools.wavefront.field.Field method)</a></dt>
 <dt><a href="pyoptools_wavefront_field.html#pyoptools.wavefront.field.Field.propagate_rsi1">propagate_rsi1() (pyoptools.wavefront.field.Field method)</a></dt>
 <dt><a href="pyoptools_wavefront_field.html#pyoptools.wavefront.field.Field.propagate_rsi_gpu">propagate_rsi_gpu() (pyoptools.wavefront.field.Field method)</a></dt>
+<dt><a href="pyoptools_wavefront_psurfrep.html#pyoptools.wavefront.psurfrep.PSurf">PSurf (class in pyoptools.wavefront.psurfrep)</a></dt>
 <dt><a href="pyoptools_raytrace_calc.html#pyoptools.raytrace.calc.pupil_location">pupil_location() (in module pyoptools.raytrace.calc)</a></dt>
 <dt><a href="pyoptools_raytrace_surface.html#pyoptools.raytrace.surface.Surface.pw_cohef">pw_cohef() (pyoptools.raytrace.surface.Surface method)</a></dt>
+<dt><a href="pyoptools_wavefront_psurfrep.html#pyoptools.wavefront.psurfrep.PSurf.pw_evaluate">pw_evaluate() (pyoptools.wavefront.psurfrep.PSurf method)</a></dt>
 <dt><a href="pyoptools_raytrace_surface.html#pyoptools.raytrace.surface.Surface.pw_propagate">pw_propagate() (pyoptools.raytrace.surface.Surface method)</a></dt>
 <dt><a href="pyoptools_raytrace_surface.html#pyoptools.raytrace.surface.Surface.pw_propagate1">pw_propagate1() (pyoptools.raytrace.surface.Surface method)</a></dt>
 <dt><a href="pyoptools_raytrace_surface.html#pyoptools.raytrace.surface.Surface.pw_propagate_list">pw_propagate_list() (pyoptools.raytrace.surface.Surface method)</a></dt>
@@ -451,7 +458,8 @@
 <dl>
 
 <dt><a href="pyoptools_misc_pmisc.html#pyoptools.misc.pmisc.wavelength2RGB">wavelength2RGB() (in module pyoptools.misc.pmisc)</a></dt>
-<dt><a href="pyoptools_raytrace_surface.html#pyoptools.raytrace.surface.Surface.wf_propagate">wf_propagate() (pyoptools.raytrace.surface.Surface method)</a></dt></dl></td><td width="33%" valign="top"><dl>
+<dt><a href="pyoptools_wavefront_psurfrep.html#pyoptools.wavefront.psurfrep.PSurf.wf_polys">wf_polys() (pyoptools.wavefront.psurfrep.PSurf method)</a></dt></dl></td><td width="33%" valign="top"><dl>
+<dt><a href="pyoptools_raytrace_surface.html#pyoptools.raytrace.surface.Surface.wf_propagate">wf_propagate() (pyoptools.raytrace.surface.Surface method)</a></dt>
 </dl></td></tr></table>
 
 <h2 id="Z">Z</h2>
@@ -460,6 +468,7 @@
 
 <dt><a href="pyoptools_wavefront_zernike.html#pyoptools.wavefront.zernike.zernike">zernike() (in module pyoptools.wavefront.zernike)</a></dt>
 <dt><a href="pyoptools_wavefront_zernike.html#pyoptools.wavefront.zernike.zernike2taylor">zernike2taylor() (in module pyoptools.wavefront.zernike)</a>, <a href="pyoptools_wavefront_zernike.html#pyoptools.wavefront.zernike.zernike2taylor">[1]</a></dt></dl></td><td width="33%" valign="top"><dl>
+<dt><a href="pyoptools_wavefront_zernike.html#pyoptools.wavefront.zernike.ZernikeXY">ZernikeXY (class in pyoptools.wavefront.zernike)</a></dt>
 </dl></td></tr></table>
 
 

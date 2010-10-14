@@ -20,9 +20,6 @@
 **Available Classes**
 ---------------------
 
-
-.....
-
 .. autoclass:: Shape()
     
     

@@ -23,11 +23,10 @@
 - :func:`pupil_location`
 - :func:`ray_paths`
 
+
+
 **Available Functions**
 -----------------------
-
-
-.....
 
 .. autofunction:: chief_ray_search(opsys,ccds,o=(0.,0.,0.),rt=(0.,0.,0.),er=0.1,w=pi/2.,maxiter=1000,wavelength=.58929)
 
