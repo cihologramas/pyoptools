@@ -295,7 +295,8 @@ cdef class Field:
         cdef double k=2.*M_PI*n/self.l
         cdef int nx,ny,i,j
         cdef double xd,yd,R2,R,R3
-        cdef double complex ikR 
+        #cdef double complex ikR 
+        cdef np.complex64_t ikR
         nx=x.shape[0]
         ny=x.shape[1]
         cdef np.ndarray[np.complex64_t, ndim=2] result=zeros((nx,ny),dtype=complex64)
@@ -307,7 +308,7 @@ cdef class Field:
                 R=sqrt(R2)
                 R3=R2*R
                 ikR=I*k*R
-                result[i,j]=<np.complex64_t>((z/(2.*M_PI*R3))*cexp(ikR)*(1.-ikR))
+                result[i,j]=((z/(2.*M_PI*R3))*cexp(ikR)*(1.-ikR))
        
         return result 
     
