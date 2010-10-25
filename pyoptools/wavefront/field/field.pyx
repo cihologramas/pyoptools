@@ -307,7 +307,7 @@ cdef class Field:
                 R=sqrt(R2)
                 R3=R2*R
                 ikR=I*k*R
-                result[i,j]=(z/(2.*M_PI*R3))*cexp(ikR)*(1.-ikR)
+                result[i,j]=<np.complex64_t>(z/(2.*M_PI*R3))*cexp(ikR)*(1.-ikR)
        
         return result 
     
