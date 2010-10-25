@@ -1115,7 +1115,7 @@ cdef class Field:
         eta_o  =iy/sy
         
         sq=(1./nf.l)**2 -(zeta_o)**2-(eta_o)**2
-        kappa_o=sqrt(sq)
+        kappa_o=npsqrt(sq)
         
         #Rotate to obtain the K vectors in the rotated space
         

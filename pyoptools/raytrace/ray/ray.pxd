@@ -1,6 +1,6 @@
 
 cimport numpy as np
-
+from cpython cimport bool
 
 
 cdef class Ray:
