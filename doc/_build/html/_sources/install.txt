@@ -10,7 +10,7 @@ UBUNTU 10.04 (Lucid Lynx)
     ~$ sudo apt-get install ipython build-essential python-numpy python-scipy python-matplotlib python-wxversion python-dev python-opengl
 
 
-2. Install Cython 0.13 (www.cython.org)
+2. Download and install Cython 0.13 following the instructions found on the webpage (http://www.cython.org)
 
 3. Download the pyoptools repository::
 
