@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 1
     
    description.rst
+   install.rst
    tutorials.rst
    api.rst
    development.rst

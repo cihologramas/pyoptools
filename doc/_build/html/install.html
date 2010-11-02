@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to pyOpTools’s documentation! &mdash; pyOpTools v0.0.0 documentation</title>
+    <title>Installing pyoptools &mdash; pyOpTools v0.0.0 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -19,8 +19,9 @@
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="pyOpTools v0.0.0 documentation" href="#" />
-    <link rel="next" title="General Description" href="description.html" /> 
+    <link rel="top" title="pyOpTools v0.0.0 documentation" href="index.html" />
+    <link rel="next" title="pyOpTools tutorials" href="tutorials.html" />
+    <link rel="prev" title="General Description" href="description.html" /> 
   </head>
   <body>
     <div class="related">
@@ -33,9 +34,12 @@
           <a href="modindex.html" title="Global Module Index"
              accesskey="M">modules</a> |</li>
         <li class="right" >
-          <a href="description.html" title="General Description"
+          <a href="tutorials.html" title="pyOpTools tutorials"
              accesskey="N">next</a> |</li>
-        <li><a href="#">pyOpTools v0.0.0 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="description.html" title="General Description"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -44,24 +48,28 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="welcome-to-pyoptools-s-documentation">
-<h1>Welcome to pyOpTools&#8217;s documentation!<a class="headerlink" href="#welcome-to-pyoptools-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<ul>
-<li class="toctree-l1"><a class="reference external" href="description.html">General Description</a></li>
-<li class="toctree-l1"><a class="reference external" href="install.html">Installing pyoptools</a></li>
-<li class="toctree-l1"><a class="reference external" href="tutorials.html">pyOpTools tutorials</a></li>
-<li class="toctree-l1"><a class="reference external" href="api.html">pyOpTools API</a></li>
-<li class="toctree-l1"><a class="reference external" href="development.html">Developing Information</a></li>
-</ul>
+  <div class="section" id="installing-pyoptools">
+<h1>Installing pyoptools<a class="headerlink" href="#installing-pyoptools" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ubuntu-10-04-lucid-lynx">
+<h2>UBUNTU 10.04 (Lucid Lynx)<a class="headerlink" href="#ubuntu-10-04-lucid-lynx" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Install ipython, build-essential, python-numpy, python-scipy, python-matplotlib, python-wxversion, python-dev, python-opengl from the repository:</p>
+<div class="highlight-python"><pre>~$ sudo apt-get install ipython build-essential python-numpy python-scipy python-matplotlib python-wxversion python-dev python-opengl</pre>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference external" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference external" href="modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference external" href="search.html"><em>Search Page</em></a></li>
-</ul>
+</li>
+<li><p class="first">Install Cython 0.13 (www.cython.org)</p>
+</li>
+<li><p class="first">Download the pyoptools repository:</p>
+<div class="highlight-python"><pre>~$ svn checkout http://pyoptools.googlecode.com/svn/trunk/ pyoptools</pre>
+</div>
+</li>
+<li><p class="first">Enter the pyoptools folder, build and install the pyoptools:</p>
+<div class="highlight-python"><pre>~$ cd pyoptools
+~$ sudo python setup.py install</pre>
+</div>
+</li>
+</ol>
+</div>
 </div>
 
 
@@ -70,23 +78,26 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="#">
+            <p class="logo"><a href="index.html">
               <img class="logo" src="_static/pyoptools.png" alt="Logo"/>
             </a></p>
-            <h3><a href="#">Table Of Contents</a></h3>
+            <h3><a href="index.html">Table Of Contents</a></h3>
             <ul>
-<li><a class="reference external" href="#">Welcome to pyOpTools&#8217;s documentation!</a><ul>
+<li><a class="reference external" href="#">Installing pyoptools</a><ul>
+<li><a class="reference external" href="#ubuntu-10-04-lucid-lynx">UBUNTU 10.04 (Lucid Lynx)</a></li>
 </ul>
 </li>
-<li><a class="reference external" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
-            <h4>Next topic</h4>
+            <h4>Previous topic</h4>
             <p class="topless"><a href="description.html"
-                                  title="next chapter">General Description</a></p>
+                                  title="previous chapter">General Description</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="tutorials.html"
+                                  title="next chapter">pyOpTools tutorials</a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
-              <li><a href="_sources/index.txt"
+              <li><a href="_sources/install.txt"
                      rel="nofollow">Show Source</a></li>
             </ul>
           <div id="searchbox" style="display: none">
@@ -116,9 +127,12 @@
           <a href="modindex.html" title="Global Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="description.html" title="General Description"
+          <a href="tutorials.html" title="pyOpTools tutorials"
              >next</a> |</li>
-        <li><a href="#">pyOpTools v0.0.0 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="description.html" title="General Description"
+             >previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
