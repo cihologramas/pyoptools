@@ -706,7 +706,7 @@ cdef class poly2d:
         COb=cl.Buffer(ctx0, mf.READ_ONLY | mf.USE_HOST_PTR, hostbuf=CO)
         #Create the buffer for the result
         #res=np.empty((nx,ny),dtype=np.float64)
-        res= empty_mat( nx, ny )
+        res= empty_mat( ny, nx )
     
         # Create the result buffer for the GPU
         
