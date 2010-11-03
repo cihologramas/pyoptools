@@ -289,8 +289,9 @@ class ZernikeXY(object):
             retval=self.poly.meval(x,y)
         return retval
             
-        
-        
+    def gpu_eval(self,x,y):
+        retval=self.poly.gpu_eval(x,y)
+        return retval
 ##
 ##
 ##def Eval_Poly(M,x,y):
