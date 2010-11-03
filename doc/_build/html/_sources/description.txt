@@ -11,7 +11,7 @@ speed. It also uses `wxpython <http://wxpython.org>`_,
 for the graphic enviroment.
 
 .. warning::
-    This software is in a very alfa state, and not ready for production use. Use it at your own risk.
+    This software is in a very alpha state, and not ready for production use. Use it at your own risk.
 
 
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
