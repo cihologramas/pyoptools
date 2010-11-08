@@ -13,6 +13,14 @@
 
 
 
+**Function List**
+-----------------
+
+- :func:`i2pxpy`
+- :func:`ord2i`
+- :func:`pxpy2i`
+
+
 
 **Available Classes**
 ---------------------
@@ -27,10 +35,21 @@
     .. automethod:: eval_2(self, x, y, key)
     .. automethod:: gpu_eval(self,np.ndarray[np.float64_t, ndim=1]x, np.ndarray[np.float64_t, ndim=1]y)
     .. automethod:: gpu_eval1(self,samples)
-    .. automethod:: i2pxpy(i)
     .. automethod:: meval(self, np.ndarray[np.float64_t, ndim=2]x, np.ndarray[np.float64_t, ndim=2]y)
     .. automethod:: mevalr(self, np.ndarray[np.float64_t, ndim=2]x, np.ndarray[np.float64_t, ndim=2]y, double rot=0)
-    .. automethod:: ord2i(o)
     .. automethod:: peval(self, double x, double y)
-    .. automethod:: pxpy2i(int px,int py)
     .. automethod:: vveval(self, np.ndarray[np.float64_t, ndim=1]x, np.ndarray[np.float64_t, ndim=1]y)
+
+
+**Available Functions**
+-----------------------
+
+.. autofunction:: i2pxpy(i)
+
+.....
+
+.. autofunction:: ord2i(o)
+
+.....
+
+.. autofunction:: pxpy2i(int px,int py)

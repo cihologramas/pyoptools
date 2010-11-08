@@ -6,3 +6,20 @@
 .. automodule:: pyoptools.misc.resources
 
 
+
+**Function List**
+-----------------
+
+- :func:`detectCPUs`
+- :func:`detectOpenCL`
+
+
+
+**Available Functions**
+-----------------------
+
+.. autofunction:: detectCPUs()
+
+.....
+
+.. autofunction:: detectOpenCL()

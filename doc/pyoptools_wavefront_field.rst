@@ -13,6 +13,13 @@
 
 
 
+**Function List**
+-----------------
+
+- :func:`plane_wave`
+- :func:`spherical_wave`
+
+
 
 **Available Classes**
 ---------------------
@@ -42,3 +49,13 @@
     .. automethod:: resample(self, samples)
     .. automethod:: resize(self, samples)
     .. automethod:: tilt(self,r=(0.,0., 0.))
+
+
+**Available Functions**
+-----------------------
+
+.. autofunction:: plane_wave(n=(0, 0, 1.),l=.633, size=(10000, 10000), samples=(256, 256), a=1.,  ph=0.)
+
+.....
+
+.. autofunction:: spherical_wave(o=(0,0,-100),l=.633,size=(10000,10000),samples=(256,256),a=1.,ph=0.)

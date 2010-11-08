@@ -951,11 +951,12 @@ cdef class Surface(Picklable):
                    in radians
         step       Step to be used to generate the interpolation data
         order      Order of the Taylor interpolation used
-        rsamples   Tuple containing the number of ray samples to be used in each 
-                   direction
-        zb         Z position of the plane where the measurementas are made. The 
-            origin is the vertex of the surface. If None, an estimate 
-            position is taken.
+        rsamples   Tuple containing the number of ray samples to be used 
+                   in each direction
+        zb         Z position of the plane where the measurementas are 
+                   made. The origin is the vertex of the surface. If 
+                   None, an estimate position is taken.
+        =========  ======================================================  
         
         '''
         xm=self.shape.limits()[1]

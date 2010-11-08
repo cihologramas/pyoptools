@@ -58,23 +58,30 @@
 <li><a title="pyoptools.misc.Poly2D.poly2d" class="reference internal" href="#pyoptools.misc.Poly2D.poly2d"><tt class="xref docutils literal"><span class="pre">poly2d</span></tt></a></li>
 </ul>
 </div>
+<div class="section" id="function-list">
+<h2><strong>Function List</strong><a class="headerlink" href="#function-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a title="pyoptools.misc.Poly2D.i2pxpy" class="reference internal" href="#pyoptools.misc.Poly2D.i2pxpy"><tt class="xref docutils literal"><span class="pre">i2pxpy()</span></tt></a></li>
+<li><a title="pyoptools.misc.Poly2D.ord2i" class="reference internal" href="#pyoptools.misc.Poly2D.ord2i"><tt class="xref docutils literal"><span class="pre">ord2i()</span></tt></a></li>
+<li><a title="pyoptools.misc.Poly2D.pxpy2i" class="reference internal" href="#pyoptools.misc.Poly2D.pxpy2i"><tt class="xref docutils literal"><span class="pre">pxpy2i()</span></tt></a></li>
+</ul>
+</div>
 <div class="section" id="available-classes">
 <h2><strong>Available Classes</strong><a class="headerlink" href="#available-classes" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyoptools.misc.Poly2D.poly2d">
 <em class="property">class </em><tt class="descclassname">pyoptools.misc.Poly2D.</tt><tt class="descname">poly2d</tt><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class to define a 2D polynomial
-.. math::
-z=c0+
+<dd><p>Class to define a 2D polynomial</p>
+<div class="math">
+<p><img src="_images/math/5b37750fdc0a8c649a05325cece39f17c57968b4.png" alt="z=c0+
 c1*x+c2*y+
 c3*x^2+c4*x*y+c5*y^2+
-c6*x^3+c7*x^2*y+c8*x*y^2+c9*y^3+...</p>
-<p><strong>AVAILABLE METHODS</strong></p>
+c6*x^3+c7*x^2*y+c8*x*y^2+c9*y^3+..." /></p>
+</div><p><strong>AVAILABLE METHODS</strong></p>
 <dl class="method">
 <dt id="pyoptools.misc.Poly2D.poly2d.dxdy">
 <tt class="descname">dxdy</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.dxdy" title="Permalink to this definition">¶</a></dt>
-<dd><p>poly2d.dxdy(self)</p>
-<p>Function that calculates the derivative with respect to <tt class="docutils literal"><span class="pre">X</span></tt> and <tt class="docutils literal"><span class="pre">Y</span></tt> of a
+<dd><p>Function that calculates the derivative with respect to <tt class="docutils literal"><span class="pre">X</span></tt> and <tt class="docutils literal"><span class="pre">Y</span></tt> of a
 given polynomial represented as a matrix.</p>
 <p><strong>Return Value</strong></p>
 <blockquote>
@@ -92,8 +99,7 @@ the cohef attribute, the cache does not get updated</p>
 <dl class="method">
 <dt id="pyoptools.misc.Poly2D.poly2d.eval">
 <tt class="descname">eval</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.eval" title="Permalink to this definition">¶</a></dt>
-<dd><p>poly2d.eval(self, x, y)</p>
-<p>Evaluate the polynomial at x,y</p>
+<dd><p>Evaluate the polynomial at x,y</p>
 <p>This is the general method written in numpy. In this method x and y
 can have any shape (number, vectors, matrices, etc).
 Because of its generality, this method is not the fastest.</p>
@@ -128,27 +134,24 @@ or meval to evaluate for 2D matrices</p>
 <dl class="method">
 <dt id="pyoptools.misc.Poly2D.poly2d.eval_2">
 <tt class="descname">eval_2</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em>, <em>key</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.eval_2" title="Permalink to this definition">¶</a></dt>
-<dd>poly2d.eval_2(self, x, y, key)</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.misc.Poly2D.poly2d.gpu_eval">
 <tt class="descname">gpu_eval</tt><big>(</big><em>self</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=1</em><span class="optional">]</span>, <em>x</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=1</em><span class="optional">]</span>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.gpu_eval" title="Permalink to this definition">¶</a></dt>
-<dd><p>poly2d.gpu_eval(self, ndarray x, ndarray y)</p>
-<p>Evaluate the polynomial using the GPU, x and y are vectors</p>
+<dd><p>Evaluate the polynomial using the GPU, x and y are vectors</p>
 <p>This method is similar to vveval, but using the GPU</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.misc.Poly2D.poly2d.gpu_eval1">
 <tt class="descname">gpu_eval1</tt><big>(</big><em>self</em>, <em>samples</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.gpu_eval1" title="Permalink to this definition">¶</a></dt>
-<dd>poly2d.gpu_eval1(self, samples)
-Evaluate the polynomial between -1 and 1 using the gpu</dd></dl>
+<dd>Evaluate the polynomial between -1 and 1 using the gpu</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.misc.Poly2D.poly2d.meval">
 <tt class="descname">meval</tt><big>(</big><em>self</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=2</em><span class="optional">]</span>, <em>x</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=2</em><span class="optional">]</span>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.meval" title="Permalink to this definition">¶</a></dt>
-<dd><p>poly2d.meval(self, ndarray x, ndarray y)</p>
-<p>Evaluate the polynomial at for the values given in the 2D matrices
+<dd><p>Evaluate the polynomial at for the values given in the 2D matrices
 x, y.</p>
 <dl class="docutils">
 <dt>Arguments:</dt>
@@ -179,8 +182,7 @@ have the same shape as x and y</blockquote>
 <dl class="method">
 <dt id="pyoptools.misc.Poly2D.poly2d.mevalr">
 <tt class="descname">mevalr</tt><big>(</big><em>self</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=2</em><span class="optional">]</span>, <em>x</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=2</em><span class="optional">]</span>, <em>y</em>, <em>double rot=0</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.mevalr" title="Permalink to this definition">¶</a></dt>
-<dd><p>poly2d.mevalr(self, ndarray x, ndarray y, double rot=0)</p>
-<p>Evaluate the polynomial at for the values given in the 2D matrices
+<dd><p>Evaluate the polynomial at for the values given in the 2D matrices
 x, y rotated.</p>
 <dl class="docutils">
 <dt>Arguments:</dt>
@@ -216,8 +218,7 @@ rotating x and y</blockquote>
 <dl class="method">
 <dt id="pyoptools.misc.Poly2D.poly2d.peval">
 <tt class="descname">peval</tt><big>(</big><em>self</em>, <em>double x</em>, <em>double y</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.peval" title="Permalink to this definition">¶</a></dt>
-<dd><p>poly2d.peval(self, double x, double y) -&gt; double</p>
-<p>Evaluate the polynomial at the point x,y</p>
+<dd><p>Evaluate the polynomial at the point x,y</p>
 <dl class="docutils">
 <dt>Arguments:</dt>
 <dd><table border="1" class="first last docutils">
@@ -246,8 +247,7 @@ This method returns the polynomial evaluated z=P(X,Y).</blockquote>
 <dl class="method">
 <dt id="pyoptools.misc.Poly2D.poly2d.vveval">
 <tt class="descname">vveval</tt><big>(</big><em>self</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=1</em><span class="optional">]</span>, <em>x</em>, <em>np.ndarray</em><span class="optional">[</span>, <em>np.float64_t</em>, <em>ndim=1</em><span class="optional">]</span>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.poly2d.vveval" title="Permalink to this definition">¶</a></dt>
-<dd><p>poly2d.vveval(self, ndarray x, ndarray y)</p>
-<p>Evaluate the polynomials in a 2D mesh defined by the vectors x and y.</p>
+<dd><p>Evaluate the polynomials in a 2D mesh defined by the vectors x and y.</p>
 <dl class="docutils">
 <dt>Arguments:</dt>
 <dd><table border="1" class="first last docutils">
@@ -282,6 +282,152 @@ to transfer a smaller amount of information to the child processes
 </dd></dl>
 
 </div>
+<div class="section" id="available-functions">
+<h2><strong>Available Functions</strong><a class="headerlink" href="#available-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyoptools.misc.Poly2D.i2pxpy">
+<tt class="descclassname">pyoptools.misc.Poly2D.</tt><tt class="descname">i2pxpy</tt><big>(</big><em>i</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.i2pxpy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that returns the x and y powers for a given poly index</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="2%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>index</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+<td>13</td>
+<td>14</td>
+<td>...</td>
+</tr>
+<tr><td>xpower</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>...</td>
+</tr>
+<tr><td>ypower</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>...</td>
+</tr>
+<tr><td>pol_order</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.misc.Poly2D.ord2i">
+<tt class="descclassname">pyoptools.misc.Poly2D.</tt><tt class="descname">ord2i</tt><big>(</big><em>o</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.ord2i" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that returns the number of coeficients of a polynomial of order o</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="17%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>order</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>...</td>
+</tr>
+<tr><td>i</td>
+<td>1</td>
+<td>3</td>
+<td>6</td>
+<td>10</td>
+<td>15</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.misc.Poly2D.pxpy2i">
+<tt class="descclassname">pyoptools.misc.Poly2D.</tt><tt class="descname">pxpy2i</tt><big>(</big><em>int px</em>, <em>int py</em><big>)</big><a class="headerlink" href="#pyoptools.misc.Poly2D.pxpy2i" title="Permalink to this definition">¶</a></dt>
+<dd>Method that returns the index given power in x and the power in y</dd></dl>
+
+</div>
 </div>
 
 
@@ -297,7 +443,9 @@ to transfer a smaller amount of information to the child processes
             <ul>
 <li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.misc.Poly2D</span></tt></a><ul>
 <li><a class="reference external" href="#class-list"><strong>Class List</strong></a></li>
+<li><a class="reference external" href="#function-list"><strong>Function List</strong></a></li>
 <li><a class="reference external" href="#available-classes"><strong>Available Classes</strong></a></li>
+<li><a class="reference external" href="#available-functions"><strong>Available Functions</strong></a></li>
 </ul>
 </li>
 </ul>
@@ -307,7 +455,7 @@ to transfer a smaller amount of information to the child processes
                                   title="previous chapter"><tt class="docutils literal"><span class="pre">pyoptools.misc.plist</span></tt></a></p>
             <h4>Next topic</h4>
             <p class="topless"><a href="pyoptools_misc_resources.html"
-                                  title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">pyoptools.misc.resources</span></tt></a></p>
+                                  title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.misc.resources</span></tt></a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="_sources/pyoptools_misc_Poly2D.txt"
@@ -351,7 +499,7 @@ to transfer a smaller amount of information to the child processes
     </div>
     <div class="footer">
       &copy; Copyright 2010, Ricardo Amézquita Orozco.
-      Last updated on Oct 14, 2010.
+      Last updated on Nov 08, 2010.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
     </div>
   </body>

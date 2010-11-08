@@ -58,6 +58,13 @@
 <li><a title="pyoptools.wavefront.field.Field" class="reference internal" href="#pyoptools.wavefront.field.Field"><tt class="xref docutils literal"><span class="pre">Field</span></tt></a></li>
 </ul>
 </div>
+<div class="section" id="function-list">
+<h2><strong>Function List</strong><a class="headerlink" href="#function-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a title="pyoptools.wavefront.field.plane_wave" class="reference internal" href="#pyoptools.wavefront.field.plane_wave"><tt class="xref docutils literal"><span class="pre">plane_wave()</span></tt></a></li>
+<li><a title="pyoptools.wavefront.field.spherical_wave" class="reference internal" href="#pyoptools.wavefront.field.spherical_wave"><tt class="xref docutils literal"><span class="pre">spherical_wave()</span></tt></a></li>
+</ul>
+</div>
 <div class="section" id="available-classes">
 <h2><strong>Available Classes</strong><a class="headerlink" href="#available-classes" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -366,6 +373,91 @@ the x axis.
 </dd></dl>
 
 </div>
+<div class="section" id="available-functions">
+<h2><strong>Available Functions</strong><a class="headerlink" href="#available-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyoptools.wavefront.field.plane_wave">
+<tt class="descclassname">pyoptools.wavefront.field.</tt><tt class="descname">plane_wave</tt><big>(</big><em>n=(0</em>, <em>0</em>, <em>1.)</em>, <em>l=.633</em>, <em>size=(10000</em>, <em>10000)</em>, <em>samples=(256</em>, <em>256)</em>, <em>a=1.</em>, <em>ph=0.</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.plane_wave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that returns a plane wave (Field object) that describes a plane wave</p>
+<p>** ARGUMENTS **</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>n</td>
+<td>Tuple (nx,ny,nz) indicating a vector normal to the plane wave</td>
+</tr>
+<tr><td>l</td>
+<td>Wavelength of the plane wave (usually given in microns)</td>
+</tr>
+<tr><td>size</td>
+<td>Tuple (sx,sy) indicating the physical size of the window used
+where the field is defined. It must have the same units as l</td>
+</tr>
+<tr><td>samples</td>
+<td>Tuple (nx,ny) indicating the number of samples to be used when
+creating the plane wave</td>
+</tr>
+<tr><td>a</td>
+<td>Amplitude of the plane wave</td>
+</tr>
+<tr><td>ph</td>
+<td>Phase of the plane wave at the origin (center of the sampling)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.wavefront.field.spherical_wave">
+<tt class="descclassname">pyoptools.wavefront.field.</tt><tt class="descname">spherical_wave</tt><big>(</big><em>o=(0</em>, <em>0</em>, <em>-100)</em>, <em>l=.633</em>, <em>size=(10000</em>, <em>10000)</em>, <em>samples=(256</em>, <em>256)</em>, <em>a=1.</em>, <em>ph=0.</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.field.spherical_wave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that returns a spherical wave (Field instance)</p>
+<p>The spherical wave returned, is evaluated in the plane Z=0, assuming
+the source point at the coordinates X,Y,Z, given by &#8216;&#8217;o&#8217;&#8216;. If o is
+a number, and not a vector, the source point location is the point
+(0,0,o)</p>
+<p>** Arguments: **</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>o</td>
+<td>Location of the point source, assuming that the observation
+plane is given by Z=0</td>
+</tr>
+<tr><td>l</td>
+<td>Wave length of the spherical wave, usually given in microns</td>
+</tr>
+<tr><td>size</td>
+<td>Tuple (sx,sy) indicating the physical size of the window used
+where the field is defined. It must have the same units as l</td>
+</tr>
+<tr><td>samples</td>
+<td>Tuple (nx,ny) indicating the number of samples to be used when
+creating the plane wave</td>
+</tr>
+<tr><td>a</td>
+<td>Amplitude of the plane wave</td>
+</tr>
+<tr><td>ph</td>
+<td>Phase of the spherical wave at the origin (center of the sampling)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If z is positive, the spherical wave generated will be convergent
+when the wave is propagating in the positive direction of the Z
+axis. If z is negative, the wave will be divergent.</p>
+</div>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -381,7 +473,9 @@ the x axis.
             <ul>
 <li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.wavefront.field</span></tt></a><ul>
 <li><a class="reference external" href="#class-list"><strong>Class List</strong></a></li>
+<li><a class="reference external" href="#function-list"><strong>Function List</strong></a></li>
 <li><a class="reference external" href="#available-classes"><strong>Available Classes</strong></a></li>
+<li><a class="reference external" href="#available-functions"><strong>Available Functions</strong></a></li>
 </ul>
 </li>
 </ul>
@@ -435,7 +529,7 @@ the x axis.
     </div>
     <div class="footer">
       &copy; Copyright 2010, Ricardo Amézquita Orozco.
-      Last updated on Oct 14, 2010.
+      Last updated on Nov 08, 2010.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
     </div>
   </body>

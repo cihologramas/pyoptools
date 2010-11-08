@@ -22,7 +22,7 @@ def cpw_evaluate_c(self,np.ndarray[np.double_t, ndim=1] k, samples=(512,512)):
         """Plane wave evaluate, return the 2d polynomials
         
         Arguments:
-        ==========
+        
         k -- Propagation direction of the incident plane wave 
         
         """

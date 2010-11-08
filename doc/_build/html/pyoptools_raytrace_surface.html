@@ -234,6 +234,40 @@ inclinations.</p>
 </dd>
 </dl>
 <p>Arguments:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>ni,nr</td>
+<td>Refraction index from the incident and refracted sides</td>
+</tr>
+<tr><td>ilimit</td>
+<td>Inferior limit for incidence angle of the plane wave
+in radians</td>
+</tr>
+<tr><td>slimit</td>
+<td>Superior limit for incidence angle of the plane wave
+in radians</td>
+</tr>
+<tr><td>step</td>
+<td>Step to be used to generate the interpolation data</td>
+</tr>
+<tr><td>order</td>
+<td>Order of the Taylor interpolation used</td>
+</tr>
+<tr><td>rsamples</td>
+<td>Tuple containing the number of ray samples to be used
+in each direction</td>
+</tr>
+<tr><td>zb</td>
+<td>Z position of the plane where the measurementas are
+made. The origin is the vertex of the surface. If
+None, an estimate position is taken.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -776,7 +810,7 @@ gratting.</p>
     </div>
     <div class="footer">
       &copy; Copyright 2010, Ricardo Amézquita Orozco.
-      Last updated on Oct 14, 2010.
+      Last updated on Nov 08, 2010.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
     </div>
   </body>

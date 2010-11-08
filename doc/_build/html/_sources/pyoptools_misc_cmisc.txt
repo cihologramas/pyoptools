@@ -6,3 +6,30 @@
 .. automodule:: pyoptools.misc.cmisc
 
 
+
+**Function List**
+-----------------
+
+- :func:`dot_test`
+- :func:`test_1`
+- :func:`test_2`
+- :func:`unwrap`
+
+
+
+**Available Functions**
+-----------------------
+
+.. autofunction:: dot_test(mat,vec)
+
+.....
+
+.. autofunction:: test_1(matrix)
+
+.....
+
+.. autofunction:: test_2(vector)
+
+.....
+
+.. autofunction:: unwrap(inph,in_p=(), double uv=2*np.pi, int nn =1)
