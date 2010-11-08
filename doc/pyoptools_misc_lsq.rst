@@ -6,3 +6,25 @@
 .. automodule:: pyoptools.misc.lsq
 
 
+
+**Function List**
+-----------------
+
+- :func:`polyfit2d`
+- :func:`polyfito1`
+- :func:`polyfito2`
+
+
+
+**Available Functions**
+-----------------------
+
+.. autofunction:: polyfit2d(x, y,z, int order=2)
+
+.....
+
+.. autofunction:: polyfito1(x, y, z)
+
+.....
+
+.. autofunction:: polyfito2(x, y, z)

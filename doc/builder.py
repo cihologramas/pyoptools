@@ -2,7 +2,7 @@
 import sys, os, stat, commands
 sys.path=[os.path.abspath('..')]+ sys.path
 
-from inspect import isclass, isfunction
+from inspect import isclass, isfunction, isroutine
 def scandir(dir, files=[]):
     for file in os.listdir(dir):
         path = os.path.join(dir, file)
@@ -55,9 +55,10 @@ def get_function_list(module):
     
     for o in oblist:
         obj=module.__dict__[o]
-        if isfunction(obj):
+        if isfunction(obj) or isroutine(obj):
             r.append(o)
     return r
+    
 
 def document_packages(packages):
     for i in packages:
@@ -76,7 +77,6 @@ def document_packages(packages):
             print "*****************************************************"
             
             continue
-         
             
         
         #rstname=i.split(".")[-1]+".rst"
@@ -152,7 +152,7 @@ def document_packages(packages):
                
                 #Deidentation found
                 
-                if (len(line)-len(line1))<=ide and (line1.split(" ")[0]=="def" or line1.split(" ")[0]=="cdef"):
+                if (len(line)-len(line1))<=ide and (line1.split(" ")[0]=="def" or line1.split(" ")[0]=="cdef" or line1.split(" ")[0]=="cpdef"):
                     break
               
                 
@@ -195,7 +195,7 @@ def document_packages(packages):
         #Generate function documentation
         methods=[]
         for o in flist:
-            #print " ",o
+            print " ",o
             obj=module.__dict__[o]
             fname="../"+obj.__module__.replace(".","/")
             try:
@@ -209,9 +209,8 @@ def document_packages(packages):
             signature="()"
             for line in code:
                  
-                #Find other public methods
-                if (line.split(" ")[0]=="def" or line.split(" ")[0]=="cpdef" ) and line.find(" _")==-1 and line.find(" class ")==-1 and line[0]=="d" and line.find(o)!=-1:
-                    #print "****",line
+                #Find other public functions
+                if (line.split(" ")[0]=="def" or line.split(" ")[0]=="cpdef" ) and line.find(" _")==-1 and line.find(" class ")==-1 and (line[0]=="d" or line[0]=="c") and line.find(o)!=-1:
                     line1=line.strip()
                     #Find Argument
                     sp=line1.find("(")

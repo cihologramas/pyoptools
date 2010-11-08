@@ -6,3 +6,15 @@
 .. automodule:: pyoptools.wavefront.cpsurfrep
 
 
+
+**Function List**
+-----------------
+
+- :func:`cpw_evaluate_c`
+
+
+
+**Available Functions**
+-----------------------
+
+.. autofunction:: cpw_evaluate_c(self,np.ndarray[np.double_t, ndim=1] k, samples=(512,512))

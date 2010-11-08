@@ -34,6 +34,7 @@
 
     .. automethod:: eval(self)
     .. automethod:: evalm(self,x,y,mask=True)
+    .. automethod:: gpu_eval(self,x,y)
 
 
 **Available Functions**
