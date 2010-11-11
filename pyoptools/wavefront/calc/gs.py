@@ -7,7 +7,7 @@ from numpy.random import random
 
 def GScgh(z,target,reference=1.,iterations=20,error=None):
     '''
-    Gerber Saxton Algorithm for Fourier CGH
+    Gerchberg - Saxton Algorithm for Fourier CGH
     
     Function that calculates Fourier holographic optical elements using
     the Gerber Saxton algorithm. The algorithm uses the FFT implementation
@@ -81,7 +81,7 @@ def GScgh(z,target,reference=1.,iterations=20,error=None):
 
 def GScghFr(z,target,reference=1.,iterations=20,error=None):
     '''
-    Gerber Saxton Algorithm for Fresnel CGS
+    Gerchberg - Saxton Algorithm for Fresnel CGS
     
     Function that calculates a Fresnel holographic optical elements using
     the Gerber Saxton algorithm. The algorithm uses the FFT implementation
@@ -159,7 +159,7 @@ def GScghFr(z,target,reference=1.,iterations=20,error=None):
 
 def GScghAE(z,target,reference=1.,iterations=20,error=None):
     '''
-    Gerber Saxton Algorithm for to calculate CGS, using the Angular 
+    Gerchberg - Saxton Algorithm for to calculate CGS, using the Angular 
     Spectrum propagation method.
     
     Function that calculates a holographic optical elements using
