@@ -54,7 +54,7 @@ cdef init_cl():
         ## Inicio del programa
 
         prg_src = """
-        #pragma OPENCL EXTENSION cl_khr_fp64 : enable
+        #pragma OPENCL EXTENSION cl_amd_fp64 : enable
         __kernel void rsk(
                             __global double *Xb,
                             __global double *Yb,
@@ -102,7 +102,7 @@ cdef init_cl():
          
 
         prg_src = """
-        #pragma OPENCL EXTENSION cl_khr_fp64 : enable
+        #pragma OPENCL EXTENSION cl_amd_fp64 : enable
         __kernel void rsk(
                           __global double *PXb,
                           __global double *PYb,
@@ -142,7 +142,7 @@ cdef init_cl():
         prg1 = cl.Program(ctx0,prg_src ).build()
         
         prg_src = """
-        #pragma OPENCL EXTENSION cl_khr_fp64 : enable
+        #pragma OPENCL EXTENSION cl_amd_fp64 : enable
         __kernel void rsk(
                           __global double *Xb,
                           __global double *Yb,
