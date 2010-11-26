@@ -315,7 +315,7 @@ def asGS(z,target,estimate=None, iterations=20,error=None):
             imp=holo.propagate_ae(z)
             
             err=(ntarget-imp.abs()/imp.abs().max()).std()
-            print err
+            
             if error!=None and err<error: break
             
             d=exp(1.j*imp.angle)
