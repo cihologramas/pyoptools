@@ -103,7 +103,7 @@ def ffGS(z,target,estimate=None, iterations=20,error=None):
             
             err=(ntarget-imp.abs()/imp.abs().max()).std()
             
-            if err!=None and err<error: break
+            if error!=None and err<error: break
             
             d=exp(1.j*imp.angle)
             imp=Field(data=d, psize=imp.psize, l=imp.l)
@@ -210,7 +210,7 @@ def frGS(z,target,estimate=None, iterations=20,error=None):
             
             err=(ntarget-imp.abs()/imp.abs().max()).std()
             
-            if err!=None and err<error: break
+            if error!=None and err<error: break
             
             d=exp(1.j*imp.angle)
             imp=Field(data=d, psize=imp.psize, l=imp.l)
@@ -286,14 +286,13 @@ def asGS(z,target,estimate=None, iterations=20,error=None):
     assert target.l==estimate.l,\
         "The wave lenghts for the reference beam, and the target must be equal"
         
-    sx,sy=target.size 
-    dxe=target.l*z/sx
-    dye=target.l*z/sy
+
+    dxe,dye=target.res
     
     dx,dy=estimate.res
     
     assert (dxe==dx) and (dye==dy),\
-        "The resolution for the reference beam, and the target must be equal" 
+        "The resolution for the estimate beam, and the target must be equal" 
      
     
     
@@ -306,18 +305,18 @@ def asGS(z,target,estimate=None, iterations=20,error=None):
 
     for n in range(iterations):
         
-            if n!=0: holo=imp.propagate_fraunhofer(-z)
+            if n!=0: holo=imp.propagate_ae(-z)
 
             #Keep only the phase in the hologram plane
             holo.data=exp(1.j*holo.angle)
             holo=holo*eabs
             
             #Calculate the new image plane
-            imp=holo.propagate_fraunhofer(z)
+            imp=holo.propagate_ae(z)
             
             err=(ntarget-imp.abs()/imp.abs().max()).std()
-            
-            if err!=None and err<error: break
+            print err
+            if error!=None and err<error: break
             
             d=exp(1.j*imp.angle)
             imp=Field(data=d, psize=imp.psize, l=imp.l)
