@@ -10,29 +10,21 @@
 **Function List**
 -----------------
 
-- :func:`GScgh`
-- :func:`GScghFr`
-- :func:`GScghAE`
+- :func:`asGS`
+- :func:`ffGS`
+- :func:`frGS`
 
 
 
 **Available Functions**
 -----------------------
 
-.. autofunction:: GScgh(z,target,reference=1.,iterations=20,error=None)
+.. autofunction:: asGS(z,target,estimate=None, iterations=20,error=None)
 
 .....
 
-.. autofunction:: GScghAE(z,target,reference=1.,iterations=20,error=None)
+.. autofunction:: ffGS(z,target,estimate=None, iterations=20,error=None)
 
 .....
 
-.. autofunction:: GScghAE(z,target,reference=1.,iterations=20,error=None)
-
-.....
-
-.. autofunction:: GScghFr(z,target,reference=1.,iterations=20,error=None)
-
-.....
-
-.. autofunction:: GScghFr(z,target,reference=1.,iterations=20,error=None)
+.. autofunction:: frGS(z,target,estimate=None, iterations=20,error=None)

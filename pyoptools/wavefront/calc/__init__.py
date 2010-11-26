@@ -4,7 +4,7 @@
 Collection of functions that calculate different things using fields.
 '''
 
-from gs import ffGS,GScghFr,GScghAE
-__all__=["ffGS",
-         "GScghFr",
-         "GScghAE"]
+from gs import asGS,frGS, ffGS
+__all__=["asGS",
+         "ffGS",
+         "frGS"]

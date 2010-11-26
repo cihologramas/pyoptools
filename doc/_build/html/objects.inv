@@ -15,6 +15,7 @@ pyoptools.misc.pmisc mod pyoptools_misc_pmisc.html
 pyoptools.misc.definitions mod pyoptools_misc_definitions.html
 pyoptools.raytrace.component mod pyoptools_raytrace_component.html
 pyoptools.misc.Poly2D mod pyoptools_misc_Poly2D.html
+pyoptools.wavefront.calc mod pyoptools_wavefront_calc.html
 pyoptools.raytrace.ray mod pyoptools_raytrace_ray.html
 pyoptools.misc mod api.html
 pyoptools.wavefront mod api.html
@@ -50,7 +51,6 @@ pyoptools.raytrace.component.Component.clear method pyoptools_raytrace_component
 pyoptools.misc.Poly2D.poly2d.mevalr method pyoptools_misc_Poly2D.html
 pyoptools.raytrace.component.Component.distance method pyoptools_raytrace_component.html
 pyoptools.wavefront.zernike.rnm function pyoptools_wavefront_zernike.html
-pyoptools.wavefront.field.Field.propagate_rsi_gpu method pyoptools_wavefront_field.html
 pyoptools.misc.pmisc.hitlist2int function pyoptools_misc_pmisc.html
 pyoptools.raytrace.system.System class pyoptools_raytrace_system.html
 pyoptools.raytrace.ray.Ray.optical_path method pyoptools_raytrace_ray.html
@@ -72,6 +72,7 @@ pyoptools.raytrace.system.System.keys method pyoptools_raytrace_system.html
 pyoptools.raytrace.surface.Surface.distance_s method pyoptools_raytrace_surface.html
 pyoptools.raytrace.surface.Plane.topo method pyoptools_raytrace_surface.html
 pyoptools.raytrace.component.Component.get_surf_paths method pyoptools_raytrace_component.html
+pyoptools.raytrace.surface.Surface class pyoptools_raytrace_surface.html
 pyoptools.misc.Poly2D.poly2d.meval method pyoptools_misc_Poly2D.html
 pyoptools.misc.pmisc.wavelength2RGB function pyoptools_misc_pmisc.html
 pyoptools.raytrace.surface.Surface.int_nor method pyoptools_raytrace_surface.html
@@ -120,7 +121,6 @@ pyoptools.raytrace.component.Component.surf_changed method pyoptools_raytrace_co
 pyoptools.misc.pmisc.rot_x function pyoptools_misc_pmisc.html
 pyoptools.raytrace.system.System.clear_ray_list method pyoptools_raytrace_system.html
 pyoptools.misc.cmisc.dot_test function pyoptools_misc_cmisc.html
-pyoptools.raytrace.surface.Surface class pyoptools_raytrace_surface.html
 pyoptools.raytrace.ray.Ray.ch_coord_sys_inv method pyoptools_raytrace_ray.html
 pyoptools.raytrace.component.Component.propagate method pyoptools_raytrace_component.html
 pyoptools.raytrace.calc.parallel_propagate_ns function pyoptools_raytrace_calc.html
@@ -131,12 +131,11 @@ pyoptools.raytrace.component.Component.iterkeys method pyoptools_raytrace_compon
 pyoptools.wavefront.zernike.polar_array function pyoptools_wavefront_zernike.html
 pyoptools.misc.plist.plist.iteritems method pyoptools_misc_plist.html
 pyoptools.raytrace.ray.Ray class pyoptools_raytrace_ray.html
-pyoptools.raytrace.component.Component.update method pyoptools_raytrace_component.html
+pyoptools.wavefront.field.Field.propagate_rsi_gpu method pyoptools_wavefront_field.html
 pyoptools.wavefront.field.Field.propagate_rs method pyoptools_wavefront_field.html
 pyoptools.raytrace.calc.pupil_location function pyoptools_raytrace_calc.html
 pyoptools.wavefront.field.Field.rayrep method pyoptools_wavefront_field.html
 pyoptools.raytrace.surface.Surface.reset method pyoptools_raytrace_surface.html
-pyoptools.raytrace.surface.Cylinder.polylist method pyoptools_raytrace_surface.html
 pyoptools.raytrace.surface.ArrayDetector.get_histogram method pyoptools_raytrace_surface.html
 pyoptools.misc.pmisc.cross function pyoptools_misc_pmisc.html
 pyoptools.misc.pmisc.unwrapv function pyoptools_misc_pmisc.html
@@ -171,6 +170,7 @@ pyoptools.raytrace.surface.Aspherical class pyoptools_raytrace_surface.html
 pyoptools.wavefront.zernike.ZernikeXY.evalm method pyoptools_wavefront_zernike.html
 pyoptools.misc.resources.detectCPUs function pyoptools_misc_resources.html
 pyoptools.raytrace.system.System.distance method pyoptools_raytrace_system.html
+pyoptools.raytrace.shape.Shape.hit method pyoptools_raytrace_shape.html
 pyoptools.raytrace.surface.Surface.pw_propagate1 method pyoptools_raytrace_surface.html
 pyoptools.raytrace.surface.RPPMask.propagate method pyoptools_raytrace_surface.html
 pyoptools.raytrace.component.Component.reset method pyoptools_raytrace_component.html
@@ -181,7 +181,7 @@ pyoptools.wavefront.psurfrep.PSurf.wf_polys method pyoptools_wavefront_psurfrep.
 pyoptools.raytrace.ray.parallel_beam_p function pyoptools_raytrace_ray.html
 pyoptools.raytrace.shape.Rectangular.fhit method pyoptools_raytrace_shape.html
 pyoptools.raytrace.component.Component.values method pyoptools_raytrace_component.html
-pyoptools.raytrace.shape.Shape.hit method pyoptools_raytrace_shape.html
+pyoptools.wavefront.calc.frGS function pyoptools_wavefront_calc.html
 pyoptools.raytrace.calc.paraxial_location function pyoptools_raytrace_calc.html
 pyoptools.wavefront.field.Field.tilt method pyoptools_wavefront_field.html
 pyoptools.raytrace.component.Component.keys method pyoptools_raytrace_component.html
@@ -201,10 +201,11 @@ pyoptools.raytrace.surface.RPPMask.topo method pyoptools_raytrace_surface.html
 pyoptools.raytrace.system.System.propagate_ray method pyoptools_raytrace_system.html
 pyoptools.raytrace.surface.Surface.polylist method pyoptools_raytrace_surface.html
 pyoptools.raytrace.component.Component.itervalues method pyoptools_raytrace_component.html
+pyoptools.wavefront.zernike.zernike function pyoptools_wavefront_zernike.html
 pyoptools.misc.plist.plist.setdefault method pyoptools_misc_plist.html
 pyoptools.misc.plist.plist.viewkeys method pyoptools_misc_plist.html
 pyoptools.misc.frft.rs_kernel function pyoptools_misc_frft.html
-pyoptools.wavefront.zernike.zernike function pyoptools_wavefront_zernike.html
+pyoptools.raytrace.component.Component.update method pyoptools_raytrace_component.html
 pyoptools.misc.plist.plist.viewvalues method pyoptools_misc_plist.html
 pyoptools.raytrace.surface.Spherical.normal method pyoptools_raytrace_surface.html
 pyoptools.raytrace.surface.ArrayDetector class pyoptools_raytrace_surface.html
@@ -215,6 +216,7 @@ pyoptools.raytrace.surface.TaylorPoly.topo method pyoptools_raytrace_surface.htm
 pyoptools.misc.lsq.polyfito1 function pyoptools_misc_lsq.html
 pyoptools.misc.Poly2D.i2pxpy function pyoptools_misc_Poly2D.html
 pyoptools.wavefront.field.Field.propagate_rsc_d method pyoptools_wavefront_field.html
+pyoptools.wavefront.calc.ffGS function pyoptools_wavefront_calc.html
 pyoptools.wavefront.field.plane_wave function pyoptools_wavefront_field.html
 pyoptools.raytrace.system.System.get_component method pyoptools_raytrace_system.html
 pyoptools.wavefront.zernike.ZernikeXY.gpu_eval method pyoptools_wavefront_zernike.html
@@ -224,7 +226,7 @@ pyoptools.wavefront.field.Field.intensity method pyoptools_wavefront_field.html
 pyoptools.raytrace.ray.point_source_p function pyoptools_raytrace_ray.html
 pyoptools.raytrace.ray.point_source_r function pyoptools_raytrace_ray.html
 pyoptools.misc.Poly2D.poly2d.peval method pyoptools_misc_Poly2D.html
-pyoptools.raytrace.system.System.get_surf_paths method pyoptools_raytrace_system.html
+pyoptools.raytrace.surface.Cylinder.polylist method pyoptools_raytrace_surface.html
 pyoptools.raytrace.surface.Cylindrical.topo method pyoptools_raytrace_surface.html
 pyoptools.wavefront.field.Field.propagate_fresnel method pyoptools_wavefront_field.html
 pyoptools.raytrace.calc.intersection function pyoptools_raytrace_calc.html
@@ -250,7 +252,9 @@ pyoptools.raytrace.surface.Plane class pyoptools_raytrace_surface.html
 pyoptools.raytrace.surface.TaylorPoly class pyoptools_raytrace_surface.html
 pyoptools.raytrace.surface.Cylinder class pyoptools_raytrace_surface.html
 pyoptools.wavefront.field.Field.conj method pyoptools_wavefront_field.html
+pyoptools.raytrace.system.System.get_surf_paths method pyoptools_raytrace_system.html
 pyoptools.misc.plist.plist.iter method pyoptools_misc_plist.html
 pyoptools.raytrace.ray.Ray.ch_coord_sys method pyoptools_raytrace_ray.html
 pyoptools.raytrace.system.System.merge method pyoptools_raytrace_system.html
+pyoptools.wavefront.calc.asGS function pyoptools_wavefront_calc.html
 pyoptools.raytrace.system.System.ray_add method pyoptools_raytrace_system.html

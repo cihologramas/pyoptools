@@ -50,22 +50,240 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="pyoptools-wavefront-calc">
-<h1><tt class="xref docutils literal"><span class="pre">pyoptools.wavefront.calc</span></tt><a class="headerlink" href="#pyoptools-wavefront-calc" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-pyoptools.wavefront.calc">
+<h1><tt class="xref docutils literal"><span class="pre">pyoptools.wavefront.calc</span></tt><a class="headerlink" href="#module-pyoptools.wavefront.calc" title="Permalink to this headline">¶</a></h1>
+<p>Collection of functions that calculate different things using fields.</p>
 <div class="section" id="function-list">
 <h2><strong>Function List</strong><a class="headerlink" href="#function-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><tt class="xref docutils literal"><span class="pre">GScgh()</span></tt></li>
-<li><tt class="xref docutils literal"><span class="pre">GScghFr()</span></tt></li>
-<li><tt class="xref docutils literal"><span class="pre">GScghAE()</span></tt></li>
+<li><a title="pyoptools.wavefront.calc.asGS" class="reference internal" href="#pyoptools.wavefront.calc.asGS"><tt class="xref docutils literal"><span class="pre">asGS()</span></tt></a></li>
+<li><a title="pyoptools.wavefront.calc.ffGS" class="reference internal" href="#pyoptools.wavefront.calc.ffGS"><tt class="xref docutils literal"><span class="pre">ffGS()</span></tt></a></li>
+<li><a title="pyoptools.wavefront.calc.frGS" class="reference internal" href="#pyoptools.wavefront.calc.frGS"><tt class="xref docutils literal"><span class="pre">frGS()</span></tt></a></li>
 </ul>
 </div>
 <div class="section" id="available-functions">
 <h2><strong>Available Functions</strong><a class="headerlink" href="#available-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyoptools.wavefront.calc.asGS">
+<tt class="descclassname">pyoptools.wavefront.calc.</tt><tt class="descname">asGS</tt><big>(</big><em>z</em>, <em>target</em>, <em>estimate=None</em>, <em>iterations=20</em>, <em>error=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.calc.asGS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Angular spectrum Gerchberg - Saxton Algorithm</p>
+<p>Calculates the phase distribution in a object plane (for a given 
+amplitude constrain) to obtain an specific amplitude distribution in
+the target plane.
+It uses the Gerber Saxton algorithm for the angular spectrum 
+propagation.</p>
+<p><strong>ARGUMENTS:</strong></p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>z</td>
+<td>Propagation distance. This is used to calculate the
+resolution needed in the object plane, for a given
+target resolution.</td>
+</tr>
+<tr><td>target</td>
+<td><tt class="xref docutils literal"><span class="pre">Field</span></tt> instance whose amplitude distribution
+is used to represent the amplitude constrain to be
+applied in the target plane. The phase of this field
+is not used.</td>
+</tr>
+<tr><td>estimate</td>
+<td><p class="first"><tt class="xref docutils literal"><span class="pre">Field</span></tt> instance used as initial estimate for
+the problem. The amplitude of this field is taken as
+the reference amplitude and the phase is obtained. It
+must have the same resolution as the target field.</p>
+<p class="last">If not given, a unitary amplitude wave, with random
+phase and the correct resolution, is used.</p>
+</td>
+</tr>
+<tr><td>iterations</td>
+<td>Maximum number of iterations</td>
+</tr>
+<tr><td>error</td>
+<td>Expected error</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<dl class="docutils">
+<dt><strong>RETURN VALUE:</strong></dt>
+<dd><p class="first">(holo,err)</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>holo</td>
+<td>Field instance, containing the reference amplitude
+information and the phase obtained from the iterative
+algorithm. The holo.res attribute contains the
+resolution of the calculated hologram for the given
+propagation distance. The holo.l attribute contains the
+wavelenght used to calculate the hologram.</td>
+</tr>
+<tr><td>err</td>
+<td>Final error obtained</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
 <hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.wavefront.calc.ffGS">
+<tt class="descclassname">pyoptools.wavefront.calc.</tt><tt class="descname">ffGS</tt><big>(</big><em>z</em>, <em>target</em>, <em>estimate=None</em>, <em>iterations=20</em>, <em>error=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.calc.ffGS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Far field Gerchberg - Saxton Algorithm</p>
+<p>Calculates the phase distribution in a object plane (for a given 
+amplitude constrain) to obtain an specific amplitude distribution in
+the target plane.
+It uses the Gerber Saxton algorithm for Fraunhoffer propagation. 
+A FFT implementation of the Fraunhoffer Transform is used.</p>
+<p><strong>ARGUMENTS:</strong></p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>z</td>
+<td>Propagation distance. This is used to calculate the
+resolution needed in the object plane, for a given
+target resolution.</td>
+</tr>
+<tr><td>target</td>
+<td><tt class="xref docutils literal"><span class="pre">Field</span></tt> instance whose amplitude distribution
+is used to represent the amplitude constrain to be
+applied in the target plane. The phase of this field
+is not used.</td>
+</tr>
+<tr><td>estimate</td>
+<td><tt class="xref docutils literal"><span class="pre">Field</span></tt> instance used as initial estimate for
+the problem. The amplitude of this field is taken as
+the reference amplitude and the phase is obtained. The
+resolution used to define this field must match the
+value needed to obtain the required target resolution
+when the FFT-Fraunhoffer transform is used. If the
+wrong value is given an exception is raised.
+If not given, a unitary amplitude wave, with random
+phase and the correct resolution, is used.</td>
+</tr>
+<tr><td>iterations</td>
+<td>Maximum number of iterations</td>
+</tr>
+<tr><td>error</td>
+<td>Expected error</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<dl class="docutils">
+<dt><strong>RETURN VALUE:</strong></dt>
+<dd><p class="first">(holo,err)</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>holo</td>
+<td>Field instance, containing the reference amplitude
+information and the phase obtained from the iterative
+algorithm. The holo.res attribute contains the
+resolution of the calculated hologram for the given
+propagation distance. The holo.l attribute contains the
+wavelenght used to calculate the hologram.</td>
+</tr>
+<tr><td>err</td>
+<td>Final error obtained</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
 <hr class="docutils" />
-<hr class="docutils" />
-<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.wavefront.calc.frGS">
+<tt class="descclassname">pyoptools.wavefront.calc.</tt><tt class="descname">frGS</tt><big>(</big><em>z</em>, <em>target</em>, <em>estimate=None</em>, <em>iterations=20</em>, <em>error=None</em><big>)</big><a class="headerlink" href="#pyoptools.wavefront.calc.frGS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fresnel transform Gerchberg - Saxton Algorithm</p>
+<p>Calculates the phase distribution in a object plane (for a given 
+amplitude constrain) to obtain an specific amplitude distribution in
+the target plane.</p>
+<p>A FFT implementation of the Fresnel Transform is used.</p>
+<p><strong>ARGUMENTS:</strong></p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>z</td>
+<td>Propagation distance. This is used to calculate the
+resolution needed in the object plane, for a given
+target resolution.</td>
+</tr>
+<tr><td>target</td>
+<td><tt class="xref docutils literal"><span class="pre">Field</span></tt> instance whose amplitude distribution
+is used to represent the amplitude constrain to be
+applied in the target plane. The phase of this field
+is not used.</td>
+</tr>
+<tr><td>estimate</td>
+<td><tt class="xref docutils literal"><span class="pre">Field</span></tt> instance used as initial estimate for
+the problem. The amplitude of this field is taken as
+the reference amplitude and the phase is obtained. The
+resolution used to define this field must match the
+value needed to obtain the required target resolution
+when the FFT-Fresnel transform is used. If the
+wrong value is given an exception is raised.
+If not given, a unitary amplitude wave, with random
+phase and the correct resolution, is used.</td>
+</tr>
+<tr><td>iterations</td>
+<td>Maximum number of iterations</td>
+</tr>
+<tr><td>error</td>
+<td>Expected error</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<dl class="docutils">
+<dt><strong>RETURN VALUE:</strong></dt>
+<dd><p class="first">(holo,err)</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>holo</td>
+<td>Field instance, containing the reference amplitude
+information and the phase obtained from the iterative
+algorithm. The holo.res attribute contains the
+resolution of the calculated hologram for the given
+propagation distance. The holo.l attribute contains the
+wavelenght used to calculate the hologram.</td>
+</tr>
+<tr><td>err</td>
+<td>Final error obtained</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 
