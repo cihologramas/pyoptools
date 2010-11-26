@@ -17,7 +17,7 @@ def ffGS(z,target,estimate=None, iterations=20,error=None):
     
     **ARGUMENTS:**
     
-        ========== ===================================================
+        ========== ======================================================
         z          Propagation distance. This is used to calculate the 
                    resolution needed in the object plane, for a given 
                    target resolution. 
@@ -36,14 +36,14 @@ def ffGS(z,target,estimate=None, iterations=20,error=None):
                    phase and the correct resolution, is used.
         iterations Maximum number of iterations
         error      Expected error
-        ========== ===================================================
+        ========== ======================================================
     
         .. note : target and object must have the same wavelength 
     
     **RETURN VALUE:**
         (holo,err)
         
-        ====  ===========================================================
+        ====  ==========================================================
         holo  Field instance, containing the reference amplitude 
               information and the phase obtained from the iterative 
               algorithm. The holo.res attribute contains the
@@ -52,7 +52,7 @@ def ffGS(z,target,estimate=None, iterations=20,error=None):
               wavelenght used to calculate the hologram.
         
         err   Final error obtained
-        ====  ===========================================================
+        ====  ==========================================================
 
 
     '''
@@ -123,7 +123,7 @@ def frGS(z,target,estimate=None, iterations=20,error=None):
     
     **ARGUMENTS:**
     
-        ========== ===================================================
+        ========== ======================================================
         z          Propagation distance. This is used to calculate the 
                    resolution needed in the object plane, for a given 
                    target resolution. 
@@ -142,7 +142,7 @@ def frGS(z,target,estimate=None, iterations=20,error=None):
                    phase and the correct resolution, is used.
         iterations Maximum number of iterations
         error      Expected error
-        ========== ===================================================
+        ========== ======================================================
     
         .. note : target and object must have the same wavelength 
     
@@ -233,7 +233,7 @@ def asGS(z,target,estimate=None, iterations=20,error=None):
     
     **ARGUMENTS:**
     
-        ========== ===================================================
+        ========== =====================================================
         z          Propagation distance. This is used to calculate the 
                    resolution needed in the object plane, for a given 
                    target resolution. 
@@ -250,8 +250,8 @@ def asGS(z,target,estimate=None, iterations=20,error=None):
                    phase and the correct resolution, is used.
         iterations Maximum number of iterations
         error      Expected error
-        ========== ===================================================
-    
+        ========== =====================================================
+            
         .. note : target and object must have the same wavelength 
     
     **RETURN VALUE:**
