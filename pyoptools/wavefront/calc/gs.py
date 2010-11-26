@@ -5,34 +5,48 @@ from numpy import exp,pi
 from numpy.random import random
 
 
-def GScgh(z,target,reference=1.,iterations=20,error=None):
+def ffGS(z,target,estimate=None, iterations=20,error=None):
     '''
-    Gerchberg - Saxton Algorithm for Fourier CGH
+    Far field Gerchberg - Saxton Algorithm
     
-    Function that calculates Fourier holographic optical elements using
-    the Gerber Saxton algorithm. The algorithm uses the FFT implementation
-    of the Fraunhoffer Transform.
+    Calculates the phase distribution in a object plane (for a given 
+    amplitude constrain) to obtain an specific amplitude distribution in
+    the target plane.
+    It uses the Gerber Saxton algorithm for Fraunhoffer propagation. 
+    A FFT implementation of the Fraunhoffer Transform is used.
     
     **ARGUMENTS:**
     
         ========== ===================================================
         z          Propagation distance. This is used to calculate the 
-                   resolution needed in the CGH
-        target     Field used to represent the amplitude distribution 
-                   to be obtained in the target plane.
-        reference  Field used as reference to reconstruct the hologram. If
-                   not given, a unitary amplitude plane wave is used. 
+                   resolution needed in the object plane, for a given 
+                   target resolution. 
+        target     :class:`Field` instance whose amplitude distribution 
+                   is used to represent the amplitude constrain to be 
+                   applied in the target plane. The phase of this field 
+                   is not used.
+        estimate   :class:`Field` instance used as initial estimate for 
+                   the problem. The amplitude of this field is taken as 
+                   the reference amplitude and the phase is obtained. The 
+                   resolution used to define this field must match the
+                   value needed to obtain the required target resolution
+                   when the FFT-Fraunhoffer transform is used. If the 
+                   wrong value is given an exception is raised.
+                   If not given, a unitary amplitude wave, with random 
+                   phase and the correct resolution, is used.
         iterations Maximum number of iterations
         error      Expected error
         ========== ===================================================
     
+        .. note : target and object must have the same wavelength 
     
     **RETURN VALUE:**
         (holo,err)
         
         ====  ===========================================================
-        holo  Field instance, containing the phase mask obtained from the
-              iterative algorithm. The holo.res attribute contains the
+        holo  Field instance, containing the reference amplitude 
+              information and the phase obtained from the iterative 
+              algorithm. The holo.res attribute contains the
               resolution of the calculated hologram for the given 
               propagation distance. The holo.l attribute contains the 
               wavelenght used to calculate the hologram.
@@ -44,72 +58,101 @@ def GScgh(z,target,reference=1.,iterations=20,error=None):
     '''
     
     
-    
-    #assert reference.shape==target.shape,\
-    #    "The reference field, and the target, must have the same shape"
-    
-    #assert target.l====reference.l,\
-    #    "The wave lenghts for the reference beam, and the target must be equal"
-    if type(reference) is float:
-        ramp=reference
-        rang=0.
-    else: #Reference is a field
-        ramp=reference.abs()
-        rang=reference.angle
+    if estimate==None:
+        edata=exp(2.j*pi*random(target.shape))
+        sx,sy=target.size 
+        dxe=target.l*z/sx
+        dye=target.l*z/sy
+        estimate=Field(data=edata,psize=(dxe,dye),l=target.l)
 
-    ctarget=target*exp(-2.j*pi*random(target.shape))
+   
+    assert estimate.shape==target.shape,\
+        "The estimate field, and the target field, must have the same shape"
     
-    holo=target.propagate_fraunhofer(-z)
+    assert target.l==estimate.l,\
+        "The wave lenghts for the reference beam, and the target must be equal"
+        
+    sx,sy=target.size 
+    dxe=target.l*z/sx
+    dye=target.l*z/sy
+    
+    dx,dy=estimate.res
+    
+    assert (dxe==dx) and (dye==dy),\
+        "The resolution for the reference beam, and the target must be equal" 
+     
+    
+    
+    
+    holo=estimate
+    eabs=estimate.abs()
+    
+    #Normalized Target amplitude
     ntarget=target.abs()/target.abs().max()
+
     for n in range(iterations):
+        
             if n!=0: holo=imp.propagate_fraunhofer(-z)
-            
+
             #Keep only the phase in the hologram plane
-            holo.data=exp(1.j*holo.angle)*ramp
+            holo.data=exp(1.j*holo.angle)
+            holo=holo*eabs
+            
             #Calculate the new image plane
             imp=holo.propagate_fraunhofer(z)
+            
             err=(ntarget-imp.abs()/imp.abs().max()).std()
+            
             if err!=None and err<error: break
-            d=exp(1.j*(imp.angle-rang))
+            
+            d=exp(1.j*imp.angle)
             imp=Field(data=d, psize=imp.psize, l=imp.l)
             imp=imp*target.abs()
-    
-    #Take into account the reference beam phase        
-    holo=holo*exp(-1.j*rang)
     return holo,err
 
 
-def GScghFr(z,target,reference=1.,iterations=20,error=None):
+def frGS(z,target,estimate=None, iterations=20,error=None):
     '''
-    Gerchberg - Saxton Algorithm for Fresnel CGS
+    Fresnel transform Gerchberg - Saxton Algorithm
     
-    Function that calculates a Fresnel holographic optical elements using
-    the Gerber Saxton algorithm. The algorithm uses the FFT implementation
-    of the Fresnel transform.
+    Calculates the phase distribution in a object plane (for a given 
+    amplitude constrain) to obtain an specific amplitude distribution in
+    the target plane.
     
-    .. note::
-        A Fresnel CGH can be interpreted as a Fourier CGH, where the
-        Fourier transforming lens has been multiplied into the CGH. 
+    A FFT implementation of the Fresnel Transform is used.
     
     **ARGUMENTS:**
     
         ========== ===================================================
-        z          propagation distance
-        target     Field used to represent the amplitude distribution 
-                   to be obtained in the target plane.
-        reference  Field used as reference to reconstruct the hologram. If
-                   not given, a unitary amplitude plane wave is used. 
+        z          Propagation distance. This is used to calculate the 
+                   resolution needed in the object plane, for a given 
+                   target resolution. 
+        target     :class:`Field` instance whose amplitude distribution 
+                   is used to represent the amplitude constrain to be 
+                   applied in the target plane. The phase of this field 
+                   is not used.
+        estimate   :class:`Field` instance used as initial estimate for 
+                   the problem. The amplitude of this field is taken as 
+                   the reference amplitude and the phase is obtained. The 
+                   resolution used to define this field must match the
+                   value needed to obtain the required target resolution
+                   when the FFT-Fresnel transform is used. If the 
+                   wrong value is given an exception is raised.
+                   If not given, a unitary amplitude wave, with random 
+                   phase and the correct resolution, is used.
         iterations Maximum number of iterations
         error      Expected error
         ========== ===================================================
     
+        .. note : target and object must have the same wavelength 
     
     **RETURN VALUE:**
         (holo,err)
         
         ====  ===========================================================
-        holo  Field instance, containing the phase mask obtained from the
-              iterative algorithm. The holo.res attribute contains the
+        holo  Field instance, containing the reference amplitude 
+              information and the phase obtained from the iterative 
+              algorithm. The holo.res attribute contains the
               resolution of the calculated hologram for the given 
               propagation distance. The holo.l attribute contains the 
               wavelenght used to calculate the hologram.
@@ -121,69 +164,103 @@ def GScghFr(z,target,reference=1.,iterations=20,error=None):
     '''
     
     
-    
-    #assert reference.shape==target.shape,\
-    #    "The reference field, and the target, must have the same shape"
-    
-    #assert target.l====reference.l,\
-    #    "The wave lenghts for the reference beam, and the target must be equal"
-    if type(reference) is float:
-        ramp=reference
-        rang=0.
-    else: #Reference is a field
-        ramp=reference.abs()
-        rang=reference.angle
+    if estimate==None:
+        edata=exp(2.j*pi*random(target.shape))
+        sx,sy=target.size 
+        dxe=target.l*z/sx
+        dye=target.l*z/sy
+        estimate=Field(data=edata,psize=(dxe,dye),l=target.l)
 
-    ctarget=target*exp(-2.j*pi*random(target.shape))
+   
+    assert estimate.shape==target.shape,\
+        "The estimate field, and the target field, must have the same shape"
     
-    holo=target.propagate_fresnel(-z)
+    assert target.l==estimate.l,\
+        "The wave lenghts for the reference beam, and the target must be equal"
+        
+    sx,sy=target.size 
+    dxe=target.l*z/sx
+    dye=target.l*z/sy
+    
+    dx,dy=estimate.res
+    
+    assert (dxe==dx) and (dye==dy),\
+        "The resolution for the reference beam, and the target must be equal" 
+     
+    
+    
+    
+    holo=estimate
+    eabs=estimate.abs()
+    
+    #Normalized Target amplitude
     ntarget=target.abs()/target.abs().max()
+
     for n in range(iterations):
+        
             if n!=0: holo=imp.propagate_fresnel(-z)
-            
+
             #Keep only the phase in the hologram plane
-            holo.data=exp(1.j*holo.angle)*ramp
+            holo.data=exp(1.j*holo.angle)
+            #Apply the amplitude constain
+            holo=holo*eabs
+            
             #Calculate the new image plane
             imp=holo.propagate_fresnel(z)
-            err=(ntarget-imp.abs()/imp.abs().max()).std()
-            if err!=None and err<error: break
-            d=exp(1.j*(imp.angle-rang))
-            imp=Field(data=d, psize=imp.psize, l=imp.l)
-            imp=imp*target.abs()
             
-    #Take into account the reference beam phase        
-    holo=holo*exp(-1.j*rang)
-
+            err=(ntarget-imp.abs()/imp.abs().max()).std()
+            
+            if err!=None and err<error: break
+            
+            d=exp(1.j*imp.angle)
+            imp=Field(data=d, psize=imp.psize, l=imp.l)
+            #Apply the amplitude constain
+            imp=imp*target.abs()
     return holo,err
 
 
-def GScghAE(z,target,reference=1.,iterations=20,error=None):
+
+def asGS(z,target,estimate=None, iterations=20,error=None):
     '''
-    Gerchberg - Saxton Algorithm for to calculate CGS, using the Angular 
-    Spectrum propagation method.
+    Angular spectrum Gerchberg - Saxton Algorithm
     
-    Function that calculates a holographic optical elements using
-    the Gerber Saxton algorithm.  has been multiplied into the CGH. 
+    Calculates the phase distribution in a object plane (for a given 
+    amplitude constrain) to obtain an specific amplitude distribution in
+    the target plane.
+    It uses the Gerber Saxton algorithm for the angular spectrum 
+    propagation. 
+    
     
     **ARGUMENTS:**
     
         ========== ===================================================
-        z          propagation distance
-        target     Field used to represent the amplitude distribution 
-                   to be obtained in the target plane.
-        reference  Field used as reference to reconstruct the hologram. If
-                   not given, a unitary amplitude plane wave is used. 
+        z          Propagation distance. This is used to calculate the 
+                   resolution needed in the object plane, for a given 
+                   target resolution. 
+        target     :class:`Field` instance whose amplitude distribution 
+                   is used to represent the amplitude constrain to be 
+                   applied in the target plane. The phase of this field 
+                   is not used.
+        estimate   :class:`Field` instance used as initial estimate for 
+                   the problem. The amplitude of this field is taken as 
+                   the reference amplitude and the phase is obtained. It 
+                   must have the same resolution as the target field.
+                   
+                   If not given, a unitary amplitude wave, with random 
+                   phase and the correct resolution, is used.
         iterations Maximum number of iterations
         error      Expected error
         ========== ===================================================
     
+        .. note : target and object must have the same wavelength 
     
     **RETURN VALUE:**
         (holo,err)
         
         ====  ===========================================================
-        holo  Field instance, containing the phase mask obtained from the
-              iterative algorithm. The holo.res attribute contains the
+        holo  Field instance, containing the reference amplitude 
+              information and the phase obtained from the iterative 
+              algorithm. The holo.res attribute contains the
               resolution of the calculated hologram for the given 
               propagation distance. The holo.l attribute contains the 
               wavelenght used to calculate the hologram.
@@ -195,37 +272,56 @@ def GScghAE(z,target,reference=1.,iterations=20,error=None):
     '''
     
     
-    
-    #assert reference.shape==target.shape,\
-    #    "The reference field, and the target, must have the same shape"
-    
-    #assert target.l====reference.l,\
-    #    "The wave lenghts for the reference beam, and the target must be equal"
-    if type(reference) is float:
-        ramp=reference
-        rang=0.
-    else: #Reference is a field
-        ramp=reference.abs()
-        rang=reference.angle
+    if estimate==None:
+        edata=exp(2.j*pi*random(target.shape))
+        sx,sy=target.size 
+        dxe=target.l*z/sx
+        dye=target.l*z/sy
+        estimate=Field(data=edata,psize=(dxe,dye),l=target.l)
 
-    ctarget=target*exp(-2.j*pi*random(target.shape))
+   
+    assert estimate.shape==target.shape,\
+        "The estimate field, and the target field, must have the same shape"
     
-    holo=target.propagate_ae(-z)
+    assert target.l==estimate.l,\
+        "The wave lenghts for the reference beam, and the target must be equal"
+        
+    sx,sy=target.size 
+    dxe=target.l*z/sx
+    dye=target.l*z/sy
+    
+    dx,dy=estimate.res
+    
+    assert (dxe==dx) and (dye==dy),\
+        "The resolution for the reference beam, and the target must be equal" 
+     
+    
+    
+    
+    holo=estimate
+    eabs=estimate.abs()
+    
+    #Normalized Target amplitude
     ntarget=target.abs()/target.abs().max()
+
     for n in range(iterations):
-            if n!=0: holo=imp.propagate_ae(-z)
-            
+        
+            if n!=0: holo=imp.propagate_fraunhofer(-z)
+
             #Keep only the phase in the hologram plane
-            holo.data=exp(1.j*holo.angle)*ramp
+            holo.data=exp(1.j*holo.angle)
+            holo=holo*eabs
+            
             #Calculate the new image plane
-            imp=holo.propagate_ae(z)
+            imp=holo.propagate_fraunhofer(z)
+            
             err=(ntarget-imp.abs()/imp.abs().max()).std()
+            
             if err!=None and err<error: break
-            d=exp(1.j*(imp.angle-rang))
+            
+            d=exp(1.j*imp.angle)
             imp=Field(data=d, psize=imp.psize, l=imp.l)
             imp=imp*target.abs()
-            
-    #Take into account the reference beam phase        
-    holo=holo*exp(-1.j*rang)
-
     return holo,err
+
+    
