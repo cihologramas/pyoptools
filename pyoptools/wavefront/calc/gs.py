@@ -12,7 +12,7 @@ def ffGS(z,target,estimate=None, iterations=20,error=None):
     Calculates the phase distribution in a object plane (for a given 
     amplitude constrain) to obtain an specific amplitude distribution in
     the target plane.
-    It uses the Gerber Saxton algorithm for Fraunhoffer propagation. 
+    It uses the Gerchberg - Saxton algorithm for Fraunhoffer propagation. 
     A FFT implementation of the Fraunhoffer Transform is used.
     
     **ARGUMENTS:**
@@ -227,7 +227,7 @@ def asGS(z,target,estimate=None, iterations=20,error=None):
     Calculates the phase distribution in a object plane (for a given 
     amplitude constrain) to obtain an specific amplitude distribution in
     the target plane.
-    It uses the Gerber Saxton algorithm for the angular spectrum 
+    It uses the Gerchberg - Saxton algorithm for the angular spectrum 
     propagation. 
     
     
