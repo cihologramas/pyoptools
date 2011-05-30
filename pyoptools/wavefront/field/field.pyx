@@ -826,7 +826,8 @@ cdef class Field:
             dyp=l*z/sy
         
         if z<0:
-            data=fftshift(ifft2(ifftshift(self.data)))
+            #~ data=fftshift(ifft2(ifftshift(self.data)))
+            data=ifftshift(ifft2(fftshift(self.data)))
             dxp=-l*z/sx
             dyp=-l*z/sy
             
@@ -867,7 +868,7 @@ cdef class Field:
         if z>0:
             data=ph1*ph2*fftshift(fft2(ifftshift(self.data*ph)))
         elif z<0:
-            data=ph1*ph2*fftshift(ifft2(ifftshift(self.data*ph)))
+            data=ph1*ph2*ifftshift(ifft2(fftshift(self.data*ph)))
         
         return Field(data=data,psize=(dxp,dyp),l=self.l)
 
