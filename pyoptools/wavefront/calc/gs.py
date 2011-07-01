@@ -110,7 +110,7 @@ def ffGS(z,target,estimate=None, iterations=20,error=None):
             imp=imp*target.abs()
     return holo,err
     
-def fftGS(z,target,estimate=None, iterations=20,error=None):
+def fftGS(z,target,estimate=None, iterations=20,error=None,flagRand=True):
     '''
     Far field Gerchberg - Saxton Algorithm
     
@@ -165,7 +165,10 @@ def fftGS(z,target,estimate=None, iterations=20,error=None):
     
     
     if estimate==None:
-        edata=exp(2.j*pi*random(target.shape))
+		if flagRand:
+			edata=exp(2.j*pi*random(target.shape))
+		else:
+			edata=exp(2.j*pi*ones(target.shap))
         sx,sy=target.size 
         dxe=target.l*z/sx
         dye=target.l*z/sy
