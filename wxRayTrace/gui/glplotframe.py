@@ -30,7 +30,7 @@ class glPlotFrame(wxFrame):
 class glCanvas(wxAdvancedGLWindow):
     
     def __init__(self,parent,  os=None):
-        wxAdvancedGLWindow.__init__(self, parent,  attribList=WX_GL_DOUBLEBUFFER)
+        wxAdvancedGLWindow.__init__(self, parent,  attribList=[WX_GL_DOUBLEBUFFER,])
         self.os=os
         self.scene=None
     def InitGL(self):
