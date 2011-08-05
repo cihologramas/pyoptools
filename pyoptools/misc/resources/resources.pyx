@@ -53,3 +53,17 @@ cpdef bint detectOpenCL():
     except ImportError: 
         got_cl=False
     return got_cl
+
+cpdef has_double_support(dev):
+    for ext in dev.extensions.split(" "):
+        if ext == "cl_khr_fp64":
+            return True
+    return False
+    
+cpdef has_amd_double_support(dev):
+    """"Fix to allow incomplete amd double support in low end boards"""
+
+    for ext in dev.extensions.split(" "):
+        if ext == "cl_amd_fp64":
+            return True
+    return False
