@@ -22,7 +22,7 @@ cimport numpy as np
 np.import_array()
 
 #Import C stdlib
-from stdlib cimport *
+from libc.stdlib cimport *
 from pyoptools.misc.cmisc.cmisc cimport zero_vec, zero_mat, empty_mat
 
 cimport cython

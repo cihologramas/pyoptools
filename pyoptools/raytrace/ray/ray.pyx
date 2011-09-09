@@ -29,7 +29,7 @@ from pyoptools.misc.cmisc.cmisc cimport *#rot_mat, rot_mat_i
 
 #import tokyo
 #cimport tokyo
-from python cimport PyObject, Py_INCREF, Py_DECREF
+from cpython.ref cimport PyObject, Py_INCREF, Py_DECREF
 
 cimport numpy as np
 
