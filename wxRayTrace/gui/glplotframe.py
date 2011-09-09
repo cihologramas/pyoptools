@@ -1,9 +1,9 @@
 from wxRayTrace.gui.glwindow import wxAdvancedGLWindow
-from wxPython.glcanvas import WX_GL_DOUBLEBUFFER
+from wx.glcanvas import WX_GL_DOUBLEBUFFER, WX_GL_RGBA
 import sys,math
 
 from numpy import array, sqrt, dot, pi
-from wxPython.wx import wxFrame, wxDefaultPosition,wxSize
+from wx import Frame, DefaultPosition, Size
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -12,27 +12,27 @@ from pyoptools.raytrace.system import System
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Surface
 from pyoptools.misc.pmisc import wavelength2RGB
-points=[(0, 0, 0), (2, 0, 0), (2, 2, 0), (0, 2, 0),(10, 0, 0), (12, 0, 0), (12, 2, 0)]
-polys =[(0, 1, 2, 3), (4, 5, 6)]
 
+    
 #def glPlotFrame(os=None):
 #    pf= AsyncCall(glFrame, os)
 #    return pf.Wait()
     
-class glPlotFrame(wxFrame):
+class glPlotFrame(Frame):
     def __init__(self, os=None):
         if not isinstance(os,System):
             raise TypeError
-        wxFrame.__init__(self, None,-1,'3D System',wxDefaultPosition,wxSize(400,400))
+        Frame.__init__(self, None, -1, '3D System', DefaultPosition, Size(400,400))
         canvas=glCanvas(self, os)
         self.Show()
 
 class glCanvas(wxAdvancedGLWindow):
     
     def __init__(self,parent,  os=None):
-        wxAdvancedGLWindow.__init__(self, parent,  attribList=[WX_GL_DOUBLEBUFFER,])
+        wxAdvancedGLWindow.__init__(self, parent, attribList=[WX_GL_DOUBLEBUFFER, WX_GL_RGBA])
         self.os=os
         self.scene=None
+
     def InitGL(self):
         #self.set_base_distance(500)
         #self.set_distance(500)
@@ -65,8 +65,7 @@ class glCanvas(wxAdvancedGLWindow):
         #Draw Components
         for comp in self.os.complist:
             self.DrawComp(comp)
-            
-        
+                  
     def DrawComp(self, comp):
         C,P,D = comp
         #glMatrixMode(GL_MODELVIEW)
@@ -83,6 +82,7 @@ class glCanvas(wxAdvancedGLWindow):
             for comp in C.complist:
                 self.DrawComp(comp)
         glPopMatrix()
+ 
     def DrawSurf(self, surf, P, D):
         if isinstance(surf, Surface):
             #points, polylist =surf.shape.polylist(surf.topo)
@@ -102,7 +102,7 @@ class glCanvas(wxAdvancedGLWindow):
                     glVertex3f( p0[0], p0[1], p0[2])
                     glVertex3f( p1[0], p1[1], p1[2])
                     glVertex3f( p2[0], p2[1], p2[2])
-                    glEnd();                
+                    glEnd()                
                 elif len(p)==4:
                     p0=points[p[0]]
                     p1=points[p[1]]
@@ -113,9 +113,9 @@ class glCanvas(wxAdvancedGLWindow):
                     glVertex3f( p1[0], p1[1], p1[2])
                     glVertex3f( p2[0], p2[1], p2[2])
                     glVertex3f( p3[0], p3[1], p3[2])
-                    glEnd();                
+                    glEnd()                
             glPopMatrix()
-  
+ 
     def DrawRay(self, ray):
         P1=ray.pos
         w=ray.wavelength
@@ -134,9 +134,3 @@ class glCanvas(wxAdvancedGLWindow):
         for i in ray.childs:
             self.DrawRay(i)
          
-        
-               
-                #No prints can be used in AsyncCalls print "only triangles and quads can be drawn"
-            
-        #return
-        

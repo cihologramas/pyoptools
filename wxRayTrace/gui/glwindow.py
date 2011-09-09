@@ -5,14 +5,28 @@
 # ported to wxPython by greg Landrum
 # modified by Y. Wong
 # modified by R. Amezquita
+# modified by O. Olarte
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from wxPython.wx import *
-from wxPython.glcanvas import *
+from wx import *
+from wx.glcanvas import *
 import math
 import os,sys
 
+def test_data(npoints):
+    #A simple testing function that generate random triangles
+    # 10 random points (x,y) in the plane
+    import numpy
+    import matplotlib.delaunay as triang
+    x,y =  numpy.array(numpy.random.standard_normal((2,npoints)))
+    z =  numpy.array(numpy.random.standard_normal(npoints))
+    points=[]
+    for i in range(npoints):
+            points.append((x[i],y[i],z[i]))
+    cens,edg,tri,neig = triang.delaunay(x,y)
+    return points, tri 
+    
 def glTranslateScene(s, x, y, mousex, mousey):
     glMatrixMode(GL_MODELVIEW)
     mat = glGetDoublev(GL_MODELVIEW_MATRIX)
@@ -45,13 +59,13 @@ def cleanup():
     if oldexitfunc: oldexitfunc()
 sys.exitfunc = cleanup
 
-class wxGLWindow(wxGLCanvas):
+class wxGLWindow(GLCanvas):
   """Implements a simple wxPython OpenGL window.
 
   This class provides a simple window, into which GL commands can be issued. This is done by overriding the built in functions InitGL(), DrawGL(), and FinishGL(). The main difference between it and the plain wxGLCanvas is that it copes with refreshing and resizing the window"""
   def __init__(self, parent,*args,**kw):
     self.GL_uninitialised = 1
-    apply(wxGLCanvas.__init__,(self, parent)+args, kw)
+    apply(GLCanvas.__init__,(self, parent)+args, kw)
     EVT_SIZE(self,self.wxSize)
     EVT_PAINT(self,self.wxPaint)
     EVT_ERASE_BACKGROUND(self, self.wxEraseBackground)
@@ -63,8 +77,9 @@ class wxGLWindow(wxGLCanvas):
 
   def InitGL(self):
     """OpenGL initialisation routine (to be overridden).
-
-    This routine, containing purely OpenGL commands, should be overridden by the user to set up the GL scene. If it is not overridden, it defaults to setting an ambient light, setting the background colour to gray, and enabling GL_DEPTH_TEST and GL_COLOR_MATERIAL."""
+    This routine, containing purely OpenGL commands, should be overridden by the user to set up the GL scene.
+	If it is not overridden, it defaults to setting an ambient light, setting the background colour to gray, 
+	and enabling GL_DEPTH_TEST and GL_COLOR_MATERIAL."""
     #set up lighting
     glLightfv(GL_LIGHT0, GL_AMBIENT, [1.0, 1.0, 1.0, 1.0])
     glEnable(GL_LIGHTING)
@@ -76,7 +91,7 @@ class wxGLWindow(wxGLCanvas):
     glEnable(GL_COLOR_MATERIAL)
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
-
+   
   def FinishGL(self):
     """OpenGL closing routine (to be overridden).
 
@@ -85,8 +100,8 @@ class wxGLWindow(wxGLCanvas):
 
   def DrawGL(self):
     """OpenGL drawing routine (to be overridden).
-
-    This routine, containing purely OpenGL commands, should be overridden by the user to draw the GL scene. If it is not overridden, it defaults to drawing a colour cube."""
+    This routine, containing purely OpenGL commands, should be overridden by the user to draw the GL scene. 
+	If it is not overridden, it defaults to drawing a colour cube."""
     #Draw colour cube
     glBegin(GL_QUAD_STRIP)
     glColor3f(1.0,1.0,1.0) #corner 1
@@ -164,14 +179,14 @@ class wxGLWindow(wxGLCanvas):
     """Called on a paint event.
 
     This sets the painting drawing context, then calls the base routine wxRedrawGL()"""
-    dc = wxPaintDC(self)
+    dc = PaintDC(self)
     self.wxRedrawGL(event)
     
   def wxRedraw(self, event=None):
     """Called on a redraw request
 
     This sets the drawing context, then calls the base routine wxRedrawGL(). It can be called by the user when a refresh is needed"""
-    dc = wxClientDC(self)
+    dc = ClientDC(self)
     self.wxRedrawGL(event)
 
   def wxRedrawGL(self, event=None):
@@ -269,7 +284,7 @@ class wxAdvancedGLWindow(wxGLWindow):
 #      self.do_AutoSpin(event) #doing it this way hogs the cpu
 #      event.RequestMore()     #doing it this way hogs the cpu
 
-      wxWakeUpIdle()
+      WakeUpIdle()
       self.do_AutoSpin(event)
       event.Skip(1)
 
@@ -489,25 +504,20 @@ if __name__ == '__main__':
   from OpenGL.GLUT import *
   import array #for creating the texture map
 
-  class MyApp(wxApp):
+  class MyApp(App):
     def OnInit(self):
-      frame = wxFrame(NULL, -1, "wxPython OpenGL example", wxDefaultPosition, wxSize(400,400))
-
-      win1 = wxGLWindow(frame, -1, wxPoint(5,5), wxSize(190,190))
-      win2 = wxAdvancedGLWindow(frame, -1, wxPoint(205,5),
-                                wxSize(190,190),
-                                autospin_allowed=0)
-#      win3 = MyWin1(frame, -1, wxPoint(5,205),
-#                    wxSize(190,190), autospin_allowed=0)
-      win4 = MyWin2(frame, -1, wxPoint(205,205),
-                    wxSize(190,190))
+      frame = Frame(None, -1, "wxPython OpenGL example", DefaultPosition, Size(400,400))
+      #win1 = wxGLWindow(frame, -1, Point(5,5), Size(190,190))
+      #win2 = wxAdvancedGLWindow(frame, -1, Point(205,5), Size(190,190), autospin_allowed = 0)
+      win3 = MyWin1_1(frame, -1, Point(5,205), Size(190,190), autospin_allowed = 0)
+      #win4 = MyWin2(frame, -1, Point(205,205), Size(190,190))
 #      win1.SetScrollbars(0,0,0,0)
 #      win4.SetScrollbars(0,0,0,0)
 #      win3.SetBgColour(0.0,0.0,1.0)
-      frame.Show(TRUE)
+      frame.Show(True)
       self.SetTopWindow(frame)
-      return TRUE
-
+      return True
+	  
   class MyWin1(wxAdvancedGLWindow):
     """basic example of a wxAdvancedGLWindow"""
     def DrawGL(self):
@@ -517,7 +527,26 @@ if __name__ == '__main__':
       glColor3f(0.3,1.0,0.3)
       glutSolidCone(1.0,1,20,16)
       glLoadIdentity()
-
+  
+  class MyWin1_1(wxAdvancedGLWindow):
+    """basic example of a wxAdvancedGLWindow with basic triangles"""
+    def InitGL(self):
+        self.points,self.polylist=test_data(1000)
+        print self.points, self.polylist
+		
+    def DrawGL(self):
+        glColor4f(.1,.7,.7, 0.5)
+        for p in self.polylist:
+                if len(p)==3:
+                    p0=self.points[p[0]]
+                    p1=self.points[p[1]]
+                    p2=self.points[p[2]]
+                    glBegin(GL_TRIANGLES) #Drawing Using Triangles
+                    glVertex3f( p0[0], p0[1], p0[2])
+                    glVertex3f( p1[0], p1[1], p1[2])
+                    glVertex3f( p2[0], p2[1], p2[2])
+                    glEnd()     
+       
   class MyWin2(wxAdvancedGLWindow):
     """example using display lists"""
     def InitGL(self):
