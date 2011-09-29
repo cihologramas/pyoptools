@@ -10,9 +10,9 @@ cdef extern from "math.h":
 
 cdef bint got_cl=True
 
+        
 try: 
     import pyopencl as cl
-    
 except ImportError: 
     got_cl=False
 
@@ -40,16 +40,22 @@ cdef init_cl():
         global prg1
         global prg2
         
+        #Look for  the first available GPU
         #for GPU, create the contexts and the programs
-        #Do not use CPU for calculatibg the polynomial. 
+        #Its better not tu use CPU for calculatibg the polynomial. 
         #It is as slow as an optimized cython program.
-        pl=cl.get_platforms()[0]
-        dev=pl.get_devices(device_type=cl.device_type.GPU)
-            
-        if len(dev)==0:
-            #### Warning there are no GPU's available. Use CPU's
-            dev=pl.get_devices(device_type=cl.device_type.CPU)
-            
+        #TODO: Needs to check if this is true
+        pls=cl.get_platforms()
+        foundgpu=False
+        
+        for pl in pls:
+            devs=pl.get_devices(device_type=cl.device_type.ALL)
+            for dev in devs:
+                if dev.type==cl.device_type.GPU:
+                    foundgpu=True
+                    break
+                
+            if foundgpu: break
         
         ## Inicio del programa
 
@@ -95,8 +101,8 @@ cdef init_cl():
             RESb[oid]=RES;
         }
         """
-        gpu=0
-        ctx0 = cl.Context(devices=[dev[gpu]])
+    
+        ctx0 = cl.Context(devices=[dev])
         queue0 = cl.CommandQueue(ctx0)
         prg0 = cl.Program(ctx0,prg_src ).build()
          
