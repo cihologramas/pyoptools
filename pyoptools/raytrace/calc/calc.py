@@ -749,6 +749,9 @@ def parallel_propagate(os,r , np=None):
     r_list.append((os,r[(nr/cpus)*(cpus-1):]))
     osi=pool.map(aux_paral_f,r_list)
     
+    pool.close()
+    pool.join()
+    
     for osp in osi:
         os.merge(osp)
     return os
@@ -801,6 +804,10 @@ def parallel_propagate_ns(os,rg, dp, r, np=None):
         r_list.append((os,rg,dp,r[(nr/cpus)*(i-1):(nr/cpus)*(i)]))
     r_list.append((os,rg,dp,r[(nr/cpus)*(cpus-1):]))
     osi=pool.map(aux_paral_f_ns,r_list)
+    
+    pool.close()
+    pool.join()
+    
     
     for osp in osi:
         os.merge(osp)
