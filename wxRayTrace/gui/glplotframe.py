@@ -26,8 +26,7 @@ class glPlotFrame(Frame):
         canvas=glCanvas(self, os)
         self.Show()
 
-class glCanvas(wxAdvancedGLWindow):
-    
+class glCanvas(wxAdvancedGLWindow):    
     def __init__(self,parent,  os=None):
         wxAdvancedGLWindow.__init__(self, parent, attribList=[WX_GL_DOUBLEBUFFER, WX_GL_RGBA])
         self.os=os
@@ -60,11 +59,13 @@ class glCanvas(wxAdvancedGLWindow):
 
     def DrawGLL(self):
         #Draw Rays
-        for i in self.os.prop_ray:
-            self.DrawRay(i)
-        #Draw Components
-        for comp in self.os.complist:
-            self.DrawComp(comp)
+        print "RRRRRRRRRRRRRRRRRRRRRRxR", self.os
+        if self.os != None:
+			for i in self.os.prop_ray:
+				self.DrawRay(i)
+			#Draw Components
+			for comp in self.os.complist:
+				self.DrawComp(comp)
                   
     def DrawComp(self, comp):
         C,P,D = comp
