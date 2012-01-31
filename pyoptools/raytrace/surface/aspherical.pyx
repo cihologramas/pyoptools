@@ -221,7 +221,9 @@ cdef class Aspherical(Surface):
             if (fa<0 and fb>0) or (fa>0 and fb<0):
                 t=brentq(self.__f1, ta,tb,(iray,),maxiter=1000)
             else: # there are more than 1 intersection pont we are assuming 2
-                tm=fsolve(self.__f1, 0,(iray,),warning=False)
+                #tm=fsolve(self.__f1, 0,(iray,),warning=False)
+                #In new scipy version the warning kw is not supported
+                tm=fsolve(self.__f1, 0,(iray,))
                 
                 if (tm<ta and tm<tb)or(tm>ta and tm>tb):
                     t=inf

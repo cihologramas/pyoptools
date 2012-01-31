@@ -18,7 +18,7 @@ except ImportError:
 
 import numpy as np
 cimport numpy as np
-
+cimport cython
 np.import_array()
 
 #Import C stdlib
@@ -58,9 +58,10 @@ cdef init_cl():
             if foundgpu: break
         
         ## Inicio del programa
-
+	##Need to see how can cl_amd_fp64 can be automaticaly changed
+	##to cl_fp64
         prg_src = """
-        #pragma OPENCL EXTENSION cl_amd_fp64 : enable
+        #pragma OPENCL EXTENSION cl_khr_fp64 : enable
         __kernel void rsk(
                             __global double *Xb,
                             __global double *Yb,
@@ -108,7 +109,7 @@ cdef init_cl():
          
 
         prg_src = """
-        #pragma OPENCL EXTENSION cl_amd_fp64 : enable
+        #pragma OPENCL EXTENSION cl_khr_fp64 : enable
         __kernel void rsk(
                           __global double *PXb,
                           __global double *PYb,
@@ -148,7 +149,7 @@ cdef init_cl():
         prg1 = cl.Program(ctx0,prg_src ).build()
         
         prg_src = """
-        #pragma OPENCL EXTENSION cl_amd_fp64 : enable
+        #pragma OPENCL EXTENSION cl_khr_fp64 : enable
         __kernel void rsk(
                           __global double *Xb,
                           __global double *Yb,
@@ -221,7 +222,7 @@ cdef class poly2d:
         self.cohef_c= <np.float64_t*>np.PyArray_DATA(self.cohef)        
         #####
         
-        self.clen=len(self.cohef)
+        self.clen=np.uint32(len(self.cohef))
         #~ if px==None or py==None:
         
         #### Save the powers so thy can be used in a python way or a C fast way
@@ -270,7 +271,8 @@ cdef class poly2d:
             o2=a.order
             if o1>o2:o=o1
             else: o=o2
-            ncohef=np.zeros((pxpy2i(0,o)+1,), dtype=np.float64)
+            ncohef=zero_vec( pxpy2i(0,o)+1)
+            #qncohef=np.zeros((pxpy2i(0,o)+1,), dtype=np.float64)
             ncohef[:len(a.cohef)]=a.cohef
             ncohef[:len(p.cohef)]=ncohef[:len(p.cohef)]+p.cohef
             return poly2d(ncohef)
@@ -290,7 +292,8 @@ cdef class poly2d:
             o2=a.order
             if o1>o2:o=o1
             else: o=o2
-            ncohef=np.zeros((pxpy2i(0,o)+1,), dtype=np.float64)
+            ncohef=zero_vec( pxpy2i(0,o)+1)
+            #ncohef=np.zeros((pxpy2i(0,o)+1,), dtype=np.float64)
             ncohef[:len(a.cohef)]=-a.cohef
             ncohef[:len(p.cohef)]=ncohef[:len(p.cohef)]+p.cohef
             return poly2d(ncohef)
@@ -302,9 +305,12 @@ cdef class poly2d:
         return poly2d(-self.cohef)
         
         
-        
+    @cython.boundscheck(False) 
     def __mul__(self,other):
-        
+		
+        cdef int rxp,ryp,axp,ayp,pxp,pyp
+        cdef int o1,o2
+     
         if isinstance(self,poly2d): #Note, this is diferent than standard python, here mul==rmul. We need to see what is going on
             p=self
             a=other
@@ -312,7 +318,7 @@ cdef class poly2d:
             p=other
             a=self
         cdef np.ndarray[np.float64_t, ndim=1,  mode="c"] ncohef
-        cdef int i,j
+        cdef unsigned int i,j,ir
         if isinstance(a,(float,int)):
             cohef=p.cohef*a
             return poly2d(cohef)
@@ -320,18 +326,21 @@ cdef class poly2d:
         elif isinstance(a,poly2d):
             o1=p.order
             o2=a.order
-            ncohef=np.zeros((pxpy2i(0,o1+o2)+1,), dtype=np.float64)
+            ncohef=zero_vec( pxpy2i(0,o1+o2)+1)#np.zeros((pxpy2i(0,o1+o2)+1,), dtype=np.float64)
             
-            for i in range(len(p.cohef)):
-                for j in range(len(a.cohef)):
-                    axp,ayp=i2pxpy(j)
-                    pxp,pyp=i2pxpy(i)
+            
+            for i in range((<poly2d>p).clen):#len(p.cohef)):
+                for j in range((<poly2d>a).clen):#len(a.cohef)):
+                    axp=<int>(<poly2d>a).px_c[j]
+                    ayp=<int>(<poly2d>a).py_c[j] #i2pxpy(j)
+                    pxp=<int>(<poly2d>p).px_c[i]
+                    pyp=<int>(<poly2d>p).py_c[i]#i2pxpy(i)
                     
                     rxp=axp+pxp
                     ryp=ayp+pyp
                     
                     ir=pxpy2i(rxp,ryp)
-                    ncohef[ir]=ncohef[ir]+p.cohef[i]*a.cohef[j]
+                    ncohef[ir]=ncohef[ir]+(<poly2d>p).cohef_c[i]*(<poly2d>a).cohef_c[j]
             return poly2d(ncohef)
         
          
