@@ -85,13 +85,13 @@ if __WXRAYTRA:
             globals()[f]=ef
     
     #Define other graphic functions
-    import glplotframe as glp
+    import glplotframe2 as glp
     def glPlotFrame(os=None):
         pf= AsyncCall(glp.glPlotFrame, os)
         return pf.Wait()
 else:
     from matplotlib.pyplot import *
-    from glplotframe import glPlotFrame
+    from glplotframe2 import glPlotFrame
     
 
 ## Definition of some help ploting functions. This must be moved to another module

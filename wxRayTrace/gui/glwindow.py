@@ -445,8 +445,8 @@ class wxAdvancedGLWindow(wxGLWindow):
       glTranslatef(self.xcenter,self.ycenter,self.zcenter)
       glRotatef(.5*d,0,0,1.)
       glTranslatef(-self.xcenter,-self.ycenter,-self.zcenter)
-      glMultMatrix(ravel(m)) #from Numeric...
-
+      #glMultMatrixd(ravel(m)) #from Numeric...
+      glMultMatrixd(m)
     self.wxRedraw()
     self.wxRecordMouse(event)
 

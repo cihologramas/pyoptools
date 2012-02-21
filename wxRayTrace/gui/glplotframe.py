@@ -1,5 +1,7 @@
 from wxRayTrace.gui.glwindow import wxAdvancedGLWindow
 from wx.glcanvas import WX_GL_DOUBLEBUFFER, WX_GL_RGBA
+#~ from wxRayTrace.gui.glplotframe2 import glPlotFrame2 as glPlotFrame
+
 import sys,math
 
 from numpy import array, sqrt, dot, pi
@@ -18,13 +20,14 @@ from pyoptools.misc.pmisc import wavelength2RGB
 #    pf= AsyncCall(glFrame, os)
 #    return pf.Wait()
     
-class glPlotFrame(Frame):
-    def __init__(self, os=None):
-        if not isinstance(os,System):
-            raise TypeError
-        Frame.__init__(self, None, -1, '3D System', DefaultPosition, Size(400,400))
-        canvas=glCanvas(self, os)
-        self.Show()
+
+#~ class glPlotFrame(Frame):
+    #~ def __init__(self, os=None):
+        #~ if not isinstance(os,System):
+            #~ raise TypeError
+        #~ Frame.__init__(self, None, -1, '3D System', DefaultPosition, Size(400,400))
+        #~ canvas=glCanvas(self, os)
+        #~ self.Show()
 
 class glCanvas(wxAdvancedGLWindow):    
     def __init__(self,parent,  os=None):
