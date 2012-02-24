@@ -38,12 +38,14 @@ cdef class Rectangular(Shape):
     # Tuple that holds the number of samples to be used to build the mesh
     #samples=Tuple(Int(30), Int(30))
     
-    def __init__(self,size=(1.,1.),samples=(30,30),*args, **kwargs):
+    def __init__(self,size=(1.,1.),samples=(30,30), offset=(0,0),*args, **kwargs):
         Shape.__init__(self,*args, **kwargs)
         self.size=(float(size[0]),float(size[1]))
         self.samples=(float(samples[0]),float(samples[1]))
+        self.offset=(float(offset[0]),float(offset[1]))
         self.addkey("size")
         self.addkey("samples")
+        self.addkey("offset")
     
     cpdef hit(self, p):
         """Method  that returns True if a p=(x,y,z) point is inside the rectangle,
@@ -51,6 +53,9 @@ cdef class Rectangular(Shape):
         """
         x, y, z=p
         dx,dy=self.size
+        ox,oy=self.offset
+        x=x-ox
+        y=y-oy
         retval= where((x<-dx/2.) | (x>dx/2.) | (y<-dy/2.) | (y>dy/2.), False, True)
         return retval
         
@@ -59,10 +64,12 @@ cdef class Rectangular(Shape):
         apperture if not it must return FALSE.
         This is implemented for a point, in cython, to make it fast
         """
-        cdef double dx,dy
+        cdef double dx,dy,ox,oy,opx,opy
         dx,dy=self.size
-        
-        if (px<-dx/2.) | (px>dx/2.) | (py<-dy/2.) | (py>dy/2.):
+        ox,oy=self.offset
+        opx=px-ox
+        opy=py-oy
+        if (opx<-dx/2.) | (opx>dx/2.) | (opy<-dy/2.) | (opy>dy/2.):
             return False
         else: return True
         
@@ -106,8 +113,9 @@ cdef class Rectangular(Shape):
     cpdef pointlist(self):
         dx,dy=self.size
         nx, ny=self.samples
-        Xl=linspace(-dx/2.,dx/2.,nx)
-        Yl=linspace(-dy/2.,dy/2.,ny)
+        ox, oy=self.offset
+        Xl=linspace(-dx/2.+ox,dx/2.+ox,nx)
+        Yl=linspace(-dy/2.+oy,dy/2.+oy,ny)
         X, Y=meshgrid(Xl,Yl)
         return X.ravel(),Y.ravel()
         
@@ -117,4 +125,5 @@ cdef class Rectangular(Shape):
         Returns the minimum limits for the aperture
         """
         dx, dy=self.size
-        return -dx/2, dx/2, -dy/2, dy/2
+        ox, oy=self.offset
+        return -dx/2+ox, dx/2+ox, -dy/2+oy, dy/2+oy
