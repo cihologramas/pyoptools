@@ -84,6 +84,74 @@ def polyfit2d(x, y,z, int order=2):
     e= sqrt(power(array(z)-ret_poly.eval(xa, ya), 2).mean())
         
     return ret_poly, e
+    
+    
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def vander_matrix(x, y,z, int order=2):
+    cdef int nc,nd,p
+    nc= (order+2)*(order+1)/2 #_ord2i_(order)
+    cdef np.ndarray[np.double_t, ndim=1, mode="c"] xa=array(x)
+    cdef np.ndarray[np.double_t, ndim=1, mode="c"] ya=array(y)
+    cdef np.ndarray[np.double_t, ndim=1, mode="c"] za=array(z)
+    cdef np.ndarray[np.int_t, ndim=1, mode="c"] px,py
+    
+    px, py=i2pxpy(range(0, nc))
+    nd=len(xa)
+    cdef np.ndarray[np.double_t, ndim=2, mode="c"] XP=ones((nd, 2*(order+1)))
+    cdef np.ndarray[np.double_t, ndim=2, mode="c"] YP=ones((nd, 2*(order+1)))
+    for p in range(1, 2*(order+1)):
+        XP[:, p]=XP[:, p-1]*xa
+        YP[:, p]=YP[:, p-1]*ya
+
+    #Calculating X and Y powers
+    cdef np.ndarray[np.int_t, ndim=2, mode="c"] potx=empty((nc, nc),dtype=np.int)
+    cdef np.ndarray[np.int_t, ndim=2, mode="c"] poty=empty((nc, nc),dtype=np.int)
+    potx[:, :]=px
+    potx=potx+potx.T
+    
+    poty[:, :]=py
+    poty=poty+poty.T
+
+    #Creating the Vandermonde matrix
+    cdef np.ndarray[np.double_t, ndim=2, mode="c"] mat=empty((nc, nc))
+    #The python code was changed to a C++ inline
+    #for  ir in range(nc):
+    #    for ic in range(nc):
+    #        powx=potx[ir, ic]
+    #        powy=poty[ir, ic]
+    #        tv=XP[:, powx]*YP[:, powy]
+    #        mat[ir, ic]=tv.sum()
+    cdef int powx,powy,ir,ic, id
+    cdef double sum
+    for ir in range(nc):
+        for ic in range(nc):
+            powx=potx[ir,ic];
+            powy=poty[ir,ic];
+            sum=0;
+            for id in range(nd): 
+                sum=sum+XP[id,powx]*YP[id,powy]
+            mat[ir,ic]=sum;
+                    
+    
+    
+    #imat=pinv(mat)
+
+    cdef np.ndarray[np.double_t, ndim=2, mode="c"] vec=empty((nc, 1))
+    #The python code was changed to C++ inline
+    #for ic in range (nc):
+    #    tv=XP[:, px[ic]]*YP[:, py[ic]]*z
+    #    vec[ic, 0]=tv.sum()
+
+    for ic in range(nc):
+        sum=0;
+        powx=px[ic]
+        powy=py[ic]
+        for id in range(nd):
+            sum=sum+za[id]*XP[id,powx]*YP[id,powy]
+        vec[ic,0]=sum;
+    return mat,vec
+    
 
 #Local definitions for the optimized order 2 fitter
 
