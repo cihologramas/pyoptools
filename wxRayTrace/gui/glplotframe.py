@@ -62,7 +62,7 @@ class glCanvas(wxAdvancedGLWindow):
 
     def DrawGLL(self):
         #Draw Rays
-        print "RRRRRRRRRRRRRRRRRRRRRRxR", self.os
+        # "RRRRRRRRRRRRRRRRRRRRRRxR", self.os
         if self.os != None:
 			for i in self.os.prop_ray:
 				self.DrawRay(i)
