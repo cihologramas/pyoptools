@@ -10,7 +10,7 @@ from pyoptools.raytrace.system import System
 from oglframe import OGLFrame
 from types import NoneType
 from math import sqrt
-from wxRayTrace.gui.glwindow import v3distsq,glTranslateScene,glRotateScene
+from pyoptools.gui.glwindow import v3distsq,glTranslateScene,glRotateScene
 
 #~ import Image
 

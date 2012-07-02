@@ -1,4 +1,4 @@
-from wxRayTrace.gui.glwindow import wxAdvancedGLWindow
+from pyoptools.gui.glwindow import wxAdvancedGLWindow
 from wx.glcanvas import WX_GL_DOUBLEBUFFER, WX_GL_RGBA
 #~ from wxRayTrace.gui.glplotframe2 import glPlotFrame2 as glPlotFrame
 
