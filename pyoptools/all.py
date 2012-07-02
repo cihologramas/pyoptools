@@ -65,4 +65,4 @@ from wavefront.zernike import *
 #~ 
 #~ 
 #Import graphic packages This should be imported somewhere else
-from wxRayTrace.gui.plotutils import *
+from pyoptools.gui.plotutils import *

@@ -5,7 +5,7 @@
 import wx
 
 # begin wxGlade: extracode
-from wxRayTrace.gui.glplotframe import glCanvas
+from pyoptools.gui.glplotframe import glCanvas
 # end wxGlade
 
 
