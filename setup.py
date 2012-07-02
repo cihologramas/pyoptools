@@ -103,7 +103,7 @@ setup(
         name =  "pyOpTools",
         #~ #~#version = "0.1.0",
         packages=findpackages("./"),
-        scripts=['wxRayTra.py'],
+#        scripts=['wxRayTra.py'],
         install_requires = ['python-numpy',
                             'cython'],
         package_data= {
@@ -111,7 +111,7 @@ setup(
         'pyoptools.raytrace.library':['Edmund/*.cmp'],
         },
         author= 'Ricardo Amezquita Orozco',
-        author_email='ramezquitao@cihologramas.com',
+        author_email='ramezquitao@unal.edu.co',
         description='Optical ray tracing simulation system',
         license='BSD',
         url='http://code.google.com/p/pyoptools/',
