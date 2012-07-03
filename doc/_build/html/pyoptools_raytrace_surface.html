@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,14 +12,15 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '#',
+        URL_ROOT:    '',
         VERSION:     '0.0.0',
-        COLLAPSE_MODINDEX: false,
+        COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="pyOpTools v0.0.0 documentation" href="index.html" />
     <link rel="up" title="pyOpTools API" href="api.html" />
@@ -32,8 +35,8 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pyoptools_raytrace_system.html" title="pyoptools.raytrace.system"
              accesskey="N">next</a> |</li>
@@ -51,21 +54,21 @@
           <div class="body">
             
   <div class="section" id="module-pyoptools.raytrace.surface">
-<h1><tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.surface</span></tt><a class="headerlink" href="#module-pyoptools.raytrace.surface" title="Permalink to this headline">¶</a></h1>
+<span id="pyoptools-raytrace-surface"></span><h1><a class="reference internal" href="#module-pyoptools.raytrace.surface" title="pyoptools.raytrace.surface"><tt class="xref py py-mod docutils literal"><span class="pre">pyoptools.raytrace.surface</span></tt></a><a class="headerlink" href="#module-pyoptools.raytrace.surface" title="Permalink to this headline">¶</a></h1>
 <p>Module that defines all the clases that describe the optical surfaces</p>
 <div class="section" id="class-list">
 <h2><strong>Class List</strong><a class="headerlink" href="#class-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a title="pyoptools.raytrace.surface.Surface" class="reference internal" href="#pyoptools.raytrace.surface.Surface"><tt class="xref docutils literal"><span class="pre">Surface</span></tt></a></li>
-<li><a title="pyoptools.raytrace.surface.Cylindrical" class="reference internal" href="#pyoptools.raytrace.surface.Cylindrical"><tt class="xref docutils literal"><span class="pre">Cylindrical</span></tt></a></li>
-<li><a title="pyoptools.raytrace.surface.Plane" class="reference internal" href="#pyoptools.raytrace.surface.Plane"><tt class="xref docutils literal"><span class="pre">Plane</span></tt></a></li>
-<li><a title="pyoptools.raytrace.surface.Spherical" class="reference internal" href="#pyoptools.raytrace.surface.Spherical"><tt class="xref docutils literal"><span class="pre">Spherical</span></tt></a></li>
-<li><a title="pyoptools.raytrace.surface.ArrayDetector" class="reference internal" href="#pyoptools.raytrace.surface.ArrayDetector"><tt class="xref docutils literal"><span class="pre">ArrayDetector</span></tt></a></li>
-<li><a title="pyoptools.raytrace.surface.Aperture" class="reference internal" href="#pyoptools.raytrace.surface.Aperture"><tt class="xref docutils literal"><span class="pre">Aperture</span></tt></a></li>
-<li><a title="pyoptools.raytrace.surface.TaylorPoly" class="reference internal" href="#pyoptools.raytrace.surface.TaylorPoly"><tt class="xref docutils literal"><span class="pre">TaylorPoly</span></tt></a></li>
-<li><a title="pyoptools.raytrace.surface.Cylinder" class="reference internal" href="#pyoptools.raytrace.surface.Cylinder"><tt class="xref docutils literal"><span class="pre">Cylinder</span></tt></a></li>
-<li><a title="pyoptools.raytrace.surface.Aspherical" class="reference internal" href="#pyoptools.raytrace.surface.Aspherical"><tt class="xref docutils literal"><span class="pre">Aspherical</span></tt></a></li>
-<li><a title="pyoptools.raytrace.surface.RPPMask" class="reference internal" href="#pyoptools.raytrace.surface.RPPMask"><tt class="xref docutils literal"><span class="pre">RPPMask</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.surface.Surface" title="pyoptools.raytrace.surface.Surface"><tt class="xref py py-class docutils literal"><span class="pre">Surface</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.surface.Cylindrical" title="pyoptools.raytrace.surface.Cylindrical"><tt class="xref py py-class docutils literal"><span class="pre">Cylindrical</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.surface.Plane" title="pyoptools.raytrace.surface.Plane"><tt class="xref py py-class docutils literal"><span class="pre">Plane</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.surface.Spherical" title="pyoptools.raytrace.surface.Spherical"><tt class="xref py py-class docutils literal"><span class="pre">Spherical</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.surface.ArrayDetector" title="pyoptools.raytrace.surface.ArrayDetector"><tt class="xref py py-class docutils literal"><span class="pre">ArrayDetector</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.surface.Aperture" title="pyoptools.raytrace.surface.Aperture"><tt class="xref py py-class docutils literal"><span class="pre">Aperture</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.surface.TaylorPoly" title="pyoptools.raytrace.surface.TaylorPoly"><tt class="xref py py-class docutils literal"><span class="pre">TaylorPoly</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.surface.Cylinder" title="pyoptools.raytrace.surface.Cylinder"><tt class="xref py py-class docutils literal"><span class="pre">Cylinder</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.surface.Aspherical" title="pyoptools.raytrace.surface.Aspherical"><tt class="xref py py-class docutils literal"><span class="pre">Aspherical</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.surface.RPPMask" title="pyoptools.raytrace.surface.RPPMask"><tt class="xref py py-class docutils literal"><span class="pre">RPPMask</span></tt></a></li>
 </ul>
 </div>
 <div class="section" id="available-classes">
@@ -73,7 +76,7 @@
 <dl class="class">
 <dt id="pyoptools.raytrace.surface.Surface">
 <em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">Surface</tt><big>(</big><em>double reflectivity=0.</em>, <em>shape=Circular(radius=10.)</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface" title="Permalink to this definition">¶</a></dt>
-<dd><p><a title="pyoptools.raytrace.surface.Surface" class="reference internal" href="#pyoptools.raytrace.surface.Surface"><tt class="xref docutils literal"><span class="pre">Surface</span></tt></a> is an abstract superclass for all optical surface objects.
+<dd><p><a class="reference internal" href="#pyoptools.raytrace.surface.Surface" title="pyoptools.raytrace.surface.Surface"><tt class="xref py py-class docutils literal"><span class="pre">Surface</span></tt></a> is an abstract superclass for all optical surface objects.
 This class defines an API that all subclasses must support.</p>
 <p>All Surface subclasses share the attributes reflectivity, and shape,
 that are defined as follows:</p>
@@ -89,7 +92,7 @@ completely transparent surface, 1 a completely reflective
 surface. A value between are beam spliters.</td>
 </tr>
 <tr><td>shape</td>
-<td>Instance of the <tt class="xref docutils literal"><span class="pre">Shape</span></tt>, that indicates the
+<td>Instance of the <tt class="xref py py-class docutils literal"><span class="pre">Shape</span></tt>, that indicates the
 surface&#8217;s aperture shape.</td>
 </tr>
 </tbody>
@@ -135,13 +138,13 @@ and its point of intersection with a surface. This method returns
 positive and negative distances, and does not check for apertures.</p>
 <p>Arguments:</p>
 <blockquote>
-iray &#8211; incident ray</blockquote>
+<div>iray &#8211; incident ray</div></blockquote>
 <p>iray must be in the coordinate system of the surface</p>
 <p>Return value:</p>
 <blockquote>
-A tuple with the distance, the point of intersection using the
+<div>A tuple with the distance, the point of intersection using the
 coordinate system of the surface, and a pointer to the surface 
-(distance,point of intersection, surface)</blockquote>
+(distance,point of intersection, surface)</div></blockquote>
 </dd></dl>
 
 <dl class="method">
@@ -155,7 +158,7 @@ coordinates of the intersection point, and nx,ny,nz are the components
 of the vector normal to the surface.</p>
 <p><strong>Arguments:</strong></p>
 <blockquote>
-iray &#8211; incident ray in the coordinate system of the surface.</blockquote>
+<div>iray &#8211; incident ray in the coordinate system of the surface.</div></blockquote>
 <p>This method uses surface.intersection, surface.normal, and 
 surface.shape.hit</p>
 </dd></dl>
@@ -179,7 +182,7 @@ intersection returns [Inf, Inf, Inf].</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This method does not need to be overloaded. Overload 
-<tt class="xref docutils literal"><span class="pre">surface._intersection()</span></tt> instead.</p>
+<tt class="xref py py-meth docutils literal"><span class="pre">surface._intersection()</span></tt> instead.</p>
 </div>
 </dd></dl>
 
@@ -210,10 +213,10 @@ the geometric specific code.</p>
 reflected)on a surface.</p>
 <p>Arguments:</p>
 <blockquote>
-<p>ri &#8211; incident ray</p>
+<div><p>ri &#8211; incident ray</p>
 <p>ni &#8211; refraction index in the incident media n.</p>
 <p>nr &#8211; refraction index in the refracted media</p>
-</blockquote>
+</div></blockquote>
 <p>ri must be in the coordinate system of the surface</p>
 </dd></dl>
 
@@ -281,14 +284,14 @@ The wavelength of the PW is given by the wavelength of ri.
 The origin of ri is not used at all.</p>
 <p>Arguments:</p>
 <blockquote>
-<p>ri &#8211; surface incident ray</p>
+<div><p>ri &#8211; surface incident ray</p>
 <p>ni &#8211; refraction index in the incident media n.</p>
 <p>nr &#8211; refraction index in the refracted media</p>
 <p>rsamples &#8211; number of rays used to sample the surface</p>
 <p>shape &#8211; shape of the output wavefront</p>
 <p>order &#8211; order of the polynomial fit</p>
 <p>z &#8211; Z position of the input and output plane. The origin is the surface vertex</p>
-</blockquote>
+</div></blockquote>
 <p>ri must be in the coordinate system of the surface
 Note: The ray comes from the negative side. Need to change this</p>
 </dd></dl>
@@ -317,10 +320,10 @@ surface topography. it is better to use the slow version pw_propagate1.</p>
 <p>Note: The ray comes from the negative side. Need to change this</p>
 <p>Arguments:</p>
 <blockquote>
-<p>ri &#8211; isurface.pyncident ray</p>
+<div><p>ri &#8211; isurface.pyncident ray</p>
 <p>ni &#8211; refraction index in the incident media n.</p>
 <p>nr &#8211; refraction index in the refracted media</p>
-</blockquote>
+</div></blockquote>
 <p>ri must be in the coordinate system of the surface</p>
 </dd></dl>
 
@@ -339,12 +342,12 @@ in the output surface, and the optical path at such point.</p>
 <p>To create an output matrix, this values must be interpolated.</p>
 <p>Arguments:</p>
 <blockquote>
-<p>ri &#8211; incident ray</p>
+<div><p>ri &#8211; incident ray</p>
 <p>ni &#8211; refraction index in the incident media n.</p>
 <p>nr &#8211; refraction index in the refracted media</p>
 <p>rsamples &#8211; number of rays used to sample the surface (Tuple)</p>
 <p>z &#8211; Z position of the input and output plane. The origin is the surface vertex</p>
-</blockquote>
+</div></blockquote>
 <p>ri must be in the coordinate system of the surface
 Note: The ray comes from the negative side. Need to change this</p>
 </dd></dl>
@@ -352,7 +355,8 @@ Note: The ray comes from the negative side. Need to change this</p>
 <dl class="method">
 <dt id="pyoptools.raytrace.surface.Surface.reset">
 <tt class="descname">reset</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.reset" title="Permalink to this definition">¶</a></dt>
-<dd>Remove information from the hit_list</dd></dl>
+<dd><p>Remove information from the hit_list</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.surface.Surface.topo">
@@ -372,12 +376,12 @@ when illuminated by an arbitrary wavefront.</p>
 system.</p>
 <p>Arguments:</p>
 <blockquote>
-<p>wf &#8211; Field instance containing the incoming wavefront</p>
+<div><p>wf &#8211; Field instance containing the incoming wavefront</p>
 <p>ni &#8211; refraction index in the incident media n.</p>
 <p>nr &#8211; refraction index in the refracted media.</p>
 <p>samples &#8211; Tuple containing the number of rays used to sample the field.</p>
 <p>shape &#8211; Tuple containing the shape of the output field</p>
-</blockquote>
+</div></blockquote>
 </dd></dl>
 
 </dd></dl>
@@ -432,7 +436,8 @@ The surface shape is given by the shape arrtibute</p>
 <dl class="method">
 <dt id="pyoptools.raytrace.surface.Plane.normal">
 <tt class="descname">normal</tt><big>(</big><em>self</em>, <em>ri</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Plane.normal" title="Permalink to this definition">¶</a></dt>
-<dd>Method that returns the normal to the surface</dd></dl>
+<dd><p>Method that returns the normal to the surface</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.surface.Plane.topo">
@@ -483,11 +488,11 @@ used to plot the surface.</p>
 <p>Description the ArrayDetector class acts similar as a real CCD device. It holds
 a list of the coordinates of the rays that hits it.</p>
 <blockquote>
-<p>Example of a CCD:</p>
+<div><p>Example of a CCD:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">=</span><span class="n">ArrayDetector</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
 </pre></div>
 </div>
-</blockquote>
+</div></blockquote>
 <p><strong>AVAILABLE METHODS</strong></p>
 <dl class="method">
 <dt id="pyoptools.raytrace.surface.ArrayDetector.get_color_histogram">
@@ -576,11 +581,11 @@ and a coefficient matrix.</p>
 coheficients of the polynomial.</p>
 <p>cohef= [[x0y0, x1y0, x2y0,...,xmy0],</p>
 <blockquote>
-<p>[x0y1, x1y1, x2y1,...,xmy1],</p>
+<div><p>[x0y1, x1y1, x2y1,...,xmy1],</p>
 <p>[x0y2, x1y2, x2y2,...,xmy2],</p>
 <p>[ ... , ... , ... ,..., ... ],</p>
 <p>[x0yn, x1yn, x2yn,...,xmyn]]</p>
-</blockquote>
+</div></blockquote>
 <p>using this coheficients, the polynomial is defined as:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">=</span> <span class="n">x0y0</span><span class="o">+</span><span class="n">x1y0</span><span class="o">*</span><span class="n">X</span> <span class="o">+</span> <span class="o">...</span> <span class="o">+</span> <span class="n">x0y1</span><span class="o">*</span><span class="n">Y</span> <span class="o">+</span><span class="n">x1y1</span><span class="o">*</span><span class="n">X</span><span class="o">*</span><span class="n">Y</span><span class="o">+...+</span> <span class="n">xmyn</span><span class="o">*</span><span class="n">X</span><span class="o">^</span><span class="n">m</span><span class="o">*</span><span class="n">Y</span><span class="o">^</span><span class="n">n</span>
 </pre></div>
@@ -639,7 +644,7 @@ and its length is parallel to the Z axis.</p>
 and the ray. This intersection point is calculated in the coordinate
 system of the surface.</p>
 <blockquote>
-iray &#8211; incident ray</blockquote>
+<div>iray &#8211; incident ray</div></blockquote>
 <p>iray must be in the coordinate system of the surface</p>
 <p>Note: Because of the way the cylinder is defined, it does not uses 
 shapes to define its boundary, for that reason, the <tt class="docutils literal"><span class="pre">intersection</span></tt>
@@ -657,7 +662,8 @@ given by int_p.</p>
 <dl class="method">
 <dt id="pyoptools.raytrace.surface.Cylinder.polylist">
 <tt class="descname">polylist</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Cylinder.polylist" title="Permalink to this definition">¶</a></dt>
-<dd>Because this is a closed surface, the method had to be overloaded</dd></dl>
+<dd><p>Because this is a closed surface, the method had to be overloaded</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -703,7 +709,7 @@ used to plot the surface.</p>
 <hr class="docutils" />
 <dl class="class">
 <dt id="pyoptools.raytrace.surface.RPPMask">
-<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">RPPMask</tt><big>(</big><em>poly2d phm=poly2d((0</em>, <em>0</em>, <em>0</em>, <em>0</em>, <em>0</em>, <em>0))</em>, <em>M=</em><span class="optional">[</span>, <em>1</em><span class="optional">]</span>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.RPPMask" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">RPPMask</tt><big>(</big><em>poly2d phm=poly2d((0,0,0,0,0,0)),M=[1],*args, **kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.RPPMask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to define a reflective plane phase mask.</p>
 <p>Description:</p>
 <p>RPPMask  is a class to define difractive plane surfaces. 
@@ -723,7 +729,8 @@ values of the polynomial are in microns.</p>
 <dl class="method">
 <dt id="pyoptools.raytrace.surface.RPPMask.normal">
 <tt class="descname">normal</tt><big>(</big><em>self</em>, <em>ri</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.RPPMask.normal" title="Permalink to this definition">¶</a></dt>
-<dd>Method that returns the normal to the surface</dd></dl>
+<dd><p>Method that returns the normal to the surface</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.surface.RPPMask.propagate">
@@ -752,39 +759,39 @@ gratting.</p>
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/pyoptools.png" alt="Logo"/>
             </a></p>
-            <h3><a href="index.html">Table Of Contents</a></h3>
-            <ul>
-<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.surface</span></tt></a><ul>
-<li><a class="reference external" href="#class-list"><strong>Class List</strong></a></li>
-<li><a class="reference external" href="#available-classes"><strong>Available Classes</strong></a></li>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.surface</span></tt></a><ul>
+<li><a class="reference internal" href="#class-list"><strong>Class List</strong></a></li>
+<li><a class="reference internal" href="#available-classes"><strong>Available Classes</strong></a></li>
 </ul>
 </li>
 </ul>
 
-            <h4>Previous topic</h4>
-            <p class="topless"><a href="pyoptools_raytrace_shape.html"
-                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.raytrace.shape</span></tt></a></p>
-            <h4>Next topic</h4>
-            <p class="topless"><a href="pyoptools_raytrace_system.html"
-                                  title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.system</span></tt></a></p>
-            <h3>This Page</h3>
-            <ul class="this-page-menu">
-              <li><a href="_sources/pyoptools_raytrace_surface.txt"
-                     rel="nofollow">Show Source</a></li>
-            </ul>
-          <div id="searchbox" style="display: none">
-            <h3>Quick search</h3>
-              <form class="search" action="search.html" method="get">
-                <input type="text" name="q" size="18" />
-                <input type="submit" value="Go" />
-                <input type="hidden" name="check_keywords" value="yes" />
-                <input type="hidden" name="area" value="default" />
-              </form>
-              <p class="searchtip" style="font-size: 90%">
-              Enter search terms or a module, class or function name.
-              </p>
-          </div>
-          <script type="text/javascript">$('#searchbox').show(0);</script>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyoptools_raytrace_shape.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.raytrace.shape</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyoptools_raytrace_system.html"
+                        title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">pyoptools.raytrace.system</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pyoptools_raytrace_surface.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -796,7 +803,7 @@ gratting.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
+          <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="pyoptools_raytrace_system.html" title="pyoptools.raytrace.system"
@@ -809,9 +816,9 @@ gratting.</p>
       </ul>
     </div>
     <div class="footer">
-      &copy; Copyright 2010, Ricardo Amézquita Orozco.
-      Last updated on Nov 29, 2010.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+        &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Last updated on Jul 02, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
     </div>
   </body>
 </html>

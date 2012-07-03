@@ -242,6 +242,3 @@ document_packages(packages)
 packages1=findpackages('../pyoptools/misc')
 document_packages(packages1)
 
-packages2=findpackages('../pyoptools/wavefront')
-document_packages(packages1)
-

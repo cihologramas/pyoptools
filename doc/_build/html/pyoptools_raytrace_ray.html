@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,14 +12,15 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '#',
+        URL_ROOT:    '',
         VERSION:     '0.0.0',
-        COLLAPSE_MODINDEX: false,
+        COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="pyOpTools v0.0.0 documentation" href="index.html" />
     <link rel="up" title="pyOpTools API" href="api.html" />
@@ -32,8 +35,8 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pyoptools_raytrace_shape.html" title="pyoptools.raytrace.shape"
              accesskey="N">next</a> |</li>
@@ -51,21 +54,21 @@
           <div class="body">
             
   <div class="section" id="module-pyoptools.raytrace.ray">
-<h1><tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.ray</span></tt><a class="headerlink" href="#module-pyoptools.raytrace.ray" title="Permalink to this headline">¶</a></h1>
+<span id="pyoptools-raytrace-ray"></span><h1><a class="reference internal" href="#module-pyoptools.raytrace.ray" title="pyoptools.raytrace.ray"><tt class="xref py py-mod docutils literal"><span class="pre">pyoptools.raytrace.ray</span></tt></a><a class="headerlink" href="#module-pyoptools.raytrace.ray" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="class-list">
 <h2><strong>Class List</strong><a class="headerlink" href="#class-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a title="pyoptools.raytrace.ray.Ray" class="reference internal" href="#pyoptools.raytrace.ray.Ray"><tt class="xref docutils literal"><span class="pre">Ray</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.ray.Ray" title="pyoptools.raytrace.ray.Ray"><tt class="xref py py-class docutils literal"><span class="pre">Ray</span></tt></a></li>
 </ul>
 </div>
 <div class="section" id="function-list">
 <h2><strong>Function List</strong><a class="headerlink" href="#function-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a title="pyoptools.raytrace.ray.parallel_beam_c" class="reference internal" href="#pyoptools.raytrace.ray.parallel_beam_c"><tt class="xref docutils literal"><span class="pre">parallel_beam_c()</span></tt></a></li>
-<li><a title="pyoptools.raytrace.ray.parallel_beam_p" class="reference internal" href="#pyoptools.raytrace.ray.parallel_beam_p"><tt class="xref docutils literal"><span class="pre">parallel_beam_p()</span></tt></a></li>
-<li><a title="pyoptools.raytrace.ray.point_source_c" class="reference internal" href="#pyoptools.raytrace.ray.point_source_c"><tt class="xref docutils literal"><span class="pre">point_source_c()</span></tt></a></li>
-<li><a title="pyoptools.raytrace.ray.point_source_p" class="reference internal" href="#pyoptools.raytrace.ray.point_source_p"><tt class="xref docutils literal"><span class="pre">point_source_p()</span></tt></a></li>
-<li><a title="pyoptools.raytrace.ray.point_source_r" class="reference internal" href="#pyoptools.raytrace.ray.point_source_r"><tt class="xref docutils literal"><span class="pre">point_source_r()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.ray.parallel_beam_c" title="pyoptools.raytrace.ray.parallel_beam_c"><tt class="xref py py-func docutils literal"><span class="pre">parallel_beam_c()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.ray.parallel_beam_p" title="pyoptools.raytrace.ray.parallel_beam_p"><tt class="xref py py-func docutils literal"><span class="pre">parallel_beam_p()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.ray.point_source_c" title="pyoptools.raytrace.ray.point_source_c"><tt class="xref py py-func docutils literal"><span class="pre">point_source_c()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.ray.point_source_p" title="pyoptools.raytrace.ray.point_source_p"><tt class="xref py py-func docutils literal"><span class="pre">point_source_p()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.ray.point_source_r" title="pyoptools.raytrace.ray.point_source_r"><tt class="xref py py-func docutils literal"><span class="pre">point_source_r()</span></tt></a></li>
 </ul>
 </div>
 <div class="section" id="available-classes">
@@ -186,8 +189,9 @@ Note, this has to be checked</p>
 <dl class="method">
 <dt id="pyoptools.raytrace.ray.Ray.copy">
 <tt class="descname">copy</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray.copy" title="Permalink to this definition">¶</a></dt>
-<dd>Return a copy ray leaving the parent=None, and childs=[], and 
-order=0</dd></dl>
+<dd><p>Return a copy ray leaving the parent=None, and childs=[], and 
+order=0</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.ray.Ray.get_final_rays">
@@ -204,20 +208,23 @@ included</dd>
 <dl class="method">
 <dt id="pyoptools.raytrace.ray.Ray.optical_path">
 <tt class="descname">optical_path</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray.optical_path" title="Permalink to this definition">¶</a></dt>
-<dd>Return the optical path of the beam propagation from the origin of
-the origin ray, to the end of this ray (intersection with a surface)</dd></dl>
+<dd><p>Return the optical path of the beam propagation from the origin of
+the origin ray, to the end of this ray (intersection with a surface)</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.ray.Ray.optical_path_parent">
 <tt class="descname">optical_path_parent</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray.optical_path_parent" title="Permalink to this definition">¶</a></dt>
-<dd>Return the optical path from the origin of the origin ray to the
-end of this ray parent (this ray origin)</dd></dl>
+<dd><p>Return the optical path from the origin of the origin ray to the
+end of this ray parent (this ray origin)</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.ray.Ray.reverse">
 <tt class="descname">reverse</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.ray.Ray.reverse" title="Permalink to this definition">¶</a></dt>
-<dd>Return a copy ray leaving the parent=None, and childs=[], and
-order=0, and inverting the ray direction.</dd></dl>
+<dd><p>Return a copy ray leaving the parent=None, and childs=[], and
+order=0, and inverting the ray direction.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -345,41 +352,41 @@ random grid.</p>
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/pyoptools.png" alt="Logo"/>
             </a></p>
-            <h3><a href="index.html">Table Of Contents</a></h3>
-            <ul>
-<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.ray</span></tt></a><ul>
-<li><a class="reference external" href="#class-list"><strong>Class List</strong></a></li>
-<li><a class="reference external" href="#function-list"><strong>Function List</strong></a></li>
-<li><a class="reference external" href="#available-classes"><strong>Available Classes</strong></a></li>
-<li><a class="reference external" href="#available-functions"><strong>Available Functions</strong></a></li>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.ray</span></tt></a><ul>
+<li><a class="reference internal" href="#class-list"><strong>Class List</strong></a></li>
+<li><a class="reference internal" href="#function-list"><strong>Function List</strong></a></li>
+<li><a class="reference internal" href="#available-classes"><strong>Available Classes</strong></a></li>
+<li><a class="reference internal" href="#available-functions"><strong>Available Functions</strong></a></li>
 </ul>
 </li>
 </ul>
 
-            <h4>Previous topic</h4>
-            <p class="topless"><a href="pyoptools_raytrace_component.html"
-                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.raytrace.component</span></tt></a></p>
-            <h4>Next topic</h4>
-            <p class="topless"><a href="pyoptools_raytrace_shape.html"
-                                  title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.shape</span></tt></a></p>
-            <h3>This Page</h3>
-            <ul class="this-page-menu">
-              <li><a href="_sources/pyoptools_raytrace_ray.txt"
-                     rel="nofollow">Show Source</a></li>
-            </ul>
-          <div id="searchbox" style="display: none">
-            <h3>Quick search</h3>
-              <form class="search" action="search.html" method="get">
-                <input type="text" name="q" size="18" />
-                <input type="submit" value="Go" />
-                <input type="hidden" name="check_keywords" value="yes" />
-                <input type="hidden" name="area" value="default" />
-              </form>
-              <p class="searchtip" style="font-size: 90%">
-              Enter search terms or a module, class or function name.
-              </p>
-          </div>
-          <script type="text/javascript">$('#searchbox').show(0);</script>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyoptools_raytrace_component.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.raytrace.component</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyoptools_raytrace_shape.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.shape</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pyoptools_raytrace_ray.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -391,7 +398,7 @@ random grid.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
+          <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="pyoptools_raytrace_shape.html" title="pyoptools.raytrace.shape"
@@ -404,9 +411,9 @@ random grid.</p>
       </ul>
     </div>
     <div class="footer">
-      &copy; Copyright 2010, Ricardo Amézquita Orozco.
-      Last updated on Nov 29, 2010.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+        &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Last updated on Jul 02, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
     </div>
   </body>
 </html>
