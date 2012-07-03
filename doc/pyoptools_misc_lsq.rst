@@ -13,6 +13,7 @@
 - :func:`polyfit2d`
 - :func:`polyfito1`
 - :func:`polyfito2`
+- :func:`vander_matrix`
 
 
 
@@ -28,3 +29,7 @@
 .....
 
 .. autofunction:: polyfito2(x, y, z)
+
+.....
+
+.. autofunction:: vander_matrix(x, y,z, int order=2)

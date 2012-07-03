@@ -45,7 +45,7 @@
 
 .....
 
-.. autoclass:: Rectangular(size=(1.,1.),samples=(30,30),*args, **kwargs)
+.. autoclass:: Rectangular(size=(1.,1.),samples=(30,30), offset=(0,0),*args, **kwargs)
     
     
     **AVAILABLE METHODS**

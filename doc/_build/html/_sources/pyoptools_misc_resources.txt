@@ -12,6 +12,8 @@
 
 - :func:`detectCPUs`
 - :func:`detectOpenCL`
+- :func:`has_double_support`
+- :func:`has_amd_double_support`
 
 
 
@@ -23,3 +25,11 @@
 .....
 
 .. autofunction:: detectOpenCL()
+
+.....
+
+.. autofunction:: has_amd_double_support(dev)
+
+.....
+
+.. autofunction:: has_double_support(dev)
