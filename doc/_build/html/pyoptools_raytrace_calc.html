@@ -1,0 +1,573 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyoptools.raytrace.calc &mdash; pyOpTools v0.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyOpTools v0.0.0 documentation" href="index.html" />
+    <link rel="up" title="pyOpTools API" href="api.html" />
+    <link rel="next" title="pyoptools.raytrace.component" href="pyoptools_raytrace_component.html" />
+    <link rel="prev" title="pyOpTools API" href="api.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="pyoptools_raytrace_component.html" title="pyoptools.raytrace.component"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="pyOpTools API"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">pyOpTools API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyoptools.raytrace.calc">
+<h1><tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.calc</span></tt><a class="headerlink" href="#module-pyoptools.raytrace.calc" title="Permalink to this headline">¶</a></h1>
+<p>Method collection to make calculation for optical systems</p>
+<div class="section" id="function-list">
+<h2><strong>Function List</strong><a class="headerlink" href="#function-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a title="pyoptools.raytrace.calc.chief_ray_search" class="reference internal" href="#pyoptools.raytrace.calc.chief_ray_search"><tt class="xref docutils literal"><span class="pre">chief_ray_search()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.calc.find_apperture" class="reference internal" href="#pyoptools.raytrace.calc.find_apperture"><tt class="xref docutils literal"><span class="pre">find_apperture()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.calc.find_ppp" class="reference internal" href="#pyoptools.raytrace.calc.find_ppp"><tt class="xref docutils literal"><span class="pre">find_ppp()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.calc.find_reference_sphere_radius" class="reference internal" href="#pyoptools.raytrace.calc.find_reference_sphere_radius"><tt class="xref docutils literal"><span class="pre">find_reference_sphere_radius()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.calc.get_optical_path_ep" class="reference internal" href="#pyoptools.raytrace.calc.get_optical_path_ep"><tt class="xref docutils literal"><span class="pre">get_optical_path_ep()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.calc.intersection" class="reference internal" href="#pyoptools.raytrace.calc.intersection"><tt class="xref docutils literal"><span class="pre">intersection()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.calc.nearest_points" class="reference internal" href="#pyoptools.raytrace.calc.nearest_points"><tt class="xref docutils literal"><span class="pre">nearest_points()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.calc.parallel_propagate" class="reference internal" href="#pyoptools.raytrace.calc.parallel_propagate"><tt class="xref docutils literal"><span class="pre">parallel_propagate()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.calc.parallel_propagate_ns" class="reference internal" href="#pyoptools.raytrace.calc.parallel_propagate_ns"><tt class="xref docutils literal"><span class="pre">parallel_propagate_ns()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.calc.paraxial_location" class="reference internal" href="#pyoptools.raytrace.calc.paraxial_location"><tt class="xref docutils literal"><span class="pre">paraxial_location()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.calc.pupil_location" class="reference internal" href="#pyoptools.raytrace.calc.pupil_location"><tt class="xref docutils literal"><span class="pre">pupil_location()</span></tt></a></li>
+<li><a title="pyoptools.raytrace.calc.ray_paths" class="reference internal" href="#pyoptools.raytrace.calc.ray_paths"><tt class="xref docutils literal"><span class="pre">ray_paths()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="available-functions">
+<h2><strong>Available Functions</strong><a class="headerlink" href="#available-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyoptools.raytrace.calc.chief_ray_search">
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">chief_ray_search</tt><big>(</big><em>opsys</em>, <em>ccds</em>, <em>o=(0.</em>, <em>0.</em>, <em>0.)</em>, <em>rt=(0.</em>, <em>0.</em>, <em>0.)</em>, <em>er=0.1</em>, <em>w=pi/2.</em>, <em>maxiter=1000</em>, <em>wavelength=.58929</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.chief_ray_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function uses a random search algorithm to find the chief_ray for a 
+given optical system and object point.</p>
+<p><strong>Algorithm description:</strong></p>
+<p>The algorithm starts using a given ray, propagating it in the optical
+system, and finding the intersection point of this test ray and the 
+aperture plane. The distance from this point and the optical axis is 
+recorded.</p>
+<p>Using a gaussian random generator, two rotation angles are calculated,
+to generate a new test ray that is propagated in the optical system, 
+and its distance to the optical axis is found at the aperture plane. 
+If this distance is less than the distance found for the previous ray,
+this ray is taken as the new <em>chief ray</em> candidate, and  the algorithm
+is repeated until the number of iterations reaches <em>maxiter</em>, or until
+the distance is less than <em>er</em>.</p>
+<p>the <em>rt</em> parameter gives the rotations made to a ray originating in 
+<em>o</em>, and propagating in the <em>Z</em> direction, to find the first test ray.</p>
+<p>A detector object <em>ccds</em> should be placed at the aperture plane. It is used
+to find the point where the ray intersects the aperture. To increase the 
+convergense speed of the algorithm, it is better to make sure that the first
+test ray intersects the detector.</p>
+<p><strong>Parameters:</strong></p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>opsys</td>
+<td>Optical system that will be used to find the chief ray</td>
+</tr>
+<tr><td>ccds</td>
+<td>Detector placed in the aperture plane. Should be
+centred in the optical axis</td>
+</tr>
+<tr><td>o</td>
+<td>Tuple, list or numpy array indicating the coordinates
+of the object point used to find the chief ray</td>
+</tr>
+<tr><td>rt</td>
+<td>Tuple with the rotations made to a ray propagating in
+the z direction to obtain the first test ray</td>
+</tr>
+<tr><td>er</td>
+<td>Maximum acceptable distance between the ray and the
+center of the aperture</td>
+</tr>
+<tr><td>w</td>
+<td>Gaussian width in radians</td>
+</tr>
+<tr><td>wavelength</td>
+<td>Wavelength of the ray used to find the principal ray given
+in micrometers (.58929 by default).</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p><strong>Return Value:</strong></p>
+<blockquote>
+Chief ray found. (Ray instance)</blockquote>
+<div class="admonition-todo admonition " id="todo-64">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement a function similar to this one, using a minimization
+algorithm</p>
+</div>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.calc.find_apperture">
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">find_apperture</tt><big>(</big><em>ccd</em>, <em>size=(50</em>, <em>50)</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.find_apperture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to find a mask representing the apperture</p>
+<p>This function returns a array containing 1&#8217;s and 0&#8217;s representing 
+the apperture shape. The apperture shape will be approximated from
+the CCD hit_list</p>
+<p>Attributes:</p>
+<dl class="docutils">
+<dt><em>ccd</em></dt>
+<dd>CCD object that will be used to get the shape information</dd>
+<dt><em>size</em></dt>
+<dd>Array shape</dd>
+</dl>
+<p>Note: Right now only works for round appertures.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.calc.find_ppp">
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">find_ppp</tt><big>(</big><em>opsys</em>, <em>opaxis</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.find_ppp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to find the primary principal plane location of a lens or an 
+optical component</p>
+<p>Arguments:</p>
+<dl class="docutils">
+<dt>opsys</dt>
+<dd>Optical system or optical component whose principal planes are to be 
+found</dd>
+<dt>opaxis</dt>
+<dd>Ray defining the optical axis of the system</dd>
+</dl>
+<p>For this function to operate, the system should have a rotational symetry
+around the optical axis.</p>
+<dl class="docutils">
+<dt>Note: </dt>
+<dd>This function is returns the intersection point of the optical axis and
+the principal plane.</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.calc.find_reference_sphere_radius">
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">find_reference_sphere_radius</tt><big>(</big><em>ip</em>, <em>pl</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.find_reference_sphere_radius" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the radius os the reference sphere that best fits the input data.</p>
+<p>This method asumes that the optical axis coincides with the z axis. This 
+means that the center of the sphere, has coordinates (0,0,r).</p>
+<p>Attributes:</p>
+<dl class="docutils">
+<dt>ip</dt>
+<dd>list of the points where the optical path is measured, that are being 
+fitted. Each point is (XYZ) tuple. It can be also an array with a shape 
+n,3 where n is the numbre of points.</dd>
+<dt>pl</dt>
+<dd>List of path lengths. pl[i] corresponds to the point ip[i].</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.calc.get_optical_path_ep">
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">get_optical_path_ep</tt><big>(</big><em>opsys</em>, <em>opaxis</em>, <em>raylist</em>, <em>stop=None</em>, <em>r=None</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.get_optical_path_ep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the optical path traveled by a ray up to the exit pupil</p>
+<p>The optical path is measured from the ray origin until it crosses the 
+exit pupil of the system.
+If a stop (aperture) is not given, the measurement is made up to the primary
+principal plane.</p>
+<p>Arguments:</p>
+<dl class="docutils">
+<dt>opsys</dt>
+<dd>Optical system under analisis</dd>
+<dt>opaxis</dt>
+<dd>Ray indicating the optical axis the origin of the optical axis, must be
+the position of the object used in the image formation. This is needed
+to be able to calculate the radius of the reference sphere.</dd>
+<dt>raylist</dt>
+<dd>List of rays that will be used to sample the optical path</dd>
+<dt>stop</dt>
+<dd>Apperture stop of the system. It must belong to opsys. In not given it
+will be assumed that the exit pupil is at the primary principal plane.</dd>
+<dt>r</dt>
+<dd>If None, measure up to the exit pupil plane. If given, use a reference 
+sphere with a vertex coinciding with the optical vertex.</dd>
+</dl>
+<p>Return Value (hcl,opl,pc)</p>
+<dl class="docutils">
+<dt>hcl </dt>
+<dd>List containing the coordinates of the hits in the pupil coordinate 
+system.</dd>
+<dt>opl</dt>
+<dd>list containing the optical paths measured</dd>
+<dt>pc</dt>
+<dd>intersection point between the optical axis, and the pupil plane.</dd>
+</dl>
+<p>hcl[i] corresponds to opl[i]</p>
+<p>Note: This method only works if the optical axis coincides with the Z axis. 
+This must be corrected.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.calc.intersection">
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">intersection</tt><big>(</big><em>r1</em>, <em>r2</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.intersection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the point of intersection between the rays r1 and r2.</p>
+<p><strong>Arguments:</strong></p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>r1</td>
+<td>First Ray to test for intersection</td>
+</tr>
+<tr><td>r2</td>
+<td>Second Ray to test for intersection</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p><strong>Return Value:</strong></p>
+<blockquote>
+<p>Tuple (ip,rv) where:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>ip</td>
+<td>Intersection point coordinates. If the rays do not intersect
+ip=(nan,nan,nan)</td>
+</tr>
+<tr><td>rv</td>
+<td>Boolean that indicates if the intersection point represent a
+real image (rv=true) , or a virtual image (rv=false).</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.calc.nearest_points">
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">nearest_points</tt><big>(</big><em>ray1</em>, <em>ray2</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.nearest_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the nearest points between 2 rays.</p>
+<p>The image point locations in optical systems are usually found by 
+calculating the intersection between rays coming from a single object
+point, but in aberrated systems, the 2 rays will not really intersect.
+This function is used to find the point in space where the rays 
+are closest to each other. If the rays intersect the values returned
+will be the intersection point.</p>
+<p>The solution was taken from:</p>
+<blockquote>
+<a class="reference external" href="http://homepage.univie.ac.at/Franz.Vesely/notes/hard_sticks/hst/hst.html">http://homepage.univie.ac.at/Franz.Vesely/notes/hard_sticks/hst/hst.html</a></blockquote>
+<p><strong>Arguments:</strong></p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>r1</td>
+<td>First Ray to test for intersection</td>
+</tr>
+<tr><td>r2</td>
+<td>Second Ray to test for intersection</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p><strong>Return Value</strong></p>
+<blockquote>
+<p>The return value is a tuple (p1,p2,d,rv) where:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>p1</td>
+<td>The point liying on the ray 1, closest to the ray 2</td>
+</tr>
+<tr><td>p2</td>
+<td>The point liying on the ray 2, closest to the ray 1</td>
+</tr>
+<tr><td>d</td>
+<td>The distance between p1 and p2</td>
+</tr>
+<tr><td>rv</td>
+<td>a boolean indicating if the intersection is real or virtual
+rv=True for real, rv=False for virtual</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.calc.parallel_propagate">
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">parallel_propagate</tt><big>(</big><em>os</em>, <em>r</em>, <em>np=None</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.parallel_propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a propagation of the rays in the system using all cores
+present on a computer</p>
+<p>os gets reset before beginning the propagation, so the only rays
+used in the simulation are the rays given in r</p>
+<p>Parameters</p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>os</td>
+<td>Optical system used in the simulation</td>
+</tr>
+<tr><td>r</td>
+<td>List containing the rays to propagate</td>
+</tr>
+<tr><td>np</td>
+<td>Number if processes used in the simulation. If not given use
+one process per cpu</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.calc.parallel_propagate_ns">
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">parallel_propagate_ns</tt><big>(</big><em>os</em>, <em>rg</em>, <em>dp</em>, <em>r</em>, <em>np=None</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.parallel_propagate_ns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a propagation of the rays in the system using all cores
+present on a computer</p>
+<p>os gets reset before beginning the propagation, so the only rays
+used in the simulation are the rays given in r</p>
+<p>Parameters</p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>os</td>
+<td>Optical system used in the simulation</td>
+</tr>
+<tr><td>rg</td>
+<td>Guide ray</td>
+</tr>
+<tr><td>dp</td>
+<td>Destination path</td>
+</tr>
+<tr><td>r</td>
+<td>List containing the rays to propagate</td>
+</tr>
+<tr><td>np</td>
+<td>Number if processes used in the simulation. If not given use
+one process per cpu</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt>
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">parallel_propagate_ns</tt><big>(</big><em>os</em>, <em>rg</em>, <em>dp</em>, <em>r</em>, <em>np=None</em><big>)</big></dt>
+<dd><p>Perform a propagation of the rays in the system using all cores
+present on a computer</p>
+<p>os gets reset before beginning the propagation, so the only rays
+used in the simulation are the rays given in r</p>
+<p>Parameters</p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>os</td>
+<td>Optical system used in the simulation</td>
+</tr>
+<tr><td>rg</td>
+<td>Guide ray</td>
+</tr>
+<tr><td>dp</td>
+<td>Destination path</td>
+</tr>
+<tr><td>r</td>
+<td>List containing the rays to propagate</td>
+</tr>
+<tr><td>np</td>
+<td>Number if processes used in the simulation. If not given use
+one process per cpu</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.calc.paraxial_location">
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">paraxial_location</tt><big>(</big><em>opsys</em>, <em>opaxis</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.paraxial_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to find the paraxial image location</p>
+<p>This function finds the paraxial image location of a point
+located in the optical axis, and a boolean indicating if the image
+is real or virtual (image_location, real_virtual).
+The origin of the opaxis location is taken as the object location</p>
+<p>Parameters:</p>
+<dl class="docutils">
+<dt><em>opsys</em></dt>
+<dd>Optical system to use.</dd>
+<dt><em>opaxis</em> </dt>
+<dd>Ray representating the optical axis</dd>
+</dl>
+<p>For this function to operate, the system should have a rotational symetry
+around the optical axis.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.calc.pupil_location">
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">pupil_location</tt><big>(</big><em>opsys</em>, <em>ccds</em>, <em>opaxis</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.pupil_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to find the optical system pupils position</p>
+<p><strong>Parameters:</strong></p>
+<blockquote>
+opsys   Optical system to use.
+opaxis  Ray representing the optical axis
+ccds    Surface that represents a detector in the aperture plane</blockquote>
+<p><strong>Return Value</strong></p>
+<blockquote>
+<p>(enpl,expl)</p>
+<p>enpl tuple (xen,yen,zen) containing the entrance pupil coordinates
+expl tuple (xex,yex,zex) containing the exit pupil coordinates</p>
+</blockquote>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.raytrace.calc.ray_paths">
+<tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">ray_paths</tt><big>(</big><em>r</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.ray_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return lists with all the possible paths traveled by the ray r.</p>
+<p>r must be previously propagated in an optical system</p>
+<p>When there are beam splitters, there is more than one path</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/pyoptools.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.calc</span></tt></a><ul>
+<li><a class="reference external" href="#function-list"><strong>Function List</strong></a></li>
+<li><a class="reference external" href="#available-functions"><strong>Available Functions</strong></a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="api.html"
+                                  title="previous chapter">pyOpTools API</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="pyoptools_raytrace_component.html"
+                                  title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.component</span></tt></a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/pyoptools_raytrace_calc.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyoptools_raytrace_component.html" title="pyoptools.raytrace.component"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="pyOpTools API"
+             >previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="api.html" >pyOpTools API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Last updated on Nov 29, 2010.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>
