@@ -1,8 +1,11 @@
-Installing pyoptools
-====================
+Installing pyoptools (stable release)
+=====================================
 
 
-UBUNTU 10.04 (Lucid Lynx)
+Note the stable release is currently being prepared.
+
+
+UBUNTU (Latest versions)
 ------
 
 1. Install ipython, build-essential, python-numpy, python-scipy, python-matplotlib, python-wxversion, python-dev, python-opengl from the repository::
@@ -14,7 +17,7 @@ UBUNTU 10.04 (Lucid Lynx)
 
 3. Download the pyoptools repository::
 
-    ~$ svn checkout http://pyoptools.googlecode.com/svn/trunk/ pyoptools
+    ~$ hg clone https://code.google.com/p/pyoptools/ -r stable
 
 4. Enter the pyoptools folder, build and install the pyoptools::
 
