@@ -30,40 +30,6 @@
 #   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-'''
-Package containing modules and submodules defining an *API* for optical
-raytracing and wave propagation calculations.
-'''
-
-# Import all pyoptools packages
-
-from pyoptools.misc.cmisc import *
-from pyoptools.misc.definitions import *
-#from misc.frft import *
-from pyoptools.misc.lsq import *
-from pyoptools.misc.pmisc import *
-from pyoptools.misc.plist import *
-from pyoptools.misc.Poly2D import *
-from pyoptools.misc.resources import *
-  
-
-from pyoptools.raytrace.calc import *
-from pyoptools.raytrace.comp_lib import *
-from pyoptools.raytrace.component import *
-from pyoptools.raytrace.library import *
-from pyoptools.raytrace.mat_lib import *
-from pyoptools.raytrace.ray import *
-from pyoptools.raytrace.shape import *
-from pyoptools.raytrace.surface import *
-from pyoptools.raytrace.system import *
-
-from wavefront.field import *
-from wavefront.calc import *
-from wavefront.psurfrep import *
-from wavefront.zernike import *
-
-
-#~ 
-#~ 
-#Import graphic packages This should be imported somewhere else
-from pyoptools.gui.plotutils import *
+#~ import field
+#import from psurfrep import *
+#from zernike import *
