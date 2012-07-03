@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,19 +12,20 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '#',
+        URL_ROOT:    '',
         VERSION:     '0.0.0',
-        COLLAPSE_MODINDEX: false,
+        COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="pyOpTools v0.0.0 documentation" href="index.html" />
     <link rel="up" title="pyOpTools API" href="api.html" />
     <link rel="next" title="pyoptools.misc.pmisc" href="pyoptools_misc_pmisc.html" />
-    <link rel="prev" title="pyoptools.misc.frft" href="pyoptools_misc_frft.html" /> 
+    <link rel="prev" title="pyoptools.misc.definitions" href="pyoptools_misc_definitions.html" /> 
   </head>
   <body>
     <div class="related">
@@ -32,13 +35,13 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pyoptools_misc_pmisc.html" title="pyoptools.misc.pmisc"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="pyoptools_misc_frft.html" title="pyoptools.misc.frft"
+          <a href="pyoptools_misc_definitions.html" title="pyoptools.misc.definitions"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">pyOpTools v0.0.0 documentation</a> &raquo;</li>
           <li><a href="api.html" accesskey="U">pyOpTools API</a> &raquo;</li> 
@@ -51,13 +54,14 @@
           <div class="body">
             
   <div class="section" id="module-pyoptools.misc.lsq">
-<h1><tt class="xref docutils literal"><span class="pre">pyoptools.misc.lsq</span></tt><a class="headerlink" href="#module-pyoptools.misc.lsq" title="Permalink to this headline">¶</a></h1>
+<span id="pyoptools-misc-lsq"></span><h1><a class="reference internal" href="#module-pyoptools.misc.lsq" title="pyoptools.misc.lsq"><tt class="xref py py-mod docutils literal"><span class="pre">pyoptools.misc.lsq</span></tt></a><a class="headerlink" href="#module-pyoptools.misc.lsq" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="function-list">
 <h2><strong>Function List</strong><a class="headerlink" href="#function-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a title="pyoptools.misc.lsq.polyfit2d" class="reference internal" href="#pyoptools.misc.lsq.polyfit2d"><tt class="xref docutils literal"><span class="pre">polyfit2d()</span></tt></a></li>
-<li><a title="pyoptools.misc.lsq.polyfito1" class="reference internal" href="#pyoptools.misc.lsq.polyfito1"><tt class="xref docutils literal"><span class="pre">polyfito1()</span></tt></a></li>
-<li><a title="pyoptools.misc.lsq.polyfito2" class="reference internal" href="#pyoptools.misc.lsq.polyfito2"><tt class="xref docutils literal"><span class="pre">polyfito2()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.lsq.polyfit2d" title="pyoptools.misc.lsq.polyfit2d"><tt class="xref py py-func docutils literal"><span class="pre">polyfit2d()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.lsq.polyfito1" title="pyoptools.misc.lsq.polyfito1"><tt class="xref py py-func docutils literal"><span class="pre">polyfito1()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.lsq.polyfito2" title="pyoptools.misc.lsq.polyfito2"><tt class="xref py py-func docutils literal"><span class="pre">polyfito2()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.lsq.vander_matrix" title="pyoptools.misc.lsq.vander_matrix"><tt class="xref py py-func docutils literal"><span class="pre">vander_matrix()</span></tt></a></li>
 </ul>
 </div>
 <div class="section" id="available-functions">
@@ -77,7 +81,14 @@
 <dl class="function">
 <dt id="pyoptools.misc.lsq.polyfito2">
 <tt class="descclassname">pyoptools.misc.lsq.</tt><tt class="descname">polyfito2</tt><big>(</big><em>x</em>, <em>y</em>, <em>z</em><big>)</big><a class="headerlink" href="#pyoptools.misc.lsq.polyfito2" title="Permalink to this definition">¶</a></dt>
-<dd>Polyfit function optimized for polynomials of order 2</dd></dl>
+<dd><p>Polyfit function optimized for polynomials of order 2</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="function">
+<dt id="pyoptools.misc.lsq.vander_matrix">
+<tt class="descclassname">pyoptools.misc.lsq.</tt><tt class="descname">vander_matrix</tt><big>(</big><em>x</em>, <em>y</em>, <em>z</em>, <em>int order=2</em><big>)</big><a class="headerlink" href="#pyoptools.misc.lsq.vander_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 </div>
@@ -91,39 +102,39 @@
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/pyoptools.png" alt="Logo"/>
             </a></p>
-            <h3><a href="index.html">Table Of Contents</a></h3>
-            <ul>
-<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.misc.lsq</span></tt></a><ul>
-<li><a class="reference external" href="#function-list"><strong>Function List</strong></a></li>
-<li><a class="reference external" href="#available-functions"><strong>Available Functions</strong></a></li>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">pyoptools.misc.lsq</span></tt></a><ul>
+<li><a class="reference internal" href="#function-list"><strong>Function List</strong></a></li>
+<li><a class="reference internal" href="#available-functions"><strong>Available Functions</strong></a></li>
 </ul>
 </li>
 </ul>
 
-            <h4>Previous topic</h4>
-            <p class="topless"><a href="pyoptools_misc_frft.html"
-                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.misc.frft</span></tt></a></p>
-            <h4>Next topic</h4>
-            <p class="topless"><a href="pyoptools_misc_pmisc.html"
-                                  title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.misc.pmisc</span></tt></a></p>
-            <h3>This Page</h3>
-            <ul class="this-page-menu">
-              <li><a href="_sources/pyoptools_misc_lsq.txt"
-                     rel="nofollow">Show Source</a></li>
-            </ul>
-          <div id="searchbox" style="display: none">
-            <h3>Quick search</h3>
-              <form class="search" action="search.html" method="get">
-                <input type="text" name="q" size="18" />
-                <input type="submit" value="Go" />
-                <input type="hidden" name="check_keywords" value="yes" />
-                <input type="hidden" name="area" value="default" />
-              </form>
-              <p class="searchtip" style="font-size: 90%">
-              Enter search terms or a module, class or function name.
-              </p>
-          </div>
-          <script type="text/javascript">$('#searchbox').show(0);</script>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyoptools_misc_definitions.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.misc.definitions</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyoptools_misc_pmisc.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.misc.pmisc</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pyoptools_misc_lsq.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -135,22 +146,22 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
+          <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="pyoptools_misc_pmisc.html" title="pyoptools.misc.pmisc"
              >next</a> |</li>
         <li class="right" >
-          <a href="pyoptools_misc_frft.html" title="pyoptools.misc.frft"
+          <a href="pyoptools_misc_definitions.html" title="pyoptools.misc.definitions"
              >previous</a> |</li>
         <li><a href="index.html">pyOpTools v0.0.0 documentation</a> &raquo;</li>
           <li><a href="api.html" >pyOpTools API</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-      &copy; Copyright 2010, Ricardo Amézquita Orozco.
-      Last updated on Nov 29, 2010.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+        &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Last updated on Jul 02, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
     </div>
   </body>
 </html>

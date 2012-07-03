@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,18 +12,19 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '#',
+        URL_ROOT:    '',
         VERSION:     '0.0.0',
-        COLLAPSE_MODINDEX: false,
+        COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="pyOpTools v0.0.0 documentation" href="index.html" />
     <link rel="up" title="pyOpTools API" href="api.html" />
-    <link rel="next" title="pyoptools.wavefront.field" href="pyoptools_wavefront_field.html" />
+    <link rel="next" title="pyoptools.misc.cmisc" href="pyoptools_misc_cmisc.html" />
     <link rel="prev" title="pyoptools.raytrace.surface" href="pyoptools_raytrace_surface.html" /> 
   </head>
   <body>
@@ -32,10 +35,10 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
-          <a href="pyoptools_wavefront_field.html" title="pyoptools.wavefront.field"
+          <a href="pyoptools_misc_cmisc.html" title="pyoptools.misc.cmisc"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="pyoptools_raytrace_surface.html" title="pyoptools.raytrace.surface"
@@ -51,11 +54,11 @@
           <div class="body">
             
   <div class="section" id="module-pyoptools.raytrace.system">
-<h1><tt class="xref docutils literal"><span class="pre">pyoptools.raytrace.system</span></tt><a class="headerlink" href="#module-pyoptools.raytrace.system" title="Permalink to this headline">¶</a></h1>
+<span id="pyoptools-raytrace-system"></span><h1><a class="reference internal" href="#module-pyoptools.raytrace.system" title="pyoptools.raytrace.system"><tt class="xref py py-mod docutils literal"><span class="pre">pyoptools.raytrace.system</span></tt></a><a class="headerlink" href="#module-pyoptools.raytrace.system" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="class-list">
 <h2><strong>Class List</strong><a class="headerlink" href="#class-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a title="pyoptools.raytrace.system.System" class="reference internal" href="#pyoptools.raytrace.system.System"><tt class="xref docutils literal"><span class="pre">System</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.system.System" title="pyoptools.raytrace.system.System"><tt class="xref py py-class docutils literal"><span class="pre">System</span></tt></a></li>
 </ul>
 </div>
 <div class="section" id="available-classes">
@@ -70,7 +73,7 @@ such components. To define a system the refraction index, or the material
 surrounding the components must also be given in the <em>n</em> attribute.</p>
 <p><strong>EXAMPLE:</strong></p>
 <blockquote>
-<p>Example of a system containing a doublet and a CCD detector:</p>
+<div><p>Example of a system containing a doublet and a CCD detector:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Definition of a doublet type lens</span>
 <span class="n">DB1</span><span class="o">=</span><span class="n">Doublet</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">12.5</span><span class="p">,</span>
     <span class="n">curvature_as</span> <span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mf">61.47</span><span class="p">,</span>
@@ -88,7 +91,7 @@ surrounding the components must also be given in the <em>n</em> attribute.</p>
 <span class="n">os</span><span class="o">=</span><span class="n">System</span><span class="p">(</span><span class="n">complist</span><span class="o">=</span><span class="p">[(</span><span class="n">DB1</span><span class="p">,(</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">200</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),(</span><span class="n">ccd</span><span class="p">,(</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">400</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),],</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
-</blockquote>
+</div></blockquote>
 <p><strong>AVAILABLE METHODS</strong></p>
 <dl class="method">
 <dt id="pyoptools.raytrace.system.System.clear">
@@ -98,7 +101,8 @@ surrounding the components must also be given in the <em>n</em> attribute.</p>
 <dl class="method">
 <dt id="pyoptools.raytrace.system.System.clear_ray_list">
 <tt class="descname">clear_ray_list</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.system.System.clear_ray_list" title="Permalink to this definition">¶</a></dt>
-<dd>Clear the ray lists of the system</dd></dl>
+<dd><p>Clear the ray lists of the system</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.system.System.distance">
@@ -118,7 +122,8 @@ that is closest to the ray (distance,point of intersection, surface)</dd>
 <dl class="method">
 <dt id="pyoptools.raytrace.system.System.get_component">
 <tt class="descname">get_component</tt><big>(</big><em>self</em>, <em>path</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.system.System.get_component" title="Permalink to this definition">¶</a></dt>
-<dd>Return the component thatis defined using the surface described by path</dd></dl>
+<dd><p>Return the component thatis defined using the surface described by path</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.system.System.get_surf_paths">
@@ -168,8 +173,9 @@ that is closest to the ray (distance,point of intersection, surface)</dd>
 <dl class="method">
 <dt id="pyoptools.raytrace.system.System.merge">
 <tt class="descname">merge</tt><big>(</big><em>self</em>, <em>os</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.system.System.merge" title="Permalink to this definition">¶</a></dt>
-<dd>Method to merge simulation systems. Useful for joining raytraces that
-where split for parallel processing.</dd></dl>
+<dd><p>Method to merge simulation systems. Useful for joining raytraces that
+where split for parallel processing.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.system.System.pop">
@@ -184,7 +190,8 @@ where split for parallel processing.</dd></dl>
 <dl class="method">
 <dt id="pyoptools.raytrace.system.System.propagate">
 <tt class="descname">propagate</tt><big>(</big><em>self</em>, <em>update_ids=True</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.system.System.propagate" title="Permalink to this definition">¶</a></dt>
-<dd>Propagates all the rays in the non propagated list.</dd></dl>
+<dd><p>Propagates all the rays in the non propagated list.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.system.System.propagate_ray">
@@ -209,8 +216,8 @@ itself recurrently.</p>
 ===== ========================================================
 gr    Guide ray previously propagated in the system using the</p>
 <blockquote>
-non sequential algorithm. This ray contains the surface
-sequence that the rays must follow.</blockquote>
+<div>non sequential algorithm. This ray contains the surface
+sequence that the rays must follow.</div></blockquote>
 <p>dpath Path (key) of the destination surface.
 ===== ========================================================</p>
 <p>This method uses the same n as the calculated in the non sequential
@@ -220,16 +227,18 @@ propagation. If the wavelength change, assertion error is raised</p>
 <dl class="method">
 <dt id="pyoptools.raytrace.system.System.ray_add">
 <tt class="descname">ray_add</tt><big>(</big><em>self</em>, <em>ray</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.system.System.ray_add" title="Permalink to this definition">¶</a></dt>
-<dd>Rutina que adiciona un rayo a la lista de rayos primarios del sistema
+<dd><p>Rutina que adiciona un rayo a la lista de rayos primarios del sistema
 optico.
 Recibe como parametro una rayo o una lista de rayos. Genera un error
 si se le pasa algo diferente a un rayo (instancia de la clase Ray,
-genera una excepcion        &#8216;&#8217;&#8216;</dd></dl>
+genera una excepcion        &#8216;&#8217;&#8216;</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.system.System.reset">
 <tt class="descname">reset</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.system.System.reset" title="Permalink to this definition">¶</a></dt>
-<dd>Run the reset method on all the components used to create the system</dd></dl>
+<dd><p>Run the reset method on all the components used to create the system</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.system.System.setdefault">
@@ -282,39 +291,39 @@ genera una excepcion        &#8216;&#8217;&#8216;</dd></dl>
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/pyoptools.png" alt="Logo"/>
             </a></p>
-            <h3><a href="index.html">Table Of Contents</a></h3>
-            <ul>
-<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.system</span></tt></a><ul>
-<li><a class="reference external" href="#class-list"><strong>Class List</strong></a></li>
-<li><a class="reference external" href="#available-classes"><strong>Available Classes</strong></a></li>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.system</span></tt></a><ul>
+<li><a class="reference internal" href="#class-list"><strong>Class List</strong></a></li>
+<li><a class="reference internal" href="#available-classes"><strong>Available Classes</strong></a></li>
 </ul>
 </li>
 </ul>
 
-            <h4>Previous topic</h4>
-            <p class="topless"><a href="pyoptools_raytrace_surface.html"
-                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.raytrace.surface</span></tt></a></p>
-            <h4>Next topic</h4>
-            <p class="topless"><a href="pyoptools_wavefront_field.html"
-                                  title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.wavefront.field</span></tt></a></p>
-            <h3>This Page</h3>
-            <ul class="this-page-menu">
-              <li><a href="_sources/pyoptools_raytrace_system.txt"
-                     rel="nofollow">Show Source</a></li>
-            </ul>
-          <div id="searchbox" style="display: none">
-            <h3>Quick search</h3>
-              <form class="search" action="search.html" method="get">
-                <input type="text" name="q" size="18" />
-                <input type="submit" value="Go" />
-                <input type="hidden" name="check_keywords" value="yes" />
-                <input type="hidden" name="area" value="default" />
-              </form>
-              <p class="searchtip" style="font-size: 90%">
-              Enter search terms or a module, class or function name.
-              </p>
-          </div>
-          <script type="text/javascript">$('#searchbox').show(0);</script>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyoptools_raytrace_surface.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.raytrace.surface</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyoptools_misc_cmisc.html"
+                        title="next chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.misc.cmisc</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pyoptools_raytrace_system.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -326,10 +335,10 @@ genera una excepcion        &#8216;&#8217;&#8216;</dd></dl>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
+          <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="pyoptools_wavefront_field.html" title="pyoptools.wavefront.field"
+          <a href="pyoptools_misc_cmisc.html" title="pyoptools.misc.cmisc"
              >next</a> |</li>
         <li class="right" >
           <a href="pyoptools_raytrace_surface.html" title="pyoptools.raytrace.surface"
@@ -339,9 +348,9 @@ genera una excepcion        &#8216;&#8217;&#8216;</dd></dl>
       </ul>
     </div>
     <div class="footer">
-      &copy; Copyright 2010, Ricardo Amézquita Orozco.
-      Last updated on Nov 29, 2010.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+        &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Last updated on Jul 02, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
     </div>
   </body>
 </html>

@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,14 +12,15 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '#',
+        URL_ROOT:    '',
         VERSION:     '0.0.0',
-        COLLAPSE_MODINDEX: false,
+        COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="pyOpTools v0.0.0 documentation" href="index.html" />
     <link rel="next" title="pyoptools.raytrace.calc" href="pyoptools_raytrace_calc.html" />
@@ -31,8 +34,8 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pyoptools_raytrace_calc.html" title="pyoptools.raytrace.calc"
              accesskey="N">next</a> |</li>
@@ -50,11 +53,11 @@
             
   <div class="section" id="pyoptools-api">
 <h1>pyOpTools API<a class="headerlink" href="#pyoptools-api" title="Permalink to this headline">¶</a></h1>
-<p>The package <tt class="xref docutils literal"><span class="pre">pyoptools</span></tt> is divided in several modules. These
+<p>The package <tt class="xref py py-mod docutils literal"><span class="pre">pyoptools</span></tt> is divided in several modules. These
 modules separate the different functionalities:</p>
 <ol class="arabic">
 <li><dl class="first docutils">
-<dt><tt class="xref docutils literal"><span class="pre">pyoptools.raytrace</span></tt></dt>
+<dt><a class="reference internal" href="#module-pyoptools.raytrace" title="pyoptools.raytrace"><tt class="xref py py-mod docutils literal"><span class="pre">pyoptools.raytrace</span></tt></a></dt>
 <dd><p class="first last">This package contains the classes and functions used to perform the
 simulation of optical systems using 3D non-sequential raytracing
 algorithms.</p>
@@ -62,14 +65,7 @@ algorithms.</p>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><tt class="xref docutils literal"><span class="pre">pyoptools.wavefront</span></tt></dt>
-<dd><p class="first last">This package contains the classes and functions used to perform the
-simulation of wavefronts propagation.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt><tt class="xref docutils literal"><span class="pre">pyoptools.misc</span></tt></dt>
+<dt><a class="reference internal" href="#module-pyoptools.misc" title="pyoptools.misc"><tt class="xref py py-mod docutils literal"><span class="pre">pyoptools.misc</span></tt></a></dt>
 <dd><p class="first last">This package contains miscellaneous classes and functions used by the
 other packages, but that can not be classified in any of them.</p>
 </dd>
@@ -77,46 +73,37 @@ other packages, but that can not be classified in any of them.</p>
 </li>
 </ol>
 <div class="section" id="module-pyoptools.raytrace">
-<h2><tt class="xref docutils literal"><span class="pre">pyoptools.raytrace</span></tt> API<a class="headerlink" href="#module-pyoptools.raytrace" title="Permalink to this headline">¶</a></h2>
-<p>The package <tt class="xref docutils literal"><span class="pre">pyoptools.raytrace</span></tt> is divided in several modules. These
+<span id="pyoptools-raytrace-api"></span><h2><a class="reference internal" href="#module-pyoptools.raytrace" title="pyoptools.raytrace"><tt class="xref py py-mod docutils literal"><span class="pre">pyoptools.raytrace</span></tt></a> API<a class="headerlink" href="#module-pyoptools.raytrace" title="Permalink to this headline">¶</a></h2>
+<p>The package <a class="reference internal" href="#module-pyoptools.raytrace" title="pyoptools.raytrace"><tt class="xref py py-mod docutils literal"><span class="pre">pyoptools.raytrace</span></tt></a> is divided in several modules. These
 modules separate the different functionalities found.</p>
 <p>The defined submodules are:</p>
+<div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_raytrace_calc.html"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.calc</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_raytrace_component.html"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.component</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_raytrace_ray.html"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.ray</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_raytrace_shape.html"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.shape</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_raytrace_surface.html"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.surface</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_raytrace_system.html"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.system</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_raytrace_calc.html"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.calc</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_raytrace_component.html"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.component</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_raytrace_ray.html"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.ray</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_raytrace_shape.html"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.shape</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_raytrace_surface.html"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.surface</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_raytrace_system.html"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.system</span></tt></a></li>
 </ul>
 </div>
-<div class="section" id="module-pyoptools.wavefront">
-<h2><tt class="xref docutils literal"><span class="pre">pyoptools.wavefront</span></tt> API<a class="headerlink" href="#module-pyoptools.wavefront" title="Permalink to this headline">¶</a></h2>
-<p>The package <tt class="xref docutils literal"><span class="pre">pyoptools.wavefront</span></tt> is divided in several modules. These
-modules separate the different functionalities found.</p>
-<p>The defined submodules are:</p>
-<ul>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_wavefront_field.html"><tt class="docutils literal"><span class="pre">pyoptools.wavefront.field</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_wavefront_calc.html"><tt class="docutils literal"><span class="pre">pyoptools.wavefront.calc</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_wavefront_psurfrep.html"><tt class="docutils literal"><span class="pre">pyoptools.wavefront.psurfrep</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_wavefront_zernike.html"><tt class="docutils literal"><span class="pre">pyoptools.wavefront.zernike</span></tt></a></li>
-</ul>
 </div>
 <div class="section" id="module-pyoptools.misc">
-<h2><tt class="xref docutils literal"><span class="pre">pyoptools.misc</span></tt> API<a class="headerlink" href="#module-pyoptools.misc" title="Permalink to this headline">¶</a></h2>
-<p>The package <tt class="xref docutils literal"><span class="pre">pyoptools.misc</span></tt> is divided in several modules. These
+<span id="pyoptools-misc-api"></span><h2><a class="reference internal" href="#module-pyoptools.misc" title="pyoptools.misc"><tt class="xref py py-mod docutils literal"><span class="pre">pyoptools.misc</span></tt></a> API<a class="headerlink" href="#module-pyoptools.misc" title="Permalink to this headline">¶</a></h2>
+<p>The package <a class="reference internal" href="#module-pyoptools.misc" title="pyoptools.misc"><tt class="xref py py-mod docutils literal"><span class="pre">pyoptools.misc</span></tt></a> is divided in several modules. These
 modules separate the different functionalities found.</p>
 <p>The defined submodules are:</p>
+<div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_misc_cmisc.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.cmisc</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_misc_definitions.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.definitions</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_misc_frft.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.frft</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_misc_lsq.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.lsq</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_misc_pmisc.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.pmisc</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_misc_plist.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.plist</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_misc_Poly2D.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.Poly2D</span></tt></a></li>
-<li class="toctree-l1"><a class="reference external" href="pyoptools_misc_resources.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.resources</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_misc_cmisc.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.cmisc</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_misc_definitions.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.definitions</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_misc_lsq.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.lsq</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_misc_pmisc.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.pmisc</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_misc_plist.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.plist</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_misc_Poly2D.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.Poly2D</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyoptools_misc_resources.html"><tt class="docutils literal"><span class="pre">pyoptools.misc.resources</span></tt></a></li>
 </ul>
+</div>
 </div>
 </div>
 
@@ -129,46 +116,43 @@ modules separate the different functionalities found.</p>
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/pyoptools.png" alt="Logo"/>
             </a></p>
-            <h3><a href="index.html">Table Of Contents</a></h3>
-            <ul>
-<li><a class="reference external" href="#">pyOpTools API</a><ul>
-<li><a class="reference external" href="#module-pyoptools.raytrace"><tt class="docutils literal"><span class="pre">pyoptools.raytrace</span></tt> API</a><ul>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pyOpTools API</a><ul>
+<li><a class="reference internal" href="#module-pyoptools.raytrace"><tt class="docutils literal"><span class="pre">pyoptools.raytrace</span></tt> API</a><ul>
 </ul>
 </li>
-<li><a class="reference external" href="#module-pyoptools.wavefront"><tt class="docutils literal"><span class="pre">pyoptools.wavefront</span></tt> API</a><ul>
-</ul>
-</li>
-<li><a class="reference external" href="#module-pyoptools.misc"><tt class="docutils literal"><span class="pre">pyoptools.misc</span></tt> API</a><ul>
+<li><a class="reference internal" href="#module-pyoptools.misc"><tt class="docutils literal"><span class="pre">pyoptools.misc</span></tt> API</a><ul>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 
-            <h4>Previous topic</h4>
-            <p class="topless"><a href="raytrace.html"
-                                  title="previous chapter">A simple raytracing simulations using pyoptools</a></p>
-            <h4>Next topic</h4>
-            <p class="topless"><a href="pyoptools_raytrace_calc.html"
-                                  title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.calc</span></tt></a></p>
-            <h3>This Page</h3>
-            <ul class="this-page-menu">
-              <li><a href="_sources/api.txt"
-                     rel="nofollow">Show Source</a></li>
-            </ul>
-          <div id="searchbox" style="display: none">
-            <h3>Quick search</h3>
-              <form class="search" action="search.html" method="get">
-                <input type="text" name="q" size="18" />
-                <input type="submit" value="Go" />
-                <input type="hidden" name="check_keywords" value="yes" />
-                <input type="hidden" name="area" value="default" />
-              </form>
-              <p class="searchtip" style="font-size: 90%">
-              Enter search terms or a module, class or function name.
-              </p>
-          </div>
-          <script type="text/javascript">$('#searchbox').show(0);</script>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="raytrace.html"
+                        title="previous chapter">A simple raytracing simulations using pyoptools</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyoptools_raytrace_calc.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.calc</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/api.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -180,7 +164,7 @@ modules separate the different functionalities found.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
+          <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="pyoptools_raytrace_calc.html" title="pyoptools.raytrace.calc"
@@ -192,9 +176,9 @@ modules separate the different functionalities found.</p>
       </ul>
     </div>
     <div class="footer">
-      &copy; Copyright 2010, Ricardo Amézquita Orozco.
-      Last updated on Nov 29, 2010.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+        &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Last updated on Jul 02, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
     </div>
   </body>
 </html>

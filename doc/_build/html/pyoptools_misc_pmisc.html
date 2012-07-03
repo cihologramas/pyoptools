@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,14 +12,15 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '#',
+        URL_ROOT:    '',
         VERSION:     '0.0.0',
-        COLLAPSE_MODINDEX: false,
+        COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="pyOpTools v0.0.0 documentation" href="index.html" />
     <link rel="up" title="pyOpTools API" href="api.html" />
@@ -32,8 +35,8 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pyoptools_misc_plist.html" title="pyoptools.misc.plist"
              accesskey="N">next</a> |</li>
@@ -51,21 +54,21 @@
           <div class="body">
             
   <div class="section" id="module-pyoptools.misc.pmisc">
-<h1><tt class="xref docutils literal"><span class="pre">pyoptools.misc.pmisc</span></tt><a class="headerlink" href="#module-pyoptools.misc.pmisc" title="Permalink to this headline">¶</a></h1>
+<span id="pyoptools-misc-pmisc"></span><h1><a class="reference internal" href="#module-pyoptools.misc.pmisc" title="pyoptools.misc.pmisc"><tt class="xref py py-mod docutils literal"><span class="pre">pyoptools.misc.pmisc</span></tt></a><a class="headerlink" href="#module-pyoptools.misc.pmisc" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="function-list">
 <h2><strong>Function List</strong><a class="headerlink" href="#function-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a title="pyoptools.misc.pmisc.cross" class="reference internal" href="#pyoptools.misc.pmisc.cross"><tt class="xref docutils literal"><span class="pre">cross()</span></tt></a></li>
-<li><a title="pyoptools.misc.pmisc.hitlist2int" class="reference internal" href="#pyoptools.misc.pmisc.hitlist2int"><tt class="xref docutils literal"><span class="pre">hitlist2int()</span></tt></a></li>
-<li><a title="pyoptools.misc.pmisc.hitlist2int_list" class="reference internal" href="#pyoptools.misc.pmisc.hitlist2int_list"><tt class="xref docutils literal"><span class="pre">hitlist2int_list()</span></tt></a></li>
-<li><a title="pyoptools.misc.pmisc.interpolate_g" class="reference internal" href="#pyoptools.misc.pmisc.interpolate_g"><tt class="xref docutils literal"><span class="pre">interpolate_g()</span></tt></a></li>
-<li><a title="pyoptools.misc.pmisc.matrix_interpolation" class="reference internal" href="#pyoptools.misc.pmisc.matrix_interpolation"><tt class="xref docutils literal"><span class="pre">matrix_interpolation()</span></tt></a></li>
-<li><a title="pyoptools.misc.pmisc.rot_x" class="reference internal" href="#pyoptools.misc.pmisc.rot_x"><tt class="xref docutils literal"><span class="pre">rot_x()</span></tt></a></li>
-<li><a title="pyoptools.misc.pmisc.rot_y" class="reference internal" href="#pyoptools.misc.pmisc.rot_y"><tt class="xref docutils literal"><span class="pre">rot_y()</span></tt></a></li>
-<li><a title="pyoptools.misc.pmisc.rot_z" class="reference internal" href="#pyoptools.misc.pmisc.rot_z"><tt class="xref docutils literal"><span class="pre">rot_z()</span></tt></a></li>
-<li><a title="pyoptools.misc.pmisc.unwrap_py" class="reference internal" href="#pyoptools.misc.pmisc.unwrap_py"><tt class="xref docutils literal"><span class="pre">unwrap_py()</span></tt></a></li>
-<li><a title="pyoptools.misc.pmisc.unwrapv" class="reference internal" href="#pyoptools.misc.pmisc.unwrapv"><tt class="xref docutils literal"><span class="pre">unwrapv()</span></tt></a></li>
-<li><a title="pyoptools.misc.pmisc.wavelength2RGB" class="reference internal" href="#pyoptools.misc.pmisc.wavelength2RGB"><tt class="xref docutils literal"><span class="pre">wavelength2RGB()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.pmisc.cross" title="pyoptools.misc.pmisc.cross"><tt class="xref py py-func docutils literal"><span class="pre">cross()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.pmisc.hitlist2int" title="pyoptools.misc.pmisc.hitlist2int"><tt class="xref py py-func docutils literal"><span class="pre">hitlist2int()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.pmisc.hitlist2int_list" title="pyoptools.misc.pmisc.hitlist2int_list"><tt class="xref py py-func docutils literal"><span class="pre">hitlist2int_list()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.pmisc.interpolate_g" title="pyoptools.misc.pmisc.interpolate_g"><tt class="xref py py-func docutils literal"><span class="pre">interpolate_g()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.pmisc.matrix_interpolation" title="pyoptools.misc.pmisc.matrix_interpolation"><tt class="xref py py-func docutils literal"><span class="pre">matrix_interpolation()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.pmisc.rot_x" title="pyoptools.misc.pmisc.rot_x"><tt class="xref py py-func docutils literal"><span class="pre">rot_x()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.pmisc.rot_y" title="pyoptools.misc.pmisc.rot_y"><tt class="xref py py-func docutils literal"><span class="pre">rot_y()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.pmisc.rot_z" title="pyoptools.misc.pmisc.rot_z"><tt class="xref py py-func docutils literal"><span class="pre">rot_z()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.pmisc.unwrap_py" title="pyoptools.misc.pmisc.unwrap_py"><tt class="xref py py-func docutils literal"><span class="pre">unwrap_py()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.pmisc.unwrapv" title="pyoptools.misc.pmisc.unwrapv"><tt class="xref py py-func docutils literal"><span class="pre">unwrapv()</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.misc.pmisc.wavelength2RGB" title="pyoptools.misc.pmisc.wavelength2RGB"><tt class="xref py py-func docutils literal"><span class="pre">wavelength2RGB()</span></tt></a></li>
 </ul>
 </div>
 <div class="section" id="available-functions">
@@ -73,28 +76,32 @@
 <dl class="function">
 <dt id="pyoptools.misc.pmisc.cross">
 <tt class="descclassname">pyoptools.misc.pmisc.</tt><tt class="descname">cross</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#pyoptools.misc.pmisc.cross" title="Permalink to this definition">¶</a></dt>
-<dd>3D Vector product producto vectorial</dd></dl>
+<dd><p>3D Vector product producto vectorial</p>
+</dd></dl>
 
 <hr class="docutils" />
 <dl class="function">
 <dt id="pyoptools.misc.pmisc.hitlist2int">
 <tt class="descclassname">pyoptools.misc.pmisc.</tt><tt class="descname">hitlist2int</tt><big>(</big><em>x</em>, <em>y</em>, <em>z</em>, <em>xi</em>, <em>yi</em><big>)</big><a class="headerlink" href="#pyoptools.misc.pmisc.hitlist2int" title="Permalink to this definition">¶</a></dt>
-<dd>Function that estimates an intensity distribution on a plane from a 
-ray hitlist</dd></dl>
+<dd><p>Function that estimates an intensity distribution on a plane from a 
+ray hitlist</p>
+</dd></dl>
 
 <hr class="docutils" />
 <dl class="function">
 <dt id="pyoptools.misc.pmisc.hitlist2int_list">
 <tt class="descclassname">pyoptools.misc.pmisc.</tt><tt class="descname">hitlist2int_list</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pyoptools.misc.pmisc.hitlist2int_list" title="Permalink to this definition">¶</a></dt>
-<dd>Function that estimates an intensity distribution on a plane from a 
-ray hitlist. Returns the intensity samples as an x,y,I list</dd></dl>
+<dd><p>Function that estimates an intensity distribution on a plane from a 
+ray hitlist. Returns the intensity samples as an x,y,I list</p>
+</dd></dl>
 
 <hr class="docutils" />
 <dl class="function">
 <dt>
 <tt class="descclassname">pyoptools.misc.pmisc.</tt><tt class="descname">hitlist2int_list</tt><big>(</big><em>x</em>, <em>y</em><big>)</big></dt>
-<dd>Function that estimates an intensity distribution on a plane from a 
-ray hitlist. Returns the intensity samples as an x,y,I list</dd></dl>
+<dd><p>Function that estimates an intensity distribution on a plane from a 
+ray hitlist. Returns the intensity samples as an x,y,I list</p>
+</dd></dl>
 
 <hr class="docutils" />
 <dl class="function">
@@ -107,7 +114,7 @@ samples  tuple containing the shape of the output array.
 knots     number of knots to be used in each direction
 error     if set to true, half of the points (x, y, z) are used to create</p>
 <blockquote>
-the interpolation, and half are used to evaluate the interpolation error</blockquote>
+<div>the interpolation, and half are used to evaluate the interpolation error</div></blockquote>
 </dd></dl>
 
 <hr class="docutils" />
@@ -118,7 +125,7 @@ the interpolation, and half are used to evaluate the interpolation error</blockq
 point numbers.
 M</p>
 <blockquote>
-Matrix to interpolate</blockquote>
+<div>Matrix to interpolate</div></blockquote>
 <dl class="docutils">
 <dt>i,j </dt>
 <dd>Indices to interpolate</dd>
@@ -131,19 +138,22 @@ Matrix to interpolate</blockquote>
 <dl class="function">
 <dt id="pyoptools.misc.pmisc.rot_x">
 <tt class="descclassname">pyoptools.misc.pmisc.</tt><tt class="descname">rot_x</tt><big>(</big><em>tx</em><big>)</big><a class="headerlink" href="#pyoptools.misc.pmisc.rot_x" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the transformation matrix for a rotation around the X axis</dd></dl>
+<dd><p>Returns the transformation matrix for a rotation around the X axis</p>
+</dd></dl>
 
 <hr class="docutils" />
 <dl class="function">
 <dt id="pyoptools.misc.pmisc.rot_y">
 <tt class="descclassname">pyoptools.misc.pmisc.</tt><tt class="descname">rot_y</tt><big>(</big><em>ty</em><big>)</big><a class="headerlink" href="#pyoptools.misc.pmisc.rot_y" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the transformation matrix for a rotation around the Y axis</dd></dl>
+<dd><p>Returns the transformation matrix for a rotation around the Y axis</p>
+</dd></dl>
 
 <hr class="docutils" />
 <dl class="function">
 <dt id="pyoptools.misc.pmisc.rot_z">
 <tt class="descclassname">pyoptools.misc.pmisc.</tt><tt class="descname">rot_z</tt><big>(</big><em>tz</em><big>)</big><a class="headerlink" href="#pyoptools.misc.pmisc.rot_z" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the transformation matrix for a rotation around the Z axis</dd></dl>
+<dd><p>Returns the transformation matrix for a rotation around the Z axis</p>
+</dd></dl>
 
 <hr class="docutils" />
 <dl class="function">
@@ -185,39 +195,39 @@ Original code fount at:</p>
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/pyoptools.png" alt="Logo"/>
             </a></p>
-            <h3><a href="index.html">Table Of Contents</a></h3>
-            <ul>
-<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">pyoptools.misc.pmisc</span></tt></a><ul>
-<li><a class="reference external" href="#function-list"><strong>Function List</strong></a></li>
-<li><a class="reference external" href="#available-functions"><strong>Available Functions</strong></a></li>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">pyoptools.misc.pmisc</span></tt></a><ul>
+<li><a class="reference internal" href="#function-list"><strong>Function List</strong></a></li>
+<li><a class="reference internal" href="#available-functions"><strong>Available Functions</strong></a></li>
 </ul>
 </li>
 </ul>
 
-            <h4>Previous topic</h4>
-            <p class="topless"><a href="pyoptools_misc_lsq.html"
-                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.misc.lsq</span></tt></a></p>
-            <h4>Next topic</h4>
-            <p class="topless"><a href="pyoptools_misc_plist.html"
-                                  title="next chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.misc.plist</span></tt></a></p>
-            <h3>This Page</h3>
-            <ul class="this-page-menu">
-              <li><a href="_sources/pyoptools_misc_pmisc.txt"
-                     rel="nofollow">Show Source</a></li>
-            </ul>
-          <div id="searchbox" style="display: none">
-            <h3>Quick search</h3>
-              <form class="search" action="search.html" method="get">
-                <input type="text" name="q" size="18" />
-                <input type="submit" value="Go" />
-                <input type="hidden" name="check_keywords" value="yes" />
-                <input type="hidden" name="area" value="default" />
-              </form>
-              <p class="searchtip" style="font-size: 90%">
-              Enter search terms or a module, class or function name.
-              </p>
-          </div>
-          <script type="text/javascript">$('#searchbox').show(0);</script>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyoptools_misc_lsq.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.misc.lsq</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyoptools_misc_plist.html"
+                        title="next chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.misc.plist</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pyoptools_misc_pmisc.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -229,7 +239,7 @@ Original code fount at:</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
+          <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="pyoptools_misc_plist.html" title="pyoptools.misc.plist"
@@ -242,9 +252,9 @@ Original code fount at:</p>
       </ul>
     </div>
     <div class="footer">
-      &copy; Copyright 2010, Ricardo Amézquita Orozco.
-      Last updated on Nov 29, 2010.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+        &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Last updated on Jul 02, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
     </div>
   </body>
 </html>

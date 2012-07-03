@@ -9,9 +9,6 @@ modules separate the different functionalities:
     This package contains the classes and functions used to perform the 
     simulation of optical systems using 3D non-sequential raytracing 
     algorithms.
-#. :mod:`pyoptools.wavefront`
-    This package contains the classes and functions used to perform the
-    simulation of wavefronts propagation.
 #. :mod:`pyoptools.misc`
     This package contains miscellaneous classes and functions used by the
     other packages, but that can not be classified in any of them. 
@@ -45,26 +42,6 @@ The defined submodules are:
     pyoptools_raytrace_system.rst
 
 
-:mod:`pyoptools.wavefront` API
-------------------------------
-.. module:: pyoptools.wavefront
-
-The package :mod:`pyoptools.wavefront` is divided in several modules. These
-modules separate the different functionalities found.
-
-
-The defined submodules are: 
-
-.. toctree::
-    :maxdepth: 1
-    
-    pyoptools_wavefront_field.rst
-    pyoptools_wavefront_calc.rst
-    pyoptools_wavefront_psurfrep.rst
-    pyoptools_wavefront_zernike.rst
-    
-    
-
 :mod:`pyoptools.misc` API
 -----------------------------
 .. module:: pyoptools.misc
@@ -80,7 +57,6 @@ The defined submodules are:
     
     pyoptools_misc_cmisc.rst
     pyoptools_misc_definitions.rst
-    pyoptools_misc_frft.rst
     pyoptools_misc_lsq.rst
     pyoptools_misc_pmisc.rst
     pyoptools_misc_plist.rst

@@ -10,11 +10,3 @@ Raytracing tutorials
     
     raytrace.rst
 
-Wavefront propagation tutorials
--------------------------------
-
-.. toctree::
-    :maxdepth: 1
-    
-    wavefront.rst
-
