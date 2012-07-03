@@ -16,13 +16,13 @@ of a ray bundle through an spherical lens. For this case, an ipython
 console will be used to perform the simulation::
 
 
-    $ ipython -pylab
+    $ ipython --pylab=wx
 
 After the ipython console has started, it is needed to import the 
 :mod:`pyoptools` module. This will import all the classes and functions  
 defined in all submodules::
 
-    In [1]: from pyoptools import *
+    In [1]: from pyoptools.all import *
 
 Now it is possible to begin the definition of the surfaces that will be 
 used to create the lens::
