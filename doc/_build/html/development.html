@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Developing Information &mdash; pyOpTools v0.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyOpTools v0.0.0 documentation" href="index.html" />
+    <link rel="prev" title="pyoptools.misc.resources" href="pyoptools_misc_resources.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyoptools_misc_resources.html" title="pyoptools.misc.resources"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="developing-information">
+<h1>Developing Information<a class="headerlink" href="#developing-information" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="doc-strings">
+<h2>Doc strings<a class="headerlink" href="#doc-strings" title="Permalink to this headline">¶</a></h2>
+<p>The docstrings used to document the classes, methods and functions, should
+contain the following information:</p>
+<ol class="arabic simple">
+<li>A paragraph containing a short description. (1 or 2 lines)</li>
+<li>If needed a paragraph with a longer description</li>
+<li>A description of the arguments received by the function, the method or
+the class constructor. If possible use a table as in the example.</li>
+<li>For methods and functions description of the return value</li>
+<li>A use example if possible</li>
+<li>If further information is needed, a document should be attached to the
+end of the doc string using the include directive</li>
+</ol>
+<p>The classes and the constructors should be documented in the class
+docstring. The __init__ docstring will not be used.</p>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>The following is an example of how this should be written:</p>
+<div class="highlight-python"><pre>def method( ..... ):
+    '''
+    Paragraph containing a short description of the method or function
+    being documented
+
+    A longer paragraph containing a more detailed description of the
+    method or function.
+
+    **ARGUMENTS:**
+
+        ==== ==============================
+        arg1 Description of the argument 1
+        arg2 Description of the argument 2.
+             It can be multiline.
+        ==== ==============================
+
+    **RETURN VALUE:**
+
+        Description of the return value. If the return value is a
+        tuple, it must show the tuple, and a table showing each of
+        the values contained in the tuple.
+
+    **EXAMPLE:**
+
+        Code showing an example if posible. And a short description of it.
+
+
+    .. include ../../../file.rst
+    '''</pre>
+</div>
+</div>
+</div>
+<div class="section" id="creating-surface-subclasses">
+<h2>Creating <tt class="xref py py-class docutils literal"><span class="pre">Surface</span></tt> Subclasses<a class="headerlink" href="#creating-surface-subclasses" title="Permalink to this headline">¶</a></h2>
+<p>The following care must be taken when creating a <tt class="xref py py-class docutils literal"><span class="pre">Surface</span></tt> subclass:</p>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>All surfaces super classes must be picklable. To do this follow:</dt>
+<dd><ol class="first last arabic">
+<li><p class="first">All subclases inherit from pyoptools.picklable.picklable.Picklable</p>
+</li>
+<li><dl class="first docutils">
+<dt>For cython subclasses register all the attributes that affect the state using self.addkey(&#8220;key&#8221;)</dt>
+<dd><p class="first last">where key is changed by the attribute key.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">For python subclasses nothing needs to be done</p>
+</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p class="first">D</p>
+</li>
+<li><p class="first">D</p>
+</li>
+<li><p class="first">D</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/pyoptools.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Developing Information</a><ul>
+<li><a class="reference internal" href="#doc-strings">Doc strings</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-surface-subclasses">Creating <tt class="docutils literal"><span class="pre">Surface</span></tt> Subclasses</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyoptools_misc_resources.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">pyoptools.misc.resources</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/development.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyoptools_misc_resources.html" title="pyoptools.misc.resources"
+             >previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Last updated on Jul 02, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1251 @@
+#LyX 1.6.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language spanish
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+wxRayTrace
+\begin_inset Newline newline
+\end_inset
+
+Estructura General del Programa
+\end_layout
+
+\begin_layout Section
+Descripción General
+\end_layout
+
+\begin_layout Standard
+El wxRayTrace es un programa escrito en 
+\emph on
+PYTHON
+\emph default
+, para realizar simulación de sistemas ópticos utilizando algoritmos para
+ trazo de rayos 3D, no secuencial.
+\end_layout
+
+\begin_layout Standard
+Los sistemas ópticos se modelan a partir de objetos predefinidos en los
+ modulos que componen el programa.
+ Estos modulos son:
+\end_layout
+
+\begin_layout Description
+raytrace.surface Modulo que define las superficies ópticas que componen los
+ elementos ópticos.
+\end_layout
+
+\begin_layout Description
+raytrace.component Modulo que define las componentes ópticas.
+\end_layout
+
+\begin_layout Description
+raytrace.system Modulo que define los sistemas ópticos.
+\end_layout
+
+\begin_layout Description
+raytrace.material Modulo que define las caracteristicas físicas de los materiales
+ usados para la fabricación de las componentes ópticas.
+ 
+\end_layout
+
+\begin_layout Description
+raytrace.ray Modulo donde se definen los rayos ópticos.
+\end_layout
+
+\begin_layout Description
+raytrace.comp_lib Modulo donde se definen componentes predefinidas
+\end_layout
+
+\begin_layout Description
+raytrace.shape Modulo donde se definen las formas de las componentes
+\end_layout
+
+\begin_layout Description
+raytrace.calc Modulo donde se definen rutinas de calculo a partir de los
+ trazos de rayos
+\end_layout
+
+\begin_layout Description
+raytrace.misc Modulo donde se definen rutinas miscelaneas
+\end_layout
+
+\begin_layout Description
+raytrace.config Modulo con definiciones que modifican la configuración del
+ programa
+\end_layout
+
+\begin_layout Description
+gui.RayTraMods eraras
+\end_layout
+
+\begin_layout Description
+gui.logutils Modulo con utilidades para hacer archivos de log del programa.
+ Esto esta mal ubicado.
+ Deberia estar en el archivo de configuración.
+\end_layout
+
+\begin_layout Description
+gui.plot_frame Modulo con ......
+\end_layout
+
+\begin_layout Description
+gui.plotutils Modulo con ......
+\end_layout
+
+\begin_layout Description
+gui.shell_frame Modulo que define la consola de trabajo
+\end_layout
+
+\begin_layout Description
+gui.wxrayos Modulo con.......
+\end_layout
+
+\begin_layout Description
+wavefront.surfacew Modulo con.....
+\end_layout
+
+\begin_layout Description
+wavefront.wavefront Modulo con .....
+\end_layout
+
+\begin_layout Description
+wavefront.zernike Modulo con ....
+\end_layout
+
+\begin_layout Section
+Descripción de los modulos y las clases
+\end_layout
+
+\begin_layout Subsection
+raytrace.surface 
+\end_layout
+
+\begin_layout Standard
+Modulo que define las superficies ópticas que componen los elementos ópticos.
+ En este modulo se definen las siguientes clases.
+\end_layout
+
+\begin_layout Subsubsection
+Superclase Surface
+\end_layout
+
+\begin_layout Paragraph
+Atributos de la superclase
+\end_layout
+
+\begin_layout Description
+reflectivity Valor numerico entre 0 y 1 que indica la reflectividad de la
+ superficie.
+ 0 para superficies transparentes, 1 para superficies completamente reflectivas.
+ Si el valor es numpy.nan, la reflectividad deberá calcularse usando las
+ ecuaciones de fresnel (Esto no está implementado).
+\end_layout
+
+\begin_layout Description
+changes Atributo numerico que se incrementa cada vez que se modifican atributos
+ de la misma.
+ Se utiliza para propagar modificaciones de las superficies, a las componentes
+ y a los sistemas (hay que verificar si está esta funcionando para algo).
+\end_layout
+
+\begin_layout Description
+shape Instancia de la clase shape, la cual define la apertura valida de
+ la superficie.
+\end_layout
+
+\begin_layout Description
+_hit_list Lista que contiene tuplas con la siguiente información: (punto
+ de intersección del rayo con la superficie (fin del rayo), apuntador al
+ rayo que intersecta la superficie).
+ Esta lista esta escondida para el usuario, el cual debe acceder unicamente
+ a hit_list que es una lista de solo lectura.
+\end_layout
+
+\begin_layout Description
+hit_list Lista que contiene tuplas con la siguiente información: (punto
+ de intersección del rayo con la superficie (fin del rayo), apuntador al
+ rayo que intersecta la superficie).
+ 
+\emph on
+Esto no está funcionando bien, el acceso a hitlist, no esta escondido.
+\end_layout
+
+\begin_layout Paragraph
+Metodos de la superclase
+\end_layout
+
+\begin_layout Description
+_get_hitlist() Metodo utilizado por la libreria traits, para esconder el
+ acceso a _hit_list
+\end_layout
+
+\begin_layout Description
+topo(x,y) Metodo que retorna la topografia de la superficie como una matriz
+ z=f(x,y).
+ 
+\emph on
+Este metodo debe ser sobrecargado en todas las subclases de Surface.
+ 
+\end_layout
+
+\begin_layout Description
+int_nor(iray) Metodo que retorna una tupla que contiene la intersección
+ del rayo con la superficie, y la normal a ese punto de intersección.
+ Si el rayo no pasa a travez de la apertura de la superficie, el punto de
+ intersección retornado es (nan,nan,nan).
+ Utiliza los metodos intersection y normal.
+\end_layout
+
+\begin_layout Description
+normal(ip) Metodo que retorna el vector normal a la superficie en el punto
+ ip.
+ 
+\emph on
+Este metodo debe ser sobrecargada en todas las subclases de Surface
+\emph default
+, puesto que contiene código que es especifico a la forma geometrica de
+ la superficie.
+ 
+\end_layout
+
+\begin_layout Description
+intersection(iray) Metodo que retorna el punto de intersección de un rayo
+ con la superficie.
+ Si el rayo no pasa a travez de la apertura de la superficie, el punto de
+ intersección retornado es (nan,nan,nan).
+\end_layout
+
+\begin_layout Description
+_intersection(iray) Este metodo retorna el punto de intersección entre un
+ rayo y la superficie.
+ Esta intersección es calculada en el sistema de coordenadas de la superficie.
+ Si no hay intersección, (p.e.
+ un rayo paralelo a una superficie plana) debe retornar (numpy.inf,numpy.inf,numpy.
+inf).
+ En este metodo iray -- es el rayo incidente a la superficie en el sistema
+ de coordenadas de la superficie.
+\begin_inset Newline newline
+\end_inset
+
+
+\emph on
+Este metodo debe ser sobrecargada en todas las subclases de Surface
+\emph default
+, puesto que contiene código que es especifico a la forma geometrica de
+ la superficie.
+ En éste codigo no se necesita verificar la apertura, solo la intersección
+ del rayo con la superficie infinita.
+\begin_inset Newline newline
+\end_inset
+
+Surface._intersection no debe ser llamado directamente.
+ Es su lugar debe llamarse Surface.intersection, que utiliza este metodo,
+ y ademas verifica la apertura.
+\end_layout
+
+\begin_layout Description
+distance(iray) Metodo que retorna la distancia recorrida por el rayo 
+\emph on
+iray
+\emph default
+ desde su origen, hasta que intersecta la superficie.
+ El rayo iray, debe estar en el sistema coordenado de la superficie.
+\begin_inset Newline newline
+\end_inset
+
+Este metodo retorna una tupla con la distancia, el punto de intersección
+ en el sistema coordenado de la superficie, y un apuntador a la superficie
+ (distancia,punto de intersección, superficie)
+\begin_inset Newline newline
+\end_inset
+
+Este metodo hay que modificarlo, para que el valor que indica distancia
+ 0, pueda ser modificado desde el archivo de configuración (1 e-10)
+\end_layout
+
+\begin_layout Description
+propagate(ri,ni,nr) Metodo que calcula el rayo (o los rayos) refractados
+ en la superficie.
+ ri es el rayo incidente.
+ ni el indice de refracción en el medio incidente, y nr el indice de refracción
+ en el medio refractado.
+ El rayo ri debe estar en el sistema coordenado de la superficie.
+ Si la superficie es parcialmente reflectiva, retorna 2 rayos, el rayo refractad
+o y el rayo reflejado.
+\end_layout
+
+\begin_layout Description
+__repr__() Metodo que retorna una cadena de caracteres que describe la superfici
+e óptica.
+ Debe ser sobrecargado en cada subclase de Surface.
+\end_layout
+
+\begin_layout Description
+_any_trait_changed(self,name,old,new) Este metodo modifica el atributo 
+\emph on
+changes
+\emph default
+ cuando cualquier atributo de la superficie se modifica.
+ El atributo changes, se utiliza para informar que 
+\emph on
+Component 
+\emph default
+y a 
+\emph on
+System
+\emph default
+ deben ser recalculados.
+\end_layout
+
+\begin_layout Description
+tvtk_actor() Este programa utiliza la libreria tvtk, para realizar la representa
+ción 3D de los objetos.
+ Este metodo retorna un actor tvtk, el cual será utilizado para realizar
+ esta representacion 3D.
+\end_layout
+
+\begin_layout Description
+reset() Borra la información de la lista de impactos de la superficie.
+\end_layout
+
+\begin_layout Paragraph
+Resumen de metodos a sobrecargar en las subclases de Surface.
+\end_layout
+
+\begin_layout Description
+topo(x,y) *
+\end_layout
+
+\begin_layout Description
+_intersection(iray) *
+\end_layout
+
+\begin_layout Description
+normal(ip) *
+\end_layout
+
+\begin_layout Description
+__repr__() *
+\end_layout
+
+\begin_layout Subsubsection
+Clase Plane
+\end_layout
+
+\begin_layout Standard
+La clase Plane es utilizada para definir una superficie plana.
+ La frontera de la superficie se define con el atributo shape.
+ Este atributo permite definir superficies planas con diferente frontera
+ (ver módulo raytrace.shape).
+ Al ser Plane una subclase de Surface, edmite tambien reflectivity como
+ parámetro.
+\end_layout
+
+\begin_layout Standard
+La sintaxis para definir una superficie plana es:
+\end_layout
+
+\begin_layout LyX-Code
+>>> ps=Plane(shape=Rectangular(size=(25,15)))
+\end_layout
+
+\begin_layout Standard
+Si la superficie es reflectiva (un semiespejo en este caso), la sintaxis
+ es:
+\end_layout
+
+\begin_layout LyX-Code
+>>> ps=Plane(shape=Rectangular(size=(25,15)), reflectivity=0.5)
+\end_layout
+
+\begin_layout Subsubsection
+Clase Spherical
+\end_layout
+
+\begin_layout Standard
+La clase Spherical es utilizada para definir una superficie esférica.
+ La curvatura de esta superficie se defime mediante el atributo curvature,
+ la frontera con el atributo shape, y la reflectividad con reflectivity.
+\end_layout
+
+\begin_layout Standard
+La sintaxis para definir una superficie esferica (espejo) es:
+\end_layout
+
+\begin_layout LyX-Code
+>>> cs=Spherical(shape=Circular(radius=60),curvature=0.15, reflectivity=1.)
+\end_layout
+
+\begin_layout Subsubsection
+Clase Cylindrical
+\end_layout
+
+\begin_layout Standard
+La clase Cylindrical, es utilizada para definir casquetes cilindricos.
+ La curvatura del cilindro se define mediante el atributo curvature, la
+ frontera con el atributo shape, y la reflectividad con reflectivity.
+\end_layout
+
+\begin_layout Standard
+La sintaxis para definir una superficie esférica transparente es:
+\end_layout
+
+\begin_layout LyX-Code
+>>> cs=Cylindrical(shape=Rectangular(size=(10,20)), curvature=0.15, reflectivity=
+0)
+\end_layout
+
+\begin_layout Standard
+o
+\end_layout
+
+\begin_layout LyX-Code
+>>> cs=Cylindrical(shape=Rectangular(size=(10,20)), curvature=0.15)
+\end_layout
+
+\begin_layout Subsubsection
+Clase Cylinder
+\end_layout
+
+\begin_layout Standard
+La clase Cylinder es utilizada para definir cilindros cerrados, Se creó
+ en particular para facilitar la definición de lentes esfericas de apertura
+ circular.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+>>> cs=Cylinder(radius=5.,length=10.)
+\end_layout
+
+\begin_layout Subsubsection
+Clase ArrayDetector
+\end_layout
+
+\begin_layout Standard
+Hay que verificar por que esta clase sobra....
+ Colocar toda la funcionalidad en Surface....
+\end_layout
+
+\begin_layout Subsubsection
+Clase TaylorPoly
+\end_layout
+
+\begin_layout Standard
+La clase TaylorPoly es utilizada para definir superficies que son descritas
+ por un polynomio de taylor.
+ La frontera de la superficie se define con el atributo shape, la reflectividad
+ con reflectivity, y los coheficientes del polinomio se definen por un array
+ de numpy de la siguiente forma:
+\end_layout
+
+\begin_layout LyX-Code
+cohef= [[ 
+\begin_inset Formula $x_{0}y_{0}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{1}y_{0}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{2}y_{0}$
+\end_inset
+
+,...,
+\begin_inset Formula $x_{m}y_{0}$
+\end_inset
+
+], 
+\end_layout
+
+\begin_layout LyX-Code
+        [ 
+\begin_inset Formula $x_{0}y_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{1}y_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{2}y_{1}$
+\end_inset
+
+rom enthought.traits.api import Float, List, Trait,,...,
+\begin_inset Formula $x_{m}y_{1}$
+\end_inset
+
+], 
+\end_layout
+
+\begin_layout LyX-Code
+        [ 
+\begin_inset Formula $x_{0}y_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{1}y_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{2}y_{2}$
+\end_inset
+
+,...,
+\begin_inset Formula $x_{m}y_{2}$
+\end_inset
+
+], 
+\end_layout
+
+\begin_layout LyX-Code
+        [ ...
+ , ...
+ , ...
+ ,..., ...
+ ], 
+\end_layout
+
+\begin_layout LyX-Code
+        [ 
+\begin_inset Formula $x_{0}y_{n}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{1}y_{n}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{2}y_{n}$
+\end_inset
+
+,...,
+\begin_inset Formula $x_{m}y_{n}$
+\end_inset
+
+]] 
+\end_layout
+
+\begin_layout Standard
+donde el 
+\begin_inset Formula $x_{l}y_{k}$
+\end_inset
+
+ es el coheficiente que acompaña al termino 
+\begin_inset Formula $x^{l}y^{k}$
+\end_inset
+
+del polinomio.
+ Esto es
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \[
+p(X,Y)=\sum_{l=0}^{m}\sum_{k=0}^{n}x_{l}y_{k}X^{l}Y^{k}\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A continuación se presenta un ejemplo de superficie polinomial: 
+\end_layout
+
+\begin_layout LyX-Code
+>>> cs=TaylorPoly(shape=Rectangle(size=(5,5)), 
+\backslash
+ 
+\end_layout
+
+\begin_layout LyX-Code
+                  cohef =[[0,1],[1,2]])
+\end_layout
+
+\begin_layout Subsubsection
+Clase Aspherical
+\end_layout
+
+\begin_layout Standard
+La clase Aspherical se usa para definir una superficie asferica que es descrita
+ por la siquiente ecuacion:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \[
+Z=\frac{(A_{x}x^{2}+A_{y}y^{2})}{1+\sqrt{1-(1+K_{x})A_{x}^{2}x^{2}-(1+K_{y})A_{y}^{2}y^{2}}}+TaylorPoly()\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La frontera de la superficie se define con el atributo shape, la reflectividad
+ con reflectivity, las curvaturas de la superficie con Ax y Ay, las constantes
+ conicas con Kx y Ky y los coheficientes del polinomio se definen por un
+ array de numpy de la siguiente forma:
+\end_layout
+
+\begin_layout LyX-Code
+cohef= [[ 
+\begin_inset Formula $x_{0}y_{0}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{1}y_{0}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{2}y_{0}$
+\end_inset
+
+,...,
+\begin_inset Formula $x_{m}y_{0}$
+\end_inset
+
+], 
+\end_layout
+
+\begin_layout LyX-Code
+        [ 
+\begin_inset Formula $x_{0}y_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{1}y_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{2}y_{1}$
+\end_inset
+
+,...,
+\begin_inset Formula $x_{m}y_{1}$
+\end_inset
+
+], 
+\end_layout
+
+\begin_layout LyX-Code
+        [ 
+\begin_inset Formula $x_{0}y_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{1}y_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{2}y_{2}$
+\end_inset
+
+,...,
+\begin_inset Formula $x_{m}y_{2}$
+\end_inset
+
+], 
+\end_layout
+
+\begin_layout LyX-Code
+        [ ...
+ , ...
+ , ...
+ ,..., ...
+ ], 
+\end_layout
+
+\begin_layout LyX-Code
+        [ 
+\begin_inset Formula $x_{0}y_{n}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{1}y_{n}$
+\end_inset
+
+, 
+\begin_inset Formula $x_{2}y_{n}$
+\end_inset
+
+,...,
+\begin_inset Formula $x_{m}y_{n}$
+\end_inset
+
+]] 
+\end_layout
+
+\begin_layout Standard
+donde el 
+\begin_inset Formula $x_{l}y_{k}$
+\end_inset
+
+ es el coheficiente que acompaña al termino 
+\begin_inset Formula $x^{l}y^{k}$
+\end_inset
+
+del polinomio.
+ Esto es
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \[
+TaylorPoly(X,Y)=\sum_{l=0}^{m}\sum_{k=0}^{n}x_{l}y_{k}X^{l}Y^{k}\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Un ejemplo de superficie asférica se presenta a continuación:
+\end_layout
+
+\begin_layout LyX-Code
+>>> cs=Aspherical(shape=Rectangle(size=(5,5)),Ax=.5,Ay=.3,Kx=.1, Ky=.1 
+\backslash
+ 
+\end_layout
+
+\begin_layout LyX-Code
+                  cohef =[[0,1],[1,2]])
+\end_layout
+
+\begin_layout Subsection
+raytrace.component 
+\end_layout
+
+\begin_layout Standard
+Modulo que define las componentes ópticas.
+ En este modulo se definen la siguiente clase.
+\end_layout
+
+\begin_layout Subsubsection
+Superclase Component
+\end_layout
+
+\begin_layout Paragraph
+Atributos de la superclase
+\end_layout
+
+\begin_layout Description
+surflist Este atributo se utiliza para indicar que superficies arman una
+ componente.
+ Se define como una lista de tuplas, donde cada tupla está definida como:
+\begin_inset Newline newline
+\end_inset
+
+(surface,(PosX,PosY,PosZ), (RotX, RotY, RotZ))
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+surface Es una instancia de la clase Superficie o de cualquiera de sus subclases
+\end_layout
+
+\begin_layout Description
+(PosX,PosY,PosZ) indica la posición del vertice de la superficie en el sistema
+ de coordenadas de la componente.
+\end_layout
+
+\begin_layout Description
+(RotX,RotY,RotZ) indica el ángulo de rotación (en radianes) de la superficie
+ alrededor de los ejes X,Y,Z respectivamente.
+ La rotación se aplica primero alrededor del eje Z, luego alrededor del
+ eje Y y por ultimo alrededor del eje X
+\end_layout
+
+\end_deeper
+\begin_layout Description
+material Instancia de la clase material, donde se tienen en cuenta las constante
+s de dispersión para calcular el indice de refracción en función de la longitud
+ de onda, o un número constante en caso de que se quiera un indice constante
+ no dependiente de la longitud de onda.
+\end_layout
+
+\begin_layout Description
+changes Atributo numerico que se incrementa cada vez que se modifican atributos
+ de la componente o de las superficies que conforman la componente.
+ Se utiliza para propagar modificaciones de las superficies, a las componentes
+ y a los sistemas (hay que verificar si está esta funcionando para algo).
+\end_layout
+
+\begin_layout Paragraph
+Métodos de la superclase
+\end_layout
+
+\begin_layout Description
+__repr_() Metodo que retorna una cadena de caracteres que describe la componente.
+\end_layout
+
+\begin_layout Description
+_anytrait_changed() Por ahora no hace nada
+\end_layout
+
+\begin_layout Description
+_get_hitlist() Metodo utilizado por la libreria traits, para esconder el
+ acceso a _hit_list.
+ Este método lee el hit_list de todas las superficies, que forman la componente,
+ y genera una lista de impactos en el sistema de coordenadas de la componente.
+ Este método se ejecuta automaticamente cada vez que se lee el atributo
+ hit_list de la componente.
+ 
+\end_layout
+
+\begin_layout Description
+distance(ri) Metodo que retorna la distancia recorrida por el rayo ri hasta
+ intersectar con la superficie mas proxima de la componente.
+ Retorna una tupla con la distancia geométrica, el punto de intersección
+ en el sistema de coordenadas de la superficie intersectada, y un apuntador
+ a la superficie intersectada.
+\end_layout
+
+\begin_layout Description
+n(wl) Metodo que retorna el índice de refracción de la componente a la longitud
+ de onda dada por wl en micras.
+ Si no se le da valor a wl, retorna el índice de refracción a una longitud
+ de onda de 
+\begin_inset Formula $0.58929\mu m$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+propagate(ri,n_m) Retorna una lista con los rayos resultante de la interacción
+ (refracción, reflexion, etc) entre el rayo incidente (ri) y la superficie
+ más proxima perteneciente a la componente.
+ Los rayos retornados están en el sistema de coordenadas de la componente.
+ 
+\end_layout
+
+\begin_layout Description
+reset() Metodo que ejecuta la función reset para todas las superficies que
+ definen la componente.
+\end_layout
+
+\begin_layout Description
+surf_changed() Metodo que se ejecuta cuando alguna de las superficies que
+ componen la componente se modifica.
+ Incrementa Component.changes en 1.
+\end_layout
+
+\begin_layout Description
+tvtk_actor() Este programa utiliza la libreria tvtk, para realizar la representa
+ción 3D de los objetos.
+ Este metodo retorna un actor tvtk, el cual será utilizado para realizar
+ esta representacion 3D de la componente.
+\end_layout
+
+\begin_layout Description
+tvtk_draw(ren) Este programa utiliza la libreria tvtk, para realizar la
+ representación 3D de los objetos.
+ Este metodo grafica el objeto en una ventana tvtk representada por ren.
+\end_layout
+
+\begin_layout Subsection
+raytrace.system
+\end_layout
+
+\begin_layout Standard
+Modulo que define las componentes ópticas.
+ En este modulo se definen la siguiente clase.
+\end_layout
+
+\begin_layout Subsubsection
+Superclase System
+\end_layout
+
+\begin_layout Description
+__repr__() Metodo que retorna una cadena de caracteres que describe el sistema.
+\end_layout
+
+\begin_layout Description
+_anytrait_changed_() Verifica si lo que se modificó fue alguna componente
+ o superficie que forman en sistema óptico, si esto es cierto, elimina las
+ listas de rayos propagados, y resetea todas las componentes ópticas
+\end_layout
+
+\begin_layout Description
+_get_prop_raytra_() Se usa para esconder la lista de rayos propagados
+\end_layout
+
+\begin_layout Description
+clear_ray_list() Elimina todos los rayos (propagados y no propagados), del
+ sistema óptico.
+\end_layout
+
+\begin_layout Description
+comp_changed() Es una función auxiliar que se ejecuta cuando una componente
+ óptica es modificada.
+\end_layout
+
+\begin_layout Description
+component_add() Hay que revisar si esta función se necesita
+\end_layout
+
+\begin_layout Description
+distance() Calcula la distancia entre el inicio de un rayo y su primera
+ intersección a un sistema-.
+\end_layout
+
+\begin_layout Description
+propagate() Propaga a travez del sistema óptico todos los rayos de la lista
+ de rayos no propagados.
+\end_layout
+
+\begin_layout Description
+propagate_ray(ri) Metodo que propaga un rayo en el sistema.
+ Los rayos resultantes de la interacción de el rayo original, con una superficie
+, se guardan en la lista Ray.childs, y a su vez cada uno de estos rayos tienen
+ un apuntador al rayo original en Ray.parent.
+ Este método se llama a si mismo recursivamente hasta que no hay intersección
+ de el rayo con el sistema.
+ Retororna un apuntador al rayo original.
+ 
+\end_layout
+
+\begin_layout Description
+ray_add() Metodo que se utiliza para adicionar un rayo, o una lista de rayos
+ a la lista de rayos primarios del sistema
+\end_layout
+
+\begin_layout Description
+reset() Metodo que llama la función reset de todos los componentes de un
+ sistema óptico
+\end_layout
+
+\begin_layout Description
+tvtk_actor() Este programa utiliza la libreria tvtk, para realizar la representa
+ción 3D de los sistemas.
+ Este metodo retorna un actor tvtk, el cual será utilizado para realizar
+ esta representacion 3D.
+\end_layout
+
+\begin_layout Description
+tvtk_draw() Este programa utiliza la libreria tvtk, para realizar la representac
+ión 3D de los sistemas.
+ Este metodo grafica el objeto en una ventana tvtk representada por ren.
+\end_layout
+
+\begin_layout Subsection
+raytrace.ray 
+\end_layout
+
+\begin_layout Standard
+Modulo que define los rayos ópticos.
+\end_layout
+
+\begin_layout Subsubsection
+Superclase Ray
+\end_layout
+
+\begin_layout Paragraph
+Atributos de la superclase
+\end_layout
+
+\begin_layout Description
+pos Tupla (x,y,z) que contiene el origen del rayo
+\end_layout
+
+\begin_layout Description
+dir Tupla (x,y,z) que contiene el vector dirección del rayo.
+ Esta dirección se normaliza automaticamente.
+\end_layout
+
+\begin_layout Description
+intensity Valor numerico que representa la intensidad del rayo.
+ Hay que revisar cual es la unidad correcta físicamente.
+\end_layout
+
+\begin_layout Description
+wavelength Longitud de onda de la luz representada por éste rayo
+\end_layout
+
+\begin_layout Description
+n Índice de refracción del material donde está el punto origen del rayo.
+ Para rayos que salen del ambiente, se puede configurar a None.
+\end_layout
+
+\begin_layout Description
+label Identificador usado para seguir un rayo
+\end_layout
+
+\begin_layout Description
+parent Rayo de donde el rayo salío.
+ Es el apuntador al rayo antes de interactuar con la superficie
+\end_layout
+
+\begin_layout Description
+orig_surf Superficie donde se origina el rayo.
+ Los rayos que no se originan en una superficie deben tener en este atributo
+ un None.
+\end_layout
+
+\begin_layout Description
+childs Atributo de solo lectura que esconde la lista de hijos del rayo.
+\end_layout
+
+\begin_layout Description
+__childs Lista donde se registran los rayos hijo de este rayo al interactuar
+ con una superficie.
+ 
+\end_layout
+
+\begin_layout Paragraph
+Métodos de la superclase
+\end_layout
+
+\begin_layout Description
+__repr__() Metodo que retorna una cadena de caracteres que describe el rayo.
+\end_layout
+
+\begin_layout Description
+_get_childs() Metodo auxiliar usado por la libreria Traits, para esconder
+ la lista __childs en el atributo de solo lectura childs.
+\end_layout
+
+\begin_layout Description
+add_child(cr) Metodo que adiciona un rayo hijo al rayo actual, y crea los
+ links necesarios (parent y childs)
+\end_layout
+
+\begin_layout Description
+ch_coord_sys(no,ae) Metodo que retorna un rayoen un nuevo sistema de coordenadas.
+\begin_inset Newline newline
+\end_inset
+
+El atrributo 
+\emph on
+no 
+\emph default
+es una tupla con la posición del origen del nuevo sistema de coordenadas
+ en el sistema de coordenadas actual.
+\begin_inset Newline newline
+\end_inset
+
+El atributo ae es una tupla=(RX,RY,RZ) con las rotaciones alrededor de los
+ ejes X,Y,Z necesarias para pasar del sistema de coordenadas viejo, al nuevo.
+\begin_inset Newline newline
+\end_inset
+
+La transformación se hace desplazando el origen, y luego rotando......
+\end_layout
+
+\begin_layout Description
+ch_coord_sys_inv(no,ae) Nota, hay que verificar si las transformaciones
+ estan al redecho o al revez.
+\end_layout
+
+\begin_layout Description
+copy() Retorna una copia del rayo dejando parent =None y childs=[]
+\end_layout
+
+\begin_layout Description
+get_final_rays(inc_zeros) Retorna una lista con los rayos finales del trazo
+ de rayos.
+ Si se pasa inc_zeros=False, se eliminan de la lista los rayos que tienen
+ una intensidad 0 (Todos los rayos que chocan con una superficie opaca no
+ reflectiva, tienen como hijo un rayo con intensidad 0 que indica el final
+ del rayo).
+ 
+\end_layout
+
+\begin_layout Description
+optical_path() Retorna la longitud de camino optico recorrida por la luz,
+ desde el origen del rayo inicial, hasta el final del rayo su final (interseccio
+n con una superficie)
+\end_layout
+
+\begin_layout Description
+optical_path_parent() Retorna la longitud de camino optico recorrida por
+ la luz, desde le origen del rayo inicial, hasta el origen del rayo (final
+ de su rayo padre)
+\end_layout
+
+\begin_layout Description
+reverse() Retorna una copia del rayo apuntando en direccion opuesta (deja
+ parent =None y childs=[])
+\end_layout
+
+\begin_layout Description
+tvtk_draw(ren,lrl,draw_childs) Este programa utiliza la libreria tvtk, para
+ realizar la representación 3D de los rayos.
+ Este metodo grafica el objeto en una ventana tvtk representada por ren.
+\end_layout
+
+\begin_layout Subsection
+raytrace.shape
+\end_layout
+
+\begin_layout Standard
+Modulo que define la forma de las fronteras de las superficiesutilizadas
+ para construir elementos ópticos.
+\end_layout
+
+\begin_layout Subsubsection
+Superclase Shape
+\end_layout
+
+\begin_layout Paragraph
+Métodos de la superclase
+\end_layout
+
+\begin_layout Description
+hit(p) Este método debe ser sobrecargado en las subclases de Shape.
+ Debe retornar TRUE si un punto p=(X,Y,Z) esta dentro de la apertura y FALSE
+ si no.
+ Normalmente se verifican unicamente las coordenadas X y Y (Se toma la apertura
+ en Z=0)
+\end_layout
+
+\begin_layout Description
+limits() Retorna los 2 puntos que definen el rectangulo más pequeño que
+ encierra la apertura.
+ Debe ser sobrecargado en todas las subclases.
+\end_layout
+
+\begin_layout Description
+mesh(size,ndat,topo) Este metodo retorna 3 matrices X,Y y Z con ndat=(nx,ny)
+ puntos cada una y limitadas por el tamaño dado en size=(xi,xf,yi,yf), si
+ size no es suministrado, el método utilizará el tamaño retornado por limits().
+ Z está dada por topo (topo sale del metodo topo de las superficies).
+ Si topo no es suministrado Z tomará un valor de 1 para los puntos dentro
+ de la apertura, y 0 para puntos fuera de la apertura.
+ 
+\end_layout
+
+\begin_layout Description
+polylist Este método retorna una tupla (point_list, poly_list), y recibe
+ como atributo topo (Z=topo(x,y)) (la cual es la función que representa
+ la topografia de la superficie).
+ La lista point_list, es una lista de tuplas (X,Y,Z) que contiene las coordenada
+s de los puntos usados para generar la malla que representa la superficie.
+ La lista poly_list es una lista de tuplas (n1,n2,n3,n3) que contienen los
+ indices de los puntos usados para construir cada uno de los poligonos que
+ van a ser usados para visualizar la malla.
+ Este método debe ser sobrecargado para cada forma.
+\end_layout
+
+\begin_layout Subsubsection
+Clase Rectangular
+\end_layout
+
+\begin_layout Standard
+La clase Rectangular es usada para definir una apertura rectangular.
+ Recibe como atributos una tupla size, la cual indica el tamaño del rectangulo,
+ y una tupla samples, la cual indica cuantos puntos se van a usar para construir
+ la maya que se utilizara en la visualización 3D de las superficies.
+\end_layout
+
+\begin_layout Standard
+La sintaxis para definir una apertura rectangular es:
+\end_layout
+
+\begin_layout LyX-Code
+>>> ra=Rectangular(size=(20,20),samples=(25,25))
+\end_layout
+
+\begin_layout Subsubsection
+Clase Circular
+\end_layout
+
+\begin_layout Standard
+La clase Circular es usada para definir una apertura circular.
+ Recibe como atributos un numero 
+\emph on
+radius
+\emph default
+, que indica el radio de la apertura, y una tupla 
+\emph on
+samples=(sr,sa)
+\emph default
+ , en donde sr es el numero de muestras radiales, y sa el numero de muestras
+ angulares que se utilizarán para construir la maya que se usaráen la visualizac
+ión 3D de las superficies.
+\end_layout
+
+\begin_layout Standard
+La sintaxis para definir una apertura circular es:
+\end_layout
+
+\begin_layout LyX-Code
+>>> ra=Circular(radius=20,samples=(5,16))
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Subsection
+raytrace.calc
+\end_layout
+
+\begin_layout Standard
+En el modulo calc, se definen funciones para obtener información de los
+ sistemas ópticos.
+\end_layout
+
+\begin_layout Standard
+chief_ray_search()
+\end_layout
+
+\begin_layout Subsection
+raytrace.comp_lib
+\end_layout
+
+\begin_layout Subsection
+raytrace.config
+\end_layout
+
+\begin_layout Subsection
+raytrace.mat_lib
+\end_layout
+
+\begin_layout Subsection
+raytrace.misc
+\end_layout
+
+\end_body
+\end_document

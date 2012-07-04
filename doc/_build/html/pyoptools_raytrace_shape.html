@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyoptools.raytrace.shape &mdash; pyOpTools v0.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyOpTools v0.0.0 documentation" href="index.html" />
+    <link rel="up" title="pyOpTools API" href="api.html" />
+    <link rel="next" title="pyoptools.raytrace.surface" href="pyoptools_raytrace_surface.html" />
+    <link rel="prev" title="pyoptools.raytrace.ray" href="pyoptools_raytrace_ray.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyoptools_raytrace_surface.html" title="pyoptools.raytrace.surface"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pyoptools_raytrace_ray.html" title="pyoptools.raytrace.ray"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">pyOpTools API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyoptools.raytrace.shape">
+<span id="pyoptools-raytrace-shape"></span><h1><a class="reference internal" href="#module-pyoptools.raytrace.shape" title="pyoptools.raytrace.shape"><tt class="xref py py-mod docutils literal"><span class="pre">pyoptools.raytrace.shape</span></tt></a><a class="headerlink" href="#module-pyoptools.raytrace.shape" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class-list">
+<h2><strong>Class List</strong><a class="headerlink" href="#class-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="#pyoptools.raytrace.shape.Shape" title="pyoptools.raytrace.shape.Shape"><tt class="xref py py-class docutils literal"><span class="pre">Shape</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.shape.Circular" title="pyoptools.raytrace.shape.Circular"><tt class="xref py py-class docutils literal"><span class="pre">Circular</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.shape.Rectangular" title="pyoptools.raytrace.shape.Rectangular"><tt class="xref py py-class docutils literal"><span class="pre">Rectangular</span></tt></a></li>
+<li><a class="reference internal" href="#pyoptools.raytrace.shape.Triangular" title="pyoptools.raytrace.shape.Triangular"><tt class="xref py py-class docutils literal"><span class="pre">Triangular</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="available-classes">
+<h2><strong>Available Classes</strong><a class="headerlink" href="#available-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyoptools.raytrace.shape.Shape">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.shape.</tt><tt class="descname">Shape</tt><a class="headerlink" href="#pyoptools.raytrace.shape.Shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract superclass for all optical surfaces shapes</p>
+<p>Description:</p>
+<p>Shape is an abstract superclass to define the different surfaces shapes 
+(circular, rectangulas, etc.).
+This class defines an API that all subclasses must support.</p>
+<p>The methods that must be overloaded in the subclasses are:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Shape.hit</dt>
+<dd>This method must return TRUE if an X,Y point is inside the surface 
+apperture if not it must return FALSE</dd>
+<dt>Shape.polylist</dt>
+<dd>This method should return a point_list, and a poly_list. The point 
+list is a list of tuples (X,Y,Z) containing the coordinates of the 
+points used to build the surface mesh.
+The poly_list is a list of tuples (n1,n2,n3,n3) containing the 
+indices of the points in the polylist used to build each polygon 
+that will be used to visualize the mesh.</dd>
+</dl>
+</div></blockquote>
+<p>This methods will be called by the Shape.hit method, and to create the 
+Shape.polylist tuple, that will a point_list and a poly_list.
+The point_list is a list of tuples (X,Y,Z) containing the coordinates of
+the points used to build the surface mesh.
+The poly_list is a list of tuples (n1,n2,n3,n3) containing the indices 
+of the points in the polylist used to build each polygon that will be 
+used to visualize the mesh.</p>
+<p>The attribute topo, will be initialized for each instance of the class with 
+a function Z(x,y).</p>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Shape.fhit">
+<tt class="descname">fhit</tt><big>(</big><em>self</em>, <em>double px</em>, <em>double py</em>, <em>double pz</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Shape.fhit" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns TRUE if an p=(x,y,z)point is inside the surface 
+apperture if not it must return FALSE.
+This is implemented for a point, in cython, to make it fast.</p>
+<p>It must be overloaded.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Shape.hit">
+<tt class="descname">hit</tt><big>(</big><em>self</em>, <em>p</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Shape.hit" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method must return TRUE if an p=(x,y,z)point is inside the surface 
+apperture if not it must return FALSE. This must work for a list of points.</p>
+<p>It must be overloaded.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Shape.limits">
+<tt class="descname">limits</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Shape.limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the minimum limits for the aperture
+It must be overloaded, for each shape</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Shape.mesh">
+<tt class="descname">mesh</tt><big>(</big><em>self</em>, <em>size=None</em>, <em>ndat=(100</em>, <em>100)</em>, <em>topo=None</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Shape.mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>The X,Y are a mesh limited by size=(xi,xf,yi,yf)  
+if size is not given (size=None), the size is given by the apperture.
+topo is the topography function of the surface under study.
+if not given, a 0 will be returned for points outside the aperture, and
+1 inside the aperture</p>
+<p>The ndat tuple, gives the number of points in the mesh.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Shape.pointlist">
+<tt class="descname">pointlist</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Shape.pointlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method should return a point_list that samples adecuately the shape.</p>
+<p>The return value must be a tuple (X,Y) where X contains the X coordinates 
+of the points, and Y the y coordinates. 
+It must be overloaded, for each shape</p>
+</dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.shape.Circular">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.shape.</tt><tt class="descname">Circular</tt><big>(</big><em>radius=1.</em>, <em>samples=(10</em>, <em>36)</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Circular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class defining an circular shape.</p>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Circular.fhit">
+<tt class="descname">fhit</tt><big>(</big><em>self</em>, <em>double px</em>, <em>double py</em>, <em>double pz</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Circular.fhit" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns TRUE if an p=(x,y,z)point is inside the surface 
+apperture if not it must return FALSE.
+This is implemented for a point, in cython, to make it fast</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Circular.hit">
+<tt class="descname">hit</tt><big>(</big><em>self</em>, <em>p</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Circular.hit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method  that returns True if a p=(X,Y,Z) point is inside the apperture,
+if not it returns False.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Circular.limits">
+<tt class="descname">limits</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Circular.limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the minimum limits for the aperture</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Circular.pointlist">
+<tt class="descname">pointlist</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Circular.pointlist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.shape.Rectangular">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.shape.</tt><tt class="descname">Rectangular</tt><big>(</big><em>size=(1.</em>, <em>1.)</em>, <em>samples=(30</em>, <em>30)</em>, <em>offset=(0</em>, <em>0)</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Rectangular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class defining an rectangular shape.</p>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Rectangular.fhit">
+<tt class="descname">fhit</tt><big>(</big><em>self</em>, <em>double px</em>, <em>double py</em>, <em>double pz</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Rectangular.fhit" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns TRUE if an p=(x,y,z)point is inside the surface 
+apperture if not it must return FALSE.
+This is implemented for a point, in cython, to make it fast</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Rectangular.hit">
+<tt class="descname">hit</tt><big>(</big><em>self</em>, <em>p</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Rectangular.hit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method  that returns True if a p=(x,y,z) point is inside the rectangle,
+if not it returns False.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Rectangular.limits">
+<tt class="descname">limits</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Rectangular.limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the minimum limits for the aperture</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Rectangular.pointlist">
+<tt class="descname">pointlist</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Rectangular.pointlist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="class">
+<dt id="pyoptools.raytrace.shape.Triangular">
+<em class="property">class </em><tt class="descclassname">pyoptools.raytrace.shape.</tt><tt class="descname">Triangular</tt><big>(</big><em>coord=((0</em>, <em>0)</em>, <em>(0</em>, <em>100)</em>, <em>(100</em>, <em>0))</em>, <em>samples=10</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Triangular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class defining a triangular shape.</p>
+<dl class="docutils">
+<dt>coord -&gt; tuple containing the 3 (x,y) coordinates of the corners of </dt>
+<dd>the triangle</dd>
+</dl>
+<p>samples -&gt; number of divitions per side used to sample the triangle</p>
+<p><strong>AVAILABLE METHODS</strong></p>
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Triangular.fhit">
+<tt class="descname">fhit</tt><big>(</big><em>self</em>, <em>double px</em>, <em>double py</em>, <em>double pz</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Triangular.fhit" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns TRUE if an p=(x,y,z)point is inside the surface 
+apperture if not it must return FALSE.
+This is implemented for a point, in cython, to make it fast</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Triangular.hit">
+<tt class="descname">hit</tt><big>(</big><em>self</em>, <em>p</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Triangular.hit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method  that returns True if a p=(x,y,z) point is inside the triangle,
+if not it returns False.
+taken from <a class="reference external" href="http://www.blackpawn.com/texts/pointinpoly/default.html">http://www.blackpawn.com/texts/pointinpoly/default.html</a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Triangular.limits">
+<tt class="descname">limits</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Triangular.limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the minimum limits for the aperture</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyoptools.raytrace.shape.Triangular.pointlist">
+<tt class="descname">pointlist</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Triangular.pointlist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/pyoptools.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.shape</span></tt></a><ul>
+<li><a class="reference internal" href="#class-list"><strong>Class List</strong></a></li>
+<li><a class="reference internal" href="#available-classes"><strong>Available Classes</strong></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyoptools_raytrace_ray.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pyoptools.raytrace.ray</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyoptools_raytrace_surface.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">pyoptools.raytrace.surface</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pyoptools_raytrace_shape.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyoptools_raytrace_surface.html" title="pyoptools.raytrace.surface"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pyoptools_raytrace_ray.html" title="pyoptools.raytrace.ray"
+             >previous</a> |</li>
+        <li><a href="index.html">pyOpTools v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="api.html" >pyOpTools API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Ricardo Amézquita Orozco.
+      Last updated on Jul 02, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>
