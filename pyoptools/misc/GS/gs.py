@@ -1,14 +1,23 @@
 from mako.template import Template
 from pyoptools.misc.resources import has_double_support, has_amd_double_support
 
-from pyfft.cl import Plan
-import pyopencl as cl
-import pyopencl.array as cl_array
+### ojo, toca solucionar esta importacion en caso de que no exista pypencl
+
+try:
+	from pyfft.cl import Plan
+	import pyopencl as cl
+	import pyopencl.array as cl_array
+except:
+	pass
+
+
 
 from numpy.fft import fft2,ifft2,fftshift,ifftshift
-from numpy import angle,exp,pi, complex128, zeros, sqrt,int32
+from numpy import angle,exp,pi, complex128, zeros, sqrt,int32, zeros_like
 from numpy.random import random
 
+
+from pylab import imshow,colorbar
 
 KERNEL= \
 """   
@@ -36,7 +45,7 @@ KERNEL= \
       {
         data[i].x=data[i].x/norm;
         data[i].y=data[i].y/norm;
-      }
+      }gs
       else
       {
         data[i].x=1;
@@ -169,12 +178,18 @@ def gs_mod(idata,itera=10,osize=256):
                    It should be smaller than the image itself.
 		========== ======================================================
     """
-    
+    M,N=idata.shape
     cut=osize//2
     
-    mask=exp(2.j*pi*random(idata.shape))
-    mask[512-cut:512+cut,512-cut:512+cut]=0
     
+    zone=zeros_like(idata)
+    zone[M/2-cut:M/2+cut,N/2-cut:N/2+cut]=1
+    zone=zone.astype(bool)
+
+    mask=exp(2.j*pi*random(idata.shape))
+    mask[zone]=0
+    
+    #~ imshow(abs(mask)),colorbar()
     
     fdata=fftshift(fft2(ifftshift(idata+mask))) #Nota, colocar esta mascara es muy importante, por que si no  no converge tan rapido
     
@@ -184,12 +199,12 @@ def gs_mod(idata,itera=10,osize=256):
         fdata=exp(1.j*angle(fdata))
 
         rdata=ifftshift(ifft2(fftshift(fdata)))
-        e= (abs(rdata[512-cut:512+cut,512-cut:512+cut])-idata[512-cut:512+cut,512-cut:512+cut]).std()
-        if e>ea: 
-           
-            break
+        #~ e= (abs(rdata[zone])-idata[zone]).std()
+        #~ if e>ea: 
+           #~ 
+            #~ break
         ea=e
-        rdata[512-cut:512+cut,512-cut:512+cut]=exp(1.j*angle(rdata[512-cut:512+cut,512-cut:512+cut]))*(idata[512-cut:512+cut,512-cut:512+cut])        
+        rdata[zone]=exp(1.j*angle(rdata[zone]))*(idata[zone])        
         fdata=fftshift(fft2(ifftshift(rdata)))   
     fdata=exp(1.j*angle(fdata))
     return fdata
