@@ -53,7 +53,7 @@ for fname in datafiles:
 del(datafiles)
 
 
-print "Hay que revisar la libreria de materiales material.py"
+###print "Hay que revisar la libreria de materiales material.py"
 #######################
 
 class Material:
