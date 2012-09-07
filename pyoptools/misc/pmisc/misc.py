@@ -38,10 +38,10 @@ from pylab import griddata, meshgrid
 #~ # Trait to define a unit vector based on the unit vector trait
 #~ UnitVector = Trait(array([0,0,1], float_),TraitUnitVector())
 
-print "Nota: Hay que revisar las convenciones de las rotaciones para que queden\n\r "\
-      "consistentes en x,y,z. Me parece que hay un error en el signo de la \n\r rotacion"\
-      "al rededor de alguno de los ejes. Modulo misc \n\r"\
-      "si no estoy mal el error esta en la rotacion respecto a los ejez Y y Z"
+#~ print "Nota: Hay que revisar las convenciones de las rotaciones para que queden\n\r "\
+      #~ "consistentes en x,y,z. Me parece que hay un error en el signo de la \n\r rotacion"\
+      #~ "al rededor de alguno de los ejes. Modulo misc \n\r"\
+      #~ "si no estoy mal el error esta en la rotacion respecto a los ejez Y y Z"
 
 def rot_x(tx):
     '''Returns the transformation matrix for a rotation around the X axis

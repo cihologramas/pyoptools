@@ -1,101 +1,237 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-"""
-Module that imports some pylab functions so it can be used in the system, 
-without interfering with the wx threads in the wxRayTra.py
-It can be used also in pylab
-"""
-from matplotlib import use
-use('WXAgg') 
-import matplotlib
+from numpy import array, pi,sqrt
+import Image as PIL
+from StringIO import StringIO
+from IPython.core.display import Image
 
-matplotlib.interactive(True)
+from OpenGL.GL import *
+from OpenGL.GLU import *
 
-import matplotlib.pyplot as pl
-from types import FunctionType
-from wx import CallAfter
-import time
-import traceback
-from pyoptools.misc.pmisc import wavelength2RGB
+from OpenGL import arrays
+try:
+	from OpenGL.platform import (CurrentContextIsValid, OSMesaCreateContext,
+    OSMesaMakeCurrent, OSMesaDestroyContext)
 
-#Check if this is called from a standard python, ipython console, or from a wxipython console
-#using the enviroment variable shell
-try: 
-    import os
-    os.environ['shell']
-    __WXRAYTRA=True
-except KeyError:
-    __WXRAYTRA=False
+except:
+	print "need OSMesa installed, and the following environment variable"
+	print "export PYOPENGL_PLATFORM=osmesa"
 
-#Define the colormaps
-cm=matplotlib.cm
+from pyoptools.raytrace.system import System
+from pyoptools.raytrace.component import Component
+from pyoptools.raytrace.surface import Surface
+from pyoptools.misc.pmisc import wavelength2RGB,cross
+	
+##Nota toca exportar la veriable de ambiente 
+## export PYOPENGL_PLATFORM=osmesa
 
-class AsyncCall:
-    #from threading import Event
-    ''' Queues a func to run in thread of MainLoop.
-    Code may wait() on self.complete for self.result to contain
-    the result of func(*ar,**kwar).  It is set upon completion.
-    Wait() does this.
-    When no return value is needed, use wx.CallAfter'''
-    def __init__( self, func, *ar, **kwar ):
-        self.ready=False
-        self.error=None
-        self.func, self.ar, self.kwar= func, ar, kwar
-        CallAfter( self.TimeToRun )
-    def TimeToRun( self ):
-        try:
-            self.result=self.func( *self.ar, **self.kwar )
-        except Exception as detail:
-            # Print original error in console
-            traceback.print_exc()
-            # capture exception text. What can I do with this?
-            self.txt=traceback.format_exc()
+def implot(buf):
+    h, w, c = buf.shape
+    image = PIL.fromstring( "RGB", (w, h), buf )
+    image = image.transpose( PIL.FLIP_TOP_BOTTOM)
+    temppng=StringIO()
+    image.save(temppng, "PNG" )
+    data=temppng.getvalue()
+    temppng.close()
+        #~ print 'Saved image to %s'% (os.path.abspath( filename))
+        #~ return image
+    return Image(data,embed=True)
 
-            self.error=detail
-        self.ready=True
-    def Wait( self, timeout= None, failval= None ):
-        it=time.time()
-        while not self.ready:
-            time.sleep(0.1)
-            if timeout!=None:
-                if timeout>(time.time-it):
-                    return failval
-            if self.error!=None:
-                print "Error redirecting the function ",self.func.__name__
-                error=self.error
-                self.error=None
-                raise error
-        return self.result  
-
-
-
-
-## Redefine the plot functions if needed
-
-if __WXRAYTRA:
+def draw_sys(os):
+    if os != None:
+        for i in os.prop_ray:
+            draw_ray(i)
+        #Draw Components
+        for comp in os.complist:
+            draw_comp(comp)
+                  
+def draw_comp(comp):
     
-    # Define all the pylab graphic functions
-    a=dir(pl)
-    for f in a:
-        if (type(pl.__getattribute__(f)) is FunctionType) and f[0]!="_":
-            func=" lambda *arguments, **keywords:AsyncCall(pl.%s,*arguments, **keywords).Wait()"%(f)
-            ef=eval(func)
-            ef.__doc__=pl.__getattribute__(f).__doc__
-            globals()[f]=ef
+    C,P,D = comp
+    #glMatrixMode(GL_MODELVIEW)
+    glPushMatrix()
+    glTranslatef(P[0],P[1],P[2])
+    glRotatef(180*D[2]/pi,0.0,0.0,1.0)
+    glRotatef(180*D[1]/pi,0.0,1.0,0.0)
+    glRotatef(180*D[0]/pi,1.0,0.0,0.0)
     
-    #Define other graphic functions
-    import glplotframe2 as glp
-    def glPlotFrame(os=None):
-        pf= AsyncCall(glp.glPlotFrame, os)
-        return pf.Wait()
-else:
-    from matplotlib.pyplot import *
-    from glplotframe2 import glPlotFrame
+    if isinstance(C, Component):
+        for surf in C.surflist:
+            S, P, D=surf
+            draw_surf(S, P, D)
+    elif isinstance(C, System):
+        for comp in C.complist:
+            draw_comp(comp)
+    glPopMatrix()
+ 
+def draw_surf(surf, P, D):
+    if isinstance(surf, Surface):
+        #points, polylist =surf.shape.polylist(surf.topo)
+        points, polylist =surf.polylist()
+        glPushMatrix()
+        glTranslatef(P[0],P[1],P[2])    
+        glRotatef(180*D[2]/pi,0.0,0.0,1.0)
+        glRotatef(180*D[1]/pi,0.0,1.0,0.0)
+        glRotatef(180*D[0]/pi,1.0,0.0,0.0)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, [1.,1.,0.,0.9])
+        #glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, [1.,1.,0.,1.])
+        #glMaterialfv(GL_BACK, GL_AMBIENT_AND_DIFFUSE, [1.,0.,0.,1.])
+        for p in polylist:
+            if len(p)==3:
+                p0=points[p[0]]
+                p1=points[p[1]]
+                p2=points[p[2]]
+                v0=array(p1)-array(p0)
+                v1=array(p2)-array(p0)
+                v3=cross(v0,v1)
+                v3=v3/sqrt(v3[0]**2+v3[1]**2+v3[2]**2)
+                if v3[2]<0: print "**"
+                glBegin(GL_TRIANGLES) #Drawing Using Triangles
+                #glColor4f(1,0,0, 1.)
+                glNormal3f(v3[0],v3[1],v3[2])
+                glVertex3f( p0[0], p0[1], p0[2])
+                #glNormal3f(v3[0],v3[1],v3[2])
+                glVertex3f( p1[0], p1[1], p1[2])
+                #glNormal3f(v3[0],v3[1],v3[2])
+                glVertex3f( p2[0], p2[1], p2[2])
+                glEnd()                
+            elif len(p)==4:
+                p0=points[p[0]]
+                p1=points[p[1]]
+                p2=points[p[2]]
+                p3=points[p[3]]
+                v0=array(p1)-array(p0)
+                v1=array(p2)-array(p0)
+                v3=cross(v0,v1)
+                v3=v3/sqrt(v3[0]**2+v3[1]**2+v3[2]**2)
+                #print p0,p1,p2,p3
+                
+                glBegin(GL_QUADS)           # Start Drawing The Cube
+                #glColor4f(1,0,0, 1.)
+                glNormal3f(v3[0],v3[1],v3[2])
+                glVertex3f( p0[0], p0[1], p0[2])
+                #glNormal3f(v3[0],v3[1],v3[2])
+                glVertex3f( p1[0], p1[1], p1[2])
+                #glNormal3f(v3[0],v3[1],v3[2])
+                glVertex3f( p2[0], p2[1], p2[2])
+                #glNormal3f(v3[0],v3[1],v3[2])
+                glVertex3f( p3[0], p3[1], p3[2])
+                glEnd()                
+        glPopMatrix()
+ 
+def draw_ray(ray):
+    P1=ray.pos
+    w=ray.wavelength
+    rc,gc,bc=wavelength2RGB(w)
+    if len(ray.childs)>0:
+        P2=ray.childs[0].pos
+    else:
+        P2=P1+10.*ray.dir
+
+    if ray.intensity!=0:
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, [rc,gc,bc,1.])
+        glBegin(GL_LINES)
+        glColor4f(rc,gc,bc, 1.)
+        glVertex3f( P1[0], P1[1], P1[2])
+        glVertex3f( P2[0], P2[1], P2[2])
+        glEnd()
+    for i in ray.childs:
+        draw_ray(i)
+
+def sys3dplot(os, center=(0,0,0),size=(400,400),ry=0,rx=0,rz=0,scale=1.):
+    """
+    Generate a 3D picture of the optical system under study
+    
+    Parameters:
+    ===========
+    
+    os     Optical system to be drawn
+    center Tuple (x,y,z) with the coordinates of the center of the drawing
+    size   Tuple (width, height) of the requested image
+    ry	   Rotation angle around the Y axis. Used to possition the optical 
+           system in the plot. Given in degrees
+    rx     same as ry
+    rz     same as ry
+    scale  scale fot the image
+    
+    The rotations are applied first ry, then rx and then rz
+    """
+    
+    left=-size[0]/2
+    right=size[0]/2
+    top=size[1]/2
+    bottom=-size[1]/2
+    
+    #left=center[0]-size[0]/2
+    #right=center[0]+size[0]/2
+    #top=center[1]+size[1]/2
+    #bottom=center[1]-size[1]/2
+    
+    ctx = OSMesaCreateContext(GL_RGB, None)
+    
+    width,height=int(size[0]*scale),int(size[1]*scale)
+    
+    buf = arrays.GLubyteArray.zeros((height, width, 3))
+    p = arrays.ArrayDatatype.dataPointer(buf)
+    assert(OSMesaMakeCurrent(ctx, p, GL_UNSIGNED_BYTE, width, height))
+
+    assert(CurrentContextIsValid())
+
+    light_ambient = [.5, 0.5, 0.5, 1.0]
+    light_diffuse = [1.0, 1.0, 1.0, 1.0]
+    light_specular = [1.0, 1.0, 1.0, 1.0]
+    light_position = [00.0, 1000.0, 000.0, 0.0]
+
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient)
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse)
+    #glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular)
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position)
+
+    glShadeModel(GL_SMOOTH) #No parece estar funcionando
+    
+    glEnable(GL_LIGHTING)
+    glEnable(GL_LIGHT0)
+  
+    #
+    
+    glEnable(GL_DEPTH_TEST)
+    
+    glEnable (GL_BLEND); glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
+    #gluPerspective(30., width/height, 0.1, 10000.)
+    glOrtho(left,right,top,bottom, -1000.0, 10000.0)
+    #glOrtho(-100, 100, -100, 100, 0, 100)
+    #gluLookAt(cam_pos[0], cam_pos[1], cam_pos[2],
+    #      lookat[0], lookat[1], lookat[2],
+    #      up[0], up[1],up[2])
     
 
-## Definition of some help ploting functions. This must be moved to another module
-from numpy import array
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    glMatrixMode(GL_MODELVIEW)
+    glLoadIdentity()
+    
+    
+    glRotatef(90+ry, 0, 1.0,0);
+    #glPushMatrix()
+
+    #DrawGL()           # Actually draw here
+    glRotatef(rx, 1,0,0);
+    
+    glRotatef(rz, 0,0,1);
+    
+    glTranslatef(-center[0],-center[1],-center[2])
+    draw_sys(os)
+
+    glFinish()   
+    
+    return implot(buf)
+    
+
+
 def spot_diagram(s):
     """Plot the spot diagram for the given surface, or element
     """
