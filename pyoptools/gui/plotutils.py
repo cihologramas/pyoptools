@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-from numpy import array, pi,sqrt
+from numpy import array, pi,sqrt, degrees
 import Image as PIL
 from StringIO import StringIO
 from IPython.core.display import Image
+from pylab import plot, axis
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -44,11 +45,12 @@ def draw_sys(os):
             draw_ray(i)
         #Draw Components
         for comp in os.complist:
-            draw_comp(comp)
+            C,P,D=comp
+            draw_comp(C,P,D)
                   
-def draw_comp(comp):
+def draw_comp(C,P,D):
     
-    C,P,D = comp
+    #C,P,D = comp
     #glMatrixMode(GL_MODELVIEW)
     glPushMatrix()
     glTranslatef(P[0],P[1],P[2])
@@ -62,7 +64,8 @@ def draw_comp(comp):
             draw_surf(S, P, D)
     elif isinstance(C, System):
         for comp in C.complist:
-            draw_comp(comp)
+            C,P,D=comp
+            draw_comp(C,P,D)
     glPopMatrix()
  
 def draw_surf(surf, P, D):
@@ -74,7 +77,7 @@ def draw_surf(surf, P, D):
         glRotatef(180*D[2]/pi,0.0,0.0,1.0)
         glRotatef(180*D[1]/pi,0.0,1.0,0.0)
         glRotatef(180*D[0]/pi,1.0,0.0,0.0)
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, [1.,1.,0.,0.9])
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, [1.,1.,0,0.7])
         #glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, [1.,1.,0.,1.])
         #glMaterialfv(GL_BACK, GL_AMBIENT_AND_DIFFUSE, [1.,0.,0.,1.])
         for p in polylist:
@@ -139,23 +142,20 @@ def draw_ray(ray):
     for i in ray.childs:
         draw_ray(i)
 
-def sys3dplot(os, center=(0,0,0),size=(400,400),ry=0,rx=0,rz=0,scale=1.):
+def plot3D(os, center=(0,0,0),size=(400,400),rot=[(0,0,0)],scale=1.):
     """
     Generate a 3D picture of the optical system under study
     
     Parameters:
     ===========
     
-    os     Optical system to be drawn
+    os     Optical system, component or surface to be drawn
     center Tuple (x,y,z) with the coordinates of the center of the drawing
     size   Tuple (width, height) of the requested image
-    ry	   Rotation angle around the Y axis. Used to possition the optical 
-           system in the plot. Given in degrees
-    rx     same as ry
-    rz     same as ry
+    rot    list of (rx,ry,rz) tuples containing a series of rotation angles
     scale  scale fot the image
     
-    The rotations are applied first ry, then rx and then rz
+    The rotations are applied first rx, then ry and then rz
     """
     
     left=-size[0]/2
@@ -181,13 +181,11 @@ def sys3dplot(os, center=(0,0,0),size=(400,400),ry=0,rx=0,rz=0,scale=1.):
     light_ambient = [.5, 0.5, 0.5, 1.0]
     light_diffuse = [1.0, 1.0, 1.0, 1.0]
     light_specular = [1.0, 1.0, 1.0, 1.0]
-    light_position = [00.0, 1000.0, 000.0, 0.0]
-
+    light_position = [0.0, 1.0, -1.0, 1.]
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient)
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse)
-    #glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular)
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position)
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular)
 
     glShadeModel(GL_SMOOTH) #No parece estar funcionando
     
@@ -215,16 +213,25 @@ def sys3dplot(os, center=(0,0,0),size=(400,400),ry=0,rx=0,rz=0,scale=1.):
     glLoadIdentity()
     
     
-    glRotatef(90+ry, 0, 1.0,0);
-    #glPushMatrix()
+    # Las rotaciones se aplican en orden inverso. No se por que, pero 
+    # esta funcionando
+    for rx,ry,rz in rot[::-1]:
+        glRotatef(degrees(rz),0,0,1)
+        glRotatef(degrees(ry),0,1,0)    
+        glRotatef(degrees(rx),1,0,0)
+        
 
-    #DrawGL()           # Actually draw here
-    glRotatef(rx, 1,0,0);
-    
-    glRotatef(rz, 0,0,1);
-    
     glTranslatef(-center[0],-center[1],-center[2])
-    draw_sys(os)
+
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position)
+
+    
+    if isinstance(os, System):
+        draw_sys(os)
+    elif isinstance(os,Component):
+        draw_comp(os,(0,0,0),(0,0,0))
+    elif isinstance(os,Surface):
+        draw_surf(os,(0,0,0),(0,0,0))
 
     glFinish()   
     
@@ -250,4 +257,24 @@ def spot_diagram(s):
     max=array(X+Y).max
     min=array(X+Y).min
     plot(X,Y,"o",)
+    axis("equal")
+
+def spot_diagram_c(s):
+    """Plot the spot diagram for the given surface, or element
+    """
+    hl=s.hit_list
+    X=[]
+    Y=[]
+    COL=[]
+    if len(hl) >0:
+        for i in hl:
+            p=i[0]
+            # Hitlist[1] points to the incident ray
+            col=wavelength2RGB(i[1].wavelength)
+            plot(p[0],p[1],"o",color=col)
+            #X.append(p[0])
+            #Y.append(p[1])
+            #COL.append(col)
+    #max=array(X+Y).max
+    #min=array(X+Y).min
     axis("equal")

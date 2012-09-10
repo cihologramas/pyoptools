@@ -488,7 +488,7 @@ cdef class System(Picklable):
         # If the closest components are not in contact calculate the propagation 
         # using the closest surface.
         
-        N_EPS=1.e-14 # Used to check the zero
+        N_EPS=1.e-12 # Used to check the zero
         
         # Check if you are propagating in a subsystem
         
