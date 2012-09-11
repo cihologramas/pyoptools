@@ -29,15 +29,15 @@ from pyoptools.misc.pmisc import wavelength2RGB,cross
 
 def implot(buf):
     h, w, c = buf.shape
-    image = PIL.fromstring( "RGB", (w, h), buf )
+    image = PIL.fromstring( "RGBA", (w, h), buf )
     image = image.transpose( PIL.FLIP_TOP_BOTTOM)
     temppng=StringIO()
-    image.save(temppng, "PNG" )
+    image.save(temppng, "JPEG" )
     data=temppng.getvalue()
     temppng.close()
         #~ print 'Saved image to %s'% (os.path.abspath( filename))
         #~ return image
-    return Image(data,embed=True)
+    return Image(data,embed=True,format=u"jpeg")
 
 def draw_sys(os):
     if os != None:
@@ -89,7 +89,7 @@ def draw_surf(surf, P, D):
                 v1=array(p2)-array(p0)
                 v3=cross(v0,v1)
                 v3=v3/sqrt(v3[0]**2+v3[1]**2+v3[2]**2)
-                if v3[2]<0: print "**"
+                #if v3[2]<0: print "**"
                 glBegin(GL_TRIANGLES) #Drawing Using Triangles
                 #glColor4f(1,0,0, 1.)
                 glNormal3f(v3[0],v3[1],v3[2])
@@ -168,11 +168,11 @@ def plot3D(os, center=(0,0,0),size=(400,400),rot=[(0,0,0)],scale=1.):
     #top=center[1]+size[1]/2
     #bottom=center[1]-size[1]/2
     
-    ctx = OSMesaCreateContext(GL_RGB, None)
+    ctx = OSMesaCreateContext(GL_RGBA, None)
     
     width,height=int(size[0]*scale),int(size[1]*scale)
     
-    buf = arrays.GLubyteArray.zeros((height, width, 3))
+    buf = arrays.GLubyteArray.zeros((height, width, 4))
     p = arrays.ArrayDatatype.dataPointer(buf)
     assert(OSMesaMakeCurrent(ctx, p, GL_UNSIGNED_BYTE, width, height))
 
