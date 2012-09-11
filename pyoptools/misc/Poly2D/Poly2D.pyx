@@ -8,7 +8,8 @@ cdef extern from "math.h":
     double sin(double)
     double cos(double)
 
-cdef bint got_cl=True
+cdef bint got_cl=False
+### Se desabilito el opencl para el curso de medellin
 
         
 try: 
