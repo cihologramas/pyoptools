@@ -67,3 +67,4 @@ from wavefront.zernike import *
 #~ 
 #Import graphic packages This should be imported somewhere else
 from pyoptools.gui.plotutils import *
+from pyoptools.gui.ipynbplotutils import *

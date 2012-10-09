@@ -103,7 +103,7 @@ setup(
         name =  "pyOpTools",
         #~ #~#version = "0.1.0",
         packages=findpackages("./"),
-#        scripts=['wxRayTra.py'],
+        scripts=['ipyoptools'],
         install_requires = ['python-numpy',
                             'cython'],
         package_data= {
