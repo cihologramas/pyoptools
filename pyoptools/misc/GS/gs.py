@@ -13,7 +13,7 @@ except:
 
 
 from numpy.fft import fft2,ifft2,fftshift,ifftshift
-from numpy import angle,exp,pi, complex128, zeros, sqrt,int32, zeros_like
+from numpy import angle,exp,pi, complex128, zeros, sqrt,int32, zeros_like,ones
 from numpy.random import random
 
 
@@ -122,7 +122,7 @@ KERNEL= \
 
 #TODO: The GS algorithm should also use an maximum error condition to stop
 #      Not only the iteration condition
-def gs(idata,itera=10):
+def gs(idata,itera=10, ia=None):
     """Gerchberg-Saxton algorithm to calculate DOEs
     
     Calculates the phase distribution in a object plane to obtain an 
@@ -135,17 +135,26 @@ def gs(idata,itera=10):
 		========== ======================================================
 		idata      numpy array containing the target amplitude distribution 
         itera      Maximum number of iterations
+        ia         Illumination amplitude at the hologram plane if not given
+                   it is assumed to be a constant amplitude with a value
+                   of 1. If given it should be an array with the same shape
+                   of idata
 		========== ======================================================
     """
     
+    if ia==None:
+        inpa=ones(idata.shape)
+    else:
+        inpa=ia
+    
+    assert idata.shape==inpa.shape, "ia and idata must have the same dimentions"
     
     fdata=fftshift(fft2(ifftshift(idata)))
-
     e=1000
     ea=1000
     
     for i in range (itera):
-        fdata=exp(1.j*angle(fdata))
+        fdata=exp(1.j*angle(fdata))*inpa
         
         rdata=ifftshift(ifft2(fftshift(fdata)))
         e= (abs(rdata)-idata).std()
@@ -156,7 +165,7 @@ def gs(idata,itera=10):
         fdata=fftshift(fft2(ifftshift(rdata)))        
     
     fdata=exp(1.j*angle(fdata))
-    return fdata
+    return fdata*inpa
     
 
 def gs_mod(idata,itera=10,osize=256):
