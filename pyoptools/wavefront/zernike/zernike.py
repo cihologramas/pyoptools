@@ -2,9 +2,17 @@
 """
 
 import types
-from scipy import factorial, arange, comb as binomial
-from numpy import mgrid, sqrt, arccos, where, zeros,transpose, pi, cos, sin, ones, array,\
-                where
+
+#The location of some scipy functions has changed
+
+try:
+    from scipy import factorial, comb as binomial
+except ImportError:
+    from scipy.misc import factorial, comb as binomial
+
+from numpy import mgrid, sqrt, arccos, zeros,transpose, pi, cos, sin, ones, array,\
+    where, arange
+
 from numpy.ma import masked_array
 from pyoptools.misc.Poly2D import *
 

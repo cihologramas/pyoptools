@@ -7,4 +7,5 @@ from triangular import *
 __all__=["Shape",
          "Circular",
          "Rectangular",
-         "Triangular"]
+         "Triangular",
+         "Polygon"]

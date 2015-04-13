@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 """Ipython Notebook specific ploting utilities
+Se hizo una correccion siguiendo http://g.sweyla.com/blog/2014/osmesa-pyopengl-310/
 """
 
 from numpy import array, pi,sqrt, degrees
@@ -14,7 +15,10 @@ from OpenGL.GLU import *
 
 from OpenGL import arrays
 try:
-	from OpenGL.platform import (CurrentContextIsValid, OSMesaCreateContext,
+	#from OpenGL.platform import (CurrentContextIsValid, OSMesaCreateContext,
+    #OSMesaMakeCurrent, OSMesaDestroyContext)
+    from OpenGL.platform import CurrentContextIsValid
+    from OpenGL.raw.osmesa.mesa import (OSMesaCreateContext,
     OSMesaMakeCurrent, OSMesaDestroyContext)
 
 except:
@@ -175,8 +179,9 @@ def plot3D(os, center=(0,0,0),size=(400,400),rot=[(0,0,0)],scale=1.):
     width,height=int(size[0]*scale),int(size[1]*scale)
     
     buf = arrays.GLubyteArray.zeros((height, width, 4))
-    p = arrays.ArrayDatatype.dataPointer(buf)
-    assert(OSMesaMakeCurrent(ctx, p, GL_UNSIGNED_BYTE, width, height))
+    #p = arrays.ArrayDatatype.dataPointer(buf)
+    #assert(OSMesaMakeCurrent(ctx, p, GL_UNSIGNED_BYTE, width, height))
+    assert(OSMesaMakeCurrent(ctx, buf, GL_UNSIGNED_BYTE, width, height))
 
     assert(CurrentContextIsValid())
 
