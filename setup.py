@@ -1,6 +1,7 @@
 import sys, os, commands
 from distutils.core import setup
 from distutils.extension import Extension
+from Cython.Build import cythonize
 try:
     from Cython.Distutils import build_ext
 except:
@@ -100,21 +101,26 @@ extensions = [makeExtension(name) for name in extNames]
 
 
 setup(
-        name =  "pyOpTools",
-        #~ #~#version = "0.1.0",
+        name =  "pyoptools",
+        version = "0.0.0",
         packages=findpackages("./"),
         scripts=['ipyoptools'],
-        install_requires = ['python-numpy',
-                            'cython'],
+        #The names from pipy are used, not the deb package names
+        requires = ['numpy',
+                    'cython',
+                    'PyOpenGl',
+                    'ipython',
+                    'scipy',
+                    ],
         package_data= {
         'pyoptools.raytrace.mat_lib':['data/*.rtgl'],
         'pyoptools.raytrace.library':['Edmund/*.cmp'],
         },
         author= 'Ricardo Amezquita Orozco',
-        author_email='ramezquitao@unal.edu.co',
+        author_email='ramezquitao@cihologramas.com',
         description='Optical ray tracing simulation system',
         license='BSD',
-        url='http://code.google.com/p/pyoptools/',
-        ext_modules=extensions,
+        url='',
+        ext_modules=cythonize(extensions),
         cmdclass = {'build_ext': build_ext},
     )

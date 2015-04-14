@@ -46,45 +46,45 @@ cdef inline double vector_length(np.ndarray v):
     
 cdef inline np.ndarray rot_mat_i(np.ndarray r):
     '''Returns the inverse transformation matrix for a rotation around the Z,Y,X axes
-    
+
     Parameters
-    
+
      r= (rx,ry,rz)
      '''
 
     #c=np.cos(r)
     #s=np.sin(r)
     cdef np.float64_t* rd= <np.float64_t*>(np.PyArray_DATA(r))
-    
+
     cdef double c0=cos(rd[0])
     cdef double c1=cos(rd[1])
     cdef double c2=cos(rd[2])
-    
+
     cdef double s0=sin(rd[0])
     cdef double s1=sin(rd[1])
     cdef double s2=sin(rd[2])
-    
+
     #Slow Way
     #~ rx=np.array([[ 1., 0., 0.],
                 #~ [ 0., c0, s0],
                 #~ [ 0.,-s0, c0]])
- 
+
     #~ ry=np.array([[ c1, 0.,-s1],
                 #~ [ 0., 1., 0.],
                 #~ [ s1, 0., c1]])
- 
- 
+
+
     #~ rz=np.array([[ c2, s2, 0.],
                 #~ [-s2, c2, 0.],
                 #~ [ 0., 0., 1.]])
- 
+
     #~ return np.dot(rx,np.dot(ry,rz))
-    
+
     #Faster way
     #return np.array([[c1*c2,c1*s2,-s1],
     #                [c2*s0*s1-c0*s2,s0*s1*s2+c0*c2,c1*s0],
     #                [s0*s2+c0*c2*s1,c0*s1*s2-c2*s0,c0*c1]])
-    
+
     #Fastest until now but ugly
     #TODO: Find a way to make this less ugly
     #cdef np.ndarray[np.double_t, ndim=2, mode="c"] rv=np.empty((3,3),dtype=np.double)
@@ -92,41 +92,41 @@ cdef inline np.ndarray rot_mat_i(np.ndarray r):
     rv[0,0]=c1*c2
     rv[0,1]=c1*s2
     rv[0,2]=-s1
-    
+
     rv[1,0]=c2*s0*s1-c0*s2
     rv[1,1]=s0*s1*s2+c0*c2
     rv[1,2]=c1*s0
-    
+
     rv[2,0]=s0*s2+c0*c2*s1
     rv[2,1]=c0*s1*s2-c2*s0
     rv[2,2]=c0*c1
-  
+
     return rv
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
 cdef inline np.ndarray rot_mat(np.ndarray r):
     '''Returns the transformation matrix for a rotation around the Z,Y,X axes
-    
+
     The rotation is made first around the Z axis, then around the Y axis, and
     finally around the X axis.
-    
+
     Parameters
-    
+
     r= (rx,ry,rz)
     '''
     cdef np.float64_t* rd= <np.float64_t*>(np.PyArray_DATA(r))
     #c=cos(r)
     #s=sin(r)
-    
+
     cdef double c0=cos(rd[0])
     cdef double c1=cos(rd[1])
     cdef double c2=cos(rd[2])
-    
+
     cdef double s0=sin(rd[0])
     cdef double s1=sin(rd[1])
     cdef double s2=sin(rd[2])
-    
+
     #~ rx=array([[1. , 0., 0.],
               #~ [0. , c0,-s0],
               #~ [0. , s0, c0]])
@@ -143,15 +143,15 @@ cdef inline np.ndarray rot_mat(np.ndarray r):
     rv[0,0]=c1*c2
     rv[0,1]=c2*s0*s1-c0*s2
     rv[0,2]=s0*s2+c0*c2*s1
-    
+
     rv[1,0]=c1*s2
     rv[1,1]=s0*s1*s2+c0*c2
     rv[1,2]=c0*s1*s2-c2*s0
-    
+
     rv[2,0]=-s1
     rv[2,1]=c1*s0
     rv[2,2]=c0*c1
-    
+
     return rv
 
 @cython.boundscheck(False)

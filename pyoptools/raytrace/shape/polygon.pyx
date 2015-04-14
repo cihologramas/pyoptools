@@ -27,16 +27,15 @@ from pyoptools.raytrace.shape.shape cimport Shape
 
 from numpy import arange, meshgrid, where, dot, array
 
-cdef class Polygone(Shape):
+cdef class Polygon(Shape):
     ''' Class defining a triangular shape. 
-    
-    coord -> tuple containing the n (x,y) coordinates of the corners of 
+
+    coord -> tuple containing the n (x,y) coordinates of the corners of
              polygone
     samples -> number of divitions per side used to sample the triangle
     '''
-    cdef public tuple coord
-    cdef public int samples
-    
+
+
     
     def __init__(self,coord=((0,0),(0,100),(100,0)),samples=10,*args, **kwargs):
         Shape.__init__(self,*args, **kwargs)

@@ -49,7 +49,7 @@ from scipy.misc import imread
 #import pp
 #import pyopencl as cl
 
-from pyoptools.misc.cmisc.cmisc cimport rot_mat_i, rot_mat 
+from pyoptools.misc.cmisc.cmisc cimport rot_mat_i, rot_mat
 
 from pyoptools.raytrace.ray import Ray
 

@@ -1,0 +1,7 @@
+deb_dist/
+dist/
+build/
+*.c
+*.so
+.idea
+MANIFEST
