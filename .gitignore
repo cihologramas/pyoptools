@@ -1,7 +1,11 @@
 deb_dist/
 dist/
 build/
+tests/
 *.c
+*.h
 *.so
 .idea
 MANIFEST
+*gz
+*pyc

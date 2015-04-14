@@ -14,6 +14,8 @@ from taylor_poly import TaylorPoly
 from cylinder import Cylinder
 from aspherical import Aspherical
 from plane_mask import RPPMask
+from idealsurface import IdealSurface
+from idealpplanes import IdealPPlanes
 
 __all__=["Surface",
          "Cylindrical",
@@ -24,5 +26,7 @@ __all__=["Surface",
          "TaylorPoly",
          "Cylinder",
          "Aspherical",
-         "RPPMask"]
+         "RPPMask",
+         "IdealSurface",
+         "IdealPPlanes"]
 

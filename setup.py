@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
 import sys, os, commands
 from distutils.core import setup
 from distutils.extension import Extension
@@ -123,4 +126,13 @@ setup(
         url='',
         ext_modules=cythonize(extensions),
         cmdclass = {'build_ext': build_ext},
+        data_files = [("share/doc/pyoptools/examples/basic_course",["examples/basic_course/00-Introducción.ipynb",
+                                                                    "examples/basic_course/03-SimpleComponents.ipynb",
+                                                                    "examples/basic_course/05-Autocollimator.ipynb",
+                                                                    "examples/basic_course/01-IntroPython.ipynb",
+                                                                    "examples/basic_course/04-PredefinedComponents.ipynb",
+                                                                    "examples/basic_course/06-GeomWF.ipynb",
+                                                                    "examples/basic_course/02-Surfaces.ipynb",
+                                                                    "examples/basic_course/04-Simple RayTraces.ipynb",
+                                                                    "examples/basic_course/07-SimpleEODs.ipynb"])]
     )

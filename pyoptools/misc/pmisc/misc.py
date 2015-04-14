@@ -2,9 +2,9 @@
 # -*- coding: UTF-8 -*-
 
 import numpy as N
-from numpy import array, sin, cos, float64, dot, float_, sqrt,  ceil,  floor, dot, \
+from numpy import array, sin, cos, float64, dot, sqrt,  ceil,  floor, dot, \
                 meshgrid, zeros, zeros_like, where,  nan,  pi, isnan, nonzero, rint, \
-                linspace, arange, argwhere
+                linspace, arange, argwhere, mean
 from numpy.ma import is_masked, MaskedArray
 from numpy.ma import array as ma_array
 #from enthought.traits.api import Trait, TraitHandler
@@ -627,6 +627,27 @@ def interpolate_g(xi,yi,zi,xx,yy,knots=10, error=False,mask=None):
     
     if error==True: return d, er
     else: return d
+
+
+
+
+def spot_info(C):
+    """Retorna una tupla con el radio promedio y el centro de masa
+    de los rayos que impactaron el CCD C"""
+    X=[]
+    Y=[]
+    for hl in C.hit_list:
+        x,y,z=hl[0]
+        X.append(x)
+        Y.append(y)
+    xm=mean(X)
+    ym=mean(Y)
+    X=array(X)-xm
+    Y=array(Y)-ym
+    R=sqrt(X**2+Y**2)
+    XR=sqrt(X**2)
+    YR=sqrt(Y**2)
+    return mean(R),(xm,ym),(mean(XR),mean(YR)),R.max()
 
 ####### Fin Funciones auxiliares
 

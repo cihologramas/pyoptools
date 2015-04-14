@@ -7,7 +7,9 @@ cdef class poly2d:
     # so px_c and py_c will get erased
     cdef object px64,py64,px,py
     #internal Fast C list
-    cdef np.float64_t *px_c, *py_c, *cohef_c 
+    cdef np.float64_t *px_c
+    cdef np.float64_t *py_c
+    cdef np.float64_t *cohef_c
     cdef public int order
     cdef int clen  
     cdef object ctx0,prg0,prg1,queue0

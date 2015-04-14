@@ -8,6 +8,7 @@ __all__=["cross",
          "rot_x",
          "rot_y",
          "rot_z",
+         "spot_info",
          "unwrap_py",
          "unwrapv",
          "wavelength2RGB"]
