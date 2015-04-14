@@ -69,3 +69,15 @@ curvature_s2 = -0.0080762397027943789
 curvature_s3 = -0.0024839783397088777
 type = Doublet
 
+
+[67330]
+description = Achromat
+thickness_l1 = 4.0
+material_l1 = BK7
+material_l2 = SF5
+radius = 20.0
+curvature_s3 = 0.
+curvature_s2 = -0.0019735933213602007
+curvature_s1 = 0.003172790151659369
+type = Doublet
+thickness_l2 = 4.0
