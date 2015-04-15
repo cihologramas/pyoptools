@@ -3,7 +3,7 @@ inplace:
 
 deb:
 	python setup.py --command-packages=stdeb.command sdist_dsc \
-	--depends "python-scipy (>= 0.10.1)" \
+	--depends "python-scipy (>= 0.10.1), python-ipython (>= 3.1.0)" \
 	 bdist_deb
 
 clean:
