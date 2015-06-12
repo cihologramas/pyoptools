@@ -81,10 +81,10 @@ if len(valid_paths) > 1:
     print "There are several valid include directories containing numpy/arrayobject.h"
     l=[('%d: %s' % (i+1, valid_paths[i])) for i in xrange(0, len(valid_paths))]
     s = -1
-    print string.join(l, '\n')
+    print '\n'.join(l)
     # Prompt the user with a list of selections.
     while not (s >= 1 and s <= len(valid_paths)):
-        s = input('Selection [default=1]:' % s)
+        s = input('Selection [default=1]:')
         if s == '':
             s = 1
         else:
