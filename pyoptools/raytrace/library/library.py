@@ -161,7 +161,8 @@ def zmx_parse(data):
         g0=surflist[0]["GLAS"][0]
         m0=get_material(g0)
 
-        #Verificar que las superficies son iguales, si no emitir un error
+
+        ##Verificar que las superficies son iguales, si no emitir un error
         assert r0==r1
 
         return CL.SphericalLens(r0,d0,c0,c1,material=m0)
