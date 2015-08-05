@@ -94,3 +94,101 @@ for di in dirs:
         print "Loading component library",libname," from files ",filename
         Library(filename,libname=libname)
              
+
+#########################################################################################################################
+## Mientras se organiza voy a colocar todos los archivos correspondientes a librerias acá
+
+# Se crearon para poder leer facilmente archivos de thorlabs
+def convert(d):
+    try:
+        return int(d)
+    except ValueError:
+        try:
+            return float(d)
+        except ValueError:
+            return d
+
+
+def zmx_parse(data):
+    """Función que lee e interpreta un archivo zmx de zemax.
+
+    Ojo, solo funciona para lentes esfericas y dobletes
+    """
+
+    lines=data.splitlines()
+
+    # Interpretar el encabezado
+    while True:
+        line=lines.pop(0)
+
+        if lines[0].startswith("SURF"):
+            break
+
+    # Separar las superficies en una lista de diccionarios
+    surflist=[]
+    for line in lines:
+        if line.startswith("SURF"):
+            surflist.append(dict())
+            continue
+        line=line.lstrip()
+        code=line[:4]
+        data=line[5:].split()
+        data=[convert(d) for d in data]
+        surflist[-1][code]=data
+
+
+    # Este programa es para convertir lentes de catalogo
+    # Por lo tanto, el solvetype de los diametros debe ser 1 para
+    # que la superficie tenga validez en la definición de la lente
+
+    surflist=filter(lambda x:x["DIAM"][1]==1,surflist)
+
+    # De la misma manera, las curvaturas deben ser fijas
+    if len(filter(lambda x:x["CURV"][1]!=0,surflist)) !=0:
+        raise
+
+    # Identificar el tipo de lentes a partir de el numero de superficies
+    # validas
+
+    ns=len(surflist)
+
+    if ns==2: #Lentes normales
+        c0=surflist[0]["CURV"][0]
+        c1=surflist[1]["CURV"][0]
+        d0=surflist[0]["DISZ"][0]
+        r0=surflist[0]["DIAM"][0]
+        r1=surflist[1]["DIAM"][0]
+        g0=surflist[0]["GLAS"][0]
+        m0=get_material(g0)
+
+        #Verificar que las superficies son iguales, si no emitir un error
+        assert r0==r1
+
+        return CL.SphericalLens(r0,d0,c0,c1,material=m0)
+
+    if ns==3: #Dobletes
+        c0=surflist[0]["CURV"][0]
+        c1=surflist[1]["CURV"][0]
+        c2=surflist[2]["CURV"][0]
+        d0=surflist[0]["DISZ"][0]
+        d1=surflist[1]["DISZ"][0]
+        r0=surflist[0]["DIAM"][0]
+        r1=surflist[1]["DIAM"][0]
+        r2=surflist[2]["DIAM"][0]
+        g0=surflist[0]["GLAS"][0]
+        g1=surflist[1]["GLAS"][0]
+        m0=get_material(g0)
+        m1=get_material(g1)
+
+        #Verificar que las superficies son iguales, si no emitir un error
+        assert r0==r1 and r1== r2
+
+        return CL.Doublet(r0,c0,c1,c2,d0,d1,m0,m1)
+
+    else:
+        raise
+def zmx_read(fn):
+
+    f=open(fn,"rU")
+    data=f.read()
+    return zmx_parse(data)
