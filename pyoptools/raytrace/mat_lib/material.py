@@ -139,8 +139,8 @@ for libn, file in libnames:
 del(libnames)
 def find_material(material):
     """Search for a material in all the libraries
-    
-    This function prints all the libraries that contain the material 
+
+    This function prints all the libraries that contain the material
     
     Arguments:
     
@@ -149,7 +149,7 @@ def find_material(material):
     """
     for libn,tdict in liblist:
        if tdict.has_key(material):
-          print libn 
+          print libn
 
 def get_material(material):
     """Search for a material in all the libraries
@@ -165,7 +165,9 @@ def get_material(material):
     for libn,tdict in liblist:
        if tdict.has_key(material):
           return tdict[material]
-    return None
+    print material, " not found"
+    raise KeyError
+
 
 
 def mat_list():

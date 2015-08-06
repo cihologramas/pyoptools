@@ -21,6 +21,7 @@
 '''
 cdef extern from "math.h":
     double sqrt(double)
+    double copysign(double, double)
     double M_PI
 
 
@@ -159,7 +160,7 @@ cdef class RPPMask(Surface):
                                 intensity=0,
                                 wavelength=ri.wavelength,n=ni,label=ri.label, orig_surf=self.id))
             else:
-                oz=sqrt(oz2)
+                oz=copysign(sqrt(oz2),rz)
                 #Check for transmited or and reflected orders. Here intensities have no meaning
                 if self.reflectivity!=1:
                      ret.append(Ray(pos=PI,dir=(ox,oy,oz),

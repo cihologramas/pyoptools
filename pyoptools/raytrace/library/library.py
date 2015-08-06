@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
 import ConfigParser as cp
 
 from os import listdir, walk
@@ -112,7 +115,9 @@ def convert(d):
 def zmx_parse(data):
     """Función que lee e interpreta un archivo zmx de zemax.
 
-    Ojo, solo funciona para lentes esfericas y dobletes
+    - Solo funciona para lentes esfericas y dobletes.
+    - No tiene ne cuenta recubrimientos antireflectivos
+    - Asume que las medidas están en milimetros. Hay que arreglar esto
     """
 
     lines=data.splitlines()
@@ -137,15 +142,11 @@ def zmx_parse(data):
         surflist[-1][code]=data
 
 
-    # Este programa es para convertir lentes de catalogo
-    # Por lo tanto, el solvetype de los diametros debe ser 1 para
-    # que la superficie tenga validez en la definición de la lente
+    #Eliminar el plano objeto y el plano imagen
 
-    surflist=filter(lambda x:x["DIAM"][1]==1,surflist)
+    surflist.pop(0)
+    surflist.pop()
 
-    # De la misma manera, las curvaturas deben ser fijas
-    if len(filter(lambda x:x["CURV"][1]!=0,surflist)) !=0:
-        raise
 
     # Identificar el tipo de lentes a partir de el numero de superficies
     # validas
@@ -162,7 +163,7 @@ def zmx_parse(data):
         m0=get_material(g0)
 
 
-        ##Verificar que las superficies son iguales, si no emitir un error
+        ##c|Verificar que las superficies son iguales, si no emitir un error
         assert r0==r1
 
         return CL.SphericalLens(r0,d0,c0,c1,material=m0)
@@ -184,12 +185,87 @@ def zmx_parse(data):
         #Verificar que las superficies son iguales, si no emitir un error
         assert r0==r1 and r1== r2
 
-        return CL.Doublet(r0,c0,c1,c2,d0,d1,m0,m1)
+    if ns==4 and not surflist[1].has_key("GLAS"): #Dobletes con espaciado en Aire
+        c0=surflist[0]["CURV"][0]
+        c1=surflist[1]["CURV"][0]
+        c2=surflist[2]["CURV"][0]
+        c3=surflist[3]["CURV"][0]
+
+        d0=surflist[0]["DISZ"][0]
+        d1=surflist[1]["DISZ"][0]
+        d2=surflist[2]["DISZ"][0]
+
+
+
+        r0=surflist[0]["DIAM"][0]
+        r1=surflist[1]["DIAM"][0]
+        r2=surflist[2]["DIAM"][0]
+        r3=surflist[3]["DIAM"][0]
+
+        g0=surflist[0]["GLAS"][0]
+        # g1=surflist[1]["GLAS"][0] Este parametro no existe. Es aire
+        g2=surflist[2]["GLAS"][0]
+
+        m0=get_material(g0)
+        #m1=get_material(g1)
+        m1=get_material(g2)
+
+        #Verificar que las superficies son iguales, si no emitir un error
+
+        #assert r0==r1 and r1== r2 and r2 ==r3 Esto no siempre se cumple
+
+
+        return CL.AirSpacedDoublet(r0,c0,c1,c2,c3, d0,d1,d2,m0,m1)
 
     else:
+        for i in surflist:
+            print i
         raise
 def zmx_read(fn):
 
     f=open(fn,"rU")
     data=f.read()
     return zmx_parse(data)
+
+##Codigo tomado y modificado de https://github.com/jordens/rayopt/blob/master/rayopt/zemax.py
+from struct import Struct
+import numpy as np
+
+def zmf2dict(fn):
+    """Función que lee una librería de Zemax (archivo con terminación zmf), y genera un diccionario con las descripciones
+    de cada componente. La llave es la referencia de cada componente
+    """
+    f=open(fn,"r")
+    rd={}
+    head = Struct("<I")
+    lens = Struct("<100sIIIIIIIdd")
+    shapes = "?EBPM"
+    version, = head.unpack(f.read(head.size))
+    assert version in (1001, )
+    while True:
+        li = f.read(lens.size)
+        if len(li) != lens.size:
+            if len(li) > 0:
+                print(f, "additional data", repr(li))
+            break
+        li = list(lens.unpack(li))
+        li[0] = li[0].decode("latin1").strip("\0")
+        li[3] = shapes[li[3]]
+        description = f.read(li[7])
+        assert len(description) == li[7]
+        description = zmf_obfuscate(description, li[8], li[9])
+        description = description.decode("latin1")
+        assert description.startswith("VERS {:06d}\n".format(li[1]))
+        rd[li[0]]=description
+    return rd
+
+
+def zmf_obfuscate(data, a, b):
+    iv = np.cos(6*a + 3*b)
+    iv = np.cos(655*(np.pi/180)*iv) + iv
+    p = np.arange(len(data))
+    k = 13.2*(iv + np.sin(17*(p + 3)))*(p + 1)
+    k = (int(("{:.8e}".format(_))[4:7]) for _ in k)
+    data = np.fromstring(data, np.uint8)
+    data ^= np.fromiter(k, np.uint8, len(data))
+    return data.tostring()
