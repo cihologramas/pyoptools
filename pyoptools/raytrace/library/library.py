@@ -185,7 +185,9 @@ def zmx_parse(data):
         #Verificar que las superficies son iguales, si no emitir un error
         assert r0==r1 and r1== r2
 
-    if ns==4 and not surflist[1].has_key("GLAS"): #Dobletes con espaciado en Aire
+        return CL.Doublet(r0,c0,c1,c2, d0,d1,m0,m1)
+
+    elif ns==4 and not surflist[1].has_key("GLAS"): #Dobletes con espaciado en Aire
         c0=surflist[0]["CURV"][0]
         c1=surflist[1]["CURV"][0]
         c2=surflist[2]["CURV"][0]
@@ -219,8 +221,8 @@ def zmx_parse(data):
 
     else:
         for i in surflist:
-            print i
-        raise
+            print "*", i
+        raise ValueError # Esto toca arreglarlo y generar un error que realmente indique que está pasando
 def zmx_read(fn):
 
     f=open(fn,"rU")
