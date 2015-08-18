@@ -233,16 +233,16 @@ cdef class Component(Picklable):
         cdef Surface S
         cdef int mini
         cdef Ray R
-        
+
         for surf in self.surflist:
             S,P,D=surf 
             # Change the coordinate system of the ray, From the Component coordinate system
             # to the surface component system
-            
+
             R=ri_.ch_coord_sys(P,D)
-            
+
             Dist=S.distance(R)
-            
+
             dist_list.append(Dist[0])
             pi_list.append(Dist[1])
             surf_list.append(S) #(Dist[2])

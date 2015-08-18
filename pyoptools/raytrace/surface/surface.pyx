@@ -201,7 +201,7 @@ cdef class Surface(Picklable):
         '''
         
         int_p= self._intersection(iray)
-        
+
         if self.shape.fhit(int_p[0],int_p[1],int_p[2])==False:
             return inf_vect
 

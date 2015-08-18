@@ -443,9 +443,9 @@ cdef class System(Picklable):
             #y calcular el recorrido del rayo hasta chocar con la
             #el elemento
             R=ri.ch_coord_sys(P,D)
-            
+
             Dist=C.distance(R)
-            
+
             dist_list.append(Dist[0])
             
             pi_list.append(Dist[1])
@@ -707,9 +707,9 @@ cdef class System(Picklable):
             #y calcular el recorrido del rayo hasta chocar con la
             #el elemento
             R=ri.ch_coord_sys(P,D)
-            
+
             Dist=C.distance(R)
-            
+
             dist_list.append(Dist[0])
             
             pi_list.append(Dist[1])

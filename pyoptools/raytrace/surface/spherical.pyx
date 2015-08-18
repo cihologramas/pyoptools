@@ -203,12 +203,18 @@ cdef class Spherical(Surface):
             
         # TODO: This can have problems if the ray is propagates in the X or Y direcction 
         # Need to find a beter solution 
-        
+
         if abs(Z2)<abs(Z1):
             X,Y,Z=X2,Y2,Z2
         else:
             X,Y,Z=X1,Y1,Z1
-        
+
+        # This spherical surface is only half surface, so:
+
+        if abs(Z)>abs(z3):
+            return array([inf,inf,inf])
+
+
         return array([X,Y,Z]).astype(float64)
 
     cpdef np.ndarray normal(self,ip):
