@@ -98,7 +98,7 @@ cdef class Surface(Picklable):
 
     #~ '''
 
-    def __init__(self,double reflectivity=0., shape=Circular(radius=10.)):
+    def __init__(self,reflectivity=0., shape=Circular(radius=10.)):
         self.reflectivity=reflectivity
         self.shape=shape
         self._hit_list=[]
@@ -435,7 +435,17 @@ cdef class Surface(Picklable):
         
         #Note the fast ray creation function do not normalize the dir of the ray
         norm_vect(S2) #S2/sqrt(dot(S2,S2))
-        
+
+
+        #This will allow to define dichroic reflectors this is
+        try:
+            reflect=self.reflectivity(ri.wavelength)
+        except TypeError:
+            reflect=self.reflectivity
+
+        if reflect>1 or reflect <0:
+            raise ValueError
+
         if(ni/nr)<0:
             # This case should never happen
             # For a mirror use reflectivity=1
@@ -446,7 +456,7 @@ cdef class Surface(Picklable):
                         label=ri.label, orig_surf=self.id)]
             
 
-        elif (self.reflectivity ==0) and not(sometrue(npisnan(S2))):
+        elif (reflect ==0) and not(sometrue(npisnan(S2))):
             # Normal refraction case
             #return [Ray(pos=PI,dir=S2,intensity=ri.intensity,
             #           wavelength=ri.wavelength,n=nr,
@@ -498,15 +508,15 @@ cdef class Surface(Picklable):
             S3p[2]=S1p[2]+A1p[2]
 
             norm_vect(S3) #S3=S3/sqrt(dot(S3,S3))
-            if self.reflectivity!=1.:
+            if reflect!=1.:
                 return [#Ray(pos=PI,dir=S2,
                         #    intensity=ri.intensity*(1.-self.reflectivity),
                         #    wavelength=ri.wavelength,n=nr, label=ri.label, orig_surf=self.id),
-                        Rayf(PI,S2,ri.intensity*(1.-self.reflectivity), ri.wavelength, nr, ri.label, None ,0,self.id,0),
+                        Rayf(PI,S2,ri.intensity*(1.-reflect), ri.wavelength, nr, ri.label, None ,0,self.id,0),
                         #Ray(pos=PI,dir=S3,
                         #    intensity=ri.intensity*self.reflectivity,
                         #    wavelength=ri.wavelength,n=ni,label=ri.label, orig_surf=self.id)
-                        Rayf(PI,S3,ri.intensity*self.reflectivity, ri.wavelength, ni, ri.label, None ,0,self.id,0)
+                        Rayf(PI,S3,ri.intensity*reflect, ri.wavelength, ni, ri.label, None ,0,self.id,0)
                         ]
             else:
                 #return [Ray(pos=PI,dir=S3,

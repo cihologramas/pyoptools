@@ -3,7 +3,7 @@ from pyoptools.raytrace.shape.shape cimport Shape
 from pyoptools.misc.picklable.picklable cimport Picklable
 cimport numpy as np
 cdef class Surface(Picklable):
-    cdef public double reflectivity
+    cdef public object reflectivity
     cdef public Shape shape
     cdef public list _hit_list
     cdef public list id
