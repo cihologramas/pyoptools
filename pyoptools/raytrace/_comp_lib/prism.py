@@ -24,7 +24,7 @@ from numpy import sqrt, pi, absolute
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Plane
 from pyoptools.raytrace.shape import Rectangular,Triangular
-
+from math import sin, cos, radians
 class RightAnglePrism(Component):
 
     ''' **Class to define a Right Angle Prism Lens.**
@@ -112,3 +112,33 @@ class RightAnglePrism(Component):
     #~ def __setstate__(self,state):
         #~ self.width, self.height, self.reflectivity, self.__a_face, \
         #~ self.__b_face, self.__h_face, self.__e1, self.__e2, self.surflist=state
+
+class PentaPrism(Component):
+    """Clase para definir un pentaprisma"""
+
+    #TODO: El pentaprisma está abierto por arriba y por abajo. Hay que definir las superficies para cerrarlo
+
+    def __init__(self, s, *args, **kwargs):
+        """
+        :param s: alto y base de las entradas del pentaprisma
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        Component.__init__(self,*args, **kwargs)
+        s1 = Plane(shape=Rectangular(size=(s,s)))
+        s2 = Plane(shape=Rectangular(size=(s,s)))
+        d=s/cos(radians(22.5))
+        s3 = Plane(shape=Rectangular(size=(d,s)),reflectivity=1)
+        s4 = Plane(shape=Rectangular(size=(d,s)),reflectivity=1)
+        d1=d*sin(radians(22.5)/2.)
+        s5 = Plane(shape=Rectangular(size=(2*sqrt(2)*d1,s)))
+
+
+        self.surflist["S1"] = (s1,(0,0,-s/2.),(0,0,0))
+        self.surflist["S2"] = (s2,(s/2.,0,0),(0,pi/2,0))
+        self.surflist["S3"] = (s3,(0,0,s/2.+d1),(0,pi/8,0))
+        self.surflist["S4"] = (s4,(-s/2.-d1,0,0),(0,3*pi/8,0))
+        self.surflist["S5"] = (s5,(-s/2.-d1,0,s/2.+d1),(0,-pi/4,0))
+                          #,material=get_material("N-BK7"))
+
