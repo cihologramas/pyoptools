@@ -112,7 +112,7 @@ extNames = scandir("./")
 extensions = [makeExtension(name) for name in extNames]
 
 setup(name="pyoptools",
-      version="0.0.0",
+      #version="0.0.0",
       packages=findpackages("./"),
       scripts=['ipyoptools'],
       # The names from pipy are used, not the deb package names

@@ -17,3 +17,21 @@ This package contains miscellaneous classes and functions used by the other pack
 
 For Debian/Ubuntu based distro we provide debs packages in the debs folder. You
 can also create the deb file by running 'make deb' in the root directory of pyOpTools.
+
+
+## Requirements
+
+The following steps work to install the packages required to run pyoptools in
+an ipython notebook under debian 8. This instructions are far from complete, 
+but they will give an idea
+
+1. Install stdeb. in https://pypi.python.org/pypi/stdeb/0.8.5#install-or-using-stdeb-to-create-an-stdeb-installer you can find instructions on how to do it
+2. Install ipython: sudo pypi-install ipython --release 3.2.1 (had problems with the latest one)
+3. sudo apt-get install python-setuptools
+4. sudo pypi-install backports.ssl_match_hostname
+5. sudo pypi-install certifi
+6. sudo pypi-install tornado
+7. sudo apt-get install python-jsonschema
+8. sudo apt-get install libosmesa6
+9. sudo apt-get install python-wxgtk3.0
+10. sudo pypi-install PyOpenGL --release 3.1.0

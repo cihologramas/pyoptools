@@ -24,7 +24,7 @@ from numpy import sqrt, pi, absolute
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Plane
 from pyoptools.raytrace.shape import Rectangular,Triangular
-from math import sin, cos, radians
+from math import cos, radians
 class RightAnglePrism(Component):
 
     ''' **Class to define a Right Angle Prism Lens.**
@@ -125,7 +125,7 @@ class PentaPrism(Component):
         :param kwargs:
         :return:
         """
-        Component.__init__(self,*args, **kwargs)
+
         s1 = Plane(shape=Rectangular(size=(s,s)))
         s2 = Plane(shape=Rectangular(size=(s,s)))
         d=s/cos(radians(22.5))
