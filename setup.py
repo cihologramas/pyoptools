@@ -3,8 +3,8 @@
 
 import sys
 import os
-from distutils.core import setup
-from distutils.extension import Extension
+from setuptools import setup
+from setuptools.extension import Extension
 try:
     from Cython.Build import cythonize
     from Cython.Distutils import build_ext
