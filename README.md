@@ -18,6 +18,7 @@ This package contains miscellaneous classes and functions used by the other pack
 For Debian/Ubuntu based distro we provide debs packages in the debs folder. You
 can also create the deb file by running 'make deb' in the root directory of pyOpTools.
 
+For development `sudo python setup.py develop` this will install systemwide from current directory, making changes to the *py files directly availables.
 
 ## Requirements
 
