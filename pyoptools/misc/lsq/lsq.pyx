@@ -1,7 +1,5 @@
 from numpy import array, sqrt, zeros, where, power, dot,  ones,  empty, inf
 from numpy.linalg import inv, pinv, cond,  solve
-from scipy.weave import converters
-import scipy.weave as weave
 from pyoptools.misc.Poly2D.Poly2D cimport *
 #from pyoptools.misc.Poly2D import *
 
@@ -226,25 +224,10 @@ def polyfito2(x, y, z):
     #imat=pinv(mat)
 
     vec=empty((nc, 1))
-    #The python code was changed to C++ inline
-    #for ic in range (nc):
-    #    tv=XP[:, px[ic]]*YP[:, py[ic]]*z
-    #    vec[ic, 0]=tv.sum()
-    code="""
-            int powx,powy;
-            for(int ic=0;ic<nc;ic++)
-            {
-                double sum=0;
-                powx=px(ic);
-                powy=py(ic);
-                for(int id=0;id<nd;id++)
-                    sum=sum+z(id)*XP(id,powx)*YP(id,powy);
-                vec(ic,0)=sum;
-            }
-    """
-    err = weave.inline(code,['nc', 'nd', 'XP','YP','px', 'py', 'vec', 'z'],
-                        type_converters=converters.blitz,
-                        compiler = 'gcc')
+
+    for ic in range (nc):
+        tv=XP[:, px[ic]]*YP[:, py[ic]]*z
+        vec[ic, 0]=tv.sum()
 
     cohef= solve(mat, vec)
     ret_poly=poly2d(cohef, px=px, py=py)
@@ -260,89 +243,95 @@ def polyfito2(x, y, z):
     e= sqrt(power(array(z)-ep, 2).mean())
         
     return ret_poly, e
-_potxo1= array([[ 0.,   1.,   0.], 
-          [ 1.,   2.,   1.], 
-          [ 0.,   1.,   0.]])
-_potyo1= array([[ 0.,   0.,   1.], 
-          [ 0.,   0.,   1.], 
-          [ 1.,   1.,   2.]])
-
-_pxo1, _pyo1=(array([0, 1, 0]), array([0, 0, 1]))
-def polyfito1(x, y, z):
-    xa=array(x)
-    ya=array(y)
-    px, py=_pxo1, _pyo1
-    nd=len(xa)
-    XP=ones((nd, 4))
-    YP=ones((nd, 4))
-    code="""
-            for(int p=1;p<4;p++)
-            {
-                for(int id=0;id<nd;id++)
-                {
-                    XP(id,p)=XP(id,p-1)*xa(id);
-                    YP(id,p)=YP(id,p-1)*ya(id);
-                }
-            }
-    """
-    err = weave.inline(code,['nd', 'XP','YP','xa', 'ya'],
-                        type_converters=converters.blitz,
-                        compiler = 'gcc')
-
-    #Calculating X and Y powers
-    potx=_potxo1
-    poty=_potyo1
-    
-    #Creating the Vandermonde matrix
-    mat=empty((3, 3))
-
-    code = """
-            int powx,powy;
-            for(int ir=0;ir<3;ir++)
-                for(int ic=0;ic<3;ic++)
-                    {   
-                        powx=potx(ir,ic);
-                        powy=poty(ir,ic);
-                        double sum=0;
-                        for(int id=0;id<nd;id++)
-                            sum=sum+XP(id,powx)*YP(id,powy);
-                        mat(ir,ic)=sum;
-                    }
-            """
-    err = weave.inline(code,['potx', 'poty', 'XP', 'YP', 'mat', 'nd'],
-                        type_converters=converters.blitz,
-                        compiler = 'gcc')
-    ######################
-    
-    
-    #imat=pinv(mat)
-
-    vec=empty((3, 1))
-
-    code="""
-            int powx,powy;
-            for(int ic=0;ic<3;ic++)
-            {
-                double sum=0;
-                powx=px(ic);
-                powy=py(ic);
-                for(int id=0;id<nd;id++)
-                    sum=sum+z(id)*XP(id,powx)*YP(id,powy);
-                vec(ic,0)=sum;
-            }
-    """
-    err = weave.inline(code,[ 'nd', 'XP','YP','px', 'py', 'vec', 'z'],
-                        type_converters=converters.blitz,
-                        compiler = 'gcc')
-    cohef= solve(mat, vec)
-    ret_poly=poly2d(cohef)
-
-    #Calculate error. Verify if this is the best way
-    e= sqrt(power(array(z)-ret_poly.eval(xa, ya), 2).mean())
-        
-    return ret_poly, e
 
 
+
+##Se elimina este código pues no debe ser importante, y esta usando weave
+#
+# _potxo1= array([[ 0.,   1.,   0.],
+#           [ 1.,   2.,   1.],
+#           [ 0.,   1.,   0.]])
+#     _potyo1= array([[ 0.,   0.,   1.],
+#           [ 0.,   0.,   1.],
+#           [ 1.,   1.,   2.]])
+#
+# _pxo1, _pyo1=(array([0, 1, 0]), array([0, 0, 1]))
+#
+# def polyfito1(x, y, z):
+#     xa=array(x)
+#     ya=array(y)
+#     px, py=_pxo1, _pyo1
+#     nd=len(xa)
+#     XP=ones((nd, 4))
+#     YP=ones((nd, 4))
+#     code="""
+#             for(int p=1;p<4;p++)
+#             {
+#                 for(int id=0;id<nd;id++)
+#                 {
+#                     XP(id,p)=XP(id,p-1)*xa(id);
+#                     YP(id,p)=YP(id,p-1)*ya(id);
+#                 }
+#             }
+#     """
+#     err = weave.inline(code,['nd', 'XP','YP','xa', 'ya'],
+#                         type_converters=converters.blitz,
+#                         compiler = 'gcc')
+#
+#     #Calculating X and Y powers
+#     potx=_potxo1
+#     poty=_potyo1
+#
+#     #Creating the Vandermonde matrix
+#     mat=empty((3, 3))
+#
+#     code = """
+#             int powx,powy;
+#             for(int ir=0;ir<3;ir++)
+#                 for(int ic=0;ic<3;ic++)
+#                     {
+#                         powx=potx(ir,ic);
+#                         powy=poty(ir,ic);
+#                         double sum=0;
+#                         for(int id=0;id<nd;id++)
+#                             sum=sum+XP(id,powx)*YP(id,powy);
+#                         mat(ir,ic)=sum;
+#                     }
+#             """
+#     err = weave.inline(code,['potx', 'poty', 'XP', 'YP', 'mat', 'nd'],
+#                         type_converters=converters.blitz,
+#                         compiler = 'gcc')
+#     ######################
+#
+#
+#     #imat=pinv(mat)
+#
+#     vec=empty((3, 1))
+#
+#     code="""
+#             int powx,powy;
+#             for(int ic=0;ic<3;ic++)
+#             {
+#                 double sum=0;
+#                 powx=px(ic);
+#                 powy=py(ic);
+#                 for(int id=0;id<nd;id++)
+#                     sum=sum+z(id)*XP(id,powx)*YP(id,powy);
+#                 vec(ic,0)=sum;
+#             }
+#     """
+#     err = weave.inline(code,[ 'nd', 'XP','YP','px', 'py', 'vec', 'z'],
+#                         type_converters=converters.blitz,
+#                         compiler = 'gcc')
+#     cohef= solve(mat, vec)
+#     ret_poly=poly2d(cohef)
+#
+#     #Calculate error. Verify if this is the best way
+#     e= sqrt(power(array(z)-ret_poly.eval(xa, ya), 2).mean())
+#
+#     return ret_poly, e
+#
+#
 
 
 #~ def test(niter=10,Omax=4,  ndat=500):

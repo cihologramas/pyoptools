@@ -2,3 +2,4 @@ include MANIFEST.in copyright README PKG-INFO description-pak
 include ipyoptools.py
 include setup.py
 recursive-include pyoptools *.pyx *.py *.pxd
+recursive-include examples *ipynb

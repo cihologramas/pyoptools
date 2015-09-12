@@ -25,16 +25,10 @@ cdef extern from "math.h":
 '''
 
 from numpy import array, inf, sqrt as npsqrt, absolute, float64, dot, arcsin, pi,  zeros
-#from enthought.traits.api import Float
-#from enthought.traits.ui.view import Group,Item
 cimport numpy as np
 
-#from ray_trace.surface.surface import Surface
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
-
-from scipy.weave import converters
-import scipy.weave as weave
 
 
 cdef class Spherical(Surface):
@@ -73,74 +67,7 @@ cdef class Spherical(Surface):
         #~ 
         #~ args=(self.curvature, self.reflectivity, self.shape)
         #~ return(type(self),args,self.__getstate__())
-    #~ 
-     
-
-
-    def _intersectionweave(self, A):
-        '''**Point of intersection between a ray and the sphere**
-
-        This method returns the point of intersection  between the surface
-        and the ray. This intersection point is calculated in the coordinate
-        system of the surface.
-        
-           iray -- incident ray
-
-        iray must be in the coordinate system of the surface
-        '''
-            
-        P1=A.pos     # Punto que pertenece al rayo "Origen" del rayo
-        L1= A.dir    #Vector paralelo a la linea
-
-        z3=1./self.curvature
-        retval= array([inf, inf, inf])
-
-        code ="""
-        double x1,y1,z1,x2,y2,z2,x21,y21,z21,b2ac,X1,Y1,Z1,X2,Y2,Z2,u1,u2;
-        double a,b,c;
-        x1=P1(0)  ; y1=P1(1)  ; z1=P1(2) ;
-        x21=L1(0) ; y21=L1(1) ; z21=L1(2);
-        x2=x1+ x21 ; y2=y1+y21 ; z2=z1+z21;
-        
-        a=pow(x21,2)+pow(y21,2)+pow(z21,2);
-        b=2*((x21)*(x1) + (y21)*(y1) + (z21)*(z1 - z3));
-        c=pow(x1,2)+pow(y1,2)+pow(z1,2)-2*(z3*z1);
-        b2ac=pow(b,2)-4*a*c;
-        //printf("%lf,%lf,%lf,%lf\\n",a,b,c,b2ac);
-        if(b2ac>0)
-        {
-            u1=(-b+sqrt(b2ac))/(2*a);
-            u2=(-b-sqrt(b2ac))/(2*a);
-
-            X1 = x1 + u1 *(x21);
-            Y1 = y1 + u1 *(y21);
-            Z1 = z1 + u1 *(z21);
-
-            X2 = x1 + u2 *(x21);
-            Y2 = y1 + u2 *(y21);
-            Z2 = z1 + u2 *(z21);
-            
-            if (abs(Z2)<abs(Z1))
-            {
-                retval(0)=X2;
-                retval(1)=Y2;
-                retval(2)=Z2;
-            }
-            else
-            {
-                retval(0)=X1;
-                retval(1)=Y1;
-                retval(2)=Z1;
-            }
-        }        
-        """
-        err = weave.inline(code,['P1', 'L1', 'z3', 'retval'],
-                        type_converters=converters.blitz,
-                        compiler = 'gcc')
-       
-        return retval
-
-
+    #~
         
     cpdef _intersection(self,Ray A):
         '''**Point of intersection between a ray and the sphere**
