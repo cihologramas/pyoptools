@@ -1,3 +1,3 @@
-from plist import *
+from .plist import plist
 
 __all__=["plist"]
