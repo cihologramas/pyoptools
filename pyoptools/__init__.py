@@ -35,11 +35,3 @@ Package containing modules and submodules defining an *API* for optical
 raytracing and wave propagation calculations.
 '''
 
-#~ import misc
-#~ #import raytrace
-#~ import wavefront
-#~ 
-#~ __all__=["misc",
- #~ #        "raytrace",
-         #~ "wavefront"
- #~ ]

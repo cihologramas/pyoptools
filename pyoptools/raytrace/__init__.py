@@ -34,32 +34,3 @@
 Package containing modules and submodules defining an *API* that can be
 used to describe Optical surfaces, components and systems.
 '''
-#~ import calc
-#~ import component
-#~ import comp_lib
-#~ import library
-#~ import mat_lib
-#~ import shape
-#~ import surface
-#~ import system
-#~ 
-#~ __all__=["calc",
-         #~ "component",
-         #~ "comp_lib",
-         #~ "library",
-         #~ "mat_lib",
-         #~ "shape",
-         #~ "surface",
-         #~ "system"]
-#~ from calc import *
-#~ from component import *
-#~ from comp_lib import *
-#~ #from config import *
-#~ from library import *
-#~ from mat_lib import *
-#~ from ray import *
-#~ from shape import *
-#~ from surface import *
-#~ from system import *
-
-

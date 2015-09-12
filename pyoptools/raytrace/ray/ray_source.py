@@ -7,7 +7,7 @@
 from numpy import sin,cos,pi
 from numpy.random import normal
 
-from pyoptools.raytrace.ray import Ray
+from .ray import Ray
 
 
 

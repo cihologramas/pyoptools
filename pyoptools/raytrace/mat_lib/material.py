@@ -149,7 +149,7 @@ def find_material(material):
     """
     for libn,tdict in liblist:
        if tdict.has_key(material):
-          print libn
+          print(libn)
 
 def get_material(material):
     """Search for a material in all the libraries
@@ -165,12 +165,12 @@ def get_material(material):
     for libn,tdict in liblist:
        if tdict.has_key(material):
           return tdict[material]
-    print material, " not found"
+    print (material, " not found")
     raise KeyError
 
 
 
 def mat_list():
     for libn,tdict in liblist:
-       print libn,  tdict.keys()
+       print (libn,  tdict.keys())
     

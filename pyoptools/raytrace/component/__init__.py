@@ -3,5 +3,5 @@ Module containing the component Class definition
 '''
 
 
-from component import *
+from .component import Component
 __all__=["Component"]

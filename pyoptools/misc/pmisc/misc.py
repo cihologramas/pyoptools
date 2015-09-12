@@ -236,7 +236,7 @@ def matrix_interpolation(M, i, j, type="bilinear"):
         #p3=dx*(1.-dy)*M[i_s, j_s+1]
         #p4=(1.-dx)*(1.-dy)*M[i_s+1, j_s+1]
         #return p1+ p2+ p3+ p4
-    print "error"
+    print ("error")
     return 1.
     
 def hitlist2int(x, y, z,  xi, yi):

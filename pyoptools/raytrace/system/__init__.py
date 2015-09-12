@@ -1,4 +1,4 @@
-from system import *
+from .system import System
 
 __all__=["System"]
 

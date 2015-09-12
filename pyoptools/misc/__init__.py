@@ -32,25 +32,3 @@
 
 '''Module with miscelaneous linear algebra functions
 '''
-#from misc import *
-#from cmisc import *
-#from definitions import *
-#from plist import *
-#from lsq import *
-#from Poly2D import *
-
-#import misc 
-#import cmisc 
-#import definitions 
-#import plist 
-#import lsq 
-#import Poly2D 
-
-
-#__all__=["misc",
-#         "cmisc",
-#         "definitions",
-#         "plist",
-#         "lsq",
-#         "Poly2D"]
-

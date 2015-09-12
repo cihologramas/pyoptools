@@ -1,9 +1,8 @@
-
-from shape import * 
-from rectangular import *
-from circular import *
-from triangular import *
-from polygon import *
+from .shape import Shape
+from .rectangular import Rectangular
+from .circular import Circular
+from .triangular import Triangular
+from .polygon import Polygon
 __all__=["Shape",
          "Circular",
          "Rectangular",
