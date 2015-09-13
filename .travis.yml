@@ -13,18 +13,25 @@ sudo: false
 # https://github.com/Jorge-C/ordination/blob/master/.travis.yml
 # https://gist.github.com/dan-blanchard/7045057
 before_install:
-  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
-  - chmod +x miniconda.sh
-  - ./miniconda.sh -b
-  - export PATH=/home/travis/miniconda/bin:$PATH
-  # Update conda itself
-  - conda update --yes conda
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh;
+    else
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    fi
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+
 
 # Install packages
 install:
-  - conda create --yes -n env_name python=$TRAVIS_PYTHON_VERSION pip numpy matplotlib nose scipy pep8 cython
-  - source activate env_name
-  - python setup.py install
+  - conda install --yes pip numpy matplotlib nose scipy pep8 cython
+# For some unknown reason I have to install as develop.
+# if not, there will be some errors regarding import problems
+# not all the modules get installed in travis
+  - python setup.py develop
 
 script:
 - python tests.py

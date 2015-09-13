@@ -62,13 +62,13 @@ def rnm(n,m,rho):
     """
     
     if(type(n) is not int):
-        raise Exception, "n must be integer"
+        raise Exception("n must be integer")
     if(type(m) is not int):
-        raise Exception, "m must be integer"
+        raise Exception("m must be integer")
     if (n-m)%2!=0:
-        raise Exception, "n-m must be even"
+        raise Exception("n-m must be even")
     if abs(m)>n:
-        raise Exception, "The following must be true |m|<=n"
+        raise Exception("The following must be true |m|<=n")
     mask=where(rho<=1,False,True)
     
     if(n==0 and m==0):

@@ -22,11 +22,11 @@ parser.add_option("-o",  dest="outputfile",  help="RTGL file to create")
 if options.inputfile==None:
      parser.error("\n\nError: Input filename must be given.\n\n")
 
-print "\n\n\nProcessing file", options.inputfile, "\n\n\n"
+print("\n\n\nProcessing file", options.inputfile, "\n\n\n")
 try:
     f=open(options.inputfile, 'r')
 except:
-    print "File ", options.inputfile,  "not found"
+    print("File ", options.inputfile,  "not found")
     
 lines=f.readlines()
 f.close()
@@ -39,7 +39,7 @@ except:
     exit("The input file seems not to be an OSLO glass description file")
     
 if version not in ("5.00","5.11","5.31","5.32","5.41","6.02" , "6.03"):
-    print "Library version migth not be supported. Please verify the output file"
+    print("Library version migth not be supported. Please verify the output file")
 
 # Check if the output file exists
 

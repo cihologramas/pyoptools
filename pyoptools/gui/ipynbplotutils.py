@@ -22,8 +22,8 @@ try:
     OSMesaMakeCurrent, OSMesaDestroyContext)
 
 except:
-	print "need OSMesa installed, and the following environment variable"
-	print "export PYOPENGL_PLATFORM=osmesa"
+	print ("need OSMesa installed, and the following environment variable")
+	print ("export PYOPENGL_PLATFORM=osmesa")
 
 from pyoptools.raytrace.system import System
 from pyoptools.raytrace.component import Component
