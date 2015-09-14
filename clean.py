@@ -12,7 +12,7 @@ def findfiles2clean(dir,files=[], ):
     
 f2c= findfiles2clean(".")
 for i in f2c:
-    print"Deleting: ",i
+    print("Deleting: ",i)
     try:
 	 os.remove(i)
     except:

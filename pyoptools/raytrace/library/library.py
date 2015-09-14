@@ -94,7 +94,7 @@ for di in dirs:
     if len(libfiles)>0:
         libname=basename(di)
         filename=[ join(di,fn) for fn in libfiles] 
-        print "Loading component library",libname," from files ",filename
+        print ("Loading component library",libname," from files ",filename)
         Library(filename,libname=libname)
              
 
@@ -221,7 +221,7 @@ def zmx_parse(data):
 
     else:
         for i in surflist:
-            print "*", i
+            print("*", i)
         raise ValueError # Esto toca arreglarlo y generar un error que realmente indique que está pasando
 def zmx_read(fn):
 

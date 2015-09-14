@@ -2,7 +2,7 @@ from nose.tools import assert_equal
 
 
 def test_circular():
-    from pyoptools.raytrace.shape import Circular
+    from pyoptools.raytrace.shape.circular import Circular
     c = Circular()
     assert_equal(c.radius, 1.0, 'Unexpected radius')
 

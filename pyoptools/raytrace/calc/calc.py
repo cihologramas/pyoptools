@@ -289,10 +289,9 @@ def pupil_location(opsys,ccds,opaxis):
     
         
     if (len(ccds.hit_list)==0):
-        raise Exception, "The optical axis did not intersect the aperture" 
+        raise Exception("The optical axis did not intersect the aperture") 
     if(len(ccds.hit_list)>1):
-        raise Exception, "The optical axis intersected the aperture more than "
-        "once" 
+        raise Exception("The optical axis intersected the aperture more than once") 
         
     aip=ccds.hit_list[0][0]
     air=ccds.hit_list[0][1]
@@ -303,7 +302,7 @@ def pupil_location(opsys,ccds,opaxis):
     #Getting Intersection point in global coordinates
     
     if(len(air.childs)!=1):
-        raise Exception, "The intersected ray can only have one child"
+        raise Exception("The intersected ray can only have one child")
     
     ip=air.childs[0].pos
     d=air.childs[0].dir
@@ -347,8 +346,8 @@ def pupil_location(opsys,ccds,opaxis):
     #log.info("exp="+str(exp))
     #log.info("oax="+str(oax))
     if len(enp)!=1 or len(exp)!=1 or len(oax)!=1: 
-        raise Exception, "The principal ray or the optical axis ray have more"
-        " than one final ray"
+        raise Exception("The principal ray or the optical axis ray have more"
+        " than one final ray")
     #log.info("Calculating entrance pupil location")
     
     # Find the nearest points between the rays. 
@@ -360,16 +359,16 @@ def pupil_location(opsys,ccds,opaxis):
     enpl=intersection(opaxis,enp[0])[0]
     if (isnan(enpl)).all():
         p1, p2, d, rv =nearest_points(opaxis,enp[0])
-        print"Warning: The optical axis does not intersect the principal ray at the entrance"
-        print "pupil. The minimum distance is:", d
+        print("Warning: The optical axis does not intersect the principal ray at the entrance")
+        print("pupil. The minimum distance is:", d)
         enpl=(p1+p2)/2
         
     #log.info("Calculating exit pupil location")
     expl=intersection(oax[0],exp[0])[0]
     if (isnan(expl)).all():
         p1, p2, d, rv =nearest_points(oax[0],exp[0])
-        print"Warning: The optical axis does not intersect the principal ray at the exit"
-        print "pupil. The minimum distance is:", d
+        print("Warning: The optical axis does not intersect the principal ray at the exit")
+        print("pupil. The minimum distance is:", d)
         expl=(p1+p2)/2
     
     return enpl,expl
@@ -437,8 +436,8 @@ def paraxial_location(opsys, opaxis):
     #log.info("oax="+str(oax))
     
     if len(par)!=1 or len(oax)!=1: 
-        raise Exception, "The paraxial ray or the optical axis ray have more"
-        " than one final ray"
+        raise Exception("The paraxial ray or the optical axis ray have more"
+        " than one final ray")
   
     #log.info("Calculating object location")
     expl=intersection(oax[0],par[0])
@@ -537,7 +536,7 @@ def find_ppp(opsys, opaxis):
     par_ray_end=par_ray.get_final_rays(inc_zeros = False)
     
     if len(par_ray_end)!=1: 
-        raise Exception, "The paraxial ray has more than one final ray"
+        raise Exception("The paraxial ray has more than one final ray")
 
     pppl=intersection(par_ray,par_ray_end[0])
     
