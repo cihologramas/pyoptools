@@ -82,7 +82,6 @@ cdef class Component(Picklable):
         #Colocar una lista vacia en el __init__ no funciona, por que las cosas
         #se duplican. Toca reportar un bug a python.
         
-        
         if surflist==None:
             self.surflist=[]
         else:

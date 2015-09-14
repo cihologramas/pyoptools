@@ -121,6 +121,7 @@ setup(name="pyoptools",
                 'PyOpenGl',
                 'ipython',
                 'scipy',
+                'six',
                 ],
       package_data={
           'pyoptools.raytrace.mat_lib': ['data/*.rtgl'],

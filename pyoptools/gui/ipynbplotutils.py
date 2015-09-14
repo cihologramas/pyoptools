@@ -5,9 +5,10 @@
 Se hizo una correccion siguiendo http://g.sweyla.com/blog/2014/osmesa-pyopengl-310/
 """
 
-from numpy import array, pi,sqrt, degrees
-import Image as PIL
-from StringIO import StringIO
+import six
+from numpy import array, pi, sqrt, degrees
+import PIL.Image as PImage
+
 from IPython.core.display import Image
 
 from OpenGL.GL import *
@@ -35,9 +36,9 @@ from pyoptools.misc.pmisc import wavelength2RGB,cross
 
 def implot(buf):
     h, w, c = buf.shape
-    image = PIL.fromstring( "RGBA", (w, h), buf )
-    image = image.transpose( PIL.FLIP_TOP_BOTTOM)
-    temppng=StringIO()
+    image = PImage.fromstring( "RGBA", (w, h), buf )
+    image = image.transpose( PImage.FLIP_TOP_BOTTOM)
+    temppng=six.BytesIO()
     image.save(temppng, "JPEG" )
     data=temppng.getvalue()
     temppng.close()

@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#   Copyright (c) 2007, 2008, 2009,2010 Ricardo Amézquita Orozco 
+#   Copyright (c) 2007, 2008, 2009,2010 Ricardo Amézquita Orozco
 #   <ramezquitao@unal.edu.co>,
 #   All rights reserved.
 #
 #   Redistribution and use in source and binary forms, with or without
 #   modification, are permitted provided that the following conditions are
 #   met:
-#       
+#
 #   * Redistributions of source code must retain the above copyright
 #     notice, this list of conditions and the following disclaimer.
 #   * Redistributions in binary form must reproduce the above
@@ -17,7 +17,7 @@
 #   * Neither the name of the  nor the names of its
 #     contributors may be used to endorse or promote products derived from
 #     this software without specific prior written permission.
-#   
+#
 #   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 #   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 #   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -45,7 +45,6 @@ from pyoptools.misc.pmisc import *
 from pyoptools.misc.plist import *
 from pyoptools.misc.Poly2D import *
 from pyoptools.misc.resources import *
-  
 
 from pyoptools.raytrace.calc import *
 from pyoptools.raytrace.comp_lib import *
@@ -57,15 +56,14 @@ from pyoptools.raytrace.shape import *
 from pyoptools.raytrace.surface import *
 from pyoptools.raytrace.system import *
 
-from wavefront.field import *
-from wavefront.calc import *
-from wavefront.psurfrep import *
-from wavefront.zernike import *
+from pyoptools.wavefront.field import *
+from pyoptools.wavefront.calc import *
+from pyoptools.wavefront.psurfrep import *
+from pyoptools.wavefront.zernike import *
 
 
-#~ 
-#~ 
-#Import graphic packages This should be imported somewhere else
+#
+#
+# Import graphic packages This should be imported somewhere else
 from pyoptools.gui.plotutils import *
 from pyoptools.gui.ipynbplotutils import *
-#from pyoptools.gui.glplotframe2 import glPlotFrame

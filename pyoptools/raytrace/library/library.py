@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-import ConfigParser as cp
+import six
+from six.moves import configparser as cp
 
 from os import listdir, walk
 from os.path import join, split, isdir, splitext,basename
