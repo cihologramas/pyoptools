@@ -17,15 +17,15 @@ from .plane_mask import RPPMask
 from .idealsurface import IdealSurface
 from .idealpplanes import IdealPPlanes
 
-__all__=["Surface",
-         "Cylindrical",
-         "Plane",
-         "Spherical",
-         "ArrayDetector",
-         "Aperture",
-         "TaylorPoly",
-         "Cylinder",
-         "Aspherical",
-         "RPPMask",
-         "IdealSurface",
-         "IdealPPlanes"]
+__all__ = ["Surface",
+           "Cylindrical",
+           "Plane",
+           "Spherical",
+           "ArrayDetector",
+           "Aperture",
+           "TaylorPoly",
+           "Cylinder",
+           "Aspherical",
+           "RPPMask",
+           "IdealSurface",
+           "IdealPPlanes"]

@@ -26,7 +26,6 @@ cdef extern from "math.h":
 """
 import sys
 # TODO: Check if all modules use has strict traits
-from types import ListType
 from warnings import warn
 
 #from enthought.traits.api import HasPrivateTraits, Float, Trait,TraitList,\
@@ -266,13 +265,13 @@ cdef class System(Picklable):
         genera una excepcion        '''
         """
 
-        if type(ray) is ListType:
+        if isinstance(ray, (list, tuple)):
             for i in ray:
-                if isinstance(i,Ray):
+                if isinstance(i, Ray):
                     self._np_rays.append(i)
                 else:
                     raise Exception,'Not a valid Ray'
-        elif isinstance(ray,Ray):
+        elif isinstance(ray, Ray):
             self._np_rays.append(ray)
         else:
             raise Exception,'Not a valid Ray'
