@@ -10,8 +10,6 @@ import six
 from numpy import array, pi, sqrt, degrees
 import PIL.Image as PImage
 
-from IPython.core.display import Image
-
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
@@ -33,17 +31,6 @@ from pyoptools.misc.pmisc import wavelength2RGB, cross
 
 # Nota toca exportar la veriable de ambiente
 # export PYOPENGL_PLATFORM=osmesa
-
-
-def implot(buf):
-    h, w, _c = buf.shape
-    image = PImage.fromstring("RGBA", (w, h), buf)
-    image = image.transpose(PImage.FLIP_TOP_BOTTOM)
-    temppng = six.BytesIO()
-    image.save(temppng, "JPEG")
-    data = temppng.getvalue()
-    temppng.close()
-    return Image(data, embed=True, format=u"jpeg")
 
 
 def draw_sys(os):
@@ -144,78 +131,114 @@ def draw_ray(ray):
         draw_ray(i)
 
 
-def plot3D(os, center=(0, 0, 0), size=(400, 400), rot=[(0, 0, 0)], scale=1.):
+class Plot3D(object):
     """
-    Generate a 3D picture of the optical system under study
+    Generate a 3D image of the optical element under study
 
     Parameters:
     ===========
 
-    os     Optical system, component or surface to be drawn
+    os     Optical element (system, component or surface) to be drawn
     center Tuple (x,y,z) with the coordinates of the center of the drawing
     size   Tuple (width, height) of the requested image
     rot    list of (rx,ry,rz) tuples containing a series of rotation angles
     scale  scale fot the image
 
     The rotations are applied first rx, then ry and then rz
+
+    Attributes:
+    ===========
+    buffer    3D buffer of the system
+    image     PIL image of the buffer
     """
+    def __init__(self, os,
+                 center=(0, 0, 0),
+                 size=(400, 400),
+                 rot=[(0, 0, 0)],
+                 scale=1.):
 
-    left = -size[0] / 2
-    right = size[0] / 2
-    top = size[1] / 2
-    bottom = -size[1] / 2
+        self.buffer = self.buffer_3d(os, center=center,
+                                     size=size, rot=rot, scale=scale)
+        self.image = self._buffer_to_image()
 
-    ctx = OSMesaCreateContext(GL_RGBA, None)
+    def show(self):
+        '''Show the PIL image with the default viewer'''
+        self.image.show()
 
-    width, height = int(size[0] * scale), int(size[1] * scale)
+    def _repr_jpeg_(self):
+        '''Ipython can embed the jpg image directly
+        from http://ipython.org/ipython-doc/dev/config/integrating.html
+        '''
+        temppng = six.BytesIO()
+        self.image.save(temppng, "JPEG")
+        data = temppng.getvalue()
+        temppng.close()
+        return data
 
-    buf = arrays.GLubyteArray.zeros((height, width, 4))
-    assert(OSMesaMakeCurrent(ctx, buf, GL_UNSIGNED_BYTE, width, height))
-    assert(CurrentContextIsValid())
+    def _buffer_to_image(self):
+        h, w, _c = self.buffer.shape
+        image = PImage.fromstring("RGBA", (w, h), self.buffer)
+        image = image.transpose(PImage.FLIP_TOP_BOTTOM)
+        return image
 
-    light_ambient = [.5, 0.5, 0.5, 1.0]
-    light_diffuse = [1.0, 1.0, 1.0, 1.0]
-    light_specular = [1.0, 1.0, 1.0, 1.0]
-    light_position = [0.0, 1.0, -1.0, 1.]
+    def buffer_3d(self, os, center=(0, 0, 0),
+                  size=(400, 400), rot=[(0, 0, 0)],
+                  scale=1.):
 
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient)
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse)
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular)
+        left = -size[0] / 2
+        right = size[0] / 2
+        top = size[1] / 2
+        bottom = -size[1] / 2
 
-    glShadeModel(GL_SMOOTH)  # No parece estar funcionando
-    glEnable(GL_LIGHTING)
-    glEnable(GL_LIGHT0)
-    glEnable(GL_DEPTH_TEST)
-    glEnable(GL_BLEND)
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        ctx = OSMesaCreateContext(GL_RGBA, None)
 
-    glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()
+        width, height = int(size[0] * scale), int(size[1] * scale)
 
-    glOrtho(left, right, top, bottom, -1000.0, 10000.0)
+        buf = arrays.GLubyteArray.zeros((height, width, 4))
+        assert(OSMesaMakeCurrent(ctx, buf, GL_UNSIGNED_BYTE, width, height))
+        assert(CurrentContextIsValid())
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-    glMatrixMode(GL_MODELVIEW)
-    glLoadIdentity()
+        light_ambient = [.5, 0.5, 0.5, 1.0]
+        light_diffuse = [1.0, 1.0, 1.0, 1.0]
+        light_specular = [1.0, 1.0, 1.0, 1.0]
+        light_position = [0.0, 1.0, -1.0, 1.]
 
-    # Las rotaciones se aplican en orden inverso. No se por que, pero
-    # esta funcionando
-    for rx, ry, rz in rot[::-1]:
-        glRotatef(degrees(rz), 0, 0, 1)
-        glRotatef(degrees(ry), 0, 1, 0)
-        glRotatef(degrees(rx), 1, 0, 0)
+        glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient)
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse)
+        glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular)
 
-    glTranslatef(-center[0], -center[1], -center[2])
+        glShadeModel(GL_SMOOTH)  # No parece estar funcionando
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+        glEnable(GL_DEPTH_TEST)
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position)
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
 
-    if isinstance(os, System):
-        draw_sys(os)
-    elif isinstance(os, Component):
-        draw_comp(os, (0, 0, 0), (0, 0, 0))
-    elif isinstance(os, Surface):
-        draw_surf(os, (0, 0, 0), (0, 0, 0))
+        glOrtho(left, right, top, bottom, -1000.0, 10000.0)
 
-    glFinish()
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
 
-    return implot(buf)
+        # Las rotaciones se aplican en orden inverso. No se por que, pero
+        # esta funcionando
+        for rx, ry, rz in rot[::-1]:
+            glRotatef(degrees(rz), 0, 0, 1)
+            glRotatef(degrees(ry), 0, 1, 0)
+            glRotatef(degrees(rx), 1, 0, 0)
+
+        glTranslatef(-center[0], -center[1], -center[2])
+        glLightfv(GL_LIGHT0, GL_POSITION, light_position)
+
+        if isinstance(os, System):
+            draw_sys(os)
+        elif isinstance(os, Component):
+            draw_comp(os, (0, 0, 0), (0, 0, 0))
+        elif isinstance(os, Surface):
+            draw_surf(os, (0, 0, 0), (0, 0, 0))
+
+        glFinish()
+        return buf

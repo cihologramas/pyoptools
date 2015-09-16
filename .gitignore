@@ -13,3 +13,4 @@ MANIFEST
 .settings/
 *.ipynb_checkpoints
 *egg-info
+__pycache__
