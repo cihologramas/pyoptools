@@ -4,6 +4,11 @@ import pyoptools
 from nose.tools import assert_equal
 
 PEP8_ADDITIONAL_IGNORE = []
+
+# THIS IS THE LIST OF SHAME!!!!
+# If you modify a single one of these files, take the opportunity,
+# and clean it!.
+# Once it's clean, remove it from this list
 EXCLUDE_FILES = ['zernike.py',
                  'gs.py',
                  'calc.py',
@@ -31,7 +36,38 @@ EXCLUDE_FILES = ['zernike.py',
                  'glwindow.py',
                  'glplotframe2.py',
                  'glplotframe.py',
-                 'all.py'
+                 'all.py',
+                 'field.pyx',
+                 'fields.pyx',
+                 'psurfrep.pyx',
+                 'cpsurfrep.pyx',
+                 'triangular.pyx',
+                 'shape.pyx',
+                 'rectangular.pyx',
+                 'polygon.pyx',
+                 'circular.pyx',
+                 'ray.pyx',
+                 'component.pyx',
+                 'system.pyx',
+                 'taylor_poly.pyx',
+                 'surface.pyx',
+                 'spherical.pyx',
+                 'plane_mask.pyx',
+                 'detector.pyx',
+                 'cylindrical.pyx',
+                 'plane.pyx',
+                 'idealpplanes.pyx',
+                 'cylinder.pyx',
+                 'aspherical.pyx',
+                 'idealsurface.pyx',
+                 'aperture.pyx',
+                 'resources.pyx',
+                 'picklable.pyx',
+                 'lsq.pyx',
+                 'cmisc.pyx',
+                 'definitions.pyx',
+                 'plist.pyx',
+                 'Poly2D.pyx',
                  ]
 
 
@@ -44,6 +80,7 @@ def test_pep8_conformance():
     pep8style.options.ignore = (pep8style.options.ignore +
                                 tuple(PEP8_ADDITIONAL_IGNORE))
     pep8style.options.exclude.extend(EXCLUDE_FILES)
+    pep8style.options.filename = ['*.py', '*.pyx']
 
     result = pep8style.check_files([dirname])
     msg = "Found code syntax errors (and warnings)."
