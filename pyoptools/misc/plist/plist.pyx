@@ -1,6 +1,7 @@
 # cython: profile=True
 cimport numpy as np
 from numpy import array,float64
+import six
 
 from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.surface.surface cimport Surface
@@ -94,7 +95,7 @@ cdef class plist(Picklable):
     
     # Return an iterator so this can be used similar to a list    
     def __iter__(self):
-        return self._buf.itervalues()
+        return six.itervalues(self._buf)
     
     def iteritems(self):
         return self._buf.iteritems()

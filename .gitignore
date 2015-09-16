@@ -8,3 +8,8 @@ build/
 MANIFEST
 *gz
 *pyc
+.project
+.pydevproject
+.settings/
+*.ipynb_checkpoints
+*egg-info
