@@ -177,7 +177,7 @@ class Plot3D(object):
 
     def _buffer_to_image(self):
         h, w, _c = self.buffer.shape
-        image = PImage.fromstring("RGBA", (w, h), self.buffer)
+        image = PImage.frombytes("RGBA", (w, h), self.buffer)
         image = image.transpose(PImage.FLIP_TOP_BOTTOM)
         return image
 
