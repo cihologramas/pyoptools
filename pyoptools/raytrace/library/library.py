@@ -188,7 +188,7 @@ def zmx_parse(data):
 
         return CL.Doublet(r0,c0,c1,c2, d0,d1,m0,m1)
 
-    elif ns==4 and not surflist[1].has_key("GLAS"): #Dobletes con espaciado en Aire
+    elif ns==4 and "GLAS" not in surflist[1]: #Dobletes con espaciado en Aire
         c0=surflist[0]["CURV"][0]
         c1=surflist[1]["CURV"][0]
         c2=surflist[2]["CURV"][0]

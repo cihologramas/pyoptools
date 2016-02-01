@@ -148,7 +148,7 @@ def find_material(material):
         String with the material name
     """
     for libn,tdict in liblist:
-       if tdict.has_key(material):
+       if material in tdict:
           print(libn)
 
 def get_material(material):
@@ -163,7 +163,7 @@ def get_material(material):
         String with the material name
     """
     for libn,tdict in liblist:
-       if tdict.has_key(material):
+       if material in tdict:
           return tdict[material]
     print (material, " not found")
     raise KeyError
