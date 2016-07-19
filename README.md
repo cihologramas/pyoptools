@@ -15,6 +15,14 @@ This package contains miscellaneous classes and functions used by the other pack
 
 ## How to install
 
+We have created a virtualbox image of a debian 8 installation with the pyoptools running. This image can be downloaded from https://drive.google.com/open?id=0B6vN2VIpMQ48THUwX1NJSjM0cEE
+
+* user name: usuario
+* password usuario
+
+This is to help people interested in testing this tool, while the documentation and installation instructions get updated.
+
+
 For Debian/Ubuntu based distro we provide debs packages in the debs folder. You
 can also create the deb file by running 'make deb' in the root directory of pyOpTools.
 
