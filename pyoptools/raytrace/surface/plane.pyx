@@ -7,7 +7,7 @@
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
 #
-# This software is provided without warranty under the terms of the BSD
+# This software is provided without warranty under the terms of the GPLv3
 # license included in LICENSE.txt and may be redistributed only
 # under the conditions described in the aforementioned license.
 #
