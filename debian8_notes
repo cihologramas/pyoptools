@@ -1,0 +1,15 @@
+virtualenv -p /usr/bin/python3 --no-site-packages pyoptools-env
+
+source activate
+
+pip3 install  --upgrade pip
+pip3 install  --upgrade "ipython [jupyter]"
+pip3 install  --upgrade "ipython [all]"
+pip3 install  --upgrade "cython"
+pip3 install  --upgrade "numpy"
+pip3 install  --upgrade "scipy"
+pip3 install  --upgrade "matplotlib"
+pip3 install  --upgrade "pillow"
+pip3 install PyOpenGL PyOpenGL_accelerate
+
+instalar libosmesa de backports (No se si es necesario que sea el de backports)
