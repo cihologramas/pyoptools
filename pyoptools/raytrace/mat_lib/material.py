@@ -147,9 +147,12 @@ def find_material(material):
     material
         String with the material name
     """
+    retv=[]
     for libn,tdict in liblist:
        if material in tdict:
-          print(libn)
+          retv.append(libn)
+    return retv
+
 
 def get_material(material):
     """Search for a material in all the libraries

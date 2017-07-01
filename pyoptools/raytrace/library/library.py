@@ -7,6 +7,7 @@ from six.moves import configparser as cp
 from os import listdir, walk
 from os.path import join, split, isdir, splitext,basename
 from numpy import sqrt
+import inspect
 
 from pkg_resources import resource_stream, resource_filename, \
                         resource_string,  resource_listdir
@@ -15,19 +16,32 @@ from pkg_resources import resource_stream, resource_filename, \
 #library
 import pyoptools.raytrace.comp_lib as CL
 from pyoptools.raytrace.mat_lib import get_material
+from pyoptools.raytrace.system.system import System
+from pyoptools.raytrace.component.component import Component
 
 lenslib = resource_filename("pyoptools.raytrace.library", '')
 
 # Get Datafiles
 # TODO: Include user files
 
-#Save the available component classes names defined in CL
+###############################################################################
+#Save the available component classes names defined in CL. This are the classes
+#defined in pyoptools.raytrace.comp_lib
 _av_comp=[]
 
+#for cl in dir(CL):
+#    if cl[0].isupper():
+#        _av_comp.append(cl)
+
+# Replace the check for something more robust than checking if the firs character
+# is a capital letter.
 for cl in dir(CL):
-    if cl[0].isupper():
+    c=getattr(CL,cl)
+    if not inspect.isclass(c):
+        continue
+    if issubclass(c,(Component,System)):
         _av_comp.append(cl)
-        
+################################################################################
 
 #Class to manage component libraries libraries
 class Library:
