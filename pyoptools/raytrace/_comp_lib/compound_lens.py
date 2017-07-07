@@ -110,9 +110,9 @@ class Doublet(System):
                                      thickness=self.thickness_pl,
                                      radius =self.radius,
                                      material=self.material_pl)
-
-        self.complist["C1"]=(__a_lens,(0,0,-self.thickness_pl/2.),(0,0,0))
-        self.complist["C2"]=(__p_lens,(0,0, self.thickness_al/2.),(0,0,0))
+        th=self.thickness_pl+self.thickness_al
+        self.complist["C1"]=(__a_lens,(0,0,-th/2.),(0,0,0))
+        self.complist["C2"]=(__p_lens,(0,0, th/2.),(0,0,0))
 
 #    def __reduce__(self):
 #        args=() #self.intensity,self.wavelength,self.n ,self.label,self.parent,self.pop,self.orig_surf)
