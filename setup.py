@@ -124,7 +124,7 @@ setup(name="pyoptools",
                 'six',
                 ],
       package_data={
-          'pyoptools.raytrace.mat_lib': ['data/*.rtgl'],
+          'pyoptools.raytrace.mat_lib': ['data/*.mat'],
           'pyoptools.raytrace.library': ['Edmund/*.cmp'],
           },
       author='Ricardo Amezquita Orozco',
