@@ -5,7 +5,7 @@ import six
 from six.moves import configparser as cp
 
 from os import listdir, walk
-from os.path import join, split, isdir, splitext,basename
+from os.path import join, split, isdir, splitext,basename, expanduser
 from numpy import sqrt
 import inspect
 
@@ -21,8 +21,6 @@ from pyoptools.raytrace.component.component import Component
 
 lenslib = resource_filename("pyoptools.raytrace.library", '')
 
-# Get Datafiles
-# TODO: Include user files
 
 ###############################################################################
 #Save the available component classes names defined in CL. This are the classes
@@ -96,6 +94,16 @@ for  i in listdir(lenslib):
     di=join(lenslib,i)
     if isdir(di):
         dirs.append(di)
+
+#Get the local directories
+# Check if the local library path exists
+locallenslib = reduce(join,[expanduser("~"),".pyoptools","library"])
+if isdir(locallenslib):
+    for i in listdir(locallenslib):
+        di=join(locallenslib,i)
+        if isdir(di):
+            dirs.append(di)
+
 
 for di in dirs:
     fnames=listdir(di)
