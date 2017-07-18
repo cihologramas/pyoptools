@@ -133,13 +133,13 @@ class Schott(Material):
 
 
 # Creating the material dictionaries
-liblist=set()
+__liblist__=set()
 
 for libn, fname in libnames:
     #Crear el diccionario "libn" donde se van a guardar los materiales
     # Cada catalogo tiene su diccionario. Si los nombres de los catalogos se repiten,
     # entre el sistema y la carpeta del usuario, los materiales se adicionan a un mismo catalogo
-    liblist.add(libn)
+    __liblist__.add(libn)
     if globals().has_key(libn):
         tdict =globals()[libn]
     else:
@@ -177,7 +177,9 @@ for libn, fname in libnames:
             print "Model not available"
             continue
         tdict[matref]=tmat
-
+liblist=[]
+for i in __liblist__:
+    liblist.append((i,globals()[i]))
 #del(libnames)
 
 def find_material(material):
@@ -191,8 +193,7 @@ def find_material(material):
         String with the material name
     """
     retv=[]
-    for libn in liblist:
-       tdict=globals()[libn]
+    for libn,tdict in liblist:
        if material in tdict:
           retv.append(libn)
     return retv
@@ -209,8 +210,8 @@ def get_material(material):
     material
         String with the material name
     """
-    for libn in liblist:
-        tdict=globals()[libn]
+    for libn,tdict in liblist:
+
         if material in tdict:
             return tdict[material]
     print (material, " not found")
