@@ -87,7 +87,7 @@ class IdealPPlanes(Surface):
         #Get the focussing point as the point where the principal ray hits the focal plane
 
         FP=ri.dir*self.f/abs(rz)
-        #Las ecuaciones de difraccion usadas funcionan para el caso donde el plano
+        #Las ecuaciones de refraccion usadas funcionan para el caso donde el plano
         #esta en Z=0. Como aca el plano no esta en z=0, hay que moverlo para el
         #calculo, y luego moverlo nuevamente a las posiciones adecuadas
         if PI[2]<0:
