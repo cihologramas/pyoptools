@@ -68,7 +68,6 @@ class IdealThickLens(System):
         #Verificar si entra por E1 o E2
         if S==self.__E1__:
             ##Codigo a usar si el rayo entra por E1
-            print "Entrando por E1"
             #Encontrar el punto de corte en E1
             C,P,D = self.complist["E1"]
             R=ri.ch_coord_sys(P,D)
@@ -137,7 +136,6 @@ class IdealThickLens(System):
             # Hay que buscar una forma mas elegante de hacer esto
 
             #Encontrar el punto de corte en E2
-            print "Entrando por E2"
 
             C,P,D = self.complist["E2"]
             R=ri.ch_coord_sys(P,D)
