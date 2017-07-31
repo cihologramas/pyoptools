@@ -17,19 +17,20 @@
 #------------------------------------------------------------------------------
 
 '''
-Material class definition, and helper functions used to load the 
+Material class definition, and helper functions used to load the
 constants of the dispersion formula to be used in the calculation of
 the refraction index.
 
-It also create libraries containing the materials defined in the directory data 
+It also create libraries containing the materials defined in the directory data
 so the materials can be used as a predefined.
 '''
 
+import six
 from os import listdir
 from os.path import join, split,  splitext, isfile, expanduser,isdir
 #from enthought.traits.api import Float, HasTraits, String
 from numpy import sqrt
-import ConfigParser
+from six.moves import configparser, reduce
 from pkg_resources import resource_stream, resource_filename, \
                         resource_string,  resource_listdir
 
@@ -140,12 +141,12 @@ for libn, fname in libnames:
     # Cada catalogo tiene su diccionario. Si los nombres de los catalogos se repiten,
     # entre el sistema y la carpeta del usuario, los materiales se adicionan a un mismo catalogo
     __liblist__.add(libn)
-    if globals().has_key(libn):
+    if libn in globals():
         tdict =globals()[libn]
     else:
         tdict={}
         globals()[libn]=tdict
-    matconfig = ConfigParser.ConfigParser()
+    matconfig = configparser.ConfigParser()
     matconfig.read(fname)
 
     for matref in matconfig.sections():
@@ -174,7 +175,7 @@ for libn, fname in libnames:
             tmat = Schott(nd,vd,c1,c2,c3,c4,c5,c6)
 
         else:
-            print "Model not available"
+            print("Model not available")
             continue
         tdict[matref]=tmat
 liblist=[]
@@ -186,9 +187,9 @@ def find_material(material):
     """Search for a material in all the libraries
 
     This function prints all the libraries that contain the material
-    
+
     Arguments:
-    
+
     material
         String with the material name
     """
@@ -201,12 +202,12 @@ def find_material(material):
 
 def get_material(material):
     """Search for a material in all the libraries
-    
-    This function search in all the material libraries, and return the 
+
+    This function search in all the material libraries, and return the
     first instance found, that matches the name of the material requested.
-    If no material found, returns None 
+    If no material found, returns None
     Arguments:
-    
+
     material
         String with the material name
     """
@@ -223,4 +224,3 @@ def mat_list():
     for libn in liblist:
         tdict=globals()[libn]
         print (libn,  tdict.keys())
-    
