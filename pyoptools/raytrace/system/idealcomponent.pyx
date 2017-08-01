@@ -1,7 +1,7 @@
 from numpy import asarray
 cimport numpy as np
-from pyoptools.raytrace.component import Component
-from pyoptools.raytrace.system import System
+from pyoptools.raytrace.component.component import Component
+from pyoptools.raytrace.system.system import System
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.plane cimport Plane
 
