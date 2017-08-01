@@ -112,7 +112,7 @@ extNames = scandir("./")
 extensions = [makeExtension(name) for name in extNames]
 
 setup(name="pyoptools",
-      version="0.1.0",
+      version="0.1.1",
       packages=findpackages("./"),
       scripts=['ipyoptools'],
       # The names from pipy are used, not the deb package names
@@ -130,8 +130,9 @@ setup(name="pyoptools",
       author='Ricardo Amezquita Orozco',
       author_email='ramezquitao@cihologramas.com',
       description='Optical ray tracing simulation system',
-      license='BSD',
-      url='',
+      license='GPLv3',
+      url='https://github.com/cihologramas/pyoptools/',
+      download_url='https://github.com/cihologramas/pyoptools/archive/v0.1.1.zip',
       ext_modules=cythonize(extensions),
       cmdclass={'build_ext': build_ext},
       data_files=[("share/doc/pyoptools/examples/basic_course",
