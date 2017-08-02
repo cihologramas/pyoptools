@@ -11,6 +11,9 @@ from numpy.ma import array as ma_array
 from scipy import interpolate
 from pylab import griddata, meshgrid
 
+from matplotlib.tri import Triangulation
+
+
 '''Auxiliary functions and classes
 '''
 
@@ -243,7 +246,6 @@ def hitlist2int(x, y, z,  xi, yi):
     """Function that estimates an intensity distribution on a plane from a 
     ray hitlist
     """
-    import matplotlib.delaunay as delaunay
     from pylab import griddata, meshgrid
     from scipy import interpolate
     #if xi.ndim != yi.ndim:
@@ -263,10 +265,10 @@ def hitlist2int(x, y, z,  xi, yi):
     
     #triangulate data
     
-    tri=delaunay.Triangulation(x, y)
+    tri=Triangulation(x, y)
     
     #calculate triangles area
-    ntriangles=tri.circumcenters.shape[0]
+    #ntriangles=tri.circumcenters.shape[0]
     coord=array(zip(tri.x, tri.y))
    
     #I=zeros((ntriangles, ))
@@ -285,9 +287,9 @@ def hitlist2int(x, y, z,  xi, yi):
     #     xc[i], yc[i]=(p1+p2+p3)/3.
     # The previous code was replaced by the following code
     ###
-    i1=tri.triangle_nodes[:, 0]
-    i2=tri.triangle_nodes[:, 1]
-    i3=tri.triangle_nodes[:, 2]
+    i1=tri.triangles[:, 0]
+    i2=tri.triangles[:, 1]
+    i3=tri.triangles[:, 2]
     p1=coord[i1]
     p2=coord[i2]
     p3=coord[i3]
@@ -333,7 +335,6 @@ def hitlist2int_list(x, y):
     """Function that estimates an intensity distribution on a plane from a 
     ray hitlist. Returns the intensity samples as an x,y,I list
     """
-    import matplotlib.delaunay as delaunay
     from pylab import griddata, meshgrid
     from scipy import interpolate
     
@@ -354,10 +355,10 @@ def hitlist2int_list(x, y):
     
     #triangulate data
     
-    tri=delaunay.Triangulation(x, y)
+    tri=Triangulation(x, y)
     
     #calculate triangles area
-    ntriangles=tri.circumcenters.shape[0]
+    #ntriangles=tri.circumcenters.shape[0]
     coord=array(zip(tri.x, tri.y))
    
     #I=zeros((ntriangles, ))
@@ -376,9 +377,9 @@ def hitlist2int_list(x, y):
     #     xc[i], yc[i]=(p1+p2+p3)/3.
     # The previous code was replaced by the following code
     ###
-    i1=tri.triangle_nodes[:, 0]
-    i2=tri.triangle_nodes[:, 1]
-    i3=tri.triangle_nodes[:, 2]
+    i1=tri.triangles[:, 0]
+    i2=tri.triangles[:, 1]
+    i3=tri.triangles[:, 2]
     p1=coord[i1]
     p2=coord[i2]
     p3=coord[i3]

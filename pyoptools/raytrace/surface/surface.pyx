@@ -53,6 +53,7 @@ from pyoptools.raytrace.shape.circular cimport Circular
 from pyoptools.misc.definitions import inf_vect
 from pyoptools.misc.picklable.picklable cimport Picklable
 
+from matplotlib.tri import Triangulation
 
 cimport numpy as np
 np.import_array()
@@ -1044,10 +1045,9 @@ cdef class Surface(Picklable):
         
         for i in range(len(X)):
             points.append((X[i],Y[i],Z[i]))
-        
-        from matplotlib.delaunay import delaunay
-        
+
         #Need to find a beter way to do this not using delaunay# or maybe to generate all using triangulations????
-        cs,e,trip,trin=delaunay(X,Y)
+        tri=Triangulation(X,Y)
+        trip=tri.triangles
         return points, trip
         
