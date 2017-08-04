@@ -98,8 +98,8 @@ class IdealThickLens(System):
             PI=self.__H2__._intersection(R) #No se verifica apertura
 
             #### Calculate the reffraction in H2
-            rx,ry,rz = R_H1.dir
-            FP=R_H1.dir*self.f/abs(rz)
+            rx,ry,rz = ri.dir
+            FP=ri.dir*self.f/abs(rz)
             d=FP-PI
             if self.f<0:
                     d=-d
@@ -166,15 +166,15 @@ class IdealThickLens(System):
             PI=self.__H1__._intersection(R) #No se verifica apertura
 
             #### Calculate the reffraction in H1
-            rx,ry,rz = R_H2.dir
-            FP=R_H2.dir*self.f/abs(rz)
+            rx,ry,rz = ri.dir
+            FP=ri.dir*self.f/abs(rz)
             d=FP-PI
             if self.f<0:
                     d=-d
             R=Ray(pos=PI, dir=d, wavelength=wav, n=n)
             R_H1=R.ch_coord_sys_inv(P,D)
 
-            ##Propagar hasta E2
+            ##Propagar hasta E1
             C,P,D = self.complist["E1"]
             R=R_H1.ch_coord_sys(P,D)
             PI = self.__E1__.intersection(R)
