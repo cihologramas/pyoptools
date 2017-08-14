@@ -125,10 +125,8 @@ class IdealThickLens(System):
 
         ## Verificar si el rayo pasa por la pupila de entrada
         if P1:
-            print "P1"
             C,P,D = P1
             R=ri.ch_coord_sys(P,D)
-            print C["S0"][0].shape.radius
             PI=C["S0"][0].intersection(R)
             if isinf(PI[0]):
                 ST=True
@@ -199,7 +197,6 @@ class IdealThickLens(System):
 
         ##Verificar la pupila de salida
         if P2:
-            print "P2"
             C0,P0,D0 = P2
             R=R_H2.ch_coord_sys(P,D)
             PII=C0["S0"][0].intersection(R)
@@ -210,7 +207,6 @@ class IdealThickLens(System):
         else: # No se verifica la pupila de salida
             ST2=True
 
-        print PE2,ST2
         if ST2 and PE2:
             ie2 = ri.intensity
         else:
