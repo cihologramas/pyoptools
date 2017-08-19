@@ -24,7 +24,7 @@ from numpy import sqrt, pi, absolute
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Plane
 from pyoptools.raytrace.shape import Rectangular,Triangular
-from math import cos, radians
+from math import cos, radians,sin
 class RightAnglePrism(Component):
 
     ''' **Class to define a Right Angle Prism Lens.**
@@ -126,6 +126,8 @@ class PentaPrism(Component):
         :return:
         """
 
+        Component.__init__(self,*args, **kwargs)
+
         s1 = Plane(shape=Rectangular(size=(s,s)))
         s2 = Plane(shape=Rectangular(size=(s,s)))
         d=s/cos(radians(22.5))
@@ -141,4 +143,33 @@ class PentaPrism(Component):
         self.surflist["S4"] = (s4,(-s/2.-d1,0,0),(0,3*pi/8,0))
         self.surflist["S5"] = (s5,(-s/2.-d1,0,s/2.+d1),(0,-pi/4,0))
                           #,material=get_material("N-BK7"))
+
+class DovePrism(Component):
+     #TODO: El prismadove está abierto por arriba y por abajo. Hay que definir las superficies para cerrarlo
+    def __init__(self, s,l, *args, **kwargs):
+        #s alto o profundidad del prisma
+        #l Longitud del lado mas largo del prisma
+
+        #La referencia del prisma de dove esta en el centro del prisma
+
+        Component.__init__(self,*args, **kwargs)
+
+        d=1.4142135623730951*s
+
+        #Diagonales del prisma
+
+        s1= Plane(shape=Rectangular(size=(d,s)))
+        s2= Plane(shape=Rectangular(size=(d,s)))
+
+        #Lado largo del prisma
+        s3= Plane(shape=Rectangular(size=(l,s)))
+        #lado corto del prisma
+        s4= Plane(shape=Rectangular(size=(l-2*s,s)))
+
+
+        sp1=(l-s)/2.
+        self.surflist["S1"]=(s1, (-sp1, 0, 0), (0, -pi/4, 0))
+        self.surflist["S2"]=(s2, ( sp1, 0, 0), (0,  pi/4, 0))
+        self.surflist["S3"]=(s3, (0, 0, -s/2.), (0, 0, 0))
+        self.surflist["S4"]=(s4, (0, 0,  s/2.), (0, 0, 0))
 

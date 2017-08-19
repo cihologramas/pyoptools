@@ -90,7 +90,7 @@ class IdealThickLens(System):
         self.complist["E1"]=(self.__C1__,(0,0,-thickness/2.),(0,0,0))
         self.complist["E2"]=(self.__C2__,(0,0,thickness/2.),(0,0,0))
         self.complist["H1"]=(self.__C3__,(0,0,-thickness/2.+princ_planes[0]),(0,0,0))
-        self.complist["H2"]=(self.__C2__,(0,0,thickness/2.+princ_planes[1]),(0,0,0))
+        self.complist["H2"]=(self.__C4__,(0,0,thickness/2.+princ_planes[1]),(0,0,0))
 
         self.f=f
         self.complete_trace = complete_trace
@@ -137,9 +137,8 @@ class IdealThickLens(System):
         else: #No se verifican la pupila de entrada
             ST=False
 
-        #Encontrar el punto de corte en la superficie de entrada
+        #Encontrar el punto de corte en la superficie de entrada E1
         C,P,D = E1
-
         R = ri.ch_coord_sys(P,D)
         PI = C["S0"][0].intersection(R)
 
@@ -149,6 +148,7 @@ class IdealThickLens(System):
             R = Ray(pos = PI, dir = R.dir,wavelength = wav, n=n,intensity = ri.intensity)
         else:
             R = Ray(pos = PI, dir = -R.dir,wavelength = wav, n=n,intensity = ri.intensity)
+
         R_E1 = R.ch_coord_sys_inv(P,D)
 
         if ST:
@@ -163,6 +163,7 @@ class IdealThickLens(System):
         R=R_E1.ch_coord_sys(P,D)
         #Calcular el punto de corte con H1 sin verificar apertura
         PI=C["S0"][0]._intersection(R)
+
         #Crear el rayo que va entre H1 y H2
         if H1[1][2] < H2[1][2]:
             R=Ray(pos=PI, dir=(0,0,1), wavelength=wav, n=n,intensity = ri.intensity)
@@ -171,7 +172,7 @@ class IdealThickLens(System):
         R_H1=R.ch_coord_sys_inv(P,D)
 
         #Propagar hasta H2
-        C,P,D =self.complist["H2"]
+        C,P,D =H2
         R=R_H1.ch_coord_sys(P,D)
         PI=C["S0"][0]._intersection(R) #No se verifica apertura
 
@@ -181,7 +182,13 @@ class IdealThickLens(System):
         d=FP-PI
         if self.f<0:
             d=-d
-        R=Ray(pos=PI, dir=d, wavelength=wav, n=n,intensity = ri.intensity)
+
+        ##Crear el rayo que va entre H2 y E2
+        if H2[1][2] < E2[1][2]:
+            R=Ray(pos=PI, dir=d, wavelength=wav, n=n,intensity = ri.intensity)
+        else:
+            R=Ray(pos=PI, dir=-d, wavelength=wav, n=n,intensity = ri.intensity)
+
         R_H2=R.ch_coord_sys_inv(P,D)
 
         ##Propagar hasta E2
@@ -212,7 +219,10 @@ class IdealThickLens(System):
         else:
             ie2=0
 
-        R=Ray(pos=PI, dir = R.dir, wavelength=wav, intensity = ie2, n=n)
+        if H2[1][2] < E2[1][2]:
+            R=Ray(pos=PI, dir = R.dir, wavelength=wav, intensity = ie2, n=n)
+        else:
+            R=Ray(pos=PI, dir = -R.dir, wavelength=wav, intensity = ie2, n=n)
         R_E2=R.ch_coord_sys_inv(P,D)
 
 
