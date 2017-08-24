@@ -133,6 +133,34 @@ class Schott(Material):
                      self.C6/(l**8))
 
 
+class Cauchy(Material):
+    def __init__(self,nd,vd,A,B,C,D):
+        Material.__init__(self,nd,vd)
+        #E n wikipedia no usan el termino A, pero en https://refractiveindex.info
+        # Si lo usan y por eso se colocó
+
+        self.A = A
+        self.B = B
+        self.C = C
+        self.D = D
+
+    def n(self,l=.58929):
+
+        ''' Returns the refraction index for a specific wavelength.
+
+        if no wavelength is given, it returns the refraction index at
+        l=.58929 um
+
+        Note: the wavelength should be given in micrometers
+        '''
+
+        return (self.A*l**2+
+                self.B+
+                self.C*l**(-2)+
+                self.D*l**(-4))
+
+
+
 # Creating the material dictionaries
 __liblist__=set()
 
@@ -173,6 +201,15 @@ for libn, fname in libnames:
             c5 = matconfig.getfloat(matref,"c5")
             c6 = matconfig.getfloat(matref,"c6")
             tmat = Schott(nd,vd,c1,c2,c3,c4,c5,c6)
+
+        elif matmodel == "Cauchy":
+            nd = matconfig.getfloat(matref,"nd")
+            vd = matconfig.getfloat(matref,"vd")
+            a = matconfig.getfloat(matref,"a")
+            b = matconfig.getfloat(matref,"b")
+            c = matconfig.getfloat(matref,"c")
+            d = matconfig.getfloat(matref,"d")
+            tmat = Cauchy(nd,vd,a,b,c,d)
 
         else:
             print("Model not available")
