@@ -32,9 +32,13 @@ on how to do it.
 
 **NOTE:** These instructions will only work for debian using stdeb, adapt accordingly for your platform/OS.
 
-##How to install
+## How to install
 
-Pyoptools can be installing using one of the following ways
+Pyoptools can be installing using one of the ways described in the following subsections.
+ 
+Please take into account that PyOpTools is being developed almost exclusively in Linux operating systems. We suggest 
+using a *NIX operating system when using pyoptools. Anyways, Windows users can check the "Windows" subsection for 
+instructions on building/installing pyoptools in MS Windows operating system.
 
 ### Debian/Ubuntu (recommended)
 We develop pyoptools using almost debian/*buntu Linux distributions exclusively so this is the way that's most tested 
@@ -51,10 +55,32 @@ Using this method you will have control of versions installed via dpkg/APT packa
 
 ### PyPI install (using pip)
 
+**Note:** Windows users please check windows subsection. 
+
 Pyoptools is hosted in the Python Package Index since Jul-17, therefore you can just use `pip` to install it via command
 line with the following command
 
     pip install pyoptools
+
+### Windows (using Cygwin)
+
+So far the only success attempt at building and installing pyoptools is using Cygwin (check http://www.cygwin.com/). This is mainly because of some 
+issues when dealing with Microsoft compiler/SDK tools. You need a working Cygwin setup with all the dependencies 
+installed. A list of the Cygwin packages can be found here: https://gist.github.com/ijpulidos/47155ace496d8945b02846b1cfabec27
+
+Other than the listed packages in the previous link you need to _manually_ install/upgrade some dependencies by running
+the following pip commands (this setup uses python2):
+
+    pip2 install -U pip
+    pip2 install -U ipython jupyter scipy matplotlib
+
+After that you might just clone the pyoptools repository by issuing the following command in a Cygwin terminal
+
+    git clone https://github.com/cihologramas/pyoptools.git
+    cd pyoptools
+    python2 setup.py install
+    
+And you should be ready to use pyoptools in Windows inside your Cygwin environment if all went well.
 
 ### Virtual machine (VBox)
 
