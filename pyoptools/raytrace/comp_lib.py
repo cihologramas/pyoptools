@@ -16,3 +16,4 @@ from ._comp_lib.stop import Stop
 from ._comp_lib.ideallens import IdealLens, IdealTLens
 from ._comp_lib.mirror import RoundMirror, RectMirror
 from ._comp_lib.diffraction import RectGratting
+from ._comp_lib.powell_lens import PowellLens

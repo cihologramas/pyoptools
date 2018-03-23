@@ -13,6 +13,7 @@ from .aperture import Aperture
 from .taylor_poly import TaylorPoly
 from .cylinder import Cylinder
 from .aspherical import Aspherical
+from .powell import Powell
 from .plane_mask import RPPMask
 from .idealsurface import IdealSurface
 from .idealpplanes import IdealPPlanes
@@ -26,6 +27,7 @@ __all__ = ["Surface",
            "TaylorPoly",
            "Cylinder",
            "Aspherical",
+           "Powell",
            "RPPMask",
            "IdealSurface",
            "IdealPPlanes"]

@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 # cython: profile=True
-
+import FreeCAD
 from numpy import inf, asarray, pi, alltrue, sometrue, isinf, isnan,array, dot, float64
 cimport numpy as np
 from pyoptools.raytrace.surface.surface cimport Surface
@@ -277,7 +277,7 @@ cdef class Component(Picklable):
         # from the componnent, if not, it is goint in to the component.
         
         my_n=self.n(ri.wavelength)
-
+    
         if ri.n==my_n:
             np=n_m
             n=my_n

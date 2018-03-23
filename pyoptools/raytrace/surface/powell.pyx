@@ -34,32 +34,29 @@ from scipy.optimize import fsolve,ridder,newton,brentq,brenth,fminbound
 from pyoptools.misc.Poly2D cimport *
 from pyoptools.misc.definitions import inf_vect
 
-cdef class Aspherical(Surface):
-    """**Class that defines a high order aspherical surface**
+cdef class Powell(Surface):
+    """**Class that defines a Powell lens surface**
     
-    An aspherical surface is defined as::
+    A Powell lens surface is defined as::
     
-      Z=(Ax*x**2+Ay*y**2)/(1+sqrt(1-(1+Kx)*Ax**2*x**2-(1+Ky)*Ay**2*y**2))+ poly2d()
+      Z=sqrt((1+K)*x**2- 2*R*x+y**2)
     
-    The poly2d is defined by a array in the same way as it is defined in the
-    TaylorPoly Class
+    without an additional poly2d definition like in the aspherical surface case
+    The values K and R correspond to the conicity and curvature respectively
     
     Example 
-        >>> cs=Aspherical(shape=Rectangle(size=(5,5)),Ax=.5,Ay=.3,Kx=.1, Ky=.1\ 
-                            poly =poly2d((0,1,1)))
+        >>> cs=Powell(shape=Circular(radius=2.5),K=-4.302,R=3.00)
     """
 
     
-    cdef public double Ax,Ay,Kx,Ky
+    cdef public double K,R
     cdef public object poly
     cdef public double zmax,zmin
     
-    def __init__(self,Ax=0.,Ay=0.,Kx=0.,Ky=0.,poly=None, *args, **kwargs):
+    def __init__(self,K=0.,R=0.,poly=None,*args, **kwargs):
         Surface.__init__(self, *args, **kwargs)
-        self.Ax=Ax
-        self.Ay=Ay
-        self.Kx=Kx
-        self.Ky=Ky
+        self.K=K
+        self.R=R
         self.poly=poly
         
         z=self.shape.mesh(ndat=(200,200),topo=self.topo)[2]
@@ -78,10 +75,8 @@ cdef class Aspherical(Surface):
         #    self.zmax=0
 
         #Add attributes to the state list        
-        self.addkey("Ax")
-        self.addkey("Ay")
-        self.addkey("Kx")
-        self.addkey("Ky")
+        self.addkey("K")
+        self.addkey("R")
         self.addkey("poly")
         self.addkey("zmax")
         self.addkey("zmin")
@@ -96,23 +91,16 @@ cdef class Aspherical(Surface):
     cpdef topo(self, x, y):
         """**Returns the Z value for a given X and Y**
         
-        This method returns the topography of the aspherical surface to be 
+        This method returns the topography of the Powell lens surface to be 
         used to plot the surface.
         """
-        Ax=self.Ax
-        Ay=self.Ay
-        Kx=self.Kx
-        Ky=self.Ky
+        K=self.K
+        R=self.R
         
-        Z0=(Ax*x**2+Ay*y**2)/(1+npsqrt(1-(1+Kx)*Ax**2*x**2+(-(1+Ky))*Ay**2*y**2))
-        if self.poly!=None:
-            try:
-                Z1=self.poly.meval(x,y)
-            except (TypeError,ValueError):
-                Z1=self.poly.eval(x,y)
-        else:
-            Z1=0.
-        return Z0+Z1
+        Z0=npsqrt((1+K)*x**2- 2*R*x+y**2)
+        
+        return Z0
+
         
     cpdef np.ndarray normal(self, int_p):
         """**Return the vector normal to the surface**
@@ -122,35 +110,26 @@ cdef class Aspherical(Surface):
         
         Note: It uses ``x`` and ``y`` to calculate the ``z`` value and the normal. 
         """
-        cdef double Ax,Ay,Kx,Ky,x,y,z,dxA,dyA,dxP,dyP
-        Ax=self.Ax
-        Ay=self.Ay
-        Kx=self.Kx
-        Ky=self.Ky
+        cdef double K,R,x,y,z,dxA,dyA,dxP,dyP
+        K=self.K
+        R=self.R
         
         x, y, z= int_p
         
-        dxA=(2*Ax*x)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1) +(Ax**2*(Kx+1)*x*(Ay*y**2+Ax*x**2))/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)*(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
-        dyA=(2*Ay*y)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)-(Ay**2*(-Ky-1)*y*(Ay*y**2+Ax*x**2))/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)*(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
+        dxA=2*(K+1)*x-2*R
+        dyA=2*y
 
-        if self.poly!=None:
-            Dx,Dy=self.poly.dxdy()
-            dxP=Dx.peval(x,y)
-            dyP=Dy.peval(x,y)
-        else:
-            dxP=0.
-            dyP=0.
+        dxP=0.
+        dyP=0.
         
         N_=array((dxA+dxP, dyA+dyP, -1))
         
         return N_/sqrt(dot(N_, N_))
     
     cpdef double __f1(self,double t, Ray iray):
-        cdef double Ax,Ay,Kx,Ky,Ox,Oy,Oz,Dx,Dy,Dz
-        Ax=self.Ax
-        Ay=self.Ay
-        Kx=self.Kx
-        Ky=self.Ky
+        cdef double K,R,Ox,Oy,Oz,Dx,Dy,Dz
+        K=self.K
+        R=self.R
         
         #Ox, Oy, Oz = iray.pos
         
@@ -169,15 +148,12 @@ cdef class Aspherical(Surface):
         X=Dx*t+Ox
         Y=Dy*t+Oy
         Z=Dz*t+Oz
-        return (Ay*Y**2+Ax*X**2)/(sqrt(Ay**2*(-Ky-1)*Y**2-Ax**2*(Kx+1)*X**2+1)+1)+self.poly.peval(X,Y) -Z
+        return (sqrt((K+1)*X**2-2*R*X+Y**2))-Z
     
     cpdef double __f2(self,double t, iray):
-        cdef double Ax,Ay,Kx,Ky,Ox,Oy,Oz,Dx,Dy,Dz
-        
-        Ax=self.Ax
-        Ay=self.Ay
-        Kx=self.Kx
-        Ky=self.Ky
+        cdef double K,R,Ox,Oy,Oz,Dx,Dy,Dz
+        K=self.K
+        R=self.R
         
         #Ox, Oy, Oz = iray.pos
         Ox=iray.cpos[0]
@@ -189,7 +165,7 @@ cdef class Aspherical(Surface):
         Dy=iray._dir[1]
         Dz=iray._dir[2]
         
-        return (Ay*(Dy*t+Oy)**2+Ax*(Dx*t+Ox)**2)/(sqrt(Ay**2*(-Ky-1)*(Dy*t+Oy)**2-Ax**2*(Kx+1)*(Dx*t+Ox)**2+1)+1)-Dz*t-Oz
+        return (sqrt((K+1)*(Dx*t+Ox)**2-2*R*(Dx*t+Ox)+(Dy*t+Oy)**2))-Dz*t-Oz
         
     
         
@@ -241,7 +217,7 @@ cdef class Aspherical(Surface):
                 t=brentq(self.__f2, ta,tb,(iray,),maxiter=1000)
             else: # there are more than 1 intersection pont we are assuming 2
 				#In new scipy version the warning kw is not supported
-				#tm=fsolve(self.__f2, 0,(iray,),warning=False)
+                #tm=fsolve(self.__f2, 0,(iray,),warning=False)
                 tm=fsolve(self.__f2, 0,(iray,))
                 
                 if (tm<ta and tm<tb)or(tm>ta and tm>tb):
@@ -259,8 +235,7 @@ cdef class Aspherical(Surface):
     def _repr_(self):
         '''Return an string with the representation of an aspherical surface.
         '''
-        return "Aspherical(shape="+str(self.shape)+",reflectivity="+\
-                          str(self.reflectivity)+",Kx="+str(self.Kx)+\
-                          ",Ky="+str(self.Ky)+",Ax="+str(self.Ax)+",Ay="+\
-                          str(self.Ay)+",poly="+str(self.poly)+")"
+        return "Powell(shape="+str(self.shape)+",reflectivity="+\
+                          str(self.reflectivity)+",K="+str(self.K)+\
+                          ",R="+str(self.R)+")"
 
