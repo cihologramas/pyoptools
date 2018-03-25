@@ -34,7 +34,7 @@ class PSurf:
         ni,nr  -- Refraction index from the incident and refracted sides
         ilimit -- Inferior limit for incidence angle of the plane wave in radians
         slimit -- Superior limit for incidence angle of the plane wave in radians
-        l      -- Wavelength that will be used in the simulation. We need to find a solution for any wavelenght
+        l      -- Wavelength that will be used in the simulation. We need to find a solution for any wavelength
         step   -- Step to be used to generate the interpolation data
         order  -- Order of the Taylor interpolation used
         rsamples -- Tuple containing the number of ray samples to be used en 
@@ -108,8 +108,8 @@ class PSurf:
         
         #Create the circular mask
         
-        # There is a problem. Some of the pixels of the border of the apperture get an error
-        # Too big. I dont think this will be an issue, because it is just in the border.
+        # There is a problem. Some of the pixels of the border of the aperture get an error
+        # Too big. I don't think this will be an issue, because it is just in the border.
         
         rm=np.where(xx**2+yy**2>1,True,False)
         

@@ -18,9 +18,7 @@
 #------------------------------------------------------------------------------
 #
 
-"""Module that defines the Circular superclass
-"""
-
+""" Module that defines the Circular superclass """
 
 
 #from enthought.traits.api import HasTraits, Float, Tuple, Int
@@ -55,7 +53,7 @@ cdef class Circular(Shape):
         return(type(self),args)
     
     cpdef hit(self, p):
-        """Method  that returns True if a p=(X,Y,Z) point is inside the apperture,
+        """Method that returns True if a p=(X,Y,Z) point is inside the aperture,
         if not it returns False.
         """
         x, y, z=p
@@ -63,7 +61,7 @@ cdef class Circular(Shape):
         
     cpdef bint fhit(self,double px,double py,double pz):
         """This method returns TRUE if an p=(x,y,z)point is inside the surface 
-        apperture if not it must return FALSE.
+        aperture if not it must return FALSE.
         This is implemented for a point, in cython, to make it fast
         """
              

@@ -14,7 +14,7 @@ class IdealThickLens(System):
     entrance-> principal plane1
     principal plane1 -> principal plane2
     principal plane 2 -> exit
-    fl -> focal lenght
+    fl -> focal length
     
     **ARGUMENTS**    
     ============== ===============================================================

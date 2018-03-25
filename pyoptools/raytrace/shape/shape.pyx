@@ -43,7 +43,7 @@ cdef class Shape(Picklable):
 
         Shape.hit
             This method must return TRUE if an X,Y point is inside the surface 
-            apperture if not it must return FALSE
+            aperture if not it must return FALSE
         
         Shape.polylist
             This method should return a point_list, and a poly_list. The point 
@@ -72,7 +72,7 @@ cdef class Shape(Picklable):
     
     cpdef hit(self, p):
         """This method must return TRUE if an p=(x,y,z)point is inside the surface 
-        apperture if not it must return FALSE. This must work for a list of points.
+        aperture if not it must return FALSE. This must work for a list of points.
         
         It must be overloaded.
         """
@@ -81,7 +81,7 @@ cdef class Shape(Picklable):
     
     cpdef bint fhit(self,double px,double py,double pz):
         """This method returns TRUE if an p=(x,y,z)point is inside the surface 
-        apperture if not it must return FALSE.
+        aperture if not it must return FALSE.
         This is implemented for a point, in cython, to make it fast.
         
         It must be overloaded.
@@ -125,7 +125,7 @@ cdef class Shape(Picklable):
     def mesh(self, size=None, ndat=(100, 100), topo=None):
         """
         The X,Y are a mesh limited by size=(xi,xf,yi,yf)  
-        if size is not given (size=None), the size is given by the apperture.
+        if size is not given (size=None), the size is given by the aperture.
         topo is the topography function of the surface under study.
         if not given, a 0 will be returned for points outside the aperture, and
         1 inside the aperture

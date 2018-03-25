@@ -224,7 +224,7 @@ reflected)on a surface.</p>
 <dt id="pyoptools.raytrace.surface.Surface.pw_cohef">
 <tt class="descname">pw_cohef</tt><big>(</big><em>self</em>, <em>ni</em>, <em>nr</em>, <em>ilimit</em>, <em>slimit</em>, <em>step</em>, <em>order</em>, <em>rsamples</em>, <em>zb</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Surface.pw_cohef" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to generate the taylor polinomial coheficients that can be 
-used to obtain the phase and intensity for diferent plane wave 
+used to obtain the phase and intensity for different plane wave 
 inclinations.</p>
 <dl class="docutils">
 <dt>Notes: </dt>
@@ -394,7 +394,7 @@ system.</p>
 <p>Cylindrical is a class to define cylindrical optical surfaces,
 with an aperture given by the shape attribute.</p>
 <p>To define the cylindrical surface you should pass the size of the
-apperture, and the radius of curvature of the cylinder.</p>
+aperture, and the radius of curvature of the cylinder.</p>
 <p>The vertex of the surface is located at the origin of coordinates (0, 0, 0).</p>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">=</span><span class="n">Cylindrical</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">Rectangular</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)),</span><span class="n">curvature</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
@@ -453,7 +453,7 @@ The surface shape is given by the shape arrtibute</p>
 <dd><p><strong>Class to define spherical surfaces.</strong></p>
 <p>Spherical is a class to define spherical optical surfaces.</p>
 <p>To define the spherical surface you should pass the shape
-of the apperture, and the radius of curvature of the sphere.</p>
+of the aperture, and the radius of curvature of the sphere.</p>
 <p>The vertex of the surface is located at the origin of coordinates (0, 0, 0)
 and the aperture is centered also about the origin</p>
 <p>Example:</p>
@@ -526,7 +526,7 @@ given at the surface creation.</dd>
 <dl class="class">
 <dt id="pyoptools.raytrace.surface.Aperture">
 <em class="property">class </em><tt class="descclassname">pyoptools.raytrace.surface.</tt><tt class="descname">Aperture</tt><big>(</big><em>ap_shape=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.Aperture" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class to define a surface with an apperture</p>
+<dd><p>Class to define a surface with an aperture</p>
 <p>This class is used to define stops in the optical system. It receives two 
 parameters.</p>
 <p><strong>ARGUMENTS:</strong></p>
@@ -575,7 +575,7 @@ lenses or mirrors.</p>
 <p>Description</p>
 <p>The TaylorPoly class is used to define surfaces that can be described using 
 a Taylor polynomial.</p>
-<p>To define an TaylorPoly surface you should pass the shape of the apperture, 
+<p>To define an TaylorPoly surface you should pass the shape of the aperture, 
 and a coefficient matrix.</p>
 <p>The coheficient matrix is a numpy matrix, that holds information about the
 coheficients of the polynomial.</p>
@@ -626,7 +626,7 @@ used to plot the surface.</p>
 <dd><p><strong>Class to define cylinder shaped surfaces.</strong></p>
 <p>Description:</p>
 <p>Cylinder is a class to define a tube or  a hollow cylinder surface.</p>
-<p>To define the cylinder surface you should pass the radius of the cilinder, 
+<p>To define the cylinder surface you should pass the radius of the cylinder, 
 and its length</p>
 <p>The center of the cylinder is located at the origin of coordinates (0, 0, 0)
 and its length is parallel to the Z axis.</p>
@@ -646,9 +646,9 @@ system of the surface.</p>
 <blockquote>
 <div>iray &#8211; incident ray</div></blockquote>
 <p>iray must be in the coordinate system of the surface</p>
-<p>Note: Because of the way the cylinder is defined, it does not uses 
+<p>Note: Because of the way the cylinder is defined, it does not use 
 shapes to define its boundary, for that reason, the <tt class="docutils literal"><span class="pre">intersection</span></tt>
-method ans not the <tt class="docutils literal"><span class="pre">_intersection</span> <span class="pre">method</span></tt> was overlodaded.</p>
+method and not the <tt class="docutils literal"><span class="pre">_intersection</span> <span class="pre">method</span></tt> was overloaded.</p>
 </dd></dl>
 
 <dl class="method">
@@ -714,8 +714,8 @@ used to plot the surface.</p>
 <p>Description:</p>
 <p>RPPMask  is a class to define difractive plane surfaces. 
 If reflectivity is 1 the gratting is reflective, if it is 0 the 
-gratting is transmisive. If it is between 0 and 1, both transmited
-and reflected difracted rays are shown.</p>
+gratting is transmissive. If it is between 0 and 1, both transmitted
+and reflected diffracted rays are shown.</p>
 <p>The surface shape is given by the shape arrtibute</p>
 <p>The phm attribute is a poly2d instance, that contains the polinomial
 describing the phase modulation of the gratting. The X and Y input 
@@ -735,7 +735,7 @@ values of the polynomial are in microns.</p>
 <dl class="method">
 <dt id="pyoptools.raytrace.surface.RPPMask.propagate">
 <tt class="descname">propagate</tt><big>(</big><em>self</em>, <em>Ray ri</em>, <em>double ni</em>, <em>double nr</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.surface.RPPMask.propagate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method that calculates the propagation of a ray throug a difraction
+<dd><p>Method that calculates the propagation of a ray through a diffraction
 gratting.</p>
 <p>This method uses all the units in millimeters</p>
 </dd></dl>

@@ -44,14 +44,14 @@ if version not in ("5.00","5.11","5.31","5.32","5.41","6.02" , "6.03"):
 # Check if the output file exists
 
 if access(options.outputfile, F_OK):
-    exit("The outputfile already exists. Use a diferent one.\n\n")
+    exit("The outputfile already exists. Use a different one.\n\n")
     
 fo=open(options.outputfile, "w")
 
 # Write the header of the library
 # Library type RayTraceGlassLibrary Version 0
 fo.write("RTGL-0\n")
-# Description line allways tab separated
+# Description line always tab separated
 # ref - Glass reference as given by the manufacturer 
 # nd  - Refraction index for the d line
 # vd  - Abbe's number for the d line

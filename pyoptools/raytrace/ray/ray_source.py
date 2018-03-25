@@ -23,7 +23,7 @@ def parallel_beam_c(origin=(0.,0.,0.),direction=(0.,0.,0.),size=(1.,1.),num_rays
     *origin*
         Tuple with the coordinates of the central ray origin 
     *direction*
-        Tuple with the rotation of the beam arround the XYZ axes.
+        Tuple with the rotation of the beam around the XYZ axes.
     *size*
         Tuple with the beam's width and the height.
     *num_rays*
@@ -62,7 +62,7 @@ def parallel_beam_p(origin=(0.,0.,0.),direction=(0.,0.,0),radius=0.5, num_rays=(
     *origin*
         Tuple with the coordinates of the central ray origin 
     *direction*
-        Tuple with the rotation of the beam arround the XYZ axes.
+        Tuple with the rotation of the beam around the XYZ axes.
     *r*
         Beam radious 
     *num_rays*
@@ -97,7 +97,7 @@ def point_source_c(origin=(0.,0.,0.),direction=(0.,0.,0),span=(pi/8,pi/8)\
     *origin*
         Tuple with the coordinates of the central ray origin 
     *direction*
-        Tuple with the rotation of the beam arround the XYZ axes.
+        Tuple with the rotation of the beam around the XYZ axes.
     *span*
         Tuple angular size of the ray pencil.
     *num_rays*
@@ -138,7 +138,7 @@ def point_source_p(origin=(0.,0.,0.),direction=(0.,0.,0),span=pi/8,num_rays=(10,
     *origin*
         Tuple with the coordinates of the central ray origin 
     *direction*
-        Tuple with the rotation of the beam arround the XYZ axes.
+        Tuple with the rotation of the beam around the XYZ axes.
     *span*
         Tuple angular size of the ray pencil.
     *num_rays*
@@ -171,7 +171,7 @@ def point_source_r(origin=(0.,0.,0.),direction=(0.,0.,0),span=pi/8,num_rays=100,
     *origin*
         Tuple with the coordinates of the central ray origin 
     *direction*
-        Tuple with the rotation of the beam arround the XYZ axes.
+        Tuple with the rotation of the beam around the XYZ axes.
     *span*
         Tuple angular size of the ray pencil.
     *num_rays*

@@ -223,8 +223,8 @@ class ZernikeXY(object):
         
     This class uses an internal Taylor representation of the polynomial
     for all the calculations. The internal taylor representation, is 
-    generater from the cohef argument given in the constructor.
-    If cohef is changed, the internal taylor representation is build
+    generator from the cohef argument given in the constructor.
+    If cohef is changed, the internal taylor representation is built
     again.
     
     **ARGUMENTS**

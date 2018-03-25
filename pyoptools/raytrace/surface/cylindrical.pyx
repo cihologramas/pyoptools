@@ -42,7 +42,7 @@ cdef class Cylindrical(Surface):
     with an aperture given by the shape attribute.
 
     To define the cylindrical surface you should pass the size of the
-    apperture, and the radius of curvature of the cylinder.
+    aperture, and the radius of curvature of the cylinder.
 
     The vertex of the surface is located at the origin of coordinates (0, 0, 0).
 

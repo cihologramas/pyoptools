@@ -1,5 +1,5 @@
 '''
-Suport for materials
+Support for materials
 '''
 from .material import (Material,
                        find_material,

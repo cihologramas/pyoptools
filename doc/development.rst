@@ -48,7 +48,7 @@ The following is an example of how this should be written::
             
         **EXAMPLE:**
             
-            Code showing an example if posible. And a short description of it.
+            Code showing an example if possible. And a short description of it.
             
             
         .. include ../../../file.rst

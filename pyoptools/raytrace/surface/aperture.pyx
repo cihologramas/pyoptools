@@ -34,7 +34,7 @@ from pyoptools.raytrace.ray.ray cimport Ray
 
 cdef class Aperture(Plane):
     '''
-    Class to define a surface with an apperture
+    Class to define a surface with an aperture
     
     This class is used to define stops in the optical system. It receives two 
     parameters.

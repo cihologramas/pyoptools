@@ -8,7 +8,7 @@ the simulation of optical systems. Initially it was developed in
 are now written in `Cython <http://www.cython.org>`_ to optimize for
 speed. It also uses `wxpython <http://wxpython.org>`_, 
 `matplotlib <http://www.matplotlib.org>`_ and `pyopengl <http://www.pyopengl.org>`_
-for the graphic enviroment.
+for the graphic environment.
 
 .. warning::
     This software is in a very alpha state, and not ready for production use. Use it at your own risk.

@@ -147,7 +147,7 @@ def gs(idata,itera=10, ia=None):
     else:
         inpa=ia
     
-    assert idata.shape==inpa.shape, "ia and idata must have the same dimentions"
+    assert idata.shape==inpa.shape, "ia and idata must have the same dimensions"
     
     fdata=fftshift(fft2(ifftshift(idata)))
     e=1000
@@ -175,7 +175,7 @@ def gs_mod(idata,itera=10,osize=256):
     specific amplitude distribution in the target plane. It uses a 
     FFT to calculate the field propagation.
     The wavefront at the DOE plane is assumed as a plane wave.
-    This algoritm leaves a window around the image plane to allow the 
+    This algorithm leaves a window around the image plane to allow the 
     noise to move there. It only optimises the center of the image.
     
     **ARGUMENTS:**

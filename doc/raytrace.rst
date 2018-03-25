@@ -8,7 +8,7 @@ divided in the following steps:
 #. Define the rays to propagate
 #. Introduce the rays in the system
 #. Perform the propagation
-#. Retreive information about the propagation
+#. Retrieve information about the propagation
 #. Display results
  
 For a simple example, let's assume we want to simulate the propagation 
@@ -36,7 +36,7 @@ The class :class:`pyoptools.raytrace.surface.Spherical` receive in its construct
  
  - The first defines the curvature of the surface
  - The second defines the shape of the surface. In this case, both 
-   surfaces are limited by a circular aperture with a  `radius=20`. Diferent 
+   surfaces are limited by a circular aperture with a  `radius=20`. Different 
    shapes can be used. The predefined shapes can be found in 
    :mod:`pyoptools.raytrace.shape`.
 

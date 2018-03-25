@@ -59,7 +59,7 @@ cdef init_cl():
             if foundgpu: break
         
         ## Inicio del programa
-	##Need to see how can cl_amd_fp64 can be automaticaly changed
+	##Need to see how can cl_amd_fp64 can be automatically changed
 	##to cl_fp64
         prg_src = """
         #pragma OPENCL EXTENSION cl_khr_fp64 : enable
@@ -261,7 +261,7 @@ cdef class poly2d:
         
         
     def __add__(self,other):
-        if isinstance(self,poly2d): #Note, this is diferent than standard python, here mul==rmul. We need to see what is going on
+        if isinstance(self,poly2d): #Note, this is different than standard python, here mul==rmul. We need to see what is going on
             p=self
             a=other
         else:
@@ -282,7 +282,7 @@ cdef class poly2d:
         return NotImplemented 
     
     def __sub__(self,other):
-        if isinstance(self,poly2d): #Note, this is diferent than standard python, here mul==rmul. We need to see what is going on
+        if isinstance(self,poly2d): #Note, this is different than standard python, here mul==rmul. We need to see what is going on
             p=self
             a=other
         else:
@@ -312,7 +312,7 @@ cdef class poly2d:
         cdef int rxp,ryp,axp,ayp,pxp,pyp
         cdef int o1,o2
      
-        if isinstance(self,poly2d): #Note, this is diferent than standard python, here mul==rmul. We need to see what is going on
+        if isinstance(self,poly2d): #Note, this is different than standard python, here mul==rmul. We need to see what is going on
             p=self
             a=other
         else:
@@ -624,11 +624,11 @@ cdef class poly2d:
         Return Value:
             
             This method returns the polynomial evaluated Z=P(x,y). Z will 
-            have the shape (nx, ny), where nx is the lenght of the x vector, 
-            and ny is the lenght of the y vector.
+            have the shape (nx, ny), where nx is the length of the x vector, 
+            and ny is the length of the y vector.
             
         This method is not really faster than meval, but it might be 
-        useful when doing parallel programing paralelising, because needs 
+        useful when doing parallel programming parallelizing, because needs 
         to transfer a smaller amount of information to the child processes 
         (vectors instead matrices).
         '''
@@ -706,7 +706,7 @@ cdef class poly2d:
        
         #X=x.astype(np.float64)
         #Y=y.astype(np.float64)
-        #PX=self.px64 # The convertion to float64 is made in __init__
+        #PX=self.px64 # The conversion to float64 is made in __init__
        # PY=self.py64
         
         
@@ -754,7 +754,7 @@ cdef class poly2d:
         
         # Translate the info to floats. Latter I'll check it using doubles
        
-        PX=self.px64 # The convertion to float32 is made in __init__
+        PX=self.px64 # The conversion to float32 is made in __init__
         PY=self.py64
         
         

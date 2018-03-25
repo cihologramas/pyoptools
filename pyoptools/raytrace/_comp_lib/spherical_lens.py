@@ -153,7 +153,7 @@ class SphericalLens(Component):
 
         Given the refraction index of the media, this method calculates the
         following paraxial constants of a lens:
-        --- Efective Focal length  (f)
+        --- Effective Focal length  (f)
         --- Anterior focal length  (afl) (negative for positive lenses)
         --- Posterior focal length (pfl) (positive for positive lenses)
 

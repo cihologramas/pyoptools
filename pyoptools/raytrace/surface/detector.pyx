@@ -86,7 +86,7 @@ cdef class ArrayDetector(Plane):
 
         # hit_list[0] holds the impact coordinates
         for i in self._hit_list:
-            x,y,z=i[0]#z should allways be 0
+            x,y,z=i[0]#z should always be 0
             nx=int(px*(x+sx/2.)/sx)
             ny=int(py*(y+sy/2.)/sy)
             retval[nx,ny]+=1
@@ -108,7 +108,7 @@ cdef class ArrayDetector(Plane):
         retval=zeros((px,py,3))
         for i in self._hit_list:
             x,y,z=i[0]
-            # z must be allways 0
+            # z must be always 0
             nx=int(px*(x+sx/2.)/sx)
             ny=int(py*(y+sy/2.)/sy)
 
@@ -135,8 +135,8 @@ cdef class ArrayDetector(Plane):
 #            documentation for more information.
         
 #        *label*
-#            String containig the label to show in the figure for this spot diagram.
-#            Can be used to identify diferent spot diagrams on the same figure.
+#            String containing the label to show in the figure for this spot diagram.
+#            Can be used to identify different spot diagrams on the same figure.
 #        '''
         
 #        if fig == None:

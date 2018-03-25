@@ -353,7 +353,7 @@ cdef class Surface(Picklable):
         
         # Calculate the point of intersection of the ray with the surface, and
         # the normal vector to this point
-        # The int_nor method should be overriden by each Surface subclasses
+        # The int_nor method should be overridden by each Surface subclasses
 
         #PI,P=self.int_nor(ri)
         PI= self.intersection(ri)
@@ -432,7 +432,7 @@ cdef class Surface(Picklable):
         # behave as a BeamSplitter
 
         # If the optical system is a BeamSplitter this method should return
-        # a list [Transmited ray, Reflected ray]
+        # a list [Transmitted ray, Reflected ray]
         
         #Note the fast ray creation function do not normalize the dir of the ray
         norm_vect(S2) #S2/sqrt(dot(S2,S2))
@@ -827,10 +827,10 @@ cdef class Surface(Picklable):
             #print self.intersection(ri)
             rd=self.propagate(ri,ni,nr)
           
-            #take only the transmited ray
+            #take only the transmitted ray
             rd=rd[0]
             
-            #Translate rd, to put it in the apperture reference plane
+            #Translate rd, to put it in the aperture reference plane
             rd.pos[2]=rd.pos[2]-Za
             di=self.distance_s(ri)[0]
             dr=pl.distance_s(rd)[0]
@@ -881,7 +881,7 @@ cdef class Surface(Picklable):
         #       This has to be fixed, because in practice this is not OK
         rays=wf.rayrep(samples[0],samples[1])
         
-        #TODO: check which rays pass inside the apperture
+        #TODO: check which rays pass inside the aperture
         
         #rin=Ray( dir=L1, wavelength=wavelength)
         
@@ -895,7 +895,7 @@ cdef class Surface(Picklable):
         for ri in rays:
             #Calculate the intersection point
             rd=self.propagate(ri,ni,nr)
-            #Take only de transmited ray
+            #Take only de transmitted ray
             rd=rd[0]
             
             # Incident ray propagation distance until the optical surface
@@ -904,7 +904,7 @@ cdef class Surface(Picklable):
             
             
             # Refracted ray propagation until the output surface (plane Z=0)
-            # The distance methos is not used, because it eliminates the negative
+            # The distance method is not used, because it eliminates the negative
             # propagation values
             
             PI=pl._intersection(rd)
@@ -943,7 +943,7 @@ cdef class Surface(Picklable):
         
     cpdef pw_cohef(self,ni,nr,ilimit, slimit, step, order, rsamples,zb):
         '''Method to generate the taylor polinomial coheficients that can be 
-        used to obtain the phase and intensity for diferent plane wave 
+        used to obtain the phase and intensity for different plane wave 
         inclinations.
      
         Notes: 

@@ -55,7 +55,7 @@ cdef Ray Rayf(np.ndarray pos,np.ndarray dir,double intensity,double wavelength,
     
     instance.cpos=pos
     
-    #Be carefull no normalization is made here
+    #Be careful no normalization is made here
     instance._dir=dir 
     
     instance.intensity=intensity
@@ -79,9 +79,9 @@ cdef class Ray:
     dir         Tuple (x,y,z)  containing the direction vector of the Ray
     intensity   Floating point number representing the Intensity of the 
                 Ray.
-                Warning: Check how can a physicaly correct deffinition 
+                Warning: Check how can a physically correct definition 
                 can be made
-    wavelength  Wavelenght of the ray in micrometers (.58929 by default)
+    wavelength  Wavelength of the ray in micrometers (.58929 by default)
     n           Refraction index of the point originating the ray.
                 If the value is None, the ray was emitted from the media 
                 and its Refraction index is taken (not from inside a 
@@ -108,7 +108,7 @@ cdef class Ray:
     #~ wavelength=Float(.58929)
     #~ 
     #~ # Refraction index of the point originating the ray. If the value is None, 
-    #~ # the ray was emited from the media (not from inside a component)
+    #~ # the ray was emitted from the media (not from inside a component)
     #~ n=Trait(None,None,Float)
 #~ 
     #~ # Label to follow the rays trough the system. This attribute propagates with

@@ -44,12 +44,12 @@ cdef class RPPMask(Surface):
 
     Description:
 
-    RPPMask  is a class to define difractive plane surfaces. 
+    RPPMask  is a class to define diffractive plane surfaces. 
     If reflectivity is 1 the gratting is reflective, if it is 0 the 
-    gratting is transmisive. If it is between 0 and 1, both transmited
-    and reflected difracted rays are shown.
+    gratting is transmissive. If it is between 0 and 1, both transmitted
+    and reflected diffracted rays are shown.
     
-    The surface shape is given by the shape arrtibute
+    The surface shape is given by the shape attribute
 
     The phm attribute is a poly2d instance, that contains the polinomial
     describing the phase modulation of the gratting. The X and Y input 
@@ -128,14 +128,14 @@ cdef class RPPMask(Surface):
         return (N_)
         
     cpdef propagate(self,Ray ri,double ni,double nr):
-        """Method that calculates the propagation of a ray throug a difraction
+        """Method that calculates the propagation of a ray through a diffraction
         gratting.
         
         This method uses all the units in millimeters
         """
         cdef double l,rx,ry,rz,k,d,kx,ky,ox,oy,oz,oz2,M
         PI,P=self.int_nor(ri)
-        l=ri.wavelength*1e-3 # Express wavelenght in millimeters so all the method works in millimeters
+        l=ri.wavelength*1e-3 # Express wavelength in millimeters so all the method works in millimeters
         rx,ry,rz=ri.dir
         K=array((self.phx.peval(PI[0],PI[1]),self.phy.peval(PI[0],PI[1])))
         k=sqrt(K[0]**2+K[1]**2)
@@ -161,7 +161,7 @@ cdef class RPPMask(Surface):
                                 wavelength=ri.wavelength,n=ni,label=ri.label, orig_surf=self.id))
             else:
                 oz=copysign(sqrt(oz2),rz)
-                #Check for transmited or and reflected orders. Here intensities have no meaning
+                #Check for transmitted or and reflected orders. Here intensities have no meaning
                 if self.reflectivity!=1:
                      ret.append(Ray(pos=PI,dir=(ox,oy,oz),
                                 intensity=ri.intensity/len(self.M),

@@ -120,7 +120,7 @@ def document_packages(packages):
             
             ide=0
             cl=""
-            #Find the begining of the class definition
+            #Find the beginning of the class definition
             for n,line in enumerate(code):
                 #find cython class definitions
                 if len(line.split())>1 and line.find(o)!=-1 and line.split()[1]=="class" and (line.split()[0]=="def" or line.split()[0]=="cdef"):

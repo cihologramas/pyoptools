@@ -61,7 +61,7 @@ cdef class Rectangular(Shape):
         
     cpdef bint fhit(self,double px,double py,double pz):
         """This method returns TRUE if an p=(x,y,z)point is inside the surface 
-        apperture if not it must return FALSE.
+        aperture if not it must return FALSE.
         This is implemented for a point, in cython, to make it fast
         """
         cdef double dx,dy,ox,oy,opx,opy

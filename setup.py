@@ -14,7 +14,7 @@ except ImportError:
     sys.exit(1)
 
 
-# Look for paths containig arrayobject.h
+# Look for paths containing arrayobject.h
 # Necessary for non-unix systems
 def contains_arrayobject_h(path):
     """
