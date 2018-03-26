@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 # cython: profile=True
-import FreeCAD
 from numpy import inf, asarray, pi, alltrue, sometrue, isinf, isnan,array, dot, float64
 cimport numpy as np
 from pyoptools.raytrace.surface.surface cimport Surface
@@ -175,13 +174,13 @@ cdef class Component(Picklable):
         return self._surflist.viewvalues()
 
     def get_surf_paths(self):
-        '''Method that returns a list that contains the path for each surface.
+        """
+        Method that returns a list that contains the path for each surface.
         
         A path here is a list containing the keys needed to read each surface.
         
         This method is an auxiliary method so this works when called from a System
-        
-        '''
+        """
         l=[]
         keys=self.keys()
         for k in keys:
@@ -190,11 +189,12 @@ cdef class Component(Picklable):
         
         
     def n(self,wavelength=0.58929):
-        '''Refraction index of the component at the specified wavelength
+        """
+        Refraction index of the component at the specified wavelength
 
         The wavelength should be given in um. If the wavelength is not given, it
         is assumed wavelength=0.58929 um
-        '''
+        """
 
         if isinstance(self.material,Material):
             return self.material.n(wavelength)
@@ -203,9 +203,12 @@ cdef class Component(Picklable):
         return self.material
 
     def surf_changed(self):
-        '''Increases changes, to indicate that any of the surfaces used to build 
+        """
+        Increases changes, to indicate that any of the surfaces used to build
         the optical component was modified
-        '''
+        :param self:
+        :return:
+        """
         
         self.changes=self.changes+1
 
