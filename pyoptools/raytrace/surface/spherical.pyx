@@ -37,7 +37,7 @@ cdef class Spherical(Surface):
     Spherical is a class to define spherical optical surfaces.
 
     To define the spherical surface you should pass the shape
-    of the apperture, and the radius of curvature of the sphere.
+    of the aperture, and the radius of curvature of the sphere.
 
     The vertex of the surface is located at the origin of coordinates (0, 0, 0)
     and the aperture is centered also about the origin

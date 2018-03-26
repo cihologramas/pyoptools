@@ -41,7 +41,7 @@ cdef class Plane(Surface):
     Description:
 
     Plane is a class to define rectangular plane surfaces.
-    The surface shape is given by the shape arrtibute
+    The surface shape is given by the shape attribute
 
     Example:
 

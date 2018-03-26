@@ -190,7 +190,7 @@ cdef class Component(Picklable):
         
         
     def n(self,wavelength=0.58929):
-        '''Refraction index of the component at the specified wavelenght
+        '''Refraction index of the component at the specified wavelength
 
         The wavelength should be given in um. If the wavelength is not given, it
         is assumed wavelength=0.58929 um
@@ -256,7 +256,7 @@ cdef class Component(Picklable):
         """Reset the optical component
         
         Method that reset the optical surfaces that compose the Component. 
-        For example the detector surfaces should be reseted before repeating the
+        For example the detector surfaces should be reset before repeating the
         ray trace to erase the hit lists. Normally this method should not be 
         used directly. It is called when the reset method of the sistem class is
         called
@@ -273,7 +273,7 @@ cdef class Component(Picklable):
         n_m is the refraction index of the media surrounding the component.
         """
         # Determine the refraction index of the incident and the refracted media
-        # If ri.n is equal to the component refraction index, the ray is comming out 
+        # If ri.n is equal to the component refraction index, the ray is coming out 
         # from the componnent, if not, it is goint in to the component.
         
         my_n=self.n(ri.wavelength)

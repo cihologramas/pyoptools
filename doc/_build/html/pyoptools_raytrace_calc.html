@@ -149,9 +149,9 @@ algorithm</p>
 <dl class="function">
 <dt id="pyoptools.raytrace.calc.find_apperture">
 <tt class="descclassname">pyoptools.raytrace.calc.</tt><tt class="descname">find_apperture</tt><big>(</big><em>ccd</em>, <em>size=(50</em>, <em>50)</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.calc.find_apperture" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to find a mask representing the apperture</p>
+<dd><p>Function to find a mask representing the aperture</p>
 <p>This function returns a array containing 1&#8217;s and 0&#8217;s representing 
-the apperture shape. The apperture shape will be approximated from
+the aperture shape. The aperture shape will be approximated from
 the CCD hit_list</p>
 <p>Attributes:</p>
 <dl class="docutils">
@@ -177,7 +177,7 @@ found</dd>
 <dt>opaxis</dt>
 <dd>Ray defining the optical axis of the system</dd>
 </dl>
-<p>For this function to operate, the system should have a rotational symetry
+<p>For this function to operate, the system should have a rotational symmetry
 around the optical axis.</p>
 <dl class="docutils">
 <dt>Note: </dt>
@@ -224,7 +224,7 @@ to be able to calculate the radius of the reference sphere.</dd>
 <dt>raylist</dt>
 <dd>List of rays that will be used to sample the optical path</dd>
 <dt>stop</dt>
-<dd>Apperture stop of the system. It must belong to opsys. In not given it
+<dd>Aperture stop of the system. It must belong to opsys. In not given it
 will be assumed that the exit pupil is at the primary principal plane.</dd>
 <dt>r</dt>
 <dd>If None, measure up to the exit pupil plane. If given, use a reference 
@@ -468,7 +468,7 @@ The origin of the opaxis location is taken as the object location</p>
 <dt><em>opaxis</em> </dt>
 <dd>Ray representating the optical axis</dd>
 </dl>
-<p>For this function to operate, the system should have a rotational symetry
+<p>For this function to operate, the system should have a rotational symmetry
 around the optical axis.</p>
 </dd></dl>
 

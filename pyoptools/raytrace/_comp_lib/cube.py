@@ -10,7 +10,7 @@
 #
 #
 # Author:          Ricardo Amézquita Orozco
-# Description:     Beam Spliting Cube definitión module
+# Description:     Beam Splitting Cube definitión module
 # Symbols Defined: BeamSplitingCube
 #------------------------------------------------------------------------------
 #
@@ -36,12 +36,12 @@ class Block(Component):
     *Attributes:*
     
     *size*
-        Tuple containing the width, height and lenght of the glass
+        Tuple containing the width, height and length of the glass
         block
     
     '''
     
-    #Tuple containing the width, height and lenght of the glass block
+    #Tuple containing the width, height and length of the glass block
     #size=Tuple(Float(10), Float(10), Float(10))
     
     #__a_surf = Trait(None,Instance(Plane))

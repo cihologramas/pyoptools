@@ -13,7 +13,7 @@
 #
 #
 # Author: Ricardo Amézquita
-# Description: Definiton of the System class.
+# Description: Definition of the System class.
 #------------------------------------------------------------------------------
 #
 
@@ -280,7 +280,7 @@ cdef class System(Picklable):
     #~ def component_add(self, cmp,pos,dire):
         #~ """
         #~ """
-        #~ # TODO: check if this method is nedded
+        #~ # TODO: check if this method is needed
         #~ # TODO: design a method to delete components
         #~ 
         #~ if isinstance(cmp,OptCom):
@@ -295,7 +295,7 @@ cdef class System(Picklable):
         """ Propagates all the rays in the non propagated list.
         """
         
-        #This is not necesary for all propagations, but is safer to do it
+        #This is not necessary for all propagations, but is safer to do it
         #When propagating a sub system this must not be done
         if update_ids: self.update_ids()
         
@@ -462,7 +462,7 @@ cdef class System(Picklable):
         # Sort the components by distance
         sort_list=asarray(dist_list).argsort()
 
-        # Take the 2 nearest components. If there is only one component asume the 2nd
+        # Take the 2 nearest components. If there is only one component assume the 2nd
         # component at infinitum
         j=sort_list[0]
         d0=dist_list[j]
@@ -470,7 +470,7 @@ cdef class System(Picklable):
         # Add ray to the hit list
         surf_list[j]._hit_list.append((pi_list[j],ri))
         
-        #TODO: The hitlists of the surfaces inside a subsystem are not acurate
+        #TODO: The hitlists of the surfaces inside a subsystem are not accurate
         # because the rays are in the subsystem coordinate system, and not in 
         # world coordinate system.
         if len(sort_list)>1:
@@ -514,7 +514,7 @@ cdef class System(Picklable):
         elif absolute(d0-d1)>N_EPS:
             
             # Get the nearest element to the ray origin, as well as its
-            # possition and orientation
+            # position and orientation
             SR,PSR,DSR=comp_list[j]
 
             # Change the ray to the coordinate system of the element
@@ -630,7 +630,7 @@ cdef class System(Picklable):
             for i in range(len(rp)-1):
                 
                 #This uses the same n as the calculated in the non sequential
-                #propagation. If the wavelenght change, there is problem
+                #propagation. If the wavelength change, there is problem
                 ni=rp[i].n
                 nr=rp[i+1].n
 
@@ -661,7 +661,7 @@ cdef class System(Picklable):
                 # Add ray to the hit list
                 S._hit_list.append((pi,ri))
         
-                #TODO: The hitlists of the surfaces inside a subsystem are not acurate
+                #TODO: The hitlists of the surfaces inside a subsystem are not accurate
                 # because the rays are in the subsystem coordinate system, and not in 
                 # world coordinate system.
         

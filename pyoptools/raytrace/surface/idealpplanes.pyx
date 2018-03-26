@@ -19,7 +19,7 @@ class IdealPPlanes(Surface):
     """
     def __init__(self,f=100,d=20,*args, **kwargs):
         """
-        f: Focal lenght
+        f: Focal length
         d: Distance between planes
         """
         Surface.__init__(self,*args, **kwargs)
@@ -82,7 +82,7 @@ class IdealPPlanes(Surface):
     def propagate(self,ri,ni,nr):
 
         PI,P=self.int_nor(ri)
-        #l=ri.wavelength*1e-3 # Express wavelenght in millimeters so all the method works in millimeters
+        #l=ri.wavelength*1e-3 # Express wavelength in millimeters so all the method works in millimeters
         rx,ry,rz=ri.dir
         #Get the focussing point as the point where the principal ray hits the focal plane
 

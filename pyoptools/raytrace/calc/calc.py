@@ -3,7 +3,7 @@
 
 '''Method collection to obtain optical system information
 
-This module contains a method collection to obtain information, and analize 
+This module contains a method collection to obtain information, and analyze 
 optical systems
 '''
 
@@ -391,7 +391,7 @@ def paraxial_location(opsys, opaxis):
     *opaxis* 
         Ray representating the optical axis
         
-    For this function to operate, the system should have a rotational symetry
+    For this function to operate, the system should have a rotational symmetry
     around the optical axis. 
     """
     
@@ -446,10 +446,10 @@ def paraxial_location(opsys, opaxis):
 
 
 def find_apperture(ccd, size=(50,50)):
-    '''Function to find a mask representing the apperture
+    '''Function to find a mask representing the aperture
     
     This function returns a array containing 1's and 0's representing 
-    the apperture shape. The apperture shape will be approximated from
+    the aperture shape. The aperture shape will be approximated from
     the CCD hit_list
     
     Attributes:
@@ -496,7 +496,7 @@ def find_ppp(opsys, opaxis):
     opaxis
         Ray defining the optical axis of the system
     
-    For this function to operate, the system should have a rotational symetry
+    For this function to operate, the system should have a rotational symmetry
     around the optical axis. 
     
     Note: 
@@ -570,7 +570,7 @@ def get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None):
         List of rays that will be used to sample the optical path
     
     stop
-        Apperture stop of the system. It must belong to opsys. In not given it
+        Aperture stop of the system. It must belong to opsys. In not given it
         will be assumed that the exit pupil is at the primary principal plane.
     r
         If None, measure up to the exit pupil plane. If given, use a reference 
@@ -679,7 +679,7 @@ def find_reference_sphere_radius(ip, pl):
     pla=array(pl)
     n, t=ipa.shape
     
-    # Find the point closest to the center of the apperture.
+    # Find the point closest to the center of the aperture.
     rm=sqrt(dot(ipa[0], ipa[0]))
     im=0
     for i in range (n):

@@ -142,10 +142,10 @@ cdef class Field:
         else:
             self.data=data
         # Size of each pixel (sample). It can be given as a tuple psize=(h,w), or as a
-        # floating pont number psize=h=w.
+        # floating point number psize=h=w.
         self.psize=psize
         
-        # Wave lenght of the field
+        # Wave length of the field
         self.l=l
         
     # Evaluate the possibility to use a field representation different to spatial
@@ -247,25 +247,25 @@ cdef class Field:
         return Field(data=self.data.conj(),psize=self.psize, l=self.l)
     
     
-    ## Definition of aritmetic functions for fields
+    ## Definition of arithmetic functions for fields
     def __add__(self,a):
         assert isinstance(a,Field), "Error: can not add a Field with a %s"%[type(a)]
         assert self.data.shape==a.data.shape, "Error: both fields must have the same shape"
         assert self.psize==a.psize ,"Error: both fields must have the samepixel size"
-        assert self.l==a.l , "Error: Both fields must have the same wavelenght"
+        assert self.l==a.l , "Error: Both fields must have the same wavelength"
         return Field(data=self.data+a.data,psize=self.psize,l=self.l)        
     
     def __sub__(self,a):
         assert isinstance(a,Field), "Error: can not add a Field with a %s"%[type(a)]
         assert self.data.shape==a.data.shape, "Error: both fields must have the same shape"
         assert self.psize==a.psize ,"Error: both fields must have the samepixel size"
-        assert self.l==a.l , "Error: Both fields must have the same wavelenght"
+        assert self.l==a.l , "Error: Both fields must have the same wavelength"
         
         return Field(data=self.data-a.data,psize=self.psize,l=self.l)      
         
     def __mul__(self, other):
         
-        if isinstance(self,Field): #Note, this is diferent than standard python, here mul==rmul. We need to see what is going on
+        if isinstance(self,Field): #Note, this is different than standard python, here mul==rmul. We need to see what is going on
             f=self
             a=other
         else:
@@ -283,7 +283,7 @@ cdef class Field:
         return Field(data=a*f.data,psize=f.psize,l=f.l)
         
         
-    ## End of aritmetic functions
+    ## End of arithmetic functions
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -406,7 +406,7 @@ cdef class Field:
         #krs=self._rs_kernel(ux+x,uy+y,z,n=n)
         dx,dy=self.res
         
-        #TODO: Check if the samplings dx,dy are in the rigth place
+        #TODO: Check if the samplings dx,dy are in the right place
 
 
         #TODO: Check if it is possible to do the integral using the method in
@@ -721,7 +721,7 @@ cdef class Field:
             warn("The field has different X and Y samplings. Using average")
 
         if sx!=sy:
-            warn("The field has different X and Y dimentions. Using average")
+            warn("The field has different X and Y dimensions. Using average")
 
         dx=(dx+dy)/2.
         sx=(sx+sy)/2.
@@ -788,7 +788,7 @@ cdef class Field:
         else:
             print "Error: It is not possible to calculate using this distance"
             #Corregir esto, haciendo un remuestreo del campo, y usando espectro angular
-            #TODO: Fix this when dx and dy are diferent
+            #TODO: Fix this when dx and dy are different
             a=1./(2*z)+sqrt((n/self.l)**2-(1/(2*dx))**2)
             nxmin=int(2/(1-2*dx*sqrt((n/self.l)**2-a**2)))
             nymin=nxmin
@@ -937,12 +937,12 @@ cdef class Field:
             tf=self
             if z>self.check_z(n)["ae_max"]:
                 wm="The propagation distance (z=%f) is greater than the "\
-                   "recomended (z_max=%f) for the angular espectrum "\
+                   "recommended (z_max=%f) for the angular espectrum "\
                    "propagation method" %(z,self.check_z(n)["ae_max"])
                 warn(wm)
                 #TODO: Deduce equations
                 if fix:
-                    #TODO: Fix this when dx and dy are diferent
+                    #TODO: Fix this when dx and dy are different
                     a=1./(2*z)+sqrt((n/self.l)**2-(1/(2*dx))**2)
                     nxmin=int(2/(1-2*dx*sqrt((n/self.l)**2-a**2)))
                     #TODO: Use the next 2 power so the FFT is optimized
@@ -950,7 +950,7 @@ cdef class Field:
 
                     #This is done because the number of rows and columns to add
                     #must be even.
-                    #TODO: This is not OK, if the number of colums is even and rows
+                    #TODO: This is not OK, if the number of columns is even and rows
                     #is odd (or backwards), this will not work. FIXME
                     print nxmin                    
                     try:
@@ -962,12 +962,12 @@ cdef class Field:
         elif m=="rsc" or m=="rsi":
             if z<self.check_z(n)["rs_min"]:
                 wm="The propagation distance (z=%f) is smaller than the "\
-                   "recomended (z_min=%f) for the Rayleigh Sommerfeld integral "\
+                   "recommended (z_min=%f) for the Rayleigh Sommerfeld integral "\
                    "propagation method"%(z,self.check_z(n)["ae_max"])
                 warn(wm)
                 #TODO: Deduce equations
                 if fix:
-                    #TODO: Fix this when sx and sy are diferent
+                    #TODO: Fix this when sx and sy are different
                     k=2*pi/self.l
                     dxmax=pi/(k*sx)*sqrt(sx**2+z**2)
 
@@ -994,7 +994,7 @@ cdef class Field:
             optical field.
 
         Note: In all resizes, the origin of the optical field is
-        preserved (the origin is allways at the center)
+        preserved (the origin is always at the center)
         """
 
         nx,ny=self.data.shape
@@ -1030,7 +1030,7 @@ cdef class Field:
             field in pixels.
 
         Note: In all resamples, the origin of the optical field is
-        preserved (the origin is allways at the center)
+        preserved (the origin is always at the center)
         """
         dx,dy=self.res
         nx,ny=self.data.shape
@@ -1165,7 +1165,7 @@ cdef class Field:
         fmask=self.mask
         
         #TODO: Check if it is better to calculate the gradient using a polynomial fit
-        # might be more acurate
+        # might be more accurate
         
         #Calculate using finite differences: f' (x)~(f(x+h)-f(x-h))/(2h)
         #                                   f''(x)~(f(x+h)+f(x-h)-2f(x))/(h^2)

@@ -21,7 +21,7 @@ cdef class IdealSurface(Surface):
     cdef public double f
     def __init__(self,f=100,*args, **kwargs):
         """
-        f represents the focal length of the ideal surfce
+        f represents the focal length of the ideal surface
         """
         Surface.__init__(self,*args, **kwargs)
 
@@ -66,7 +66,7 @@ cdef class IdealSurface(Surface):
     cpdef propagate(self,Ray ri,double ni, double nr):
 
         PI,P=self.int_nor(ri)
-        #l=ri.wavelength*1e-3 # Express wavelenght in millimeters so all the method works in millimeters
+        #l=ri.wavelength*1e-3 # Express wavelength in millimeters so all the method works in millimeters
         rx,ry,rz=ri.dir
         #Get the focussing point as the point where the principal ray hits the focal plane
 

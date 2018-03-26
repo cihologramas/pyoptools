@@ -101,7 +101,7 @@ class CCD(Component):
     
     def get_color_image(self, size=(256,256)):
         """
-        Returns the CCD hit_list as a color image, using the rays wavelenght.
+        Returns the CCD hit_list as a color image, using the rays wavelength.
         
         *Attributes*
         
@@ -151,8 +151,8 @@ class CCD(Component):
             #~ documentation for more information.
         #~ 
         #~ *label*
-            #~ String containig the label to show in the figure for this spot diagram.
-            #~ Can be used to identify diferent spot diagrams on the same figure.
+            #~ String containing the label to show in the figure for this spot diagram.
+            #~ Can be used to identify different spot diagrams on the same figure.
         #~ '''
         #~ 
         #~ if fig == None:
@@ -186,19 +186,19 @@ class CCD(Component):
             If the rays hitting the surface are produced by more than one 
             optical source, the returned map migth not be valid.  
         
-        *Atributes*
+        *Attributes*
         
         *size*
             Tuple (nx,ny) containing the number of samples of the returned map.
             The map size will be the same as the CCD
         
         *mask*
-            Shape instance containig the mask of the apperture. If not given, 
+            Shape instance containing the mask of the aperture. If not given, 
             the mask will be automatically calculated.
         
         *Return value*
         
-        A masked array as defined in the numpy.ma module, containig the optical paths
+        A masked array as defined in the numpy.ma module, containing the optical paths
         """
         
         X,Y,Z=self.get_optical_path_data()    
@@ -228,7 +228,7 @@ class CCD(Component):
     def get_optical_path_map_lsq(self,order=10):
         """Return the optical path of the rays hitting the detector.
         
-        *Atributes*
+        *Attributes*
         
            """
         

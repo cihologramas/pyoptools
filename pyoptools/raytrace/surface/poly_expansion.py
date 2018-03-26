@@ -14,7 +14,7 @@
 # Description:    Aspherical surface definition module
 #------------------------------------------------------------------------------
 #
-'''Module that defines suport for Aspherical optical surfaces 
+'''Module that defines support for Aspherical optical surfaces 
 
 The aspherical optical surfaces defined in this module are defined by the following equation
 
@@ -23,7 +23,7 @@ Z(s):=(c*s^2)/(1+sqrt(1-(1+k)*c^2*s^2))+TaylorPoly(x,y)
 The taylor polynomial is defined as in the TaylorPoly Class. 
 The aspherical optical surface, is modeled as a taylor polynomial.
 
-This module is not working and sould not be used
+This module is not working and should not be used
 '''
 
 from numpy import  array, asarray, arange, polyadd, polymul, polysub, polyval,\

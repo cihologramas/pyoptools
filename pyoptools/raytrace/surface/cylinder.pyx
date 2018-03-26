@@ -37,7 +37,7 @@ cdef class Cylinder(Surface):
 
     Cylinder is a class to define a tube or  a hollow cylinder surface.
 
-    To define the cylinder surface you should pass the radius of the cilinder, 
+    To define the cylinder surface you should pass the radius of the cylinder, 
     and its length
 
     The center of the cylinder is located at the origin of coordinates (0, 0, 0)
@@ -51,7 +51,7 @@ cdef class Cylinder(Surface):
 
     '''
 
-    # Radius of the cilinder
+    # Radius of the cylinder
     #radius=Float(1.)
     
     # Length of the cylinder
@@ -74,7 +74,7 @@ cdef class Cylinder(Surface):
         
     #~ def __reduce__(self):
      #~ 
-        #~ args=(self.radius, self.lenght, self.reflectivity, self.shape)
+        #~ args=(self.radius, self.length, self.reflectivity, self.shape)
         #~ return(type(self),args,self.__getstate__())
 
         
@@ -92,9 +92,9 @@ cdef class Cylinder(Surface):
 
         iray must be in the coordinate system of the surface
         
-        Note: Because of the way the cylinder is defined, it does not uses 
+        Note: Because of the way the cylinder is defined, it does not use
         shapes to define its boundary, for that reason, the ``intersection``
-        method ans not the ``_intersection method`` was overlodaded.
+        method and not the ``_intersection method`` was overloaded.
         '''
         
         
@@ -120,7 +120,7 @@ cdef class Cylinder(Surface):
         u1=(-b+sqrt(b2ac))/(2*a)
         u2=(-b-sqrt(b2ac))/(2*a)
         
-        # if u1 or u2 = 0, the ray already intersected the cilinder, so u1 and
+        # if u1 or u2 = 0, the ray already intersected the cylinder, so u1 and
         # u2 must be >0 
         if u1<1e-10:u1=inf
         if u2<1e-10:u2=inf

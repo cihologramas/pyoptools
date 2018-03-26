@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-"""Ipython Notebook specific ploting utilities
+"""Ipython Notebook specific plotting utilities
 Se hizo una correccion siguiendo
 http://g.sweyla.com/blog/2014/osmesa-pyopengl-310/
 """
@@ -142,7 +142,7 @@ class Plot3D(object):
     center Tuple (x,y,z) with the coordinates of the center of the drawing
     size   Tuple (width, height) of the requested image
     rot    list of (rx,ry,rz) tuples containing a series of rotation angles
-    scale  scale fot the image
+    scale  scale for the image
 
     The rotations are applied first rx, then ry and then rz
 

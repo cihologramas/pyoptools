@@ -34,7 +34,7 @@ class Stop(Component):
     *shape*
             External shape of the diaphragm
     *ap_shape*
-            Apperture shape
+            Aperture shape
     
     Note: The aperture shape must be contained by the external shape, but this 
     is not checked.
@@ -43,7 +43,7 @@ class Stop(Component):
     # External shape of the diaphragm
     #shape=Instance(Shape)
     
-    # Apperture shape
+    # Aperture shape
     #ap_shape=Instance(Shape)
 
     # Private attributes

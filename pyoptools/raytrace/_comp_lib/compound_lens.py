@@ -54,7 +54,7 @@ class Doublet(System):
     in the optical axis.
     '''
 
-    # radius of the doublet (apperture radius)
+    # radius of the doublet (aperture radius)
     #~ radius = Float(25.)
 #~ 
     #~ # Curvature of the anterior surface

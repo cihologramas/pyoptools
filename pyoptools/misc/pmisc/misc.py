@@ -23,7 +23,7 @@ from matplotlib.tri import Triangulation
     #~ Description:
 #~ 
     #~ This class defines a unit vector. If the value assigned is not a unit
-    #~ vector, it gets automaticaly normalized
+    #~ vector, it gets automatically normalized
     #~ '''
 #~ 
     #~ def validate(self, object, name, value):
@@ -141,7 +141,7 @@ def cross(a,b):
 
 
 def wavelength2RGB(wl):
-    '''Function to aproximate and RGB tuple from the wavelength value
+    '''Function to approximate and RGB tuple from the wavelength value
 
     Parameter:
     
@@ -420,7 +420,7 @@ def hitlist2int_list(x, y):
     
 
 def unwrapv(inph,in_p=(), uv=2*pi):
-    """Return the input matrix unwraped the value given in uv
+    """Return the input matrix unwrapped the value given in uv
     
     This is a vectorized routine, but is not as fast as it should
     """
@@ -495,7 +495,7 @@ def unwrapv(inph,in_p=(), uv=2*pi):
 
 
 def unwrap_py(inph,in_p=(), uv=2*pi):
-    """Return the input matrix unwraped the valu given in uv
+    """Return the input matrix unwrapped the value given in uv
     
     The same as unwrapv, but using for-s, written in python
     """

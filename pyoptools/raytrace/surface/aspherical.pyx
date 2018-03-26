@@ -14,7 +14,7 @@
 # Description:    Aspherical surface definition module
 #------------------------------------------------------------------------------
 #
-'''Module that defines suport for Aspherical optical surfaces
+'''Module that defines support for Aspherical optical surfaces
 '''
 
 
@@ -220,7 +220,7 @@ cdef class Aspherical(Surface):
             fb=self.__f1(tb,iray)
             if (fa<0 and fb>0) or (fa>0 and fb<0):
                 t=brentq(self.__f1, ta,tb,(iray,),maxiter=1000)
-            else: # there are more than 1 intersection pont we are assuming 2
+            else: # there are more than 1 intersection points we are assuming 2
                 #tm=fsolve(self.__f1, 0,(iray,),warning=False)
                 #In new scipy version the warning kw is not supported
                 tm=fsolve(self.__f1, 0,(iray,))
@@ -239,7 +239,7 @@ cdef class Aspherical(Surface):
             
             if (fa<0 and fb>0) or (fa>0 and fb<0):
                 t=brentq(self.__f2, ta,tb,(iray,),maxiter=1000)
-            else: # there are more than 1 intersection pont we are assuming 2
+            else: # there are more than 1 intersection points we are assuming 2
 				#In new scipy version the warning kw is not supported
 				#tm=fsolve(self.__f2, 0,(iray,),warning=False)
                 tm=fsolve(self.__f2, 0,(iray,))

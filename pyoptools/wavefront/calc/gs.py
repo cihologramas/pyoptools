@@ -49,7 +49,7 @@ def ffGS(z,target,estimate=None, iterations=20,error=None):
 			  algorithm. The holo.res attribute contains the
 			  resolution of the calculated hologram for the given 
 			  propagation distance. The holo.l attribute contains the 
-			  wavelenght used to calculate the hologram.
+			  wavelength used to calculate the hologram.
 		
 		err   Final error obtained
 		====  ==========================================================
@@ -70,7 +70,7 @@ def ffGS(z,target,estimate=None, iterations=20,error=None):
 		"The estimate field, and the target field, must have the same shape"
 	
 	assert target.l==estimate.l,\
-		"The wave lenghts for the reference beam, and the target must be equal"
+		"The wave lengths for the reference beam, and the target must be equal"
 		
 	sx,sy=target.size 
 	dxe=target.l*z/sx
@@ -155,7 +155,7 @@ def fftGS(z,target,estimate=None, iterations=20,error=None,flagRand=True):
 			  algorithm. The holo.res attribute contains the
 			  resolution of the calculated hologram for the given 
 			  propagation distance. The holo.l attribute contains the 
-			  wavelenght used to calculate the hologram.
+			  wavelength used to calculate the hologram.
 		
 		err   Final error obtained
 		====  ==========================================================
@@ -179,7 +179,7 @@ def fftGS(z,target,estimate=None, iterations=20,error=None,flagRand=True):
 		"The estimate field, and the target field, must have the same shape"
 	
 	assert target.l==estimate.l,\
-		"The wave lenghts for the reference beam, and the target must be equal"
+		"The wave lengths for the reference beam, and the target must be equal"
 		
 	sx,sy=target.size 
 	dxe=target.l*z/sx
@@ -265,7 +265,7 @@ def frGS(z,target,estimate=None, iterations=20,error=None):
 			  algorithm. The holo.res attribute contains the
 			  resolution of the calculated hologram for the given 
 			  propagation distance. The holo.l attribute contains the 
-			  wavelenght used to calculate the hologram.
+			  wavelength used to calculate the hologram.
 		
 		err   Final error obtained
 		====  ===========================================================
@@ -286,7 +286,7 @@ def frGS(z,target,estimate=None, iterations=20,error=None):
 		"The estimate field, and the target field, must have the same shape"
 	
 	assert target.l==estimate.l,\
-		"The wave lenghts for the reference beam, and the target must be equal"
+		"The wave lengths for the reference beam, and the target must be equal"
 		
 	sx,sy=target.size 
 	dxe=target.l*z/sx
@@ -373,7 +373,7 @@ def asGS(z,target,estimate=None, iterations=20,error=None):
 			  algorithm. The holo.res attribute contains the
 			  resolution of the calculated hologram for the given 
 			  propagation distance. The holo.l attribute contains the 
-			  wavelenght used to calculate the hologram.
+			  wavelength used to calculate the hologram.
 		
 		err   Final error obtained
 		====  ===========================================================
@@ -394,7 +394,7 @@ def asGS(z,target,estimate=None, iterations=20,error=None):
 		"The estimate field, and the target field, must have the same shape"
 	
 	assert target.l==estimate.l,\
-		"The wave lenghts for the reference beam, and the target must be equal"
+		"The wave lengths for the reference beam, and the target must be equal"
 		
 
 	dxe,dye=target.res

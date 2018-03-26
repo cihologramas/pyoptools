@@ -61,7 +61,7 @@ The pyOpTools is a library written in PYTHON to allow easy simulation of
 \end_layout
 
 \begin_layout Description
-gui Pachage containing a few programs that use pyOpTools to simulate optical
+gui Package containing a few programs that use pyOpTools to simulate optical
  systems
 \end_layout
 
@@ -76,7 +76,7 @@ ial, physical raytrace of optical systems.
 
 \begin_layout Description
 wavefront Package containing clases and routines used to simulate the propagatio
-n of wavefronts throught optical systems
+n of wavefronts through optical systems
 \end_layout
 
 \begin_layout Standard
@@ -311,7 +311,7 @@ colorbar()
 \end_layout
 
 \begin_layout Standard
-The unwraped phase is calculated from the angle information using an ????
+The unwrapped phase is calculated from the angle information using an ????
  
 \begin_inset Note Note
 status open

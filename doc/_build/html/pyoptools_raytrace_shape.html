@@ -79,7 +79,7 @@ This class defines an API that all subclasses must support.</p>
 <div><dl class="docutils">
 <dt>Shape.hit</dt>
 <dd>This method must return TRUE if an X,Y point is inside the surface 
-apperture if not it must return FALSE</dd>
+aperture if not it must return FALSE</dd>
 <dt>Shape.polylist</dt>
 <dd>This method should return a point_list, and a poly_list. The point 
 list is a list of tuples (X,Y,Z) containing the coordinates of the 
@@ -103,7 +103,7 @@ a function Z(x,y).</p>
 <dt id="pyoptools.raytrace.shape.Shape.fhit">
 <tt class="descname">fhit</tt><big>(</big><em>self</em>, <em>double px</em>, <em>double py</em>, <em>double pz</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Shape.fhit" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method returns TRUE if an p=(x,y,z)point is inside the surface 
-apperture if not it must return FALSE.
+aperture if not it must return FALSE.
 This is implemented for a point, in cython, to make it fast.</p>
 <p>It must be overloaded.</p>
 </dd></dl>
@@ -112,7 +112,7 @@ This is implemented for a point, in cython, to make it fast.</p>
 <dt id="pyoptools.raytrace.shape.Shape.hit">
 <tt class="descname">hit</tt><big>(</big><em>self</em>, <em>p</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Shape.hit" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method must return TRUE if an p=(x,y,z)point is inside the surface 
-apperture if not it must return FALSE. This must work for a list of points.</p>
+aperture if not it must return FALSE. This must work for a list of points.</p>
 <p>It must be overloaded.</p>
 </dd></dl>
 
@@ -127,7 +127,7 @@ It must be overloaded, for each shape</p>
 <dt id="pyoptools.raytrace.shape.Shape.mesh">
 <tt class="descname">mesh</tt><big>(</big><em>self</em>, <em>size=None</em>, <em>ndat=(100</em>, <em>100)</em>, <em>topo=None</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Shape.mesh" title="Permalink to this definition">¶</a></dt>
 <dd><p>The X,Y are a mesh limited by size=(xi,xf,yi,yf)  
-if size is not given (size=None), the size is given by the apperture.
+if size is not given (size=None), the size is given by the aperture.
 topo is the topography function of the surface under study.
 if not given, a 0 will be returned for points outside the aperture, and
 1 inside the aperture</p>
@@ -155,14 +155,14 @@ It must be overloaded, for each shape</p>
 <dt id="pyoptools.raytrace.shape.Circular.fhit">
 <tt class="descname">fhit</tt><big>(</big><em>self</em>, <em>double px</em>, <em>double py</em>, <em>double pz</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Circular.fhit" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method returns TRUE if an p=(x,y,z)point is inside the surface 
-apperture if not it must return FALSE.
+aperture if not it must return FALSE.
 This is implemented for a point, in cython, to make it fast</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyoptools.raytrace.shape.Circular.hit">
 <tt class="descname">hit</tt><big>(</big><em>self</em>, <em>p</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Circular.hit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method  that returns True if a p=(X,Y,Z) point is inside the apperture,
+<dd><p>Method  that returns True if a p=(X,Y,Z) point is inside the aperture,
 if not it returns False.</p>
 </dd></dl>
 
@@ -189,7 +189,7 @@ if not it returns False.</p>
 <dt id="pyoptools.raytrace.shape.Rectangular.fhit">
 <tt class="descname">fhit</tt><big>(</big><em>self</em>, <em>double px</em>, <em>double py</em>, <em>double pz</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Rectangular.fhit" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method returns TRUE if an p=(x,y,z)point is inside the surface 
-apperture if not it must return FALSE.
+aperture if not it must return FALSE.
 This is implemented for a point, in cython, to make it fast</p>
 </dd></dl>
 
@@ -228,7 +228,7 @@ if not it returns False.</p>
 <dt id="pyoptools.raytrace.shape.Triangular.fhit">
 <tt class="descname">fhit</tt><big>(</big><em>self</em>, <em>double px</em>, <em>double py</em>, <em>double pz</em><big>)</big><a class="headerlink" href="#pyoptools.raytrace.shape.Triangular.fhit" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method returns TRUE if an p=(x,y,z)point is inside the surface 
-apperture if not it must return FALSE.
+aperture if not it must return FALSE.
 This is implemented for a point, in cython, to make it fast</p>
 </dd></dl>
 
