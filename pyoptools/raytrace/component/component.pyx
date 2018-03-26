@@ -118,7 +118,6 @@ cdef class Component(Picklable):
     
     def __delitem__(self, key):
         self._surflist.__delitem__(key)
-
     
     def __contains__(self, key):
         return self._surflist.__contains__(key)
@@ -129,8 +128,7 @@ cdef class Component(Picklable):
     
     def iteritems(self):
         return self._surflist.iteritems()
-        
-        
+
     def iter(self):
         return self._surflist.iter()
         
@@ -212,7 +210,6 @@ cdef class Component(Picklable):
         
         self.changes=self.changes+1
 
-
     cpdef distance(self, Ray ri_):
         """
         Distance length from a ray origin to a component, following the ray path.
@@ -254,7 +251,6 @@ cdef class Component(Picklable):
 
         return  dist_list[mini],pi_list[mini],surf_list[mini]
 
-        
     def reset(self):
         """Reset the optical component
         

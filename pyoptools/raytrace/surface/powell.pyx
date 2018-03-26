@@ -14,15 +14,16 @@
 # Description:    Aspherical surface definition module
 #------------------------------------------------------------------------------
 #
-'''Module that defines support for Aspherical optical surfaces
-'''
+"""
+Module that defines support for Aspherical optical surfaces
+"""
 
 
 cdef extern from "math.h":
     double sqrt(double)
     
 from numpy import  array, asarray, arange, polyadd, polymul, polysub, polyval,\
-     dot, inf, roots, zeros, meshgrid, where, abs,sqrt as npsqrt
+     dot, inf, roots, zeros, meshgrid, where, abs, sqrt as npsqrt
 
 cimport numpy as np
 
@@ -45,7 +46,7 @@ cdef class Powell(Surface):
     The values K and R correspond to the conicity and curvature respectively
     
     Example 
-        >>> cs=Powell(shape=Circular(radius=2.5),K=-4.302,R=3.00)
+        >>> cs=Powell(shape=Circular(radius=2.5), K=-4.302, R=3.00)
     """
 
     
@@ -150,7 +151,7 @@ cdef class Powell(Surface):
         Z=Dz*t+Oz
         return (sqrt((K+1)*X**2-2*R*X+Y**2))-Z
     
-    cpdef double __f2(self,double t, iray):
+    cpdef double __f2(self, double t, iray):
         cdef double K,R,Ox,Oy,Oz,Dx,Dy,Dz
         K=self.K
         R=self.R
@@ -195,7 +196,7 @@ cdef class Powell(Surface):
             fa=self.__f1(ta,iray)
             fb=self.__f1(tb,iray)
             if (fa<0 and fb>0) or (fa>0 and fb<0):
-                t=brentq(self.__f1, ta,tb,(iray,),maxiter=1000)
+                t=brentq(self.__f1, ta, tb, (iray,), maxiter=1000)
             else: # there are more than 1 intersection points we are assuming 2
                 #tm=fsolve(self.__f1, 0,(iray,),warning=False)
                 #In new scipy version the warning kw is not supported
@@ -207,7 +208,7 @@ cdef class Powell(Surface):
                     dt=tb-ta
                     tta=tm-0.2*dt
                     ttb=tm+0.2*dt
-                    t=brentq(self.__f1, tta,ttb,(iray,),maxiter=1000)
+                    t=brentq(self.__f1, tta, ttb, (iray,), maxiter=1000)
                 
         else:
             fa=self.__f2(ta,iray)
@@ -216,7 +217,7 @@ cdef class Powell(Surface):
             if (fa<0 and fb>0) or (fa>0 and fb<0):
                 t=brentq(self.__f2, ta,tb,(iray,),maxiter=1000)
             else: # there are more than 1 intersection points we are assuming 2
-				#In new scipy version the warning kw is not supported
+                #In new scipy version the warning kw is not supported
                 #tm=fsolve(self.__f2, 0,(iray,),warning=False)
                 tm=fsolve(self.__f2, 0,(iray,))
                 
@@ -226,7 +227,7 @@ cdef class Powell(Surface):
                     dt=tb-ta
                     tta=tm-0.1*dt
                     ttb=tm+0.1*dt
-                    t=brentq(self.__f2, tta,ttb,(iray,),maxiter=1000)
+                    t=brentq(self.__f2, tta, ttb, (iray,), maxiter=1000)
                 
         ret_val= iray.pos+t*iray.dir
         
