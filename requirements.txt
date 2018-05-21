@@ -1,1 +1,10 @@
-
+PyOpenGL
+tornado
+Pillow>=4.1.1,<4.2.0
+jupyter
+ipython
+six
+scipy<=0.17.0
+numpy<=1.11.0
+Cython
+matplotlib==2.0.2
