@@ -14,6 +14,18 @@ This package contains miscellaneous classes and functions used by the other pack
 
 ## Requirements
 
+The requirements are found in the [requirements.txt](requirements.txt) file in the root of this repository. Please check
+it and adapt to your current system setup to install PyOpTools requirements. If you choose to install PyOptools using 
+the Anaconda Python distribution as noted in the `How to install` section below, you can skip this step.
+
+### Inside a Python virtualenv
+
+If you have setup already a Python virtualenv you could just install the requirements using the following command
+
+    pip install -r requirements.txt
+
+### For Debian/Ubuntu systems
+
 The following steps work to install the packages required to run pyoptools in an ipython notebook under debian 8. These
 instructions are far from complete, but they will give an idea.
 
@@ -40,9 +52,22 @@ Please take into account that PyOpTools is being developed almost exclusively in
 using a *NIX operating system when using pyoptools. Anyways, Windows users can check the "Windows" subsection for 
 instructions on building/installing pyoptools in MS Windows operating system.
 
-### Debian/Ubuntu (recommended)
+This assumes you have cloned PyOpTools repository already.
+
+### Anaconda environment (Recommended)
+Probably the most portable and direct way of installing PyOpTools is to use the [Anaconda](https://www.anaconda.com/distribution/) 
+python distribution. Once you have set up Anaconda you can create an environment for the PyOpTools software via the 
+following command
+
+    conda env create --file pyoptools_env.txt --name pyoptools
+    
+running it inside the directory where you cloned the PyOpTools repository, since the file [pyoptools_env.txt](pyoptools_env.txt)
+is in the root of this repository.  
+
+### Debian/Ubuntu
 We develop pyoptools using almost debian/*buntu Linux distributions exclusively so this is the way that's most tested 
-and have better chances of working. To compile a deb package you just need to run:
+and have better chances of working. Once you have setup up your requirements (check requirements section above), to 
+compile a deb package you just need to run:
 
     make deb
 
@@ -53,7 +78,7 @@ can install using the command (with admin privileges), changing the version/rele
 
 Using this method you will have control of versions installed via dpkg/APT package manager.
 
-### PyPI install (using pip)
+### PyPI install (using pip - advanced users)
 
 **Note:** Windows users please check windows subsection. 
 
@@ -61,6 +86,8 @@ Pyoptools is hosted in the Python Package Index since Jul-17, therefore you can 
 line with the following command
 
     pip install pyoptools
+    
+Please note that this may alter your system libs, it's recommended to use this inside a virtualenv python environment.
 
 ### Windows (using Cygwin)
 
@@ -82,7 +109,7 @@ After that you might just clone the pyoptools repository by issuing the followin
     
 And you should be ready to use pyoptools in Windows inside your Cygwin environment if all went well.
 
-### Virtual machine (VBox)
+### Virtual machine (Deprecated - old)
 
 We have created a virtualbox image of a debian 8 installation with the pyoptools running. This image can be downloaded from https://drive.google.com/open?id=0B6vN2VIpMQ48THUwX1NJSjM0cEE
 
@@ -90,9 +117,3 @@ We have created a virtualbox image of a debian 8 installation with the pyoptools
 * password: usuario
 
 This is to help people interested in testing this tool, while the documentation and installation instructions get updated.
-
-
-For Debian/Ubuntu based distro we provide debs packages in the debs folder. You
-can also create the deb file by running 'make deb' in the root directory of pyOpTools.
-
-For development `sudo python setup.py develop` this will install systemwide from current directory, making changes to the *py files directly availables.
