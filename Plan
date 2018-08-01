@@ -1,0 +1,63 @@
+1.
+
+Technical documentation examples    Pyoptools Classes Objects Modules
+              
+
+                                    libpython2.7site-packagespyoptools
+
+                                        Understanding a virtual environment
+                                        
+                                           “bin” - files that interact with the virtual environment
+                                           “include” - C headers that compile the Python packages
+                                           “lib” - a copy of the Python version along with a “site-packages” folder where each dependency is installed
+
+
+
+                                        What is pyoptools & what is just python?
+                                            The Python Imaging Library
+
+                                    
+
+
+
+Basic simulation
+
+Clasification
+Wording
+
+Fork & pull over
+
+Issues
+
+
+2.
+
+Reinstallate-->> Homework. Bring computer
+
+Technical documentation, tutorial examples ->> ROOT
+
+Tutorial : elements, rays and systems
+
+Point out the libraries involved : Clasification : misc & raytrace
+
+
+3. Rays & systems
+    Create a system; syntaxis, rays
+
+Complete Components, continue writing.
+
+Pets python exercises
+
+doug = pet()
+
+Class
+    Variables
+    Object :  Instance of a class
+    Method : Function contained in a class
+    
+class dog(pet):
+
+If you ever want to call that method, you have to reference an object of that class first. Self
+
+Repere
+
