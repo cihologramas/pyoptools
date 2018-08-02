@@ -61,3 +61,1128 @@ If you ever want to call that method, you have to reference an object of that cl
 
 Repere
 
+4. General review
+
+CCD racuparation
+
+Examples review
+
+Repere 
+
+Talk to Sergio
+
+
+
+wcamilo9wcamilo96@GLaDOS ~ $ ls
+anaconda2  Downloads  Public               pyoptoolsfork-env  Templates
+Desktop    Music      pyoptools-env        pyoptools-master   Videos
+Documents  Pictures   pyoptools-env_sebas  sphinx_pyoptools
+wcamilo96@GLaDOS ~ $ cd /home/wcamilo96/pyoptools-env
+wcamilo96@GLaDOS ~/pyoptools-env $ cd bin
+wcamilo96@GLaDOS ~/pyoptools-env/bin $ conda activate
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.
+If your shell is Bash or a Bourne variant, enable conda for the current user with
+
+    $ echo ". /home/wcamilo96/anaconda2/etc/profile.d/conda.sh" >> ~/.bashrc
+
+or, for all users, enable conda with
+
+    $ sudo ln -s /home/wcamilo96/anaconda2/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+
+The options above will permanently enable the 'conda' command, but they do NOT
+put conda's base (root) environment on PATH.  To do so, run
+
+    $ conda activate
+
+in your terminal, or to put the base environment on PATH permanently, run
+
+    $ echo "conda activate" >> ~/.bashrc
+
+Previous to conda 4.4, the recommended way to activate conda was to modify PATH in
+your ~/.bashrc file.  You should manually remove the line that looks like
+
+    export PATH="/home/wcamilo96/anaconda2/bin:$PATH"
+
+^^^ The above line should NO LONGER be in your ~/.bashrc file! ^^^
+
+
+wcamilo96@GLaDOS ~/pyoptools-env/bin $ source activate
+(base) wcamilo96@GLaDOS ~/pyoptools-env/bin $ 
+(base) wcamilo96@GLaDOS ~/pyoptools-env/bin $ 
+(base) wcamilo96@GLaDOS ~/pyoptools-env/bin $ 
+(base) wcamilo96@GLaDOS ~/pyoptools-env/bin $ cd /home/wcamilo96/pyoptools-env
+(base) wcamilo96@GLaDOS ~/pyoptools-env $ ipyoptools
+ipyoptools: command not found
+(base) wcamilo96@GLaDOS ~/pyoptools-env $ jupyter notebook
+[I 11:02:44.832 NotebookApp] JupyterLab beta preview extension loaded from /home/wcamilo96/anaconda2/lib/python2.7/site-packages/jupyterlab
+[I 11:02:44.832 NotebookApp] JupyterLab application directory is /home/wcamilo96/anaconda2/share/jupyter/lab
+[I 11:02:44.835 NotebookApp] Serving notebooks from local directory: /home/wcamilo96/pyoptools-env
+[I 11:02:44.835 NotebookApp] 0 active kernels
+[I 11:02:44.835 NotebookApp] The Jupyter Notebook is running at:
+[I 11:02:44.835 NotebookApp] http://localhost:8888/?token=91c023d1ade0b0d36561734d1c8622bdce40d449ccb4d626
+[I 11:02:44.835 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 11:02:44.836 NotebookApp] 
+    
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:8888/?token=91c023d1ade0b0d36561734d1c8622bdce40d449ccb4d626&token=91c023d1ade0b0d36561734d1c8622bdce40d449ccb4d626
+[I 11:02:44.928 NotebookApp] Accepting one-time-token-authenticated connection from 127.0.0.1
+[I 11:02:49.502 NotebookApp] Kernel started: b83cd9c3-7c56-4c16-bc30-3ef9b335ef63
+[I 11:02:49.925 NotebookApp] Adapting to protocol v5.1 for kernel b83cd9c3-7c56-4c16-bc30-3ef9b335ef63
+^C[I 11:03:58.432 NotebookApp] interrupted
+Serving notebooks from local directory: /home/wcamilo96/pyoptools-env
+1 active kernel
+The Jupyter Notebook is running at:
+http://localhost:8888/?token=91c023d1ade0b0d36561734d1c8622bdce40d449ccb4d626
+Shutdown this notebook server (y/[n])? y
+[C 11:03:59.352 NotebookApp] Shutdown confirmed
+[I 11:03:59.353 NotebookApp] Shutting down 1 kernel
+[I 11:03:59.553 NotebookApp] Kernel shutdown: b83cd9c3-7c56-4c16-bc30-3ef9b335ef63
+(base) wcamilo96@GLaDOS ~/pyoptools-env $ which python
+/home/wcamilo96/anaconda2/bin/python
+(base) wcamilo96@GLaDOS ~/pyoptools-env $ source activate pyoptools-env
+Could not find conda environment: pyoptools-env
+You can list all discoverable environments with `conda info --envs`.
+
+(base) wcamilo96@GLaDOS ~/pyoptools-env $ source activate pyoptools
+INFO: activate-binutils_linux-64.sh made the following environmental changes:
++ADDR2LINE=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-addr2line
++AR=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-ar
++AS=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-as
++CXXFILT=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-c++filt
++ELFEDIT=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-elfedit
++GPROF=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gprof
++HOST=x86_64-conda_cos6-linux-gnu
++LD_GOLD=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-ld.gold
++LD=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-ld
++NM=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-nm
++OBJCOPY=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-objcopy
++OBJDUMP=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-objdump
++RANLIB=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-ranlib
++READELF=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-readelf
++SIZE=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-size
++STRINGS=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-strings
++STRIP=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-strip
+INFO: activate-gcc_linux-64.sh made the following environmental changes:
++CC=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-cc
++CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe
++_CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu
++CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2
++CPP=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-cpp
++DEBUG_CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -pipe
++DEBUG_CPPFLAGS=-D_DEBUG -D_FORTIFY_SOURCE=2 -Og
++GCC_AR=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gcc-ar
++GCC=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gcc
++GCC_NM=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gcc-nm
++GCC_RANLIB=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gcc-ranlib
++LDFLAGS=-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now
+INFO: activate-gfortran_linux-64.sh made the following environmental changes:
++DEBUG_FFLAGS=-fopenmp -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -fopenmp -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fcheck=all -fbacktrace -fimplicit-none -fvar-tracking-assignments -pipe
++DEBUG_FORTRANFLAGS=-fopenmp -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -fopenmp -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fcheck=all -fbacktrace -fimplicit-none -fvar-tracking-assignments -pipe
++F77=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gfortran
++F95=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-f95
++FC=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gfortran
++FFLAGS=-fopenmp -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe
++FORTRANFLAGS=-fopenmp -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe
++GFORTRAN=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gfortran
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-env $ ip
+ip                          ipod-time-sync
+ip6tables                   ippusbxd
+ip6tables-apply             iptables
+ip6tables-restore           iptables-apply
+ip6tables-save              iptables-restore
+ipcluster                   iptables-save
+ipcmk                       iptables-xml
+ipcontroller                iptest
+ipcrm                       iptest2
+ipcs                        iptunnel
+ipengine                    ipython
+ipmaddr                     ipython2
+ipod-read-sysinfo-extended  
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-env $ ip
+ip                          ipod-time-sync
+ip6tables                   ippusbxd
+ip6tables-apply             iptables
+ip6tables-restore           iptables-apply
+ip6tables-save              iptables-restore
+ipcluster                   iptables-save
+ipcmk                       iptables-xml
+ipcontroller                iptest
+ipcrm                       iptest2
+ipcs                        iptunnel
+ipengine                    ipython
+ipmaddr                     ipython2
+ipod-read-sysinfo-extended  
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-env $ cd
+(pyoptools) wcamilo96@GLaDOS ~ $ cd pyoptools
+pyoptools-env/       pyoptoolsfork-env/   
+pyoptools-env_sebas/ pyoptools-master/    
+(pyoptools) wcamilo96@GLaDOS ~ $ cd pyoptools-master/
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ ls
+clean.py         ez_setup.py  Makefile           setup.cfg
+debian8_notes    --file       MANIFEST.in        setup.py
+debs             gls2rtgd.py  pyoptools          template.py
+description-pak  ipyoptools   pyoptools_env.txt  tests.py
+doc              LICENSE.txt  README.md          valgrind-python.supp
+examples         logger.ini   requirements.txt
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ python setup.py bdist_wheel
+There are several valid include directoriescontaining numpy/arrayobject.h
+1: /home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages
+2: /home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages
+Selection [default=1]:1
+pyoptools/raytrace/surface/taylor_poly.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+pyoptools/raytrace/surface/powell.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+pyoptools/raytrace/surface/aspherical.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+Compiling pyoptools/raytrace/shape/circular.pyx because it changed.
+Compiling pyoptools/raytrace/shape/shape.pyx because it changed.
+Compiling pyoptools/raytrace/shape/triangular.pyx because it changed.
+Compiling pyoptools/raytrace/shape/polygon.pyx because it changed.
+Compiling pyoptools/raytrace/shape/rectangular.pyx because it changed.
+Compiling pyoptools/raytrace/component/component.pyx because it changed.
+Compiling pyoptools/raytrace/system/system.pyx because it changed.
+Compiling pyoptools/raytrace/system/idealcomponent.pyx because it changed.
+Compiling pyoptools/raytrace/surface/taylor_poly.pyx because it changed.
+Compiling pyoptools/raytrace/surface/surface.pyx because it changed.
+Compiling pyoptools/raytrace/surface/plane.pyx because it changed.
+Compiling pyoptools/raytrace/surface/cylindrical.pyx because it changed.
+Compiling pyoptools/raytrace/surface/detector.pyx because it changed.
+Compiling pyoptools/raytrace/surface/idealpplanes.pyx because it changed.
+Compiling pyoptools/raytrace/surface/cylinder.pyx because it changed.
+Compiling pyoptools/raytrace/surface/aperture.pyx because it changed.
+Compiling pyoptools/raytrace/surface/plane_mask.pyx because it changed.
+Compiling pyoptools/raytrace/surface/powell.pyx because it changed.
+Compiling pyoptools/raytrace/surface/spherical.pyx because it changed.
+Compiling pyoptools/raytrace/surface/aspherical.pyx because it changed.
+Compiling pyoptools/raytrace/surface/idealsurface.pyx because it changed.
+Compiling pyoptools/raytrace/ray/ray.pyx because it changed.
+Compiling pyoptools/misc/lsq/lsq.pyx because it changed.
+Compiling pyoptools/misc/Poly2D/Poly2D.pyx because it changed.
+Compiling pyoptools/misc/plist/plist.pyx because it changed.
+Compiling pyoptools/misc/definitions/definitions.pyx because it changed.
+Compiling pyoptools/misc/resources/resources.pyx because it changed.
+Compiling pyoptools/misc/picklable/picklable.pyx because it changed.
+Compiling pyoptools/misc/cmisc/cmisc.pyx because it changed.
+Compiling pyoptools/wavefront/cpsurfrep/cpsurfrep.pyx because it changed.
+Compiling pyoptools/wavefront/psurfrep/psurfrep.pyx because it changed.
+Compiling pyoptools/wavefront/field/fields.pyx because it changed.
+Compiling pyoptools/wavefront/field/field.pyx because it changed.
+[ 1/33] Cythonizing pyoptools/misc/Poly2D/Poly2D.pyx
+warning: pyoptools/misc/cmisc/cmisc.pxd:25:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:26:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:28:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:29:30: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:42:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:43:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:44:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:45:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:46:26: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:47:26: Declarations should not be declared inline.
+[ 2/33] Cythonizing pyoptools/misc/cmisc/cmisc.pyx
+warning: pyoptools/misc/cmisc/cmisc.pxd:25:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:26:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:28:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:29:30: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:42:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:43:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:44:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:45:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:46:26: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:47:26: Declarations should not be declared inline.
+[ 3/33] Cythonizing pyoptools/misc/definitions/definitions.pyx
+[ 4/33] Cythonizing pyoptools/misc/lsq/lsq.pyx
+[ 5/33] Cythonizing pyoptools/misc/picklable/picklable.pyx
+[ 6/33] Cythonizing pyoptools/misc/plist/plist.pyx
+[ 7/33] Cythonizing pyoptools/misc/resources/resources.pyx
+[ 8/33] Cythonizing pyoptools/raytrace/component/component.pyx
+warning: pyoptools/misc/cmisc/cmisc.pxd:25:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:26:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:28:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:29:30: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:42:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:43:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:44:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:45:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:46:26: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:47:26: Declarations should not be declared inline.
+[ 9/33] Cythonizing pyoptools/raytrace/ray/ray.pyx
+warning: pyoptools/misc/cmisc/cmisc.pxd:25:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:26:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:28:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:29:30: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:42:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:43:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:44:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:45:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:46:26: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:47:26: Declarations should not be declared inline.
+[10/33] Cythonizing pyoptools/raytrace/shape/circular.pyx
+[11/33] Cythonizing pyoptools/raytrace/shape/polygon.pyx
+[12/33] Cythonizing pyoptools/raytrace/shape/rectangular.pyx
+[13/33] Cythonizing pyoptools/raytrace/shape/shape.pyx
+[14/33] Cythonizing pyoptools/raytrace/shape/triangular.pyx
+[15/33] Cythonizing pyoptools/raytrace/surface/aperture.pyx
+[16/33] Cythonizing pyoptools/raytrace/surface/aspherical.pyx
+[17/33] Cythonizing pyoptools/raytrace/surface/cylinder.pyx
+[18/33] Cythonizing pyoptools/raytrace/surface/cylindrical.pyx
+[19/33] Cythonizing pyoptools/raytrace/surface/detector.pyx
+[20/33] Cythonizing pyoptools/raytrace/surface/idealpplanes.pyx
+[21/33] Cythonizing pyoptools/raytrace/surface/idealsurface.pyx
+[22/33] Cythonizing pyoptools/raytrace/surface/plane.pyx
+[23/33] Cythonizing pyoptools/raytrace/surface/plane_mask.pyx
+[24/33] Cythonizing pyoptools/raytrace/surface/powell.pyx
+[25/33] Cythonizing pyoptools/raytrace/surface/spherical.pyx
+[26/33] Cythonizing pyoptools/raytrace/surface/surface.pyx
+warning: pyoptools/misc/cmisc/cmisc.pxd:25:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:26:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:28:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:29:30: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:42:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:43:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:44:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:45:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:46:26: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:47:26: Declarations should not be declared inline.
+[27/33] Cythonizing pyoptools/raytrace/surface/taylor_poly.pyx
+[28/33] Cythonizing pyoptools/raytrace/system/idealcomponent.pyx
+[29/33] Cythonizing pyoptools/raytrace/system/system.pyx
+[30/33] Cythonizing pyoptools/wavefront/cpsurfrep/cpsurfrep.pyx
+[31/33] Cythonizing pyoptools/wavefront/field/field.pyx
+warning: pyoptools/wavefront/field/field.pyx:986:19: Unreachable code
+warning: pyoptools/misc/cmisc/cmisc.pxd:25:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:26:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:28:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:29:30: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:42:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:43:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:44:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:45:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:46:26: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:47:26: Declarations should not be declared inline.
+[32/33] Cythonizing pyoptools/wavefront/field/fields.pyx
+[33/33] Cythonizing pyoptools/wavefront/psurfrep/psurfrep.pyx
+running bdist_wheel
+running build
+running build_py
+creating build
+creating build/lib.linux-x86_64-2.7
+creating build/lib.linux-x86_64-2.7/pyoptools
+copying pyoptools/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools
+copying pyoptools/all.py -> build/lib.linux-x86_64-2.7/pyoptools
+creating build/lib.linux-x86_64-2.7/pyoptools/gui
+copying pyoptools/gui/logutils.py -> build/lib.linux-x86_64-2.7/pyoptools/gui
+copying pyoptools/gui/plotutils.py -> build/lib.linux-x86_64-2.7/pyoptools/gui
+copying pyoptools/gui/ipynbplotutils.py -> build/lib.linux-x86_64-2.7/pyoptools/gui
+copying pyoptools/gui/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/gui
+creating build/lib.linux-x86_64-2.7/pyoptools/tests
+copying pyoptools/tests/test_components.py -> build/lib.linux-x86_64-2.7/pyoptools/tests
+copying pyoptools/tests/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/tests
+copying pyoptools/tests/test_coding_standards.py -> build/lib.linux-x86_64-2.7/pyoptools/tests
+copying pyoptools/tests/test_shapes.py -> build/lib.linux-x86_64-2.7/pyoptools/tests
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace
+copying pyoptools/raytrace/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace
+copying pyoptools/raytrace/comp_lib.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/ideallens.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/powell_lens.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/compound_lens.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/mirror.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/diffraction.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/ccd.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/spherical_lens.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/cylindrical_lens.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/stop.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/prism.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/cube.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/calc
+copying pyoptools/raytrace/calc/calc.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/calc
+copying pyoptools/raytrace/calc/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/calc
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/shape
+copying pyoptools/raytrace/shape/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/shape
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/component
+copying pyoptools/raytrace/component/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/component
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/system
+copying pyoptools/raytrace/system/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/system
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/library
+copying pyoptools/raytrace/library/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/library
+copying pyoptools/raytrace/library/library.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/library
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/surface
+copying pyoptools/raytrace/surface/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/surface
+copying pyoptools/raytrace/surface/poly_expansion.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/surface
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib
+copying pyoptools/raytrace/mat_lib/material.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib
+copying pyoptools/raytrace/mat_lib/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/ray
+copying pyoptools/raytrace/ray/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/ray
+copying pyoptools/raytrace/ray/ray_source.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/ray
+creating build/lib.linux-x86_64-2.7/pyoptools/misc
+copying pyoptools/misc/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/lsq
+copying pyoptools/misc/lsq/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/lsq
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/Poly2D
+copying pyoptools/misc/Poly2D/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/Poly2D
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/plist
+copying pyoptools/misc/plist/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/plist
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/definitions
+copying pyoptools/misc/definitions/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/definitions
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/resources
+copying pyoptools/misc/resources/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/resources
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/pmisc
+copying pyoptools/misc/pmisc/misc.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/pmisc
+copying pyoptools/misc/pmisc/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/pmisc
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/picklable
+copying pyoptools/misc/picklable/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/picklable
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/cmisc
+copying pyoptools/misc/cmisc/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/cmisc
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/frft
+copying pyoptools/misc/frft/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/frft
+copying pyoptools/misc/frft/frft.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/frft
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/GS
+copying pyoptools/misc/GS/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/GS
+copying pyoptools/misc/GS/gs.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/GS
+creating build/lib.linux-x86_64-2.7/pyoptools/wavefront
+copying pyoptools/wavefront/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront
+creating build/lib.linux-x86_64-2.7/pyoptools/wavefront/zernike
+copying pyoptools/wavefront/zernike/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/zernike
+copying pyoptools/wavefront/zernike/zernike.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/zernike
+creating build/lib.linux-x86_64-2.7/pyoptools/wavefront/cpsurfrep
+copying pyoptools/wavefront/cpsurfrep/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/cpsurfrep
+creating build/lib.linux-x86_64-2.7/pyoptools/wavefront/calc
+copying pyoptools/wavefront/calc/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/calc
+copying pyoptools/wavefront/calc/gs.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/calc
+creating build/lib.linux-x86_64-2.7/pyoptools/wavefront/psurfrep
+copying pyoptools/wavefront/psurfrep/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/psurfrep
+creating build/lib.linux-x86_64-2.7/pyoptools/wavefront/field
+copying pyoptools/wavefront/field/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/field
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/library/Edmund
+copying pyoptools/raytrace/library/Edmund/SphOptics1.cmp -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/library/Edmund
+copying pyoptools/raytrace/library/Edmund/SphOptics.cmp -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/library/Edmund
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/corning.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/schott.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/schott_530.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/hoya.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/obsolete.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/ohara.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/hoya_obs.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/shared.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/ohara_530.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/hoya_old.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/schott_2000.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/schott_2015.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/sumita.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+running build_ext
+building 'pyoptools.raytrace.shape.circular' extension
+creating build/temp.linux-x86_64-2.7
+creating build/temp.linux-x86_64-2.7/pyoptools
+creating build/temp.linux-x86_64-2.7/pyoptools/raytrace
+creating build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape
+/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-cc -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -fPIC -I. -I/home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages/numpy/core/include -I/home/wcamilo96/anaconda2/envs/pyoptools/include/python2.7 -c pyoptools/raytrace/shape/circular.c -o build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.o -O3 -Wall
+pyoptools/raytrace/shape/circular.c: In function '__pyx_f_9pyoptools_8raytrace_5shape_8circular_8Circular_hit':
+pyoptools/raytrace/shape/circular.c:2087:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     __Pyx_INCREF(Py_False);
+     ^~~~~~~~~~~~
+pyoptools/raytrace/shape/circular.c:2090:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     __Pyx_INCREF(Py_True);
+     ^~~~~~~~~~~~
+pyoptools/raytrace/shape/circular.c: In function '__pyx_pf_9pyoptools_8raytrace_5shape_8circular_8Circular_6fhit':
+pyoptools/raytrace/shape/circular.c:2423:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+   __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_9pyoptools_8raytrace_5shape_8circular_8Circular_fhit(__pyx_v_self, __pyx_v_px, __pyx_v_py, __pyx_v_pz, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+   ^~~~~~~~~
+pyoptools/raytrace/shape/circular.c:2423:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+gcc -pthread -shared -z noexecstack -z relro -z now -fstack-protector -L/home/wcamilo96/anaconda2/envs/pyoptools/lib -Wl,-rpath=/home/wcamilo96/anaconda2/envs/pyoptools/lib,--no-as-needed -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.o -L/home/wcamilo96/anaconda2/envs/pyoptools/lib -lpython2.7 -o build/lib.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.so
+gcc: error: unrecognized command line option ‘-fno-plt’
+error: command 'gcc' failed with exit status 1
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ gcc --version
+gcc (Ubuntu 5.4.0-6ubuntu1~16.04.10) 5.4.0 20160609
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ anaconda-navigator 
+2018-08-02 11:07:28,296 - ERROR anaconda_api.is_vscode_available:956
+''
+
+2018-08-02 11:08:01,012 - ERROR anaconda_api.is_vscode_available:956
+''
+
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ python setup.py install
+There are several valid include directoriescontaining numpy/arrayobject.h
+1: /home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages
+2: /home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages
+Selection [default=1]:1
+pyoptools/raytrace/surface/taylor_poly.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+pyoptools/raytrace/surface/powell.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+pyoptools/raytrace/surface/aspherical.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+running install
+running bdist_egg
+running egg_info
+creating pyoptools.egg-info
+writing pyoptools.egg-info/PKG-INFO
+writing top-level names to pyoptools.egg-info/top_level.txt
+writing dependency_links to pyoptools.egg-info/dependency_links.txt
+writing manifest file 'pyoptools.egg-info/SOURCES.txt'
+reading manifest file 'pyoptools.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+warning: no files found matching 'copyright'
+warning: no files found matching 'README'
+warning: no files found matching 'PKG-INFO'
+warning: no files found matching 'ipyoptools.py'
+writing manifest file 'pyoptools.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_py
+running build_ext
+building 'pyoptools.raytrace.shape.circular' extension
+/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-cc -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -fPIC -I. -I/home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages/numpy/core/include -I/home/wcamilo96/anaconda2/envs/pyoptools/include/python2.7 -c pyoptools/raytrace/shape/circular.c -o build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.o -O3 -Wall
+pyoptools/raytrace/shape/circular.c: In function '__pyx_f_9pyoptools_8raytrace_5shape_8circular_8Circular_hit':
+pyoptools/raytrace/shape/circular.c:2087:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     __Pyx_INCREF(Py_False);
+     ^~~~~~~~~~~~
+pyoptools/raytrace/shape/circular.c:2090:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     __Pyx_INCREF(Py_True);
+     ^~~~~~~~~~~~
+pyoptools/raytrace/shape/circular.c: In function '__pyx_pf_9pyoptools_8raytrace_5shape_8circular_8Circular_6fhit':
+pyoptools/raytrace/shape/circular.c:2423:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+   __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_9pyoptools_8raytrace_5shape_8circular_8Circular_fhit(__pyx_v_self, __pyx_v_px, __pyx_v_py, __pyx_v_pz, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+   ^~~~~~~~~
+pyoptools/raytrace/shape/circular.c:2423:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+gcc -pthread -shared -z noexecstack -z relro -z now -fstack-protector -L/home/wcamilo96/anaconda2/envs/pyoptools/lib -Wl,-rpath=/home/wcamilo96/anaconda2/envs/pyoptools/lib,--no-as-needed -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.o -L/home/wcamilo96/anaconda2/envs/pyoptools/lib -lpython2.7 -o build/lib.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.so
+gcc: error: unrecognized command line option ‘-fno-plt’
+error: command 'gcc' failed with exit status 1
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ python setup.py install
+There are several valid include directoriescontaining numpy/arrayobject.h
+1: /home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages
+2: /home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages
+Selection [default=1]:2
+pyoptools/raytrace/surface/taylor_poly.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+pyoptools/raytrace/surface/powell.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+pyoptools/raytrace/surface/aspherical.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+running install
+running bdist_egg
+running egg_info
+writing pyoptools.egg-info/PKG-INFO
+writing top-level names to pyoptools.egg-info/top_level.txt
+writing dependency_links to pyoptools.egg-info/dependency_links.txt
+reading manifest file 'pyoptools.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+warning: no files found matching 'copyright'
+warning: no files found matching 'README'
+warning: no files found matching 'PKG-INFO'
+warning: no files found matching 'ipyoptools.py'
+writing manifest file 'pyoptools.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_py
+running build_ext
+building 'pyoptools.raytrace.shape.circular' extension
+/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-cc -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -fPIC -I. -I/home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages/numpy/core/include -I/home/wcamilo96/anaconda2/envs/pyoptools/include/python2.7 -c pyoptools/raytrace/shape/circular.c -o build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.o -O3 -Wall
+pyoptools/raytrace/shape/circular.c: In function '__pyx_f_9pyoptools_8raytrace_5shape_8circular_8Circular_hit':
+pyoptools/raytrace/shape/circular.c:2087:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     __Pyx_INCREF(Py_False);
+     ^~~~~~~~~~~~
+pyoptools/raytrace/shape/circular.c:2090:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     __Pyx_INCREF(Py_True);
+     ^~~~~~~~~~~~
+pyoptools/raytrace/shape/circular.c: In function '__pyx_pf_9pyoptools_8raytrace_5shape_8circular_8Circular_6fhit':
+pyoptools/raytrace/shape/circular.c:2423:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+   __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_9pyoptools_8raytrace_5shape_8circular_8Circular_fhit(__pyx_v_self, __pyx_v_px, __pyx_v_py, __pyx_v_pz, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+   ^~~~~~~~~
+pyoptools/raytrace/shape/circular.c:2423:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+gcc -pthread -shared -z noexecstack -z relro -z now -fstack-protector -L/home/wcamilo96/anaconda2/envs/pyoptools/lib -Wl,-rpath=/home/wcamilo96/anaconda2/envs/pyoptools/lib,--no-as-needed -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.o -L/home/wcamilo96/anaconda2/envs/pyoptools/lib -lpython2.7 -o build/lib.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.so
+gcc: error: unrecognized command line option ‘-fno-plt’
+error: command 'gcc' failed with exit status 1
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ cd
+(pyoptools) wcamilo96@GLaDOS ~ $ pip install pyoptools
+pyoptools-0.1.1-cp27-cp27mu-linux_x86_64.whl
+pyoptools-env/
+pyoptools-env_sebas/
+pyoptoolsfork-env/
+pyoptools-master/
+(pyoptools) wcamilo96@GLaDOS ~ $ pip install pyoptools-0.1.1-cp27-cp27mu-linux_x86_64.whl 
+Processing ./pyoptools-0.1.1-cp27-cp27mu-linux_x86_64.whl
+Installing collected packages: pyoptools
+Successfully installed pyoptools-0.1.1
+You are using pip version 9.0.1, however version 18.0 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+(pyoptools) wcamilo96@GLaDOS ~ $ ipyoptools 
+[TerminalIPythonApp] WARNING | Subcommand `ipython notebook` is deprecated and will be removed in future versions.
+[TerminalIPythonApp] WARNING | You likely want to use `jupyter notebook` in the future
+[I 11:14:57.328 NotebookApp] Serving notebooks from local directory: /home/wcamilo96
+[I 11:14:57.328 NotebookApp] 0 active kernels
+[I 11:14:57.328 NotebookApp] The Jupyter Notebook is running at:
+[I 11:14:57.328 NotebookApp] http://localhost:8888/?token=de5a02de90fb8d7c9d78d357d99e6e84300af90269a5ec6c
+[I 11:14:57.328 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 11:14:57.330 NotebookApp] 
+    
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:8888/?token=de5a02de90fb8d7c9d78d357d99e6e84300af90269a5ec6c
+[I 11:14:57.437 NotebookApp] Accepting one-time-token-authenticated connection from 127.0.0.1
+[W 11:15:09.093 NotebookApp] Notebook pyoptools-master/examples/basic_course/04-Simple RayTraces.ipynb is not trusted
+[W 11:15:09.121 NotebookApp] 404 GET /nbextensions/widgets/notebook/js/extension.js?v=20180802111457 (127.0.0.1) 8.77ms referer=http://localhost:8888/notebooks/pyoptools-master/examples/basic_course/04-Simple%20RayTraces.ipynb
+[I 11:15:09.785 NotebookApp] Kernel started: 056f14d7-2c1a-4fa6-9d69-665c7aa84371
+[I 11:15:10.236 NotebookApp] Adapting to protocol v5.1 for kernel 056f14d7-2c1a-4fa6-9d69-665c7aa84371
+[I 11:15:18.080 NotebookApp] Saving file at /pyoptools-master/examples/basic_course/04-Simple RayTraces.ipynb
+
+6@GLaDOS ~ $ ls
+anaconda2  Downloads  Public               pyoptoolsfork-env  Templates
+Desktop    Music      pyoptools-env        pyoptools-master   Videos
+Documents  Pictures   pyoptools-env_sebas  sphinx_pyoptools
+wcamilo96@GLaDOS ~ $ cd /home/wcamilo96/pyoptools-env
+wcamilo96@GLaDOS ~/pyoptools-env $ cd bin
+wcamilo96@GLaDOS ~/pyoptools-env/bin $ conda activate
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.
+If your shell is Bash or a Bourne variant, enable conda for the current user with
+
+    $ echo ". /home/wcamilo96/anaconda2/etc/profile.d/conda.sh" >> ~/.bashrc
+
+or, for all users, enable conda with
+
+    $ sudo ln -s /home/wcamilo96/anaconda2/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+
+The options above will permanently enable the 'conda' command, but they do NOT
+put conda's base (root) environment on PATH.  To do so, run
+
+    $ conda activate
+
+in your terminal, or to put the base environment on PATH permanently, run
+
+    $ echo "conda activate" >> ~/.bashrc
+
+Previous to conda 4.4, the recommended way to activate conda was to modify PATH in
+your ~/.bashrc file.  You should manually remove the line that looks like
+
+    export PATH="/home/wcamilo96/anaconda2/bin:$PATH"
+
+^^^ The above line should NO LONGER be in your ~/.bashrc file! ^^^
+
+
+wcamilo96@GLaDOS ~/pyoptools-env/bin $ source activate
+(base) wcamilo96@GLaDOS ~/pyoptools-env/bin $ 
+(base) wcamilo96@GLaDOS ~/pyoptools-env/bin $ 
+(base) wcamilo96@GLaDOS ~/pyoptools-env/bin $ 
+(base) wcamilo96@GLaDOS ~/pyoptools-env/bin $ cd /home/wcamilo96/pyoptools-env
+(base) wcamilo96@GLaDOS ~/pyoptools-env $ ipyoptools
+ipyoptools: command not found
+(base) wcamilo96@GLaDOS ~/pyoptools-env $ jupyter notebook
+[I 11:02:44.832 NotebookApp] JupyterLab beta preview extension loaded from /home/wcamilo96/anaconda2/lib/python2.7/site-packages/jupyterlab
+[I 11:02:44.832 NotebookApp] JupyterLab application directory is /home/wcamilo96/anaconda2/share/jupyter/lab
+[I 11:02:44.835 NotebookApp] Serving notebooks from local directory: /home/wcamilo96/pyoptools-env
+[I 11:02:44.835 NotebookApp] 0 active kernels
+[I 11:02:44.835 NotebookApp] The Jupyter Notebook is running at:
+[I 11:02:44.835 NotebookApp] http://localhost:8888/?token=91c023d1ade0b0d36561734d1c8622bdce40d449ccb4d626
+[I 11:02:44.835 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 11:02:44.836 NotebookApp] 
+    
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:8888/?token=91c023d1ade0b0d36561734d1c8622bdce40d449ccb4d626&token=91c023d1ade0b0d36561734d1c8622bdce40d449ccb4d626
+[I 11:02:44.928 NotebookApp] Accepting one-time-token-authenticated connection from 127.0.0.1
+[I 11:02:49.502 NotebookApp] Kernel started: b83cd9c3-7c56-4c16-bc30-3ef9b335ef63
+[I 11:02:49.925 NotebookApp] Adapting to protocol v5.1 for kernel b83cd9c3-7c56-4c16-bc30-3ef9b335ef63
+^C[I 11:03:58.432 NotebookApp] interrupted
+Serving notebooks from local directory: /home/wcamilo96/pyoptools-env
+1 active kernel
+The Jupyter Notebook is running at:
+http://localhost:8888/?token=91c023d1ade0b0d36561734d1c8622bdce40d449ccb4d626
+Shutdown this notebook server (y/[n])? y
+[C 11:03:59.352 NotebookApp] Shutdown confirmed
+[I 11:03:59.353 NotebookApp] Shutting down 1 kernel
+[I 11:03:59.553 NotebookApp] Kernel shutdown: b83cd9c3-7c56-4c16-bc30-3ef9b335ef63
+(base) wcamilo96@GLaDOS ~/pyoptools-env $ which python
+/home/wcamilo96/anaconda2/bin/python
+(base) wcamilo96@GLaDOS ~/pyoptools-env $ source activate pyoptools-env
+Could not find conda environment: pyoptools-env
+You can list all discoverable environments with `conda info --envs`.
+
+(base) wcamilo96@GLaDOS ~/pyoptools-env $ source activate pyoptools
+INFO: activate-binutils_linux-64.sh made the following environmental changes:
++ADDR2LINE=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-addr2line
++AR=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-ar
++AS=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-as
++CXXFILT=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-c++filt
++ELFEDIT=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-elfedit
++GPROF=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gprof
++HOST=x86_64-conda_cos6-linux-gnu
++LD_GOLD=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-ld.gold
++LD=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-ld
++NM=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-nm
++OBJCOPY=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-objcopy
++OBJDUMP=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-objdump
++RANLIB=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-ranlib
++READELF=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-readelf
++SIZE=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-size
++STRINGS=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-strings
++STRIP=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-strip
+INFO: activate-gcc_linux-64.sh made the following environmental changes:
++CC=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-cc
++CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe
++_CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu
++CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2
++CPP=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-cpp
++DEBUG_CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -pipe
++DEBUG_CPPFLAGS=-D_DEBUG -D_FORTIFY_SOURCE=2 -Og
++GCC_AR=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gcc-ar
++GCC=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gcc
++GCC_NM=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gcc-nm
++GCC_RANLIB=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gcc-ranlib
++LDFLAGS=-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now
+INFO: activate-gfortran_linux-64.sh made the following environmental changes:
++DEBUG_FFLAGS=-fopenmp -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -fopenmp -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fcheck=all -fbacktrace -fimplicit-none -fvar-tracking-assignments -pipe
++DEBUG_FORTRANFLAGS=-fopenmp -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -fopenmp -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fcheck=all -fbacktrace -fimplicit-none -fvar-tracking-assignments -pipe
++F77=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gfortran
++F95=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-f95
++FC=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gfortran
++FFLAGS=-fopenmp -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe
++FORTRANFLAGS=-fopenmp -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe
++GFORTRAN=/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-gfortran
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-env $ ip
+ip                          ipod-time-sync
+ip6tables                   ippusbxd
+ip6tables-apply             iptables
+ip6tables-restore           iptables-apply
+ip6tables-save              iptables-restore
+ipcluster                   iptables-save
+ipcmk                       iptables-xml
+ipcontroller                iptest
+ipcrm                       iptest2
+ipcs                        iptunnel
+ipengine                    ipython
+ipmaddr                     ipython2
+ipod-read-sysinfo-extended  
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-env $ ip
+ip                          ipod-time-sync
+ip6tables                   ippusbxd
+ip6tables-apply             iptables
+ip6tables-restore           iptables-apply
+ip6tables-save              iptables-restore
+ipcluster                   iptables-save
+ipcmk                       iptables-xml
+ipcontroller                iptest
+ipcrm                       iptest2
+ipcs                        iptunnel
+ipengine                    ipython
+ipmaddr                     ipython2
+ipod-read-sysinfo-extended  
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-env $ cd
+(pyoptools) wcamilo96@GLaDOS ~ $ cd pyoptools
+pyoptools-env/       pyoptoolsfork-env/   
+pyoptools-env_sebas/ pyoptools-master/    
+(pyoptools) wcamilo96@GLaDOS ~ $ cd pyoptools-master/
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ ls
+clean.py         ez_setup.py  Makefile           setup.cfg
+debian8_notes    --file       MANIFEST.in        setup.py
+debs             gls2rtgd.py  pyoptools          template.py
+description-pak  ipyoptools   pyoptools_env.txt  tests.py
+doc              LICENSE.txt  README.md          valgrind-python.supp
+examples         logger.ini   requirements.txt
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ python setup.py bdist_wheel
+There are several valid include directoriescontaining numpy/arrayobject.h
+1: /home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages
+2: /home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages
+Selection [default=1]:1
+pyoptools/raytrace/surface/taylor_poly.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+pyoptools/raytrace/surface/powell.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+pyoptools/raytrace/surface/aspherical.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+Compiling pyoptools/raytrace/shape/circular.pyx because it changed.
+Compiling pyoptools/raytrace/shape/shape.pyx because it changed.
+Compiling pyoptools/raytrace/shape/triangular.pyx because it changed.
+Compiling pyoptools/raytrace/shape/polygon.pyx because it changed.
+Compiling pyoptools/raytrace/shape/rectangular.pyx because it changed.
+Compiling pyoptools/raytrace/component/component.pyx because it changed.
+Compiling pyoptools/raytrace/system/system.pyx because it changed.
+Compiling pyoptools/raytrace/system/idealcomponent.pyx because it changed.
+Compiling pyoptools/raytrace/surface/taylor_poly.pyx because it changed.
+Compiling pyoptools/raytrace/surface/surface.pyx because it changed.
+Compiling pyoptools/raytrace/surface/plane.pyx because it changed.
+Compiling pyoptools/raytrace/surface/cylindrical.pyx because it changed.
+Compiling pyoptools/raytrace/surface/detector.pyx because it changed.
+Compiling pyoptools/raytrace/surface/idealpplanes.pyx because it changed.
+Compiling pyoptools/raytrace/surface/cylinder.pyx because it changed.
+Compiling pyoptools/raytrace/surface/aperture.pyx because it changed.
+Compiling pyoptools/raytrace/surface/plane_mask.pyx because it changed.
+Compiling pyoptools/raytrace/surface/powell.pyx because it changed.
+Compiling pyoptools/raytrace/surface/spherical.pyx because it changed.
+Compiling pyoptools/raytrace/surface/aspherical.pyx because it changed.
+Compiling pyoptools/raytrace/surface/idealsurface.pyx because it changed.
+Compiling pyoptools/raytrace/ray/ray.pyx because it changed.
+Compiling pyoptools/misc/lsq/lsq.pyx because it changed.
+Compiling pyoptools/misc/Poly2D/Poly2D.pyx because it changed.
+Compiling pyoptools/misc/plist/plist.pyx because it changed.
+Compiling pyoptools/misc/definitions/definitions.pyx because it changed.
+Compiling pyoptools/misc/resources/resources.pyx because it changed.
+Compiling pyoptools/misc/picklable/picklable.pyx because it changed.
+Compiling pyoptools/misc/cmisc/cmisc.pyx because it changed.
+Compiling pyoptools/wavefront/cpsurfrep/cpsurfrep.pyx because it changed.
+Compiling pyoptools/wavefront/psurfrep/psurfrep.pyx because it changed.
+Compiling pyoptools/wavefront/field/fields.pyx because it changed.
+Compiling pyoptools/wavefront/field/field.pyx because it changed.
+[ 1/33] Cythonizing pyoptools/misc/Poly2D/Poly2D.pyx
+warning: pyoptools/misc/cmisc/cmisc.pxd:25:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:26:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:28:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:29:30: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:42:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:43:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:44:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:45:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:46:26: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:47:26: Declarations should not be declared inline.
+[ 2/33] Cythonizing pyoptools/misc/cmisc/cmisc.pyx
+warning: pyoptools/misc/cmisc/cmisc.pxd:25:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:26:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:28:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:29:30: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:42:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:43:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:44:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:45:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:46:26: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:47:26: Declarations should not be declared inline.
+[ 3/33] Cythonizing pyoptools/misc/definitions/definitions.pyx
+[ 4/33] Cythonizing pyoptools/misc/lsq/lsq.pyx
+[ 5/33] Cythonizing pyoptools/misc/picklable/picklable.pyx
+[ 6/33] Cythonizing pyoptools/misc/plist/plist.pyx
+[ 7/33] Cythonizing pyoptools/misc/resources/resources.pyx
+[ 8/33] Cythonizing pyoptools/raytrace/component/component.pyx
+warning: pyoptools/misc/cmisc/cmisc.pxd:25:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:26:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:28:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:29:30: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:42:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:43:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:44:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:45:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:46:26: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:47:26: Declarations should not be declared inline.
+[ 9/33] Cythonizing pyoptools/raytrace/ray/ray.pyx
+warning: pyoptools/misc/cmisc/cmisc.pxd:25:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:26:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:28:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:29:30: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:42:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:43:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:44:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:45:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:46:26: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:47:26: Declarations should not be declared inline.
+[10/33] Cythonizing pyoptools/raytrace/shape/circular.pyx
+[11/33] Cythonizing pyoptools/raytrace/shape/polygon.pyx
+[12/33] Cythonizing pyoptools/raytrace/shape/rectangular.pyx
+[13/33] Cythonizing pyoptools/raytrace/shape/shape.pyx
+[14/33] Cythonizing pyoptools/raytrace/shape/triangular.pyx
+[15/33] Cythonizing pyoptools/raytrace/surface/aperture.pyx
+[16/33] Cythonizing pyoptools/raytrace/surface/aspherical.pyx
+[17/33] Cythonizing pyoptools/raytrace/surface/cylinder.pyx
+[18/33] Cythonizing pyoptools/raytrace/surface/cylindrical.pyx
+[19/33] Cythonizing pyoptools/raytrace/surface/detector.pyx
+[20/33] Cythonizing pyoptools/raytrace/surface/idealpplanes.pyx
+[21/33] Cythonizing pyoptools/raytrace/surface/idealsurface.pyx
+[22/33] Cythonizing pyoptools/raytrace/surface/plane.pyx
+[23/33] Cythonizing pyoptools/raytrace/surface/plane_mask.pyx
+[24/33] Cythonizing pyoptools/raytrace/surface/powell.pyx
+[25/33] Cythonizing pyoptools/raytrace/surface/spherical.pyx
+[26/33] Cythonizing pyoptools/raytrace/surface/surface.pyx
+warning: pyoptools/misc/cmisc/cmisc.pxd:25:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:26:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:28:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:29:30: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:42:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:43:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:44:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:45:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:46:26: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:47:26: Declarations should not be declared inline.
+[27/33] Cythonizing pyoptools/raytrace/surface/taylor_poly.pyx
+[28/33] Cythonizing pyoptools/raytrace/system/idealcomponent.pyx
+[29/33] Cythonizing pyoptools/raytrace/system/system.pyx
+[30/33] Cythonizing pyoptools/wavefront/cpsurfrep/cpsurfrep.pyx
+[31/33] Cythonizing pyoptools/wavefront/field/field.pyx
+warning: pyoptools/wavefront/field/field.pyx:986:19: Unreachable code
+warning: pyoptools/misc/cmisc/cmisc.pxd:25:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:26:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:28:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:29:30: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:42:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:43:32: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:44:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:45:31: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:46:26: Declarations should not be declared inline.
+warning: pyoptools/misc/cmisc/cmisc.pxd:47:26: Declarations should not be declared inline.
+[32/33] Cythonizing pyoptools/wavefront/field/fields.pyx
+[33/33] Cythonizing pyoptools/wavefront/psurfrep/psurfrep.pyx
+running bdist_wheel
+running build
+running build_py
+creating build
+creating build/lib.linux-x86_64-2.7
+creating build/lib.linux-x86_64-2.7/pyoptools
+copying pyoptools/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools
+copying pyoptools/all.py -> build/lib.linux-x86_64-2.7/pyoptools
+creating build/lib.linux-x86_64-2.7/pyoptools/gui
+copying pyoptools/gui/logutils.py -> build/lib.linux-x86_64-2.7/pyoptools/gui
+copying pyoptools/gui/plotutils.py -> build/lib.linux-x86_64-2.7/pyoptools/gui
+copying pyoptools/gui/ipynbplotutils.py -> build/lib.linux-x86_64-2.7/pyoptools/gui
+copying pyoptools/gui/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/gui
+creating build/lib.linux-x86_64-2.7/pyoptools/tests
+copying pyoptools/tests/test_components.py -> build/lib.linux-x86_64-2.7/pyoptools/tests
+copying pyoptools/tests/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/tests
+copying pyoptools/tests/test_coding_standards.py -> build/lib.linux-x86_64-2.7/pyoptools/tests
+copying pyoptools/tests/test_shapes.py -> build/lib.linux-x86_64-2.7/pyoptools/tests
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace
+copying pyoptools/raytrace/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace
+copying pyoptools/raytrace/comp_lib.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/ideallens.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/powell_lens.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/compound_lens.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/mirror.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/diffraction.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/ccd.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/spherical_lens.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/cylindrical_lens.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/stop.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/prism.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+copying pyoptools/raytrace/_comp_lib/cube.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/_comp_lib
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/calc
+copying pyoptools/raytrace/calc/calc.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/calc
+copying pyoptools/raytrace/calc/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/calc
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/shape
+copying pyoptools/raytrace/shape/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/shape
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/component
+copying pyoptools/raytrace/component/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/component
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/system
+copying pyoptools/raytrace/system/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/system
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/library
+copying pyoptools/raytrace/library/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/library
+copying pyoptools/raytrace/library/library.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/library
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/surface
+copying pyoptools/raytrace/surface/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/surface
+copying pyoptools/raytrace/surface/poly_expansion.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/surface
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib
+copying pyoptools/raytrace/mat_lib/material.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib
+copying pyoptools/raytrace/mat_lib/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/ray
+copying pyoptools/raytrace/ray/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/ray
+copying pyoptools/raytrace/ray/ray_source.py -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/ray
+creating build/lib.linux-x86_64-2.7/pyoptools/misc
+copying pyoptools/misc/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/lsq
+copying pyoptools/misc/lsq/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/lsq
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/Poly2D
+copying pyoptools/misc/Poly2D/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/Poly2D
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/plist
+copying pyoptools/misc/plist/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/plist
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/definitions
+copying pyoptools/misc/definitions/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/definitions
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/resources
+copying pyoptools/misc/resources/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/resources
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/pmisc
+copying pyoptools/misc/pmisc/misc.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/pmisc
+copying pyoptools/misc/pmisc/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/pmisc
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/picklable
+copying pyoptools/misc/picklable/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/picklable
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/cmisc
+copying pyoptools/misc/cmisc/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/cmisc
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/frft
+copying pyoptools/misc/frft/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/frft
+copying pyoptools/misc/frft/frft.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/frft
+creating build/lib.linux-x86_64-2.7/pyoptools/misc/GS
+copying pyoptools/misc/GS/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/GS
+copying pyoptools/misc/GS/gs.py -> build/lib.linux-x86_64-2.7/pyoptools/misc/GS
+creating build/lib.linux-x86_64-2.7/pyoptools/wavefront
+copying pyoptools/wavefront/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront
+creating build/lib.linux-x86_64-2.7/pyoptools/wavefront/zernike
+copying pyoptools/wavefront/zernike/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/zernike
+copying pyoptools/wavefront/zernike/zernike.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/zernike
+creating build/lib.linux-x86_64-2.7/pyoptools/wavefront/cpsurfrep
+copying pyoptools/wavefront/cpsurfrep/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/cpsurfrep
+creating build/lib.linux-x86_64-2.7/pyoptools/wavefront/calc
+copying pyoptools/wavefront/calc/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/calc
+copying pyoptools/wavefront/calc/gs.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/calc
+creating build/lib.linux-x86_64-2.7/pyoptools/wavefront/psurfrep
+copying pyoptools/wavefront/psurfrep/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/psurfrep
+creating build/lib.linux-x86_64-2.7/pyoptools/wavefront/field
+copying pyoptools/wavefront/field/__init__.py -> build/lib.linux-x86_64-2.7/pyoptools/wavefront/field
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/library/Edmund
+copying pyoptools/raytrace/library/Edmund/SphOptics1.cmp -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/library/Edmund
+copying pyoptools/raytrace/library/Edmund/SphOptics.cmp -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/library/Edmund
+creating build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/corning.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/schott.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/schott_530.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/hoya.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/obsolete.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/ohara.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/hoya_obs.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/shared.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/ohara_530.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/hoya_old.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/schott_2000.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/schott_2015.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+copying pyoptools/raytrace/mat_lib/data/sumita.mat -> build/lib.linux-x86_64-2.7/pyoptools/raytrace/mat_lib/data
+running build_ext
+building 'pyoptools.raytrace.shape.circular' extension
+creating build/temp.linux-x86_64-2.7
+creating build/temp.linux-x86_64-2.7/pyoptools
+creating build/temp.linux-x86_64-2.7/pyoptools/raytrace
+creating build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape
+/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-cc -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -fPIC -I. -I/home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages/numpy/core/include -I/home/wcamilo96/anaconda2/envs/pyoptools/include/python2.7 -c pyoptools/raytrace/shape/circular.c -o build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.o -O3 -Wall
+pyoptools/raytrace/shape/circular.c: In function '__pyx_f_9pyoptools_8raytrace_5shape_8circular_8Circular_hit':
+pyoptools/raytrace/shape/circular.c:2087:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     __Pyx_INCREF(Py_False);
+     ^~~~~~~~~~~~
+pyoptools/raytrace/shape/circular.c:2090:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     __Pyx_INCREF(Py_True);
+     ^~~~~~~~~~~~
+pyoptools/raytrace/shape/circular.c: In function '__pyx_pf_9pyoptools_8raytrace_5shape_8circular_8Circular_6fhit':
+pyoptools/raytrace/shape/circular.c:2423:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+   __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_9pyoptools_8raytrace_5shape_8circular_8Circular_fhit(__pyx_v_self, __pyx_v_px, __pyx_v_py, __pyx_v_pz, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+   ^~~~~~~~~
+pyoptools/raytrace/shape/circular.c:2423:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+gcc -pthread -shared -z noexecstack -z relro -z now -fstack-protector -L/home/wcamilo96/anaconda2/envs/pyoptools/lib -Wl,-rpath=/home/wcamilo96/anaconda2/envs/pyoptools/lib,--no-as-needed -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.o -L/home/wcamilo96/anaconda2/envs/pyoptools/lib -lpython2.7 -o build/lib.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.so
+gcc: error: unrecognized command line option ‘-fno-plt’
+error: command 'gcc' failed with exit status 1
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ gcc --version
+gcc (Ubuntu 5.4.0-6ubuntu1~16.04.10) 5.4.0 20160609
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ anaconda-navigator 
+2018-08-02 11:07:28,296 - ERROR anaconda_api.is_vscode_available:956
+''
+
+2018-08-02 11:08:01,012 - ERROR anaconda_api.is_vscode_available:956
+''
+
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ python setup.py install
+There are several valid include directoriescontaining numpy/arrayobject.h
+1: /home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages
+2: /home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages
+Selection [default=1]:1
+pyoptools/raytrace/surface/taylor_poly.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+pyoptools/raytrace/surface/powell.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+pyoptools/raytrace/surface/aspherical.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+running install
+running bdist_egg
+running egg_info
+creating pyoptools.egg-info
+writing pyoptools.egg-info/PKG-INFO
+writing top-level names to pyoptools.egg-info/top_level.txt
+writing dependency_links to pyoptools.egg-info/dependency_links.txt
+writing manifest file 'pyoptools.egg-info/SOURCES.txt'
+reading manifest file 'pyoptools.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+warning: no files found matching 'copyright'
+warning: no files found matching 'README'
+warning: no files found matching 'PKG-INFO'
+warning: no files found matching 'ipyoptools.py'
+writing manifest file 'pyoptools.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_py
+running build_ext
+building 'pyoptools.raytrace.shape.circular' extension
+/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-cc -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -fPIC -I. -I/home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages/numpy/core/include -I/home/wcamilo96/anaconda2/envs/pyoptools/include/python2.7 -c pyoptools/raytrace/shape/circular.c -o build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.o -O3 -Wall
+pyoptools/raytrace/shape/circular.c: In function '__pyx_f_9pyoptools_8raytrace_5shape_8circular_8Circular_hit':
+pyoptools/raytrace/shape/circular.c:2087:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     __Pyx_INCREF(Py_False);
+     ^~~~~~~~~~~~
+pyoptools/raytrace/shape/circular.c:2090:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     __Pyx_INCREF(Py_True);
+     ^~~~~~~~~~~~
+pyoptools/raytrace/shape/circular.c: In function '__pyx_pf_9pyoptools_8raytrace_5shape_8circular_8Circular_6fhit':
+pyoptools/raytrace/shape/circular.c:2423:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+   __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_9pyoptools_8raytrace_5shape_8circular_8Circular_fhit(__pyx_v_self, __pyx_v_px, __pyx_v_py, __pyx_v_pz, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+   ^~~~~~~~~
+pyoptools/raytrace/shape/circular.c:2423:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+gcc -pthread -shared -z noexecstack -z relro -z now -fstack-protector -L/home/wcamilo96/anaconda2/envs/pyoptools/lib -Wl,-rpath=/home/wcamilo96/anaconda2/envs/pyoptools/lib,--no-as-needed -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.o -L/home/wcamilo96/anaconda2/envs/pyoptools/lib -lpython2.7 -o build/lib.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.so
+gcc: error: unrecognized command line option ‘-fno-plt’
+error: command 'gcc' failed with exit status 1
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ python setup.py install
+There are several valid include directoriescontaining numpy/arrayobject.h
+1: /home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages
+2: /home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages
+Selection [default=1]:2
+pyoptools/raytrace/surface/taylor_poly.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+pyoptools/raytrace/surface/powell.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+pyoptools/raytrace/surface/aspherical.pyx: cannot find cimported module 'pyoptools.misc.Poly2D'
+running install
+running bdist_egg
+running egg_info
+writing pyoptools.egg-info/PKG-INFO
+writing top-level names to pyoptools.egg-info/top_level.txt
+writing dependency_links to pyoptools.egg-info/dependency_links.txt
+reading manifest file 'pyoptools.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+warning: no files found matching 'copyright'
+warning: no files found matching 'README'
+warning: no files found matching 'PKG-INFO'
+warning: no files found matching 'ipyoptools.py'
+writing manifest file 'pyoptools.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_py
+running build_ext
+building 'pyoptools.raytrace.shape.circular' extension
+/home/wcamilo96/anaconda2/envs/pyoptools/bin/x86_64-conda_cos6-linux-gnu-cc -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -fPIC -I. -I/home/wcamilo96/anaconda2/envs/pyoptools/lib/python2.7/site-packages/numpy/core/include -I/home/wcamilo96/anaconda2/envs/pyoptools/include/python2.7 -c pyoptools/raytrace/shape/circular.c -o build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.o -O3 -Wall
+pyoptools/raytrace/shape/circular.c: In function '__pyx_f_9pyoptools_8raytrace_5shape_8circular_8Circular_hit':
+pyoptools/raytrace/shape/circular.c:2087:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     __Pyx_INCREF(Py_False);
+     ^~~~~~~~~~~~
+pyoptools/raytrace/shape/circular.c:2090:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+     __Pyx_INCREF(Py_True);
+     ^~~~~~~~~~~~
+pyoptools/raytrace/shape/circular.c: In function '__pyx_pf_9pyoptools_8raytrace_5shape_8circular_8Circular_6fhit':
+pyoptools/raytrace/shape/circular.c:2423:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+   __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_9pyoptools_8raytrace_5shape_8circular_8Circular_fhit(__pyx_v_self, __pyx_v_px, __pyx_v_py, __pyx_v_pz, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+   ^~~~~~~~~
+pyoptools/raytrace/shape/circular.c:2423:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+gcc -pthread -shared -z noexecstack -z relro -z now -fstack-protector -L/home/wcamilo96/anaconda2/envs/pyoptools/lib -Wl,-rpath=/home/wcamilo96/anaconda2/envs/pyoptools/lib,--no-as-needed -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -pipe -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 build/temp.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.o -L/home/wcamilo96/anaconda2/envs/pyoptools/lib -lpython2.7 -o build/lib.linux-x86_64-2.7/pyoptools/raytrace/shape/circular.so
+gcc: error: unrecognized command line option ‘-fno-plt’
+error: command 'gcc' failed with exit status 1
+(pyoptools) wcamilo96@GLaDOS ~/pyoptools-master $ cd
+(pyoptools) wcamilo96@GLaDOS ~ $ pip install pyoptools
+pyoptools-0.1.1-cp27-cp27mu-linux_x86_64.whl
+pyoptools-env/
+pyoptools-env_sebas/
+pyoptoolsfork-env/
+pyoptools-master/
+(pyoptools) wcamilo96@GLaDOS ~ $ pip install pyoptools-0.1.1-cp27-cp27mu-linux_x86_64.whl 
+Processing ./pyoptools-0.1.1-cp27-cp27mu-linux_x86_64.whl
+Installing collected packages: pyoptools
+Successfully installed pyoptools-0.1.1
+You are using pip version 9.0.1, however version 18.0 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+(pyoptools) wcamilo96@GLaDOS ~ $ ipyoptools 
+[TerminalIPythonApp] WARNING | Subcommand `ipython notebook` is deprecated and will be removed in future versions.
+[TerminalIPythonApp] WARNING | You likely want to use `jupyter notebook` in the future
+[I 11:14:57.328 NotebookApp] Serving notebooks from local directory: /home/wcamilo96
+[I 11:14:57.328 NotebookApp] 0 active kernels
+[I 11:14:57.328 NotebookApp] The Jupyter Notebook is running at:
+[I 11:14:57.328 NotebookApp] http://localhost:8888/?token=de5a02de90fb8d7c9d78d357d99e6e84300af90269a5ec6c
+[I 11:14:57.328 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 11:14:57.330 NotebookApp] 
+    
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:8888/?token=de5a02de90fb8d7c9d78d357d99e6e84300af90269a5ec6c
+[I 11:14:57.437 NotebookApp] Accepting one-time-token-authenticated connection from 127.0.0.1
+[W 11:15:09.093 NotebookApp] Notebook pyoptools-master/examples/basic_course/04-Simple RayTraces.ipynb is not trusted
+[W 11:15:09.121 NotebookApp] 404 GET /nbextensions/widgets/notebook/js/extension.js?v=20180802111457 (127.0.0.1) 8.77ms referer=http://localhost:8888/notebooks/pyoptools-master/examples/basic_course/04-Simple%20RayTraces.ipynb
+[I 11:15:09.785 NotebookApp] Kernel started: 056f14d7-2c1a-4fa6-9d69-665c7aa84371
+[I 11:15:10.236 NotebookApp] Adapting to protocol v5.1 for kernel 056f14d7-2c1a-4fa6-9d69-665c7aa84371
+[I 11:15:18.080 NotebookApp] Saving file at /pyoptools-master/examples/basic_course/04-Simple RayTraces.ipynb
+
+/media/wcamilo96/IJP/pyoptools-0.1.1-cp27-cp27mu-linux_x86_64.whl
+
+
+
+
+
+
