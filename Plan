@@ -85,24 +85,37 @@ Talk to the chief
 
 
 
-6. Evaluate rotations, second rotations
+Weekend. Evaluate rotations, second rotations
 
-Verify availables shapes
+Verify available shapes
 
 Verification routins -> think about it
 
-Sphinge, standard documentation, see ROOT
+
+Sphinx, standard documentation, see ROOT
+
 
 
 Examples from books.
 
 SImulation cameras, microscopes etc
 
+
 Take a look at waves propagation
 
 
+6.
+
+Introduction to Sphinx
+
+Look for better examples
+
+Evaluate rotations
+
+Check Tutorial.0
 
 
+[I 11:02:49.925 NotebookApp] Adapting to protocol v5.1 for kernel b83cd9c3-7c56-4c16-bc30-3ef9b335ef63
 
 
 
@@ -121,6 +134,7 @@ If your shell is Bash or a Bourne variant, enable conda for the current user wit
     $ echo ". /home/wcamilo96/anaconda2/etc/profile.d/conda.sh" >> ~/.bashrc
 
 or, for all users, enable conda with
+[I 11:02:49.925 NotebookApp] Adapting to protocol v5.1 for kernel b83cd9c3-7c56-4c16-bc30-3ef9b335ef63
 
     $ sudo ln -s /home/wcamilo96/anaconda2/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 
@@ -147,6 +161,7 @@ wcamilo96@GLaDOS ~/pyoptools-env/bin $ source activate
 (base) wcamilo96@GLaDOS ~/pyoptools-env/bin $ 
 (base) wcamilo96@GLaDOS ~/pyoptools-env/bin $ cd /home/wcamilo96/pyoptools-env
 (base) wcamilo96@GLaDOS ~/pyoptools-env $ ipyoptools
+[I 11:02:49.925 NotebookApp] Adapting to protocol v5.1 for kernel b83cd9c3-7c56-4c16-bc30-3ef9b335ef63
 ipyoptools: command not found
 (base) wcamilo96@GLaDOS ~/pyoptools-env $ jupyter notebook
 [I 11:02:44.832 NotebookApp] JupyterLab beta preview extension loaded from /home/wcamilo96/anaconda2/lib/python2.7/site-packages/jupyterlab
