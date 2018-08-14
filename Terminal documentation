@@ -1,0 +1,37 @@
+wcamilo96@juno:~$ cd /home/wcamilo96/pyoptools-master/pyoptools/raytrace/function
+wcamilo96@juno:~/pyoptools-master/pyoptools/raytrace/function$ cd
+wcamilo96@juno:~$ cd pyoptools-doc
+wcamilo96@juno:~/pyoptools-doc$ ls
+Makefile  build  source
+wcamilo96@juno:~/pyoptools-doc$ sudo sphinx-apidoc -o /home/wcamilo96/pyoptools-doc/source /home/wcamilo96/pyoptools-master/pyoptools/raytrace/function
+[sudo] password for wcamilo96: 
+Creating file /home/wcamilo96/pyoptools-doc/source/func.rst.
+Creating file /home/wcamilo96/pyoptools-doc/source/modules.rst.
+wcamilo96@juno:~/pyoptools-doc$ make html
+sphinx-build -b html -d build/doctrees   source build/html
+Running Sphinx v1.4.9
+loading pickled environment... done
+building [mo]: targets for 0 po files that are out of date
+building [html]: targets for 1 source files that are out of date
+updating environment: 2 added, 1 changed, 1 removed
+reading sources... [100%] modules                                               
+looking for now-outdated files... none found
+pickling environment... done
+checking consistency... /home/wcamilo96/pyoptools-doc/source/module-base.rst:: WARNING: document isn't included in any toctree
+/home/wcamilo96/pyoptools-doc/source/modules.rst:: WARNING: document isn't included in any toctree
+done
+preparing documents... done
+writing output... [100%] modules                                                
+generating indices... genindex py-modindex
+highlighting module code... [100%] func                                         
+writing additional pages... search
+copying static files... done
+copying extra files... done
+dumping search index in English (code: en) ... done
+dumping object inventory... done
+build succeeded, 2 warnings.
+
+Build finished. The HTML pages are in build/html.
+wcamilo96@juno:~/pyoptools-doc$ ^C
+wcamilo96@juno:~/pyoptools-doc$ 
+
