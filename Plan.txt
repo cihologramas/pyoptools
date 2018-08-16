@@ -1,0 +1,200 @@
+﻿1.
+
+Technical documentation examples    Pyoptools Classes Objects Modules
+             
+
+                                   libpython2.7site-packagespyoptools
+
+                                       Understanding a virtual environment
+                                       
+                                          - files that interact with the virtual environment
+                                          - C headers that compile the Python packages
+                                          - a copy of the Python version along with a folder where each dependency is installed
+
+
+
+                                       What is pyoptools & what is just python?
+                                           The Python Imaging Library
+
+                                   
+
+
+
+Basic simulation
+
+Clasification
+Wording
+
+Fork & pull over
+
+Issues
+
+
+2.
+
+Reinstallate-->> Homework. Bring computer
+
+Technical documentation, tutorial examples ->> ROOT
+
+Tutorial : elements, rays and systems
+
+Point out the libraries involved : Clasification : misc & raytrace
+
+
+3. Rays & systems
+   Create a system; syntaxis, rays
+
+Complete Components, continue writing.
+
+Pets python exercises
+
+doug = pet()
+
+Class
+   Variables
+   Object :  Instance of a class
+   Method : Function contained in a class
+   
+class dog(pet):
+
+If you ever want to call that method, you have to reference an object of that class first. Self
+
+Repere
+
+4. General review
+
+CCD recuparation
+
+Examples review
+
+Repere 
+
+Talk to Sergio
+
+
+
+5. Methods: Take a look try to write an example
+
+first draft: Final corrections
+
+Complete examples: Add and organize predefined elements
+
+
+
+Talk to the chief
+
+
+
+Weekend. Evaluate rotations, second rotations
+
+Verify available shapes
+
+Verification routins -> think about it
+
+
+Sphinx, standard documentation, see ROOT
+
+
+
+Examples from books.
+
+SImulation cameras, microscopes etc
+
+
+Take a look at waves propagation
+
+
+6.
+
+Introduction to Sphinx
+
+Look for better examples
+
+Evaluate rotations
+
+Check Tutorial.0
+
+
+7.
+
+New computer
+
+Anaconda (2.7)
+
+Install pyoptools -> Think about improving the installation guide
+
+Install sphinx
+
+Retake sphinx project. Start documentation on html
+
+Look for better examples
+
+Check Tutotial.0
+
+Adter checking tutorial -> Start on sphinx
+
+
+8. Finish mirrors, stops -> More writing
+
+General overview: Table of contents
+
+
+Classes scheme
+
+Start on sphinx: Non documented code: Look for examples
+
+
+Start binoculars example	
+
+
+
+Ecrire a supop
+
+9. 
+
+Basic quick results from examples
+
+Write to final review : Intro, examples
+			   -> Classes scheme
+
+Add calc to tutorial + Grating
+
+
+Check git-hub non documented code and look for examples in sphinx
+
+
+
+10. Installation step by step guide
+
+Add calc to tutorial + Grating
+
+Results from examples
+
+Check git-hub non documented code and look for examples in sphinx
+
+
+11. Add calc to tutorial + Grating
+
+Add ray methods 
+
+Results from examples
+
+Documentation doc on sphinx following the standards.
+
+Retake rotation: In which order are rotations made? In rotation test I evaluated the rotations of the axes, but not the objects' rotations
+
+12. 
+
+Ray methods
+
+Rotation
+
+Grating
+
+Results from examples
+
+
+
+
+
+Waves propagation and verification routins
