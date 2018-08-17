@@ -194,7 +194,15 @@ Grating
 Results from examples
 
 
+13.
+
+Check point: Organize examples. Open sphinx. Write about rotations
 
 
 
-Waves propagation and verification routins
+
+Waves propagation and verification routins + Sphinx
+
+Method to calculate distorsion
+
+
