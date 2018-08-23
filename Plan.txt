@@ -200,9 +200,46 @@ Check point: Organize examples. Open sphinx. Write about rotations
 
 
 
-
+...
 Waves propagation and verification routins + Sphinx
 
 Method to calculate distorsion
+
+
+14.
+
+Organize sphinx from github
+
+Waves propagation how to use
+
+Start and propose methods -> Presentation
+
+15. 
+
+Presentation: just explain the tutorial
+
+
+
+-Wave propagation
+
+-Propose methods: Distortion, 
+
+-hologram example. Check that everything from the old examples is in Tutorial.1
+
+-Make issues and pull request. Error propagate rays to waves. Error: Not availiable figures. error visualization thick lenses
+
+-Sphinx from doc- 
+
+- Installation - check terminal - make an issue with conda
+
+- Renderize with pylab inline
+
+
+
+
+15. Escribir a Sergio,
+Ver pasantias. Llenar encuesta.
+
+
 
 
