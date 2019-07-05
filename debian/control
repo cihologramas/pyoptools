@@ -1,0 +1,13 @@
+Source: pyoptools
+Maintainer: Ricardo Amezquita Orozco <ramezquitao@cihologramas.com>
+Section: python
+Priority: optional
+Build-Depends: dh-python, python3-setuptools (>= 0.6b3), python3-all-dev (>= 2.6.6-3), debhelper (>= 9)
+Standards-Version: 3.9.6
+Homepage: https://github.com/cihologramas/pyoptools/
+
+Package: python3-pyoptools
+Architecture: any
+Depends: ${misc:Depends}, ${python:Depends}, ${shlibs:Depends}
+Description: Optical ray tracing simulation system
+

@@ -1,12 +1,11 @@
 inplace:
-	python setup.py build_ext -i
-# DEB_BUILD_OPTIONS=nocheck make deb
+	python3 setup.py build_ext -i
 deb:
-	python setup.py --command-packages=stdeb.command sdist_dsc \
-	 bdist_deb
+	dch -b Paquete de prueba generado
+	dpkg-buildpackage -rfakeroot -uc -us -b 
 
 clean:
 	rm deb_dist dist build -rf
 	rm pyoptools*.tar.gz -f
-	python setup.py clean
-	python clean.py
+	python3 setup.py clean
+	python3 clean.py
