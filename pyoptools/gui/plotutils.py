@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 """Plotting utilities that depend only on Matplotlib
 """
 from pylab import plot, axis,array

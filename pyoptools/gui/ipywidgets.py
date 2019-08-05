@@ -10,7 +10,8 @@ try:
 except ModuleNotFoundError:
     print("need py3js installed to be able to plot systems in Jupyter notebooks")
 from pyoptools.misc.pmisc import wavelength2RGB, cross
-from numpy import pi
+from numpy import pi,array
+from math import sqrt
 def surf2mesh(S,P=(0,0,0),D=(0,0,0),wire=False):
     
     color="#ffff00"
@@ -100,17 +101,11 @@ def comp2mesh(C, P, D):
     c.position=tuple(P)
     return c
 
-def ray2mesh(ray):
-    rays=py3js.Group()
+
+def ray2list(ray):
+    rays=[]
 
     P1 = ray.pos
-    w = ray.wavelength
-    rc, gc, bc = wavelength2RGB(w)
-    rc=int(255*rc)
-    gc=int(255*gc)
-    bc=int(255*bc)
-    material = py3js.LineBasicMaterial(color = "#{:02X}{:02X}{:02X}".format(rc,gc,bc))
-
     if len(ray.childs) > 0:
         P2 = ray.childs[0].pos
     else:
@@ -118,17 +113,65 @@ def ray2mesh(ray):
     
     if ray.intensity != 0:
         
-        geometry = py3js.Geometry()
-    
-        geometry.vertices =  [list(P1),list(P2)]
-        
-        line = py3js.Line( geometry, material)
-        
-        rays.add(line)
+        line=[list(P1),list(P2)]
+        rays.append(line)
     
     for i in ray.childs:
-        rays.add(ray2mesh(i))
+        rays.extend(ray2list(i))
     return rays
+
+def ray2mesh(ray):
+    rays=py3js.Group()
+
+    w = ray.wavelength
+    rc, gc, bc = wavelength2RGB(w)
+    rc=int(255*rc)
+    gc=int(255*gc)
+    bc=int(255*bc)
+    material = py3js.LineBasicMaterial(color = "#{:02X}{:02X}{:02X}".format(rc,gc,bc))
+
+
+
+    rl = ray2list(ray)
+
+    for r in rl:
+        geometry = py3js.Geometry()
+        geometry.vertices =  r
+        line = py3js.Line( geometry, material)
+        rays.add(line)
+
+    return rays
+
+
+#def ray2mesh(ray):
+#    rays=py3js.Group()
+
+#    P1 = ray.pos
+#    w = ray.wavelength
+#    rc, gc, bc = wavelength2RGB(w)
+#    rc=int(255*rc)
+#    gc=int(255*gc)
+#    bc=int(255*bc)
+#    material = py3js.LineBasicMaterial(color = "#{:02X}{:02X}{:02X}".format(rc,gc,bc))
+
+#    if len(ray.childs) > 0:
+#        P2 = ray.childs[0].pos
+#    else:
+#        P2 = P1 + 10. * ray.dir
+    
+#    if ray.intensity != 0:
+        
+#        geometry = py3js.Geometry()
+    
+#        geometry.vertices =  [list(P1),list(P2)]
+        
+#        line = py3js.Line( geometry, material)
+        
+#        rays.add(line)
+    
+#    for i in ray.childs:
+#        rays.add(ray2mesh(i))
+#    return rays
 
 
 def sys2mesh(os):
@@ -159,8 +202,13 @@ def Plot3D(S,size=(800,200)):
 
     cam = py3js.OrthographicCamera(-width/2,width/2, height/2, -height/2,children=[light],position=[-500, 00,0])
 
-    c=sys2mesh(S)
-
+    if isinstance(S,System): 
+        c=sys2mesh(S)
+    elif isinstance(S,Component):
+        c=comp2mesh(S,(0,0,0),(0,0,0))
+    else:
+        c=surf2mesh(S,(0,0,0),(0,0,0))
+        
     scene = py3js.Scene(children=[c, alight,cam],background="#000000")
 
     renderer = py3js.Renderer(camera=cam, background='black', background_opacity=1,

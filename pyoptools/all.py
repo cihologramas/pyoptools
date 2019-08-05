@@ -66,4 +66,9 @@ from pyoptools.wavefront.zernike import *
 #
 # Import graphic packages This should be imported somewhere else
 from pyoptools.gui.plotutils import *
-from pyoptools.gui.ipynbplotutils import *
+
+# This module has problems with MESA in buster is disabled for the moment
+#from pyoptools.gui.ipynbplotutils import *
+
+# Module implemented using pythreejs
+from pyoptools.gui.ipywidgets import *

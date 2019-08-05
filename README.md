@@ -24,6 +24,7 @@ If you have setup already a Python virtualenv you could just install the require
 
     pip install -r requirements.txt
 
+
 ### For Debian/Ubuntu systems
 
 The following steps work to install the packages required to run pyoptools in an ipython notebook under debian 8. These
@@ -53,6 +54,14 @@ using a *NIX operating system when using pyoptools. Anyways, Windows users can c
 instructions on building/installing pyoptools in MS Windows operating system.
 
 This assumes you have cloned PyOpTools repository already.
+
+### Jupiter
+To use pyoptools together wit jupyter in a debian system:
+
+pip3 install pythreejs --user
+jupyter nbextension install --user --py pythreejs
+jupyter nbextension enable pythreejs --user --py
+
 
 ### Anaconda environment (Recommended)
 Probably the most portable and direct way of installing PyOpTools is to use the [Anaconda](https://www.anaconda.com/distribution/) 
