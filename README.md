@@ -25,7 +25,30 @@ If you have setup already a Python virtualenv you could just install the require
     pip install -r requirements.txt
 
 
-### For Debian/Ubuntu systems
+### New Instructions for Debian 10 (should work on any debian derivative)
+
+We develop pyoptools using almost debian/*buntu Linux distributions exclusively so this is the way that's most tested 
+and have better chances of working. Once you have setup up your requirements (check requirements section above), to 
+compile a deb package you just need to run:
+
+    make deb
+
+This will create a .deb installer outside the pyoptool's source root tree. Which you
+can install using the command (with admin privileges), changing the version/release/platform accordingly:
+
+    dpkg -i python3-pyoptools_<version>_<platform>.deb
+
+Using this method you will have control of versions installed via dpkg/APT package manager.
+
+To use pyoptools together with jupyter, the jupyter plugin pythreejs must be installed. To install it in the user directory, use the following instructions. 
+1. pip3 install pythreejs --user
+2. jupyter nbextension install --user --py pythreejs
+3. jupyter nbextension enable pythreejs --user --py
+
+after this is done, you will be able to visualize the simulations using the Plot3D command. 
+
+
+### For Debian/Ubuntu systems (old instructions)
 
 The following steps work to install the packages required to run pyoptools in an ipython notebook under debian 8. These
 instructions are far from complete, but they will give an idea.
@@ -55,12 +78,6 @@ instructions on building/installing pyoptools in MS Windows operating system.
 
 This assumes you have cloned PyOpTools repository already.
 
-### Jupiter
-To use pyoptools together wit jupyter in a debian system:
-
-pip3 install pythreejs --user
-jupyter nbextension install --user --py pythreejs
-jupyter nbextension enable pythreejs --user --py
 
 
 ### Anaconda environment (Recommended)
@@ -73,21 +90,9 @@ following command
 running it inside the directory where you cloned the PyOpTools repository, since the file [pyoptools_env.txt](pyoptools_env.txt)
 is in the root of this repository.  
 
-### Debian/Ubuntu
-We develop pyoptools using almost debian/*buntu Linux distributions exclusively so this is the way that's most tested 
-and have better chances of working. Once you have setup up your requirements (check requirements section above), to 
-compile a deb package you just need to run:
 
-    make deb
 
-This will create a .deb installer file inside the `deb_dist` directory in your source root tree of pyoptools. Which you
-can install using the command (with admin privileges), changing the version/release/platform accordingly:
-
-    dpkg -i python-pyoptools_<version>-<release>_<platform>.deb
-
-Using this method you will have control of versions installed via dpkg/APT package manager.
-
-### PyPI install (using pip - advanced users)
+### PyPI install (using pip - advanced users) The version in pip is outdated. Do not use this for the moment.
 
 **Note:** Windows users please check windows subsection. 
 
@@ -98,7 +103,7 @@ line with the following command
     
 Please note that this may alter your system libs, it's recommended to use this inside a virtualenv python environment.
 
-### Windows (using Cygwin)
+### Windows (using Cygwin) (not tested for python3 may not work anymore)
 
 So far the only success attempt at building and installing pyoptools is using Cygwin (check http://www.cygwin.com/). This is mainly because of some 
 issues when dealing with Microsoft compiler/SDK tools. You need a working Cygwin setup with all the dependencies 
