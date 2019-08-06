@@ -4,13 +4,13 @@
 from pyoptools.raytrace.system import System
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Surface
-from pyoptools.misc.pmisc import wavelength2RGB, cross
+from pyoptools.misc.pmisc import wavelength2RGB, cross, rot_x, rot_y, rot_z
 try:
     import pythreejs as py3js
 except ModuleNotFoundError:
     print("need py3js installed to be able to plot systems in Jupyter notebooks")
 from pyoptools.misc.pmisc import wavelength2RGB, cross
-from numpy import pi,array
+from numpy import pi,array,dot
 from math import sqrt
 def surf2mesh(S,P=(0,0,0),D=(0,0,0),wire=False):
     
@@ -187,7 +187,8 @@ def sys2mesh(os):
             s.add(c)
     return s
     
-def Plot3D(S,size=(800,200)):
+def Plot3D(S,size=(800,200),center=(0,0,0), rot=[(pi/3., pi/6., 0 )],scale=1):
+
     width,height=size
     
     
@@ -195,24 +196,36 @@ def Plot3D(S,size=(800,200)):
                                     intensity=.7,
                                     position=[0, 1000,0])
     alight =  py3js.AmbientLight(color='#777777',)
+
     
     # Set up a scene and render it:
     #cam = py3js.PerspectiveCamera(position=[0, 0, 500], fov=70, children=[light], aspect=width / height)
 
+    pos = array((0, 0, 500))
 
-    cam = py3js.OrthographicCamera(-width/2,width/2, height/2, -height/2,children=[light],position=[-500, 00,0])
+    for r in rot:
+        pos=dot(rot_z(r[2]),pos)
+        pos=dot(rot_y(r[1]),pos)
+        pos=dot(rot_x(r[0]),pos)
+    
+    cam = py3js.OrthographicCamera(-width/2*scale,width/2*scale, height/2*scale,
+                                   -height/2*scale,children=[light],
+                                   position=list(pos),
+                                   zoom=scale)
 
-    if isinstance(S,System): 
+    if isinstance(S,System):
         c=sys2mesh(S)
     elif isinstance(S,Component):
         c=comp2mesh(S,(0,0,0),(0,0,0))
     else:
         c=surf2mesh(S,(0,0,0),(0,0,0))
+
         
     scene = py3js.Scene(children=[c, alight,cam],background="#000000")
-
+    oc=py3js.OrbitControls(controlling=cam)
+    oc.target=center
     renderer = py3js.Renderer(camera=cam, background='black', background_opacity=1,
-                          scene=scene, controls=[py3js.OrbitControls(controlling=cam)],width=width, height=height)
+                          scene=scene, controls=[oc],width=width*scale, height=height*scale)
 
     return(renderer)
 
