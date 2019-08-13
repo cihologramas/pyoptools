@@ -27,10 +27,13 @@ help:
 	@echo "  linkcheck to check all external links for integrity"
 	@echo "  doctest   to run all doctests embedded in the documentation (if enabled)"
 
+build_ext:
+	@cd ..; python3 setup.py build_ext --inplace
+
 clean:
 	-rm -rf $(BUILDDIR)/*
 
-html:
+html: build_ext
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
