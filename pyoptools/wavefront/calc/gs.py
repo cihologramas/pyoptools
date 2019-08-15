@@ -18,24 +18,24 @@ def ffGS(z,target,estimate=None, iterations=20,error=None):
 	**ARGUMENTS:**
 	
 		========== ======================================================
-		z		  Propagation distance. This is used to calculate the 
-				   resolution needed in the object plane, for a given 
-				   target resolution. 
-		target	 :class:`Field` instance whose amplitude distribution 
-				   is used to represent the amplitude constrain to be 
-				   applied in the target plane. The phase of this field 
-				   is not used.
-		estimate   :class:`Field` instance used as initial estimate for 
-				   the problem. The amplitude of this field is taken as 
-				   the reference amplitude and the phase is obtained. The 
-				   resolution used to define this field must match the
-				   value needed to obtain the required target resolution
-				   when the FFT-Fraunhoffer transform is used. If the 
-				   wrong value is given an exception is raised.
-				   If not given, a unitary amplitude wave, with random 
-				   phase and the correct resolution, is used.
+		z          Propagation distance. This is used to calculate the
+		           resolution needed in the object plane, for a given
+		           target resolution.
+		target     :class:`Field` instance whose amplitude distribution
+		           is used to represent the amplitude constrain to be
+		           applied in the target plane. The phase of this field
+		           is not used.
+		estimate   :class:`Field` instance used as initial estimate for
+		           the problem. The amplitude of this field is taken as
+		           the reference amplitude and the phase is obtained. The
+		           resolution used to define this field must match the
+		           value needed to obtain the required target resolution
+		           when the FFT-Fraunhoffer transform is used. If the
+		           wrong value is given an exception is raised.
+		           If not given, a unitary amplitude wave, with random
+		           phase and the correct resolution, is used.
 		iterations Maximum number of iterations
-		error	  Expected error
+		error      Expected error
 		========== ======================================================
 	
 		.. note : target and object must have the same wavelength 
@@ -124,24 +124,24 @@ def fftGS(z,target,estimate=None, iterations=20,error=None,flagRand=True):
 	**ARGUMENTS:**
 	
 		========== ======================================================
-		z		  Propagation distance. This is used to calculate the 
-				   resolution needed in the object plane, for a given 
-				   target resolution. 
-		target	 :class:`Field` instance whose amplitude distribution 
-				   is used to represent the amplitude constrain to be 
-				   applied in the target plane. The phase of this field 
-				   is not used.
-		estimate   :class:`Field` instance used as initial estimate for 
-				   the problem. The amplitude of this field is taken as 
-				   the reference amplitude and the phase is obtained. The 
-				   resolution used to define this field must match the
-				   value needed to obtain the required target resolution
-				   when the FFT-Fraunhoffer transform is used. If the 
-				   wrong value is given an exception is raised.
-				   If not given, a unitary amplitude wave, with random 
-				   phase and the correct resolution, is used.
+		z          Propagation distance. This is used to calculate the
+		           resolution needed in the object plane, for a given
+		           target resolution.
+		target     :class:`Field` instance whose amplitude distribution
+		           is used to represent the amplitude constrain to be
+		           applied in the target plane. The phase of this field
+		           is not used.
+		estimate   :class:`Field` instance used as initial estimate for
+		           the problem. The amplitude of this field is taken as
+		           the reference amplitude and the phase is obtained. The
+		           resolution used to define this field must match the
+		           value needed to obtain the required target resolution
+		           when the FFT-Fraunhoffer transform is used. If the
+		           wrong value is given an exception is raised.
+		           If not given, a unitary amplitude wave, with random
+		           phase and the correct resolution, is used.
 		iterations Maximum number of iterations
-		error	  Expected error
+		error      Expected error
 		========== ======================================================
 	
 		.. note : target and object must have the same wavelength 
@@ -234,24 +234,24 @@ def frGS(z,target,estimate=None, iterations=20,error=None):
 	**ARGUMENTS:**
 	
 		========== ======================================================
-		z		  Propagation distance. This is used to calculate the 
-				   resolution needed in the object plane, for a given 
-				   target resolution. 
-		target	 :class:`Field` instance whose amplitude distribution 
-				   is used to represent the amplitude constrain to be 
-				   applied in the target plane. The phase of this field 
-				   is not used.
-		estimate   :class:`Field` instance used as initial estimate for 
-				   the problem. The amplitude of this field is taken as 
-				   the reference amplitude and the phase is obtained. The 
-				   resolution used to define this field must match the
-				   value needed to obtain the required target resolution
-				   when the FFT-Fresnel transform is used. If the 
-				   wrong value is given an exception is raised.
-				   If not given, a unitary amplitude wave, with random 
-				   phase and the correct resolution, is used.
+		z          Propagation distance. This is used to calculate the
+		           resolution needed in the object plane, for a given
+		           target resolution.
+		target     :class:`Field` instance whose amplitude distribution
+		           is used to represent the amplitude constrain to be
+		           applied in the target plane. The phase of this field
+		           is not used.
+		estimate   :class:`Field` instance used as initial estimate for
+		           the problem. The amplitude of this field is taken as
+		           the reference amplitude and the phase is obtained. The
+		           resolution used to define this field must match the
+		           value needed to obtain the required target resolution
+		           when the FFT-Fresnel transform is used. If the
+		           wrong value is given an exception is raised.
+		           If not given, a unitary amplitude wave, with random
+		           phase and the correct resolution, is used.
 		iterations Maximum number of iterations
-		error	  Expected error
+		error      Expected error
 		========== ======================================================
 	
 		.. note : target and object must have the same wavelength 
@@ -344,22 +344,22 @@ def asGS(z,target,estimate=None, iterations=20,error=None):
 	**ARGUMENTS:**
 	
 		========== =====================================================
-		z		  Propagation distance. This is used to calculate the 
-				   resolution needed in the object plane, for a given 
-				   target resolution. 
-		target	 :class:`Field` instance whose amplitude distribution 
-				   is used to represent the amplitude constrain to be 
-				   applied in the target plane. The phase of this field 
-				   is not used.
-		estimate   :class:`Field` instance used as initial estimate for 
-				   the problem. The amplitude of this field is taken as 
-				   the reference amplitude and the phase is obtained. It 
-				   must have the same resolution as the target field.
-				   
-				   If not given, a unitary amplitude wave, with random 
-				   phase and the correct resolution, is used.
+		z          Propagation distance. This is used to calculate the
+		           resolution needed in the object plane, for a given
+		           target resolution.
+		target     :class:`Field` instance whose amplitude distribution
+		           is used to represent the amplitude constrain to be
+		           applied in the target plane. The phase of this field
+		           is not used.
+		estimate   :class:`Field` instance used as initial estimate for
+		           the problem. The amplitude of this field is taken as
+		           the reference amplitude and the phase is obtained. It
+		           must have the same resolution as the target field.
+		
+		           If not given, a unitary amplitude wave, with random
+		           phase and the correct resolution, is used.
 		iterations Maximum number of iterations
-		error	  Expected error
+		error      Expected error
 		========== =====================================================
 			
 		.. note : target and object must have the same wavelength 
