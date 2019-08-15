@@ -1,7 +1,7 @@
 deb_dist/
 dist/
 build/
-doc/build_/
+doc/_build/
 *.c
 *.h
 *.so
