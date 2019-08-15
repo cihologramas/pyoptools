@@ -1,6 +1,6 @@
 pyOpTools API
 =============
-.. module: pyoptools 
+.. module:: pyoptools
 
 The package :mod:`pyoptools` is divided in several modules. These
 modules separate the different functionalities:
@@ -74,3 +74,12 @@ The package :mod:`pyoptools.wavefront` is divided in several modules:
     pyoptools.wavefront.psurfrep.rst
     pyoptools.wavefront.rst
     pyoptools.wavefront.zernike.rst
+
+
+Complete :mod:`pyoptools` tree
+------------------------------
+
+.. toctree::
+    :maxdepth: 5
+
+    pyoptools
