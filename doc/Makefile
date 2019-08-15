@@ -33,7 +33,7 @@ cleanapidoc:
 	rm -rf pyoptools.*rst
 
 apidoc: cleanapidoc
-	sphinx-apidoc -F -o . ../pyoptools
+	sphinx-apidoc --module-first -F -o . ../pyoptools
 
 clean: cleanapidoc
 	-rm -rf $(BUILDDIR)/*
