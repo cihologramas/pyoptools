@@ -38,7 +38,7 @@ def ffGS(z,target,estimate=None, iterations=20,error=None):
 		error      Expected error
 		========== ======================================================
 	
-		.. note : target and object must have the same wavelength 
+		.. note:: target and object must have the same wavelength 
 	
 	**RETURN VALUE:**
 		(holo,err)
@@ -144,7 +144,7 @@ def fftGS(z,target,estimate=None, iterations=20,error=None,flagRand=True):
 		error      Expected error
 		========== ======================================================
 	
-		.. note : target and object must have the same wavelength 
+		.. note:: target and object must have the same wavelength 
 	
 	**RETURN VALUE:**
 		(holo,err)
@@ -254,7 +254,7 @@ def frGS(z,target,estimate=None, iterations=20,error=None):
 		error      Expected error
 		========== ======================================================
 	
-		.. note : target and object must have the same wavelength 
+		.. note:: target and object must have the same wavelength 
 	
 	**RETURN VALUE:**
 		(holo,err)
@@ -362,7 +362,7 @@ def asGS(z,target,estimate=None, iterations=20,error=None):
 		error      Expected error
 		========== =====================================================
 			
-		.. note : target and object must have the same wavelength 
+		.. note:: target and object must have the same wavelength 
 	
 	**RETURN VALUE:**
 		(holo,err)
