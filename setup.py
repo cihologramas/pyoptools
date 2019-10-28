@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 
 import sys
 import os
@@ -125,7 +125,7 @@ setup(name="pyoptools",
                 ],
       package_data={
           'pyoptools.raytrace.mat_lib': ['data/*.mat'],
-          'pyoptools.raytrace.library': ['Edmund/*.cmp'],
+          'pyoptools.raytrace.library': ['Edmund/*.cmp','Thorlabs/*.cmp'],
           },
       author='Ricardo Amezquita Orozco',
       author_email='ramezquitao@cihologramas.com',
