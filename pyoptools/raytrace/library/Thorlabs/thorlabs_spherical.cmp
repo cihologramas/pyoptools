@@ -1,3 +1,717 @@
+[MAP051919-A]
+description = MAP051919-A - 1/2 Inch Matched Achromatic Pair, Magnification: 1.00:1.00
+curvature_s1 = 0.0168747890651367
+curvature_s2 = 0.0905797101449276
+curvature_s3 = -0.0772797527047913
+curvature_s4 = 0.0772797527047913
+curvature_s5 = -0.0905797101449276
+curvature_s6 = -0.0168747890651367
+thickness_l1 = 1.5
+thickness_l2 = 4.5
+air_gap = 3.993406654269
+thickness_l3 = 4.5
+thickness_l4 = 1.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BAF10
+material_l4 = N-SF6HT
+radius = 6.35
+glass_catalogs = SCHOTT
+type = DoubletPair
+
+[MAP051919-B]
+description = MAP051919-B - 1/2 Inch Matched Achromatic Pair, Magnification: 1.00:1.00
+curvature_s1 = 0.012919896640826873
+curvature_s2 = 0.09442870632672333
+curvature_s3 = -0.08223684210526316
+curvature_s4 = 0.08223684210526316
+curvature_s5 = -0.09442870632672333
+curvature_s6 = -0.012919896640826873
+thickness_l1 = 1.5
+thickness_l2 = 4.5
+air_gap = 2.99
+thickness_l3 = 4.5
+thickness_l4 = 1.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BAF10
+material_l4 = N-SF6HT
+radius = 6.35
+glass_catalogs = SCHOTT
+type = DoubletPair
+
+[MAP051925-A]
+description = MAP051925-A - 1/2 Inch Matched Achromatic Pair, Magnification: 1.00:1.32
+curvature_s1 = 0.0168747890651367
+curvature_s2 = 0.0905797101449276
+curvature_s3 = -0.0772797527047913
+curvature_s4 = 0.0532197977647685
+curvature_s5 = -0.0944287063267233
+curvature_s6 = -0.0146886016451234
+thickness_l1 = 1.5
+thickness_l2 = 4.5
+air_gap = 3.998841747907
+thickness_l3 = 5.0
+thickness_l4 = 2
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BAF10
+material_l4 = SF10
+radius = 6.35
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP051925-B]
+description = MAP051925-B - 1/2 Inch Matched Achromatic Pair, Magnification: 1.00:1.32
+curvature_s1 = 0.012919896640826873
+curvature_s2 = 0.09442870632672333
+curvature_s3 = -0.08223684210526316
+curvature_s4 = 0.06180469715698393
+curvature_s5 = -0.07513148009015777
+curvature_s6 = -0.014590020426028595
+thickness_l1 = 1.5
+thickness_l2 = 4.5
+air_gap = 3.41
+thickness_l3 = 5.0
+thickness_l4 = 2
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-LAK22
+material_l4 = N-SF6HT
+radius = 6.35
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP051950-A]
+description = MAP051950-A - 1/2 Inch Matched Achromatic Pair, Magnification: 1.00:2.63
+curvature_s1 = 0.0168747890651367
+curvature_s2 = 0.0905797101449276
+curvature_s3 = -0.0772797527047913
+curvature_s4 = 0.0365497076023392
+curvature_s5 = -0.0443655723158829
+curvature_s6 = -0.0108896874659697
+thickness_l1 = 1.5
+thickness_l2 = 4.5
+air_gap = 3.983312213582
+thickness_l3 = 3.5
+thickness_l4 = 1.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BK7
+material_l4 = SF2
+radius = 6.35
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP051950-B]
+description = MAP051950-B - 1/2 Inch Matched Achromatic Pair, Magnification: 1.00:2.63
+curvature_s1 = 0.012919896640826873
+curvature_s2 = 0.09442870632672333
+curvature_s3 = -0.08223684210526316
+curvature_s4 = 0.04132231404958678
+curvature_s5 = -0.037327360955580445
+curvature_s6 = 0.004
+thickness_l1 = 1.5
+thickness_l2 = 4.5
+air_gap = 3.802
+thickness_l3 = 3.5
+thickness_l4 = 1.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BAF10
+material_l4 = N-SF6HT
+radius = 6.35
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP052550-A]
+description = MAP052550-A - 1/2 Inch Matched Achromatic Pair, Magnification: 1.00:2.00
+curvature_s1 = 0.0146886016451234
+curvature_s2 = 0.0944287063267233
+curvature_s3 = -0.0532197977647685
+curvature_s4 = 0.0365497076023392
+curvature_s5 = -0.0443655723158829
+curvature_s6 = -0.0108896874659697
+thickness_l1 = 2
+thickness_l2 = 5.0
+air_gap = 3.994367255292
+thickness_l3 = 3.5
+thickness_l4 = 1.5
+material_l1 = SF10
+material_l2 = N-BAF10
+material_l3 = N-BK7
+material_l4 = SF2
+radius = 6.35
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP052550-B]
+description = MAP052550-B - 1/2 Inch Matched Achromatic Pair, Magnification: 1.00:2.00
+curvature_s1 = 0.014590020426028595
+curvature_s2 = 0.07513148009015777
+curvature_s3 = -0.06180469715698393
+curvature_s4 = 0.04132231404958678
+curvature_s5 = -0.037327360955580445
+curvature_s6 = 0.004
+thickness_l1 = 2
+thickness_l2 = 5.0
+air_gap = 4.212
+thickness_l3 = 3.5
+thickness_l4 = 1.5
+material_l1 = N-SF6HT
+material_l2 = N-LAK22
+material_l3 = N-BAF10
+material_l4 = N-SF6HT
+radius = 6.35
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP103030-A]
+description = MAP103030-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.00
+curvature_s1 = 0.012531328320802
+curvature_s2 = 0.0597728631201435
+curvature_s3 = -0.0478697941598851
+curvature_s4 = 0.0478697941598851
+curvature_s5 = -0.0597728631201435
+curvature_s6 = -0.012529791814704483
+thickness_l1 = 2
+thickness_l2 = 12.0
+air_gap = 5.999821789288999
+thickness_l3 = 12.0
+thickness_l4 = 2
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BAF10
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP103030-B]
+description = MAP103030-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.00
+curvature_s1 = 0.012645422357106728
+curvature_s2 = 0.06180469715698393
+curvature_s3 = -0.0474158368895211
+curvature_s4 = 0.0474158368895211
+curvature_s5 = -0.06180469715698393
+curvature_s6 = -0.012645422357106728
+thickness_l1 = 1.5
+thickness_l2 = 12.0
+air_gap = 3.199
+thickness_l3 = 12.0
+thickness_l4 = 1.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BAF10
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP103040-A]
+description = MAP103040-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.33
+curvature_s1 = 0.012531328320802
+curvature_s2 = 0.0597728631201435
+curvature_s3 = -0.0478697941598851
+curvature_s4 = 0.0422654268808115
+curvature_s5 = -0.0497760079641613
+curvature_s6 = -0.0173370319001387
+thickness_l1 = 2
+thickness_l2 = 12.0
+air_gap = 3.999238415104
+thickness_l3 = 10.0
+thickness_l4 = 2.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BK7
+material_l4 = SF5
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP103040-B]
+description = MAP103040-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.33
+curvature_s1 = 0.012645422357106728
+curvature_s2 = 0.06180469715698393
+curvature_s3 = -0.0474158368895211
+curvature_s4 = 0.03828483920367534
+curvature_s5 = -0.046992481203007516
+curvature_s6 = -0.0072944780800933695
+thickness_l1 = 1.5
+thickness_l2 = 12.0
+air_gap = 3.935
+thickness_l3 = 10.0
+thickness_l4 = 2.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BAF10
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP103050-A]
+description = MAP103050-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.67
+curvature_s1 = 0.012531328320802
+curvature_s2 = 0.0597728631201435
+curvature_s3 = -0.0478697941598851
+curvature_s4 = 0.02999400119976
+curvature_s5 = -0.0448833034111311
+curvature_s6 = -0.0034355996839248
+thickness_l1 = 2
+thickness_l2 = 12.0
+air_gap = 5.479358297032
+thickness_l3 = 9.0
+thickness_l4 = 2.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BAF10
+material_l4 = SF10
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP103050-B]
+description = MAP103050-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.67
+curvature_s1 = 0.012645422357106728
+curvature_s2 = 0.06180469715698393
+curvature_s3 = -0.0474158368895211
+curvature_s4 = 0.02980625931445604
+curvature_s5 = -0.03696857670979667
+curvature_s6 = -0.007961783439490446
+thickness_l1 = 1.5
+thickness_l2 = 12.0
+air_gap = 4.564
+thickness_l3 = 7.5
+thickness_l4 = 1.8
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-LAK22
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP103075-A]
+description = MAP103075-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:2.50
+curvature_s1 = 0.012531328320802
+curvature_s2 = 0.0597728631201435
+curvature_s3 = -0.0478697941598851
+curvature_s4 = 0.0214868929952729
+curvature_s5 = -0.0294898260100265
+curvature_s6 = -0.0104668201800293
+thickness_l1 = 2
+thickness_l2 = 12.0
+air_gap = 3.993327975734
+thickness_l3 = 7.0
+thickness_l4 = 2.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BK7
+material_l4 = SF5
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP103075-B]
+description = MAP103075-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:2.50
+curvature_s1 = 0.012645422357106728
+curvature_s2 = 0.06180469715698393
+curvature_s3 = -0.0474158368895211
+curvature_s4 = 0.02710027100271003
+curvature_s5 = -0.023713540431586435
+curvature_s6 = 0.0023934897079942556
+thickness_l1 = 1.5
+thickness_l2 = 12.0
+air_gap = 4.757
+thickness_l3 = 5.0
+thickness_l4 = 1.6
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BAF10
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP104040-A]
+description = MAP104040-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.00
+curvature_s1 = 0.0173370319001387
+curvature_s2 = 0.0497760079641613
+curvature_s3 = -0.0422654268808115
+curvature_s4 = 0.0422654268808115
+curvature_s5 = -0.0497760079641613
+curvature_s6 = -0.0173370319001387
+thickness_l1 = 2.5
+thickness_l2 = 10.0
+air_gap = 3.999549553444
+thickness_l3 = 10.0
+thickness_l4 = 2.5
+material_l1 = SF5
+material_l2 = N-BK7
+material_l3 = N-BK7
+material_l4 = SF5
+radius = 12.7
+glass_catalogs = SCHOTT
+type = DoubletPair
+
+[MAP104040-B]
+description = MAP104040-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.00
+curvature_s1 = 0.0072944780800933695
+curvature_s2 = 0.046992481203007516
+curvature_s3 = -0.03828483920367534
+curvature_s4 = 0.03828483920367534
+curvature_s5 = -0.046992481203007516
+curvature_s6 = -0.0072944780800933695
+thickness_l1 = 2.5
+thickness_l2 = 10.0
+air_gap = 4.670999999999999
+thickness_l3 = 10.0
+thickness_l4 = 2.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BAF10
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT
+type = DoubletPair
+
+[MAP105050-A]
+description = MAP105050-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.00
+curvature_s1 = 0.0034355996839248
+curvature_s2 = 0.0448833034111311
+curvature_s3 = -0.02999400119976
+curvature_s4 = 0.02999400119976
+curvature_s5 = -0.0448833034111311
+curvature_s6 = -0.0034355996839248
+thickness_l1 = 2.5
+thickness_l2 = 9.0
+air_gap = 3.999457749162
+thickness_l3 = 9.0
+thickness_l4 = 2.5
+material_l1 = SF10
+material_l2 = N-BAF10
+material_l3 = N-BAF10
+material_l4 = SF10
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP105050-B]
+description = MAP105050-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.00
+curvature_s1 = 0.007961783439490446
+curvature_s2 = 0.03696857670979667
+curvature_s3 = -0.02980625931445604
+curvature_s4 = 0.02980625931445604
+curvature_s5 = -0.03696857670979667
+curvature_s6 = -0.007961783439490446
+thickness_l1 = 1.8
+thickness_l2 = 7.5
+air_gap = 5.929
+thickness_l3 = 7.5
+thickness_l4 = 1.8
+material_l1 = N-SF6HT
+material_l2 = N-LAK22
+material_l3 = N-LAK22
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP105075-A]
+description = MAP105075-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.50
+curvature_s1 = 0.0034355996839248
+curvature_s2 = 0.0448833034111311
+curvature_s3 = -0.02999400119976
+curvature_s4 = 0.0214868929952729
+curvature_s5 = -0.0294898260100265
+curvature_s6 = -0.0104668201800293
+thickness_l1 = 2.5
+thickness_l2 = 9.0
+air_gap = 6.087416245796
+thickness_l3 = 7.0
+thickness_l4 = 2.5
+material_l1 = SF10
+material_l2 = N-BAF10
+material_l3 = N-BK7
+material_l4 = SF5
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP105075-B]
+description = MAP105075-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.50
+curvature_s1 = 0.007961783439490446
+curvature_s2 = 0.03696857670979667
+curvature_s3 = -0.02980625931445604
+curvature_s4 = 0.02710027100271003
+curvature_s5 = -0.023713540431586435
+curvature_s6 = 0.0023934897079942556
+thickness_l1 = 1.8
+thickness_l2 = 7.5
+air_gap = 6.122
+thickness_l3 = 5.0
+thickness_l4 = 1.6
+material_l1 = N-SF6HT
+material_l2 = N-LAK22
+material_l3 = N-BAF10
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP107575-A]
+description = MAP107575-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.00
+curvature_s1 = 0.0104668201800293
+curvature_s2 = 0.0294898260100265
+curvature_s3 = -0.0214868929952729
+curvature_s4 = 0.0214868929952729
+curvature_s5 = -0.0294898260100265
+curvature_s6 = -0.0104668201800293
+thickness_l1 = 2.5
+thickness_l2 = 7.0
+air_gap = 6.073341096566001
+thickness_l3 = 7.0
+thickness_l4 = 2.5
+material_l1 = SF5
+material_l2 = N-BK7
+material_l3 = N-BK7
+material_l4 = SF5
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP107575-B]
+description = MAP107575-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.00
+curvature_s1 = -0.0023934897079942556
+curvature_s2 = 0.023713540431586435
+curvature_s3 = -0.02710027100271003
+curvature_s4 = 0.02710027100271003
+curvature_s5 = -0.023713540431586435
+curvature_s6 = 0.0023934897079942556
+thickness_l1 = 1.6
+thickness_l2 = 5.0
+air_gap = 6.3149999999999995
+thickness_l3 = 5.0
+thickness_l4 = 1.6
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BAF10
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP1030100-A]
+description = MAP1030100-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:3.33
+curvature_s1 = 0.012531328320802
+curvature_s2 = 0.0597728631201435
+curvature_s3 = -0.0478697941598851
+curvature_s4 = 0.0159362549800797
+curvature_s5 = -0.0218770509735288
+curvature_s6 = -0.0077984870935039
+thickness_l1 = 2
+thickness_l2 = 12.0
+air_gap = 3.9694800942860002
+thickness_l3 = 4.0
+thickness_l4 = 2.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-BK7
+material_l4 = SF5
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP1030100-B]
+description = MAP1030100-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:2.50
+curvature_s1 = 0.012645422357106728
+curvature_s2 = 0.06180469715698393
+curvature_s3 = -0.0474158368895211
+curvature_s4 = 0.014997000599880022
+curvature_s5 = -0.018621973929236497
+curvature_s6 = -0.003854901507266489
+thickness_l1 = 1.5
+thickness_l2 = 12.0
+air_gap = 5.588
+thickness_l3 = 4.0
+thickness_l4 = 1.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-LAK22
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP1040100-A]
+description = MAP1040100-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:2.50
+curvature_s1 = 0.0173370319001387
+curvature_s2 = 0.0497760079641613
+curvature_s3 = -0.0422654268808115
+curvature_s4 = 0.0159362549800797
+curvature_s5 = -0.0218770509735288
+curvature_s6 = -0.0077984870935039
+thickness_l1 = 2.5
+thickness_l2 = 10.0
+air_gap = 3.997224697927
+thickness_l3 = 4.0
+thickness_l4 = 2.5
+material_l1 = SF5
+material_l2 = N-BK7
+material_l3 = N-BK7
+material_l4 = SF5
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP1040100-B]
+description = MAP1040100-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:2.50
+curvature_s1 = 0.0072944780800933695
+curvature_s2 = 0.046992481203007516
+curvature_s3 = -0.03828483920367534
+curvature_s4 = 0.014997000599880022
+curvature_s5 = -0.018621973929236497
+curvature_s6 = -0.003854901507266489
+thickness_l1 = 2.5
+thickness_l2 = 10.0
+air_gap = 6.324
+thickness_l3 = 4.0
+thickness_l4 = 1.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-LAK22
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP1050100-A]
+description = MAP1050100-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:2.00
+curvature_s1 = 0.0034355996839248
+curvature_s2 = 0.0448833034111311
+curvature_s3 = -0.02999400119976
+curvature_s4 = 0.0159362549800797
+curvature_s5 = -0.0218770509735288
+curvature_s6 = -0.0077984870935039
+thickness_l1 = 2.5
+thickness_l2 = 9.0
+air_gap = 3.708258995589
+thickness_l3 = 4.0
+thickness_l4 = 2.5
+material_l1 = SF10
+material_l2 = N-BAF10
+material_l3 = N-BK7
+material_l4 = SF5
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP1050100-B]
+description = MAP1050100-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:2.00
+curvature_s1 = 0.007961783439490446
+curvature_s2 = 0.03696857670979667
+curvature_s3 = -0.02980625931445604
+curvature_s4 = 0.014997000599880022
+curvature_s5 = -0.018621973929236497
+curvature_s6 = -0.003854901507266489
+thickness_l1 = 1.8
+thickness_l2 = 7.5
+air_gap = 6.952999999999999
+thickness_l3 = 4.0
+thickness_l4 = 1.5
+material_l1 = N-SF6HT
+material_l2 = N-LAK22
+material_l3 = N-LAK22
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP1075150-A]
+description = MAP1075150-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:2.00
+curvature_s1 = 0.0104668201800293
+curvature_s2 = 0.0294898260100265
+curvature_s3 = -0.0214868929952729
+curvature_s4 = 0.0109146474568871
+curvature_s5 = -0.01499700059988
+curvature_s6 = -0.0050581689428427
+thickness_l1 = 2.5
+thickness_l2 = 7.0
+air_gap = 2.9032594625133
+thickness_l3 = 5.7
+thickness_l4 = 2.2
+material_l1 = SF5
+material_l2 = N-BK7
+material_l3 = N-BK7
+material_l4 = SF5
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP1075150-B]
+description = MAP1075150-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:2.00
+curvature_s1 = -0.0023934897079942556
+curvature_s2 = 0.023713540431586435
+curvature_s3 = -0.02710027100271003
+curvature_s4 = 0.011961722488038277
+curvature_s5 = -0.01119444755401321
+curvature_s6 = -0.000751597143930853
+thickness_l1 = 1.6
+thickness_l2 = 5.0
+air_gap = 7.348
+thickness_l3 = 4.0
+thickness_l4 = 3.5
+material_l1 = N-SF6HT
+material_l2 = N-BAF10
+material_l3 = N-LAK22
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP10100100-A]
+description = MAP10100100-A - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.00
+curvature_s1 = 0.0077984870935039
+curvature_s2 = 0.0218770509735288
+curvature_s3 = -0.0159362549800797
+curvature_s4 = 0.0159362549800797
+curvature_s5 = -0.0218770509735288
+curvature_s6 = -0.0077984870935039
+thickness_l1 = 2.5
+thickness_l2 = 4.0
+air_gap = 3.998223210458
+thickness_l3 = 4.0
+thickness_l4 = 2.5
+material_l1 = SF5
+material_l2 = N-BK7
+material_l3 = N-BK7
+material_l4 = SF5
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
+[MAP10100100-B]
+description = MAP10100100-B - 1 Inch Matched Achromatic Pair, Magnification: 1.00:1.00
+curvature_s1 = 0.003854901507266489
+curvature_s2 = 0.018621973929236497
+curvature_s3 = -0.014997000599880022
+curvature_s4 = 0.014997000599880022
+curvature_s5 = -0.018621973929236497
+curvature_s6 = -0.003854901507266489
+thickness_l1 = 1.5
+thickness_l2 = 4.0
+air_gap = 7.987
+thickness_l3 = 4.0
+thickness_l4 = 1.5
+material_l1 = N-SF6HT
+material_l2 = N-LAK22
+material_l3 = N-LAK22
+material_l4 = N-SF6HT
+radius = 12.7
+glass_catalogs = SCHOTT HIKARI
+type = DoubletPair
+
 [AC050-008-A]
 description = AC050-008-A AC050-008-A POSITIVE VISIBLE ACHROMATS: Infinite 7.5
 curvature_s1 = 0.19047619047619047
@@ -1129,6 +1843,36 @@ material_l2 = N-SF6HT
 glass_catalogs = SCHOTT INFRARED MISC
 type = Doublet
 
+[AC254-050-E]
+description = Si Ge MWIR Doublet
+curvature_s1 = 0.02295204851387729
+curvature_s2 = 0.007466213416740677
+curvature_s3 = 0.005343901037056738
+curvature_s4 = 0.012607906538663258
+thickness_l1 = 2
+air_gap = 2.109132639725
+thickness_l2 = 2.667974139264
+radius = 11.125
+material_l1 = SILICON
+material_l2 = GERMANIUM
+glass_catalogs = SCHOTT INFRARED MISC
+type = AirSpacedDoublet
+
+[AC254-050-F]
+description = ZnSe ZnS MWIR Doublet
+curvature_s1 = 0.02436498084378203
+curvature_s2 = 0.0
+curvature_s3 = -0.0051070073645153365
+curvature_s4 = 0.009643473045287152
+thickness_l1 = 5.0
+air_gap = 2.261949240722
+thickness_l2 = 5.0
+radius = 11.125
+material_l1 = ZNSE
+material_l2 = ZNS_IR
+glass_catalogs = SCHOTT INFRARED MISC
+type = AirSpacedDoublet
+
 [AC254-060-A]
 description = AC254-060-A AC254-060-A POSITIVE VISIBLE ACHROMATS: Infinite 60
 curvature_s1 = 0.0239865675221876
@@ -1285,6 +2029,36 @@ material_l2 = N-SF6HT
 glass_catalogs = SCHOTT INFRARED MISC
 type = Doublet
 
+[AC254-075-E]
+description = Si Ge MWIR Doublet
+curvature_s1 = 0.01484460272616343
+curvature_s2 = 0.004685525109243476
+curvature_s3 = 0.0035491214757053455
+curvature_s4 = 0.008053092810250406
+thickness_l1 = 2.143162694187
+air_gap = 2.058326083788
+thickness_l2 = 5.0
+radius = 11.125
+material_l1 = SILICON
+material_l2 = GERMANIUM
+glass_catalogs = SCHOTT INFRARED MISC
+type = AirSpacedDoublet
+
+[AC254-075-F]
+description = ZnSe ZnS MWIR Doublet
+curvature_s1 = 0.01584487436691631
+curvature_s2 = 0.0
+curvature_s3 = -0.002703594879454389
+curvature_s4 = 0.00554236934384137
+thickness_l1 = 2
+air_gap = 2.138606329754
+thickness_l2 = 4.823286466322
+radius = 11.125
+material_l1 = ZNSE
+material_l2 = ZNS_IR
+glass_catalogs = SCHOTT INFRARED MISC
+type = AirSpacedDoublet
+
 [AC254-080-A]
 description = Ø25.4 mm, f=80.0 mm, Near IR Achromat, ARC: 350-700 nm
 curvature_s1 = 0.02016740935609168
@@ -1388,6 +2162,36 @@ material_l1 = N-BAF10
 material_l2 = N-SF6HT
 glass_catalogs = SCHOTT INFRARED MISC
 type = Doublet
+
+[AC254-100-E]
+description = Si Ge MWIR Doublet
+curvature_s1 = 0.01103201145645214
+curvature_s2 = 0.003445106875505392
+curvature_s3 = 0.0026858572512261196
+curvature_s4 = 0.005875106378965315
+thickness_l1 = 2.148466150895
+air_gap = 2.038945760502
+thickness_l2 = 5.000022187218
+radius = 11.125
+material_l1 = SILICON
+material_l2 = GERMANIUM
+glass_catalogs = SCHOTT INFRARED MISC
+type = AirSpacedDoublet
+
+[AC254-100-F]
+description = ZnSe ZnS MWIR Doublet
+curvature_s1 = 0.011839143457604041
+curvature_s2 = 0.0
+curvature_s3 = -0.0019330914660491152
+curvature_s4 = 0.00401405877651187
+thickness_l1 = 2
+air_gap = 2.099095531318
+thickness_l2 = 4.227784045451
+radius = 11.125
+material_l1 = ZNSE
+material_l2 = ZNS_IR
+glass_catalogs = SCHOTT INFRARED MISC
+type = AirSpacedDoublet
 
 [AC254-125-A]
 description = Ø25.4 mm, f=125.0 mm, Near IR Achromat, ARC: 350-700 nm
@@ -1583,6 +2387,36 @@ material_l1 = N-LAK22
 material_l2 = N-SF6HT
 glass_catalogs = SCHOTT INFRARED MISC
 type = Doublet
+
+[AC254-200-E]
+description = Si Ge MWIR Doublet
+curvature_s1 = 0.0028131636636557333
+curvature_s2 = -0.0012271865261501845
+curvature_s3 = -0.0034351037874406267
+curvature_s4 = -0.001807713224897693
+thickness_l1 = 5.0
+air_gap = 2.113223861977
+thickness_l2 = 5.0
+radius = 11.125
+material_l1 = SILICON
+material_l2 = GERMANIUM
+glass_catalogs = SCHOTT INFRARED MISC
+type = AirSpacedDoublet
+
+[AC254-200-F]
+description = ZnSe ZnS MWIR Doublet
+curvature_s1 = 0.0026180427253256946
+curvature_s2 = -0.0033013611820893797
+curvature_s3 = -0.005490226272060878
+curvature_s4 = -0.0026764947434797363
+thickness_l1 = 2
+air_gap = 2.112366878933
+thickness_l2 = 2
+radius = 11.125
+material_l1 = ZNSE
+material_l2 = ZNS_IR
+glass_catalogs = SCHOTT INFRARED MISC
+type = AirSpacedDoublet
 
 [AC254-250-A]
 description = AC254-250-A AC254-250-A POSITIVE VISIBLE ACHROMATS: Infinite 250
@@ -2323,6 +3157,19 @@ radius = 25.4
 material_l1 = N-LAK22
 material_l2 = N-SF6HT
 glass_catalogs = SCHOTT INFRARED MISC
+type = Doublet
+
+[AC508-180-A]
+description =  Ø50.8 mm, f=180.0 mm, Near IR Achromat, ARC: 350-700 nm
+curvature_s1 = 0.00911244760342628
+curvature_s2 = -0.01238696890870804
+curvature_s3 = -0.004192169028255219
+thickness_l1 = 12.0
+thickness_l2 = 2
+radius = 25.4
+material_l1 = N-BK7
+material_l2 = SF5
+glass_catalogs = SCHOTT
 type = Doublet
 
 [AC508-200-A]
@@ -3528,6 +4375,346 @@ material_l1 = N-BAF10
 material_l2 = N-SF6HT
 glass_catalogs = SCHOTT INFRARED MISC
 type = Doublet
+
+[AX251-A]
+description = 1.0°, 350-700 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 5.221679324588
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX251-B]
+description = 1.0°, 650-1050 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 5.221679324588
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX251-C]
+description = 1.0°, 1050-1620 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 5.221679324588
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX251-UV]
+description = 1.0°, 290-370 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 5.221679324588
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX252-A]
+description = 2.0°, 350-700 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 5.443493772545
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX252-B]
+description = 2.0°, 650-1050 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 5.443493772545
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX252-C]
+description = 2.0°, 1050-1620 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 5.443493772545
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX252-UV]
+description = 2.0°, 290-370 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 5.443493772545
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX255-A]
+description = 5.0°, 350-700 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 6.111106026779
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX255-B]
+description = 5.0°, 650-1050 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 6.111106026779
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX255-C]
+description = 5.0°, 1050-1620 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 6.111106026779
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX255-UV]
+description = 5.0°, 290-370 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 6.111106026779
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX2505-A]
+description = 0.5°, 350-700 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 5.110831220943
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX2505-B]
+description = 0.5°, 650-1050 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 5.110831220943
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX2505-C]
+description = 0.5°, 1050-1620 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 5.110831220943
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX2505-UV]
+description = 0.5°, 290-370 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 5.110831220943
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX2510-A]
+description = 10.0°, 350-700 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 7.239352654998
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX2510-B]
+description = 10.0°, 650-1050 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 7.239352654998
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX2510-C]
+description = 10.0°, 1050-1620 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 7.239352654998
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX2510-UV]
+description = 10.0°, 290-370 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 7.239352654998
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX2520-A]
+description = 20.0°, 350-700 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 9.622421975181
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX2520-B]
+description = 20.0°, 650-1050 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 9.622421975181
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX2520-C]
+description = 20.0°, 1050-1620 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 9.622421975181
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[AX2520-UV]
+description = 20.0°, 290-370 nm AR Coated UVFS, Ø25.4 mm (Ø1") Axicon
+material = F_SILICA
+glass_catalogs = SCHOTT INFRARED
+thickness = 9.622421975181
+radius = 12.7
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[GRIN2306A]
+description = GRIN Lens, Ø1.8 mm, 0.23 Pitch, 8°, 630 nm Design Wavelength, Uncoated
+material = SLW-1.8
+glass_catalogs = SCHOTT MISC
+thickness = 4.26
+radius = 0.9
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[GRIN2308A]
+description = GRIN Lens, Ø1.8 mm, 0.23 Pitch, 8°, 830 nm Design Wavelength, Uncoated 
+material = SLW-1.8
+glass_catalogs = SCHOTT MISC
+thickness = 4.35
+radius = 0.9
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[GRIN2310A]
+description = GRIN Lens, Ø1.8 mm, 0.23 Pitch, 8­°, 1060 nm Design Wavelength, Uncoated
+material = SLW-1.8
+glass_catalogs = SCHOTT MISC
+thickness = 4.4
+radius = 0.9
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[GRIN2313A]
+description = GRIN Lens, Ø1.8 mm, 0.23 Pitch, 8°, AR Coated: 1300 nm 
+material = SLW-1.8
+glass_catalogs = SCHOTT MISC
+thickness = 4.42
+radius = 0.9
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[GRIN2315A]
+description = GRIN Lens, Ø1.8 mm, 0.23 Pitch, 8°, AR Coated: 1560 nm
+material = SLW-1.8
+glass_catalogs = SCHOTT MISC
+thickness = 4.43
+radius = 0.9
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[GRIN2906]
+description = GRIN Lens, Ø1.8 mm, 0.29 Pitch, 0°, 630 nm Design Wavelength, Uncoated
+material = SLW-1.8
+glass_catalogs = SCHOTT MISC
+thickness = 5.38
+radius = 0.9
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[GRIN2908]
+description = GRIN Lens, Ø1.8 mm , 0.29 Pitch, 0°, 830 nm Design Wavelength, Uncoated
+material = SLW-1.8
+glass_catalogs = SCHOTT MISC
+thickness = 5.49
+radius = 0.9
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[GRIN2910]
+description = GRIN Lens, Ø1.8 mm, 0.29 Pitch, 0°, 1060 nm Design Wavelength, Uncoated
+material = SLW-1.8
+glass_catalogs = SCHOTT MISC
+thickness = 5.54
+radius = 0.9
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[GRIN2913]
+description = GRIN Lens, Ø1.8 mm, 0.29 Pitch, 0°, AR Coated: 1300 nm 
+material = SLW-1.8
+glass_catalogs = SCHOTT MISC
+thickness = 5.57
+radius = 0.9
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
+
+[GRIN2915]
+description = GRIN Lens, Ø1.8 mm, 0.29 Pitch, 0°, AR Coated: 1560 nm
+material = SLW-1.8
+glass_catalogs = SCHOTT MISC
+thickness = 5.59
+radius = 0.9
+curvature_s2 = 0.0
+curvature_s1 = 0.0
+type = SphericalLens
 
 [LA0209-E]
 description = LA0209-E Plano-Convex - Barium Fluoride

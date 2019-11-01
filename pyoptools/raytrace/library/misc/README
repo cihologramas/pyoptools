@@ -1,0 +1,17 @@
+In the 2 jupiter notebooks:
+
+- Edmund_zmf_spherical.ipynb 
+- thorlabs_zmf_spherical.ipynb 
+
+There are the code used to generate the cmp files from the zeemax libraries 
+downloaded from:
+
+https://www.thorlabs.com/software_pages/ViewSoftwarePage.cfm?Code=Zemax
+
+and 
+
+https://www.edmundoptics.com/products/services/zemax-catalog/
+
+The code in zemax_import.py was found and modified from:
+
+https://github.com/jordens/rayopt/blob/master/rayopt/zemax.py
