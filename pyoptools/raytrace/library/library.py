@@ -69,6 +69,9 @@ class Library:
                 pass
             elif opt=="description":
                 pass
+            elif opt=="glass_catalogs":
+                pass
+
             #Check if the material exists in the material library and
             elif opt[0:3]=="mat":
                 mat=self.parser.get(cmp,opt).upper()
