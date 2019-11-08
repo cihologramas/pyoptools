@@ -68,6 +68,14 @@ EXCLUDE_FILES = ['zernike.py',
                  'definitions.pyx',
                  'plist.pyx',
                  'Poly2D.pyx',
+                 'idealcomponent.pyx',
+                 'powell_lens.py',
+                 'mirror.py',
+                 'diffraction.py',
+                 'cylindrical_lens.py',
+                 'powell.pyx',
+                 'zemax_import.py',
+                 'ipywidgets.py',
                  ]
 
 
