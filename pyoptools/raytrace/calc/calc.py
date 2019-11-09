@@ -118,7 +118,9 @@ def nearest_points(ray1, ray2):
         p2 The point liying on the ray 2, closest to the ray 1
         d  The distance between p1 and p2 
         rv a boolean indicating if the intersection is real or virtual
-           rv=True for real, rv=False for virtual 
+           rv=True for real, rv=False for virtual
+           TODO: Clarify virtual. I think it has the same meaning as (virtual image) i.e. closest point is not in the
+           actual path, or behind the ray's origin.
         == ===========================================================
     '''
     r1=ray1.pos
