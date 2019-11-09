@@ -393,7 +393,7 @@ cdef class Ray:
                     wavelength=self.wavelength,n=self.n,label=self.label, 
                     orig_surf=self.orig_surf)
     def __repr__(self):        
-    
+        # TODO: why 'direc' and not 'dir' ? This is confusing
         return "Ray(pos="+repr(self.pos)+",direc="+repr(self.dir)+\
             ",intensity="+repr(self.intensity)+",wavelength="+\
             repr(self.wavelength)+",n="+repr(self.n)+",label="+\

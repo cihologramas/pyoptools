@@ -3,7 +3,7 @@ import os
 import pyoptools
 from nose.tools import assert_equal
 
-PEP8_ADDITIONAL_IGNORE = []
+PEP8_ADDITIONAL_IGNORE = ['E501']
 
 # THIS IS THE LIST OF SHAME!!!!
 # If you modify a single one of these files, take the opportunity,
