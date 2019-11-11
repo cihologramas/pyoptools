@@ -1,8 +1,8 @@
 # standard imports
 
 # third-party imports
-from nose.tools import assert_equal
 import numpy as np
+import pytest
 
 # local imports
 from pyoptools.raytrace._comp_lib.ccd import CCD
@@ -23,14 +23,14 @@ def test_intersection():
     r2 = Ray(pos=pos, dir=(1, 2, 1))
     ip, rv = calc.intersection(r1, r2)
     np.testing.assert_almost_equal(ip, pos)
-    assert_equal(rv, True)
+    assert(rv == True)
 
     # Not intersecting
     r1 = Ray(pos=(0, 0, 0), dir=(0, 0.2, 1))
     r2 = Ray(pos=(1, 0, 0), dir=(0, 0.2, 1))
     ip, rv = calc.intersection(r1, r2)
     np.testing.assert_almost_equal(ip, [np.nan, np.nan, np.nan])
-    assert_equal(rv, False)
+    assert(rv == False)
 
 
 def test_nearest_points():
@@ -40,8 +40,8 @@ def test_nearest_points():
     p1, p2, d, rv = calc.nearest_points(r1, r2)
     np.testing.assert_almost_equal(p1, [1.0, 1.0, 0.0])
     np.testing.assert_almost_equal(p2, [1.0, 1.0, 1.0])
-    assert_equal(d, 1)
-    assert_equal(rv, True)
+    assert(d == 1)
+    assert(rv == True)
 
     # Virtual closest point
     r1 = Ray(pos=(0, 0, 0), dir=(1, 1, 0))
@@ -49,8 +49,8 @@ def test_nearest_points():
     p1, p2, d, rv = calc.nearest_points(r1, r2)
     np.testing.assert_almost_equal(p1, [1.0, 1.0, 0.0])
     np.testing.assert_almost_equal(p2, [1.0, 1.0, 1.0])
-    assert_equal(d, 1)
-    assert_equal(rv, False)
+    assert(d == 1)
+    assert(rv == False)
 
 
 def test_chief_ray_search():
@@ -92,9 +92,3 @@ def test_chief_ray_search():
     np.testing.assert_equal(chief_ray.label, "")
     np.testing.assert_equal(chief_ray.orig_surf, None)
     np.testing.assert_almost_equal(chief_ray.order, 0)
-
-
-if __name__ == "__main__":
-    import nose
-
-    nose.runmodule()
