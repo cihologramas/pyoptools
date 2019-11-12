@@ -1,4 +1,8 @@
-from nose.tools import assert_equal
+# standard imports
+
+# third-party imports
+
+# local imports
 from pyoptools.raytrace import shape
 from pyoptools.raytrace import surface
 from pyoptools.raytrace import component
@@ -18,9 +22,4 @@ def test_component_surflist():
                              material=material.schott["BK7"])
     print(type(L1.surflist))
     for surf in L1.surflist:
-        assert_equal(len(surf), 3, 'Wrong surface length')
-
-
-if __name__ == '__main__':
-    import nose
-    nose.runmodule()
+        assert len(surf) == 3, 'Wrong surface length'

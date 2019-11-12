@@ -114,11 +114,13 @@ def nearest_points(ray1, ray2):
         The return value is a tuple (p1,p2,d,rv) where:
         
         == ===========================================================
-        p1 The point liying on the ray 1, closest to the ray 2
-        p2 The point liying on the ray 2, closest to the ray 1
+        p1 The point living on the ray 1, closest to the ray 2
+        p2 The point living on the ray 2, closest to the ray 1
         d  The distance between p1 and p2 
         rv a boolean indicating if the intersection is real or virtual
-           rv=True for real, rv=False for virtual 
+           rv=True for real, rv=False for virtual
+           TODO: Clarify virtual. I think it has the same meaning as (virtual image) i.e. closest point is not in the
+           actual path, or behind the ray's origin.
         == ===========================================================
     '''
     r1=ray1.pos
@@ -390,7 +392,17 @@ def paraxial_location(opsys, opaxis):
     
     *opaxis* 
         Ray representating the optical axis
-        
+
+    Return Value:
+
+         Tuple (image_location, real_) where:
+
+        == ============================================================
+        image_location
+        real_ Boolean that indicates if the intersection point represent a
+           real image (real_=True) , or a virtual image (real_=False).
+        == ============================================================
+
     For this function to operate, the system should have a rotational symmetry
     around the optical axis. 
     """
@@ -457,11 +469,13 @@ def find_apperture(ccd, size=(50,50)):
     
     *ccd*
         CCD object that will be used to get the shape information
-    
+
+    # TODO: please better describe
     *size*
         Array shape
     
     Note: Right now only works for round appertures.
+    # TODO: please be more specific
     '''
     
     hl=ccd.hit_list
