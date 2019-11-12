@@ -459,11 +459,13 @@ def find_apperture(ccd, size=(50,50)):
     
     *ccd*
         CCD object that will be used to get the shape information
-    
+
+    # TODO: please better describe
     *size*
         Array shape
     
     Note: Right now only works for round appertures.
+    # TODO: please be more specific
     '''
     
     hl=ccd.hit_list

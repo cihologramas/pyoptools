@@ -1,8 +1,8 @@
 # standard imports
+from itertools import permutations
 
 # third-party imports
 import numpy as np
-import pytest
 
 # local imports
 from pyoptools.raytrace._comp_lib.ccd import CCD
@@ -93,6 +93,32 @@ def test_chief_ray_search():
     np.testing.assert_equal(chief_ray.label, "")
     np.testing.assert_equal(chief_ray.orig_surf, None)
     np.testing.assert_almost_equal(chief_ray.order, 0)
+
+
+# TODO better test. Here is a tentative to better understand what does this function using a blackbox approach.
+def test_find_apperture():
+    # def find_apperture(ccd, size=(5,5)):
+
+    # test that it always return a zeros array
+    for p in permutations([11, 13, 17, 19]):
+        ccd_size = (p[0], p[1])
+        aperture_size = (p[2], p[3])
+        ccd = CCD(size=ccd_size)
+        result = calc.find_apperture(ccd, size=aperture_size)
+        expected = np.zeros_like(result)
+        np.testing.assert_equal(result, expected)
+
+    # test the shape of the output array
+    for p in permutations([11, 13, 17, 19]):
+        ccd_size = (p[0], p[1])
+        aperture_size = (p[2], p[3])
+        ccd = CCD(size=ccd_size)
+        result = calc.find_apperture(ccd, size=aperture_size)
+        print(p, aperture_size, result.shape)
+        if result.shape != aperture_size:
+            print('---')
+        assert result.shape == aperture_size
+    # mostly work, but not all times. Looks like a bug.
 
 
 def test_find_ppp():
