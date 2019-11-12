@@ -392,7 +392,17 @@ def paraxial_location(opsys, opaxis):
     
     *opaxis* 
         Ray representating the optical axis
-        
+
+    Return Value:
+
+         Tuple (image_location, real_) where:
+
+        == ============================================================
+        image_location
+        real_ Boolean that indicates if the intersection point represent a
+           real image (real_=True) , or a virtual image (real_=False).
+        == ============================================================
+
     For this function to operate, the system should have a rotational symmetry
     around the optical axis. 
     """

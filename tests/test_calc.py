@@ -95,6 +95,21 @@ def test_chief_ray_search():
     np.testing.assert_almost_equal(chief_ray.order, 0)
 
 
+def test_paraxial_location():
+    # image_location, real_ = paraxial_location(opsys, opaxis):
+    L1 = library.Edmund.get("45179")  # f=200 r= 25
+    OA = Ray(pos=(0, 0, -10000), dir=(0, 0, 1), wavelength=.55)  # Optical axis
+    C = CCD(size=(10, 10))
+    S = System(complist=[(L1, (0, 0, 100), (0, np.pi, 0)), (C, (0, 0, 320.053), (0, 0, 0))], n=1)
+    PB = parallel_beam_c(origin=(0, 0, 50), direction=(0, 0, 0), size=(15, 15), num_rays=(15, 15), wavelength=.55)
+    S.ray_add(PB)
+    S.propagate()
+
+    image_location, real_ = calc.paraxial_location(S, OA)
+    np.testing.assert_almost_equal(image_location, [-5.59109334e-16,  0.00000000e+00,  3.07249900e+02])
+    assert real_ == False
+
+
 # TODO better test. Here is a tentative to better understand what does this function using a blackbox approach.
 def test_find_apperture():
     # def find_apperture(ccd, size=(5,5)):
@@ -122,6 +137,7 @@ def test_find_apperture():
 
 
 def test_find_ppp():
+    # find_ppp(opsys, opaxis)
     L1 = library.Edmund.get("45179")  # f=200 r= 25
     OA = Ray(pos=(0, 0, -10000), dir=(0, 0, 1), wavelength=.55)  # Optical axis
     C = CCD(size=(10, 10))
