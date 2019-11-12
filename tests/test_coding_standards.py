@@ -3,7 +3,6 @@ import os
 
 # third-party imports
 import pep8
-import pytest
 
 # local imports
 import pyoptools
