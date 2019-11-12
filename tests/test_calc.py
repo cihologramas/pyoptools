@@ -95,6 +95,11 @@ def test_chief_ray_search():
     np.testing.assert_almost_equal(chief_ray.order, 0)
 
 
+# def test_pupil_location():
+#     # pupil_location(opsys,ccds,opaxis)
+#     assert False, "Please write a proper test"
+
+
 def test_paraxial_location():
     # image_location, real_ = paraxial_location(opsys, opaxis):
     L1 = library.Edmund.get("45179")  # f=200 r= 25
@@ -148,3 +153,33 @@ def test_find_ppp():
 
     result = calc.find_ppp(S, OA)
     np.testing.assert_almost_equal(result, [0., 0., 104.5670357])
+
+
+# def test_get_optical_path_ep():
+#     get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None)
+#     assert False, "Please write a proper test"
+
+
+# def test_find_reference_sphere_radius():
+#     find_reference_sphere_radius(ip, pl):
+#     assert False, "Please write a proper test"
+
+
+# def test_aux_paral_f():
+#     aux_paral_f(x):
+#     assert False, "Please write a proper test"
+
+
+# def test_parallel_propagate():
+#     parallel_propagate(os,r , np=None):
+#     assert False, "Please write a proper test"
+
+
+# def test_aux_paral_f_ns():
+#     aux_paral_f_ns(x):
+#     assert False, "Please write a proper test"
+
+
+# def test_parallel_propagate_ns():
+#     parallel_propagate_ns(os,rg, dp, r, np=None):
+#     assert False, "Please write a proper test"
