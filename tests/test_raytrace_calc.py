@@ -19,68 +19,72 @@ from pyoptools.raytrace.system.system import System
 def test_intersection():
     # TODO: choose better example
     # Intersecting
-    pos = (0, 0, 0)
-    r1 = Ray(pos=pos, dir=(0, 0.2, 1))
-    r2 = Ray(pos=pos, dir=(1, 2, 1))
-    ip, rv = calc.intersection(r1, r2)
-    np.testing.assert_almost_equal(ip, pos)
-    assert(rv == True)
+    expected_intersection_point = (0, 0, 0)
+    ray1 = Ray(pos=expected_intersection_point, dir=(0, 0.2, 1))
+    ray2 = Ray(pos=expected_intersection_point, dir=(1, 2, 1))
+    intersection_point, real_ = calc.intersection(ray1, ray2)
+    np.testing.assert_almost_equal(intersection_point, expected_intersection_point)
+    assert real_ == True
 
     # Not intersecting
-    r1 = Ray(pos=(0, 0, 0), dir=(0, 0.2, 1))
-    r2 = Ray(pos=(1, 0, 0), dir=(0, 0.2, 1))
-    ip, rv = calc.intersection(r1, r2)
-    np.testing.assert_almost_equal(ip, [np.nan, np.nan, np.nan])
-    assert(rv == False)
+    ray1 = Ray(pos=(0, 0, 0), dir=(0, 0.2, 1))
+    ray2 = Ray(pos=(1, 0, 0), dir=(0, 0.2, 1))
+    intersection_point, real_ = calc.intersection(ray1, ray2)
+    np.testing.assert_almost_equal(intersection_point, [np.nan, np.nan, np.nan])
+    assert real_ == False
 
 
 def test_nearest_points():
     # Real closest point
-    r1 = Ray(pos=(0, 0, 0), dir=(1, 1, 0))
-    r2 = Ray(pos=(1, 0, 1), dir=(0, 1, 0))
-    p1, p2, d, rv = calc.nearest_points(r1, r2)
-    np.testing.assert_almost_equal(p1, [1.0, 1.0, 0.0])
-    np.testing.assert_almost_equal(p2, [1.0, 1.0, 1.0])
-    assert(d == 1)
-    assert(rv == True)
+    ray1 = Ray(pos=(0, 0, 0), dir=(1, 1, 0))
+    ray2 = Ray(pos=(1, 0, 1), dir=(0, 1, 0))
+    closest_point_on_ray1, closest_point_on_ray2, distance, real_ = calc.nearest_points(
+        ray1, ray2
+    )
+    np.testing.assert_almost_equal(closest_point_on_ray1, [1.0, 1.0, 0.0])
+    np.testing.assert_almost_equal(closest_point_on_ray2, [1.0, 1.0, 1.0])
+    assert distance == 1
+    assert real_ == True
 
     # Virtual closest point
-    r1 = Ray(pos=(0, 0, 0), dir=(1, 1, 0))
-    r2 = Ray(pos=(1, 10, 1), dir=(0, 1, 0))
-    p1, p2, d, rv = calc.nearest_points(r1, r2)
-    np.testing.assert_almost_equal(p1, [1.0, 1.0, 0.0])
-    np.testing.assert_almost_equal(p2, [1.0, 1.0, 1.0])
-    assert(d == 1)
-    assert(rv == False)
+    ray1 = Ray(pos=(0, 0, 0), dir=(1, 1, 0))
+    ray2 = Ray(pos=(1, 10, 1), dir=(0, 1, 0))
+    closest_point_on_ray1, closest_point_on_ray2, distance, real_ = calc.nearest_points(
+        ray1, ray2
+    )
+    np.testing.assert_almost_equal(closest_point_on_ray1, [1.0, 1.0, 0.0])
+    np.testing.assert_almost_equal(closest_point_on_ray2, [1.0, 1.0, 1.0])
+    assert distance == 1
+    assert real_ == False
 
 
 def test_chief_ray_search():
-    l1 = SphericalLens(
+    lens1 = SphericalLens(
         radius=25,
         curvature_s1=1.0 / 100.0,
         curvature_s2=-1.0 / 100,
         thickness=10,
         material=material.schott["BK7"],
     )
-    l2 = SphericalLens(
+    lens2 = SphericalLens(
         radius=25,
         curvature_s1=1.0 / 100.0,
         curvature_s2=-1.0 / 100,
         thickness=10,
         material=material.schott["BK7"],
     )
-    c = CCD()
-    ap = Stop(shape=Circular(radius=30), ap_shape=Circular(radius=25))
+    ccd = CCD()
+    aperture_place = Stop(shape=Circular(radius=30), ap_shape=Circular(radius=25))
     s = System(
         complist=[
-            (l1, (0, 0, 100), (0, 0, 0)),
-            (l2, (0, 0, 120), (0, 0, 0)),
-            (ap, (0, 0, 110), (0, 0, 0)),
-            (c, (0, 0, 150), (0, 0, 0)),
+            (lens1, (0, 0, 100), (0, 0, 0)),
+            (lens2, (0, 0, 120), (0, 0, 0)),
+            (aperture_place, (0, 0, 110), (0, 0, 0)),
+            (ccd, (0, 0, 150), (0, 0, 0)),
         ],
         n=1,
     )
-    chief_ray = calc.chief_ray_search(s, ap, (0, 10, 0), (0, -1, 1))
+    chief_ray = calc.chief_ray_search(s, aperture_place, (0, 10, 0), (0, -1, 1))
 
     # TODO: should implement Ray.__eq__() and use it here
     np.testing.assert_almost_equal(chief_ray.pos, [0, 10, 0])
@@ -102,16 +106,28 @@ def test_chief_ray_search():
 
 def test_paraxial_location():
     # image_location, real_ = paraxial_location(opsys, opaxis):
-    L1 = library.Edmund.get("45179")  # f=200 r= 25
-    OA = Ray(pos=(0, 0, -10000), dir=(0, 0, 1), wavelength=.55)  # Optical axis
-    C = CCD(size=(10, 10))
-    S = System(complist=[(L1, (0, 0, 100), (0, np.pi, 0)), (C, (0, 0, 320.053), (0, 0, 0))], n=1)
-    PB = parallel_beam_c(origin=(0, 0, 50), direction=(0, 0, 0), size=(15, 15), num_rays=(15, 15), wavelength=.55)
-    S.ray_add(PB)
-    S.propagate()
+    lens1 = library.Edmund.get("45179")  # f=200 r= 25
+    optical_axis = Ray(pos=(0, 0, -10000), dir=(0, 0, 1), wavelength=0.55)
+    ccd = CCD(size=(10, 10))
+    s = System(
+        complist=[
+            (lens1, (0, 0, 100), (0, np.pi, 0)),
+            (ccd, (0, 0, 320.053), (0, 0, 0)),
+        ],
+        n=1,
+    )
+    PB = parallel_beam_c(
+        origin=(0, 0, 50),
+        direction=(0, 0, 0),
+        size=(15, 15),
+        num_rays=(15, 15),
+        wavelength=0.55,
+    )
+    s.ray_add(PB)
+    s.propagate()
 
-    image_location, real_ = calc.paraxial_location(S, OA)
-    np.testing.assert_almost_equal(image_location, [-5.59109334e-16,  0.00000000e+00,  3.07249900e+02])
+    image_location, real_ = calc.paraxial_location(s, optical_axis)
+    np.testing.assert_almost_equal(image_location, [-5.59109334e-16, 0, 3.07249900e02])
     assert real_ == False
 
 
@@ -136,23 +152,35 @@ def test_find_apperture():
         result = calc.find_apperture(ccd, size=aperture_size)
         print(p, aperture_size, result.shape)
         if result.shape != aperture_size:
-            print('---')
+            print("---")
         assert result.shape == aperture_size
     # mostly work, but not all times. Looks like a bug.
 
 
 def test_find_ppp():
     # find_ppp(opsys, opaxis)
-    L1 = library.Edmund.get("45179")  # f=200 r= 25
-    OA = Ray(pos=(0, 0, -10000), dir=(0, 0, 1), wavelength=.55)  # Optical axis
-    C = CCD(size=(10, 10))
-    S = System(complist=[(L1, (0, 0, 100), (0, np.pi, 0)), (C, (0, 0, 320.053), (0, 0, 0))], n=1)
-    PB = parallel_beam_c(origin=(0, 0, 50), direction=(0, 0, 0), size=(15, 15), num_rays=(15, 15), wavelength=.55)
-    S.ray_add(PB)
-    S.propagate()
+    lens1 = library.Edmund.get("45179")  # f=200 r= 25
+    optical_axis = Ray(pos=(0, 0, -10000), dir=(0, 0, 1), wavelength=0.55)
+    ccd = CCD(size=(10, 10))
+    s = System(
+        complist=[
+            (lens1, (0, 0, 100), (0, np.pi, 0)),
+            (ccd, (0, 0, 320.053), (0, 0, 0)),
+        ],
+        n=1,
+    )
+    PB = parallel_beam_c(
+        origin=(0, 0, 50),
+        direction=(0, 0, 0),
+        size=(15, 15),
+        num_rays=(15, 15),
+        wavelength=0.55,
+    )
+    s.ray_add(PB)
+    s.propagate()
 
-    result = calc.find_ppp(S, OA)
-    np.testing.assert_almost_equal(result, [0., 0., 104.5670357])
+    result = calc.find_ppp(s, optical_axis)
+    np.testing.assert_almost_equal(result, [0.0, 0.0, 104.5670357])
 
 
 # def test_get_optical_path_ep():

@@ -114,8 +114,8 @@ def nearest_points(ray1, ray2):
         The return value is a tuple (p1,p2,d,rv) where:
         
         == ===========================================================
-        p1 The point liying on the ray 1, closest to the ray 2
-        p2 The point liying on the ray 2, closest to the ray 1
+        p1 The point living on the ray 1, closest to the ray 2
+        p2 The point living on the ray 2, closest to the ray 1
         d  The distance between p1 and p2 
         rv a boolean indicating if the intersection is real or virtual
            rv=True for real, rv=False for virtual
