@@ -46,7 +46,7 @@ np.import_array()
 
 cdef Ray Rayf(np.ndarray pos,np.ndarray dir,double intensity,double wavelength,
                 n,label,parent,double pop,orig_surf,int order):
-    """Function to create and initializate Ray instances Fast from cython
+    """Function to create and initialize Ray instances Fast from cython
     when changing the code, always check that the __init__, and the 
     Rayf initialization do the same.
     """
@@ -130,7 +130,7 @@ cdef class Ray:
     #~ orig_surf=Any()
     #~ 
     
-    #in order for the autodocumewntation to work, the method definition mut be in a single line
+    #in order for the autodocumentation to work, the method definition mut be in a single line
     
     def __init__(self,pos=(0,0,0),dir=(0,0,1),double intensity=1.,double wavelength=.58929, n=None,label="",parent=None,double pop=0.,orig_surf=None, order=0):
                     
