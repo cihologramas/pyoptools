@@ -1,8 +1,8 @@
 #Fractional Fourier Transform 
-from numpy.fft import fft,ifft,fft2, ifft2,fftshift,ifftshift
-from numpy import zeros,cos, arange,zeros_like, pi, indices, exp, sqrt
+from numpy.fft import fft, ifft
+from numpy import zeros, pi, indices, exp, sqrt
 
-
+# TODO better docstring
 def frft(x,alpha):
     assert x.ndim==1, "x must be a 1 dimensional array"
     m=x.shape[0]
@@ -24,7 +24,6 @@ def frft(x,alpha):
     
 
 def _frft2(x,alpha):
-    
     assert x.ndim==2, "x must be a 2 dimensional array"
     m,n=x.shape
     p=m #m-1 # deveria incrementarse el sigiente pow
@@ -32,7 +31,7 @@ def _frft2(x,alpha):
     z=zeros((2*p,n),dtype=complex)
     
     j=indices(z.shape)[0]
-    y[(p-m)/2:(p+m)/2,:]=x*exp(-1.j*pi*(j[0:m]**2)*float(alpha)/m)
+    y[(p-m)//2:(p+m)//2,:]=x*exp(-1.j*pi*(j[0:m]**2)*float(alpha)/m)
     
     
     z[0:m,:]=exp(1.j*pi*(j[0:m]**2)*float(alpha)/m)
@@ -42,6 +41,8 @@ def _frft2(x,alpha):
     
     return d[0:m]
     
+
+# TODO better docstring
 def frft2(x,alpha):
     x1=_frft2(x,alpha)
     return _frft2(x1.transpose(),alpha).transpose()
