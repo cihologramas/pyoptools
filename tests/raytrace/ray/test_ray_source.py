@@ -7,7 +7,173 @@ import numpy as np
 import pyoptools.raytrace.ray.ray as ray
 import pyoptools.raytrace.ray.ray_source as ray_source
 
-#TODO Write a function to compare beams
+
+def beam_equal(beam1, beam2):
+    "Beams are equals i.e. each Ray in them are equal. Rays are compared in the same order in the two beams"
+    are_equal = True
+    for ray1, ray2 in zip(beam1, beam2):
+        are_equal = are_equal and (ray1 == ray2)
+    print(are_equal)
+    return are_equal
+
+
+def beam_almost_equal(beam1, beam2):
+    "Beams are almost equals i.e. each Ray in them are equal. Rays are compared in the same order in the two beams"
+    are_almost_equal = True
+    for ray1, ray2 in zip(beam1, beam2):
+        are_almost_equal = are_almost_equal and (ray1.almost_equal(ray2))
+    print(are_almost_equal)
+    return are_almost_equal
+
+
+def test_beam_equal_same():
+    "Ray must have the same .pos to be equal"
+    wavelength = 0.1234
+    label = "dummy_label"
+
+    beam1 = [
+        ray.Ray(
+            pos=np.array([i, 0.0, 0.0]),
+            dir=np.array([0.0, 0.0, 1.0]),
+            intensity=1.0,
+            wavelength=wavelength,
+            n=None,
+            label=label,
+            orig_surf=None,
+            order=0,
+        )
+        for i in (-0.5, 0.5)
+    ]
+
+    beam2 = [
+        ray.Ray(
+            pos=np.array([i, 0.0, 0.0]),
+            dir=np.array([0.0, 0.0, 1.0]),
+            intensity=1.0,
+            wavelength=wavelength,
+            n=None,
+            label=label,
+            orig_surf=None,
+            order=0,
+        )
+        for i in (-0.5, 0.5)
+    ]
+
+    print(beam1)
+    print(beam2)
+    assert beam_equal(beam1, beam2)
+
+
+def test_beam_equal_different_pos():
+    "Ray must have the same .pos to be equal"
+    wavelength = 0.1234
+    label = "dummy_label"
+
+    beam1 = [
+        ray.Ray(
+            pos=np.array([i, 0.0, 0.0]),
+            dir=np.array([0.0, 0.0, 1.0]),
+            intensity=1.0,
+            wavelength=wavelength,
+            n=None,
+            label=label,
+            orig_surf=None,
+            order=0,
+        )
+        for i in (-0.5, 0.5)
+    ]
+
+    beam2 = [
+        ray.Ray(
+            pos=np.array([i, 0.0, 0.0]),
+            dir=np.array([0.0, 0.0, 1.0]),
+            intensity=1.0,
+            wavelength=wavelength,
+            n=None,
+            label=label,
+            orig_surf=None,
+            order=0,
+        )
+        for i in (-1, 1)
+    ]
+
+    assert not beam_equal(beam1, beam2)
+
+
+def test_beam_almost_equal_same():
+    "Ray almost equal are tested with beam_almost_equal"
+    wavelength = 0.1234
+    label = "dummy_label"
+
+    beam1 = [
+        ray.Ray(
+            pos=np.array([i, 0.0, 0.0000001]),
+            dir=np.array([0.0, 0.0, 1.0]),
+            intensity=1.0,
+            wavelength=wavelength,
+            n=None,
+            label=label,
+            orig_surf=None,
+            order=0,
+        )
+        for i in (-1, 1)
+    ]
+
+    beam2 = [
+        ray.Ray(
+            pos=np.array([i, 0.0, 0.0]),
+            dir=np.array([0.0, 0.0, 1.0]),
+            intensity=1.0,
+            wavelength=wavelength,
+            n=None,
+            label=label,
+            orig_surf=None,
+            order=0,
+        )
+        for i in (-1, 1)
+    ]
+
+    print(beam1)
+    print(beam2)
+    assert beam_almost_equal(beam1, beam2)
+
+
+def test_beam_less_almost_equal_not_same():
+    "Ray almost equal are tested with beam_almost_equal"
+    wavelength = 0.1234
+    label = "dummy_label"
+
+    beam1 = [
+        ray.Ray(
+            pos=np.array([i, 0.0, 0.000001]),
+            dir=np.array([0.0, 0.0, 1.0]),
+            intensity=1.0,
+            wavelength=wavelength,
+            n=None,
+            label=label,
+            orig_surf=None,
+            order=0,
+        )
+        for i in (-1, 1)
+    ]
+
+    beam2 = [
+        ray.Ray(
+            pos=np.array([i, 0.0, 0.0]),
+            dir=np.array([0.0, 0.0, 1.0]),
+            intensity=1.0,
+            wavelength=wavelength,
+            n=None,
+            label=label,
+            orig_surf=None,
+            order=0,
+        )
+        for i in (-1, 1)
+    ]
+
+    print(beam1)
+    print(beam2)
+    assert not beam_almost_equal(beam1, beam2)
 
 
 def test_parallel_beam_c():
@@ -39,8 +205,7 @@ def test_parallel_beam_c():
         label=label,
     )
 
-    for calculated_ray, expected_ray in zip(calculated, expected):
-        assert calculated_ray == expected_ray
+    assert beam_equal(calculated, expected)
 
 
 def test_parallel_beam_p():
@@ -79,5 +244,4 @@ def test_parallel_beam_p():
         label="test13",
     )
 
-    for calculated_ray, expected_ray in zip(calculated, expected):
-        assert calculated_ray.almost_equal(expected_ray)
+    assert beam_almost_equal(calculated, expected)
