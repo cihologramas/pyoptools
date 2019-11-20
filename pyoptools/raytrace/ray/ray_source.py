@@ -143,6 +143,8 @@ def point_source_p(origin=(0.,0.,0.),direction=(0.,0.,0),span=pi/8,num_rays=(10,
         Tuple angular size of the ray pencil.
     *num_rays*
         Tuple (nr,na) containing the number of rays used to create the beam
+        # TODO Please be more descriptive. It seems really hard to know how much rays we'll get in advance. What is nr?
+        # TODO What is na?
     *label*
         String used to identify the ray source
     """

@@ -285,7 +285,7 @@ def test_ray_different_orig_surf():
         intensity=1.0,
         wavelength=wavelength,
         n=None,
-        label=label ,
+        label=label,
         orig_surf=[],
         order=0,
     )
