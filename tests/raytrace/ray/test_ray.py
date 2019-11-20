@@ -356,7 +356,8 @@ def test_ray_almost_equal_same():
 
     print(ray1)
     print(ray2)
-    assert ray1.almost_equal(ray2)
+
+    assert ray.Ray.almost_equal(ray1, ray2)
 
 
 def test_ray_almost_equal_almost_same():
@@ -388,8 +389,7 @@ def test_ray_almost_equal_almost_same():
 
     print(ray1)
     print(ray2)
-    assert ray1.almost_equal(ray2)
-
+    assert ray.Ray.almost_equal(ray1, ray2)
 
 def test_ray_almost_equal_less_almost_same():
     "Rays with exactly same attributes are equals."
@@ -420,4 +420,4 @@ def test_ray_almost_equal_less_almost_same():
 
     print(ray1)
     print(ray2)
-    assert not ray1.almost_equal(ray2)
+    assert not ray.Ray.almost_equal(ray1, ray2)

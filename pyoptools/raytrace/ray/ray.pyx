@@ -449,7 +449,8 @@ cdef class Ray:
         # self.copy() indicate that we should actually only compare
         # fields pos, dir, intensity, wavelength, n and label
 
-    def almost_equal(self, other, decimal=7):
+    @staticmethod
+    def almost_equal(ray1, ray2, decimal=7):
         """
         Test if two rays are equal up to desired precision.
 
@@ -470,19 +471,17 @@ cdef class Ray:
             True if two rays are equal to the desired precision. i.e. if
                 abs(self - other) < 1.5 * 10**(-decimal) for attributes pos, dir, wavelength and n.
         """
-        atol = 1.5 * 10**(-decimal)
+        atol = 1.5 * 10 ** (-decimal)
         rtol = 0
 
-        return np.allclose(self.pos, other.pos, rtol=rtol, atol=atol) and \
-               np.allclose(self.dir, other.dir, rtol=rtol, atol=atol) and \
-               self.intensity == other.intensity and \
-               np.allclose(self.wavelength, other.wavelength, rtol=rtol, atol=atol) and \
-               self.n == other.n and\
-               self.label == other.label and \
-               self.order == other.order and \
-               self.orig_surf == other.orig_surf
+        return np.allclose(ray1.pos, ray2.pos, rtol=rtol, atol=atol) and \
+               np.allclose(ray1.dir, ray2.dir, rtol=rtol, atol=atol) and \
+               ray1.intensity == ray2.intensity and \
+               np.allclose(ray1.wavelength, ray2.wavelength, rtol=rtol, atol=atol) and \
+               ray1.n == ray2.n and \
+               ray1.label == ray2.label and \
+               ray1.order == ray2.order and \
+               ray1.orig_surf == ray2.orig_surf
         # TODO do we have to compare self.pop and other.pop ?
         # self.copy() indicate that we should actually only compare
         # fields pos, dir, intensity, wavelength, n and label
-
- 
