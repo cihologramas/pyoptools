@@ -166,8 +166,8 @@ cdef class System(Picklable):
         else:
             self.complist=complist
         self.n=n
-        self._np_rays=[]
-        self._p_rays=[]
+        self._np_rays=[]  # not propagated rays
+        self._p_rays=[]  # propagated rays
         
         for i in self.complist:
             comp=i[0]

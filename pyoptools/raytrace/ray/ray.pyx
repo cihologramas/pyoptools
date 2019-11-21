@@ -83,7 +83,8 @@ cdef class Ray:
                 Ray.
                 Warning: Check how can a physically correct definition 
                 can be made
-    wavelength  Wavelength of the ray in micrometers (.58929 by default)
+    wavelength  Wavelength (in vacuum) of the ray in micrometers
+                (.58929 by default)
     n           Refraction index of the point originating the ray.
                 If the value is None, the ray was emitted from the media 
                 and its Refraction index is taken (not from inside a 
