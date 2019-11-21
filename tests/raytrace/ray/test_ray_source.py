@@ -21,7 +21,7 @@ def beam_almost_equal(beam1, beam2):
     "Beams are almost equals i.e. each Ray in them are equal. Rays are compared in the same order in the two beams."
     are_almost_equal = True
     for ray1, ray2 in zip(beam1, beam2):
-        are_almost_equal = are_almost_equal and (ray1.almost_equal(ray2))
+        are_almost_equal = are_almost_equal and (ray.Ray.almost_equal(ray1, ray2))
     print(are_almost_equal)
     return are_almost_equal
 

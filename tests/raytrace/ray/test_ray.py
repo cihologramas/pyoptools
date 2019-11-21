@@ -440,6 +440,55 @@ def test_ray_pos():
     np.testing.assert_array_almost_equal(ray1.pos, [1, 2, 3])
 
 
+def test_ch_coord_sys_inv():
+    # ch_coord_sys_inv(self,no,ae,childs=False)
+    origin = np.array([0, 0, 0])
+    direction = np.array([0, 1, 0])
+
+    ray_expected = ray.Ray(pos=(0.0, 0.0, 0.0), dir=(0.84147098, 0.0, 0.54030231))
+
+    ray1 = ray.Ray()
+    ray_calculated = ray1.ch_coord_sys_inv(origin, direction)
+
+    assert ray.Ray.almost_equal(ray_expected, ray_calculated)
+
+
+# TODO this seems broken as it pass with any values of origin
+def test_ch_coord_sys_inv_f():
+    # ch_coord_sys_inv_f(self,np.ndarray no ,np.ndarray ae,bool childs)
+    origin = np.array([0, 0, 0])
+    direction = np.array([0, 1, 0])
+
+    ray_expected = ray.Ray(pos=(0.0, 0.0, 0.0), dir=(0.84147098, 0.0, 0.54030231))
+
+    ray1 = ray.Ray()
+    ray_calculated = ray1.ch_coord_sys_inv_f(origin, direction, False)
+    print(ray_calculated)
+
+    assert ray.Ray.almost_equal(ray_expected, ray_calculated)
+
+
+# TODO this seems broken as it pass with many values of origin and direction
+def test_ch_coord_sys():
+    # ch_coord_sys(self, np.ndarray no, np.ndarray ae)
+    origin = np.array([2, 1, 2])
+    direction = np.array([1, 2, 1])
+
+    ray_expected = ray.Ray(pos=(0.0, 0.0, 0.0), dir=(0, 0, 1))
+
+    ray1 = ray.Ray()
+    ray_calculated = ray1.ch_coord_sys(origin, direction)
+    print(ray_calculated)
+
+    assert ray.Ray.almost_equal(ray_expected, ray_calculated)
+
+
+# TODO Please add a test here
+def test_get_final_rays():
+    # get_final_rays(self, inc_zeros=True)
+    pass
+
+
 def test_copy():
     ray1 = ray.Ray(
         pos=np.array([1.0, 0.0, 0.0]),
@@ -456,3 +505,26 @@ def test_copy():
 
     assert ray2 == ray1
 
+
+def test_reverse():
+    ray_expected = ray.Ray(pos=(0.0, 0.0, 0.0), dir=(0.0, 0.0, -1.0))
+
+    ray1 = ray.Ray()
+    ray_calculated = ray1.reverse()
+
+    assert ray.Ray.almost_equal(ray_expected, ray_calculated)
+
+
+# TODO Please add a test here
+def test_add_child():
+    pass
+
+
+# TODO Please add a test here
+def test_optical_path_parent():
+    pass
+
+
+# TODO Please add a test here
+def test_optical_path():
+    pass
