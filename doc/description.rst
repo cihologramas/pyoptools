@@ -1,27 +1,18 @@
 General Description
 ===================
 
-The pyOpTools are a set of packages that allow
-the simulation of optical systems. Initially it was developed in 
-`Python <http://www.python.org>`_ using `Numpy <http://www.numpy.org>`_ and 
-`Scipy <http://www.scipy.org>`_, but the computational intensive parts
-are now written in `Cython <http://www.cython.org>`_ to optimize for
-speed. It also uses `wxpython <http://wxpython.org>`_, 
-`matplotlib <http://www.matplotlib.org>`_ and `pyopengl <http://www.pyopengl.org>`_
-for the graphic environment.
+pyOpTools is a free and open source `python <http://python.org>`_ library to the easily simulate optical systems. It is composed by the following packages:
 
-.. warning::
-    This software is in a very alpha state, and not ready for production use. Use it at your own risk.
+:raytrace:
+    Package that contain classes and functions used to simulate optical systems by 3D non sequential raytracing. The classes in the library, allow you to define optical components as a set of bounding surfaces that enclose some material (typically some kind of optical glass). With such components (using its positions and orientations) it is then possible to define an optical system. When the system is ready, it is possible to include light rays, and then to propagate them to obtain the result of the simulation of the system.  
 
+    This is the most developed package of the library.
 
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
-    TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
-    PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
-    BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
-    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
-    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; 
-    OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-    WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF 
-    THE POSSIBILITY OF SUCH DAMAGE.' 
+:wavefront:
+   Package containing classes and routines used to simulate the propagation of wavefronts through optical systems. This package is very incomplete.
+
+:misc:
+   Package that contains auxiliary functions (not related to optics), that are used in the raytrace and wavefront package.
+
+:gui:
+   Package that contains classes and functions that allow the pyoptools simulations to be displayed in the `jupyter <https://jupyter.org/>`_ notebooks. 

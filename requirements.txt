@@ -4,8 +4,8 @@ Pillow>=4.1.1,<4.2.0
 jupyter
 ipython
 six
-numpy<=1.11.0
-scipy<=0.17.0
+numpy==1.16.2
+scipy==1.1.0
 Cython
 matplotlib==2.0.2
 pythreejs

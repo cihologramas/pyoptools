@@ -1,29 +1,46 @@
-Installing pyoptools (stable release)
-=====================================
+Installing pyoptools
+====================
+
+Getting it
+----------
+
+pyOpTools can be downloaded from the project GitHub repository at:
+
+    https://github.com/cihologramas/pyoptools
 
 
-Note the stable release is currently being prepared.
+Installing it in Debian 10 (should work on any Debian derivative)
+-----------------------------------------------------------------
+
+pyOpTools is being developed almost exclusively using "Debian derivative" Linux
+distributions, so this installation procedure is the most tested and reliable. To
+generate the pyoptool .deb package you just need to run the following command in the project root::
+
+    make deb
+
+This will create a .deb package outside the pyOpTool's source root tree. This can be installed using the command::
+
+    dpkg -i python3-pyoptools_<version>_<platform>.deb
+
+where version/platform should be adjusted accordingly.  
 
 
-UBUNTU (Latest versions)
-------
+Installing pyoptools inside a python virtualenv
+-----------------------------------------------
 
-1. Install ipython, build-essential, python-numpy, python-scipy, python-matplotlib, python-wxversion, python-dev, python-opengl from the repository::
+After a Python3 virtualenv is creates and activated, pyOpTools can be installed by running the following command, inside the project root::
+  
+    pip install -r requirements.txt
+    python3 setup.py install
     
-    ~$ sudo apt-get install ipython build-essential python-numpy python-scipy python-matplotlib python-wxversion python-dev python-opengl
 
+Visualizing pyOpTools simulations in a Jupyter notebook
+-------------------------------------------------------
 
-2. Download and install Cython 0.13 following the instructions found on the webpage (http://www.cython.org)
+To use pyoptools together with `jupyter <https://jupyter.org>`_, the jupyter plugin pythreejs must be installed. To install it in the user directory, use the following instructions::
 
-3. Download the pyoptools repository::
+    pip3 install pythreejs --user
+    jupyter nbextension install --user --py pythreejs
+    jupyter nbextension enable pythreejs --user --py
 
-    ~$ hg clone https://code.google.com/p/pyoptools/ -r stable
-
-4. Enter the pyoptools folder, build and install the pyoptools::
-
-    ~$ cd pyoptools
-    ~$ sudo python setup.py install
-    
-    
-
-
+after this is done, you will be able to visualize the simulations using the Plot3D command.
