@@ -16,11 +16,13 @@ import sys, os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-# Mejor asi, para que importe los modulos locales y no los globales
-sys.path=[os.path.abspath('..')]+ sys.path
-sys.path.append(os.path.abspath('.'))
-#sys.path.append(os.path.abspath('..'))
-sys.path.append(os.path.abspath('../pyoptools'))
+### Mejor asi, para que importe los modulos locales y no los globales
+##sys.path=[os.path.abspath('..')]+ sys.path
+##sys.path.append(os.path.abspath('.'))
+###sys.path.append(os.path.abspath('..'))
+##sys.path.append(os.path.abspath('../pyoptools'))
+
+sys.path.insert(0, os.path.abspath('../'))
 
 # -- General configuration -----------------------------------------------------
 
@@ -28,7 +30,13 @@ sys.path.append(os.path.abspath('../pyoptools'))
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 #extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.todo', 'sphinx.ext.coverage', 'sphinx.ext.pngmath', 'sphinx.ext.ifconfig']
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.imgmath', 'sphinx.ext.graphviz',
-            'sphinx.ext.inheritance_diagram','sphinx.ext.todo'] 
+              'sphinx.ext.inheritance_diagram','sphinx.ext.todo',
+              'sphinx.ext.coverage', 'sphinx.ext.napoleon',
+              'sphinx.ext.viewcode'] 
+
+napoleon_google_docstring = False
+napoleon_use_param = False
+napoleon_use_ivar = True
 
 todo_include_todos = True
 
@@ -202,14 +210,21 @@ latex_documents = [
 #latex_use_modindex = True
 
 
-def run_apidoc(_):
-	from sphinx.ext.apidoc import main
-	import os
-	import sys
-	sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-	cur_dir = os.path.abspath(os.path.dirname(__file__))
-	module = os.path.join(cur_dir,"..","pyoptools")
-	main(['-e', '-o', cur_dir, module, '--force'])
+#def run_apidoc(_):
+#	from sphinx.ext.apidoc import main
+#	import os
+#	import sys
+#	sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+#	cur_dir = os.path.abspath(os.path.dirname(__file__))
+#	module = os.path.join(cur_dir,"..","pyoptools")
+#	main(['-e', '-o', cur_dir, module, '--force'])
+
+#def setup(app):
+#	app.connect('builder-inited', run_apidoc)
+
+import sphinx.ext.apidoc
+
 
 def setup(app):
-	app.connect('builder-inited', run_apidoc)
+    #sphinx.ext.apidoc.main(['-f', '-T', '-e', '-o', '.', '../pyoptools'])
+    sphinx.ext.apidoc.main(['-f', '-T', '-e', '-o', 'doc', 'pyoptools'])
