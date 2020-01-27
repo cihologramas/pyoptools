@@ -20,7 +20,7 @@ import sys, os
 sys.path=[os.path.abspath('..')]+ sys.path
 sys.path.append(os.path.abspath('.'))
 #sys.path.append(os.path.abspath('..'))
-#sys.path.append(os.path.abspath('../pyoptools'))
+sys.path.append(os.path.abspath('../pyoptools'))
 
 # -- General configuration -----------------------------------------------------
 
@@ -99,7 +99,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
-html_theme = 'sphinxdoc'
+html_theme = 'default'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -200,3 +200,16 @@ latex_documents = [
 
 # If false, no module index is generated.
 #latex_use_modindex = True
+
+
+def run_apidoc(_):
+	from sphinx.ext.apidoc import main
+	import os
+	import sys
+	sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+	cur_dir = os.path.abspath(os.path.dirname(__file__))
+	module = os.path.join(cur_dir,"..","pyoptools")
+	main(['-e', '-o', cur_dir, module, '--force'])
+
+def setup(app):
+	app.connect('builder-inited', run_apidoc)

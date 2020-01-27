@@ -1,6 +1,5 @@
 pyOpTools API
 =============
-.. module:: pyoptools
 
 The package :mod:`pyoptools` is divided in several modules. These
 modules separate the different functionalities:
@@ -18,7 +17,7 @@ modules separate the different functionalities:
  
 :mod:`pyoptools.raytrace` API
 -----------------------------
-.. module:: pyoptools.raytrace
+.. automodule:: pyoptools.raytrace
 
 
 The package :mod:`pyoptools.raytrace` is divided in several modules:
@@ -28,6 +27,7 @@ The package :mod:`pyoptools.raytrace` is divided in several modules:
     
     pyoptools.raytrace.calc.rst
     pyoptools.raytrace.component.rst
+    pyoptools.raytrace.comp_lib.rst
     pyoptools.raytrace.library.rst
     pyoptools.raytrace.mat_lib.rst
     pyoptools.raytrace.ray.rst
@@ -35,7 +35,7 @@ The package :mod:`pyoptools.raytrace` is divided in several modules:
     pyoptools.raytrace.surface.rst
     pyoptools.raytrace.system.rst
 
-
+raytrace
 
 :mod:`pyoptools.misc` API
 -------------------------

@@ -33,6 +33,7 @@ After a Python3 virtualenv is creates and activated, pyOpTools can be installed 
     pip install -r requirements.txt
     python3 setup.py install
     
+.. _visualizing_pyoptools_in_jupyter:
 
 Visualizing pyOpTools simulations in a Jupyter notebook
 -------------------------------------------------------
@@ -44,3 +45,6 @@ To use pyoptools together with `jupyter <https://jupyter.org>`_, the jupyter plu
     jupyter nbextension enable pythreejs --user --py
 
 after this is done, you will be able to visualize the simulations using the Plot3D command.
+
+The plot window is interactive. Using the mouse, it is possible to rotate the image by click and drag with the 
+left button, zoom by using the scroll wheel and translate by click and drag with the right button. 

@@ -12,15 +12,15 @@ divided in the following steps:
 #. Display results
  
 For a simple example, let's assume we want to simulate the propagation 
-of a ray bundle through an spherical lens. For this case, an ipython 
-console will be used to perform the simulation::
+of a ray bundle through an spherical lens. For this case, an jupyter 
+notebook will be used to perform the simulation::
 
 
-    $ ipython --pylab=wx
+    $ jupyter notebook
 
-After the ipython console has started, it is needed to import the 
-:mod:`pyoptools` module. This will import all the classes and functions  
-defined in all submodules::
+After the jupyter notebook has started, it is needed to import the 
+:mod:`pyoptools` module. The following command will import all the 
+classes and functions defined in all submodules::
 
     In [1]: from pyoptools.all import *
 
@@ -41,7 +41,7 @@ The class :class:`pyoptools.raytrace.surface.Spherical` receive in its construct
    :mod:`pyoptools.raytrace.shape`.
 
 Using this 2 surfaces it is possible to define and simulate our system, 
-but it might be problems if the rays go into or out from the lens through
+but there might be problems if the rays go into or out from the lens through
 the edges, so it is better to define an edge surface::
 
     In [4]: S3=Cylinder(radius=20,length=6.997)
@@ -113,11 +113,16 @@ now the rays are going to be added to the system, and propagated::
     In [10]: S.propagate()
 
 Finally, a 3D model of the system and the rays can be plotted:: 
-diagram in the CCD will be plotted::
+diagram in the CCD will be plotted:: 
 
-    In[11]: glPlotFrame(S)
+    In[11]: Plot3D(S)
  
 .. image:: sph1.png
+
+.. note::
+	To be able to visualize the results of the simulation in the Jupyter 
+	notebook, pythreejs plugin for jupyter must be installed as described
+	in :ref:`visualizing_pyoptools_in_jupyter`
 
 and and a spot can be obtained::
     
