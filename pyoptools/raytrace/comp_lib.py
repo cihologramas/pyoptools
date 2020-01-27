@@ -6,6 +6,13 @@ some standard optical components, and return an instance to such components.
 This module hides from the end user un needed stuff.
 """
 
+# sorted is used so the clases are ordered alphabetically in the sphinx docs
+__all__ = sorted(["SphericalLens", "CylindricalLens", "CCD", "RightAnglePrism", 
+		   "PentaPrism", "DovePrism", "Block", "BeamSplitingCube",
+		   "Doublet", "AirSpacedDoublet", "Stop", "IdealLens", 
+		   "IdealTLens", "RoundMirror", "RectMirror","RectGratting",
+		   "PowellLens"])
+
 from ._comp_lib.spherical_lens import SphericalLens
 from ._comp_lib.cylindrical_lens import CylindricalLens
 from ._comp_lib.ccd import CCD
