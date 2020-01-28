@@ -11,3 +11,4 @@ matplotlib==2.0.2
 pythreejs
 pytest
 pep8
+sphinxcontrib-apidoc
