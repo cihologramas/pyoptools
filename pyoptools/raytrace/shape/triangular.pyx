@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-
 # cython: profile=True
 
 #------------------------------------------------------------------------------
@@ -21,6 +18,8 @@
 """Module that defines the Triangular class
 """
 
+cimport cython
+
 
 from pyoptools.raytrace.shape.shape cimport Shape
 
@@ -28,17 +27,22 @@ from pyoptools.raytrace.shape.shape cimport Shape
 from numpy import arange, meshgrid, where, dot, array
 
 cdef class Triangular(Shape):
-    ''' Class defining a triangular shape. 
-    
-    coord -> tuple containing the 3 (x,y) coordinates of the corners of 
-             the triangle
-    samples -> number of divitions per side used to sample the triangle
+    ''' Class defining a triangular shape.
     '''
     cdef public tuple coord
     cdef public int samples
-    
-    
+
+    @cython.embedsignature(True)
     def __init__(self,coord=((0,0),(0,100),(100,0)),samples=10,*args, **kwargs):
+        """
+        Class defining a triagular shape
+
+        Args:
+            coords (tuple): Tuple containing the coordinates of the 3 corners
+                of a  triangle. Each coordinate is a(float, float) tuple.
+            samples (int): Number of subdivitions per side used to sample the
+                triangle.
+        """
         Shape.__init__(self,*args, **kwargs)
         self.coord=coord
         self.samples=samples
@@ -53,7 +57,7 @@ cdef class Triangular(Shape):
         args=(self.coord, self.samples)
         return(type(self),args)
     
-        
+    @cython.embedsignature(True)    
     cpdef hit(self, p):
         """Method  that returns True if a p=(x,y,z) point is inside the triangle,
         if not it returns False.
@@ -83,7 +87,7 @@ cdef class Triangular(Shape):
         #Check if point is in triangle
         return (u > 0) and (v > 0) and (u + v < 1)
 
-        
+    @cython.embedsignature(True)    
     cpdef bint fhit(self,double px,double py,double pz):
         """This method returns TRUE if an p=(x,y,z)point is inside the surface 
         aperture if not it must return FALSE.
@@ -159,6 +163,7 @@ cdef class Triangular(Shape):
         #~ cs,e,trip,trin=delaunay(x,y)
         #~ return points, trip
         
+    @cython.embedsignature(True)    
     cpdef pointlist(self):
         
         cdef int i,j
@@ -181,7 +186,8 @@ cdef class Triangular(Shape):
                 X.append(P[0])
                 Y.append(P[1])
         return X,Y
-
+    
+    @cython.embedsignature(True)
     cpdef limits(self):
         """
         Returns the minimum limits for the aperture

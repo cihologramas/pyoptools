@@ -7,6 +7,12 @@ This module contains a method collection to obtain information, and analyze
 optical systems
 '''
 
+__all__=["intersection", "nearest_points", "chief_ray_search", "pupil_location",
+         "paraxial_location", "find_apperture", "find_ppp",
+         "get_optical_path_ep", "find_reference_sphere_radius",
+         "parallel_propagate", "parallel_propagate_ns", "ray_paths" ]
+
+
 from pyoptools.raytrace.ray import Ray
 from pyoptools.misc.pmisc import cross
 from pyoptools.raytrace.system import System

@@ -11,18 +11,24 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-#import sys, os
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-### Mejor asi, para que importe los modulos locales y no los globales
-##sys.path=[os.path.abspath('..')]+ sys.path
-##sys.path.append(os.path.abspath('.'))
-###sys.path.append(os.path.abspath('..'))
-##sys.path.append(os.path.abspath('../pyoptools'))
 
-#sys.path.insert(0, os.path.abspath('../'))
+# Check if the documentation is being build in ReadTheDocs or locally. If it
+# is local, build from the project repository root. If it is on RTD build from
+# the installed modules. This is made so apidoc works in RTD
+# for local tests build the repo with:
+#
+# python3 setup.py build_ext --inplace
+#
+# so the modules documentation is found
+
+import os
+import sys
+
+if os.environ.get("READTHEDOCS") is None:
+    sys.path.insert(0, os.path.abspath('../'))
 
 # -- General configuration -----------------------------------------------------
 
@@ -31,7 +37,7 @@
 #extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.todo', 'sphinx.ext.coverage', 'sphinx.ext.pngmath', 'sphinx.ext.ifconfig']
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.imgmath', 'sphinx.ext.graphviz',
               'sphinx.ext.inheritance_diagram', 'sphinxcontrib.apidoc',
-              'sphinx.ext.todo']
+              'sphinx.ext.todo', 'sphinx.ext.napoleon']
 
 
 apidoc_module_dir = '../pyoptools'
@@ -137,7 +143,7 @@ html_logo = "pyoptools.png"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+#html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.

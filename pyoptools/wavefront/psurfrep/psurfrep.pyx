@@ -29,20 +29,22 @@ class PSurf:
         """
         
         **ARGUMENTS**
-
-        s  -- Optical surface to model
-        ni,nr  -- Refraction index from the incident and refracted sides
-        ilimit -- Inferior limit for incidence angle of the plane wave in radians
-        slimit -- Superior limit for incidence angle of the plane wave in radians
-        l      -- Wavelength that will be used in the simulation. We need to find a solution for any wavelength
-        step   -- Step to be used to generate the interpolation data
-        order  -- Order of the Taylor interpolation used
-        rsamples -- Tuple containing the number of ray samples to be used en 
-                    each direction
-        zb    -- Z position of the plane where the measurementas are made. The origin 
-                 is the vertex of the surface. If None, an estimate position is taken.
+            
+            ========= ==========================================================
+            s         Optical surface to model
+            ni,nr     Refraction index from the incident and refracted sides
+            ilimit    Inferior limit for incidence angle of the plane wave in radians
+            slimit    Superior limit for incidence angle of the plane wave in radians
+            l         Wavelength that will be used in the simulation. We need to find a solution for any wavelength
+            step      Step to be used to generate the interpolation data
+            order     Order of the Taylor interpolation used
+            rsamples  Tuple containing the number of ray samples to be used en 
+                      each direction
+            zb        Z position of the plane where the measurementas are made. The origin 
+                      is the vertex of the surface. If None, an estimate position is taken.
+            ========= ==========================================================
         
-        Notes: 
+        **Notes:** 
                - The pupil is normalized to the radius of the lens
                - This method asumes a circular shaped pupil
                - The phase is returned as an optical path
@@ -141,10 +143,13 @@ class PSurf:
         """
         Propagate a Wavefront through the modelled surface.
         
-        wf -- wave front to propagate
-        pt -- Percentage of the power spectrum that must be truncated. 
-              If no truncation is intended, set to 1
-        samples -- Samples of the resulting wave
+        **ARGUMENTS**
+            ======= ========================================================
+            wf      wave front to propagate
+            pt      Percentage of the power spectrum that must be truncated. 
+                    If no truncation is intended, set to 1
+            samples Samples of the resulting wave
+            ======= ========================================================
         """
         
         #Calculate the plane wave spectrum

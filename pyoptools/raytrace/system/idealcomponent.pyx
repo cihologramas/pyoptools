@@ -18,35 +18,36 @@ class IdealThickLens(System):
     principal plane 2 -> exit
     fl -> focal length
     
-    **ARGUMENTS**    
-    ===========================================================================
-    shape          Shape of the lens (Entrance and exit surface's shape).
-    thickness      Thinckness of the lens (Distance between the entrance and
-                   exit surfaces)
-    princ_planes   Tuple with the principal planes position. The position of
-                   each principal plane is measured from its corresponding
-                   entrance surface.
-    pupils         (pupil_pos, pupil_diam,pupil_rs)
-                    pupil_pos: pupil position measured from the active side
-                    pupil_shape: pupil shape
-                    pupil_rs: pupil reference surface. If true the reference 
-                    surface will be E1. If false it will be E2 (see the source 
-                    code).
-                    If True it will be an entrance pupil for the rays entering
-                    through surface E1, and an exit pupil for rays exiting
-                    through E1, or an exit pupil for rays entering through E2,
-                    and and an entrance pupil exiting through E2.
+    **ARGUMENTS**
+
+        ============== ============================================================
+        shape          Shape of the lens (Entrance and exit surface's shape).
+        thickness      Thinckness of the lens (Distance between the entrance and
+                       exit surfaces)
+        princ_planes   Tuple with the principal planes position. The position of
+                       each principal plane is measured from its corresponding
+                       entrance surface.
+        pupils         (pupil_pos, pupil_diam,pupil_rs)
+                       pupil_pos: pupil position measured from the active side
+                       pupil_shape: pupil shape
+                       pupil_rs: pupil reference surface. If true the reference 
+                       surface will be E1. If false it will be E2 (see the source
+                       code).
+                       If True it will be an entrance pupil for the rays entering
+                       through surface E1, and an exit pupil for rays exiting
+                       through E1, or an exit pupil for rays entering through E2,
+                       and and an entrance pupil exiting through E2.
                     
-                    If false, E1 and E2 are switched.  
-                    None if no pupil is defined
+                       If false, E1 and E2 are switched.  
+                       None if no pupil is defined
                    
-    complete_trace If set to false the trace between the principal rays will
-                   not be shown. Still the trace from and to the entrance and
-                   exit surfaces will be exact
-    ==========================================================================
+        complete_trace If set to false the trace between the principal rays will
+                       not be shown. Still the trace from and to the entrance and
+                       exit surfaces will be exact
+        ============== ============================================================
           
     The origin of the component is located in the middle point between the
-    entrance and exit surface
+    entrance and exit surface.
     """
 
     def __init__(self, shape,thickness, princ_planes =(0.,0.), pupils=None,

@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-
 #------------------------------------------------------------------------------
 # Copyright (c) 2009, Ricardo Amezquita Orozco
 # All rights reserved.
@@ -755,13 +752,15 @@ cdef class Field:
         the angular spectrum method, and the Rayleigh Sommerfeld convolution method
         
         **ARGUMENTS:**
-        
+            
+            ===== =======================================================
             z     Propagation distance.
             n     Media refraction index (Not implemented yet assume n=1)
             shape Tuple indicating the shape (number of pixels) of the 
                   returned field. If shape = None, the field size is 
                   preserved.
-            
+            ===== =======================================================
+
             The other parameters are kept.
             
         **RETURN VALUE:**

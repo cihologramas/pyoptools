@@ -1,6 +1,8 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 
+__all__=["parallel_beam_c", "parallel_beam_p", "point_source_c",
+         "point_source_p", "point_source_r"]
 """Module with functions to define ray sources"""
 
 
