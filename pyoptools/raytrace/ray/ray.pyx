@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-
 # cython: profile=True
 
 '''Ray class definition module 
@@ -455,22 +452,18 @@ cdef class Ray:
         """
         Test if two rays are equal up to desired precision.
 
-        Parameters
+        **ARGUMENTS**
+        
+            ======= ===============================================
+            other   Ray other ray to be compared against.
+            decimal int, optional, Desired precision, default is 7.
+            ======= ===============================================
+  
 
-        other
-            Ray
-            other ray to be compared against.
-
-        decimal
-            int, optional
-            Desired precision, default is 7.
-
-            abs(self - other) < 1.5 * 10**(-decimal)
-
-        Return
-            bool
-            True if two rays are equal to the desired precision. i.e. if
-                abs(self - other) < 1.5 * 10**(-decimal) for attributes pos, dir, wavelength and n.
+        **RETURN VALUE**
+            bool   True if two rays are equal to the desired precision. i.e. 
+                   if abs(self - other) < 1.5 * 10**(-decimal) for attributes 
+                   pos, dir, wavelength and n.
         """
         atol = 1.5 * 10 ** (-decimal)
         rtol = 0

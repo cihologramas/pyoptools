@@ -63,10 +63,7 @@ Each tuple contains 3 objects. The first object is the surface to use,
 the second is a tuple (or list or numpy vector) containing the 
 coordinates of the surface's vertex in the component optical system, and 
 the third is a tuple containing 3 rotation angles to  be used to orientate 
-the surface
-
-.. seealso::  
-    ????????????????????
+the surface.
 
 The second argument `material` receive information about the material 
 used to construct the lens. It can be a material defined in the 

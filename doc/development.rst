@@ -16,6 +16,7 @@ contain the following information:
 #. A use example if possible
 #. If further information is needed, a document should be attached to the
    end of the doc string using the include directive
+
 The classes and the constructors should be documented in the class 
 docstring. The __init__ docstring will not be used.
 

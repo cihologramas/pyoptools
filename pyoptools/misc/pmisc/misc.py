@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 
 import numpy as N
 from numpy import array, sin, cos, float64, dot, sqrt,  ceil,  floor, dot, \
@@ -200,17 +200,16 @@ def wavelength2RGB(wl):
     return (R,G,B)
 
 def matrix_interpolation(M, i, j, type="bilinear"):
-    """Returns the interpolated value of a matrix, when the indices i,j are floating
-    point numbers.
-    M
-        Matrix to interpolate
-        
-    i,j 
-        Indices to interpolate
-        
-    type
-        Interpolation type. supported types: nearest,bilinear
-    
+    """Returns the interpolated value of a matrix, when the indices i,j are 
+    floating    point numbers.
+
+    **ARGUMENTS**
+        ==== =====================================================
+        M    Matrix to interpolate
+        i,j  Indices to interpolate
+        type Interpolation type. supported types: nearest,bilinear
+        ==== =====================================================
+
     """
     mi, mj=M.shape
     if i<0 or i>mi-2 or j<0 or j>mj-2:
@@ -556,12 +555,18 @@ def unwrap_py(inph,in_p=(), uv=2*pi):
 def interpolate_g(xi,yi,zi,xx,yy,knots=10, error=False,mask=None):
     """Create a grid of zi values interpolating the values from xi,yi,zi
     
-    xi,yi,zi  1D Lists  or arrays containing the values to use as base for the interpolation
-    xx,yy     1D vectors or lists containing the output coordinates
-    samples  tuple containing the shape of the output array.
-    knots     number of knots to be used in each direction
-    error     if set to true, half of the points (x, y, z) are used to create 
-              the interpolation, and half are used to evaluate the interpolation error
+    **ARGUMENTS**
+    
+        ========= ==================================================================
+        xi,yi,zi  1D Lists  or arrays containing the values to use as base for the 
+                  interpolation
+        xx,yy     1D vectors or lists containing the output coordinates
+        samples   tuple containing the shape of the output array.
+        knots     number of knots to be used in each direction
+        error     if set to true, half of the points (x, y, z) are used to create 
+                  the interpolation, and half are used to evaluate the interpolation
+                  error
+        ========= ==================================================================
     
     
     """

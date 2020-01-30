@@ -4,11 +4,11 @@ from pyoptools.misc.resources import has_double_support, has_amd_double_support
 ### ojo, toca solucionar esta importacion en caso de que no exista pypencl
 
 try:
-	from pyfft.cl import Plan
-	import pyopencl as cl
-	import pyopencl.array as cl_array
+    from pyfft.cl import Plan
+    import pyopencl as cl
+    import pyopencl.array as cl_array
 except:
-	pass
+    pass
 
 
 
@@ -131,15 +131,15 @@ def gs(idata,itera=10, ia=None):
     The wavefront at the DOE plane is assumed as a plane wave.
     
     **ARGUMENTS:**
-	
-		========== ======================================================
-		idata      numpy array containing the target amplitude distribution 
+    
+        ========== ========================================================
+        idata      numpy array containing the target amplitude distribution 
         itera      Maximum number of iterations
         ia         Illumination amplitude at the hologram plane if not given
                    it is assumed to be a constant amplitude with a value
                    of 1. If given it should be an array with the same shape
                    of idata
-		========== ======================================================
+        ========== ========================================================
     """
     
     if ia==None:
@@ -179,13 +179,13 @@ def gs_mod(idata,itera=10,osize=256):
     noise to move there. It only optimises the center of the image.
     
     **ARGUMENTS:**
-	
-		========== ======================================================
-		idata      numpy array containing the target amplitude distribution 
+    
+        ========== ======================================================
+        idata      numpy array containing the target amplitude distribution 
         itera      Maximum number of iterations
         osize      Size of the center of the image to be optimized
                    It should be smaller than the image itself.
-		========== ======================================================
+        ========== ======================================================
     """
     M,N=idata.shape
     cut=osize//2
@@ -228,11 +228,11 @@ def gs_gpu(idata,itera=100):
     The wavefront at the DOE plane is assumed as a plane wave.
     
     **ARGUMENTS:**
-	
-		========== ======================================================
-		idata      numpy array containing the target amplitude distribution 
+    
+        ========== ======================================================
+        idata      numpy array containing the target amplitude distribution 
         itera      Maximum number of iterations
-		========== ======================================================
+        ========== ======================================================
     """ 
     
     pl=cl.get_platforms()[0]

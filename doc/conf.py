@@ -11,7 +11,7 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
+#import sys, os
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -30,12 +30,13 @@ import sys, os
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 #extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.todo', 'sphinx.ext.coverage', 'sphinx.ext.pngmath', 'sphinx.ext.ifconfig']
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.imgmath', 'sphinx.ext.graphviz',
-              'sphinx.ext.inheritance_diagram', 'sphinxcontrib.apidoc']
+              'sphinx.ext.inheritance_diagram', 'sphinxcontrib.apidoc',
+              'sphinx.ext.todo']
 
 
 apidoc_module_dir = '../pyoptools'
 apidoc_output_dir = ''
-#apidoc_excluded_paths = ['tests']
+apidoc_excluded_paths = ['doc']
 apidoc_separate_modules = True
 
 todo_include_todos = True
