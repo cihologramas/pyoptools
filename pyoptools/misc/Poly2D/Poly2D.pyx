@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-
 #cython: profile=True
 
 cdef extern from "math.h":

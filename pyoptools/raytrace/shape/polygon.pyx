@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-
 # cython: profile=True
 
 #------------------------------------------------------------------------------
@@ -27,16 +24,27 @@ from pyoptools.raytrace.shape.shape cimport Shape
 
 from numpy import arange, meshgrid, where, dot, array
 
+cimport cython
+
 cdef class Polygon(Shape):
-    ''' Class defining a triangular shape. 
 
-    coord -> tuple containing the n (x,y) coordinates of the corners of
-             polygone
-    samples -> number of divitions per side used to sample the triangle
-    '''
+    """
+    class defining a polygonal shape
+
+     Args:
+        coords (tuple): Tuple containing the coordinates of the 3 corners
+            of a  triangle. Each coordinate is a(float, float) tuple.
+        samples (int): Number of subdivitions per side used to sample the
+            triangle.
+
+    Todo:
+        * This class is a copy of the Triangular class. Need to be implemented
+          correctly.
+   """
 
 
-    
+
+    @cython.embedsignature(True)
     def __init__(self,coord=((0,0),(0,100),(100,0)),samples=10,*args, **kwargs):
         Shape.__init__(self,*args, **kwargs)
         self.coord=coord
@@ -52,7 +60,7 @@ cdef class Polygon(Shape):
         args=(self.coord, self.samples)
         return(type(self),args)
     
-        
+    @cython.embedsignature(True)
     cpdef hit(self, p):
         """Method  that returns True if a p=(x,y,z) point is inside the triangle,
         if not it returns False.
@@ -82,7 +90,7 @@ cdef class Polygon(Shape):
         #Check if point is in triangle
         return (u > 0) and (v > 0) and (u + v < 1)
 
-        
+    @cython.embedsignature(True)    
     cpdef bint fhit(self,double px,double py,double pz):
         """This method returns TRUE if an p=(x,y,z)point is inside the surface 
         aperture if not it must return FALSE.
@@ -158,6 +166,7 @@ cdef class Polygon(Shape):
         #~ cs,e,trip,trin=delaunay(x,y)
         #~ return points, trip
         
+    @cython.embedsignature(True)    
     cpdef pointlist(self):
         
         cdef int i,j
@@ -181,6 +190,7 @@ cdef class Polygon(Shape):
                 Y.append(P[1])
         return X,Y
 
+    @cython.embedsignature(True)
     cpdef limits(self):
         """
         Returns the minimum limits for the aperture

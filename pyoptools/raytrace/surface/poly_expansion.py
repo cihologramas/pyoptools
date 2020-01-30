@@ -33,6 +33,8 @@ import sympy
 
 from pyoptools.raytrace.surface.taylor_poly import TaylorPoly
 
+__all__ = ["AsphericalHO"]
+
 class AsphericalHO(TaylorPoly):
     """Class that defines a high order aspherical surface
     
@@ -41,20 +43,25 @@ class AsphericalHO(TaylorPoly):
 
     The TaylorPoly is defined by a array in the same way as it is defined in the
     TaylorPoly Class
+
+    Todo:
+        This seems to be inherited from an old code. Needs to check  if it is 
+        correct, or should be deleted.
+
 """
 
     
     # Curvature of the surface
-    Ax=Float(.1)
+    Ax=.1
     
-    Ay=Float(.1)
+    Ay=.1
     # Conic constant
-    Kx=Float(0)
+    Kx=0.
     
-    Ky=Float(0)
+    Ky=0.
     
     # Aspherical coheficient definition
-    ho_cohef=Array('d') #,shape=(3,),value=(0.,0.,0.))
+    ho_cohef=array((0.,0.,0.)) #Array('d') #,shape=(3,),value=(0.,0.,0.))
     #  [[ x0y0, x1y0, x2y0,.....], 
     #  [[ x0y1, x1y1, x2y1,.....], 
     #  [[ x0y2, x1y2, x2y2,.....], 
@@ -107,10 +114,9 @@ class AsphericalHO(TaylorPoly):
         """Method that returns the error in the polynomial expansion
         
         
-        Returned Value
-        ==============
+        **Returned Value**
         
-        (PolyValue-ExactValue).std()
+            (PolyValue-ExactValue).std()
         """
         
         X, Y, Z= self.shape.mesh()

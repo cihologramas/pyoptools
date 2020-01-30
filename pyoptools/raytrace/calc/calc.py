@@ -1,11 +1,17 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 
 '''Method collection to obtain optical system information
 
 This module contains a method collection to obtain information, and analyze 
 optical systems
 '''
+
+__all__=["intersection", "nearest_points", "chief_ray_search", "pupil_location",
+         "paraxial_location", "find_apperture", "find_ppp",
+         "get_optical_path_ep", "find_reference_sphere_radius",
+         "parallel_propagate", "parallel_propagate_ns", "ray_paths" ]
+
 
 from pyoptools.raytrace.ray import Ray
 from pyoptools.misc.pmisc import cross
@@ -384,24 +390,23 @@ def paraxial_location(opsys, opaxis):
     is real or virtual (image_location, real_virtual).
     The origin of the opaxis location is taken as the object location
     
-    Parameters:
+    **ARGUMENTS**
 
-    
-    *opsys*
-        Optical system to use.
-    
-    *opaxis* 
-        Ray representating the optical axis
+        ====== ===================================
+        opsys  Optical system to use.
+        opaxis Ray representating the optical axis
+        ====== ===================================
 
-    Return Value:
+    **RETURN VALUE:**
 
-         Tuple (image_location, real_) where:
+        Tuple (image_location, real) where:
 
-        == ============================================================
-        image_location
-        real_ Boolean that indicates if the intersection point represent a
-           real image (real_=True) , or a virtual image (real_=False).
-        == ============================================================
+        ============== ==================================================
+        image_location Image location coordinates
+        real           Boolean that indicates if the intersection point 
+                       represent a real image (real=True) , or a virtual 
+                       image (real=False).
+        ============== ==================================================
 
     For this function to operate, the system should have a rotational symmetry
     around the optical axis. 
@@ -464,18 +469,18 @@ def find_apperture(ccd, size=(50,50)):
     the aperture shape. The aperture shape will be approximated from
     the CCD hit_list
     
-    Attributes:
-
+    **ARGUMNTS** 
     
-    *ccd*
-        CCD object that will be used to get the shape information
+        ==== =========================================================
+        ccd  CCD object that will be used to get the shape information
+        size Array shape
+        ==============================================================
 
-    # TODO: please better describe
-    *size*
-        Array shape
+    ..todo:: please describe better
     
     Note: Right now only works for round appertures.
-    # TODO: please be more specific
+    
+    ..todo:: please be more specific
     '''
     
     hl=ccd.hit_list

@@ -42,7 +42,7 @@ Contents:
    tutorials.rst
    api.rst
    development.rst
-
+   modules.rst
 
 Indices and tables
 ==================

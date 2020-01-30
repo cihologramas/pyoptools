@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-
 # cython: profile=True
 
 #------------------------------------------------------------------------------
@@ -587,18 +584,20 @@ cdef class System(Picklable):
         return ri
 
     cpdef propagate_ray_ns(self,Ray gr, dpath):
-        '''        Method to propagate the ray in the system. 
+        '''Method to propagate the ray in the system. 
         
-        Arguments
-        ===== ========================================================
-        gr    Guide ray previously propagated in the system using the 
-              non sequential algorithm. This ray contains the surface
-              sequence that the rays must follow.
-        dpath Path (key) of the destination surface.
-        ===== ========================================================
+        **Arguments**
+
+            ===== ========================================================
+            gr    Guide ray previously propagated in the system using the 
+                  non sequential algorithm. This ray contains the surface
+                  sequence that the rays must follow.
+            dpath Path (key) of the destination surface.
+            ===== ========================================================
         
         This method uses the same n as the calculated in the non sequential
         propagation. If the wavelength change, assertion error is raised
+
         '''
         from pyoptools.raytrace.calc import ray_paths     
         cdef list spath, Olist, paths
