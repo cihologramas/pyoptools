@@ -14,4 +14,4 @@ pep8
 sphinxcontrib-apidoc
 mako
 ipykernel
-nbsphinx>=1.4
+nbsphinx
