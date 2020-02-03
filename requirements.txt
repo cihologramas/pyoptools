@@ -13,4 +13,5 @@ pytest
 pep8
 sphinxcontrib-apidoc
 mako
-nbsphinx
+ipykernel
+nbsphinx>=1.4
