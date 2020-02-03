@@ -13,3 +13,4 @@ pytest
 pep8
 sphinxcontrib-apidoc
 mako
+nbsphinx

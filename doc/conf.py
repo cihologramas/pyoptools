@@ -37,8 +37,7 @@ if os.environ.get("READTHEDOCS") is None:
 #extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.todo', 'sphinx.ext.coverage', 'sphinx.ext.pngmath', 'sphinx.ext.ifconfig']
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.imgmath', 'sphinx.ext.graphviz',
               'sphinx.ext.inheritance_diagram', 'sphinxcontrib.apidoc',
-              'sphinx.ext.todo', 'sphinx.ext.napoleon']
-
+              'sphinx.ext.todo', 'sphinx.ext.napoleon', 'nbsphinx']
 
 apidoc_module_dir = '../pyoptools'
 apidoc_output_dir = ''
@@ -87,8 +86,9 @@ release = '0.0.0'
 
 # List of directories, relative to source directory, that shouldn't be searched
 # for source files.
-exclude_trees = ['_build']
-
+#exclude_trees = ['_build']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store',
+                    '**/.ipynb_checkpoints']
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
 

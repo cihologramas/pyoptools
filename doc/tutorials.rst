@@ -9,4 +9,4 @@ Raytracing tutorials
     :maxdepth: 1
     
     raytrace.rst
-
+    notebooks/basic/00-Intro.ipynb
