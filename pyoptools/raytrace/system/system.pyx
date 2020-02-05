@@ -48,10 +48,25 @@ cdef class System(Picklable):
     '''
     Class to define an optical system.
     
-    The System class defines an optical system as a list of optical components 
-    the coordinates of the component origin vertex, and the rotation angles of 
+    The System class defines an optical system as a list of optical components, 
+    the coordinates of the component origin, and the rotation angles of 
     such components. To define a system the refraction index, or the material 
     surrounding the components must also be given in the *n* attribute.
+
+    **ARGUMENTS:**
+   
+        ======== ========================================================
+        complist contains a tuple list that defines the optical system. 
+                 The first component of the tuple is an instance of the 
+                 component to include in the system. 
+                 The second is tuple with the with the component location 
+                 (X,Y,Z)
+                 The third is a tuple with the rotation around each axis
+                 (rx,ry,rz) the rotations ar applied first rz, then ry 
+                 and then rx.
+        n        contains the refraction index of the media where the 
+                 system is immersed.
+        ======== ========================================================
 
     **EXAMPLE:**
         
@@ -71,24 +86,8 @@ cdef class System(Picklable):
             ccd=CCD()
             
             # Definition of a system
-            os=System(complist=[(DB1,(20,0,200),(0,0,0)),(ccd,(20,0,400),(0,0,0)),],n=1)
-    
+            os=System(complist=[(DB1,(20,0,200),(0,0,0)),(ccd,(20,0,400),(0,0,0)),],n=1)   
     '''
-    
-    # List that holds the information about the system. The items on the list 
-    # are tuples of three elements (SC, pos, dir), where:
-    #
-    #   SC
-    #       Instance of the component class or the system class.
-    #   
-    #   pos
-    #       Vector (x,y,z) that indicates the position of the component (or 
-    #       subsystem) in the systems coordinate system.
-    #   
-    #   rot
-    #       Vector (rx,ry,rz) that indicates the rotation of the component 
-    #       (or subsystem) to be positioned in the system
-    #complist= Trait([],TraitList(Tuple(SubSysComp,Array(shape=(3,)),Array(shape=(3,)),labels=["Componente","Posicion","Orientacion"]))) #, maxlen=52))
     
     #TODO: check if this can accept Material Instances
     
@@ -138,25 +137,6 @@ cdef class System(Picklable):
 
 
     def __init__(self,complist=None, n=1., ):    
-        """Returns an object that describes an optical system
-
-        **Arguments**:
-   
-        ======== =======================================================
-        complist contains a tuple list that defines the optical system. 
-                 The first component of the tuple is an instance of the 
-                 component to include in the system. 
-                 The second is tuple with the with the component location 
-                 (X,Y,Z)
-                 The third is a tuple with the rotation around each axis
-                 (rx,ry,rz) the rotations ar applied first rz, then ry 
-                 and then rx.
-
-        n        contains the refraction index of the media where the 
-                 system is immersed.
-        ======== =======================================================
-
-        """
         #Look in the init os component to see why this in done this way 
         if complist==None:
             self.complist=[]
