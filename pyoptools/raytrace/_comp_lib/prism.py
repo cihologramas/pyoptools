@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 #------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
@@ -27,18 +27,19 @@ from pyoptools.raytrace.shape import Rectangular,Triangular
 from math import cos, radians,sin
 class RightAnglePrism(Component):
 
-    ''' **Class to define a Right Angle Prism Lens.**
+    '''Class to define a Right Angle Prism.
       
-    *Attributes:*
+    **ARGUMENTS:**
     
-    *width*
-            width of the prism face
-    *height*
-            height of the prism face
-    *material*
-            to calculate the refraction index of the prism (inerited from component)
-    *reflectivity*
-            reflectivity of the hipotenuse
+        ============ ===========================================================
+        width        Width of the prism face
+        height       Height of the prism face
+        material     To calculate the refraction index of the prism (inerited 
+                     from component)
+        reflectivity Reflectivity of the coating of the hipotenuse. For a normal 
+                     prism it is 0. Note: Total internal reflection works in the 
+                     prism.  
+        ============ ===========================================================
 
     The origin of the cordinate systema is located at the center of hipotenuse
     face of the prism

@@ -35,7 +35,7 @@ workbench for `freecad <http://freecad.org>`_.
 Contents:
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
     
    description.rst
    install.rst

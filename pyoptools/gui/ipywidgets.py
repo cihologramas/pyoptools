@@ -12,6 +12,10 @@ except ModuleNotFoundError:
 from pyoptools.misc.pmisc import wavelength2RGB, cross
 from numpy import pi,array,dot
 from math import sqrt
+
+
+__all__ = ["Plot3D"]
+
 def surf2mesh(S,P=(0,0,0),D=(0,0,0),wire=False):
     
     color="#ffff00"
@@ -188,7 +192,25 @@ def sys2mesh(os):
     return s
     
 def Plot3D(S,size=(800,200),center=(0,0,0), rot=[(pi/3., pi/6., 0 )],scale=1):
+    """Function to create 3D interactive visualization widgets in a jupiter 
+    notebook
 
+    **ARGUMENTS:**
+
+        ====== =================================================================
+        S      System, component or surface to plot
+        size   Field of view in mm window shown in the notebook
+        center Coordinate of the center of the visualization window
+        rot    List of tuples. Each tuple describe an (Rx, Ry, Rz) rotation and
+               are applied in order to generate the first view of the window. 
+        scale  Scale factor applied to the rendered window
+        ====== =================================================================
+
+    **RETURN VALUE**
+
+        pyjs renderer needed to show the image in the jupiter notebook.
+
+    """
     width,height=size
     
     

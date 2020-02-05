@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 #------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
@@ -27,17 +27,24 @@ from pyoptools.raytrace.shape import Shape
 
 class Stop(Component):
 
-    ''' **Class to define an stop component.**
+    '''Class to define an stop component.
+
+    This component is used to simulate apertures or diafragms in an optical
+    system
       
-    *Attributes:*
+    **ARGUMENTS**
+        
+        ======== =====================
+        shape    Stop external shape
+        ap_shape Aperture (hole) shape
+        ======== =====================
     
-    *shape*
-            External shape of the diaphragm
-    *ap_shape*
-            Aperture shape
-    
-    Note: The aperture shape must be contained by the external shape, but this 
-    is not checked.
+    **shape** and **ap_shape** are instances of any sub-class of   
+    :class:`~pyoptools.raytrace.shape.Shape`.
+
+    .. warning:: 
+        The aperture shape must be contained by the external shape, but this 
+        is not checked.
     '''
 
     # External shape of the diaphragm
