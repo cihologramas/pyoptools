@@ -92,7 +92,7 @@ class Block(Component):
         #~ self.surflist=state        
         
         
-class BeamSplitingCube(System):
+class BeamSplittingCube(System):
     '''**Class to define a BeamSplitingCube.**
     
     This class defines an System object containing the components to define an
@@ -145,3 +145,16 @@ class BeamSplitingCube(System):
     #~ def __setstate__(self,state):
         #~ self.size, self.reflectivity, self.material, self.__prism1,\
         #~ self.__prism2, self.complist = state
+
+import warnings
+
+class BeamSplitingCube(BeamSplittingCube):
+
+    def __init__(self, *argv, **kwargs):
+        warnings.simplefilter('default')
+
+        warnings.warn("This class will be deprecated (the spelling is not "
+                      "correct) . Please fix your code by using "
+                      "BeamSplittingCube instead",
+                      DeprecationWarning)
+        super().__init__(*argv, **kwargs)
