@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 #------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
@@ -18,7 +18,6 @@
 Definition of compound lens objects and helper functions
 '''
 
-#from enthought.traits.api import Float, Instance, HasTraits, Trait
 from numpy import pi
 
 from pyoptools.raytrace.system import System
@@ -26,66 +25,36 @@ from pyoptools.raytrace.comp_lib import SphericalLens
 from pyoptools.raytrace.mat_lib import Material
 
 class Doublet(System):
-    '''**Class to define a Doublet Lens**
+    '''Class to define a Doublet Lens
     
     This class is used to define a System with containing the components needed
     to define a Doublet lens.
     
-    *Attributes:*
+    :param radius: Radius of the doublet. Given in mm
+    :type radius: float
+    :param curvature_s1: Curvature of the anterior surface. Given in 1/mm
+    :type curvature_s1: float
+    :param curvature_s2: Curvature of the middle surface. Given in 1/mm 
+    :type curvature_s2: float
+    :param curvature_s3: Curvature of the last surface
+    :type curvature_s3: float
+    :param thickness_l1: Thickness of the anterior lens at the optical axis
+    :type thickness_l1: float
+    :param thickness_l2: Thickness of the posterior lens at the optical axis
+    :param material_l1: Material of the anterior lens
+    :type material_l1: float or 
+                        :class:`~pyoptools.raytrace.mat_lib.material.Material` 
+                        subclass instance
 
-    *radius*
-        Radius of the doublet
-    *curvature_s1*    
-        Curvature of the anterior surface
-    *curvature_s2*    
-        Curvature of the middle surface
-    *curvature_s3*    
-        Curvature of the last surface
-    *thickness_l1*    
-        thickness of the anterior lens at the optical axis
-    *thickness_l2*    
-        thickness of the posterior lens at the optical axis
-    *material_l1*     
-        Material of the anterior lens
-    *material_l2*     
-        Material of the posterior lens
+    :param material_l2: Material of the posterior lens
+    :type material_l1: float or 
+                        :class:`~pyoptools.raytrace.mat_lib.material.Material` 
+                        subclass instance
 
     The origin of the cordinate system is located at the center of the doublet
     in the optical axis.
     '''
-
-    # radius of the doublet (aperture radius)
-    #~ radius = Float(25.)
-#~ 
-    #~ # Curvature of the anterior surface
-    #~ curvature_as= Float(0.01)
-    #~ 
-    #~ # Curvature of the midle surface
-    #~ curvature_ms= Float(0.01)
-    #~ 
-    #~ # Curvature of the porterior surface
-    #~ curvature_ps= Float(0.01)
-#~ 
-    #~ # Thickness of the anterior lens, measured at the optical axis
-    #~ thickness_al= Float(5)
-    #~ 
-    #~ # Thickness of the posterior lens, measured at the optical axis
-    #~ thickness_pl= Float(5)
-#~ 
-    #~ # Material of the anterior lens
-    #~ material_al=Trait(1.,Float(),Material())
-    #~ 
-    #~ # Material of the posterior lens
-    #~ material_pl=Trait(1.,Float(),Material())
-#~ 
-    #~ # Private attributes
-#~ 
-    #~ # Anterior lens, posterior lens
-#~ 
-    #~ __a_lens = Instance(SphericalLens)
-    #~ __p_lens = Instance(SphericalLens)
-
-
+    
     def __init__(self, radius = 25.,curvature_s1= 0.01,curvature_s2= 0.01,
                         curvature_s3= 0.01, thickness_l1= 5, thickness_l2= 5,
                         material_l1=1., material_l2=1.,*args,**kwarks):
@@ -135,34 +104,35 @@ class Doublet(System):
 #        self.__p_lens, self.complist=state
 
 class AirSpacedDoublet(System):
-    '''**Class to define a an Air Spaced Doublet Lens**
+    '''Class to define a an Air Spaced Doublet Lens
 
     This class is used to define a System with containing the components needed
     to define a Doublet lens.
 
-    *Attributes:*
-
-    *radius*
-        Radius of the doublet
-    *curvature_s1*
-        Curvature of the anterior surface of the first lens
-    *curvature_s2*
-        Curvature of the posterior surface of the first lens
-    *curvature_s3*
-        Curvature of the anterior surface of the first lens
-    *curvature_s4*
-        Curvature of the posterior surface of the first lens
-
-    *thickness_l1*
-        thickness of the anterior lens at the optical axis
-    *thickness_l2*
-        thickness of the posterior lens at the optical axis
-    *air_gap*
-        Distance between the 2 lenses
-    *material_l1*
-        Material of the anterior lens
-    *material_l2*
-        Material of the posterior lens
+    :param radius: Radius of the doublet
+    :type radius: float
+    :param curvature_s1: Curvature of the anterior surface of the first lens
+    :type curvature_s1: float
+    :param curvature_s2: Curvature of the posterior surface of the first lens
+    :type curvature_s2: float
+    :param curvature_s3: Curvature of the anterior surface of the first lens
+    :type curvature_s3: float
+    :param curvature_s4: Curvature of the posterior surface of the first lens
+    :type curvature_s4: float
+    :param thickness_l1: Thickness of the anterior lens at the optical axis
+    :type thickness_l1: float
+    :param thickness_l2: Thickness of the posterior lens at the optical axis
+    :type thickness_l2: float
+    :param air_gap: Distance between the 2 lenses
+    :type air_gap: float
+    :param material_l1: Material of the anterior lens
+    :type material_l1: float or 
+                        :class:`~pyoptools.raytrace.mat_lib.material.Material` 
+                        subclass instance
+    :param material_l2: Material of the posterior lens
+    :type material_l2: float or 
+                        :class:`~pyoptools.raytrace.mat_lib.material.Material` 
+                        subclass instance
 
     The origin of the cordinate system is located at the center of the doublet
     in the optical axis.

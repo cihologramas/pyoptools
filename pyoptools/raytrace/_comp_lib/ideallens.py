@@ -16,7 +16,10 @@ from pyoptools.raytrace.surface.aperture import Aperture
 from pyoptools.raytrace.system.system import System
 
 def IdealLens(shape=Rectangular(size=(50,50)), f=100):
-    """Funcion envoltorio que representa una lente ideal
+    """Function to create a component that behaves as an ideal lens
+
+    :param shape: Shape of the lens
+    :type shape: :class:`~pyoptools.raytrace.shape.shape.Shape`
     """
     S1=IdealSurface(shape=shape, f=f)
     L1=Component(surflist=[(S1,(0,0,0),(0,0,0))])
@@ -24,7 +27,7 @@ def IdealLens(shape=Rectangular(size=(50,50)), f=100):
 
 
 def IdealTLens(shape=Rectangular(size=(50,50)), ap_shape=Rectangular(size=(40,40)), f=100,d=20):
-    """Funcion envoltorio que representa una lente ideal gruesa
+    """Function to define an ideal thick lens.
     """
     S1=IdealPPlanes(shape=shape, f=f,d=d)
     S2=Aperture(shape=Rectangular(size=(50,50)),ap_shape=ap_shape)

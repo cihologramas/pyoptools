@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 #------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
@@ -25,24 +25,24 @@ from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Spherical, Cylindrical,  Plane
 from pyoptools.raytrace.shape import Circular,  Rectangular
 class SphericalLens(Component):
-    ''' **Class to define a spherical-spherical Lens**.
+    '''Helper class to define spherical lenses.
 
-    *Attributes:*
+    **ARGUMENTS:**
+        ============ ==========================================================
+        radius       Aperture radious of the lens given in mm
+        thickness    Thicknes of the lens measured in the center given in mm
+        curvature_s1 curvature of the anterior surface given in 1/mm
+        curvature_s2 curvature of the posterior surface given in 1/mm
+        material     Used to calculate the refraction index of the lens 
+                     (inerited from component). Can be a material instance or a
+                     floating point number if the refraction index is constant.
+        ============ ==========================================================
+    
+    **RETURN VALUE:**
 
-    *radius*
-        Aperture of the lens
-    *thickness*
-        Thicknes of the lens measured in the center
-    *curvature_s1*
-        curvature of the anterior surface
-    *curvature_s2*
-        curvature of the posterior surface
-    *material*
-        to calculate the refraction index of the lens (inerited from component)
-
-
-    The origin of the cordinate systema is located at the center of the lens
-    in the optical axis (center between vertex).
+    Returns a Component subclass that behaves as a spherical lens. The origin of
+    the Component's cordinate systema is located at the center of the lens
+    in the optical axis (mid-point between vertex of the Spherical surfaces).
     '''
 
     # Aperture or the lens
@@ -148,21 +148,23 @@ class SphericalLens(Component):
 
     def paraxial_constants(self,wavelength=0.58929,n=1.):
         '''Method to calculate the paraxial constants of a spherical lens
-
-        Description:
-
-        Given the refraction index of the media, this method calculates the
-        following paraxial constants of a lens:
-        --- Effective Focal length  (f)
-        --- Anterior focal length  (afl) (negative for positive lenses)
-        --- Posterior focal length (pfl) (positive for positive lenses)
-
-        and returns them in the for of a tuple (f,afl,pfl)
         
-        Attributes
-        
-        wavelength  Wavelength used for the calculations
-        n           Refraction index of the surrounding media
+        **ARGUMENT:**
+            
+            ========== ============================================
+            wavelength Wavelength used for the calculations
+            n          Refraction index of the surrounding media
+            ========== ============================================
+            
+        **RETURN VALUE:**
+
+            3 element tuple (f, afl, pfl) containing
+
+            === =====================================================
+            f   Effective Focal length
+            afl Anterior focal length  (negative for positive lenses)
+            pfl Posterior focal length (positive for positive lenses)
+            === =====================================================    
         '''
 
         nl=self.material.n(wavelength)
