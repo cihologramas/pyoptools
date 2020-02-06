@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 #------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
@@ -18,7 +18,6 @@
 Definition of a CCD like object and helper functions
 '''
 
-#from enthought.traits.api import Float, Instance, HasTraits, Tuple, Int, Bool, Property
 from scipy.misc import toimage
 from scipy.interpolate import interp2d,bisplrep,bisplev
 from numpy import arange, ma, meshgrid, linspace
@@ -34,14 +33,13 @@ from pyoptools.raytrace.shape import Rectangular
 
 
 class CCD(Component):
-    '''**Class to define a CCD like detector**
+    '''Class to define a CCD like detector
 
-    *Attributes:*
-
-    *size*
-        Tuple with the phisical size of the CCD chip
-    *transparent*
-        Boolean to set the detector transparent characteristic. Not implemented
+    :param size: Tuple with the phisical size (sx,sy)  of the CCD chip
+    :type size: tuple(float, float)
+    :param transparent: Boolean to set the detector transparent characteristic. 
+        Not implemented
+    :type transparent: bool
     
     Using the same CCD, images of different resolutions can be simulated. See
     the im_show and spot_diagram methods
@@ -64,6 +62,11 @@ class CCD(Component):
         return tuple(self.__d_surf.hit_list)
 
     hit_list=property(_get_hitlist)
+    """List containing a tuple for each ray hitting the CCD. The first component
+    of the tuple is the coordinates of intersection of the ray with the CCD 
+    (in its coordinate system). The second component of each tuple points to the
+    :class:`~pyoptools.raytrace.ray.Ray` that intersected the CCD.
+    """
 
     def __init__(self, size=(10,10), transparent=True,*args,**kwargs):
         Component.__init__(self, *args, **kwargs)
@@ -90,11 +93,8 @@ class CCD(Component):
         """
         Returns the ccd hit_list as a grayscale PIL image
         
-        *Attributes:*
-        
-        *size*    
-                Tuple (dx,dy) containing the image size in pixels. Use this 
-                attribute to set the simulated resolution.
+        :param size: Tuple (dx,dy) containing the image size in pixels. Use this 
+            a ttribute to set the simulated resolution.
         """
         data= self.__d_surf.get_histogram(size)
         return(toimage(data, high=255, low=0,cmin=0,cmax=data.max()))
@@ -103,11 +103,8 @@ class CCD(Component):
         """
         Returns the CCD hit_list as a color image, using the rays wavelength.
         
-        *Attributes*
-        
-        *size*    
-                Tuple (dx,dy) containing the image size in pixels. Use this 
-                attribute to set the simulated resolution.
+        :param size: Tuple (dx,dy) containing the image size in pixels. Use this 
+            attribute to set the simulated resolution.
         """
         
         data= self.__d_surf.get_color_histogram(size)
@@ -178,27 +175,23 @@ class CCD(Component):
     def get_optical_path_map(self,size=(20, 20),  mask=None):
         """Return the optical path of the rays hitting the detector.
         
-        This method uses the optical path of the rays hitting the surface, to 
+        This method uses the optical path of the rays hitting the surface to 
         create a optical path map. The returned value is an interpolation of the
         values obtained by the rays.
         
-        Warning: 
+        .. warning:: 
+ 
             If the rays hitting the surface are produced by more than one 
             optical source, the returned map migth not be valid.  
         
-        *Attributes*
-        
-        *size*
-            Tuple (nx,ny) containing the number of samples of the returned map.
-            The map size will be the same as the CCD
-        
-        *mask*
-            Shape instance containing the mask of the aperture. If not given, 
+        :param size: Tuple (nx,ny) containing the number of samples of the 
+            returned map. The map size will be the same as the CCD
+        :param mask: :class:`~pyoptools.raytrace.shape.Shape`
+            instance containing the mask of the aperture. If not given, 
             the mask will be automatically calculated.
         
-        *Return value*
-        
-        A masked array as defined in the numpy.ma module, containing the optical paths
+        :return: A masked array as defined in the numpy.ma module, containing 
+            the optical paths
         """
         
         X,Y,Z=self.get_optical_path_data()    
@@ -226,11 +219,16 @@ class CCD(Component):
 
 
     def get_optical_path_map_lsq(self,order=10):
-        """Return the optical path of the rays hitting the detector.
+        """Return a 2D polinomial describing the the optical path of the 
+           rays hitting the detector.
         
-        *Attributes*
+
+        :param order: Order of the polynomial used to fit the data
         
-           """
+        :return: tuple (e, p) where e es the rms error of the data when compared
+           with the returned polynomial, and p is a 
+           :class:`~pyoptools.misc.Poly2D.poly2d` instance.
+        """
         
         X,Y,Z=self.get_optical_path_data()    
         e,p=polyfit2d(X, Y, Z, order=order)
@@ -242,7 +240,8 @@ class CCD(Component):
         This method returns a tuple X,Y,D, containing the X,Y hit points, and 
         D containing tha optical path data
         
-        Warning: 
+        .. warning::
+ 
             If the rays hitting the surface are produced by more than one 
             optical source, the information may not be valid.  
                

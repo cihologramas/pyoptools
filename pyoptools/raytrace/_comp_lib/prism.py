@@ -115,17 +115,28 @@ class RightAnglePrism(Component):
         #~ self.__b_face, self.__h_face, self.__e1, self.__e2, self.surflist=state
 
 class PentaPrism(Component):
-    """Clase para definir un pentaprisma"""
+    """Class to define a pentaprism
+    
+    :param s: Size of the entrance aperture of the pentaprism (the aperture is
+        square)
+    :type s: float
+    :param material: Material of the pentaprism
+    :type material: float or 
+        :class:`~pyoptools.raytrace.mat_lib.material.Material`'s subclass 
+        instance
+
+    .. warning::
+
+        The pentaprism has no upper or lower surface. Care must be taken to 
+        avoid rays entering or exiting by such apertures.
+
+        .. todo:: Fix this
+
+    """
 
     #TODO: El pentaprisma está abierto por arriba y por abajo. Hay que definir las superficies para cerrarlo
 
     def __init__(self, s, *args, **kwargs):
-        """
-        :param s: alto y base de las entradas del pentaprisma
-        :param args:
-        :param kwargs:
-        :return:
-        """
 
         Component.__init__(self,*args, **kwargs)
 
@@ -146,6 +157,25 @@ class PentaPrism(Component):
                           #,material=get_material("N-BK7"))
 
 class DovePrism(Component):
+    """Class to define a dove prism
+
+    :param s: Height and depth of the dove prism
+    :type s: float
+    :param l: Width of the dove prism (lenght of the longest side)
+    :type l: float
+    :param material: Material of the prism
+    :type material: float or 
+        :class:`~pyoptools.raytrace.mat_lib.material.Material`'s subclass 
+        instance
+
+    .. warning::
+
+        The pentaprism has no upper or lower surface. Care must be taken to 
+        avoid rays entering or exiting by such apertures.
+
+        .. todo:: Fix this
+    """
+    
      #TODO: El prismadove está abierto por arriba y por abajo. Hay que definir las superficies para cerrarlo
     def __init__(self, s,l, *args, **kwargs):
         #s alto o profundidad del prisma

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
@@ -26,8 +26,20 @@ from pyoptools.raytrace.shape import Rectangular
 
 
 class CylindricalLens(Component):
-    """"
-    **Class to define a cylindrical Lens**.
+    """Class to define a rectangular shaped cylindrical Lens.
+    
+    :param size: Size (sx,sy)  of the lens in mm
+    :type size: tuple(float,float)
+    :param thickness: Thickness of the lens at the center
+    :type thickness: float
+    :param curvature_s1: Curvature of the anterior surface of the lens, in mm.
+    :type curvature_s1: float
+    :param curvature s2: Curvature of the posterior surface of the lens, in mm.
+    :type curvature_s2: float
+    :param material: Material of the lens
+    :type material: float or 
+        :class:`~pyoptools.raytrace.mat_lib.material.Material`'s subclass 
+        instance
     """
 
     def __init__(self, size=(20, 20), thickness=10, curvature_s1=1. / 200, curvature_s2=1. / 200, *args, **kwargs):

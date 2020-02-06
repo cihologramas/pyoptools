@@ -29,28 +29,16 @@ from pyoptools.raytrace.surface import Plane
 from pyoptools.raytrace.shape import Rectangular
 
 class Block(Component):
-    '''**Class to define a Glass Block**
+    '''Class to define a Glass Block
     
     This class defines a component containing a glass block
     
-    *Attributes:*
-    
-    *size*
-        Tuple containing the width, height and length of the glass
-        block
+    :param size: Tuple (W,H,L) containing the width, height and length of the 
+        glass block. Dimensions given in mm.
+    :type size: tuple(float, float, float)
     
     '''
-    
-    #Tuple containing the width, height and length of the glass block
-    #size=Tuple(Float(10), Float(10), Float(10))
-    
-    #__a_surf = Trait(None,Instance(Plane))
-    #__p_surf = Trait(None,Instance(Plane))
-    #__u_surf = Trait(None,Instance(Plane))
-    #__l_surf = Trait(None,Instance(Plane))
-    #__lf_surf = Trait(None,Instance(Plane))
-    #__rg_surf = Trait(None,Instance(Plane))
-    
+        
     def __init__(self, size=(10,10,10), **traits):
         Component.__init__(self,**traits)
         self.size=size
@@ -93,19 +81,19 @@ class Block(Component):
         
         
 class BeamSplittingCube(System):
-    '''**Class to define a BeamSplitingCube.**
+    '''Class to define a BeamSplitingCube.
     
     This class defines an System object containing the components to define an
-    BeamSplitingCube
+    BeamSplitingCube.
 
-    *Attributes:*
-
-    *size*
-                Side of the cube
-    *reflectivity*
-                Reflectivity of the hypothenuse
-    *material*
-                to calculate the refraction index of the cube
+    :param size: Side dimension of the cube
+    :type size: float
+    :param reflectivity: Reflectivity of the hypothenuse (between 0 and 1).
+    :type reflectivity: float
+    :param material: Material used to make the cube. Usedto calculate the 
+       refraction index of the cube
+    :type material: float or 
+       :class:`~pyoptools.raytrace.mat_lib.material.Material` subclass instance
 
     The origin of the cordinate systema is located at the center of the cube
     in the optical axis (center of the hypotenuse).
@@ -149,6 +137,11 @@ class BeamSplittingCube(System):
 import warnings
 
 class BeamSplitingCube(BeamSplittingCube):
+    """Deprecated class, please use the one with the correct spelling
+     :class:`~pyoptools.raytrace.comp_lib.BeamSplittingCube`
+     
+     .. warning:: Wil be removed in the future
+"""
 
     def __init__(self, *argv, **kwargs):
         warnings.simplefilter('default')
