@@ -3,11 +3,11 @@
 
 import numpy as N
 from numpy import array, sin, cos, float64, dot, sqrt,  ceil,  floor, dot, \
-                meshgrid, zeros, zeros_like, where,  nan,  pi, isnan, nonzero, rint, \
-                linspace, arange, argwhere, mean
+                meshgrid, zeros, zeros_like, where,  nan,  pi, isnan, nonzero, \
+                rint, linspace, arange, argwhere, mean
 from numpy.ma import is_masked, MaskedArray
 from numpy.ma import array as ma_array
-#from enthought.traits.api import Trait, TraitHandler
+
 from scipy import interpolate
 from pylab import griddata, meshgrid
 
@@ -16,35 +16,6 @@ from matplotlib.tri import Triangulation
 
 '''Auxiliary functions and classes
 '''
-
-#~ class TraitUnitVector(TraitHandler):
-    #~ ''' Class to define unit vector trait
-#~ 
-    #~ Description:
-#~ 
-    #~ This class defines a unit vector. If the value assigned is not a unit
-    #~ vector, it gets automatically normalized
-    #~ '''
-#~ 
-    #~ def validate(self, object, name, value):
-        #~ try:
-            #~ avalue=array(value)          
-        #~ except:
-            #~ self.error(object, name, value)
-        #~ 
-        #~ if len(avalue.shape)!=1 or avalue.shape[0]!=3:
-            #~ return self.error(object, name, avalue)
-#~ 
-        #~ avalue=array(avalue/sqrt(dot(avalue,avalue))) 
-        #~ return avalue
-#~ 
-#~ # Trait to define a unit vector based on the unit vector trait
-#~ UnitVector = Trait(array([0,0,1], float_),TraitUnitVector())
-
-#~ print "Nota: Hay que revisar las convenciones de las rotaciones para que queden\n\r "\
-      #~ "consistentes en x,y,z. Me parece que hay un error en el signo de la \n\r rotacion"\
-      #~ "al rededor de alguno de los ejes. Modulo misc \n\r"\
-      #~ "si no estoy mal el error esta en la rotacion respecto a los ejez Y y Z"
 
 def rot_x(tx):
     '''Returns the transformation matrix for a rotation around the X axis
@@ -638,8 +609,26 @@ def interpolate_g(xi,yi,zi,xx,yy,knots=10, error=False,mask=None):
 
 
 def spot_info(C):
-    """Retorna una tupla con el radio promedio y el centro de masa
-    de los rayos que impactaron el CCD C"""
+    """
+    Function that gives information about the average radius of the rays hitting
+    a CCD.
+
+    Args:
+        C (:class:`~pyoptools.raytrace.comp_lib.CCD`): Instance of the CCD to 
+            gather information from.
+
+    Returns:
+       tuple: (Rm, (Xm, Ym), (Xmm , Ymm), Rmax )
+
+       Where
+           - float: Rm is the mean Radius of the spot diagram
+           - tuple: (Xm, Ym) are the mean X and Y values of the spot diagram
+           - tuple: (Xmm, Ymm) are the mean radius in X and in Y
+           - float: Rmax is the maximum radius
+        
+       All the values are measured from the central coordinate (Xm, Ym) of the 
+       spot diagram.
+    """
     X=[]
     Y=[]
     for hl in C.hit_list:

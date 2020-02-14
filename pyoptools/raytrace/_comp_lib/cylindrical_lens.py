@@ -34,12 +34,18 @@ class CylindricalLens(Component):
     :type thickness: float
     :param curvature_s1: Curvature of the anterior surface of the lens, in mm.
     :type curvature_s1: float
-    :param curvature s2: Curvature of the posterior surface of the lens, in mm.
+    :param curvature_s2: Curvature of the posterior surface of the lens, in mm.
     :type curvature_s2: float
     :param material: Material of the lens
     :type material: float or 
         :class:`~pyoptools.raytrace.mat_lib.material.Material`'s subclass 
         instance
+
+    .. warning::
+       This component is composed only by the front and back surfaces. The
+       surfaces closing the edges are not implemented yet. User must take
+       this in to account and avoid rays that can enter or leave the lense by
+       the edges.
     """
 
     def __init__(self, size=(20, 20), thickness=10, curvature_s1=1. / 200, curvature_s2=1. / 200, *args, **kwargs):

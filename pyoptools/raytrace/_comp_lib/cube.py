@@ -81,7 +81,7 @@ class Block(Component):
         
         
 class BeamSplittingCube(System):
-    '''Class to define a BeamSplitingCube.
+    '''Class to define a BeamSplittingCube.
     
     This class defines an System object containing the components to define an
     BeamSplitingCube.
