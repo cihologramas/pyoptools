@@ -46,6 +46,7 @@ class CylindricalLens(Component):
        surfaces closing the edges are not implemented yet. User must take
        this in to account and avoid rays that can enter or leave the lense by
        the edges.
+
     """
 
     def __init__(self, size=(20, 20), thickness=10, curvature_s1=1. / 200, curvature_s2=1. / 200, *args, **kwargs):
