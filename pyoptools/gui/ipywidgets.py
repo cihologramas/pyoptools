@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""Module with functions and classes to represent the pyoptools objects
+in `jupyter notebooks <http://jupyter.org>`_.
+"""
+
 from pyoptools.raytrace.system import System
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Surface
@@ -192,22 +196,23 @@ def sys2mesh(os):
     return s
     
 def Plot3D(S,size=(800,200),center=(0,0,0), rot=[(pi/3., pi/6., 0 )],scale=1):
-    """Function to create 3D interactive visualization widgets in a jupiter 
+    """Function to create 3D interactive visualization widgets in a jupyter 
     notebook
 
-    **ARGUMENTS:**
-
-        ====== =================================================================
-        S      System, component or surface to plot
-        size   Field of view in mm window shown in the notebook
-        center Coordinate of the center of the visualization window
-        rot    List of tuples. Each tuple describe an (Rx, Ry, Rz) rotation and
+    Args:
+        S: (:class:`~pyoptools.raytrace.system.System`,
+            :class:`~pyoptools.raytrace.component.Component` or
+            :class:`~pyoptools.raytrace.component.Component`) Object to plot
+        size: (Tuple(float,float)) Field of view in X and Y for the window
+            shown in the notebook.
+        center: (Tuple(float,float,float) Coordinate of the center of the
+            visualization window given in the coordinate system of the object
+            to plot.
+        rot:   List of tuples. Each tuple describe an (Rx, Ry, Rz) rotation and
                are applied in order to generate the first view of the window. 
-        scale  Scale factor applied to the rendered window
-        ====== =================================================================
+        scale: (float)  Scale factor applied to the rendered window
 
-    **RETURN VALUE**
-
+    Returns:
         pyjs renderer needed to show the image in the jupiter notebook.
 
     """
