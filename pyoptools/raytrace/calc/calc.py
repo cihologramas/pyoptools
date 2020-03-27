@@ -38,24 +38,23 @@ def intersection(r1,r2):
     Return the point of intersection between the rays r1 and r2.
 
     
-    **Arguments:**
-        
-        == ===================================
-        r1 First Ray to test for intersection
-        r2 Second Ray to test for intersection
-        == ===================================
+    Parameters
+    ----------
+
+    r1,r2 : :class:`~pyoptools.raytrace.ray.Ray` 
+        Rays to test for intersection. 
     
-    **Return Value:**
-        
-        Tuple (ip,rv) where:
-        
-        == ============================================================
-        ip Intersection point coordinates. If the rays do not intersect
-           ip=(nan,nan,nan)
-        rv Boolean that indicates if the intersection point represent a
-           real image (rv=true) , or a virtual image (rv=false). 
-        == ============================================================
-        
+    Returns
+    -------
+
+    ip : tuple(float, float, float) 
+        Intersection point coordinates. If the rays do not intersect 
+        ip=(nan,nan,nan)
+    rv : bool
+        Indicates if the intersection point represent a real image (rv=true),
+        or a virtual image (rv=false). In this case virtual has the same meaning
+        as in virtual image i.e. intersection point is not in the actual path, 
+        or is behind the ray's origin.
     '''
 
     d1=r1.dir
@@ -108,26 +107,26 @@ def nearest_points(ray1, ray2):
         
         http://homepage.univie.ac.at/Franz.Vesely/notes/hard_sticks/hst/hst.html
     
-    **Arguments:**
+    Parameters
+    ----------
 
-        == ===================================
-        r1 First Ray to test for intersection
-        r2 Second Ray to test for intersection
-        == ===================================
+    r1,r2 : :class:`~pyoptools.raytrace.ray.Ray` 
+        Rays to test for intersection. 
+
+    Returns
+    -------
     
-    **Return Value**
-        
-        The return value is a tuple (p1,p2,d,rv) where:
-        
-        == ===========================================================
-        p1 The point living on the ray 1, closest to the ray 2
-        p2 The point living on the ray 2, closest to the ray 1
-        d  The distance between p1 and p2 
-        rv a boolean indicating if the intersection is real or virtual
-           rv=True for real, rv=False for virtual
-           TODO: Clarify virtual. I think it has the same meaning as (virtual image) i.e. closest point is not in the
-           actual path, or behind the ray's origin.
-        == ===========================================================
+    p1 : tuple(float, float, float)
+        Coordinates of the point living on the ray 1 closest to the ray 2
+    p2 : tuple(float, float, float)
+        Coordinates fo the point living on the ray 2 closest to the ray 1
+    d : float
+        The distance between p1 and p2
+    rv : bool
+        Indicates if the intersection is real or virtual. rv=True for 
+        real, rv=False for virtual. In this case virtual has the same meaning
+        as in virtual image i.e. p1 and p2 are not in the actual path, or are
+        behind the ray's origin.
     '''
     r1=ray1.pos
     e1=ray1.dir
@@ -155,7 +154,37 @@ def chief_ray_search(opsys,ccds,o=(0.,0.,0.),rt=(0.,0.,0.),er=0.1,w=pi/2.,maxite
     This function uses a random search algorithm to find the chief_ray for a 
     given optical system and object point.  
     
-    **Algorithm description:**
+    Parameters
+    ----------
+     
+    opsys : :class:`pyoptools.raytrace.system.System`
+        Optical system that will be used to find the chief ray
+    ccds : :class:`pyoptools.raytrace.comp_lib.CCD`
+       Detector placed in the aperture plane. Must be centred in the optical 
+       axis 
+    o : tuple(float, flo0at, float)
+        coordinates of the object point used to find the chief ray
+    rt : tuple(float, float, float)
+         rotations made to a ray propagating in the z direction to obtain the
+         first test ray
+    er : float
+        Maximum acceptable distance between the ray and the center of the 
+        aperture
+    w : float
+        Gaussian width in radians
+    wavelength : float   
+        Wavelength of the ray used to find the principal ray given in 
+        micrometers (.58929 by default).
+
+    
+    Returns
+    -------
+    :class:`~pyoptools.raytrace.ray.Ray`
+        Chief ray found. (Ray instance)
+
+
+    Notes
+    -----
 
     The algorithm starts using a given ray, propagating it in the optical
     system, and finding the intersection point of this test ray and the 
@@ -178,27 +207,7 @@ def chief_ray_search(opsys,ccds,o=(0.,0.,0.),rt=(0.,0.,0.),er=0.1,w=pi/2.,maxite
     convergense speed of the algorithm, it is better to make sure that the first
     test ray intersects the detector.
     
-    **Parameters:**
- 
-        ==========  ======================================================
-        opsys       Optical system that will be used to find the chief ray
-        ccds        Detector placed in the aperture plane. Should be 
-                    centred in the optical axis 
-        o           Tuple, list or numpy array indicating the coordinates
-                    of the object point used to find the chief ray
-        rt          Tuple with the rotations made to a ray propagating in
-                    the z direction to obtain the first test ray
-        er          Maximum acceptable distance between the ray and the 
-                    center of the aperture
-        w           Gaussian width in radians
-        wavelength  Wavelength of the ray used to find the principal ray given
-                    in micrometers (.58929 by default).
-        ==========  ======================================================
-    
-    **Return Value:**
-        
-        Chief ray found. (Ray instance)
-        
+
         
     .. todo:: 
         Implement a function similar to this one, using a minimization
@@ -267,24 +276,26 @@ def pupil_location(opsys,ccds,opaxis):
     '''
     Function to find the optical system pupils position
     
-    .. note:
+    Note
+    ----
         For this function to operate, the system should have a rotational
         symmetry around the optical axis. 
        
-    **Parameters:**
-        
-        opsys   Optical system to use.
-        opaxis  Ray representing the optical axis
-        ccds    Surface that represents a detector in the aperture plane
+    Parameters
+    ----------
+    opsys : :class:`pyoptools.raytrace.system.System`
+        Optical system to use.
+    opaxis :  :class:`~pyoptools.raytrace.ray.Ray` 
+        Ray representing the optical axis
+    ccds : :class:`pyoptools.raytrace.comp_lib.CCD`
+        Surface that represents a detector in the aperture plane
     
-    **Return Value**
-        
-        (enpl,expl)
-        
-        enpl tuple (xen,yen,zen) containing the entrance pupil coordinates
-        expl tuple (xex,yex,zex) containing the exit pupil coordinates
-        
-    
+    Returns
+    -------
+        enpl : tuple(float, float, float) 
+           (xen,yen,zen) containing the entrance pupil coordinates
+        expl : tuple(float, float, float)
+           (xex,yex,zex) containing the exit pupil coordinates
     '''
     
     #log.info("Propagate Optical axis ray")
@@ -390,23 +401,26 @@ def paraxial_location(opsys, opaxis):
     is real or virtual (image_location, real_virtual).
     The origin of the opaxis location is taken as the object location
     
-    **ARGUMENTS**
+    Parameters
+    ----------
+    
+    opsys : :class:`~pyoptools.raytrace.system.System`
+        Optical system to use.
+    opaxis: :class:`~pyoptools.raytrace.ray.Ray`
+        Ray representating the optical axis
+    
+    Returns
+    -------
+    
+    image_location : tuple(float, float, float) 
+        Image location coordinates
+    real : bool
+        Indicates if the intersection point represent a real image (real=True),
+        or a virtual image (real=False).
 
-        ====== ===================================
-        opsys  Optical system to use.
-        opaxis Ray representating the optical axis
-        ====== ===================================
 
-    **RETURN VALUE:**
-
-        Tuple (image_location, real) where:
-
-        ============== ==================================================
-        image_location Image location coordinates
-        real           Boolean that indicates if the intersection point 
-                       represent a real image (real=True) , or a virtual 
-                       image (real=False).
-        ============== ==================================================
+    Note
+    ----
 
     For this function to operate, the system should have a rotational symmetry
     around the optical axis. 
@@ -469,18 +483,31 @@ def find_apperture(ccd, size=(50,50)):
     the aperture shape. The aperture shape will be approximated from
     the CCD hit_list
     
-    **ARGUMNTS** 
+    Parameters
+    ----------
     
-        ==== =========================================================
-        ccd  CCD object that will be used to get the shape information
-        size Array shape
-        ==============================================================
+    ccd : :class:`~pyoptools.raytrace.comp_lib.CCD`
+        CCD object that will be used to get the shape information from
+    size : tuple(int, int)
+        Array shape
+    
 
-    ..todo:: please describe better
+    Returns
+    -------
+    array
+        Array with the image of the aperture
+
+
+    .. todo:: 
+        please describe better
     
-    Note: Right now only works for round appertures.
+    Notes
+    -----
     
-    ..todo:: please be more specific
+    Right now only works for round appertures.
+    
+    .. todo:: 
+        please be more specific
     '''
     
     hl=ccd.hit_list
@@ -506,19 +533,21 @@ def find_ppp(opsys, opaxis):
     """Function to find the primary principal plane location of a lens or an 
     optical component
     
-    Arguments:
-
+    Parameters
+    ----------
     
-    opsys
+    opsys : :class:`~pyoptools.raytrace.system.System`
         Optical system or optical component whose principal planes are to be 
         found
-    opaxis
+    opaxis : :class:`~pyoptools.raytrace.ray.Ray`
         Ray defining the optical axis of the system
     
+
     For this function to operate, the system should have a rotational symmetry
     around the optical axis. 
     
-    Note: 
+    Notes
+    ----- 
         This function is returns the intersection point of the optical axis and
         the principal plane.
     """
@@ -574,38 +603,38 @@ def get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None):
     principal plane.
     
     
-    Arguments:
-
-    
-    opsys
+    Parameters
+    ----------
+    opsys : :class:`~pyoptools.raytrace.system.System`
         Optical system under analisis
-        
-    opaxis
-        Ray indicating the optical axis the origin of the optical axis, must be
+    opaxis : :class:`pyoptools.raytrace.ray.Ray`
+        Ray indicating the optical axis. The origin of the optical axis must be
         the position of the object used in the image formation. This is needed
         to be able to calculate the radius of the reference sphere.
     
-    raylist
+    raylist: list(:class:`pyoptools.raytrace.ray.Ray`)
         List of rays that will be used to sample the optical path
     
-    stop
-        Aperture stop of the system. It must belong to opsys. In not given it
+    stop : :class:`~pyoptools.raytrace.comp_lib.Stop`
+        Stop aperture of the system. It must belong to opsys. In not given it
         will be assumed that the exit pupil is at the primary principal plane.
-    r
+    r :
         If None, measure up to the exit pupil plane. If given, use a reference 
         sphere with a vertex coinciding with the optical vertex.
+        .. todo::
+            Need to check the function and fix this documentation
 
-    Return Value (hcl,opl,pc)
-    
-    hcl 
+    Returns
+    -------
+
+    hcl : list 
         List containing the coordinates of the hits in the pupil coordinate 
         system.
-    
-    opl
+    opl : list
         list containing the optical paths measured
-    
-    pc
+    pc : tuple(float, float, float)
         intersection point between the optical axis, and the pupil plane.
+
         
     hcl[i] corresponds to opl[i]
     
@@ -683,15 +712,20 @@ def find_reference_sphere_radius(ip, pl):
     This method asumes that the optical axis coincides with the z axis. This 
     means that the center of the sphere, has coordinates (0,0,r).
     
-    Attributes:
+    Parameters
+    ----------
 
-    
-    ip
+    ip : list
         list of the points where the optical path is measured, that are being 
         fitted. Each point is (XYZ) tuple. It can be also an array with a shape 
-        n,3 where n is the numbre of points.
-    pl
+        n,3 where n is the number of points.
+    pl : list
         List of path lengths. pl[i] corresponds to the point ip[i].
+
+    Returns
+    -------
+    float
+        Reference sphere radius
     """
     
     ipa=array(ip)
@@ -743,13 +777,14 @@ def parallel_propagate(os,r , np=None):
     used in the simulation are the rays given in r
     
     Parameters
-    
-        ==  ============================================================
-        os  Optical system used in the simulation
-        r   List containing the rays to propagate
-        np  Number if processes used in the simulation. If not given use
-            one process per cpu
-        ==  ============================================================
+    ----------
+    os : :class:`~pyoptools.raytrace.system.System` 
+        Optical system used in the simulation
+    r : list(:class:`pyoptools.raytrace.ray.Ray`)  
+        List containing the rays to propagate
+    np : int or None
+        Number of processes used in the simulation. If not given use one 
+        process per cpu
     """
     
     if np==None:
@@ -796,16 +831,19 @@ def parallel_propagate_ns(os,rg, dp, r, np=None):
     used in the simulation are the rays given in r
     
     Parameters
-    
-        ==  ============================================================
-        os  Optical system used in the simulation
-        rg  Guide ray
-        dp  Destination path
-        r   List containing the rays to propagate
-        np  Number if processes used in the simulation. If not given use
-            one process per cpu
-        ==  ============================================================
-    """
+    ----------
+    os : 
+        Optical system used in the simulation
+    rg :
+        Guide ray
+    dp :
+        Destination path
+    r :
+        List containing the rays to propagate
+    np : int or None
+        Number if processes used in the simulation. If not given use one 
+        process per cpu
+     """
     
     if np==None:
         cpus=mp.cpu_count()
@@ -839,6 +877,14 @@ def ray_paths(r):
     r must be previously propagated in an optical system
     
     When there are beam splitters, there is more than one path 
+
+    Parameters
+    ----------
+        r : :class:`pyoptools.raytrace.ray.Ray`
+
+        
+    .. todo::
+        Finish documentation
     '''
     def rt(r):
         l=[]

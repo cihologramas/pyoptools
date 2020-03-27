@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Plotting utilities that depend only on Matplotlib
+"""Plotting utilities that depend only on Matplotlib. To be used in
+`jupyter notebooks <http://jupyter.org>`_
+
 """
 from pylab import plot, axis,array
 from pyoptools.misc.pmisc import wavelength2RGB
@@ -8,7 +10,11 @@ from pyoptools.misc.pmisc import wavelength2RGB
 
 
 def spot_diagram(s):
-    """Plot the spot diagram for the given surface, or element
+    """Plot the spot diagram for the given surface, or element.
+
+    Args:
+        s: Object (usually :class:`~pyoptools.raytrace.comp_lib.CCD`)
+            whose spot diagram will be plotted.
     """
     hl=s.hit_list
     X=[]
@@ -28,7 +34,13 @@ def spot_diagram(s):
     axis("equal")
 
 def spot_diagram_c(s):
-    """Plot the spot diagram for the given surface, or element
+    """Plot the spot diagram for the given surface, or element using
+    the rays colors.
+
+    Args:
+        s: Object (usually :class:`~pyoptools.raytrace.comp_lib.CCD`)
+            whose spot diagram will be plotted.
+ 
     """
     hl=s.hit_list
     X=[]
