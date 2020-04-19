@@ -41,7 +41,9 @@ from scipy.signal import convolve2d, fftconvolve, resample
 from scipy.integrate import simps
 from scipy.interpolate import interp2d,bisplrep,bisplev, griddata
 from scipy.ndimage import map_coordinates
-from scipy.misc import imread
+#depreacted in scipy 1.2.1; change to imageio
+#from scipy.misc import imread
+from imageio import imread
 
 
 #import pp
