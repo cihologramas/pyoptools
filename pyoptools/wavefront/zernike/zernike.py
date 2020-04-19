@@ -8,7 +8,9 @@ import types
 try:
     from scipy import factorial, comb as binomial
 except ImportError:
-    from scipy.misc import factorial, comb as binomial
+    from scipy.misc import comb as binomial
+    #moved to special in scipy1.0.0
+    from scipy.special import factorial
 
 from numpy import mgrid, sqrt, arccos, zeros,transpose, pi, cos, sin, ones, array,\
     where, arange
