@@ -9,7 +9,6 @@ from numpy.ma import is_masked, MaskedArray
 from numpy.ma import array as ma_array
 
 from scipy import interpolate
-from pylab import meshgrid
 from matplotlib.tri import Triangulation
 
 
@@ -644,7 +643,6 @@ def spot_info(C):
     return mean(R),(xm,ym),(mean(XR),mean(YR)),R.max()
 
 ####### Fin Funciones auxiliares
-
 
 
 
