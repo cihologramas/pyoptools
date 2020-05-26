@@ -9,8 +9,6 @@ from numpy.ma import is_masked, MaskedArray
 from numpy.ma import array as ma_array
 
 from scipy import interpolate
-from pylab import griddata, meshgrid
-
 from matplotlib.tri import Triangulation
 
 
@@ -216,8 +214,6 @@ def hitlist2int(x, y, z,  xi, yi):
     """Function that estimates an intensity distribution on a plane from a 
     ray hitlist
     """
-    from pylab import griddata, meshgrid
-    from scipy import interpolate
     #if xi.ndim != yi.ndim:
     #    raise TypeError("inputs xi and yi must have same number of dimensions (1 or 2)")
     #if xi.ndim != 1 and xi.ndim != 2:
@@ -298,15 +294,13 @@ def hitlist2int(x, y, z,  xi, yi):
     
     #Interpolacion nn, y generación de pupila
     xi,yi = meshgrid(xi,yi)
-    d1=griddata(xc, yc, I,xi, yi )
+    d1 = interpolate.griddata(xc, yc, I, xi, yi)
     return d1
 
 def hitlist2int_list(x, y):
     """Function that estimates an intensity distribution on a plane from a 
     ray hitlist. Returns the intensity samples as an x,y,I list
     """
-    from pylab import griddata, meshgrid
-    from scipy import interpolate
     
     #if xi.ndim != yi.ndim:
     #    raise TypeError("inputs xi and yi must have same number of dimensions (1 or 2)")
@@ -645,10 +639,6 @@ def spot_info(C):
     return mean(R),(xm,ym),(mean(XR),mean(YR)),R.max()
 
 ####### Fin Funciones auxiliares
-
-
-
-
 
 
 

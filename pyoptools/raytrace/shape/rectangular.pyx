@@ -91,8 +91,8 @@ cdef class Rectangular(Shape):
         #~ 
         #~ dx,dy=self.size
         #~ nx, ny=self.samples
-        #~ Xl=linspace(-dx/2.,dx/2.,nx)
-        #~ Yl=linspace(-dy/2.,dy/2.,ny)
+        #~ Xl=linspace(-dx/2.,dx/2.,int(nx))
+        #~ Yl=linspace(-dy/2.,dy/2.,int(ny))
         #~ X, Y=meshgrid(Xl,Yl)
         #~ Z=topo(X, Y)
         #~ 
@@ -114,8 +114,8 @@ cdef class Rectangular(Shape):
         dx,dy=self.size
         nx, ny=self.samples
         ox, oy=self.offset
-        Xl=linspace(-dx/2.+ox,dx/2.+ox,nx)
-        Yl=linspace(-dy/2.+oy,dy/2.+oy,ny)
+        Xl=linspace(-dx/2.+ox,dx/2.+ox,int(nx))
+        Yl=linspace(-dy/2.+oy,dy/2.+oy,int(ny))
         X, Y=meshgrid(Xl,Yl)
         return X.ravel(),Y.ravel()
         

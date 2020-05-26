@@ -17,8 +17,7 @@
 '''
 Definition of a CCD like object and helper functions
 '''
-
-from scipy.misc import toimage
+from PIL.Image import fromarray
 from scipy.interpolate import interp2d,bisplrep,bisplev
 from numpy import arange, ma, meshgrid, linspace
 
@@ -97,7 +96,7 @@ class CCD(Component):
             a ttribute to set the simulated resolution.
         """
         data= self.__d_surf.get_histogram(size)
-        return(toimage(data, high=255, low=0,cmin=0,cmax=data.max()))
+        return(fromarray(data))
     
     def get_color_image(self, size=(256,256)):
         """
@@ -108,7 +107,7 @@ class CCD(Component):
         """
         
         data= self.__d_surf.get_color_histogram(size)
-        return(toimage(data, high=255, low=0))
+        return(fromarray(data, high=255, low=0))
         
         
     #~ def im_show(self,fig=None, size=(256,256),cmap=cm.gray,title='Image',color=False):

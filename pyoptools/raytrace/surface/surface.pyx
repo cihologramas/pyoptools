@@ -37,7 +37,7 @@ from numpy.ma import array as ma_array
 
 from scipy.signal import medfilt2d
 from scipy import interpolate
-from pylab import griddata, meshgrid
+from pylab import meshgrid
 
 from inspect import getmembers, isroutine
 

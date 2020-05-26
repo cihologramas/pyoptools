@@ -138,8 +138,8 @@ cdef class Shape(Picklable):
             xi,xf, yi, yf =size
             
         nx, ny = ndat
-        X_M=linspace(xi, xf, nx)
-        Y_M=linspace(yi, yf, ny)
+        X_M=linspace(xi, xf, int(nx))
+        Y_M=linspace(yi, yf, int(ny))
         #X_M=arange(xi,xf*(1.+1/nx),1./nx)
         #Y_M=arange(yi,yf*(1.+1/ny),1./ny)
 
