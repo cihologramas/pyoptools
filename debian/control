@@ -8,6 +8,6 @@ Homepage: https://github.com/cihologramas/pyoptools/
 
 Package: python3-pyoptools
 Architecture: any
-Depends: ${misc:Depends}, ${python:Depends}, ${shlibs:Depends}
+Depends: ${misc:Depends}, ${python:Depends}, ${shlibs:Depends} , python3-imageio
 Description: Optical ray tracing simulation system
 
