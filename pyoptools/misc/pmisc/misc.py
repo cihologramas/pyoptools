@@ -295,6 +295,7 @@ def hitlist2int(x, y, z,  xi, yi):
     #Interpolacion nn, y generación de pupila
     xi,yi = meshgrid(xi,yi)
     d1 = interpolate.griddata(xc, yc, I, xi, yi)
+
     return d1
 
 def hitlist2int_list(x, y):
