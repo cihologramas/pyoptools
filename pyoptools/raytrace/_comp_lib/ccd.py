@@ -17,8 +17,6 @@
 '''
 Definition of a CCD like object and helper functions
 '''
-#Depreacated in scipy 1.0+ changed to PIL.Image.formarray
-#from scipy.misc import toimage
 from PIL.Image import fromarray
 from scipy.interpolate import interp2d,bisplrep,bisplev
 from numpy import arange, ma, meshgrid, linspace
