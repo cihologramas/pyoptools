@@ -301,8 +301,6 @@ def hitlist2int_list(x, y):
     """Function that estimates an intensity distribution on a plane from a 
     ray hitlist. Returns the intensity samples as an x,y,I list
     """
-    from pylab import meshgrid
-    from scipy import interpolate
     
     #if xi.ndim != yi.ndim:
     #    raise TypeError("inputs xi and yi must have same number of dimensions (1 or 2)")
@@ -641,7 +639,6 @@ def spot_info(C):
     return mean(R),(xm,ym),(mean(XR),mean(YR)),R.max()
 
 ####### Fin Funciones auxiliares
-
 
 
 
