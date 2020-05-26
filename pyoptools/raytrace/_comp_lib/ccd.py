@@ -96,7 +96,7 @@ class CCD(Component):
             a ttribute to set the simulated resolution.
         """
         data= self.__d_surf.get_histogram(size)
-        return(fromarray(data, high=255, low=0,cmin=0,cmax=data.max()))
+        return(fromarray(data))
     
     def get_color_image(self, size=(256,256)):
         """
