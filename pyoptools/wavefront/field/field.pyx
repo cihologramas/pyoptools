@@ -34,13 +34,16 @@ from numpy import dot,zeros, abs, meshgrid, pi,exp, where,angle, sqrt as npsqrt,
 
 from numpy.fft import fft2,ifft2,fftshift,ifftshift
 from numpy.ma import array as maarray,  getmask,  getmaskarray
-from matplotlib.mlab import griddata
+#deprecated use scipy.interpolate.griddata
+#from matplotlib.mlab import griddata
 
 from scipy.signal import convolve2d, fftconvolve, resample
 from scipy.integrate import simps
-from scipy.interpolate import interp2d,bisplrep,bisplev
+from scipy.interpolate import interp2d,bisplrep,bisplev, griddata
 from scipy.ndimage import map_coordinates
-from scipy.misc import imread
+#depreacted in scipy 1.2.1; change to imageio
+#from scipy.misc import imread
+from imageio import imread
 
 
 #import pp
