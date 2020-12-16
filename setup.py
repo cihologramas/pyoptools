@@ -35,6 +35,7 @@ def contains_arrayobject_h(path):
 # them to extension names in dotted notation
 def scandir(dir_, files=[]):
     for file in os.listdir(dir_):
+        if file =="venv": continue
         path = os.path.join(dir_, file)
         if os.path.isfile(path) and path.endswith(".pyx"):
             files.append(path.replace(os.path.sep, ".")[2:-4])
@@ -45,15 +46,15 @@ def scandir(dir_, files=[]):
 
 def findpackages(dir_, files=[]):
     for file in os.listdir(dir_):
-        if file != "build":
-            path = os.path.join(dir_, file)
-            if os.path.isdir(path):  # and path.endswith(".py"):
-                for file1 in os.listdir(path):
-                    if file1 == "__init__.py":
-                        files.append(path.replace(os.path.sep, ".")[2:])
-                findpackages(path, files)
+        if file in  ["build", "venv"]:
+            continue
+        path = os.path.join(dir_, file)
+        if os.path.isdir(path):  # and path.endswith(".py"):
+            for file1 in os.listdir(path):
+                if file1 == "__init__.py":
+                    files.append(path.replace(os.path.sep, ".")[2:])
+            findpackages(path, files)
     return files
-
 
 # generate an Extension object from its dotted name
 def makeExtension(extName):
