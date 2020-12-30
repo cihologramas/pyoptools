@@ -1,4 +1,4 @@
-Pillow==6.2.1
+Pillow==7.1.0
 jupyter
 ipython==7.17.0
 numpy==1.18.4
