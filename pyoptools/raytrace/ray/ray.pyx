@@ -412,7 +412,7 @@ cdef class Ray:
        end of this ray parent (this ray origin)
         '''
         
-        if self.parent!=None:
+        if self.parent is not None:
             if self.pop!=0: 
                 print "The pop attribute of the ray has a value of ", self.pop, \
                 " instead the real parent optical path is being used"
