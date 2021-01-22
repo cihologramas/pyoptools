@@ -1,0 +1,11 @@
+REFERENCES: Corning-Fused-Silica-7980 <a href=https://valleydesign.com/Datasheets/Corning-Fused-Silica-7980.pdf> Corning-Fused-Silica-7980 <a>
+DATA:
+  - type: formula 2
+    wavelength_range: 0.18 1.12
+    coefficients: 0 0.68374049400 0.00460352869 0.42032361300 0.01339688560 0.58502748000 64.49327320000 
+SPECS:
+    n_absolute: false
+    wavelength_vacuum: false
+    temperature: 22 °C
+    nd: 1.458467
+    Vd: 67.79

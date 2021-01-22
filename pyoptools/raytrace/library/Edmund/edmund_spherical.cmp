@@ -1204,7 +1204,7 @@ type = Doublet
 
 [32744]
 description = 32744 Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 2
 radius = 1
@@ -1214,7 +1214,7 @@ type = SphericalLens
 
 [32745]
 description = 32745 Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 4
 radius = 2
@@ -1224,7 +1224,7 @@ type = SphericalLens
 
 [32746]
 description = 32746 Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 6
 radius = 3
@@ -1234,7 +1234,7 @@ type = SphericalLens
 
 [32747]
 description = 32747 Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 8
 radius = 4
@@ -1244,7 +1244,7 @@ type = SphericalLens
 
 [32748]
 description = 32748 Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 10
 radius = 5
@@ -14170,7 +14170,7 @@ type = SphericalLens
 
 [43708]
 description = 43708 Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 1
 radius = 0.5
@@ -14180,7 +14180,7 @@ type = SphericalLens
 
 [43709]
 description = 43709 Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 1.5
 radius = 0.75
@@ -14190,7 +14190,7 @@ type = SphericalLens
 
 [43710]
 description = 43710 Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 2.5
 radius = 1.25
@@ -14200,7 +14200,7 @@ type = SphericalLens
 
 [43711]
 description = 43711 Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 3
 radius = 1.5
@@ -14210,7 +14210,7 @@ type = SphericalLens
 
 [43712]
 description = 43712 Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 5
 radius = 2.5
@@ -18794,7 +18794,7 @@ type = SphericalLens
 
 [45548]
 description = 45548 Drum Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 2.5
 radius = 1
@@ -18804,7 +18804,7 @@ type = SphericalLens
 
 [45549]
 description = 45549 Drum Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 3
 radius = 1.2
@@ -18814,7 +18814,7 @@ type = SphericalLens
 
 [45550]
 description = 45550 Drum Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 4
 radius = 1.6
@@ -18824,7 +18824,7 @@ type = SphericalLens
 
 [45551]
 description = 45551 Drum Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 5
 radius = 2
@@ -18834,7 +18834,7 @@ type = SphericalLens
 
 [45552]
 description = 45552 Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 0.3
 radius = 0.15
@@ -18844,7 +18844,7 @@ type = SphericalLens
 
 [45553]
 description = 45553 Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 0.5
 radius = 0.25
@@ -19870,7 +19870,7 @@ type = Doublet
 
 [45836]
 description = 45836 Drum Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 2.5
 radius = 1
@@ -19880,7 +19880,7 @@ type = SphericalLens
 
 [45837]
 description = 45837 Drum Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 3
 radius = 1.2
@@ -19890,7 +19890,7 @@ type = SphericalLens
 
 [45838]
 description = 45838 Drum Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 4
 radius = 1.6
@@ -19900,7 +19900,7 @@ type = SphericalLens
 
 [45839]
 description = 45839 Drum Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 5
 radius = 2
@@ -21390,7 +21390,7 @@ type = SphericalLens
 
 [45933]
 description = 45933 Half Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 1
 radius = 1
@@ -21400,7 +21400,7 @@ type = SphericalLens
 
 [45934]
 description = 45934 Half Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 2
 radius = 2
@@ -21410,7 +21410,7 @@ type = SphericalLens
 
 [45935]
 description = 45935 Half Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 3
 radius = 3
@@ -21420,7 +21420,7 @@ type = SphericalLens
 
 [45936]
 description = 45936 Half Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 4
 radius = 4
@@ -21430,7 +21430,7 @@ type = SphericalLens
 
 [45937]
 description = 45937 Half Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 5
 radius = 5
@@ -21751,10 +21751,10 @@ thickness_l2 = 3.73
 air_gap = 2.76
 thickness_l3 = 3.73
 thickness_l4 = 1.33
-material_l1 = SF5
-material_l2 = BK7
-material_l3 = BK7
-material_l4 = SF5
+material_l1 = N-SF5
+material_l2 = N-BK7
+material_l3 = N-BK7
+material_l4 = N-SF5
 radius = 6.25
 glass_catalogs = SCHOTT INFRARED MISC 
 type = DoubletPair
@@ -21772,10 +21772,10 @@ thickness_l2 = 3.73
 air_gap = 2.97
 thickness_l3 = 3.5
 thickness_l4 = 1.5
-material_l1 = SF5
-material_l2 = BK7
-material_l3 = BK7
-material_l4 = SF5
+material_l1 = N-SF5
+material_l2 = N-BK7
+material_l3 = N-BK7
+material_l4 = N-SF5
 radius = 6.25
 glass_catalogs = SCHOTT INFRARED MISC 
 type = DoubletPair
@@ -21858,7 +21858,7 @@ thickness_l3 = 7
 thickness_l4 = 2.5
 material_l1 = SF10
 material_l2 = BAFN10
-material_l3 = BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 12.5
 glass_catalogs = SCHOTT INFRARED MISC 
@@ -21879,7 +21879,7 @@ thickness_l3 = 6
 thickness_l4 = 2.5
 material_l1 = SF10
 material_l2 = BAFN10
-material_l3 = BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 12.5
 glass_catalogs = SCHOTT INFRARED MISC 
@@ -21942,7 +21942,7 @@ thickness_l3 = 7
 thickness_l4 = 2.5
 material_l1 = SF10
 material_l2 = BAFN11
-material_l3 = BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 12.5
 glass_catalogs = SCHOTT INFRARED MISC 
@@ -21963,7 +21963,7 @@ thickness_l3 = 6
 thickness_l4 = 2.5
 material_l1 = SF10
 material_l2 = BAFN11
-material_l3 = BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 12.5
 glass_catalogs = SCHOTT INFRARED MISC 
@@ -21984,7 +21984,7 @@ thickness_l3 = 7
 thickness_l4 = 2.5
 material_l1 = SF10
 material_l2 = BAFN11
-material_l3 = BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 12.5
 glass_catalogs = SCHOTT INFRARED MISC 
@@ -22005,7 +22005,7 @@ thickness_l3 = 6
 thickness_l4 = 2.5
 material_l1 = SF10
 material_l2 = BAFN11
-material_l3 = BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 12.5
 glass_catalogs = SCHOTT INFRARED MISC 
@@ -22393,7 +22393,7 @@ type = SphericalLens
 
 [46524]
 description = 46524 Drum Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 2
 radius = 1
@@ -22403,7 +22403,7 @@ type = SphericalLens
 
 [46525]
 description = 46525 Drum Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 2.4
 radius = 1.2
@@ -22413,7 +22413,7 @@ type = SphericalLens
 
 [46526]
 description = 46526 Drum Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 3.2
 radius = 1.6
@@ -22423,7 +22423,7 @@ type = SphericalLens
 
 [46527]
 description = 46527 Drum Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 4
 radius = 2
@@ -22739,7 +22739,7 @@ type = SphericalLens
 
 [47269]
 description = 47269 Half Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 1.5
 radius = 1.5
@@ -22749,7 +22749,7 @@ type = SphericalLens
 
 [47270]
 description = 47270 Half Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 2.5
 radius = 2.5
@@ -40379,7 +40379,7 @@ type = SphericalLens
 
 [49567]
 description = 49567 Half Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 0.25
 radius = 0.25
@@ -40389,7 +40389,7 @@ type = SphericalLens
 
 [49568]
 description = 49567 Half Ball Lens
-material = BK7
+material = N-BK7
 glass_catalogs = SCHOTT INFRARED MISC 
 thickness = 0.5
 radius = 0.5
@@ -43612,8 +43612,8 @@ air_gap = 3.01
 thickness_l3 = 3.5
 thickness_l4 = 1.5
 material_l1 = SF5
-material_l2 = BK7
-material_l3 = BK7
+material_l2 = N-BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 6.25
 glass_catalogs = SCHOTT INFRARED MISC 
@@ -43655,7 +43655,7 @@ thickness_l3 = 3.73
 thickness_l4 = 1.33
 material_l1 = SF10
 material_l2 = SSKN8
-material_l3 = BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 6.25
 glass_catalogs = SCHOTT INFRARED MISC 
@@ -43675,8 +43675,8 @@ air_gap = 2.89
 thickness_l3 = 3.5
 thickness_l4 = 1.5
 material_l1 = SF5
-material_l2 = BK7
-material_l3 = BK7
+material_l2 = N-BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 6.25
 glass_catalogs = SCHOTT INFRARED MISC 
@@ -43717,8 +43717,8 @@ air_gap = 4.85
 thickness_l3 = 7
 thickness_l4 = 2.5
 material_l1 = SF5
-material_l2 = BK7
-material_l3 = BK7
+material_l2 = N-BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 12.5
 glass_catalogs = SCHOTT INFRARED MISC 
@@ -43738,8 +43738,8 @@ air_gap = 5.63
 thickness_l3 = 6
 thickness_l4 = 2.5
 material_l1 = SF5
-material_l2 = BK7
-material_l3 = BK7
+material_l2 = N-BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 12.5
 glass_catalogs = SCHOTT INFRARED MISC 
@@ -43760,7 +43760,7 @@ thickness_l3 = 7
 thickness_l4 = 2.5
 material_l1 = SF10
 material_l2 = SSKN8
-material_l3 = BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 12.5
 glass_catalogs = SCHOTT INFRARED MISC 
@@ -43780,8 +43780,8 @@ air_gap = 5.24
 thickness_l3 = 6
 thickness_l4 = 2.5
 material_l1 = SF5
-material_l2 = BK7
-material_l3 = BK7
+material_l2 = N-BK7
+material_l3 = N-BK7
 material_l4 = SF5
 radius = 12.5
 glass_catalogs = SCHOTT INFRARED MISC 
