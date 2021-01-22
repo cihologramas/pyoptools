@@ -1,0 +1,45 @@
+[E-BAF11]
+model = Schott
+nd = 1.666718 
+vd = 48.31
+c1 = 2.71954649 
+c2 = -0.0100472501 
+c3 = 0.0200301385 
+c4 = 0.000465868302 
+c5 = -0.00000751633336 
+c6 = 0.00000177544989 
+
+[FD10]
+#This is the same as SF10 according to 
+#https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=6973
+#in the achromat tab
+model = Sellmeier
+nd = 1.728250
+vd = 28.41
+b1 = 1.61625977e+000
+b2 = 2.59229334e-001
+b3 = 1.07762317e+000
+c1 = 1.27534559e-002
+c2 = 5.81983954e-002
+c3 = 1.16607680e+002
+
+[SODA-LIME]
+model = Cauchy
+nd = 1.5234
+vd = 63.97
+a = -0.003169
+b = 1.5130
+c = 0.003962
+d = 0.
+
+[F_SILICA]
+model = Sellmeier
+nd = 1.458
+vd = 67.82
+b1 = 0.6961663
+b2 = 0.4079426
+b3 = 0.8974794
+c1 = 0.00467914825849
+c2 = 0.013512063073959999
+c3 = 97.93400253792099
+
