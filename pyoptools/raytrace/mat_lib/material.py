@@ -52,16 +52,16 @@ for (dirpath, dirnames, filenames) in walk(libpath):
 
 # Get data from main folder
 
-mainlibnames = []
-mainlibpath = join(mat_config, "main")
-for (dirpath, dirnames, filenames) in walk(mainlibpath):
-    library = relpath(dirpath, libpath)
+#mainlibnames = []
+#mainlibpath = join(mat_config, "main")
+#for (dirpath, dirnames, filenames) in walk(mainlibpath):
+#    library = relpath(dirpath, mainlibpath)
 
-    # Exclude some names that are not libraries
-    if library in [".", ]:
-        continue
+#    # Exclude some names that are not libraries
+#    if library in [".", ]:
+#        continue
 
-    mainlibnames.append((relpath(dirpath, mainlibpath)).replace("/", "_"))
+#    mainlibnames.append((relpath(dirpath, mainlibpath)).replace("/", "_"))
 
 
 # Get library names from the user home
@@ -82,7 +82,7 @@ for (dirpath, dirnames, filenames) in walk(homelibpath):
 # Note: If a home library has the same name as a system library, all the
 # glasses defined will be merged in the same library
 
-libset = list(set(libnames+mainlibnames+homelibnames))
+libset = list(set(libnames+["main"]+homelibnames))
 liblist = []
 
 for libname in libset:
@@ -91,11 +91,12 @@ for libname in libset:
     globals()[libname] = {}
     liblist.append((libname, globals()[libname]))
 
+liblist.sort()
 
 # Fill the dictionaries with the current materials system wide, and then with
 # the materials defined in the home of the user
 
-for npath in [libpath, mainlibpath, homelibpath]:
+for npath in [libpath, homelibpath]:
 
     for (dirpath, dirnames, filenames) in walk(npath):
         library = (relpath(dirpath, npath)).replace("/","_")
@@ -109,6 +110,28 @@ for npath in [libpath, mainlibpath, homelibpath]:
                 globals()[library][matname] = from_yml(join(dirpath, name))
             except ModelNotImplemented:
                 continue
+
+# Fill the main library. The main folder is interpreted as a catalog, and each
+# material plus its different models are listed as material instances.
+# This was done to keep the list of catalogs short. In needed an alias can be
+# created
+
+npath = join(mat_config, "main")
+
+for (dirpath, dirnames, filenames) in walk(npath):
+    library = (relpath(dirpath, npath)).replace("/","_")
+    # Exclude some names that are not libraries
+    if library in [".", ]:
+        continue
+
+    for name in filenames:
+        try:
+            matname = name.split(".")[0]
+            globals()["main"][library+"_"+matname] = from_yml(join(dirpath, name))
+        except ModelNotImplemented:
+            continue
+
+
 
 # Create the aliases material library. It will read the information from the
 # aliases.cfg file
