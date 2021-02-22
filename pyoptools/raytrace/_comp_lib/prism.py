@@ -38,59 +38,42 @@ class RightAnglePrism(Component):
                      from component)
         reflectivity Reflectivity of the coating of the hipotenuse. For a normal 
                      prism it is 0. Note: Total internal reflection works in the 
-                     prism.  
+                     prism.
+        reflega      Reflectivity of the Leg A of the prism. For a normal prism
+                     it is 0.
+        reflegb      Reflectivity of the Leg B of the prism. For a normal prism
+                     it is 0.
         ============ ===========================================================
 
     The origin of the cordinate systema is located at the center of hipotenuse
     face of the prism
     '''
 
-    # Width of the prism
-    #width = Float(50.)
+    def __init__(self, width=50, height=10., reflectivity=0, reflega=0,
+                 reflegb=0, *args, **kwargs):
+        Component.__init__(self, *args, **kwargs)
 
-    # Height of the prism
-    #height = Float(10)
+        self.width = width
+        self.height = height
+        self.reflectivity = reflectivity
+        self.reflega = reflega
+        self.reflegb = reflegb
 
-    #Reflectivity of the hipotenuse
-    #reflectivity= Range(0.,1.)
-
-    # Private attributes
-
-    # Entrance and exit surfaces
-
-    #__a_face = Instance(Plane)
-    #__b_face = Instance(Plane)
-
-    # Hipotenuse surface
-
-    #__h_face = Instance(Plane)
-
-
-    #Note the prism is not closed in the top or bottom needs to be fixed
-
-
-    def __init__(self, width=50, height=10., reflectivity=0, *args, **kwargs):
-        
-        Component.__init__(self,*args, **kwargs)
-
-        self.width=width
-        self.height=height
-        self.reflectivity=reflectivity
-        
-        
-        __a_face= Plane (shape=Rectangular(size=(self.width,self.height)))
-        __b_face= Plane (shape=Rectangular(size=(self.width,self.height)))
+        __a_face = Plane(shape=Rectangular(size=(self.width, self.height)),
+                         reflectivity=reflega)
+        __b_face = Plane(shape=Rectangular(size=(self.width, self.height)),
+                         reflectivity=reflegb)
 
         h=sqrt(2.)*self.width
 
-        __h_face= Plane (shape=Rectangular(size=(h,self.height)),reflectivity=self.reflectivity)
-        
+        __h_face= Plane(shape=Rectangular(size=(h,self.height)),
+                        reflectivity=self.reflectivity)
+
         w2=self.width/2.
         __e1=Plane (shape=Triangular(((-w2,w2),(-w2,-w2),(w2,-w2))))
         __e2=Plane (shape=Triangular(((-w2,w2),(-w2,-w2),(w2,-w2))))
 
-        
-        
+
         self.surflist["S1"]=(__a_face,(0,0,-self.width/2),(0,0,0))
         self.surflist["S2"]=(__b_face,(self.width/2,0,0),(0,pi/2,0))
         self.surflist["S3"]=(__h_face,(0,0,0),(0,-pi/4,0))
