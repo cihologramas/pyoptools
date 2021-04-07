@@ -156,7 +156,7 @@ def from_yml(filename):
        https://refractiveindex.info/about
     """
     with open(filename) as f:
-        mat = yaml.load(f)
+        mat = yaml.load(f, Loader=yaml.FullLoader)
 
     for c in mat["DATA"]:
         if "formula" in c["type"]:
