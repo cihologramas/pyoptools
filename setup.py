@@ -95,7 +95,12 @@ if len(valid_paths) > 1:
         pass
 
     while not (s >= 1 and s <= len(valid_paths)):
-        s = input('Selection [default=1]:')
+        try:
+            s = input('Selection [default=1]: ')
+        except EOFError:
+            s=1
+            print('Selection is',s)
+            continue
         if s == '':
             s = 1
         else:
