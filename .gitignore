@@ -1,3 +1,5 @@
+debian/python3-pyoptools/
+debian/.debhelper/
 venv/
 deb_dist/
 dist/
@@ -19,3 +21,8 @@ MANIFEST
 *.ipynb_checkpoints
 *egg-info
 __pycache__
+.pybuild/
+debian/python3-pyoptools.debhelper.log
+*.debhelper
+debian/python3-pyoptools.substvars
+debian/files

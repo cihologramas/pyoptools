@@ -29,15 +29,18 @@ from os import walk
 from os.path import join, expanduser, relpath
 from pkg_resources import resource_filename
 from .mat_eq import from_yml, ModelNotImplemented
+from configparser import ConfigParser
 
 mat_config = resource_filename("pyoptools.raytrace.mat_lib", 'data')
 
-#mat_config = "../mat_lib/data/"
+# mat_config = "../mat_lib/data/"
 
 # Get library names from the system
-libnames = []
 
-libpath = join(mat_config,"glass")
+# Get data from glass folder
+
+libnames = []
+libpath = join(mat_config, "glass")
 for (dirpath, dirnames, filenames) in walk(libpath):
     library = relpath(dirpath, libpath)
 
@@ -45,7 +48,21 @@ for (dirpath, dirnames, filenames) in walk(libpath):
     if library in [".", ]:
         continue
 
-    libnames.append((relpath(dirpath, libpath)).replace("/","_"))
+    libnames.append((relpath(dirpath, libpath)).replace("/", "_"))
+
+# Get data from main folder
+
+#mainlibnames = []
+#mainlibpath = join(mat_config, "main")
+#for (dirpath, dirnames, filenames) in walk(mainlibpath):
+#    library = relpath(dirpath, mainlibpath)
+
+#    # Exclude some names that are not libraries
+#    if library in [".", ]:
+#        continue
+
+#    mainlibnames.append((relpath(dirpath, mainlibpath)).replace("/", "_"))
+
 
 # Get library names from the user home
 
@@ -58,14 +75,14 @@ for (dirpath, dirnames, filenames) in walk(homelibpath):
     if library in [".", ]:
         continue
 
-    homelibnames.append((relpath(dirpath, homelibpath)).replace("/","_"))
+    homelibnames.append((relpath(dirpath, homelibpath)).replace("/", "_"))
 
 # Create the materials dictionary
 
 # Note: If a home library has the same name as a system library, all the
 # glasses defined will be merged in the same library
 
-libset = list(set(libnames+homelibnames))
+libset = list(set(libnames+["main"]+homelibnames))
 liblist = []
 
 for libname in libset:
@@ -74,6 +91,7 @@ for libname in libset:
     globals()[libname] = {}
     liblist.append((libname, globals()[libname]))
 
+liblist.sort()
 
 # Fill the dictionaries with the current materials system wide, and then with
 # the materials defined in the home of the user
@@ -93,7 +111,45 @@ for npath in [libpath, homelibpath]:
             except ModelNotImplemented:
                 continue
 
+# Fill the main library. The main folder is interpreted as a catalog, and each
+# material plus its different models are listed as material instances.
+# This was done to keep the list of catalogs short. In needed an alias can be
+# created
 
+npath = join(mat_config, "main")
+
+for (dirpath, dirnames, filenames) in walk(npath):
+    library = (relpath(dirpath, npath)).replace("/","_")
+    # Exclude some names that are not libraries
+    if library in [".", ]:
+        continue
+
+    for name in filenames:
+        try:
+            matname = name.split(".")[0]
+            globals()["main"][library+"_"+matname] = from_yml(join(dirpath, name))
+        except ModelNotImplemented:
+            continue
+
+
+
+# Create the aliases material library. It will read the information from the
+# aliases.cfg file
+
+aliases_path = join(mat_config,"aliases.cfg")
+
+
+globals()["aliases"] = {}
+config = ConfigParser()
+config.read(aliases_path)
+
+for i in config:
+    if i == "DEFAULT": continue
+    libr = config[i]["library"]
+    mate = config[i]["material"]
+    globals()["aliases"][i] =  globals()[libr][mate]
+
+liblist.append(("aliases", globals()["aliases"]))
 
 def find_material(material):
     """Search for a material in all the libraries
@@ -136,8 +192,3 @@ def mat_list():
     for libn, _ in liblist:
         tdict = globals()[libn]
         print(libn,  tdict.keys())
-
-
-print(find_material("N-BK7"))
-
-

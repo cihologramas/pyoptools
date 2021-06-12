@@ -18,11 +18,12 @@
 Definition of compound lens objects and helper functions
 '''
 
-from numpy import pi
+from math import isnan
 
 from pyoptools.raytrace.system import System
 from pyoptools.raytrace.comp_lib import SphericalLens
-from pyoptools.raytrace.mat_lib import Material
+from pyoptools.raytrace.mat_lib import Material, material
+
 
 class Doublet(System):
     '''Class to define a Doublet Lens
@@ -171,3 +172,81 @@ class AirSpacedDoublet(System):
 
         self.complist["C1"]=(__a_lens,(0,0,-(self.thickness_l2+self.air_gap)/2.),(0,0,0))
         self.complist["C2"]=(__p_lens,(0,0, (self.thickness_l1+self.air_gap)/2.),(0,0,0))
+
+
+class MultiLens(System):
+    '''Class to define a multilens system from a table of parameters as given
+    in standard raytracing programs.
+
+    Attributes
+    ----------
+    sd : list
+        List of tuples (ty, rad, thick, semid, matcat, marref)
+        that contain each of the parameters needed to define
+        each spherical surface using the same format used by the standard
+        raytracing software.
+        * ty: str
+              String representing the surface type. For the moment only
+              "spherical" surfaces are valid.
+        * rad: float
+              Radius of the surface in mm
+        * thick: float
+              Thickness of the material in mm. Distance from this surface to
+              the next. For the last surface it has no real meaning.
+        * semid: float
+              Semi-diameter (radius) in mm of the round aperture that limits
+              the surface.
+        * matcat: str
+               String with the material catalog where the material is defined.
+               If matcat = "", the first material with name matref will be 
+               used.
+        * matref: str of float
+              String with the material name, or or number representing the 
+              constant refraction index of the material. matref = "" means 
+              there is no material between the 2 surfaces.
+
+
+    The origin of the optical system is located in the center of the Multilens
+    in the optical axis. The center is the mid-point between the 2 most
+    external vertices
+    '''
+    def __init__(self, sd,*args,**kwarks):
+        System.__init__(self, *args, **kwarks)
+        # Calculate the lens total thickness
+        TT = 0
+        for s in sd[:-1]:
+            TT = TT+s[2]
+
+        p = -TT/2
+        nn = 1
+        for n in range(1, len(sd)):
+            t0, r0, th0, s0, mc0, mt0 = sd[n-1]
+            t1, r1, th1, s1, mc1, mt1 = sd[n]
+
+            if isnan(r0) or r0 == 0:
+                c0 = 0
+            else:
+                c0 = 1/r0
+
+            if isnan(r1) or r1 == 0:
+                c1 = 0
+            else:
+                c1 = 1/r1
+
+            if mt0 != "":
+                if mc0 == "Value":
+                    mat = float(mt0.replace(",", "."))
+                else:
+                    mat = getattr(material, mc0)[mt0]
+
+                lens = SphericalLens(curvature_s1=c0,
+                                     curvature_s2=c1,
+                                     thickness=th0,
+                                     radius=s0,
+                                     material=mat)
+                0, 0, p+th0/2
+
+                self.complist["C{}".format(nn)] = (lens, (0, 0, p+th0/2),
+                                                  (0, 0, 0))
+                nn = nn+1
+            p = p+th0
