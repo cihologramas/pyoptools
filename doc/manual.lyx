@@ -1704,7 +1704,7 @@ Field Module
 \end_layout
 
 \begin_layout Standard
-The field module is used to calculate optical sistems using field propagation
+The field module is used to calculate optical systems using field propagation
  techniques.
  It defines the class field.....
 \end_layout

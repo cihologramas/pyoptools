@@ -46,7 +46,7 @@ class PSurf:
         
         **Notes:** 
                - The pupil is normalized to the radius of the lens
-               - This method asumes a circular shaped pupil
+               - This method assumes a circular shaped pupil
                - The phase is returned as an optical path
                - The intensity is normalized to 1
             

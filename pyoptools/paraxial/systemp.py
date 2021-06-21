@@ -21,7 +21,7 @@ class PSurface:
         return array(((1., self.d), (0, 1)))
 
     def matrix(self, na):
-        """Return the full difraction + propagation matrix related to the
+        """Return the full diffraction + propagation matrix related to the
         surface when the previous refractive index is na
         """
         return dot(self.p_mat(), self.r_mat(na))
@@ -35,7 +35,7 @@ class PSurface:
         pass
 
     def propagate(self, ray, na):
-        """Calculates the full ray (u,v) difraction+propagation.
+        """Calculates the full ray (u,v) diffraction+propagation.
 
         Returns:
 
@@ -103,7 +103,7 @@ class PApe(PPlane):
 
     def propagate(self, ray, na):
 
-        """Calculates the full ray (u,v) difraction+propagation.
+        """Calculates the full ray (u,v) diffraction+propagation.
 
         Returns:
 
@@ -139,7 +139,7 @@ class PSystem:  # (MutableSequence):
 
     def propagate(self, ray):
 
-        """Calculates the full ray (u,v) difraction+propagation.
+        """Calculates the full ray (u,v) diffraction+propagation.
 
         Returns:
 
@@ -164,7 +164,7 @@ class PSystem:  # (MutableSequence):
 
     def get_matrix(self, ua=False):
         """Get total system matrix
-        if ua == True, stop at the firs system apperture found
+        if ua == True, stop at the firs system aperture found
         """
         na = self.surfaces[0].n
         mat = array(((1, 0), (0, 1)))

@@ -267,7 +267,7 @@ class ZernikeXY(object):
     cohef = property(__get_cohef__, __set_cohef__, None, "Coefficient list of the zernike polynomial")
 
     def eval(self):
-        """Not impremented yet"""
+        """Not implemented yet"""
         pass
         
     def evalm(self,x,y,mask=True):

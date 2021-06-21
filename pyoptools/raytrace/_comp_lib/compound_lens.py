@@ -10,7 +10,7 @@
 #
 #
 # Author:          Ricardo Amézquita Orozco
-# Description:     Compount Lens definitión module
+# Description:     Compound Lens definition module
 # Symbols Defined: Doublet
 #------------------------------------------------------------------------------
 #
@@ -52,7 +52,7 @@ class Doublet(System):
                         :class:`~pyoptools.raytrace.mat_lib.material.Material` 
                         subclass instance
 
-    The origin of the cordinate system is located at the center of the doublet
+    The origin of the coordinate system is located at the center of the doublet
     in the optical axis.
     '''
     
@@ -135,7 +135,7 @@ class AirSpacedDoublet(System):
                         :class:`~pyoptools.raytrace.mat_lib.material.Material` 
                         subclass instance
 
-    The origin of the cordinate system is located at the center of the doublet
+    The origin of the coordinate system is located at the center of the doublet
     in the optical axis.
     '''
 

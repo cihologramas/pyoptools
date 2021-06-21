@@ -111,15 +111,15 @@ def nearest_points(ray1, ray2):
     ----------
 
     r1,r2 : :class:`~pyoptools.raytrace.ray.Ray` 
-        Rays to test for intersection. 
+        Rays to test for intersection.
 
     Returns
     -------
     
     p1 : tuple(float, float, float)
-        Coordinates of the point living on the ray 1 closest to the ray 2
+        Coordinates of the point living on ray 1 closest to ray 2
     p2 : tuple(float, float, float)
-        Coordinates fo the point living on the ray 2 closest to the ray 1
+        Coordinates of the point living on ray 2 closest to ray 1
     d : float
         The distance between p1 and p2
     rv : bool
@@ -371,8 +371,8 @@ def pupil_location(opsys,ccds,opaxis):
     
     # Find the nearest points between the rays. 
     # Some times because of numerical errors, or some aberrations in the optical
-    # system, the rays do not trully intersect.
-    # Use instead the nearest points and issue a warning when the rays do not trully
+    # system, the rays do not truly intersect.
+    # Use instead the nearest points and issue a warning when the rays do not truly
     # intersect.
     
     enpl=intersection(opaxis,enp[0])[0]
@@ -407,7 +407,7 @@ def paraxial_location(opsys, opaxis):
     opsys : :class:`~pyoptools.raytrace.system.System`
         Optical system to use.
     opaxis: :class:`~pyoptools.raytrace.ray.Ray`
-        Ray representating the optical axis
+        Ray representing the optical axis
     
     Returns
     -------
@@ -504,7 +504,7 @@ def find_apperture(ccd, size=(50,50)):
     Notes
     -----
     
-    Right now only works for round appertures.
+    Right now only works for round apertures.
     
     .. todo:: 
         please be more specific
@@ -606,7 +606,7 @@ def get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None):
     Parameters
     ----------
     opsys : :class:`~pyoptools.raytrace.system.System`
-        Optical system under analisis
+        Optical system under analysis
     opaxis : :class:`pyoptools.raytrace.ray.Ray`
         Ray indicating the optical axis. The origin of the optical axis must be
         the position of the object used in the image formation. This is needed
@@ -709,7 +709,7 @@ def get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None):
 def find_reference_sphere_radius(ip, pl):
     """Find the radius os the reference sphere that best fits the input data.
     
-    This method asumes that the optical axis coincides with the z axis. This 
+    This method assumes that the optical axis coincides with the z axis. This 
     means that the center of the sphere, has coordinates (0,0,r).
     
     Parameters

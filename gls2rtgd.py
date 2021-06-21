@@ -39,7 +39,7 @@ except:
     exit("The input file seems not to be an OSLO glass description file")
     
 if version not in ("5.00","5.11","5.31","5.32","5.41","6.02" , "6.03"):
-    print("Library version migth not be supported. Please verify the output file")
+    print("Library version might not be supported. Please verify the output file")
 
 # Check if the output file exists
 

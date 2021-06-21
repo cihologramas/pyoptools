@@ -117,7 +117,7 @@ def wavelength2RGB(wl):
     wavelength wavelength in um
 
     if the wavelength is outside the visible spectrum returns (0,0,0)
-    Original code fount at:
+    Original code found at:
     
     http://www.physics.sfasu.edu/astro/color/spectra.html
 
@@ -433,7 +433,7 @@ def unwrapv(inph,in_p=(), uv=2*pi):
         n=nonzero(nxi& nyi & nxf & nyf)
         lco=zip(XI[n], YI[n])
         
-        # Put the coordinates of unwrapped the neigbors in the list
+        # Put the coordinates of unwrapped the neighbors in the list
         
         
         # And check for wrapping
@@ -494,7 +494,7 @@ def unwrap_py(inph,in_p=(), uv=2*pi):
         # remove the first value from the list
         cx, cy=l_un.pop(0)
     
-        # Put the coordinates of unwrapped the neigbors in the list
+        # Put the coordinates of unwrapped the neighbors in the list
         # And check for wrapping
         nv=0
         wv=0    

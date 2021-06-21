@@ -2,7 +2,7 @@ cimport numpy as np
 
 cdef class poly2d:
     cdef public object cohef
-    # Slow lists to be used for python and for garbage colection
+    # Slow lists to be used for python and for garbage collection
     # if the slow lists are not attributes of the class they can get destroyed
     # so px_c and py_c will get erased
     cdef object px64,py64,px,py

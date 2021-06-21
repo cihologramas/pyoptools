@@ -10,7 +10,7 @@
 #
 #
 # Author:          Ricardo Amézquita Orozco
-# Description:     CCD definitión module
+# Description:     CCD definition module
 # Symbols Defined: CCD
 #------------------------------------------------------------------------------
 #
@@ -181,7 +181,7 @@ class CCD(Component):
         .. warning:: 
  
             If the rays hitting the surface are produced by more than one 
-            optical source, the returned map migth not be valid.  
+            optical source, the returned map might not be valid.  
         
         :param size: Tuple (nx,ny) containing the number of samples of the 
             returned map. The map size will be the same as the CCD
@@ -237,7 +237,7 @@ class CCD(Component):
         """Return the optical path of the rays hitting the detector.
         
         This method returns a tuple X,Y,D, containing the X,Y hit points, and 
-        D containing tha optical path data
+        D containing the optical path data
         
         .. warning::
  

@@ -10,7 +10,7 @@
 #
 #
 # Author:          Ricardo Amézquita Orozco
-# Description:     Prism definitión module
+# Description:     Prism definition module
 # Symbols Defined: RightAnglePrism
 #------------------------------------------------------------------------------
 #
@@ -34,7 +34,7 @@ class RightAnglePrism(Component):
         ============ ===========================================================
         width        Width of the prism face
         height       Height of the prism face
-        material     To calculate the refraction index of the prism (inerited 
+        material     To calculate the refraction index of the prism (inherited 
                      from component)
         reflectivity Reflectivity of the coating of the hipotenuse. For a normal 
                      prism it is 0. Note: Total internal reflection works in the 
@@ -45,7 +45,7 @@ class RightAnglePrism(Component):
                      it is 0.
         ============ ===========================================================
 
-    The origin of the cordinate systema is located at the center of hipotenuse
+    The origin of the coordinate system is located at the center of hipotenuse
     face of the prism
     '''
 
@@ -144,7 +144,7 @@ class DovePrism(Component):
 
     :param s: Height and depth of the dove prism
     :type s: float
-    :param l: Width of the dove prism (lenght of the longest side)
+    :param l: Width of the dove prism (length of the longest side)
     :type l: float
     :param material: Material of the prism
     :type material: float or 

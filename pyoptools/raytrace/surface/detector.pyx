@@ -11,7 +11,7 @@
 #
 #
 # Author:          Ricardo Amézquita Orozco
-# Description:     Detector surface definitión module
+# Description:     Detector surface definition module
 # Symbols Defined: CCD
 #------------------------------------------------------------------------------
 ''' Module that defines optical detector surfaces

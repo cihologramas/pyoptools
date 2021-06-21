@@ -13,7 +13,7 @@
 #
 #
 # Author:          Ricardo Amézquita Orozco
-# Description:     Stops definitión module
+# Description:     Stops definition module
 # Symbols Defined: Stop, StopCircAp, StopRecAp
 #------------------------------------------------------------------------------
 

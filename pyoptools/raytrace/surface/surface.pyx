@@ -266,7 +266,7 @@ cdef class Surface(Picklable):
         
         cdef np.ndarray[np.double_t, ndim=1] PI=self.intersection(iray)
         cdef double Dist
-        # Dist is possitive if the current surface is ahead of the ray. 
+        # Dist is positive if the current surface is ahead of the ray. 
         # If the surface is behind the ray, Dist becomes negative
         # If there is no intersection, Dist becomes inf
         if isinf(PI[0]) or isinf(PI[1]) or isinf(PI[2]) :#sometrue(isinf(PI)):
@@ -309,7 +309,7 @@ cdef class Surface(Picklable):
         
         PI=self._intersection(iray)
         
-        # Dist is possitive if the current surface is ahead of the ray. 
+        # Dist is positive if the current surface is ahead of the ray. 
         # If the surface is behind the ray, Dist becomes negative
         # If there is no intersection, Dist becomes inf
         if isinf(PI[0]) or isinf(PI[1]) or isinf(PI[2]):
@@ -948,7 +948,7 @@ cdef class Surface(Picklable):
      
         Notes: 
                - The pupil is normalized to the radius of the lens
-               - This method asumes a circular shaped pupil
+               - This method assumes a circular shaped pupil
                - The phase is returned as an optical path
                - The intensity is normalized to 1
                
@@ -1046,7 +1046,7 @@ cdef class Surface(Picklable):
         for i in range(len(X)):
             points.append((X[i],Y[i],Z[i]))
 
-        #Need to find a beter way to do this not using delaunay# or maybe to generate all using triangulations????
+        #Need to find a better way to do this not using delaunay# or maybe to generate all using triangulations????
         tri=Triangulation(X,Y)
         trip=tri.triangles
         return points, trip

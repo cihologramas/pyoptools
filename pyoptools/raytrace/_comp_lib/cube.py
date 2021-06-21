@@ -10,7 +10,7 @@
 #
 #
 # Author:          Ricardo Amézquita Orozco
-# Description:     Beam Splitting Cube definitión module
+# Description:     Beam Splitting Cube definition module
 # Symbols Defined: BeamSplitingCube
 #------------------------------------------------------------------------------
 #
@@ -95,7 +95,7 @@ class BeamSplittingCube(System):
     :type material: float or 
        :class:`~pyoptools.raytrace.mat_lib.material.Material` subclass instance
 
-    The origin of the cordinate systema is located at the center of the cube
+    The origin of the coordinate system is located at the center of the cube
     in the optical axis (center of the hypotenuse).
     '''
 
@@ -140,7 +140,7 @@ class BeamSplitingCube(BeamSplittingCube):
     """Deprecated class, please use the one with the correct spelling
      :class:`~pyoptools.raytrace.comp_lib.BeamSplittingCube`
      
-     .. warning:: Wil be removed in the future
+     .. warning:: Will be removed in the future
 """
 
     def __init__(self, *argv, **kwargs):

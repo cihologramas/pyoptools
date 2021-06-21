@@ -10,7 +10,7 @@
 #
 #
 # Author:          Ricardo Amézquita Orozco
-# Description:     Spherical lens definitión module
+# Description:     Spherical lens definition module
 # Symbols Defined: SphericalLens
 #------------------------------------------------------------------------------
 #
@@ -30,18 +30,18 @@ class SphericalLens(Component):
     **ARGUMENTS:**
         ============ ==========================================================
         radius       Aperture radious of the lens given in mm
-        thickness    Thicknes of the lens measured in the center given in mm
+        thickness    Thickness of the lens measured in the center given in mm
         curvature_s1 curvature of the anterior surface given in 1/mm
         curvature_s2 curvature of the posterior surface given in 1/mm
-        material     Used to calculate the refraction index of the lens 
-                     (inerited from component). Can be a material instance or a
+        material     Used to calculate the refraction index of the lens
+                     (inherited from component). Can be a material instance or
                      floating point number if the refraction index is constant.
         ============ ==========================================================
-    
+
     **RETURN VALUE:**
 
     Returns a Component subclass that behaves as a spherical lens. The origin of
-    the Component's cordinate systema is located at the center of the lens
+    the Component's coordinate system is located at the center of the lens
     in the optical axis (mid-point between vertex of the Spherical surfaces).
     '''
 
@@ -75,19 +75,19 @@ class SphericalLens(Component):
         self.thickness=thickness
         self.curvature_s1=curvature_s1
         self.curvature_s2=curvature_s2
-        
+
         if self.curvature_s1!=0.:
             __a_surf= Spherical (shape=Circular(radius= self.radius),
                                       curvature=self.curvature_s1)
         else:
             __a_surf= Plane(shape=Circular(radius= self.radius))
-     
+
         if self.curvature_s2!=0:
             __p_surf= Spherical (shape=Circular(radius= self.radius),
                                       curvature=self.curvature_s2)
         else:
             __p_surf= Plane(shape=Circular(radius= self.radius))
-        
+
         self.surflist["S1"]=(__a_surf,(0,0,-self.thickness/2),(0,0,0))
         self.surflist["S2"]=(__p_surf,(0,0,self.thickness/2 ),(0,0,0))
 
