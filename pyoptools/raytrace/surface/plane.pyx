@@ -13,7 +13,7 @@
 #
 #
 # Author:          Ricardo Amézquita Orozco
-# Description:     Plane surface definitión module
+# Description:     Plane surface definition module
 # Symbols Defined: Plane
 #------------------------------------------------------------------------------
 

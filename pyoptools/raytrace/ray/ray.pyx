@@ -86,7 +86,7 @@ cdef class Ray:
                 If the value is None, the ray was emitted from the media 
                 and its Refraction index is taken (not from inside a 
                 component)
-    label       String used to follow the rays trough the system.
+    label       String used to follow the rays through the system.
     parent      Ray where this ray comes from (used to follow ray 
                 trajectory). 
     childs      List of rays originated by the interaction of this ray 
@@ -110,7 +110,7 @@ cdef class Ray:
     #~ # the ray was emitted from the media (not from inside a component)
     #~ n=Trait(None,None,Float)
     #~
-    #~ # Label to follow the rays trough the system. This attribute propagates with
+    #~ # Label to follow the rays through the system. This attribute propagates with
     #~ # the ray trace.
     #~ label=String("")
     #~ 
@@ -219,7 +219,7 @@ cdef class Ray:
             Transform also the coordinate system of the childs. By default (False)
             don't do it.
             
-        The rotation is made first, and then the traslation is made.
+        The rotation is made first, and then the translation is made.
         Note, this has to be checked
         '''
 
@@ -260,7 +260,7 @@ cdef class Ray:
             Transform also the coordinate system of the childs. By default (False)
             don't do it.
             
-        The rotation is made first, and then the traslation is made.
+        The rotation is made first, and then the translation is made.
         Note, this has to be checked
         '''
 
@@ -336,7 +336,7 @@ cdef class Ray:
         
         npos=dot(tm,t)        # if blas can be called directly, this can be improved
         ndir=dot(tm,self._dir) # Using tokio this tokio works a little faster, but have to see
-                              #How to install it right, or beter to do something similar using inline snd blas
+                              #How to install it right, or better to do something similar using inline snd blas
         
         #tokyo.dgemv3( tm, t, npos )
         #tokyo.dgemv3( tm, self.dir, ndir )
@@ -393,7 +393,7 @@ cdef class Ray:
             repr(self.label)+",orig_surf="+repr(self.orig_surf)+", order="+repr(self.order)+")"
 
     def add_child(self, cr):
-        '''Add childs to the current ray, and create the apropiate links
+        '''Add childs to the current ray, and create the appropiate links
         
         *cr*
             Ray to include in the child list

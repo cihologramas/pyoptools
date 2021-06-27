@@ -10,7 +10,7 @@
 #
 #
 # Author:          Ricardo Amézquita Orozco
-# Description:     Spherical lens definitión module
+# Description:     Spherical lens definition module
 # Symbols Defined: SphericalLens
 # ------------------------------------------------------------------------------
 #

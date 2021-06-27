@@ -10,7 +10,7 @@
 #
 #
 # Author:          Ricardo Amézquita Orozco
-# Description:     Prism definitión module
+# Description:     Prism definition module
 # Symbols Defined: StopC
 #------------------------------------------------------------------------------
 #

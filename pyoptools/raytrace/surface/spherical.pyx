@@ -11,7 +11,7 @@
 # 
 # 
 # Author:          Ricardo Amézquita Orozco
-# Description:     Spherical surface definitión module
+# Description:     Spherical surface definition module
 # Symbols Defined: Spherical
 #------------------------------------------------------------------------------
 
@@ -129,7 +129,7 @@ cdef class Spherical(Surface):
         ##o el rayo es tangente y no hay interseccion 
             
         # TODO: This can have problems if the ray is propagates in the X or Y direcction 
-        # Need to find a beter solution 
+        # Need to find a better solution 
 
         if abs(Z2)<abs(Z1):
             X,Y,Z=X2,Y2,Z2

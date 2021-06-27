@@ -42,7 +42,7 @@ class Material:
         self.__nd__ = nd
         self.__vd__ = vd
 
-        # Check if the number of coeficients agrees with the dispersion
+        # Check if the number of coefficients agrees with the dispersion
         # formulas definition
 
         if cl is None:

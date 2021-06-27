@@ -811,7 +811,7 @@ cpdef int pxpy2i(int px,int py):
     
 cpdef ord2i(o):
     """
-    Method that returns the number of coeficients of a polynomial of order o
+    Method that returns the number of coefficients of a polynomial of order o
     
     ===== == == == == == ===
     order  0  1  2  3  4 ...

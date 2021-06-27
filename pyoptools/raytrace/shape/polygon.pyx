@@ -159,7 +159,7 @@ cdef class Polygon(Shape):
                 #~ 
         #~ from matplotlib.delaunay import delaunay
         #~ 
-        #~ #Need to find a beter way to do this not using delaunay# or maybe to generate all using triangulations????
+        #~ #Need to find a better way to do this not using delaunay# or maybe to generate all using triangulations????
         #~ 
         #~ x=[p[0] for p in points] 
         #~ y=[p[1] for p in points]

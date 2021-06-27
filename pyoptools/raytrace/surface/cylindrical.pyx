@@ -13,7 +13,7 @@
 # 
 # 
 # Author:          Ricardo Amézquita Orozco
-# Description:     Cylindrical surface definitión module
+# Description:     Cylindrical surface definition module
 # Symbols Defined: CylindricalSurface
 #------------------------------------------------------------------------------
 #

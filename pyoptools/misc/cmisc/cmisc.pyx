@@ -200,7 +200,7 @@ def unwrap(inph,in_p=(), double uv=2*np.pi, int nn =1):
         # remove the first value from the list
         cx, cy=l_un.pop(0)
     
-        # Put the coordinates of unwrapped the neigbors in the list
+        # Put the coordinates of unwrapped the neighbors in the list
         # And check for wrapping
         nv=0
         wv=0    

@@ -168,7 +168,7 @@ def zmx2pyoptoolsSP(libdata,key):
     if checktype(surflist,'EVENASPH'):
         return
     
-    #Don't include difractive optics
+    #Don't include diffractive optics
     if checktype(surflist,'BINARY_2'):
         return
     
@@ -353,7 +353,7 @@ def zmx2pyoptoolsSP(libdata,key):
         return pyot
   
     else:
-        # Print elements present in the library that were not processed or explicitelly excluded
+        # Print elements present in the library that were not processed or explicitly excluded
         print("***",key)
         print(description)
         print("Surfaces=",len(surflist))

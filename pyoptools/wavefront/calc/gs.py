@@ -312,7 +312,7 @@ def frGS(z,target,estimate=None, iterations=20,error=None):
 
 			#Keep only the phase in the hologram plane
 			holo.data=exp(1.j*holo.angle)
-			#Apply the amplitude constain
+			#Apply the amplitude constrain
 			holo=holo*eabs
 			
 			#Calculate the new image plane
@@ -324,7 +324,7 @@ def frGS(z,target,estimate=None, iterations=20,error=None):
 			
 			d=exp(1.j*imp.angle)
 			imp=Field(data=d, psize=imp.psize, l=imp.l)
-			#Apply the amplitude constain
+			#Apply the amplitude constrain
 			imp=imp*target.abs()
 	return holo,err
 

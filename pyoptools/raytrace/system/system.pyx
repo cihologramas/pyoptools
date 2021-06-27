@@ -391,7 +391,7 @@ cdef class System(Picklable):
         """
         #TODO: All surfaces, elements and subsystems should know their 
         # coordinates, so the transformations can be made a lot faster
-        # the only problem of this aproach is that the surfaces can not be
+        # the only problem of this approach is that the surfaces can not be
         # reused in a design. They must be copied to be reused. The same will
         # Happen to the components and subsystems.
         

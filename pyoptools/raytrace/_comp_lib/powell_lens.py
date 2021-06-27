@@ -10,7 +10,7 @@
 #
 #
 # Author:          Ricardo Amézquita Orozco
-# Description:     Spherical lens definitión module
+# Description:     Spherical lens definition module
 # Symbols Defined: SphericalLens
 # ------------------------------------------------------------------------------
 #
@@ -34,7 +34,7 @@ class PowellLens(Component):
     *radius*
         diameter/2. of the lens in the part of the cylinder
     *thickness*
-        Thicknes of the lens measured in the center
+        Thickness of the lens measured in the center
     *Conicity K*
         Conicity of the aspherical surface
     *curvature R*
@@ -43,7 +43,7 @@ class PowellLens(Component):
         to calculate the refraction index of the lens (inherited from component)
 
 
-    The origin of the cordinate systema is located at the center of the lens
+    The origin of the coordinate system is located at the center of the lens
     in the optical axis (center between vertex).
     """
 
