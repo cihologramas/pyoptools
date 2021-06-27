@@ -16,3 +16,4 @@ nbformat
 sphinx
 nbsphinx
 imageio
+PyYAML
