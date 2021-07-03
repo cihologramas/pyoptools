@@ -2,7 +2,7 @@
 '''
 
 from .calc import (chief_ray_search,
-                   find_apperture,
+                   find_aperture,
                    find_ppp,
                    find_reference_sphere_radius,
                    get_optical_path_ep,
@@ -16,7 +16,7 @@ from .calc import (chief_ray_search,
 
 
 __all__ = ["chief_ray_search",
-           "find_apperture",
+           "find_aperture",
            "find_ppp",
            "find_reference_sphere_radius",
            "get_optical_path_ep",

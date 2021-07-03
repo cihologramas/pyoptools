@@ -8,7 +8,7 @@ optical systems
 '''
 
 __all__=["intersection", "nearest_points", "chief_ray_search", "pupil_location",
-         "paraxial_location", "find_apperture", "find_ppp",
+         "paraxial_location", "find_aperture", "find_ppp",
          "get_optical_path_ep", "find_reference_sphere_radius",
          "parallel_propagate", "parallel_propagate_ns", "ray_paths" ]
 
@@ -206,14 +206,14 @@ def chief_ray_search(opsys,ccds,o=(0.,0.,0.),rt=(0.,0.,0.),er=0.1,w=pi/2.,maxite
     to find the point where the ray intersects the aperture. To increase the 
     convergense speed of the algorithm, it is better to make sure that the first
     test ray intersects the detector.
-    
 
-        
+
+
     .. todo:: 
         Implement a function similar to this one, using a minimization
-        algorithm         
+        algorithm
     '''
-    
+
     #log.info("Entering chief_ray_search function")
     test_ray=Ray(wavelength=wavelength)
     opsys.clear_ray_list()
@@ -476,7 +476,7 @@ def paraxial_location(opsys, opaxis):
 
 
 
-def find_apperture(ccd, size=(50,50)):
+def find_aperture(ccd, size=(50,50)):
     '''Function to find a mask representing the aperture
     
     This function returns a array containing 1's and 0's representing 

@@ -132,15 +132,15 @@ def test_paraxial_location():
 
 
 # TODO better test. Here is a tentative to better understand what does this function using a blackbox approach.
-def test_find_apperture():
-    # def find_apperture(ccd, size=(5,5)):
+def test_find_aperture():
+    # def find_aperture(ccd, size=(5,5)):
 
     # test that it always return a zeros array
     for p in permutations([11, 13, 17, 19]):
         ccd_size = (p[0], p[1])
         aperture_size = (p[2], p[3])
         ccd = CCD(size=ccd_size)
-        result = calc.find_apperture(ccd, size=aperture_size)
+        result = calc.find_aperture(ccd, size=aperture_size)
         expected = np.zeros_like(result)
         np.testing.assert_equal(result, expected)
 
@@ -149,7 +149,7 @@ def test_find_apperture():
         ccd_size = (p[0], p[1])
         aperture_size = (p[2], p[3])
         ccd = CCD(size=ccd_size)
-        result = calc.find_apperture(ccd, size=aperture_size)
+        result = calc.find_aperture(ccd, size=aperture_size)
         print(p, aperture_size, result.shape)
         if result.shape != aperture_size:
             print("---")
