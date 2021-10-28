@@ -88,6 +88,9 @@ cdef class Ray:
                 and its Refraction index is taken (not from inside a
                 component)
     label       String used to follow the rays through the system.
+    draw_color  Color used to render this ray. If None, the wavelength
+                will be used to determine the color. Otherwise, can be
+                any valid matplotlib color identifier.
     parent      Ray where this ray comes from (used to follow ray
                 trajectory).
     childs      List of rays originated by the interaction of this ray
