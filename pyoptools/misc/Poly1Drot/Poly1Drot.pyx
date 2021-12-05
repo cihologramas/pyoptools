@@ -7,6 +7,9 @@ cdef extern from "math.h":
     double pow(double,double)
 
 cdef class poly1DrotDeriv:
+    """ Class defining the derivative of a rotationally symmetric 1D polynomial.
+    Generally not instantiated indivually, but as part of poly1Drot class
+    """
 
     cdef public object coef
     cdef np.float64_t *coef_c
@@ -15,6 +18,17 @@ cdef class poly1DrotDeriv:
     cdef public int wrt
 
     def __init__(self, coef, wrt):
+        """Initilizer for a rotationally symmetric 1D polynomial derivative
+
+        Paramerers
+        ----------
+        coef : tuple of float
+            All the coeffiecents starting from index 0
+        wrt: int
+            Selector for the axis to find the derivative with respect to.
+            Either 0 or 1 for the x or y axis respectively. Other values
+            will raise a ValueError.
+        """
         self.coef = np.array(coef, dtype=np.float64)
 
         self.coef_c = <np.float64_t*>np.PyArray_DATA(self.coef)
@@ -25,6 +39,16 @@ cdef class poly1DrotDeriv:
         self.wrt = wrt
 
     cpdef double peval(self, double x, double y):
+        """
+        Evaluate the derivative at the point x, y
+
+        Parameters
+        ---
+        x : float
+            x value at which to evaluate
+        y : float
+            y value at which to evaluate
+        """
 
         cdef double r, s, a
         cdef int i = 0
@@ -46,6 +70,8 @@ cdef class poly1DrotDeriv:
         raise NotImplementedError
 
 cdef class poly1Drot:
+    """ Class defining a rotationally symmetric 1D polynomial.
+    """
 
     cdef public object coef
 
@@ -53,11 +79,23 @@ cdef class poly1Drot:
     cdef int clen
 
     def __init__(self, coef):
+        """Initilizer for a rotationally symmetric 1D polynomial
+        This can be evaluated at any point x, y in the same way as a 2D
+        polynomial.
+
+        Paramerers
+        ----------
+        coef : tuple of float
+            All the coeffiecents starting from index 0
+        """
+
         self.coef = np.array(coef, dtype=np.float64)
         self.coef_c = <np.float64_t*>np.PyArray_DATA(self.coef)
         self.clen = np.uint32(len(self.coef))
 
     def eval(self, x, y):
+        """Generic numpy evaluation method for the polynomial surface value
+        """
         r = np.sqrt(x**2 + y**2)
         s = np.zeros(np.shape(r))
         for i, a in enumerate(self.coef):
@@ -65,6 +103,8 @@ cdef class poly1Drot:
         return s
 
     cpdef double peval(self, double x, double y):
+        """Cython implementation of polynomial evaluation.
+        """
         cdef double r, s, a
         cdef int i = 0
 
@@ -79,6 +119,9 @@ cdef class poly1Drot:
         raise ValueError
 
     def dxdy(self):
+        """Method to return a tuple of poly1DrotDeriv objects, for derivatives
+        along a x and y axis respectively.
+        """
 
         dx = poly1DrotDeriv(self.coef, 0)
         dy = poly1DrotDeriv(self.coef, 1)
