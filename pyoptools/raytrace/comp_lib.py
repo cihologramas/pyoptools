@@ -7,7 +7,7 @@ This module hides from the end user un needed stuff.
 """
 
 # sorted is used so the clases are ordered alphabetically in the sphinx docs
-__all__ = sorted(["SphericalLens", "AsphericLens, ""CylindricalLens",
+__all__ = sorted(["SphericalLens", "AsphericLens", "CylindricalLens",
                   "CCD", "RightAnglePrism",
                   "PentaPrism", "DovePrism", "Block", "BeamSplitingCube",
                   "BeamSplittingCube",
