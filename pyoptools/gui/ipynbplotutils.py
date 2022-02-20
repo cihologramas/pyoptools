@@ -165,12 +165,13 @@ class Plot3D(object):
         '''Show the PIL image with the default viewer'''
         self.image.show()
 
-    def _repr_jpeg_(self):
-        '''Ipython can embed the jpg image directly
-        from http://ipython.org/ipython-doc/dev/config/integrating.html
+    def _repr_png_(self):
+        '''return a png image
+        to be embedded directly by Ipython:
+        https://ipython.readthedocs.io/en/stable/config/integrating.html
         '''
         temppng = six.BytesIO()
-        self.image.save(temppng, "JPEG")
+        self.image.save(temppng, "PNG")
         data = temppng.getvalue()
         temppng.close()
         return data
