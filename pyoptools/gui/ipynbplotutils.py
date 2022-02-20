@@ -143,6 +143,10 @@ class Plot3D(object):
     size   Tuple (width, height) of the requested image
     rot    list of (rx,ry,rz) tuples containing a series of rotation angles
     scale  scale for the image
+    background: (R, G, B, A) tuple of floating point values.
+                All values must be between 0 and 1.
+                A is the opacity (0 means completely transparent).
+                Defaults to opaque black: (0, 0, 0, 1).
 
     The rotations are applied first rx, then ry and then rz
 
@@ -155,10 +159,13 @@ class Plot3D(object):
                  center=(0, 0, 0),
                  size=(400, 400),
                  rot=[(0, 0, 0)],
-                 scale=1.):
+                 scale=1.,
+                 background=(0, 0, 0, 1),
+                 ):
 
         self.buffer = self.buffer_3d(os, center=center,
-                                     size=size, rot=rot, scale=scale)
+                                     size=size, rot=rot, scale=scale,
+                                     background=background)
         self.image = self._buffer_to_image()
 
     def show(self):
@@ -184,7 +191,9 @@ class Plot3D(object):
 
     def buffer_3d(self, os, center=(0, 0, 0),
                   size=(400, 400), rot=[(0, 0, 0)],
-                  scale=1.):
+                  scale=1.,
+                  background=(0, 0, 0, 1),
+                  ):
 
         left = -size[0] / 2
         right = size[0] / 2
@@ -198,6 +207,8 @@ class Plot3D(object):
         buf = arrays.GLubyteArray.zeros((height, width, 4))
         assert(OSMesaMakeCurrent(ctx, buf, GL_UNSIGNED_BYTE, width, height))
         assert(CurrentContextIsValid())
+
+        glClearColor(*background)
 
         light_ambient = [.5, 0.5, 0.5, 1.0]
         light_diffuse = [1.0, 1.0, 1.0, 1.0]
