@@ -111,7 +111,7 @@ def nearest_points(ray1, ray2):
     denominator = 1 - np.dot(e1, e2)**2
     
     # check if the rays are parallel
-    if np.isclose(denominator, 0, rtol=1e-05, atol=1e-08, equal_nan=False):
+    if np.isclose(denominator, 0, rtol=1e-8, atol=1e-15, equal_nan=False):
         return np.array((nan, nan, nan)), np.array((nan, nan, nan)), np.NaN, False
     
     p2p1 = p2 - p1
