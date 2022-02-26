@@ -73,7 +73,7 @@ def draw_surf(surf, P, D):
         glRotatef(180 * D[1] / pi, 0.0, 1.0, 0.0)
         glRotatef(180 * D[0] / pi, 1.0, 0.0, 0.0)
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE,
-                     [1., 1., 0, 0.7])
+                     [1., 1., 0, 0.4])
         # glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, [1.,1.,0.,1.])
         # glMaterialfv(GL_BACK, GL_AMBIENT_AND_DIFFUSE, [1.,0.,0.,1.])
         for p in polylist:
