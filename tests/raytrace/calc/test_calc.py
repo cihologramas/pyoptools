@@ -19,9 +19,13 @@ from pyoptools.raytrace.system.system import System
 def test_intersection():
     # TODO: choose better example
     # Intersecting
-    expected_intersection_point = (0, 0, 0)
-    ray1 = Ray(pos=expected_intersection_point, dir=(0, 0.2, 1))
-    ray2 = Ray(pos=expected_intersection_point, dir=(1, 2, 1))
+    expected_intersection_point = (3, 1, 1)
+    d1 = np.array((0.1, 0.2, 0.3))
+    d2 = np.array((1, 0.5, 0))
+    t1 = 2
+    t2 = 3
+    ray1 = Ray(pos=expected_intersection_point - t1 * d1, dir=d1)
+    ray2 = Ray(pos=expected_intersection_point - t2 * d2, dir=d2)
     intersection_point, real_ = calc.intersection(ray1, ray2)
     np.testing.assert_almost_equal(intersection_point, expected_intersection_point)
     assert real_ == True
