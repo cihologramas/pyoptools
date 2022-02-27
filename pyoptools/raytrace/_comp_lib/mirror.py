@@ -28,7 +28,8 @@ from pyoptools.raytrace.shape import Circular, Rectangular
 class RoundMirror(Component):
     def __init__(self, radius=50., thickness=10, reflectivity=0.5, *args, **kwargs):
         Component.__init__(self, *args, **kwargs)
-        __a_surf = Plane(shape=Circular(radius=radius), reflectivity=reflectivity)
+        __a_surf = Plane(shape=Circular(radius=radius),
+                         reflectivity=reflectivity)
         __p_surf = Plane(shape=Circular(radius=radius))
 
         self.surflist["S1"] = (__a_surf, (0, 0, 0), (0, 0, 0))
@@ -50,7 +51,8 @@ class RectMirror(Component):
         Component.__init__(self, *args, **kwargs)
         self.size = size
         w, h, l = self.size
-        __a_surf = Plane(shape=Rectangular(size=(w, h)), reflectivity=reflectivity)
+        __a_surf = Plane(shape=Rectangular(size=(w, h)),
+                         reflectivity=reflectivity)
         __p_surf = Plane(shape=Rectangular(size=(w, h)))
 
         __u_surf = Plane(shape=Rectangular(size=(w, l)))

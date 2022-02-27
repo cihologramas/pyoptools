@@ -35,7 +35,8 @@ def contains_arrayobject_h(path):
 # them to extension names in dotted notation
 def scandir(dir_, files=[]):
     for file in os.listdir(dir_):
-        if file =="venv": continue
+        if file == "venv":
+            continue
         path = os.path.join(dir_, file)
         if os.path.isfile(path) and path.endswith(".pyx"):
             files.append(path.replace(os.path.sep, ".")[2:-4])
@@ -46,7 +47,7 @@ def scandir(dir_, files=[]):
 
 def findpackages(dir_, files=[]):
     for file in os.listdir(dir_):
-        if file in  ["build", "venv"]:
+        if file in ["build", "venv"]:
             continue
         path = os.path.join(dir_, file)
         if os.path.isdir(path):  # and path.endswith(".py"):
@@ -57,6 +58,8 @@ def findpackages(dir_, files=[]):
     return files
 
 # generate an Extension object from its dotted name
+
+
 def makeExtension(extName):
     extPath = extName.replace(".", os.path.sep)+".pyx"
     return Extension(
@@ -67,7 +70,7 @@ def makeExtension(extName):
         extra_compile_args=["-O3", "-Wall"],
         # extra_link_args = ['-g'],
         # libraries = ["dv",],
-        )
+    )
 
 
 # Check the availability of arrayobject.h
@@ -98,8 +101,8 @@ if len(valid_paths) > 1:
         try:
             s = input('Selection [default=1]: ')
         except EOFError:
-            s=1
-            print('Selection is',s)
+            s = 1
+            print('Selection is', s)
             continue
         if s == '':
             s = 1
@@ -122,7 +125,7 @@ setup(name="pyoptools",
       packages=findpackages("./"),
       scripts=['ipyoptools'],
       # The names from pipy are used, not the deb package names
-      #requires=['numpy',
+      # requires=['numpy',
       #          'cython',
       #          'PyOpenGl',
       #          'ipython',
@@ -130,12 +133,12 @@ setup(name="pyoptools",
       #          'six',
       #          ],
       package_data={
-          #'pyoptools.raytrace.mat_lib': ['data/*.mat'],
-          'pyoptools.raytrace.mat_lib': ['data/glass/*','data/glass/*/*',
+          # 'pyoptools.raytrace.mat_lib': ['data/*.mat'],
+          'pyoptools.raytrace.mat_lib': ['data/glass/*', 'data/glass/*/*',
                                          'data/glass/*/*/*', 'data/main*',
                                          'data/main/*/*', 'data/aliases.cfg'],
-          'pyoptools.raytrace.library': ['Edmund/*.cmp','Thorlabs/*.cmp'],
-          },
+          'pyoptools.raytrace.library': ['Edmund/*.cmp', 'Thorlabs/*.cmp'],
+      },
       author='Ricardo Amezquita Orozco',
       author_email='ramezquitao@cihologramas.com',
       description='Optical ray tracing simulation system',
@@ -144,14 +147,14 @@ setup(name="pyoptools",
       download_url='https://github.com/cihologramas/pyoptools/archive/v0.1.1.zip',
       ext_modules=cythonize(extensions),
       cmdclass={'build_ext': build_ext},
-#      data_files=[("share/doc/pyoptools/examples/basic_course",
-#                   ["examples/basic_course/00-Introducción.ipynb",
-#                    "examples/basic_course/03-SimpleComponents.ipynb",
-#                    "examples/basic_course/05-Autocollimator.ipynb",
-#                    "examples/basic_course/01-IntroPython.ipynb",
-#                    "examples/basic_course/04-PredefinedComponents.ipynb",
-#                    "examples/basic_course/06-GeomWF.ipynb",
-#                    "examples/basic_course/02-Surfaces.ipynb",
-#                    "examples/basic_course/04-Simple RayTraces.ipynb",
-#                    "examples/basic_course/07-SimpleEODs.ipynb"])]
+      #      data_files=[("share/doc/pyoptools/examples/basic_course",
+      #                   ["examples/basic_course/00-Introducción.ipynb",
+      #                    "examples/basic_course/03-SimpleComponents.ipynb",
+      #                    "examples/basic_course/05-Autocollimator.ipynb",
+      #                    "examples/basic_course/01-IntroPython.ipynb",
+      #                    "examples/basic_course/04-PredefinedComponents.ipynb",
+      #                    "examples/basic_course/06-GeomWF.ipynb",
+      #                    "examples/basic_course/02-Surfaces.ipynb",
+      #                    "examples/basic_course/04-Simple RayTraces.ipynb",
+      #                    "examples/basic_course/07-SimpleEODs.ipynb"])]
       )

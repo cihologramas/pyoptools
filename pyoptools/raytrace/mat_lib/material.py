@@ -54,7 +54,7 @@ for (dirpath, dirnames, filenames) in walk(libpath):
 
 #mainlibnames = []
 #mainlibpath = join(mat_config, "main")
-#for (dirpath, dirnames, filenames) in walk(mainlibpath):
+# for (dirpath, dirnames, filenames) in walk(mainlibpath):
 #    library = relpath(dirpath, mainlibpath)
 
 #    # Exclude some names that are not libraries
@@ -99,7 +99,7 @@ liblist.sort()
 for npath in [libpath, homelibpath]:
 
     for (dirpath, dirnames, filenames) in walk(npath):
-        library = (relpath(dirpath, npath)).replace("/","_")
+        library = (relpath(dirpath, npath)).replace("/", "_")
         # Exclude some names that are not libraries
         if library in [".", ]:
             continue
@@ -119,7 +119,7 @@ for npath in [libpath, homelibpath]:
 npath = join(mat_config, "main")
 
 for (dirpath, dirnames, filenames) in walk(npath):
-    library = (relpath(dirpath, npath)).replace("/","_")
+    library = (relpath(dirpath, npath)).replace("/", "_")
     # Exclude some names that are not libraries
     if library in [".", ]:
         continue
@@ -127,16 +127,16 @@ for (dirpath, dirnames, filenames) in walk(npath):
     for name in filenames:
         try:
             matname = name.split(".")[0]
-            globals()["main"][library+"_"+matname] = from_yml(join(dirpath, name))
+            globals()["main"][library+"_" +
+                              matname] = from_yml(join(dirpath, name))
         except ModelNotImplemented:
             continue
-
 
 
 # Create the aliases material library. It will read the information from the
 # aliases.cfg file
 
-aliases_path = join(mat_config,"aliases.cfg")
+aliases_path = join(mat_config, "aliases.cfg")
 
 
 globals()["aliases"] = {}
@@ -144,12 +144,14 @@ config = ConfigParser()
 config.read(aliases_path)
 
 for i in config:
-    if i == "DEFAULT": continue
+    if i == "DEFAULT":
+        continue
     libr = config[i]["library"]
     mate = config[i]["material"]
-    globals()["aliases"][i] =  globals()[libr][mate]
+    globals()["aliases"][i] = globals()[libr][mate]
 
 liblist.append(("aliases", globals()["aliases"]))
+
 
 def find_material(material):
     """Search for a material in all the libraries
@@ -161,10 +163,10 @@ def find_material(material):
     material
         String with the material name
     """
-    retv=[]
+    retv = []
     for libn, _ in liblist:
-       if material in globals()[libn]:
-          retv.append(libn)
+        if material in globals()[libn]:
+            retv.append(libn)
     return retv
 
 
@@ -180,12 +182,11 @@ def get_material(material):
         String with the material name
     """
     for libn, _ in liblist:
-        tdict=globals()[libn]
+        tdict = globals()[libn]
         if material in tdict:
             return tdict[material]
-    print (material, " not found")
+    print(material, " not found")
     raise KeyError
-
 
 
 def mat_list():

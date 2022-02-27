@@ -430,7 +430,8 @@ def test_ray_dir():
     assert np.array_equal(ray1.dir, np.array([0, 0, 1]))
 
     ray1.dir = (0, 5, -5)
-    np.testing.assert_array_almost_equal(ray1.dir, [0, 0.70710678, -0.70710678])
+    np.testing.assert_array_almost_equal(
+        ray1.dir, [0, 0.70710678, -0.70710678])
 
 
 def test_ray_pos():
@@ -445,7 +446,8 @@ def test_ch_coord_sys_inv():
     origin = np.array([0, 0, 0])
     direction = np.array([0, 1, 0])
 
-    ray_expected = ray.Ray(pos=(0.0, 0.0, 0.0), dir=(0.84147098, 0.0, 0.54030231))
+    ray_expected = ray.Ray(pos=(0.0, 0.0, 0.0),
+                           dir=(0.84147098, 0.0, 0.54030231))
 
     ray1 = ray.Ray()
     ray_calculated = ray1.ch_coord_sys_inv(origin, direction)
@@ -459,7 +461,8 @@ def test_ch_coord_sys_inv_f():
     origin = np.array([0, 0, 0])
     direction = np.array([0, 1, 0])
 
-    ray_expected = ray.Ray(pos=(0.0, 0.0, 0.0), dir=(0.84147098, 0.0, 0.54030231))
+    ray_expected = ray.Ray(pos=(0.0, 0.0, 0.0),
+                           dir=(0.84147098, 0.0, 0.54030231))
 
     ray1 = ray.Ray()
     ray_calculated = ray1.ch_coord_sys_inv_f(origin, direction, False)

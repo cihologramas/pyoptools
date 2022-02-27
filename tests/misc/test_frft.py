@@ -76,8 +76,8 @@ def test_frft2():
     data = np.zeros((nd, nd))
     csize = 10
     data[
-        int(nd / 2 - csize) : int(nd / 2 + csize),
-        int(nd / 2 - csize) : int(nd / 2 + csize),
+        int(nd / 2 - csize): int(nd / 2 + csize),
+        int(nd / 2 - csize): int(nd / 2 + csize),
     ] = 1
     calculated = frft.frft2(data, 1)
 
@@ -130,8 +130,8 @@ def test_rs_kernel():
     data = np.zeros((nd, nd))
     csize = 10
     data[
-        int(nd / 2 - csize) : int(nd / 2 + csize),
-        int(nd / 2 - csize) : int(nd / 2 + csize),
+        int(nd / 2 - csize): int(nd / 2 + csize),
+        int(nd / 2 - csize): int(nd / 2 + csize),
     ] = 1
     nx, ny = data.shape
     dx, dy = 0.5e-3, 0.5e-3

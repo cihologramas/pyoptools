@@ -1,6 +1,4 @@
 ''' Logging utilities
 '''
-### Example at http://antonym.org/node/76
+# Example at http://antonym.org/node/76
 import logging
-
-

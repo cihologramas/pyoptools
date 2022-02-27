@@ -23,14 +23,16 @@ def test_intersection():
     ray1 = Ray(pos=expected_intersection_point, dir=(0, 0.2, 1))
     ray2 = Ray(pos=expected_intersection_point, dir=(1, 2, 1))
     intersection_point, real_ = calc.intersection(ray1, ray2)
-    np.testing.assert_almost_equal(intersection_point, expected_intersection_point)
+    np.testing.assert_almost_equal(
+        intersection_point, expected_intersection_point)
     assert real_ == True
 
     # Not intersecting
     ray1 = Ray(pos=(0, 0, 0), dir=(0, 0.2, 1))
     ray2 = Ray(pos=(1, 0, 0), dir=(0, 0.2, 1))
     intersection_point, real_ = calc.intersection(ray1, ray2)
-    np.testing.assert_almost_equal(intersection_point, [np.nan, np.nan, np.nan])
+    np.testing.assert_almost_equal(
+        intersection_point, [np.nan, np.nan, np.nan])
     assert real_ == False
 
 
@@ -74,7 +76,8 @@ def test_chief_ray_search():
         material=material.schott["BK7"],
     )
     ccd = CCD()
-    aperture_place = Stop(shape=Circular(radius=30), ap_shape=Circular(radius=25))
+    aperture_place = Stop(shape=Circular(radius=30),
+                          ap_shape=Circular(radius=25))
     s = System(
         complist=[
             (lens1, (0, 0, 100), (0, 0, 0)),
@@ -84,7 +87,8 @@ def test_chief_ray_search():
         ],
         n=1,
     )
-    chief_ray = calc.chief_ray_search(s, aperture_place, (0, 10, 0), (0, -1, 1))
+    chief_ray = calc.chief_ray_search(
+        s, aperture_place, (0, 10, 0), (0, -1, 1))
 
     # TODO: should implement Ray.__eq__() and use it here
     np.testing.assert_almost_equal(chief_ray.pos, [0, 10, 0])
@@ -127,7 +131,8 @@ def test_paraxial_location():
     s.propagate()
 
     image_location, real_ = calc.paraxial_location(s, optical_axis)
-    np.testing.assert_almost_equal(image_location, [-5.59109334e-16, 0, 3.07249900e02])
+    np.testing.assert_almost_equal(
+        image_location, [-5.59109334e-16, 0, 3.07249900e02])
     assert real_ == False
 
 

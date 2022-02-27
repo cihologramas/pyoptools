@@ -10,6 +10,7 @@ class PSurface:
     """
     Superclass to define paraxial surfaces
     """
+
     def __init__(self, d, n=1):
         self.d = d
         self.n = n
@@ -102,7 +103,6 @@ class PApe(PPlane):
         return array(((1, 0), (0, 1)))
 
     def propagate(self, ray, na):
-
         """Calculates the full ray (u,v) diffraction+propagation.
 
         Returns:
@@ -138,7 +138,6 @@ class PSystem:  # (MutableSequence):
                 raise ValueError
 
     def propagate(self, ray):
-
         """Calculates the full ray (u,v) diffraction+propagation.
 
         Returns:
@@ -180,7 +179,7 @@ class PSystem:  # (MutableSequence):
 
     def get_principal_ray(self):
 
-        h= self.surfaces[0].h
+        h = self.surfaces[0].h
         MS, APP = self.get_matrix(ua=True)
         u = -h*MS[0, 0]/MS[0, 1]
         return PRay(h, u)
@@ -196,7 +195,7 @@ class PSystem:  # (MutableSequence):
     def reverse(self):
 
         rl = []
-    
+
         for i in range(len(self.surfaces)-1, 0, -1):
             s0 = self.surfaces[i]
             s1 = self.surfaces[i-1]
@@ -239,7 +238,7 @@ if __name__ == "__main__":
           ['APE', {"r_app": 10.3, "d": 9.85, "n": 1}],
           ['SPH', {"curv": 1/204.52, "d":   5.90, "n": 1.613586}],
           ['SPH', {"curv": -1/37.05, "d": 77.405, "n": 1}],
-          ['IMG', {"h":21.248022}],
+          ['IMG', {"h": 21.248022}],
           ]
 
     PS1 = PSystem(SP)

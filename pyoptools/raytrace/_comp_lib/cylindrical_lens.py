@@ -27,7 +27,7 @@ from pyoptools.raytrace.shape import Rectangular
 
 class CylindricalLens(Component):
     """Class to define a rectangular shaped cylindrical Lens.
-    
+
     :param size: Size (sx,sy)  of the lens in mm
     :type size: tuple(float,float)
     :param thickness: Thickness of the lens at the center
@@ -69,7 +69,8 @@ class CylindricalLens(Component):
         else:
             __p_surf = Plane(shape=Rectangular(size=(w, h)))
 
-        self.surflist["S1"] = (__a_surf, (0, 0, -self.thickness / 2), (0, 0, 0))
+        self.surflist["S1"] = (
+            __a_surf, (0, 0, -self.thickness / 2), (0, 0, 0))
         self.surflist["S2"] = (__p_surf, (0, 0, self.thickness / 2), (0, 0, 0))
 
         # TODO: Falta cerrrar la lente por los lados

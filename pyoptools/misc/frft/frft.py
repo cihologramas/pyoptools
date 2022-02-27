@@ -32,7 +32,7 @@ def _frft2(x, alpha):
     z = zeros((2 * p, n), dtype=complex)
 
     j = indices(z.shape)[0]
-    y[(p - m) // 2 : (p + m) // 2, :] = x * exp(
+    y[(p - m) // 2: (p + m) // 2, :] = x * exp(
         -1.0j * pi * (j[0:m] ** 2) * float(alpha) / m
     )
 

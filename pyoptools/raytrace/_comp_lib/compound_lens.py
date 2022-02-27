@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
 #
@@ -12,7 +12,7 @@
 # Author:          Ricardo Amézquita Orozco
 # Description:     Compound Lens definition module
 # Symbols Defined: Doublet
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 '''
 Definition of compound lens objects and helper functions
@@ -27,10 +27,10 @@ from pyoptools.raytrace.mat_lib import Material, material
 
 class Doublet(System):
     '''Class to define a Doublet Lens
-    
+
     This class is used to define a System with containing the components needed
     to define a Doublet lens.
-    
+
     :param radius: Radius of the doublet. Given in mm
     :type radius: float
     :param curvature_s1: Curvature of the anterior surface. Given in 1/mm
@@ -55,54 +55,56 @@ class Doublet(System):
     The origin of the coordinate system is located at the center of the doublet
     in the optical axis.
     '''
-    
-    def __init__(self, radius = 25.,curvature_s1= 0.01,curvature_s2= 0.01,
-                        curvature_s3= 0.01, thickness_l1= 5, thickness_l2= 5,
-                        material_l1=1., material_l2=1.,*args,**kwarks):
-        System.__init__(self,*args,**kwarks)
-        self.radius=radius
-        self.curvature_as= curvature_s1
-        self.curvature_ms=curvature_s2
-        self.curvature_ps=curvature_s3
-        self.thickness_al=thickness_l1
-        self.thickness_pl=thickness_l2
-        self.material_al=material_l1
-        self.material_pl=material_l2
-        
-        __a_lens= SphericalLens(curvature_s1=self.curvature_as,
-                                     curvature_s2=self.curvature_ms,
-                                     thickness=self.thickness_al,
-                                     radius =self.radius,
-                                     material=self.material_al)
 
-        __p_lens= SphericalLens(curvature_s1=self.curvature_ms,
-                                     curvature_s2=self.curvature_ps,
-                                     thickness=self.thickness_pl,
-                                     radius =self.radius,
-                                     material=self.material_pl)
+    def __init__(self, radius=25., curvature_s1=0.01, curvature_s2=0.01,
+                 curvature_s3=0.01, thickness_l1=5, thickness_l2=5,
+                 material_l1=1., material_l2=1., *args, **kwarks):
+        System.__init__(self, *args, **kwarks)
+        self.radius = radius
+        self.curvature_as = curvature_s1
+        self.curvature_ms = curvature_s2
+        self.curvature_ps = curvature_s3
+        self.thickness_al = thickness_l1
+        self.thickness_pl = thickness_l2
+        self.material_al = material_l1
+        self.material_pl = material_l2
 
-        self.complist["C1"]=(__a_lens,(0,0,-self.thickness_pl/2.),(0,0,0))
-        self.complist["C2"]=(__p_lens,(0,0, self.thickness_al/2.),(0,0,0))
+        __a_lens = SphericalLens(curvature_s1=self.curvature_as,
+                                 curvature_s2=self.curvature_ms,
+                                 thickness=self.thickness_al,
+                                 radius=self.radius,
+                                 material=self.material_al)
+
+        __p_lens = SphericalLens(curvature_s1=self.curvature_ms,
+                                 curvature_s2=self.curvature_ps,
+                                 thickness=self.thickness_pl,
+                                 radius=self.radius,
+                                 material=self.material_pl)
+
+        self.complist["C1"] = (
+            __a_lens, (0, 0, -self.thickness_pl/2.), (0, 0, 0))
+        self.complist["C2"] = (
+            __p_lens, (0, 0, self.thickness_al/2.), (0, 0, 0))
 
 #    def __reduce__(self):
 #        args=() #self.intensity,self.wavelength,self.n ,self.label,self.parent,self.pop,self.orig_surf)
 #        return(type(self),args,self.__getstate__())
-    
-    
-    #TODO: Check if there is a better way to do this, because we are 
-    #rewriting the constructor values here
-    
+
+    # TODO: Check if there is a better way to do this, because we are
+    # rewriting the constructor values here
+
 #    def __getstate__(self):
 #        return self.radius, self.curvature_as, self.curvature_ms,\
 #               self.curvature_ps, self.thickness_al, self.thickness_pl,\
 #               self.material_al, self.material_pl, self.__a_lens, \
 #               self.__p_lens, self.complist
-        
+
 #    def __setstate__(self,state):
 #        self.radius, self.curvature_as, self.curvature_ms,\
 #        self.curvature_ps, self.thickness_al, self.thickness_pl,\
 #        self.material_al, self.material_pl, self.__a_lens, \
 #        self.__p_lens, self.complist=state
+
 
 class AirSpacedDoublet(System):
     '''Class to define a an Air Spaced Doublet Lens
@@ -139,39 +141,40 @@ class AirSpacedDoublet(System):
     in the optical axis.
     '''
 
+    def __init__(self, radius=25., curvature_s1=0.01, curvature_s2=0.01,
+                 curvature_s3=0.01, curvature_s4=0.01, thickness_l1=5, air_gap=5, thickness_l2=5,
+                 material_l1=1., material_l2=1., *args, **kwarks):
+        System.__init__(self, *args, **kwarks)
+        self.radius = radius
+        self.curvature_as1 = curvature_s1
+        self.curvature_ps1 = curvature_s2
 
-    def __init__(self, radius = 25.,curvature_s1= 0.01,curvature_s2= 0.01,
-                        curvature_s3= 0.01,curvature_s4= 0.01, thickness_l1= 5,air_gap=5 , thickness_l2= 5,
-                        material_l1=1., material_l2=1.,*args,**kwarks):
-        System.__init__(self,*args,**kwarks)
-        self.radius=radius
-        self.curvature_as1= curvature_s1
-        self.curvature_ps1=curvature_s2
+        self.curvature_as2 = curvature_s3
+        self.curvature_ps2 = curvature_s4
 
-        self.curvature_as2=curvature_s3
-        self.curvature_ps2=curvature_s4
+        self.thickness_l1 = thickness_l1
+        self.thickness_l2 = thickness_l2
+        self.air_gap = air_gap
 
-        self.thickness_l1=thickness_l1
-        self.thickness_l2=thickness_l2
-        self.air_gap=air_gap
+        self.material_l1 = material_l1
+        self.material_l2 = material_l2
 
-        self.material_l1=material_l1
-        self.material_l2=material_l2
+        __a_lens = SphericalLens(curvature_s1=self.curvature_as1,
+                                 curvature_s2=self.curvature_ps1,
+                                 thickness=self.thickness_l1,
+                                 radius=self.radius,
+                                 material=self.material_l1)
 
-        __a_lens= SphericalLens(curvature_s1=self.curvature_as1,
-                                     curvature_s2=self.curvature_ps1,
-                                     thickness=self.thickness_l1,
-                                     radius =self.radius,
-                                     material=self.material_l1)
+        __p_lens = SphericalLens(curvature_s1=self.curvature_as2,
+                                 curvature_s2=self.curvature_ps2,
+                                 thickness=self.thickness_l2,
+                                 radius=self.radius,
+                                 material=self.material_l2)
 
-        __p_lens= SphericalLens(curvature_s1=self.curvature_as2,
-                                     curvature_s2=self.curvature_ps2,
-                                     thickness=self.thickness_l2,
-                                     radius =self.radius,
-                                     material=self.material_l2)
-
-        self.complist["C1"]=(__a_lens,(0,0,-(self.thickness_l2+self.air_gap)/2.),(0,0,0))
-        self.complist["C2"]=(__p_lens,(0,0, (self.thickness_l1+self.air_gap)/2.),(0,0,0))
+        self.complist["C1"] = (
+            __a_lens, (0, 0, -(self.thickness_l2+self.air_gap)/2.), (0, 0, 0))
+        self.complist["C2"] = (
+            __p_lens, (0, 0, (self.thickness_l1+self.air_gap)/2.), (0, 0, 0))
 
 
 class MultiLens(System):
@@ -210,7 +213,8 @@ class MultiLens(System):
     in the optical axis. The center is the mid-point between the 2 most
     external vertices
     '''
-    def __init__(self, sd,*args,**kwarks):
+
+    def __init__(self, sd, *args, **kwarks):
         System.__init__(self, *args, **kwarks)
         # Calculate the lens total thickness
         TT = 0
@@ -247,6 +251,6 @@ class MultiLens(System):
                 0, 0, p+th0/2
 
                 self.complist["C{}".format(nn)] = (lens, (0, 0, p+th0/2),
-                                                  (0, 0, 0))
+                                                   (0, 0, 0))
                 nn = nn+1
             p = p+th0

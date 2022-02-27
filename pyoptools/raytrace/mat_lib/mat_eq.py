@@ -38,6 +38,7 @@ class Material:
     ''' Base class to define an optical material. It receives the YML text as
     defined in https://refractiveindex.info/about
     '''
+
     def __init__(self, coef, cl, nd=None, vd=None):
         self.__nd__ = nd
         self.__vd__ = vd
@@ -71,6 +72,7 @@ class Sellmeier(Material):
     model as defined at
     https://refractiveindex.info/database/doc/Dispersion%20formulas.pdf
     """
+
     def __init__(self, coef, nd=None, vd=None):
         Material.__init__(self, coef, 17, nd, vd)
 
@@ -86,6 +88,7 @@ class Sellmeier_2(Material):
     dispersion model as defined at
     https://refractiveindex.info/database/doc/Dispersion%20formulas.pdf
     """
+
     def __init__(self, coef, nd=None, vd=None):
         Material.__init__(self, coef, 17, nd, vd)
 
@@ -101,6 +104,7 @@ class Polynomial(Material):
     dispersion model as defined at
     https://refractiveindex.info/database/doc/Dispersion%20formulas.pdf
     """
+
     def __init__(self, coef, nd=None, vd=None):
         Material.__init__(self, coef, 17, nd, vd)
 

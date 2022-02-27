@@ -1,7 +1,7 @@
 import os
 
 
-def findfiles2clean(dir,files=[], ):
+def findfiles2clean(dir, files=[], ):
     for file in os.listdir(dir):
         if file != "build":
             path = os.path.join(dir, file)

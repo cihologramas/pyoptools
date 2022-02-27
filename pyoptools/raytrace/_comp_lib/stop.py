@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
 #
@@ -12,7 +12,7 @@
 # Author:          Ricardo Amézquita Orozco
 # Description:     Prism definition module
 # Symbols Defined: StopC
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 '''
 Definition of stop components
@@ -25,20 +25,21 @@ from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Aperture
 from pyoptools.raytrace.shape import Shape
 
+
 class Stop(Component):
 
     '''Class to define an stop component.
 
     This component is used to simulate apertures or diafragms in an optical
     system
-      
+
     **ARGUMENTS**
-        
+
         ======== =====================
         shape    Stop external shape
         ap_shape Aperture (hole) shape
         ======== =====================
-    
+
     **shape** and **ap_shape** are instances of any sub-class of   
     :class:`~pyoptools.raytrace.shape.Shape`.
 
@@ -48,10 +49,10 @@ class Stop(Component):
     '''
 
     # External shape of the diaphragm
-    #shape=Instance(Shape)
-    
+    # shape=Instance(Shape)
+
     # Aperture shape
-    #ap_shape=Instance(Shape)
+    # ap_shape=Instance(Shape)
 
     # Private attributes
 
@@ -59,23 +60,23 @@ class Stop(Component):
 
     #__face = Instance(Aperture)
 
-    def __init__(self,shape=None,ap_shape=None,**traits):
-        Component.__init__(self,**traits)
-        #self.shape=shape
-        #self.ap_shape=ap_shape
-        face= Aperture (shape=shape,  ap_shape=ap_shape)
-        self.surflist["S1"]=(face,(0,0,0),(0,0,0))
-        
-    #~ def __reduce__(self):
-        #~ args=(None,None) #self.intensity,self.wavelength,self.n ,self.label,self.parent,self.pop,self.orig_surf)
-        #~ return(type(self),args,self.__getstate__())
-    #~ 
-    #~ 
-    #~ #TODO: Check if there is a better way to do this, because we are 
-    #~ #rewriting the constructor values here
-    #~ 
-    #~ def __getstate__(self):
-        #~ return self.shape, self.ap_shape, self.__face,self.surflist 
-        #~ 
-    #~ def __setstate__(self,state):
-        #~ self.shape, self.ap_shape, self.__face,self.surflist=state
+    def __init__(self, shape=None, ap_shape=None, **traits):
+        Component.__init__(self, **traits)
+        # self.shape=shape
+        # self.ap_shape=ap_shape
+        face = Aperture(shape=shape,  ap_shape=ap_shape)
+        self.surflist["S1"] = (face, (0, 0, 0), (0, 0, 0))
+
+    # ~ def __reduce__(self):
+        # ~ args=(None,None) #self.intensity,self.wavelength,self.n ,self.label,self.parent,self.pop,self.orig_surf)
+        # ~ return(type(self),args,self.__getstate__())
+    # ~
+    # ~
+    # ~ #TODO: Check if there is a better way to do this, because we are
+    # ~ #rewriting the constructor values here
+    # ~
+    # ~ def __getstate__(self):
+        # ~ return self.shape, self.ap_shape, self.__face,self.surflist
+        # ~
+    # ~ def __setstate__(self,state):
+        # ~ self.shape, self.ap_shape, self.__face,self.surflist=state
