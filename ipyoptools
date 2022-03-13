@@ -1,4 +1,4 @@
 #/bin/sh
 export PYOPENGL_PLATFORM=osmesa
 #ipython notebook --pylab=inline
-ipython notebook
+jupyter notebook
