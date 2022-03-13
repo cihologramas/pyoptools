@@ -31,13 +31,12 @@ from warnings import warn
 from sys import exit
 from numpy import absolute, arccos, array, cos as npcos, dot, isinf as npisinf,inf, isnan as npisnan, \
                 power, sqrt as npsqrt, sometrue,  zeros_like, ones_like,  histogram2d, \
-                linspace, abs,  indices, argwhere, tan, polyfit,arange,where
+                linspace, meshgrid, abs, indices, argwhere, tan, polyfit, arange, where
 from numpy.fft import fft2,  ifft2
 from numpy.ma import array as ma_array
 
 from scipy.signal import medfilt2d
 from scipy import interpolate
-from pylab import meshgrid
 
 from inspect import getmembers, isroutine
 
