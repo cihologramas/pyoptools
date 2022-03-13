@@ -1,7 +1,7 @@
 Pillow==9.0.1
 jupyter
 ipython
-numpy==1.18.4
+numpy==1.21.0
 scipy==1.5.2
 Cython==0.29.2
 matplotlib==3.3.0
