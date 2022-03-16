@@ -35,7 +35,7 @@ import multiprocessing as mp
 #log= logging.getLogger("ray_trace.calc")
 
 
-def intersection(ray1, ray2):
+def intersection(ray1, ray2, atol=1e-8):
     ''' 
     Return the point of intersection between the rays ray1 and ray2.
 
@@ -45,6 +45,7 @@ def intersection(ray1, ray2):
 
     ray1, ray2: :class:`~pyoptools.raytrace.ray.Ray` 
         Rays to test for intersection. 
+    atol: absolute tolerance (maximum distance between ray lines)
     
     Returns
     -------
@@ -58,10 +59,10 @@ def intersection(ray1, ray2):
         as in virtual image i.e. intersection point is not in the actual path, 
         or is behind the ray's origin.
     '''
-    c1, c2, _, rv = nearest_points(ray1, ray2)
+    c1, c2, dist, rv = nearest_points(ray1, ray2)
 
-    if np.allclose(c1, c2, rtol=1e-05, atol=1e-08, equal_nan=False):
-        return c1, rv
+    if dist < atol:
+        return (c1 + c2)/2, rv
     else:
         return array((nan, nan, nan)), False
 
