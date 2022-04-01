@@ -12,28 +12,28 @@ from sys import exit
 # Se cambio el traits por el HasStrictTraits, para verificar la asignación
 # de los atributos en la creacion de los scripts
 
-#from enthought.traits.api import Float, List, Trait, TraitHandler,\
+# from enthought.traits.api import Float, List, Trait, TraitHandler,\
 #     TraitList,Array,Property, HasPrivateTraits, String, This, \
 #     Any, Instance
 
 #from enthought.tvtk.api import tvtk
 
 import numpy as np
-from numpy import dot, array, float_, inf,float64, empty, zeros, sqrt as npsqrt
+from numpy import dot, array, float_, inf, float64, empty, zeros, sqrt as npsqrt
 cimport numpy as np
 
 #from misc import rot_mat, rot_mat_i,mvdot, dot_test
-from pyoptools.misc.cmisc.cmisc cimport *#rot_mat, rot_mat_i
+from pyoptools.misc.cmisc.cmisc cimport *  # rot_mat, rot_mat_i
 
 #import tokyo
-#cimport tokyo
+# cimport tokyo
 from cpython.ref cimport PyObject, Py_INCREF, Py_DECREF
 
 cimport numpy as np
 
 np.import_array()
 
-#class Ray(HasPrivateTraits):
+# class Ray(HasPrivateTraits):
 
 # Trick to create instances of ray fast from a cython code. From python
 # use the standard
@@ -41,19 +41,19 @@ np.import_array()
 # Rayf initialization do the same.
 
 
-cdef Ray Rayf(np.ndarray pos,np.ndarray dir,double intensity,double wavelength,
-                n,label,draw_color,parent,double pop,orig_surf,int order):
+cdef Ray Rayf(np.ndarray pos, np.ndarray dir, double intensity, double wavelength,
+              n, label, draw_color, parent, double pop, orig_surf, int order):
     """Function to create and initialize Ray instances Fast from cython
     when changing the code, always check that the __init__, and the
     Rayf initialization do the same.
     """
     # Code taken from:
-    #http://wiki.cython.org/FAQ#CanCythoncreateobjectsorapplyoperatorstolocallycreatedobjectsaspureCcode.3F
+    # http://wiki.cython.org/FAQ#CanCythoncreateobjectsorapplyoperatorstolocallycreatedobjectsaspureCcode.3F
     cdef Ray instance = Ray.__new__(Ray)
 
     instance.cpos=pos
 
-    #Be careful no normalization is made here
+    # Be careful no normalization is made here
     instance._dir=dir
 
     instance.intensity=intensity
@@ -97,44 +97,44 @@ cdef class Ray:
                 with an optical surface.
     =========== =======================================================
     """
-    #~ # (x,y,z) tuple containing the ray origin
-    #~ pos=Array('d',shape=(3,),value=(0.,0.,0.))
-    #~
-    #~ # (x,y,z) tuple containing the unit vector representing the direction of
-    #~ # propagation of the ray (this vector gets normalized automatically)
-    #~ dir=UnitVector()
-    #~
-    #~ # Intensity of the ray.
-    #~ intensity=Float(1)
-    #~
-    #~ # Wavelength of the ray in micrometers (.58929 by default)
-    #~ wavelength=Float(.58929)
-    #~
-    #~ # Refraction index of the point originating the ray. If the value is None,
-    #~ # the ray was emitted from the media (not from inside a component)
-    #~ n=Trait(None,None,Float)
-    #~
-    #~ # Label to follow the rays through the system. This attribute propagates with
-    #~ # the ray trace.
-    #~ label=String("")
-    #~
-    #~ # Ray where this ray comes from. It is the ray before the interaction with the
-    #~ # previous optical surface in the propagation
-    #~ parent= This
-    #~
-    #~ # If this ray has no parent, use this value as the parent optical path. If
-    #~ # the ray has a parent, this value must be ignored and instead the real
-    #~ # must be used.
-    #~ pop= Float(0)
-    #~
-    #~ # Surface where the ray originates. All the rays not originated by interaction
-    #~ # with a Surface have this attribute set to None
-    #~ orig_surf=Any()
-    #~
+    # ~ # (x,y,z) tuple containing the ray origin
+    # ~ pos=Array('d',shape=(3,),value=(0.,0.,0.))
+    # ~
+    # ~ # (x,y,z) tuple containing the unit vector representing the direction of
+    # ~ # propagation of the ray (this vector gets normalized automatically)
+    # ~ dir=UnitVector()
+    # ~
+    # ~ # Intensity of the ray.
+    # ~ intensity=Float(1)
+    # ~
+    # ~ # Wavelength of the ray in micrometers (.58929 by default)
+    # ~ wavelength=Float(.58929)
+    # ~
+    # ~ # Refraction index of the point originating the ray. If the value is None,
+    # ~ # the ray was emitted from the media (not from inside a component)
+    # ~ n=Trait(None,None,Float)
+    # ~
+    # ~ # Label to follow the rays through the system. This attribute propagates with
+    # ~ # the ray trace.
+    # ~ label=String("")
+    # ~
+    # ~ # Ray where this ray comes from. It is the ray before the interaction with the
+    # ~ # previous optical surface in the propagation
+    # ~ parent= This
+    # ~
+    # ~ # If this ray has no parent, use this value as the parent optical path. If
+    # ~ # the ray has a parent, this value must be ignored and instead the real
+    # ~ # must be used.
+    # ~ pop= Float(0)
+    # ~
+    # ~ # Surface where the ray originates. All the rays not originated by interaction
+    # ~ # with a Surface have this attribute set to None
+    # ~ orig_surf=Any()
+    # ~
 
-    #in order for the autodocumentation to work, the method definition mut be in a single line
+    # in order for the autodocumentation to work, the method definition mut be in a single line
 
-    def __init__(self,pos=(0,0,0),dir=(0,0,1),double intensity=1.,double wavelength=.58929, n=None,label="",draw_color=None,parent=None,double pop=0.,orig_surf=None, order=0):
+    def __init__(self, pos=(0, 0, 0), dir=(0, 0, 1), double intensity=1., double wavelength=.58929, n=None, label="", draw_color=None, parent=None, double pop=0., orig_surf=None, order=0):
 
             self.pos=pos
             self.dir=dir
@@ -149,10 +149,10 @@ cdef class Ray:
             self.__childs=[]
             self.order=order
 
-        #HasPrivateTraits.__init__(self,**traits)
+        # HasPrivateTraits.__init__(self,**traits)
     def __reduce__(self):
-        args=(self.pos, self.dir,self.intensity,self.wavelength,self.n ,self.label,self.draw_color,self.parent,self.pop,self.orig_surf,self.order)
-        return(type(self),args,self.__getstate__())
+        args=(self.pos, self.dir, self.intensity, self.wavelength, self.n , self.label, self.draw_color, self.parent, self.pop, self.orig_surf, self.order)
+        return(type(self), args, self.__getstate__())
 
     def __getstate__(self):
         return self.__childs
@@ -171,42 +171,43 @@ cdef class Ray:
             # All internal lists that uses Properties are converted to
             # tuples to protect internal data.
 
-    #~ __childs= Trait([],TraitList(Trait(This)))
-    #~
+    # ~ __childs= Trait([],TraitList(Trait(This)))
+    # ~
 
-    #Correct way to define properties in cython
+    # Correct way to define properties in cython
     property dir:
         def __get__(self):
             return self._dir
 
         @cython.boundscheck(False)
         @cython.wraparound(False)
-        def __set__(self,dir):
+        def __set__(self, dir):
             """
             This should create a normalized direction. Some times due to
             rounding errors |dir|>1. Caution must be taken so this do not create
             a problem
             """
-            cdef np.ndarray[np.float64_t, ndim=1] adir=array(dir,dtype=float64)
+            cdef np.ndarray[np.float64_t, ndim=1] adir=array(dir, dtype=float64)
             cdef double n
             n =sqrt(1./(adir[0]*adir[0]+adir[1]*adir[1]+adir[2]*adir[2]))
             adir[0]=n*adir[0]
             adir[1]=n*adir[1]
             adir[2]=n*adir[2]
             self._dir=adir
-            #if (adir[0]*adir[0]+adir[1]*adir[1]+adir[2]*adir[2])>1:
+            # if (adir[0]*adir[0]+adir[1]*adir[1]+adir[2]*adir[2])>1:
             #    print "warning: The direction of a ray was not normalized correctly"
 
-    #Use property pos to access the field cpos from a python program.
-    #It can receive lists, tuples or arrays
-    #the cython only visible cpos, can only receive arrays
+    # Use property pos to access the field cpos from a python program.
+    # It can receive lists, tuples or arrays
+    # the cython only visible cpos, can only receive arrays
     property pos:
         def __get__(self):
             return self.cpos
-        def __set__(self,pos):
-            self.cpos=array(pos,dtype=float64)
 
-    def ch_coord_sys_inv(self,no,ae,childs=False):
+        def __set__(self, pos):
+            self.cpos=array(pos, dtype=float64)
+
+    def ch_coord_sys_inv(self, no, ae, childs=False):
         '''Transform the coordinate system of the Ray
 
         Parameters
@@ -228,24 +229,24 @@ cdef class Ray:
         Note, this has to be checked
         '''
 
-        cdef np.ndarray tm=rot_mat(array(ae,dtype=float64))
-        npos=dot(tm,self.pos)+no
-        ndir=dot(tm,self.dir)
-        #parent=Ray(pos=npos,dir=ndir,intensity=self.intensity,
+        cdef np.ndarray tm=rot_mat(array(ae, dtype=float64))
+        npos=dot(tm, self.pos)+no
+        ndir=dot(tm, self.dir)
+        # parent=Ray(pos=npos,dir=ndir,intensity=self.intensity,
         #        wavelength=self.wavelength,n=self.n, label=self.label,
         #        orig_surf=self.orig_surf)
 
-        cdef Ray parent=Rayf(npos,ndir,self.intensity, self.wavelength, self.n, self.label, self.draw_color, None ,0,self.orig_surf,self.order)
+        cdef Ray parent=Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order)
 
         # Calculate the transform of the childs and link them
 
         if childs==True:
             for i in self.childs:
-                it=i.ch_coord_sys_inv(no,ae,childs)
+                it=i.ch_coord_sys_inv(no, ae, childs)
                 parent.add_child(it)
         return parent
 
-    cpdef Ray ch_coord_sys_inv_f(self,np.ndarray no ,np.ndarray ae,bool childs):
+    cpdef Ray ch_coord_sys_inv_f(self, np.ndarray no , np.ndarray ae, bool childs):
         '''Transform the coordinate system of the Ray
 
         Fast version
@@ -270,10 +271,10 @@ cdef class Ray:
         '''
 
         cdef np.ndarray tm=rot_mat(ae.astype(float64))
-        cdef np.ndarray npos #=dot(tm,self.pos)+no
+        cdef np.ndarray npos  # =dot(tm,self.pos)+no
         cdef np.ndarray t
 
-        t=dot(tm,self.pos)
+        t=dot(tm, self.pos)
         npos = empty_vec(3)
 
         cdef np.float64_t* nposd= <np.float64_t*>(np.PyArray_DATA(npos))
@@ -284,22 +285,22 @@ cdef class Ray:
         nposd[1]=td[1]+nod[1]
         nposd[2]=td[2]+nod[2]
 
-        ndir=dot(tm,self.dir)
+        ndir=dot(tm, self.dir)
 
-        cdef Ray parent=Rayf(npos,ndir,self.intensity, self.wavelength, self.n, self.label, self.draw_color, None ,0,self.orig_surf,self.order)
+        cdef Ray parent=Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order)
 
         # Calculate the transform of the childs and link them
 
         if childs:
             for i in self.childs:
-                it=i.ch_coord_sys_inv_f(no,ae,childs,True)
+                it=i.ch_coord_sys_inv_f(no, ae, childs, True)
                 parent.add_child(it)
         return parent
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
     cpdef Ray ch_coord_sys(self, np.ndarray no, np.ndarray ae):
-    #cpdef Ray ch_coord_sys(self, no, ae):
+    # cpdef Ray ch_coord_sys(self, no, ae):
         '''Transform the coordinate system of the Ray
 
         Parameters
@@ -312,24 +313,24 @@ cdef class Ray:
 
         Note this has to be checked
         '''
-        #cdef np.ndarray tm=rot_mat_i(array(ae,dtype=float64))
+        # cdef np.ndarray tm=rot_mat_i(array(ae,dtype=float64))
         cdef np.ndarray tm=rot_mat_i(ae)
-        cdef np.ndarray npos#=empty_vec( 3 )
-        cdef np.ndarray ndir#=empty_vec( 3 )
+        cdef np.ndarray npos  # =empty_vec( 3 )
+        cdef np.ndarray ndir  # =empty_vec( 3 )
 
-        #mvdotf(<np.float64_t*>np.PyArray_DATA(npos),
+        # mvdotf(<np.float64_t*>np.PyArray_DATA(npos),
         #        <np.float64_t*>np.PyArray_DATA(tm),<np.float64_t*>np.PyArray_DATA(array(self.pos-no,dtype=float64)))
 
-        #mvdotf(<np.float64_t*>np.PyArray_DATA(ndir),
+        # mvdotf(<np.float64_t*>np.PyArray_DATA(ndir),
         #        <np.float64_t*>np.PyArray_DATA(tm),<np.float64_t*>np.PyArray_DATA(array(self.dir,dtype=float64)))
 
         cdef np.ndarray t = empty_vec(3)
 
-        #t=self.cpos-no
+        # t=self.cpos-no
 
-        #(<np.float64_t*>np.PyArray_DATA(t))[0]=(<np.float64_t*>np.PyArray_DATA(self.cpos))[0]-(<np.float64_t*>np.PyArray_DATA(no))[0]
-        #(<np.float64_t*>np.PyArray_DATA(t))[1]=(<np.float64_t*>np.PyArray_DATA(self.cpos))[1]-(<np.float64_t*>np.PyArray_DATA(no))[1]
-        #(<np.float64_t*>np.PyArray_DATA(t))[2]=(<np.float64_t*>np.PyArray_DATA(self.cpos))[2]-(<np.float64_t*>np.PyArray_DATA(no))[2]
+        # (<np.float64_t*>np.PyArray_DATA(t))[0]=(<np.float64_t*>np.PyArray_DATA(self.cpos))[0]-(<np.float64_t*>np.PyArray_DATA(no))[0]
+        # (<np.float64_t*>np.PyArray_DATA(t))[1]=(<np.float64_t*>np.PyArray_DATA(self.cpos))[1]-(<np.float64_t*>np.PyArray_DATA(no))[1]
+        # (<np.float64_t*>np.PyArray_DATA(t))[2]=(<np.float64_t*>np.PyArray_DATA(self.cpos))[2]-(<np.float64_t*>np.PyArray_DATA(no))[2]
 
         cdef np.float64_t* td= <np.float64_t*>(np.PyArray_DATA(t))
         cdef np.float64_t* cd= <np.float64_t*>(np.PyArray_DATA(self.cpos))
@@ -339,17 +340,17 @@ cdef class Ray:
         td[1]=cd[1]-nd[1]
         td[2]=cd[2]-nd[2]
 
-        npos=dot(tm,t)        # if blas can be called directly, this can be improved
-        ndir=dot(tm,self._dir) # Using tokio this tokio works a little faster, but have to see
-                              #How to install it right, or better to do something similar using inline snd blas
+        npos=dot(tm, t)        # if blas can be called directly, this can be improved
+        ndir=dot(tm, self._dir)  # Using tokio this tokio works a little faster, but have to see
+                              # How to install it right, or better to do something similar using inline snd blas
 
         #tokyo.dgemv3( tm, t, npos )
         #tokyo.dgemv3( tm, self.dir, ndir )
-        #This resulted to be slower
-        #npos=mvdot1(tm,t)
-        #ndir=mvdot1(tm,self.dir)
+        # This resulted to be slower
+        # npos=mvdot1(tm,t)
+        # ndir=mvdot1(tm,self.dir)
 
-        return Rayf(npos,ndir,self.intensity, self.wavelength, self.n, self.label, self.draw_color, None ,0,self.orig_surf,self.order)
+        return Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order)
 
     def get_final_rays(self, inc_zeros=True):
         '''Find the final rays of the raytrace
@@ -379,16 +380,16 @@ cdef class Ray:
         '''Return a copy ray leaving the parent=None, and childs=[], and
         order=0
         '''
-        return Ray(pos=self.pos,dir=self.dir,intensity=self.intensity,
-                    wavelength=self.wavelength,n=self.n,label=self.label)
+        return Ray(pos=self.pos, dir=self.dir, intensity=self.intensity,
+                   wavelength=self.wavelength, n=self.n, label=self.label)
 
     def reverse(self):
         '''Return a copy ray leaving the parent=None, and childs=[], and
         order=0, and inverting the ray direction.
         '''
-        return Ray(pos=self.pos,dir=-self.dir,intensity=self.intensity,
-                    wavelength=self.wavelength,n=self.n,label=self.label,
-                    orig_surf=self.orig_surf)
+        return Ray(pos=self.pos, dir=-self.dir, intensity=self.intensity,
+                   wavelength=self.wavelength, n=self.n, label=self.label,
+                   orig_surf=self.orig_surf)
 
     def __repr__(self):
         # TODO: why 'direc' and not 'dir' ? This is confusing
@@ -407,7 +408,7 @@ cdef class Ray:
         # A child with intensity==0 is used to indicate a parent end point, for
         # example the intersection point with a stop, so it must be in the
         # list as a child.
-        assert(isinstance(cr,Ray)), "A ray child must be a ray"
+        assert(isinstance(cr, Ray)), "A ray child must be a ray"
         cr.parent=self
         cr.order=len(self.__childs)
         self.__childs.append(cr)
@@ -421,8 +422,8 @@ cdef class Ray:
             if self.pop!=0:
                 print "The pop attribute of the ray has a value of ", self.pop, \
                 " instead the real parent optical path is being used"
-            path= sqrt(dot(self.pos-self.parent.pos,self.pos-self.parent.pos))*\
-                    self.parent.n
+            path= sqrt(dot(self.pos-self.parent.pos, self.pos-self.parent.pos))*\
+            self.parent.n
             return path+self.parent.optical_path_parent()
 
         return self.pop
@@ -475,14 +476,14 @@ cdef class Ray:
         rtol = 0
 
         return np.allclose(ray1.pos, ray2.pos, rtol=rtol, atol=atol) and \
-               np.allclose(ray1.dir, ray2.dir, rtol=rtol, atol=atol) and \
-               ray1.intensity == ray2.intensity and \
-               np.allclose(ray1.wavelength, ray2.wavelength, rtol=rtol, atol=atol) and \
-               ray1.n == ray2.n and \
-               ray1.label == ray2.label and \
-               ray1.draw_color == ray2.draw_color and \
-               ray1.order == ray2.order and \
-               ray1.orig_surf == ray2.orig_surf
+        np.allclose(ray1.dir, ray2.dir, rtol=rtol, atol=atol) and \
+        ray1.intensity == ray2.intensity and \
+        np.allclose(ray1.wavelength, ray2.wavelength, rtol=rtol, atol=atol) and \
+        ray1.n == ray2.n and \
+        ray1.label == ray2.label and \
+        ray1.draw_color == ray2.draw_color and \
+        ray1.order == ray2.order and \
+        ray1.orig_surf == ray2.orig_surf
         # TODO do we have to compare self.pop and other.pop ?
         # self.copy() indicate that we should actually only compare
         # fields pos, dir, intensity, wavelength, n and label

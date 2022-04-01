@@ -30,16 +30,17 @@
 #   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-'''
+"""
 Package containing modules and submodules defining an *API* for optical
 raytracing and wave propagation calculations.
-'''
+"""
 
 # Import all pyoptools packages
 
 from pyoptools.misc.cmisc import *
 from pyoptools.misc.definitions import *
-#from misc.frft import *
+
+# from misc.frft import *
 from pyoptools.misc.lsq import *
 from pyoptools.misc.pmisc import *
 from pyoptools.misc.plist import *
@@ -69,7 +70,7 @@ from pyoptools.wavefront.zernike import *
 from pyoptools.gui.plotutils import *
 
 # This module has problems with MESA in buster is disabled for the moment
-#from pyoptools.gui.ipynbplotutils import *
+# from pyoptools.gui.ipynbplotutils import *
 
 # Module implemented using pythreejs
 from pyoptools.gui.ipywidgets import *

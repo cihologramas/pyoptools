@@ -54,8 +54,8 @@ def frft2(x, alpha):
 
 def rs_kernel(x=0.0, y=0.0, z=0.0, n=1.0):
     """Calculate the Rayleigh Sommerfeld propagation Kernel, for a source point
-        at the origin, and a observation point at (x,y,z)
-        """
+    at the origin, and a observation point at (x,y,z)
+    """
     l = 0.442e-3
     k = 2.0 * pi * n / l
     R2 = x ** 2 + y ** 2 + z ** 2

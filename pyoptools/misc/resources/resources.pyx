@@ -1,7 +1,7 @@
 #       Redistribution and use in source and binary forms, with or without
 #       modification, are permitted provided that the following conditions are
 #       met:
-#       
+#
 #       * Redistributions of source code must retain the above copyright
 #         notice, this list of conditions and the following disclaimer.
 #       * Redistributions in binary form must reproduce the above
@@ -11,7 +11,7 @@
 #       * Neither the name of the         nor the names of its
 #         contributors may be used to endorse or promote products derived from
 #         this software without specific prior written permission.
-#       
+#
 #       THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 #       "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 #       LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -37,20 +37,20 @@ cpdef int detectCPUs():
             ncpus = os.sysconf("SC_NPROCESSORS_ONLN")
             if isinstance(ncpus, int) and ncpus > 0:
                 return ncpus
-        else: # OSX:
+        else:  # OSX:
             return int(os.popen2("sysctl -n hw.ncpu")[1].read())
     # Windows:
     if "NUMBER_OF_PROCESSORS" in os.environ:
-        ncpus = int(os.environ["NUMBER_OF_PROCESSORS"]);
+        ncpus = int(os.environ["NUMBER_OF_PROCESSORS"])
         if ncpus > 0:
             return ncpus
-    return 1 # Default
+    return 1  # Default
 
 cpdef bint detectOpenCL():
     got_cl=True
-    try: 
+    try:
         import pyopencl as cl
-    except ImportError: 
+    except ImportError:
         got_cl=False
     return got_cl
 
@@ -59,7 +59,7 @@ cpdef has_double_support(dev):
         if ext == "cl_khr_fp64":
             return True
     return False
-    
+
 cpdef has_amd_double_support(dev):
     """"Fix to allow incomplete amd double support in low end boards"""
 

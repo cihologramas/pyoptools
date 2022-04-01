@@ -4,7 +4,7 @@ cimport numpy as np
 cimport cython
 
 cdef extern from "math.h":
-    double pow(double,double)
+    double pow(double, double)
 
 cdef class poly1DrotDeriv:
     """ Class defining the derivative of a rotationally symmetric 1D polynomial.
@@ -112,7 +112,7 @@ cdef class poly1Drot:
         s = 0
         for i in range(self.clen):
             a = self.coef_c[i]
-            s += a * pow(r,i)
+            s += a * pow(r, i)
         return s
 
     def meval(self):

@@ -27,7 +27,7 @@ from pyoptools.raytrace.shape import Rectangular
 
 class CylindricalLens(Component):
     """Class to define a rectangular shaped cylindrical Lens.
-    
+
     :param size: Size (sx,sy)  of the lens in mm
     :type size: tuple(float,float)
     :param thickness: Thickness of the lens at the center
@@ -37,8 +37,8 @@ class CylindricalLens(Component):
     :param curvature_s2: Curvature of the posterior surface of the lens, in mm.
     :type curvature_s2: float
     :param material: Material of the lens
-    :type material: float or 
-        :class:`~pyoptools.raytrace.mat_lib.material.Material`'s subclass 
+    :type material: float or
+        :class:`~pyoptools.raytrace.mat_lib.material.Material`'s subclass
         instance
 
     .. warning::
@@ -49,7 +49,15 @@ class CylindricalLens(Component):
 
     """
 
-    def __init__(self, size=(20, 20), thickness=10, curvature_s1=1. / 200, curvature_s2=1. / 200, *args, **kwargs):
+    def __init__(
+        self,
+        size=(20, 20),
+        thickness=10,
+        curvature_s1=1.0 / 200,
+        curvature_s2=1.0 / 200,
+        *args,
+        **kwargs
+    ):
         Component.__init__(self, *args, **kwargs)
         self.size = size
         w, h = self.size
@@ -57,15 +65,17 @@ class CylindricalLens(Component):
         self.curvature_s1 = curvature_s1
         self.curvature_s2 = curvature_s2
 
-        if self.curvature_s1 != 0.:
-            __a_surf = Cylindrical(shape=Rectangular(size=(w, h)),
-                                   curvature=self.curvature_s1)
+        if self.curvature_s1 != 0.0:
+            __a_surf = Cylindrical(
+                shape=Rectangular(size=(w, h)), curvature=self.curvature_s1
+            )
         else:
             __a_surf = Plane(shape=Rectangular(size=(w, h)))
 
         if self.curvature_s2 != 0:
-            __p_surf = Cylindrical(shape=Rectangular(size=(w, h)),
-                                   curvature=self.curvature_s2)
+            __p_surf = Cylindrical(
+                shape=Rectangular(size=(w, h)), curvature=self.curvature_s2
+            )
         else:
             __p_surf = Plane(shape=Rectangular(size=(w, h)))
 

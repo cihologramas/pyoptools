@@ -7,13 +7,30 @@ This module hides from the end user un needed stuff.
 """
 
 # sorted is used so the clases are ordered alphabetically in the sphinx docs
-__all__ = sorted(["SphericalLens", "AsphericLens", "CylindricalLens",
-                  "CCD", "RightAnglePrism",
-                  "PentaPrism", "DovePrism", "Block", "BeamSplitingCube",
-                  "BeamSplittingCube",
-                  "Doublet", "AirSpacedDoublet", "MultiLens", "Stop", "IdealLens",
-                  "IdealTLens", "RoundMirror", "RectMirror", "RectGratting",
-                  "PowellLens"])
+__all__ = sorted(
+    [
+        "SphericalLens",
+        "AsphericLens",
+        "CylindricalLens",
+        "CCD",
+        "RightAnglePrism",
+        "PentaPrism",
+        "DovePrism",
+        "Block",
+        "BeamSplitingCube",
+        "BeamSplittingCube",
+        "Doublet",
+        "AirSpacedDoublet",
+        "MultiLens",
+        "Stop",
+        "IdealLens",
+        "IdealTLens",
+        "RoundMirror",
+        "RectMirror",
+        "RectGratting",
+        "PowellLens",
+    ]
+)
 
 from ._comp_lib.spherical_lens import SphericalLens
 from ._comp_lib.aspheric_lens import AsphericLens

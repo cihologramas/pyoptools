@@ -7,4 +7,4 @@ cdef class Component(Picklable):
     cdef public plist _surflist
     cdef public object _material
 
-    cpdef distance(self,Ray ri_)
+    cpdef distance(self, Ray ri_)

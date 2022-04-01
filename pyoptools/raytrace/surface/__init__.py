@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-'''Module that defines all the clases that describe the optical surfaces
-'''
+"""Module that defines all the clases that describe the optical surfaces
+"""
 
 from .surface import Surface
 from .cylindrical import Cylindrical
@@ -18,16 +18,18 @@ from .plane_mask import RPPMask
 from .idealsurface import IdealSurface
 from .idealpplanes import IdealPPlanes
 
-__all__ = ["Surface",
-           "Cylindrical",
-           "Plane",
-           "Spherical",
-           "ArrayDetector",
-           "Aperture",
-           "TaylorPoly",
-           "Cylinder",
-           "Aspherical",
-           "Powell",
-           "RPPMask",
-           "IdealSurface",
-           "IdealPPlanes"]
+__all__ = [
+    "Surface",
+    "Cylindrical",
+    "Plane",
+    "Spherical",
+    "ArrayDetector",
+    "Aperture",
+    "TaylorPoly",
+    "Cylinder",
+    "Aspherical",
+    "Powell",
+    "RPPMask",
+    "IdealSurface",
+    "IdealPPlanes",
+]

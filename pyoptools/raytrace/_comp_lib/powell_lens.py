@@ -27,7 +27,7 @@ from pyoptools.misc.Poly2D import *
 
 
 class PowellLens(Component):
-    """ **Class to define a powell Lens**.
+    """**Class to define a powell Lens**.
 
     *Attributes:*
 
@@ -54,8 +54,14 @@ class PowellLens(Component):
         self.K = K
         self.R = R
 
-        __a_surf = Aspherical(shape=Circular(radius=self.radius), Ax=0, Ay=self.R, Kx=-1, Ky=self.K,
-                              poly=poly2d((0, 0)))
+        __a_surf = Aspherical(
+            shape=Circular(radius=self.radius),
+            Ax=0,
+            Ay=self.R,
+            Kx=-1,
+            Ky=self.K,
+            poly=poly2d((0, 0)),
+        )
 
         self.surflist["S1"] = (__a_surf, (0, 0, 0), (0, 0, 0))
 
