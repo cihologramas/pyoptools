@@ -44,6 +44,7 @@ from pyoptools.misc.lsq import *
 from pyoptools.misc.pmisc import *
 from pyoptools.misc.plist import *
 from pyoptools.misc.Poly2D import *
+from pyoptools.misc.Poly1Drot import *
 from pyoptools.misc.resources import *
 
 from pyoptools.raytrace.calc import *
