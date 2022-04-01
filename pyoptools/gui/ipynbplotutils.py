@@ -14,11 +14,14 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 from OpenGL import arrays
+
 try:
     from OpenGL.platform import CurrentContextIsValid
-    from OpenGL.raw.osmesa.mesa import (OSMesaCreateContext,
-                                        OSMesaMakeCurrent,
-                                        OSMesaDestroyContext)
+    from OpenGL.raw.osmesa.mesa import (
+        OSMesaCreateContext,
+        OSMesaMakeCurrent,
+        OSMesaDestroyContext,
+    )
 
 except:
     print("need OSMesa installed, and the following environment variable")
@@ -72,8 +75,7 @@ def draw_surf(surf, P, D):
         glRotatef(180 * D[2] / pi, 0.0, 0.0, 1.0)
         glRotatef(180 * D[1] / pi, 0.0, 1.0, 0.0)
         glRotatef(180 * D[0] / pi, 1.0, 0.0, 0.0)
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE,
-                     [1., 1., 0, 0.4])
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, [1.0, 1.0, 0, 0.4])
         # glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, [1.,1.,0.,1.])
         # glMaterialfv(GL_BACK, GL_AMBIENT_AND_DIFFUSE, [1.,0.,0.,1.])
         for p in polylist:
@@ -81,10 +83,10 @@ def draw_surf(surf, P, D):
                 p0 = points[p[0]]
                 p1 = points[p[1]]
                 p2 = points[p[2]]
-                v0 = array(p1)-array(p0)
-                v1 = array(p2)-array(p0)
+                v0 = array(p1) - array(p0)
+                v1 = array(p2) - array(p0)
                 v3 = cross(v0, v1)
-                v3 = v3 / sqrt(v3[0]**2 + v3[1]**2 + v3[2]**2)
+                v3 = v3 / sqrt(v3[0] ** 2 + v3[1] ** 2 + v3[2] ** 2)
                 glBegin(GL_TRIANGLES)  # Drawing Using Triangles
                 glNormal3f(v3[0], v3[1], v3[2])
                 glVertex3f(p0[0], p0[1], p0[2])
@@ -96,10 +98,10 @@ def draw_surf(surf, P, D):
                 p1 = points[p[1]]
                 p2 = points[p[2]]
                 p3 = points[p[3]]
-                v0 = array(p1)-array(p0)
-                v1 = array(p2)-array(p0)
+                v0 = array(p1) - array(p0)
+                v1 = array(p2) - array(p0)
                 v3 = cross(v0, v1)
-                v3 = v3/sqrt(v3[0]**2+v3[1]**2+v3[2]**2)
+                v3 = v3 / sqrt(v3[0] ** 2 + v3[1] ** 2 + v3[2] ** 2)
                 glBegin(GL_QUADS)  # Start Drawing The Cube
                 glNormal3f(v3[0], v3[1], v3[2])
                 glVertex3f(p0[0], p0[1], p0[2])
@@ -117,13 +119,12 @@ def draw_ray(ray):
     if len(ray.childs) > 0:
         P2 = ray.childs[0].pos
     else:
-        P2 = P1 + 10. * ray.dir
+        P2 = P1 + 10.0 * ray.dir
 
     if ray.intensity != 0:
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE,
-                     [rc, gc, bc, 1.])
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, [rc, gc, bc, 1.0])
         glBegin(GL_LINES)
-        glColor4f(rc, gc, bc, 1.)
+        glColor4f(rc, gc, bc, 1.0)
         glVertex3f(P1[0], P1[1], P1[2])
         glVertex3f(P2[0], P2[1], P2[2])
         glEnd()
@@ -155,28 +156,31 @@ class Plot3D(object):
     buffer    3D buffer of the system
     image     PIL image of the buffer
     """
-    def __init__(self, os,
-                 center=(0, 0, 0),
-                 size=(400, 400),
-                 rot=[(0, 0, 0)],
-                 scale=1.,
-                 background=(0, 0, 0, 1),
-                 ):
 
-        self.buffer = self.buffer_3d(os, center=center,
-                                     size=size, rot=rot, scale=scale,
-                                     background=background)
+    def __init__(
+        self,
+        os,
+        center=(0, 0, 0),
+        size=(400, 400),
+        rot=[(0, 0, 0)],
+        scale=1.0,
+        background=(0, 0, 0, 1),
+    ):
+
+        self.buffer = self.buffer_3d(
+            os, center=center, size=size, rot=rot, scale=scale, background=background
+        )
         self.image = self._buffer_to_image()
 
     def show(self):
-        '''Show the PIL image with the default viewer'''
+        """Show the PIL image with the default viewer"""
         self.image.show()
 
     def _repr_png_(self):
-        '''return a png image
+        """return a png image
         to be embedded directly by Ipython:
         https://ipython.readthedocs.io/en/stable/config/integrating.html
-        '''
+        """
         temppng = six.BytesIO()
         self.image.save(temppng, "PNG")
         data = temppng.getvalue()
@@ -189,11 +193,15 @@ class Plot3D(object):
         image = image.transpose(PImage.FLIP_TOP_BOTTOM)
         return image
 
-    def buffer_3d(self, os, center=(0, 0, 0),
-                  size=(400, 400), rot=[(0, 0, 0)],
-                  scale=1.,
-                  background=(0, 0, 0, 1),
-                  ):
+    def buffer_3d(
+        self,
+        os,
+        center=(0, 0, 0),
+        size=(400, 400),
+        rot=[(0, 0, 0)],
+        scale=1.0,
+        background=(0, 0, 0, 1),
+    ):
 
         left = -size[0] / 2
         right = size[0] / 2
@@ -205,15 +213,15 @@ class Plot3D(object):
         width, height = int(size[0] * scale), int(size[1] * scale)
 
         buf = arrays.GLubyteArray.zeros((height, width, 4))
-        assert(OSMesaMakeCurrent(ctx, buf, GL_UNSIGNED_BYTE, width, height))
-        assert(CurrentContextIsValid())
+        assert OSMesaMakeCurrent(ctx, buf, GL_UNSIGNED_BYTE, width, height)
+        assert CurrentContextIsValid()
 
         glClearColor(*background)
 
-        light_ambient = [.5, 0.5, 0.5, 1.0]
+        light_ambient = [0.5, 0.5, 0.5, 1.0]
         light_diffuse = [1.0, 1.0, 1.0, 1.0]
         light_specular = [1.0, 1.0, 1.0, 1.0]
-        light_position = [0.0, 1.0, -1.0, 1.]
+        light_position = [0.0, 1.0, -1.0, 1.0]
 
         glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient)
         glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse)

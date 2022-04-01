@@ -27,26 +27,28 @@ def test_intersection():
     ray2 = Ray(pos=expected_intersection_point - t2 * d2, dir=d2)
     intersection_point, real_ = calc.intersection(ray1, ray2)
     np.testing.assert_almost_equal(intersection_point, expected_intersection_point)
-    assert real_ == True
+    assert real_ is True
 
     # Approximately intersecting
-    ray1 = Ray(pos=np.array((-1.18414888e-15,  0.,  5.603)),
-               dir=np.array((-5.22664407e-18,  0.,  1.))
-               )
-    ray2 = Ray(pos=np.array((0.01068222, 0., 5.60299917)),
-               dir=np.array((-5.56560819e-05,  0.,  9.99999998e-01))
-               )
+    ray1 = Ray(
+        pos=np.array((-1.18414888e-15, 0.0, 5.603)),
+        dir=np.array((-5.22664407e-18, 0.0, 1.0)),
+    )
+    ray2 = Ray(
+        pos=np.array((0.01068222, 0.0, 5.60299917)),
+        dir=np.array((-5.56560819e-05, 0.0, 9.99999998e-01)),
+    )
     intersection_point, real_ = calc.intersection(ray1, ray2)
-    expected_intersection_point = np.array((0., 0., 1.97535672e+02))
+    expected_intersection_point = np.array((0.0, 0.0, 1.97535672e02))
     np.testing.assert_almost_equal(intersection_point, expected_intersection_point)
-    assert real_ == True
+    assert real_ is True
 
     # Not intersecting
     ray1 = Ray(pos=(0, 0, 0), dir=(0, 0.2, 1))
     ray2 = Ray(pos=(1, 0, 0), dir=(0, 0.2, 1))
     intersection_point, real_ = calc.intersection(ray1, ray2)
     np.testing.assert_almost_equal(intersection_point, [np.nan, np.nan, np.nan])
-    assert real_ == False
+    assert real_ is False
 
 
 def test_nearest_points():
@@ -59,7 +61,7 @@ def test_nearest_points():
     np.testing.assert_almost_equal(closest_point_on_ray1, [1.0, 1.0, 0.0])
     np.testing.assert_almost_equal(closest_point_on_ray2, [1.0, 1.0, 1.0])
     assert distance == 1
-    assert real_ == True
+    assert real_ is True
 
     # Virtual closest point
     ray1 = Ray(pos=(0, 0, 0), dir=(1, 1, 0))
@@ -70,7 +72,7 @@ def test_nearest_points():
     np.testing.assert_almost_equal(closest_point_on_ray1, [1.0, 1.0, 0.0])
     np.testing.assert_almost_equal(closest_point_on_ray2, [1.0, 1.0, 1.0])
     assert distance == 1
-    assert real_ == False
+    assert real_ is False
 
 
 def test_chief_ray_search():
@@ -143,7 +145,7 @@ def test_paraxial_location():
 
     image_location, real_ = calc.paraxial_location(s, optical_axis)
     np.testing.assert_almost_equal(image_location, [-5.59109334e-16, 0, 3.07249900e02])
-    assert real_ == False
+    assert real_ is False
 
 
 # TODO better test. Here is a tentative to better understand what does this function using a blackbox approach.

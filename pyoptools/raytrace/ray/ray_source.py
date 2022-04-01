@@ -1,17 +1,31 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__all__=["parallel_beam_c", "parallel_beam_p", "point_source_c",
-         "point_source_p", "point_source_r"]
+__all__ = [
+    "parallel_beam_c",
+    "parallel_beam_p",
+    "point_source_c",
+    "point_source_p",
+    "point_source_r",
+]
 """Module with functions to define ray sources"""
 
 
-from numpy import sin,cos,pi
+from numpy import sin, cos, pi
 from numpy.random import normal
 
 from .ray import Ray
 
-def parallel_beam_c(origin=(0.,0.,0.),direction=(0.,0.,0.),size=(1.,1.),num_rays=(10,10),wavelength=0.58929, label="", draw_color=None):
+
+def parallel_beam_c(
+    origin=(0.0, 0.0, 0.0),
+    direction=(0.0, 0.0, 0.0),
+    size=(1.0, 1.0),
+    num_rays=(10, 10),
+    wavelength=0.58929,
+    label="",
+    draw_color=None,
+):
     """Cartesian grid parallel beam
 
     This function creates a parallel beam, where the rays are organized in a
@@ -37,27 +51,40 @@ def parallel_beam_c(origin=(0.,0.,0.),direction=(0.,0.,0.),size=(1.,1.),num_rays
             https://matplotlib.org/3.3.1/api/colors_api.html
     """
 
-    ret_val=[]
+    ret_val = []
 
-    nx,ny=num_rays
-    dx,dy=size
+    nx, ny = num_rays
+    dx, dy = size
 
     # note modify this to use traits
-    dx=float(dx)
-    dy=float(dy)
+    dx = float(dx)
+    dy = float(dy)
 
     for ix in range(nx):
         for iy in range(ny):
-            x=-dx/2.+dx*ix/(nx-1)
-            y=-dy/2.+dy*iy/(ny-1)
-            ret_val.append(Ray(pos=(x,y,0),
-                               dir=(0,0,1),
-                               wavelength=wavelength,
-                               label=label,
-                               draw_color=draw_color).ch_coord_sys_inv(origin,direction))
+            x = -dx / 2.0 + dx * ix / (nx - 1)
+            y = -dy / 2.0 + dy * iy / (ny - 1)
+            ret_val.append(
+                Ray(
+                    pos=(x, y, 0),
+                    dir=(0, 0, 1),
+                    wavelength=wavelength,
+                    label=label,
+                    draw_color=draw_color,
+                ).ch_coord_sys_inv(origin, direction)
+            )
     return ret_val
 
-def parallel_beam_p(origin=(0.,0.,0.),direction=(0.,0.,0),radius=0.5, num_rays=(5,10),wavelength=0.58929, label="", draw_color=None):
+
+def parallel_beam_p(
+    origin=(0.0, 0.0, 0.0),
+    direction=(0.0, 0.0, 0),
+    radius=0.5,
+    num_rays=(5, 10),
+    wavelength=0.58929,
+    label="",
+    draw_color=None,
+):
     """Polar grid parallel beam
 
     This function creates a parallel beam, where the rays are organized in a
@@ -83,22 +110,38 @@ def parallel_beam_p(origin=(0.,0.,0.),direction=(0.,0.,0),radius=0.5, num_rays=(
             https://matplotlib.org/3.3.1/api/colors_api.html
     """
 
-    ret_val=[Ray(pos=(0,0,0),dir=(0,0,1),wavelength=wavelength, label=label).ch_coord_sys_inv(origin,direction)]
-    nr,nt=num_rays
-    for r_ in range(1,nr):
-        r=radius*float(r_)/(nr-1)
+    ret_val = [
+        Ray(
+            pos=(0, 0, 0), dir=(0, 0, 1), wavelength=wavelength, label=label
+        ).ch_coord_sys_inv(origin, direction)
+    ]
+    nr, nt = num_rays
+    for r_ in range(1, nr):
+        r = radius * float(r_) / (nr - 1)
         for t in range(nt):
-            x_=r*sin(2*pi*t/nt)
-            y_=r*cos(2*pi*t/nt)
-            ret_val.append(Ray(pos=(x_,y_,0),
-                               dir=(0,0,1),
-                               wavelength=wavelength,
-                               label=label,
-                               draw_color=draw_color).ch_coord_sys_inv(origin,direction))
+            x_ = r * sin(2 * pi * t / nt)
+            y_ = r * cos(2 * pi * t / nt)
+            ret_val.append(
+                Ray(
+                    pos=(x_, y_, 0),
+                    dir=(0, 0, 1),
+                    wavelength=wavelength,
+                    label=label,
+                    draw_color=draw_color,
+                ).ch_coord_sys_inv(origin, direction)
+            )
     return ret_val
 
-def point_source_c(origin=(0.,0.,0.),direction=(0.,0.,0),span=(pi/8,pi/8)\
-                     ,num_rays=(10,10),wavelength=0.58929, label="", draw_color=None):
+
+def point_source_c(
+    origin=(0.0, 0.0, 0.0),
+    direction=(0.0, 0.0, 0),
+    span=(pi / 8, pi / 8),
+    num_rays=(10, 10),
+    wavelength=0.58929,
+    label="",
+    draw_color=None,
+):
     """Point source, with a cartesian beam distribution
 
     This function creates a point source, where the rays are organized in a
@@ -123,27 +166,42 @@ def point_source_c(origin=(0.,0.,0.),direction=(0.,0.,0),span=(pi/8,pi/8)\
         matplotlib color descriptor. See :
             https://matplotlib.org/3.3.1/api/colors_api.html
     """
-    ret_val=[]
+    ret_val = []
 
-    nx,ny=num_rays
-    dx,dy=span
+    nx, ny = num_rays
+    dx, dy = span
 
     for ix in range(nx):
         for iy in range(ny):
-            if nx!=1: tx=-dx/2.+dx*ix/(nx-1)
-            else: tx=0.
+            if nx != 1:
+                tx = -dx / 2.0 + dx * ix / (nx - 1)
+            else:
+                tx = 0.0
 
-            if ny!=1: ty=-dy/2.+dy*iy/(ny-1)
-            else: ty=0.
-            temp_ray=Ray(pos=(0,0,0),
-                         dir=(0,0,1),
-                         wavelength=wavelength,
-                         label=label,
-                         draw_color=draw_color).ch_coord_sys_inv((0,0,0),(tx,ty,0))
-            ret_val.append(temp_ray.ch_coord_sys_inv(origin,direction))
+            if ny != 1:
+                ty = -dy / 2.0 + dy * iy / (ny - 1)
+            else:
+                ty = 0.0
+            temp_ray = Ray(
+                pos=(0, 0, 0),
+                dir=(0, 0, 1),
+                wavelength=wavelength,
+                label=label,
+                draw_color=draw_color,
+            ).ch_coord_sys_inv((0, 0, 0), (tx, ty, 0))
+            ret_val.append(temp_ray.ch_coord_sys_inv(origin, direction))
     return ret_val
 
-def point_source_p(origin=(0.,0.,0.),direction=(0.,0.,0),span=pi/8,num_rays=(10,10),wavelength=0.58929, label="", draw_color=None):
+
+def point_source_p(
+    origin=(0.0, 0.0, 0.0),
+    direction=(0.0, 0.0, 0),
+    span=pi / 8,
+    num_rays=(10, 10),
+    wavelength=0.58929,
+    label="",
+    draw_color=None,
+):
     """Point source, with a polar beam distribution
 
     This function creates a point source, where the rays are organized in a
@@ -171,21 +229,39 @@ def point_source_p(origin=(0.,0.,0.),direction=(0.,0.,0),span=pi/8,num_rays=(10,
             https://matplotlib.org/3.3.1/api/colors_api.html
     """
 
-    ret_val=[Ray(pos=(0,0,0),dir=(0,0,1),wavelength=wavelength, label=label).ch_coord_sys_inv(origin,direction)]
+    ret_val = [
+        Ray(
+            pos=(0, 0, 0), dir=(0, 0, 1), wavelength=wavelength, label=label
+        ).ch_coord_sys_inv(origin, direction)
+    ]
 
-    nr,nt=num_rays
+    nr, nt = num_rays
 
-    for r_ in range(1,nr):
-        r=span*float(r_)/nr
-        temp_ray=Ray(pos=(0,0,0),dir=(0,0,1),wavelength=wavelength, label=label, draw_color=draw_color).ch_coord_sys_inv((0,0,0),(r,0,0))
+    for r_ in range(1, nr):
+        r = span * float(r_) / nr
+        temp_ray = Ray(
+            pos=(0, 0, 0),
+            dir=(0, 0, 1),
+            wavelength=wavelength,
+            label=label,
+            draw_color=draw_color,
+        ).ch_coord_sys_inv((0, 0, 0), (r, 0, 0))
         for t in range(nt):
-            tz=2*pi*t/nt
-            temp_ray1=temp_ray.ch_coord_sys_inv((0,0,0),(0,0,tz))
-            ret_val.append(temp_ray1.ch_coord_sys_inv(origin,direction))
+            tz = 2 * pi * t / nt
+            temp_ray1 = temp_ray.ch_coord_sys_inv((0, 0, 0), (0, 0, tz))
+            ret_val.append(temp_ray1.ch_coord_sys_inv(origin, direction))
     return ret_val
 
 
-def point_source_r(origin=(0.,0.,0.),direction=(0.,0.,0),span=pi/8,num_rays=100,wavelength=0.58929, label="", draw_color=None):
+def point_source_r(
+    origin=(0.0, 0.0, 0.0),
+    direction=(0.0, 0.0, 0),
+    span=pi / 8,
+    num_rays=100,
+    wavelength=0.58929,
+    label="",
+    draw_color=None,
+):
     """Point source, with a ranrom beam distribution
 
     This function creates a point source, where the rays are organized in a
@@ -211,11 +287,17 @@ def point_source_r(origin=(0.,0.,0.),direction=(0.,0.,0),span=pi/8,num_rays=100,
             https://matplotlib.org/3.3.1/api/colors_api.html
     """
 
-    ret_val=[]
+    ret_val = []
 
     for n_ in range(num_rays):
-        rx=normal(0,span)
-        ry=normal(0,span)
-        temp_ray=Ray(pos=(0,0,0),dir=(0,0,1),wavelength=wavelength, label=label, draw_color=draw_color).ch_coord_sys_inv((0,0,0),(rx,ry,0))
-        ret_val.append(temp_ray.ch_coord_sys_inv(origin,direction))
+        rx = normal(0, span)
+        ry = normal(0, span)
+        temp_ray = Ray(
+            pos=(0, 0, 0),
+            dir=(0, 0, 1),
+            wavelength=wavelength,
+            label=label,
+            draw_color=draw_color,
+        ).ch_coord_sys_inv((0, 0, 0), (rx, ry, 0))
+        ret_val.append(temp_ray.ch_coord_sys_inv(origin, direction))
     return ret_val

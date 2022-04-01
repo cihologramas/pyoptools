@@ -31,13 +31,15 @@ from math import sqrt
 class ModelNotImplemented(Exception):
     """Indicates that the model to calculate the index of refraction is not
     implemented yet"""
+
     pass
 
 
 class Material:
-    ''' Base class to define an optical material. It receives the YML text as
+    """Base class to define an optical material. It receives the YML text as
     defined in https://refractiveindex.info/about
-    '''
+    """
+
     def __init__(self, coef, cl, nd=None, vd=None):
         self.__nd__ = nd
         self.__vd__ = vd
@@ -63,7 +65,7 @@ class Material:
         if self.__vd__ is not None:
             return self.__vd__
         else:
-            return (self.n(0.5893)-1) / (self.n(0.4861)-self.n(0.6563))
+            return (self.n(0.5893) - 1) / (self.n(0.4861) - self.n(0.6563))
 
 
 class Sellmeier(Material):
@@ -71,13 +73,14 @@ class Sellmeier(Material):
     model as defined at
     https://refractiveindex.info/database/doc/Dispersion%20formulas.pdf
     """
+
     def __init__(self, coef, nd=None, vd=None):
         Material.__init__(self, coef, 17, nd, vd)
 
-    def n(self, l=.58929):
-        n2 = 1+self.__coef__[0]
+    def n(self, l=0.58929):
+        n2 = 1 + self.__coef__[0]
         for i in range(1, 17, 2):
-            n2 = n2+(self.__coef__[i]*l**2/(l**2-self.__coef__[i+1]**2))
+            n2 = n2 + (self.__coef__[i] * l ** 2 / (l ** 2 - self.__coef__[i + 1] ** 2))
         return sqrt(n2)
 
 
@@ -86,13 +89,14 @@ class Sellmeier_2(Material):
     dispersion model as defined at
     https://refractiveindex.info/database/doc/Dispersion%20formulas.pdf
     """
+
     def __init__(self, coef, nd=None, vd=None):
         Material.__init__(self, coef, 17, nd, vd)
 
-    def n(self, l=.58929):
-        n2 = 1+self.__coef__[0]
+    def n(self, l=0.58929):
+        n2 = 1 + self.__coef__[0]
         for i in range(1, 17, 2):
-            n2 = n2+(self.__coef__[i]*l**2/(l**2-self.__coef__[i+1]))
+            n2 = n2 + (self.__coef__[i] * l ** 2 / (l ** 2 - self.__coef__[i + 1]))
         return sqrt(n2)
 
 
@@ -101,13 +105,14 @@ class Polynomial(Material):
     dispersion model as defined at
     https://refractiveindex.info/database/doc/Dispersion%20formulas.pdf
     """
+
     def __init__(self, coef, nd=None, vd=None):
         Material.__init__(self, coef, 17, nd, vd)
 
-    def n(self, l=.58929):
+    def n(self, l=0.58929):
         n2 = self.__coef__[0]
         for i in range(1, 17, 2):
-            n2 = n2+self.__coef__[i]*l**self.__coef__[i+1]
+            n2 = n2 + self.__coef__[i] * l ** self.__coef__[i + 1]
         return sqrt(n2)
 
 
@@ -120,10 +125,10 @@ class Cauchy(Material):
     def __init__(self, coef, nd=None, vd=None):
         Material.__init__(self, coef, 11, nd, vd)
 
-    def n(self, l=.58929):
+    def n(self, l=0.58929):
         n_ = self.__coef__[0]
         for i in range(1, 11, 2):
-            n_ = n_+self.__coef__[i]*l**self.__coef__[i+1]
+            n_ = n_ + self.__coef__[i] * l ** self.__coef__[i + 1]
         return n_
 
 
@@ -147,13 +152,22 @@ class Exotic(Material):
         raise ModelNotImplemented
 
 
-__models__ = [Sellmeier, Sellmeier_2, Polynomial, RefractiveIndex_Info, Cauchy,
-              Gases,  Herzberger, Retro,  Exotic]
+__models__ = [
+    Sellmeier,
+    Sellmeier_2,
+    Polynomial,
+    RefractiveIndex_Info,
+    Cauchy,
+    Gases,
+    Herzberger,
+    Retro,
+    Exotic,
+]
 
 
 def from_yml(filename):
     """Create a material instance from a YML file as defined at
-       https://refractiveindex.info/about
+    https://refractiveindex.info/about
     """
     with open(filename) as f:
         mat = yaml.load(f, Loader=yaml.FullLoader)

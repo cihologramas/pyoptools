@@ -17,13 +17,13 @@
 #
 # ------------------------------------------------------------------------------
 
-'''
+"""
 Material class definition, and helper functions used to load the
 constants of the dispersion formula to be used in the calculation of
 the refraction index.
 
 It uses the database from  https://refractiveindex.info
-'''
+"""
 
 from os import walk
 from os.path import join, expanduser, relpath
@@ -31,7 +31,7 @@ from pkg_resources import resource_filename
 from .mat_eq import from_yml, ModelNotImplemented
 from configparser import ConfigParser
 
-mat_config = resource_filename("pyoptools.raytrace.mat_lib", 'data')
+mat_config = resource_filename("pyoptools.raytrace.mat_lib", "data")
 
 # mat_config = "../mat_lib/data/"
 
@@ -45,16 +45,18 @@ for (dirpath, dirnames, filenames) in walk(libpath):
     library = relpath(dirpath, libpath)
 
     # Exclude some names that are not libraries
-    if library in [".", ]:
+    if library in [
+        ".",
+    ]:
         continue
 
     libnames.append((relpath(dirpath, libpath)).replace("/", "_"))
 
 # Get data from main folder
 
-#mainlibnames = []
-#mainlibpath = join(mat_config, "main")
-#for (dirpath, dirnames, filenames) in walk(mainlibpath):
+# mainlibnames = []
+# mainlibpath = join(mat_config, "main")
+# for (dirpath, dirnames, filenames) in walk(mainlibpath):
 #    library = relpath(dirpath, mainlibpath)
 
 #    # Exclude some names that are not libraries
@@ -72,7 +74,9 @@ homelibnames = []
 for (dirpath, dirnames, filenames) in walk(homelibpath):
     library = relpath(dirpath, homelibpath)
 
-    if library in [".", ]:
+    if library in [
+        ".",
+    ]:
         continue
 
     homelibnames.append((relpath(dirpath, homelibpath)).replace("/", "_"))
@@ -82,7 +86,7 @@ for (dirpath, dirnames, filenames) in walk(homelibpath):
 # Note: If a home library has the same name as a system library, all the
 # glasses defined will be merged in the same library
 
-libset = list(set(libnames+["main"]+homelibnames))
+libset = list(set(libnames + ["main"] + homelibnames))
 liblist = []
 
 for libname in libset:
@@ -99,9 +103,11 @@ liblist.sort()
 for npath in [libpath, homelibpath]:
 
     for (dirpath, dirnames, filenames) in walk(npath):
-        library = (relpath(dirpath, npath)).replace("/","_")
+        library = (relpath(dirpath, npath)).replace("/", "_")
         # Exclude some names that are not libraries
-        if library in [".", ]:
+        if library in [
+            ".",
+        ]:
             continue
 
         for name in filenames:
@@ -119,24 +125,25 @@ for npath in [libpath, homelibpath]:
 npath = join(mat_config, "main")
 
 for (dirpath, dirnames, filenames) in walk(npath):
-    library = (relpath(dirpath, npath)).replace("/","_")
+    library = (relpath(dirpath, npath)).replace("/", "_")
     # Exclude some names that are not libraries
-    if library in [".", ]:
+    if library in [
+        ".",
+    ]:
         continue
 
     for name in filenames:
         try:
             matname = name.split(".")[0]
-            globals()["main"][library+"_"+matname] = from_yml(join(dirpath, name))
+            globals()["main"][library + "_" + matname] = from_yml(join(dirpath, name))
         except ModelNotImplemented:
             continue
-
 
 
 # Create the aliases material library. It will read the information from the
 # aliases.cfg file
 
-aliases_path = join(mat_config,"aliases.cfg")
+aliases_path = join(mat_config, "aliases.cfg")
 
 
 globals()["aliases"] = {}
@@ -144,12 +151,14 @@ config = ConfigParser()
 config.read(aliases_path)
 
 for i in config:
-    if i == "DEFAULT": continue
+    if i == "DEFAULT":
+        continue
     libr = config[i]["library"]
     mate = config[i]["material"]
-    globals()["aliases"][i] =  globals()[libr][mate]
+    globals()["aliases"][i] = globals()[libr][mate]
 
 liblist.append(("aliases", globals()["aliases"]))
+
 
 def find_material(material):
     """Search for a material in all the libraries
@@ -161,10 +170,10 @@ def find_material(material):
     material
         String with the material name
     """
-    retv=[]
+    retv = []
     for libn, _ in liblist:
-       if material in globals()[libn]:
-          retv.append(libn)
+        if material in globals()[libn]:
+            retv.append(libn)
     return retv
 
 
@@ -180,15 +189,14 @@ def get_material(material):
         String with the material name
     """
     for libn, _ in liblist:
-        tdict=globals()[libn]
+        tdict = globals()[libn]
         if material in tdict:
             return tdict[material]
-    print (material, " not found")
+    print(material, " not found")
     raise KeyError
-
 
 
 def mat_list():
     for libn, _ in liblist:
         tdict = globals()[libn]
-        print(libn,  tdict.keys())
+        print(libn, tdict.keys())
