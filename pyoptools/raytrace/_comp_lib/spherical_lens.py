@@ -19,7 +19,7 @@ Definition of a spherical lens object and helper functions
 '''
 
 #from enthought.traits.api import Float, Instance, HasTraits,  Trait
-from numpy import sqrt, pi, absolute
+from numpy import sqrt, pi, absolute, inf
 
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Spherical, Cylindrical,  Plane
@@ -171,15 +171,15 @@ class SphericalLens(Component):
 
         # Anterior surface focal length (measured inside the lens)
 
-        asf= nl/((nl-n)*self.curvature_s1)
+        asf = inf if self.curvature_s1 == 0 else nl / ((nl - n) * self.curvature_s1)
 
         # Posterior surface focal length (measured inside the lens)
 
-        psfp= nl/((n-nl)*self.curvature_s2)
+        psfp = inf if self.curvature_s2 == 0 else nl / ((n - nl) * self.curvature_s2)
 
         # Posterior surface focal length (measured outside the lens)
 
-        psf= n/((n-nl)*self.curvature_s2)
+        psf = inf if self.curvature_s2 == 0 else n / ((n - nl) * self.curvature_s2)
 
 
         # Focal Length (it is the same at both sides because the media
