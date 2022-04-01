@@ -12,6 +12,7 @@ __all__=["intersection", "nearest_points", "chief_ray_search", "pupil_location",
          "get_optical_path_ep", "find_reference_sphere_radius",
          "parallel_propagate", "parallel_propagate_ns", "ray_paths" ]
 
+import numpy as np
 
 from pyoptools.raytrace.ray import Ray
 from pyoptools.misc.pmisc import cross
@@ -33,16 +34,18 @@ import multiprocessing as mp
 
 #log= logging.getLogger("ray_trace.calc")
 
-def intersection(r1,r2):
+
+def intersection(ray1, ray2, atol=1e-8):
     ''' 
-    Return the point of intersection between the rays r1 and r2.
+    Return the point of intersection between the rays ray1 and ray2.
 
     
     Parameters
     ----------
 
-    r1,r2 : :class:`~pyoptools.raytrace.ray.Ray` 
+    ray1, ray2: :class:`~pyoptools.raytrace.ray.Ray` 
         Rays to test for intersection. 
+    atol: absolute tolerance (maximum distance between ray lines)
     
     Returns
     -------
@@ -56,41 +59,13 @@ def intersection(r1,r2):
         as in virtual image i.e. intersection point is not in the actual path, 
         or is behind the ray's origin.
     '''
+    c1, c2, dist, rv = nearest_points(ray1, ray2)
 
-    d1=r1.dir
-    d2=r2.dir
-    p1=r1.pos
-    p2=r2.pos
+    if dist < atol:
+        return (c1 + c2)/2, rv
+    else:
+        return array((nan, nan, nan)), False
 
-    d1xd2=cross(d1,d2)
-    # check if the rays are parallel
-    #log.info("Vector cross product:"+str(d1xd2))
-    if dot(d1xd2,d1xd2)==0. : 
-        return array((nan,nan,nan)),False
-    p2p1xv2=cross(p2-p1,d2)
-    p2p1xv1=cross(p2-p1,d1)
-    a=p2p1xv2/d1xd2
-    b=p2p1xv1/d1xd2
-    
-    # Remove the nan from the list 
-    keep=~isnan(a)
-    an=a[keep]
-
-    keep=~isnan(b)
-    bn=b[keep]
-    
-    ip=array((nan,nan,nan))
-    rv=False
-    #print an,bn
-    if len(an)>0:
-        if alltrue(an==an[0]) :
-            ip=p1+an[0]*d1
-            
-        # check if all the solutions are equal 
-        if alltrue(an>=0) and alltrue(bn>=0):
-            rv=True
-    #log.info("Intersection point found at:"+str(ip)+" "+str(rv))
-    return ip,rv
 
 def nearest_points(ray1, ray2):
     '''
@@ -116,38 +91,48 @@ def nearest_points(ray1, ray2):
     Returns
     -------
     
-    p1 : tuple(float, float, float)
+    c1 : tuple(float, float, float)
         Coordinates of the point living on ray 1 closest to ray 2
-    p2 : tuple(float, float, float)
+    c2 : tuple(float, float, float)
         Coordinates of the point living on ray 2 closest to ray 1
     d : float
         The distance between p1 and p2
     rv : bool
         Indicates if the intersection is real or virtual. rv=True for 
         real, rv=False for virtual. In this case virtual has the same meaning
-        as in virtual image i.e. p1 and p2 are not in the actual path, or are
+        as in virtual image i.e. c1 and c2 are not in the actual path, or are
         behind the ray's origin.
     '''
-    r1=ray1.pos
-    e1=ray1.dir
-    r2=ray2.pos
-    e2=ray2.dir
-    r12=r2-r1
-    t1= (dot(r12, e1) - (dot(r12, e2)*dot(e1, e2)))/(1-(dot(e1, e2))**2)
-    t2= -(dot(r12, e2) - (dot(r12, e1)*dot(e1, e2)))/(1-(dot(e1, e2))**2)
+    e1 = ray1.dir
+    e2 = ray2.dir
+    p1 = ray1.pos
+    p2 = ray2.pos
     
-    p1=r1+t1*e1
-    p2=r2+t2*e2
+    # the directions are unit vectors
+    denominator = 1 - np.dot(e1, e2)**2
+    
+    # check if the rays are parallel
+    if np.isclose(denominator, 0, rtol=1e-8, atol=1e-15, equal_nan=False):
+        return np.array((nan, nan, nan)), np.array((nan, nan, nan)), np.NaN, False
+    
+    p2p1 = p2 - p1
+
+    e1e2 = np.dot(e1, e2)
+    p2p1e1 = np.dot(p2p1, e1)
+    p2p1e2 = np.dot(p2p1, e2)
+    t1 = (p2p1e1 - p2p1e2 * e1e2) / denominator
+    t2 = (-p2p1e2 + p2p1e1 * e1e2) / denominator
+    # closest points
+    c1 = p1 + t1 * e1  # on ray 1
+    c2 = p2 + t2 * e2  # on ray 2
     
     #log.info("nearest points"+str(p1)+" "+str(p2))
     #log.info("tvalues "+str(t1)+" "+str(t2))
     
-    if t1>=0 and t2>=0:
-        rv=True
-    else:
-        rv=False
+    rv = (t1 >= 0) and (t2 >= 0)
     
-    return p1, p2, sqrt(dot(p1-p2, p1-p2)),  rv
+    return c1, c2, np.linalg.norm(c2 - c1), rv
+
 
 def chief_ray_search(opsys,ccds,o=(0.,0.,0.),rt=(0.,0.,0.),er=0.1,w=pi/2.,maxiter=1000,wavelength=.58929):
     '''
