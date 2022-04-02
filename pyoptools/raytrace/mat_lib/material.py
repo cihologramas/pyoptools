@@ -92,6 +92,12 @@ liblist = []
 for libname in libset:
     # Create the dictionaries where the materials will be saved. One dictionary
     # per library,
+
+    # There are some libraries that use - sign in the name. This will create a
+    # non valid python attribute name. This character will be replaced by __
+
+    libname=libname.replace("-","_")
+
     globals()[libname] = {}
     liblist.append((libname, globals()[libname]))
 
@@ -103,7 +109,8 @@ liblist.sort()
 for npath in [libpath, homelibpath]:
 
     for (dirpath, dirnames, filenames) in walk(npath):
-        library = (relpath(dirpath, npath)).replace("/", "_")
+        library = (relpath(dirpath, npath)).replace("/", "_").replace("-","_")
+
         # Exclude some names that are not libraries
         if library in [
             ".",
@@ -163,7 +170,7 @@ liblist.append(("aliases", globals()["aliases"]))
 def find_material(material):
     """Search for a material in all the libraries
 
-    This function prints all the libraries that contain the material
+    This function returns a list with all the libraries that contain the material
 
     Arguments:
 
