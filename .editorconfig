@@ -1,0 +1,32 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+# .ini files
+[*.ini]
+indent_style = space
+
+# python files
+# Matches multiple files with brace expansion notation
+[*.{py,pyx,pxd}]
+charset = utf-8
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+# requirements file
+[requirements.txt]
+trim_trailing_whitespace = true
+
+# YAML files
+[*.yml]
+indent_style = space
+indent_size = 2
+indent_size = 4
+
