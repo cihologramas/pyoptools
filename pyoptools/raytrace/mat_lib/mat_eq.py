@@ -80,7 +80,11 @@ class Sellmeier(Material):
     def n(self, l=0.58929):
         n2 = 1 + self.__coef__[0]
         for i in range(1, 17, 2):
-            n2 = n2 + (self.__coef__[i] * l ** 2 / (l ** 2 - self.__coef__[i + 1] ** 2))
+            n2 = n2 + (
+                self.__coef__[i]
+                * l ** 2
+                / (l ** 2 - self.__coef__[i + 1] ** 2)
+            )
         return sqrt(n2)
 
 
@@ -96,7 +100,9 @@ class Sellmeier_2(Material):
     def n(self, l=0.58929):
         n2 = 1 + self.__coef__[0]
         for i in range(1, 17, 2):
-            n2 = n2 + (self.__coef__[i] * l ** 2 / (l ** 2 - self.__coef__[i + 1]))
+            n2 = n2 + (
+                self.__coef__[i] * l ** 2 / (l ** 2 - self.__coef__[i + 1])
+            )
         return sqrt(n2)
 
 
@@ -165,6 +171,19 @@ __models__ = [
 ]
 
 
+class Tabulated_N(Material):
+    """Class that define a material that complies with the "tabulated n"
+    format as provided by https://refractiveindex.info
+    """
+
+    def __init__(self, coef, nd=None, vd=None):
+        Material.__init__(self, coef, None, nd, vd)
+
+    def n(self, l=0.58929):
+        n_ = numpy.interp(l, self.__coef__[:, 0], self.__coef__[:, 1])
+        return n_
+
+
 def from_yml(filename):
     """Create a material instance from a YML file as defined at
     https://refractiveindex.info/about
@@ -174,17 +193,19 @@ def from_yml(filename):
 
     for c in mat["DATA"]:
         if "formula" in c["type"]:
-            break
+            fn = int(c["type"].split()[1]) - 1
+            coef = numpy.fromiter(c["coefficients"].split(), dtype=numpy.float)
+
+            # Sometimes SPECS does not exists
+            nd = mat.get("SPECS", {}).get("nd", None)
+            vd = mat.get("SPECS", {}).get("Vd", None)
+            return __models__[fn](coef, nd, vd)
+        elif c["type"] == "tabulated n":
+            coef = numpy.fromstring(c["data"], sep=" ")
+            l = len(coef)
+            coef.shape = int(l / 2), 2
+            return Tabulated_N(coef)
     else:
         # The else belongs to the for, and is used to check the break was
         # not used
         raise ModelNotImplemented
-
-    fn = int(c["type"].split()[1]) - 1
-
-    coef = numpy.fromiter(c["coefficients"].split(), dtype=numpy.float)
-
-    # Sometimes SPECS does not exists
-    nd = mat.get("SPECS", {}).get("nd", None)
-    vd = mat.get("SPECS", {}).get("Vd", None)
-    return __models__[fn](coef, nd, vd)
