@@ -86,6 +86,12 @@ class SphericalLens(Component):
         self.curvature_s1 = curvature_s1
         self.curvature_s2 = curvature_s2
 
+        if self.radius * self.curvature_s1 > 1:
+            raise ValueError("Aperture radius can not be larger than s1 curvature radius")
+
+        if self.radius * self.curvature_s2 > 1:
+            raise ValueError("Aperture radius can not be larger than s2 curvature radius")
+
         if self.curvature_s1 != 0.0:
             __a_surf = Spherical(
                 shape=Circular(radius=self.radius), curvature=self.curvature_s1
