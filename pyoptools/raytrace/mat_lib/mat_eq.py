@@ -188,7 +188,7 @@ def from_yml(filename):
     """Create a material instance from a YML file as defined at
     https://refractiveindex.info/about
     """
-    with open(filename) as f:
+    with open(filename, encoding='utf-8') as f:
         mat = yaml.load(f, Loader=yaml.FullLoader)
 
     for c in mat["DATA"]:
