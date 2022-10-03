@@ -50,9 +50,6 @@ from pyoptools.misc.cmisc.cmisc import unwrap
 cdef extern from "math.h":
     double M_PI
     double sqrt(double)
-cdef extern from "complex.h":
-    double complex cexp(double complex)
-    double complex I
 
 cimport numpy as np
 cimport cython
@@ -307,8 +304,8 @@ cdef class Field:
                 R2=xd*xd+yd*yd+z*z
                 R=sqrt(R2)
                 R3=R2*R
-                ikR=I*k*R
-                result[i, j]=((z/(2.*M_PI*R3))*cexp(ikR)*(1.-ikR))
+                ikR=1j*k*R
+                result[i, j]=((z/(2.*M_PI*R3))*exp(ikR)*(1.-ikR))
 
         return result
 
