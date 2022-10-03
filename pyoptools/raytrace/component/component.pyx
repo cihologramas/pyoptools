@@ -216,7 +216,7 @@ cdef class Component(Picklable):
         Distance length from a ray origin to a component, following the ray path.
 
         Method that calculates the distance traveled by a ray from its origin to
-        the next surface of the component. It returns the phisical distance, not
+        the next surface of the component. It returns the physical distance, not
         the optical distance
 
 

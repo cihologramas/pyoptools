@@ -176,7 +176,7 @@ class AsphericLens(Component):
         """Adds an outer brim surface defined by surface definition defn.
         Only applies is the specified outer diameter of this lens is larger
         than the maximum diameter of the defined surface.
-        Brim will be located at postion z_position.
+        Brim will be located at position z_position.
         """
         if self.outer_diameter > defn.diameter:
             brim = Aperture(

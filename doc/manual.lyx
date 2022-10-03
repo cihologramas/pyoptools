@@ -70,12 +70,12 @@ misc Package containing auxiliary functions
 \end_layout
 
 \begin_layout Description
-ray_trace Package containing clases and routines used to simulate 3D non-secuent
+ray_trace Package containing classes and routines used to simulate 3D non-secuent
 ial, physical raytrace of optical systems.
 \end_layout
 
 \begin_layout Description
-wavefront Package containing clases and routines used to simulate the propagatio
+wavefront Package containing classes and routines used to simulate the propagatio
 n of wavefronts through optical systems
 \end_layout
 
@@ -558,7 +558,7 @@ system Package that is used to describe the optical systems to be simulated.
 \end_layout
 
 \begin_layout Description
-material Package that defines tha class that describe the phisical characteristi
+material Package that defines the class that describes the physical characteristi
 cs of the materials used to create the optical components.
 \end_layout
 

@@ -34,7 +34,7 @@ from pyoptools.raytrace.shape import Rectangular
 class CCD(Component):
     """Class to define a CCD like detector
 
-    :param size: Tuple with the phisical size (sx,sy)  of the CCD chip
+    :param size: Tuple with the physical size (sx,sy)  of the CCD chip
     :type size: tuple(float, float)
     :param transparent: Boolean to set the detector transparent characteristic.
         Not implemented

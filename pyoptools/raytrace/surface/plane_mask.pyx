@@ -152,7 +152,7 @@ cdef class RPPMask(Surface):
             oz2 = rz**2 - 2*M*l/d*(rx*kx+ry*ky)-(M*l/d)**2
 
             if oz2 < 0:
-                print "warning: eliminating not phisically possible ray"
+                print "warning: eliminating physically impossible ray"
                 ret.append(Ray(pos=PI, dir=ri.dir,
                                intensity=0,
                                wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
