@@ -399,7 +399,7 @@ cdef class Ray:
             repr(self.label)+",orig_surf="+repr(self.orig_surf)+", order="+repr(self.order)+")"
 
     def add_child(self, cr):
-        '''Add childs to the current ray, and create the appropiate links
+        '''Add childs to the current ray, and create the appropriate links
 
         *cr*
             Ray to include in the child list

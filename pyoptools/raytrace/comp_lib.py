@@ -6,7 +6,7 @@ some standard optical components, and return an instance to such components.
 This module hides from the end user un needed stuff.
 """
 
-# sorted is used so the clases are ordered alphabetically in the sphinx docs
+# sorted is used so the classes are ordered alphabetically in the sphinx docs
 __all__ = sorted(
     [
         "SphericalLens",

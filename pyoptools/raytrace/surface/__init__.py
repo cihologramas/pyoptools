@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-"""Module that defines all the clases that describe the optical surfaces
+"""Module that defines all the classes that describe the optical surfaces
 """
 
 from .surface import Surface

@@ -111,7 +111,7 @@ cdef class Surface(Picklable):
         '''Method that returns the topography of the surface
 
         The matrix returned is :math:`z=f(x,y)`. This method mus be overloaded in all
-        subclases of Surface.
+        subclasses of Surface.
         '''
         warn("Method topo, from class Surface, should be overloaded" +
              " in class "+self.__class__.__name__)
@@ -146,7 +146,7 @@ cdef class Surface(Picklable):
         This method returns the normal vector at a specific intersection point,
         given by ip. The normal vector must be normalized.
 
-        This method must be overloaded in all Surface subclases. It contains
+        This method must be overloaded in all Surface subclasses. It contains
         the geometric specific code.
 
         **Arguments:**
@@ -211,7 +211,7 @@ cdef class Surface(Picklable):
 
         iray must be in the coordinate system of the surface
 
-        This function must be overloaded in all :class:`Surface` subclases.
+        This function must be overloaded in all :class:`Surface` subclasses.
         It contains the geometric specific code. It must not  check for
         the aperture.
 

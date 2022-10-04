@@ -40,7 +40,7 @@ cdef class ArrayDetector(Plane):
         >>> cs=ArrayDetector(size=(10,10))
     '''
 
-    # CCD phisical size
+    # CCD physical size
     #size=Tuple(Float(10), Float(10))
     cdef public tuple size
 
@@ -69,7 +69,7 @@ cdef class ArrayDetector(Plane):
         Parameter:
 
         *size*
-            Size of the detector in pixels. The phisical size of the detector is
+            Size of the detector in pixels. The physical size of the detector is
             given at the surface creation.
         """
         px, py = size
@@ -93,7 +93,7 @@ cdef class ArrayDetector(Plane):
         Parameter:
 
         *size*
-            Size of the detector in pixels. The phisical size of the detector is
+            Size of the detector in pixels. The physical size of the detector is
             given at the surface creation.
         """
         px, py = size

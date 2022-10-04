@@ -99,7 +99,7 @@ cdef class Field:
         amp_im Filename of the image containing the amplitude of the
                field
         ph_im  Filename of the image containing the phase of the field
-        amp_n  Floating point number used to normalize the amplitud
+        amp_n  Floating point number used to normalize the amplitude
                1/255. by default
         ph_n   Floating point number used to normalize the phase.
                2*pi/255 by default.
