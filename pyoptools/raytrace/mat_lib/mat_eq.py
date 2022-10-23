@@ -50,8 +50,12 @@ class Material:
         if cl is None:
             self.__coef__ = coef
         else:
-            self.__coef__ = coef.copy()
-            self.__coef__.resize(cl)
+            #self.__coef__ = coef.copy()
+            #self.__coef__.resize(cl)
+
+            # Need to do it this way so profiler works,
+            # can't resize while having references to the original
+            self.__coef__ = coef.copy().resize(cl)
 
     @property
     def nd(self):
