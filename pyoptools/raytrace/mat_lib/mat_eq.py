@@ -25,6 +25,7 @@ dispersion formulas
 """
 import yaml
 import numpy
+import io
 from math import sqrt
 
 
@@ -50,12 +51,12 @@ class Material:
         if cl is None:
             self.__coef__ = coef
         else:
-            #self.__coef__ = coef.copy()
-            #self.__coef__.resize(cl)
+            self.__coef__ = coef.copy()
+            self.__coef__.resize(cl)
 
             # Need to do it this way so profiler works,
             # can't resize while having references to the original
-            self.__coef__ = coef.copy().resize(cl)
+            #self.__coef__ = coef.copy().resize(cl)
 
     @property
     def nd(self):
@@ -188,27 +189,38 @@ class Tabulated_N(Material):
         return n_
 
 
-def from_yml(filename):
-    """Create a material instance from a YML file as defined at
+def from_yml(file_path):
+    """Create a material instance from a YML file path as defined at
     https://refractiveindex.info/about
     """
-    with open(filename, encoding='utf-8') as f:
+    #with open(filename, encoding='utf-8') as f:
+
+    #print('opening ', file_path)
+
+    with file_path.open(encoding='utf-8') as f:
         mat = yaml.load(f, Loader=yaml.FullLoader)
 
     for c in mat["DATA"]:
         if "formula" in c["type"]:
             fn = int(c["type"].split()[1]) - 1
             coef = numpy.fromiter(c["coefficients"].split(), dtype=numpy.float)
-
             # Sometimes SPECS does not exists
             nd = mat.get("SPECS", {}).get("nd", None)
             vd = mat.get("SPECS", {}).get("Vd", None)
             return __models__[fn](coef, nd, vd)
-        elif c["type"] == "tabulated n":
-            coef = numpy.fromstring(c["data"], sep=" ")
-            l = len(coef)
-            coef.shape = int(l / 2), 2
+
+        elif c["type"].startswith("tabulated n"):
+            with io.StringIO(c['data']) as data:
+                coef = numpy.loadtxt(data, usecols=(0,1) )
             return Tabulated_N(coef)
+
+        # Changed below to support tabulated nk etc formatted data
+        #elif c["type"] == "tabulated n" :
+        #    coef = numpy.fromstring(c["data"], sep=" ")
+        #    l = len(coef)
+        #    coef.shape = int(l / 2), 2
+        #    return Tabulated_N(coef)
+
     else:
         # The else belongs to the for, and is used to check the break was
         # not used
