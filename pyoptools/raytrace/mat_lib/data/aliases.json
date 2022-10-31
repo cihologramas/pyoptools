@@ -10,6 +10,22 @@
     "SODA_LIME" : {
         "library" : "soda_lime_generic",
         "material" : "Rubin-clear"
+    },
+    "FD10" : {
+        "library" : "hoya",
+        "material" : "E-FD10"
+    },
+    "SILICON" : {
+        "compound" : "Si",
+        "reference" : "Aspnes"
+    },
+    "GERMANIUM" : {
+        "compound" : "Ge",
+        "reference" : "Aspnes"
+    },
+    "ZNSE" : {
+        "compound" : "ZnSe",
+        "reference" : "Adachi"
     }
 }
 
