@@ -62,6 +62,7 @@ class FailedImport(Enum):
     units_not_mm = auto()
     mirrors_unsupported = auto()
     aspheres_unsupported = auto()
+    doublet_pairs_unsupported = auto()
     diffractive_optics_unsupported = auto()
     conical_unsupported = auto()
     fresnet_unsupported = auto()
@@ -380,6 +381,7 @@ class ZmfImporter:
         # in the description. Check for this to avoid
         # collision with triplets
         elif ns == 6 and 'Pair' in lens_data['description']:
+
             lens_data["curvature_s1"] = surflist[0]["CURV"][0]
             lens_data["curvature_s2"] = surflist[1]["CURV"][0]
             lens_data["curvature_s3"] = surflist[2]["CURV"][0]
@@ -416,7 +418,8 @@ class ZmfImporter:
             #print('Imported a doublet pair with ns = 6\n')
             #print(self.zmx_data[key])
 
-            return lens_data
+            #return lens_data
+            return FailedImport.doublet_pairs_unsupported
 
         # Doublet pair with stop in the middle, stop ignored
         # Thorlabs have the term 'Matched Achromatic Pair'
@@ -459,7 +462,8 @@ class ZmfImporter:
             #print('Imported a doublet pair with ns = 7\n')
             #print(self.zmx_data[key])
 
-            return lens_data
+            #return lens_data
+            return FailedImport.doublet_pairs_unsupported
 
         else:
             return FailedImport.unknown
@@ -476,10 +480,8 @@ def main(filename):
     print(f"Imported {len(imp.descriptors)} items. "
           f"Failed to import {len(imp.failed_imports)} items.")
 
-
     imp.save_json()
     imp.save_failed_csv()
-
 
 if __name__ == '__main__':
     main(sys.argv[1])
