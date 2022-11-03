@@ -15,7 +15,6 @@ from pathlib import Path
 
 class MaterialLibrary:
 
-
     def __init__(self, prefix = None):
 
         self.prefix = prefix
@@ -78,6 +77,35 @@ class MaterialLibrary:
                 return self._material_factory(name, cp)
 
         raise KeyError(f"Material {name} not found.")
+
+    def get_from(self, name: str, libs: str):
+        """Finds glass type with name located in a manufacturer library
+
+        name : name of the glass to find
+        libs : A name of a manufacturer library, e.g. 'schott', or a list
+        of space-seperate manufacturer names, in which case they will be
+        searched in the order given.
+
+        Raise KeyError if no material found in the given libraries.
+        """
+
+        if self.prefix is not None:
+            raise Exception('get_from only availabe on base library.')
+
+        for libname in libs.split(' '):
+            libname = libname.lower()
+            #print(f"checking {libname}")
+            if (self.glass_path/libname).is_dir():
+                try:
+                    return MaterialLibrary(prefix = libname)[name]
+                except AttributeError:
+                    #print('No library')
+                    pass
+                except KeyError:
+                    #print('Not in library')
+                    pass
+
+        raise KeyError(f"Material {name} not found in any of {libs.split()}.")
 
     def __getattr__(self, name: str):
         # Guard for if instantiated as a sub-module

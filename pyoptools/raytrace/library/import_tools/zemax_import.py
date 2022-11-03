@@ -190,7 +190,7 @@ class ZmfImporter:
         if unit != "MM":
             return FailedImport.units_not_mm
 
-        #gcat = find_key("GCAT", header)
+        gcat = find_key("GCAT", header)
 
         # Separate the surfaces into a list of dictionaries
         surflist = []
@@ -310,7 +310,7 @@ class ZmfImporter:
                 return FailedImport.unequal_surface_radius
 
             lens_data["material"] = g0
-            #lens_data["glass_catalogs"] = gcat  # This is not used for the moment
+            lens_data["glass_catalogs"] = gcat
             lens_data["thickness"] = surflist[0]["DISZ"][0]
             lens_data["radius"] = r0
             lens_data["curvature_s2"] = surflist[1]["CURV"][0]
@@ -339,7 +339,7 @@ class ZmfImporter:
 
             lens_data["material_l1"] = surflist[0]["GLAS"][0]
             lens_data["material_l2"] = surflist[1]["GLAS"][0]
-            #lens_data["glass_catalogs"] = gcat
+            lens_data["glass_catalogs"] = gcat
             # return CL.Doublet(r0,c0,c1,c2, d0,d1,m0,m1)
             lens_data["type"] = "Doublet"
             return lens_data
@@ -371,7 +371,7 @@ class ZmfImporter:
             # g1=surflist[1]["GLAS"][0] Este parametro no existe. Es aire
             lens_data["material_l2"] = surflist[2]["GLAS"][0]
 
-            #lens_data["glass_catalogs"] = gcat
+            lens_data["glass_catalogs"] = gcat
 
             lens_data["type"] = "AirSpacedDoublet"
             return lens_data
@@ -411,7 +411,7 @@ class ZmfImporter:
                 return FailedImport.unequal_surface_radius
 
             lens_data["radius"] = r0
-            #lens_data["glass_catalogs"] = gcat  # This is not used for the moment
+            lens_data["glass_catalogs"] = gcat
 
             lens_data["type"] = "DoubletPair"
 
@@ -455,7 +455,7 @@ class ZmfImporter:
                 return FailedImport.unequal_surface_radius
 
             lens_data["radius"] = r0
-            #lens_data["glass_catalogs"] = gcat  # This is not used for the moment
+            lens_data["glass_catalogs"] = gcat
 
             lens_data["type"] = "DoubletPair"
 

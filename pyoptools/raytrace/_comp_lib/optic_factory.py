@@ -24,14 +24,20 @@ def optic_factory(**kwargs):
     except AttributeError:
         raise ValueError(f"{kwargs['type']} not a valid optic type.")
 
+    # Lookup and convert any material types:
+    for k, v in kwargs.items():
+        if 'material' in k:
+            if 'glass_catalogs' in kwargs:
+                m = material.get_from(v, kwargs['glass_catalogs'])
+                print('got ', m)
+            else:
+                m = material[v]
+
+            kwargs[k] = m
+
     # Include only elements with corresponding key in constructor
     sig = signature(klass)
     new_kwargs = {k:v for (k,v) in kwargs.items() if k in sig.parameters}
-
-    # Lookup and convert any material types:
-    for k, v in new_kwargs.items():
-        if 'material' in k:
-            new_kwargs[k] = material[v]
 
     return klass(**new_kwargs)
 
