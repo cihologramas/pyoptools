@@ -20,15 +20,14 @@ class MaterialLibrary:
         self.prefix = prefix
         self._cache = {}
 
-        dp = Path(resource_filename("pyoptools.raytrace.mat_lib", "data"))
+        self.dp = Path(resource_filename("pyoptools.raytrace.mat_lib", "data"))
 
         if self.prefix is None:
-            self.glass_path = dp/'glass'
-            self.compound_path = dp/'compounds'
+            self.glass_path = self.dp/'glass'
         else:
-            self.glass_path = dp/'glass'/prefix
+            self.glass_path = self.dp/'glass'/prefix
 
-        with (dp/'aliases.json').open() as af:
+        with (self.dp/'aliases.json').open() as af:
             self.ailises = json.load(af)
 
     def _material_factory(self, name, mat_path):
@@ -42,16 +41,16 @@ class MaterialLibrary:
         if name in self._cache:
             return self._cache[name]
 
-        # check in ailises, handling special case of a compond
+        # check in aliases, handling special case of a compond
         if name in self.ailises:
-            ailas = self.ailises[name]
-            if 'compound' in ailas:
-                ap = (self.compound_path /
-                      ailas['compound'] /
-                      f"{ailas['reference']}.yml")
-            else:
-                ap = self.glass_path/ailas['library']/f"{ailas['material']}.yml"
-            return self._material_factory(name, ap)
+            a = self.ailises[name]
+            if a['type'] == 'organic':
+                return self.organic[a['material']]
+            elif a['type'] == 'inorganic':
+                return self.inorganic[a['material']]
+            elif a['type'] == 'glass':
+                ap = self.glass_path/a['library']/f"{a['material']}.yml"
+                return self._material_factory(name, ap)
 
         # find in glasses
         matches = list(self.glass_path.glob(f"**/{name}.yml"))
@@ -64,19 +63,8 @@ class MaterialLibrary:
 
         if matches:
             return self._material_factory(name, matches[0])
-
-        # find in compounds with reference as a suffix
-        if name.startswith('compound:'):
-            _, compound, reference = name.split(':')
-            if reference == '':
-                # if inspecified, get the first reference data
-                cp = list((self.compound_path/compound).glob('*.yml'))[0]
-            else:
-                cp = self.compound_path/compound/f"{reference}.yml"
-            if cp.exists():
-                return self._material_factory(name, cp)
-
-        raise KeyError(f"Material {name} not found.")
+        else:
+            raise KeyError(f"Material {name} not found.")
 
     def get_from(self, name: str, libs: str):
         """Finds glass type with name located in a manufacturer library
@@ -112,10 +100,44 @@ class MaterialLibrary:
         if self.prefix is not None:
             raise AttributeError()
 
+        if name == 'inorganic' or name == 'organic':
+            return CompoundLibrary(self.dp/name)
         if (self.glass_path/name).is_dir():
             return MaterialLibrary(prefix = name)
         else:
-            raise AttributeError()
+            raise AttributeError(f"Material {name} not found.")
+
+class CompoundLibrary:
+    def __init__(self, compound_path):
+        self.compound_path = compound_path
+        self._cache = {}
+
+    def _material_factory(self, name, mat_path):
+        "Builds and caches a material given path to yml file"
+        mat = from_yml(mat_path)
+        self._cache[name] = mat
+        return mat
+
+    def __getitem__(self, identifier: str):
+
+        if identifier in self._cache:
+            return self._cache[identifier]
+
+        # if inspecified, get the first reference data
+        tokens = identifier.split(':')
+        tokens = [t for t in tokens if t != '']
+
+        if len(tokens) == 1:
+            # default to the first item
+            cp = list((self.compound_path/tokens[0]).glob('*.yml'))[0]
+        else:
+            compound, reference = tokens
+            cp = self.compound_path/compound/f"{reference}.yml"
+
+        if cp.exists():
+            return self._material_factory(identifier, cp)
+        else:
+            raise AttributeError(f"Compound {identifier} not found.")
 
 sys.modules[__name__] = MaterialLibrary()
 

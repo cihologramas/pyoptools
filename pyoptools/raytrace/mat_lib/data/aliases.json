@@ -1,31 +1,34 @@
 {
     "BK7" : {
+        "type" : "glass",
         "library" : "schott",
         "material" : "N-BK7"
     },
-    "F_SILICA" : {
-        "compound" : "SiO2",
-        "reference" : "Malitson"
-    },
     "SODA_LIME" : {
+        "type" : "glass",
         "library" : "soda_lime_generic",
         "material" : "Rubin-clear"
     },
     "FD10" : {
+        "type" : "glass",
         "library" : "hoya",
         "material" : "E-FD10"
     },
     "SILICON" : {
-        "compound" : "Si",
-        "reference" : "Aspnes"
+        "type" : "inorganic",
+        "material" : "Si:Aspnes"
     },
     "GERMANIUM" : {
-        "compound" : "Ge",
-        "reference" : "Aspnes"
+        "type" : "inorganic",
+        "material" : "Ge:Aspnes"
     },
     "ZNSE" : {
-        "compound" : "ZnSe",
-        "reference" : "Adachi"
+        "type" : "inorganic",
+        "material" : "ZnSe:Adachi"
+    },
+    "F_SILICA" : {
+        "type" : "inorganic",
+        "material" : "SiO2:Malitson"
     }
 }
 
