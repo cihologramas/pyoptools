@@ -36,12 +36,8 @@ class MaterialLibrary:
         self._cache[name] = mat
         return mat
 
-    def __getitem__(self, name: str):
+    def _get_in_aliases(self, name):
 
-        if name in self._cache:
-            return self._cache[name]
-
-        # check in aliases, handling special case of a compond
         if name in self.ailises:
             a = self.ailises[name]
             if a['type'] == 'organic':
@@ -51,6 +47,19 @@ class MaterialLibrary:
             elif a['type'] == 'glass':
                 ap = self.glass_path/a['library']/f"{a['material']}.yml"
                 return self._material_factory(name, ap)
+        else:
+            raise KeyError
+
+    def __getitem__(self, name: str):
+
+        if name in self._cache:
+            return self._cache[name]
+
+        # check in aliases, handling special case of a compond
+        try:
+            return self._get_in_aliases(name)
+        except KeyError:
+            pass
 
         # find in glasses
         matches = list(self.glass_path.glob(f"**/{name}.yml"))
@@ -66,13 +75,17 @@ class MaterialLibrary:
         else:
             raise KeyError(f"Material {name} not found.")
 
-    def get_from(self, name: str, libs: str):
-        """Finds glass type with name located in a manufacturer library
+    def get_from(self, name: str, libs: str, check_aliases = True):
+        """Finds a glass type located in a specific manufacturer library
+        or space-seperate list of libraries,
 
         name : name of the glass to find
         libs : A name of a manufacturer library, e.g. 'schott', or a list
-        of space-seperate manufacturer names, in which case they will be
-        searched in the order given.
+            of space-seperate manufacturer names, in which case they will be
+            searched in the order given. Insensitive to capitalization.
+        check_aliases : if True (default), will check within material
+            aliases after checking in specified libraries.
+            Note that aliases can include compounds in addition to glasses.
 
         Raise KeyError if no material found in the given libraries.
         """
@@ -93,7 +106,17 @@ class MaterialLibrary:
                     #print('Not in library')
                     pass
 
-        raise KeyError(f"Material {name} not found in any of {libs.split()}.")
+        warning = f"Material {name} not found in any of {libs.split()}."
+        if check_aliases:
+            warning = warning[:-1]+" or aliases."
+            try:
+                self._get_in_aliases(name)
+            except KeyError:
+                pass
+        else:
+            warning = f"Material {name} not found in any of {libs.split()}."
+
+        raise KeyError(warning)
 
     def __getattr__(self, name: str):
         # Guard for if instantiated as a sub-module
