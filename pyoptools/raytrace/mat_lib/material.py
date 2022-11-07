@@ -6,12 +6,13 @@ the refraction index.
 It uses the database from  https://refractiveindex.info
 """
 
-from pkg_resources import resource_filename
 from .mat_eq import from_yml, ModelNotImplemented
 
 import sys
 import json
+
 from pathlib import Path
+from importlib_resources import files
 
 class MaterialLibrary:
 
@@ -20,7 +21,7 @@ class MaterialLibrary:
         self.prefix = prefix
         self._cache = {}
 
-        self.dp = Path(resource_filename("pyoptools.raytrace.mat_lib", "data"))
+        self.dp = files('pyoptools.raytrace.mat_lib').joinpath('data')
 
         if self.prefix is None:
             self.glass_path = self.dp/'glass'

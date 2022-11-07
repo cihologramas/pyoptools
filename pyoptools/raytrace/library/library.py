@@ -2,7 +2,9 @@ from pyoptools.raytrace._comp_lib.optic_factory import optic_factory
 
 import ijson
 from pathlib import Path
+
 import sys
+from importlib_resources import files
 
 # This class overrides the module, to provide direct attribute and item access
 class LibraryModule:
@@ -10,8 +12,10 @@ class LibraryModule:
     def __init__(self):
         self._user_libraries = []
 
+        self.dp = files('pyoptools.raytrace.library').joinpath('catalogs')
+
     def __getattr__(self, name: str):
-        p = Path(__file__).parent/(name+'.json')
+        p = self.dp/(name+'.json')
         if p.exists():
             return OpticCatalog(p)
         else:
@@ -65,7 +69,8 @@ class LibraryModule:
                 self._user_libraries.remove(lib)
 
     def _json_files(self):
-        return list(Path(__file__).parent.glob('*.json')) + self._user_libraries
+        #return list(Path(__file__).parent.glob('*.json')) + self._user_libraries
+        return list(self.dp.parent.glob('*.json')) + self._user_libraries
 
 sys.modules[__name__] = LibraryModule()
 
