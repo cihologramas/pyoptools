@@ -8,6 +8,8 @@ import csv
 import textwrap
 import traceback
 
+from pyoptools.raytrace.mat_lib import material
+
 def convert(d):
     try:
         return int(d)
@@ -70,6 +72,7 @@ class FailedImport(Enum):
     no_primary_surface = auto()
     diameter_undefined = auto()
     unequal_surface_radius = auto()
+    unknown_material_type = auto()
     unknown = auto()
 
 class ZmfImporter:
@@ -78,7 +81,7 @@ class ZmfImporter:
         self.zmf_path = Path(zmf_filename)
         self.failed_imports = []
 
-        self.manual_exclusions = ['Triplet']
+        self.manual_exclusions = ['Triplet', 'GRIN Lens', '46227']
 
     def import_all(self):
         self.read_zmf()
@@ -253,6 +256,16 @@ class ZmfImporter:
 
         if checktype(surflist, 'CFRESNEL'):
             return FailedImport.fresnet_unsupported
+
+        # Check that all the glass types are supported
+        for s in surflist:
+            if "GLAS" in s:
+                name = s["GLAS"][0]
+                try:
+                    material.get_from(name, gcat)
+                except KeyError:
+                    print('Unknown material', name)
+                    return FailedImport.unknown_material_type
 
         # Cylindrical lenses. It seems these are modeled as 'toroidal'
         # Currently working for plano-convex and plano-concave, rectangular

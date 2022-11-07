@@ -116,7 +116,7 @@ class MaterialLibrary:
         else:
             warning = f"Material {name} not found in any of {libs.split()}."
 
-        raise Exception(warning)
+        raise KeyError(warning)
 
     def __getattr__(self, name: str):
         # Guard for if instantiated as a sub-module

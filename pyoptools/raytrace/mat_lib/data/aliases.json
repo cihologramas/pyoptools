@@ -14,10 +14,35 @@
         "library" : "hoya",
         "material" : "E-FD10"
     },
-    "BASF1" :{
+    "SK5" : {
+        "type" : "glass",
+        "library" : "schott",
+        "material" : "N-SK5"
+    },
+    "F4" : {
+        "type" : "glass",
+        "library" : "cdgm",
+        "material" : "F4"
+    },
+    "BASF1" : {
         "type" : "glass",
         "library" : "schott",
         "material" : "N-BASF2"
+    },
+    "BAFN10" : {
+        "type" : "glass",
+        "library" : "hoya",
+        "material" : "BAF10"
+    },
+    "BAFN11" : {
+        "type" : "glass",
+        "library" : "hoya",
+        "material" : "BAF11"
+    },
+    "LAKN22" : {
+        "type" : "glass",
+        "library" : "schott",
+        "material" : "N-LAK22"
     },
     "SILICON" : {
         "type" : "inorganic",
@@ -50,6 +75,10 @@
     "MGF2" : {
         "type" : "inorganic",
         "material" : "MgF2:Rodriguez-de Marcos"
+    },
+    "GAAS" : {
+        "type" : "inorganic",
+        "material" : "GaAs:Skauli"
     }
 }
 

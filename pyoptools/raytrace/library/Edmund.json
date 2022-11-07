@@ -953,21 +953,6 @@
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED ",
         "type": "Doublet"
     },
-    "32498": {
-        "description": "LENS ACH 30 X 75 MGF2 TS",
-        "curvature_s1": 0.024685262898049867,
-        "curvature_s2": -0.025853154084798345,
-        "curvature_s3": -0.025853154084798345,
-        "curvature_s4": -0.0010845516463493991,
-        "thickness_l1": 8.4,
-        "air_gap": 0.01,
-        "thickness_l2": 3,
-        "radius": 14.5,
-        "material_l1": "N-SSK8",
-        "material_l2": "N-SF10",
-        "glass_catalogs": "SCHOTT NOA61 ",
-        "type": "AirSpacedDoublet"
-    },
     "32500": {
         "description": "32500 Achromatic Lens",
         "curvature_s1": 0.0162972620599739,
@@ -1915,21 +1900,6 @@
         "material_l2": "N-SF5",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED ",
         "type": "Doublet"
-    },
-    "32927INK": {
-        "description": "LENS ACH 40 X 400 MGF2 INKED TS",
-        "curvature_s1": 0.00388862964691243,
-        "curvature_s2": -0.00591610956634917,
-        "curvature_s3": -0.00591610956634917,
-        "curvature_s4": -0.00211380738987064,
-        "thickness_l1": 8.5,
-        "air_gap": 0.01,
-        "thickness_l2": 4,
-        "radius": 19.5,
-        "material_l1": "N-BK7",
-        "material_l2": "N-SF5",
-        "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED NOA61 ",
-        "type": "AirSpacedDoublet"
     },
     "32933": {
         "description": "12.0mm Dia. x 36.0mm FL, Uncoated, PCX N-K5 Lens",
@@ -15821,21 +15791,6 @@
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED ",
         "type": "Doublet"
     },
-    "45216INK": {
-        "description": "LENS ACH 25 X 400 MGF2 INKED TS",
-        "curvature_s1": 0.0040874718986307,
-        "curvature_s2": -0.00556730876294399,
-        "curvature_s3": -0.00556730876294399,
-        "curvature_s4": -0.0018723085564501,
-        "thickness_l1": 3,
-        "air_gap": 0.01,
-        "thickness_l2": 2.5,
-        "radius": 12,
-        "material_l1": "N-BK7",
-        "material_l2": "N-SF5",
-        "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED NOA61 ",
-        "type": "AirSpacedDoublet"
-    },
     "45217": {
         "description": "45217 Achromatic Lens",
         "curvature_s1": 0.0122654237703913,
@@ -21646,16 +21601,6 @@
         "curvature_s1": 2.53164556962025,
         "type": "SphericalLens"
     },
-    "46227": {
-        "description": "46227 BALL",
-        "material": "AL2O3",
-        "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
-        "thickness": 1.58,
-        "radius": 0.79,
-        "curvature_s2": -1.5625,
-        "curvature_s1": 1.5625,
-        "type": "SphericalLens"
-    },
     "46228": {
         "description": "46228 BALL",
         "material": "AL2O3",
@@ -23623,206 +23568,6 @@
         "curvature_s1": 0.00386996904024768,
         "type": "SphericalLens"
     },
-    "47438": {
-        "description": "GPX-10-10 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 3,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.1329608302712454,
-        "type": "SphericalLens"
-    },
-    "47439": {
-        "description": "GPX-10-22 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2.5,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0585639155740251,
-        "type": "SphericalLens"
-    },
-    "47440": {
-        "description": "GPX-10-25 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2.5,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0511146103037445,
-        "type": "SphericalLens"
-    },
-    "47441": {
-        "description": "GPX-10-30 Plano-convex singlet",
-        "material": "G23SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2.5,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0461643560021557,
-        "type": "SphericalLens"
-    },
-    "47442": {
-        "description": "GPX-15-15 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 4.2,
-        "radius": 7.5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.084583591595233,
-        "type": "SphericalLens"
-    },
-    "47443": {
-        "description": "GPX-25-60 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 6,
-        "radius": 12.5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0224356223837961,
-        "type": "SphericalLens"
-    },
-    "47444": {
-        "description": "GPX-25-80 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 4,
-        "radius": 12.5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0165180725635954,
-        "type": "SphericalLens"
-    },
-    "47445": {
-        "description": "GPX-30-60 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 6,
-        "radius": 15,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0223584992626502,
-        "type": "SphericalLens"
-    },
-    "47446": {
-        "description": "GPX-30-80 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 4,
-        "radius": 15,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0164808399769934,
-        "type": "SphericalLens"
-    },
-    "47447": {
-        "description": "GPX-30-100 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 6,
-        "radius": 15,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0129755978312067,
-        "type": "SphericalLens"
-    },
-    "47448": {
-        "description": "GPX-10-10 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 3,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.1329608302712454,
-        "type": "SphericalLens"
-    },
-    "47449": {
-        "description": "GPX-10-22 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2.5,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0585639155740251,
-        "type": "SphericalLens"
-    },
-    "47450": {
-        "description": "GPX-10-25 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2.5,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0511146103037445,
-        "type": "SphericalLens"
-    },
-    "47451": {
-        "description": "GPX-10-30 Plano-convex singlet",
-        "material": "G23SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2.5,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0461643560021557,
-        "type": "SphericalLens"
-    },
-    "47452": {
-        "description": "GPX-15-15 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 4.2,
-        "radius": 7.5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.084583591595233,
-        "type": "SphericalLens"
-    },
-    "47453": {
-        "description": "GPX-25-60 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 6,
-        "radius": 12.5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0224356223837961,
-        "type": "SphericalLens"
-    },
-    "47454": {
-        "description": "GPX-25-80 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 4,
-        "radius": 12.5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0165180725635954,
-        "type": "SphericalLens"
-    },
-    "47455": {
-        "description": "GPX-30-60 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 6,
-        "radius": 15,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0223584992626502,
-        "type": "SphericalLens"
-    },
-    "47456": {
-        "description": "GPX-30-80 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 4,
-        "radius": 15,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0164808399769934,
-        "type": "SphericalLens"
-    },
-    "47457": {
-        "description": "GPX-30-100 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 6,
-        "radius": 15,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0129755978312067,
-        "type": "SphericalLens"
-    },
     "47460": {
         "description": "6.0mm Dia. x 6.0mm FL, VIS 0 Coated, Plano-Convex Lens",
         "material": "N-SF11",
@@ -24441,46 +24186,6 @@
         "radius": 4.05,
         "curvature_s2": -0.0217013888888889,
         "curvature_s1": 0.0217013888888889,
-        "type": "SphericalLens"
-    },
-    "47597": {
-        "description": "GPX-5-12.5 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2,
-        "radius": 2.5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.1117772788536838,
-        "type": "SphericalLens"
-    },
-    "47598": {
-        "description": "GPX-5-12.5 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2,
-        "radius": 2.5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.1117772788536838,
-        "type": "SphericalLens"
-    },
-    "47599": {
-        "description": "GPX-10-18 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2.5,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0726888877080983,
-        "type": "SphericalLens"
-    },
-    "47600": {
-        "description": "GPX-10-18 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2.5,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0726888877080983,
         "type": "SphericalLens"
     },
     "47633": {
@@ -30059,126 +29764,6 @@
         "radius": 3.175,
         "curvature_s2": 0.0,
         "curvature_s1": 0.3149606299212598,
-        "type": "SphericalLens"
-    },
-    "48434": {
-        "description": "GPX-5-12.5 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2,
-        "radius": 2.5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.1117772788536838,
-        "type": "SphericalLens"
-    },
-    "48435": {
-        "description": "GPX-10-10 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 3,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.1329608302712454,
-        "type": "SphericalLens"
-    },
-    "48436": {
-        "description": "GPX-10-18 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2.5,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0726888877080983,
-        "type": "SphericalLens"
-    },
-    "48437": {
-        "description": "GPX-10-22 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2.5,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0585639155740251,
-        "type": "SphericalLens"
-    },
-    "48438": {
-        "description": "GPX-10-25 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2.5,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0511146103037445,
-        "type": "SphericalLens"
-    },
-    "48439": {
-        "description": "GPX-10-30 Plano-convex singlet",
-        "material": "G23SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 2.5,
-        "radius": 5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0461643560021557,
-        "type": "SphericalLens"
-    },
-    "48440": {
-        "description": "GPX-15-15 Plano-convex singlet",
-        "material": "G14SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 4.2,
-        "radius": 7.5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.084583591595233,
-        "type": "SphericalLens"
-    },
-    "48441": {
-        "description": "GPX-25-60 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 6,
-        "radius": 12.5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0224356223837961,
-        "type": "SphericalLens"
-    },
-    "48442": {
-        "description": "GPX-25-80 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 4,
-        "radius": 12.5,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0165180725635954,
-        "type": "SphericalLens"
-    },
-    "48443": {
-        "description": "GPX-30-60 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 6,
-        "radius": 15,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0223584992626502,
-        "type": "SphericalLens"
-    },
-    "48444": {
-        "description": "GPX-30-100 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 6,
-        "radius": 15,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0129755978312067,
-        "type": "SphericalLens"
-    },
-    "48470": {
-        "description": "GPX-30-80 Plano-convex singlet",
-        "material": "G32SFN",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "thickness": 4,
-        "radius": 15,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0164808399769934,
         "type": "SphericalLens"
     },
     "48643": {
@@ -49293,66 +48878,6 @@
         "radius": 12.5,
         "material_l1": "SILICON",
         "material_l2": "GERMANIUM",
-        "glass_catalogs": "SCHOTT INFRARED ",
-        "type": "AirSpacedDoublet"
-    },
-    "65061": {
-        "description": "",
-        "curvature_s1": 0.029647198339756896,
-        "curvature_s2": 0.0165892501658925,
-        "curvature_s3": 0.0074310767630229625,
-        "curvature_s4": 0.01652892561983471,
-        "thickness_l1": 4,
-        "air_gap": 3.001,
-        "thickness_l2": 3,
-        "radius": 12.5,
-        "material_l1": "GAAS",
-        "material_l2": "ZNS_IR",
-        "glass_catalogs": "SCHOTT INFRARED ",
-        "type": "AirSpacedDoublet"
-    },
-    "65063": {
-        "description": "",
-        "curvature_s1": 0.027624309392265192,
-        "curvature_s2": 0.017445917655268667,
-        "curvature_s3": 0.0067613252197430695,
-        "curvature_s4": 0.013642564802182811,
-        "thickness_l1": 4,
-        "air_gap": 3,
-        "thickness_l2": 3,
-        "radius": 12.5,
-        "material_l1": "GAAS",
-        "material_l2": "ZNS_IR",
-        "glass_catalogs": "SCHOTT INFRARED ",
-        "type": "AirSpacedDoublet"
-    },
-    "65064": {
-        "description": "",
-        "curvature_s1": 0.02564102564102564,
-        "curvature_s2": 0.01730103806228374,
-        "curvature_s3": 0.00463821892393321,
-        "curvature_s4": 0.01002004008016032,
-        "thickness_l1": 4,
-        "air_gap": 3.001,
-        "thickness_l2": 3,
-        "radius": 12.5,
-        "material_l1": "GAAS",
-        "material_l2": "ZNS_IR",
-        "glass_catalogs": "SCHOTT INFRARED ",
-        "type": "AirSpacedDoublet"
-    },
-    "65065": {
-        "description": "",
-        "curvature_s1": 0.01841620626151013,
-        "curvature_s2": 0.011415525114155252,
-        "curvature_s3": 0.0041893590280687055,
-        "curvature_s4": 0.008123476848090984,
-        "thickness_l1": 4,
-        "air_gap": 3,
-        "thickness_l2": 3,
-        "radius": 12.5,
-        "material_l1": "GAAS",
-        "material_l2": "ZNS_IR",
         "glass_catalogs": "SCHOTT INFRARED ",
         "type": "AirSpacedDoublet"
     },

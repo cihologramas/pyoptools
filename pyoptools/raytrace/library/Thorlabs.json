@@ -1496,21 +1496,6 @@
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "type": "AirSpacedDoublet"
     },
-    "AC254-050-F": {
-        "description": "ZnSe ZnS MWIR Doublet",
-        "curvature_s1": 0.02436498084378203,
-        "curvature_s2": 0.0,
-        "curvature_s3": -0.0051070073645153365,
-        "curvature_s4": 0.009643473045287152,
-        "thickness_l1": 5,
-        "air_gap": 2.2619492407220525,
-        "thickness_l2": 5,
-        "radius": 11.125,
-        "material_l1": "ZNSE",
-        "material_l2": "ZNS_IR",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "type": "AirSpacedDoublet"
-    },
     "AC254-060-A": {
         "description": "AC254-060-A AC254-060-A POSITIVE VISIBLE ACHROMATS: Infinite 60",
         "curvature_s1": 0.0239865675221876,
@@ -1682,21 +1667,6 @@
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "type": "AirSpacedDoublet"
     },
-    "AC254-075-F": {
-        "description": "ZnSe ZnS MWIR Doublet",
-        "curvature_s1": 0.01584487436691631,
-        "curvature_s2": 0.0,
-        "curvature_s3": -0.002703594879454389,
-        "curvature_s4": 0.00554236934384137,
-        "thickness_l1": 2,
-        "air_gap": 2.138606329753707,
-        "thickness_l2": 4.823286466322,
-        "radius": 11.125,
-        "material_l1": "ZNSE",
-        "material_l2": "ZNS_IR",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "type": "AirSpacedDoublet"
-    },
     "AC254-080-A": {
         "description": "\u00d825.4 mm, f=80.0 mm, Near IR Achromat, ARC: 350-700 nm",
         "curvature_s1": 0.02016740935609168,
@@ -1839,21 +1809,6 @@
         "radius": 11.125,
         "material_l1": "SILICON",
         "material_l2": "GERMANIUM",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "type": "AirSpacedDoublet"
-    },
-    "AC254-100-F": {
-        "description": "ZnSe ZnS MWIR Doublet",
-        "curvature_s1": 0.011839143457604041,
-        "curvature_s2": 0.0,
-        "curvature_s3": -0.0019330914660491152,
-        "curvature_s4": 0.00401405877651187,
-        "thickness_l1": 2,
-        "air_gap": 2.099095531318053,
-        "thickness_l2": 4.227784045451,
-        "radius": 11.125,
-        "material_l1": "ZNSE",
-        "material_l2": "ZNS_IR",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "type": "AirSpacedDoublet"
     },
@@ -2090,21 +2045,6 @@
         "radius": 11.125,
         "material_l1": "SILICON",
         "material_l2": "GERMANIUM",
-        "glass_catalogs": "SCHOTT INFRARED MISC ",
-        "type": "AirSpacedDoublet"
-    },
-    "AC254-200-F": {
-        "description": "ZnSe ZnS MWIR Doublet",
-        "curvature_s1": 0.0026180427253256946,
-        "curvature_s2": -0.0033013611820893797,
-        "curvature_s3": -0.005490226272060878,
-        "curvature_s4": -0.0026764947434797363,
-        "thickness_l1": 2,
-        "air_gap": 2.112366878932979,
-        "thickness_l2": 2,
-        "radius": 11.125,
-        "material_l1": "ZNSE",
-        "material_l2": "ZNS_IR",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "type": "AirSpacedDoublet"
     },
@@ -3646,21 +3586,6 @@
         "glass_catalogs": "SCHOTT CDGM ",
         "type": "AirSpacedDoublet"
     },
-    "ACA254-075-D": {
-        "description": "Air Spaced Achromatic Doublet, 75 mm EFL, 1.65-3.0 \u00b5m",
-        "curvature_s1": 0.027495188342040146,
-        "curvature_s2": -0.01905233676910473,
-        "curvature_s3": -0.024891101431238336,
-        "curvature_s4": -0.010904174117852314,
-        "thickness_l1": 5.15,
-        "air_gap": 0.811,
-        "thickness_l2": 8.95,
-        "radius": 11.125,
-        "material_l1": "CAF2",
-        "material_l2": "INFRASIL",
-        "glass_catalogs": "SCHOTT INFRARED MISC HERAEUS ",
-        "type": "AirSpacedDoublet"
-    },
     "ACA254-100-532": {
         "description": "High Power Airspaced Doublet, 532nm, f=100mm, CA=18mm",
         "curvature_s1": 0.020019338681166007,
@@ -3719,21 +3644,6 @@
         "material_l1": "N-K5",
         "material_l2": "N-SF56",
         "glass_catalogs": "SCHOTT CDGM ",
-        "type": "AirSpacedDoublet"
-    },
-    "ACA254-100-D": {
-        "description": "Air Spaced Achromatic Doublet, 100 mm EFL, 1.65-3.0 \u00b5m",
-        "curvature_s1": 0.017991112390479104,
-        "curvature_s2": -0.017991112390479104,
-        "curvature_s3": -0.021577300679684972,
-        "curvature_s4": -0.009879860891558647,
-        "thickness_l1": 5.04,
-        "air_gap": 0.69,
-        "thickness_l2": 6,
-        "radius": 11.125,
-        "material_l1": "CAF2",
-        "material_l2": "INFRASIL",
-        "glass_catalogs": "SCHOTT INFRARED MISC HERAEUS ",
         "type": "AirSpacedDoublet"
     },
     "ACA254-100-UV": {
@@ -3811,21 +3721,6 @@
         "glass_catalogs": "SCHOTT CDGM ",
         "type": "AirSpacedDoublet"
     },
-    "ACA254-150-D": {
-        "description": "Air Spaced Achromatic Doublet, 150 mm EFL, 1.65-3.0 \u00b5m",
-        "curvature_s1": 0.012073357721515932,
-        "curvature_s2": -0.012073357721515932,
-        "curvature_s3": -0.014965355202705737,
-        "curvature_s4": -0.006769380737050175,
-        "thickness_l1": 4,
-        "air_gap": 2.15,
-        "thickness_l2": 4,
-        "radius": 11.125,
-        "material_l1": "CAF2",
-        "material_l2": "INFRASIL",
-        "glass_catalogs": "SCHOTT INFRARED MISC HERAEUS ",
-        "type": "AirSpacedDoublet"
-    },
     "ACA254-150-UV": {
         "description": "Air-Spaced Achromatic Doublet, AR Coating: 240-410 nm, f=150 mm",
         "curvature_s1": 0.017682038976658394,
@@ -3901,21 +3796,6 @@
         "glass_catalogs": "SCHOTT CDGM ",
         "type": "AirSpacedDoublet"
     },
-    "ACA254-200-D": {
-        "description": "Air Spaced Achromatic Doublet, 200 mm EFL, 1.65-3.0 \u00b5m",
-        "curvature_s1": 0.009010064241758044,
-        "curvature_s2": -0.009010064241758044,
-        "curvature_s3": -0.009193119869089973,
-        "curvature_s4": -0.0031467519226654247,
-        "thickness_l1": 4,
-        "air_gap": 2.009,
-        "thickness_l2": 4.34,
-        "radius": 11.125,
-        "material_l1": "CAF2",
-        "material_l2": "INFRASIL",
-        "glass_catalogs": "SCHOTT INFRARED MISC HERAEUS ",
-        "type": "AirSpacedDoublet"
-    },
     "ACA254-200-UV": {
         "description": "Air-Spaced Achromatic Doublet, AR Coating: 240-410 nm, f=200 mm",
         "curvature_s1": 0.0072485730700702,
@@ -3929,21 +3809,6 @@
         "material_l1": "CAF2",
         "material_l2": "F_SILICA",
         "glass_catalogs": "SCHOTT INFRARED ",
-        "type": "AirSpacedDoublet"
-    },
-    "ACA254-300-D": {
-        "description": "Air Spaced Achromatic Doublet, 300 mm EFL, 1.65-3.0 \u00b5m",
-        "curvature_s1": 0.0059906067286494774,
-        "curvature_s2": -0.0059906067286494774,
-        "curvature_s3": -0.0040064423593137765,
-        "curvature_s4": 0.0,
-        "thickness_l1": 4,
-        "air_gap": 1.898,
-        "thickness_l2": 4,
-        "radius": 11.125,
-        "material_l1": "CAF2",
-        "material_l2": "INFRASIL",
-        "glass_catalogs": "SCHOTT INFRARED MISC HERAEUS ",
         "type": "AirSpacedDoublet"
     },
     "ACN127-020-A": {
@@ -4390,106 +4255,6 @@
         "glass_catalogs": "SCHOTT INFRARED ",
         "thickness": 9.622421975180739,
         "radius": 12.7,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0,
-        "type": "SphericalLens"
-    },
-    "GRIN2306A": {
-        "description": "GRIN Lens, \u00d81.8 mm, 0.23 Pitch, 8\u00b0, 630 nm Design Wavelength, Uncoated",
-        "material": "SLW-1.8",
-        "glass_catalogs": "SCHOTT MISC ",
-        "thickness": 4.26,
-        "radius": 0.9,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0,
-        "type": "SphericalLens"
-    },
-    "GRIN2308A": {
-        "description": "GRIN Lens, \u00d81.8 mm, 0.23 Pitch, 8\u00b0, 830 nm Design Wavelength, Uncoated ",
-        "material": "SLW-1.8",
-        "glass_catalogs": "SCHOTT MISC ",
-        "thickness": 4.35,
-        "radius": 0.9,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0,
-        "type": "SphericalLens"
-    },
-    "GRIN2310A": {
-        "description": "GRIN Lens, \u00d81.8 mm, 0.23 Pitch, 8\u00ad\u00b0, 1060 nm Design Wavelength, Uncoated",
-        "material": "SLW-1.8",
-        "glass_catalogs": "SCHOTT MISC ",
-        "thickness": 4.4,
-        "radius": 0.9,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0,
-        "type": "SphericalLens"
-    },
-    "GRIN2313A": {
-        "description": "GRIN Lens, \u00d81.8 mm, 0.23 Pitch, 8\u00b0, AR Coated: 1300 nm ",
-        "material": "SLW-1.8",
-        "glass_catalogs": "SCHOTT MISC ",
-        "thickness": 4.42,
-        "radius": 0.9,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0,
-        "type": "SphericalLens"
-    },
-    "GRIN2315A": {
-        "description": "GRIN Lens, \u00d81.8 mm, 0.23 Pitch, 8\u00b0, AR Coated: 1560 nm",
-        "material": "SLW-1.8",
-        "glass_catalogs": "SCHOTT MISC ",
-        "thickness": 4.43,
-        "radius": 0.9,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0,
-        "type": "SphericalLens"
-    },
-    "GRIN2906": {
-        "description": "GRIN Lens, \u00d81.8 mm, 0.29 Pitch, 0\u00b0, 630 nm Design Wavelength, Uncoated",
-        "material": "SLW-1.8",
-        "glass_catalogs": "SCHOTT MISC ",
-        "thickness": 5.38,
-        "radius": 0.9,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0,
-        "type": "SphericalLens"
-    },
-    "GRIN2908": {
-        "description": "GRIN Lens, \u00d81.8 mm , 0.29 Pitch, 0\u00b0, 830 nm Design Wavelength, Uncoated",
-        "material": "SLW-1.8",
-        "glass_catalogs": "SCHOTT MISC ",
-        "thickness": 5.49,
-        "radius": 0.9,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0,
-        "type": "SphericalLens"
-    },
-    "GRIN2910": {
-        "description": "GRIN Lens, \u00d81.8 mm, 0.29 Pitch, 0\u00b0, 1060 nm Design Wavelength, Uncoated",
-        "material": "SLW-1.8",
-        "glass_catalogs": "SCHOTT MISC ",
-        "thickness": 5.54,
-        "radius": 0.9,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0,
-        "type": "SphericalLens"
-    },
-    "GRIN2913": {
-        "description": "GRIN Lens, \u00d81.8 mm, 0.29 Pitch, 0\u00b0, AR Coated: 1300 nm ",
-        "material": "SLW-1.8",
-        "glass_catalogs": "SCHOTT MISC ",
-        "thickness": 5.57,
-        "radius": 0.9,
-        "curvature_s2": 0.0,
-        "curvature_s1": 0.0,
-        "type": "SphericalLens"
-    },
-    "GRIN2915": {
-        "description": "GRIN Lens, \u00d81.8 mm, 0.29 Pitch, 0\u00b0, AR Coated: 1560 nm",
-        "material": "SLW-1.8",
-        "glass_catalogs": "SCHOTT MISC ",
-        "thickness": 5.59,
-        "radius": 0.9,
         "curvature_s2": 0.0,
         "curvature_s1": 0.0,
         "type": "SphericalLens"
