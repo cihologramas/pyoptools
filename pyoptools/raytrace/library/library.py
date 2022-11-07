@@ -24,18 +24,30 @@ class LibraryModule:
                 return oc[name]
             except KeyError:
                 continue
-        raise KeyError(f"{item} not in optic any available optic catalog.")
+        raise KeyError(f"{name} not found in any available optics catalog.")
 
     def items(self):
+        """Generates a dictionary iterator which allows iteration through
+        all optical components descriptors in all libraries.
+        Note : to instantiate an optical component given a descriptor,
+        use optic_factory(**descrioptor).
+        """
         for jfp in self._json_files():
             oc = OpticCatalog(jfp)
             for k, v in oc.items():
                 yield (k, v)
 
     def get(self, part_number: str):
+        """Depricated method. Simply use dictionay style access to get
+        an optic given the part number.
+        """
         return optic_factory(**self[part_number])
 
     def add(self, userlib: str):
+        """Add a user-defined .json file containing optical component
+        descriptors to the library.
+        userlib : string path to the .json file.
+        """
         p = Path(userlib)
 
         if (p.suffix != '.json' or not p.exists()):
@@ -47,6 +59,7 @@ class LibraryModule:
         self._user_libraries.append(p)
 
     def remove(self, libname: str):
+        """Remove a user-defined optical component library."""
         for lib in self._user_libraries:
             if lib.name == libname:
                 self._user_libraries.remove(lib)
@@ -66,20 +79,33 @@ class OpticCatalog:
         self.jf.seek(0)
         return gen
 
-    def __getitem__(self, item):
-        results = list(ijson.items(self.jf, item, use_float=True))
+    def descriptor(self, part):
+        """Returns a dictionay-descriptor for a given optical component
+        """
+        results = list(ijson.items(self.jf, part, use_float=True))
         if results:
             self.jf.seek(0)
             return results[0]
 
         self.jf.seek(0)
-        raise KeyError(f"{item} not in optic catalog {self.catalog_path.name}")
+        raise KeyError(f"{part} not in optic catalog {self.catalog_path.name}")
+
+    def __getitem__(self, part):
+        return optic_factory(**self.descriptor(part))
 
     def get(self, part_number):
-        return optic_factory(**self[part_number])
+        """Depricated method. Simply use dictionay style access to get
+        an optic given the part number.
+        """
+        return optic_factory(**self.descriptor(part_number))
 
     def parts(self):
-        pass
+        """Deprecated method. Iterate using library.items() to get all
+           the available optical components."""
+
+        raise NotImplementedError("Method deprecated, it is now possible "
+                                  "to simply iterate through all optics "
+                                  "descriptors library.items().")
 
     def __del__(self):
         #print('closing ', self.jf)

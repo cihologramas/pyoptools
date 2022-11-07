@@ -86,10 +86,12 @@ class SphericalLens(Component):
         self.curvature_s1 = curvature_s1
         self.curvature_s2 = curvature_s2
 
-        if self.radius * self.curvature_s1 > 1:
+        rad_curv_product_limit = 1+1e-15  #to support ball lens where float
+                                          #precision is a limitation
+        if self.radius * self.curvature_s1 > rad_curv_product_limit:
             raise ValueError("Aperture radius can not be larger than s1 curvature radius")
 
-        if self.radius * self.curvature_s2 > 1:
+        if self.radius * self.curvature_s2 > rad_curv_product_limit:
             raise ValueError("Aperture radius can not be larger than s2 curvature radius")
 
         if self.curvature_s1 != 0.0:

@@ -29,7 +29,6 @@ def optic_factory(**kwargs):
         if 'material' in k:
             if 'glass_catalogs' in kwargs:
                 m = material.get_from(v, kwargs['glass_catalogs'])
-                print('got ', m)
             else:
                 m = material[v]
 

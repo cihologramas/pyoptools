@@ -45,7 +45,7 @@ class MaterialLibrary:
             elif a['type'] == 'inorganic':
                 return self.inorganic[a['material']]
             elif a['type'] == 'glass':
-                ap = self.glass_path/a['library']/f"{a['material']}.yml"
+                ap = self.dp/'glass'/a['library']/f"{a['material']}.yml"
                 return self._material_factory(name, ap)
         else:
             raise KeyError
@@ -87,7 +87,7 @@ class MaterialLibrary:
             aliases after checking in specified libraries.
             Note that aliases can include compounds in addition to glasses.
 
-        Raise KeyError if no material found in the given libraries.
+        Raise Exception if no material found in the given libraries.
         """
 
         if self.prefix is not None:
@@ -110,13 +110,13 @@ class MaterialLibrary:
         if check_aliases:
             warning = warning[:-1]+" or aliases."
             try:
-                self._get_in_aliases(name)
+                return self._get_in_aliases(name)
             except KeyError:
                 pass
         else:
             warning = f"Material {name} not found in any of {libs.split()}."
 
-        raise KeyError(warning)
+        raise Exception(warning)
 
     def __getattr__(self, name: str):
         # Guard for if instantiated as a sub-module

@@ -14,6 +14,11 @@
         "library" : "hoya",
         "material" : "E-FD10"
     },
+    "BASF1" :{
+        "type" : "glass",
+        "library" : "schott",
+        "material" : "N-BASF2"
+    },
     "SILICON" : {
         "type" : "inorganic",
         "material" : "Si:Aspnes"
@@ -29,6 +34,22 @@
     "F_SILICA" : {
         "type" : "inorganic",
         "material" : "SiO2:Malitson"
+    },
+    "SAPPHIRE" : {
+        "type" : "inorganic",
+        "material" : "Al2O3:Boidin"
+    },
+    "AL2O3" : {
+        "type" : "inorganic",
+        "material" : "Al2O3:Boidin"
+    },
+    "CAF2" : {
+        "type" : "inorganic",
+        "material" : "CaF2:Daimon-25"
+    },
+    "MGF2" : {
+        "type" : "inorganic",
+        "material" : "MgF2:Rodriguez-de Marcos"
     }
 }
 
