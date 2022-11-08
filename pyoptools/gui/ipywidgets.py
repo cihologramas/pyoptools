@@ -93,8 +93,14 @@ def surf2mesh(S, P=(0, 0, 0), D=(0, 0, 0), wire=False):
         material=surfaceMaterial,
     )
 
-    surfaceMesh.rotation = *D, "ZYX"
+    #surfaceMesh.rotation = *D, "ZYX"
+    #surfaceMesh.position = tuple(P)
+
     surfaceMesh.position = tuple(P)
+    surfaceMesh.rotateZ(D[2])
+    surfaceMesh.rotateY(D[1])
+    surfaceMesh.rotateX(D[0])
+
     return surfaceMesh
 
 
@@ -111,8 +117,16 @@ def comp2mesh(C, P, D):
             sC, sP, sD = comp
             c.add(comp2mesh(sC, sP, sD))
     # glPopMatrix()
-    c.rotation = *D, "ZYX"
+
+    #c.rotation = *D, "ZYX"
+    #c.position = tuple(P)
+
     c.position = tuple(P)
+    c.rotateZ(D[2])
+    c.rotateY(D[1])
+    c.rotateX(D[0])
+
+
     return c
 
 
@@ -203,8 +217,8 @@ def sys2mesh(os):
 
 
 def Plot3D(
-    S, size=(800, 200), center=(0, 0, 0), rot=[(pi / 3.0, pi / 6.0, 0)], scale=1
-):
+    S, size=(800, 200), center=(0, 0, 0), rot=[(pi / 3.0, pi / 6.0, 0)],
+    scale=1):
     """Function to create 3D interactive visualization widgets in a jupyter
     notebook
 
@@ -234,7 +248,7 @@ def Plot3D(
     )
 
     # Set up a scene and render it:
-    # cam = py3js.PerspectiveCamera(position=[0, 0, 500], fov=70, children=[light], aspect=width / height)
+    #cam = py3js.PerspectiveCamera(position=[0, 0, 500], fov=70, children=[light], aspect=width / height)
 
     pos = array((0, 0, 500))
 
@@ -242,6 +256,16 @@ def Plot3D(
         pos = dot(rot_z(r[2]), pos)
         pos = dot(rot_y(r[1]), pos)
         pos = dot(rot_x(r[0]), pos)
+
+    #cam = py3js.OrthographicCamera(
+    #    -width / 2 * scale,
+    #    width / 2 * scale,
+    #    height / 2 * scale,
+    #    -height / 2 * scale,
+    #    children=[light],
+    #    position=list(pos),
+    #    zoom=scale,
+    #)
 
     cam = py3js.OrthographicCamera(
         -width / 2 * scale,
