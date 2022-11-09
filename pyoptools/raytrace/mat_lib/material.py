@@ -134,7 +134,6 @@ class MaterialLibrary:
 class CompoundLibrary:
     def __init__(self, lib_path):
         self.lib_path = lib_path
-        self.compound_dirs = [i.name for i in lib_path.iterdir() if i.is_dir()]
 
         # Populate dict of all available compound dirs
         # Organic compounds have long names with space so just use the
