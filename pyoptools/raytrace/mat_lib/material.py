@@ -132,8 +132,18 @@ class MaterialLibrary:
             raise AttributeError(f"Material {name} not found.")
 
 class CompoundLibrary:
-    def __init__(self, compound_path):
-        self.compound_path = compound_path
+    def __init__(self, lib_path):
+        self.lib_path = lib_path
+        self.compound_dirs = [i.name for i in lib_path.iterdir() if i.is_dir()]
+
+        # Populate dict of all available compound dirs
+        # Organic compounds have long names with space so just use the
+        # first part as the identifier
+        self.compound_dirs = {}
+        for i in lib_path.iterdir():
+            if i.is_dir():
+                self.compound_dirs[i.name.split(' ')[0]] = i
+
         self._cache = {}
 
     def _material_factory(self, name, mat_path):
@@ -147,21 +157,31 @@ class CompoundLibrary:
         if identifier in self._cache:
             return self._cache[identifier]
 
-        # if inspecified, get the first reference data
         tokens = identifier.split(':')
         tokens = [t for t in tokens if t != '']
+        compound = tokens[0]
+        try:
+            reference = tokens[1]
+        except IndexError:
+            reference = None
 
-        if len(tokens) == 1:
-            # default to the first item
-            cp = list((self.compound_path/tokens[0]).glob('*.yml'))[0]
-        else:
-            compound, reference = tokens
-            cp = self.compound_path/compound/f"{reference}.yml"
+        # Get the compound dir
+        try:
+            cd = self.compound_dirs[compound]
+        except KeyError:
+            raise KeyError(f"Compound {identifier} not found.")
 
-        if cp.exists():
-            return self._material_factory(identifier, cp)
+        if reference is None:
+            # if reference unspecified, default to the first item
+            compound_file = list(cd.glob('*.yml'))[0]
         else:
-            raise AttributeError(f"Compound {identifier} not found.")
+            compound_file = cd/f"{reference}.yml"
+
+        if compound_file.exists():
+            print('cf ', compound_file)
+            return self._material_factory(identifier, compound_file)
+        else:
+            raise KeyError(f"Compound reference not found for {identifier}.")
 
 sys.modules[__name__] = MaterialLibrary()
 

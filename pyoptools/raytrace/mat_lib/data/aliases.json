@@ -79,6 +79,18 @@
     "GAAS" : {
         "type" : "inorganic",
         "material" : "GaAs:Skauli"
+    },
+    "POLYCARBONATE" : {
+        "type" : "organic",
+        "material" : "(C16H14O3)n:Zhang"
+    },
+    "PMMA" : {
+       "type" : "organic",
+       "material" : "(C5H8O2)n:Zhang-Tomson"
+    },
+    "POLYSTYRENE" : {
+        "type" : "organic",
+        "material" : "(C8H8)n:Zhang"
     }
 }
 
