@@ -96,7 +96,6 @@ class MaterialLibrary:
 
         for libname in libs.split(' '):
             libname = libname.lower()
-            #print(f"checking {libname}")
             if (self.glass_path/libname).is_dir():
                 try:
                     return MaterialLibrary(prefix = libname)[name]
@@ -177,7 +176,6 @@ class CompoundLibrary:
             compound_file = cd/f"{reference}.yml"
 
         if compound_file.exists():
-            print('cf ', compound_file)
             return self._material_factory(identifier, compound_file)
         else:
             raise KeyError(f"Compound reference not found for {identifier}.")

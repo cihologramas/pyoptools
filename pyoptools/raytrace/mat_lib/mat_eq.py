@@ -203,7 +203,7 @@ def from_yml(file_path):
     for c in mat["DATA"]:
         if "formula" in c["type"]:
             fn = int(c["type"].split()[1]) - 1
-            coef = numpy.fromiter(c["coefficients"].split(), dtype=numpy.float)
+            coef = numpy.fromiter(c["coefficients"].split(), dtype=float)
             # Sometimes SPECS does not exists
             nd = mat.get("SPECS", {}).get("nd", None)
             vd = mat.get("SPECS", {}).get("Vd", None)

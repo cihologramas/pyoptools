@@ -1,26 +1,54 @@
 from pyoptools.raytrace.library import library
+from pyoptools.raytrace._comp_lib.optic_factory import optic_factory
 
-def main():
+import unittest
 
-    thor = library.Thorlabs
+class TestAllOptics(unittest.TestCase):
 
-    #for k, v in library.items():
-    #    if k == '08083' or k == 'LB1844-C':
-    #        print(k, v['description'])
+    #@unittest.skip
+    def test_all_optics(self):
+        i = -1
+        for part, descriptor in library.items():
+            i += 1
+            #print(part)
+            with self.subTest(part, i=i):
+                optic = optic_factory(**descriptor)
 
-    #d = library['08083']
+    def test_attribute_access(self):
 
-    lens = thor['LB1862']
-    print(type(lens))
-    print(lens)
-    print('\n')
+        lens = library.Thorlabs['LB1862']
+        lens = library.Edmund['08068']
 
-    lens2 = library['LB1862']
-    print(type(lens2))
-    print(lens2)
+    def test_descriptor(self):
 
-    lens3 = library['LA6005']
-    print(lens3)
+        self.assertEqual(library.Edmund.descriptor('08068')['radius'], 12.2)
+        with self.assertRaises(KeyError):
+            library.Edmund.descriptor('None')
+
+    #def test_user_lib(self):
+
+
 
 if __name__ == '__main__':
-    main()
+    unittest.main()
+
+# failes on:
+"""
+67395
+67384
+63228
+63227
+49566
+49563
+49561
+48431
+46230
+46229
+46228
+46223
+46122
+43832
+43822
+43645
+"""
+

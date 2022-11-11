@@ -69,15 +69,14 @@ class LibraryModule:
                 self._user_libraries.remove(lib)
 
     def _json_files(self):
-        #return list(Path(__file__).parent.glob('*.json')) + self._user_libraries
-        return list(self.dp.parent.glob('*.json')) + self._user_libraries
+        return list(self.dp.glob('*.json')) + self._user_libraries
 
 sys.modules[__name__] = LibraryModule()
 
 class OpticCatalog:
     def __init__(self, catalog_path):
         self.catalog_path = catalog_path
-        self.jf = catalog_path.open()
+        self.jf = catalog_path.open(mode='r+b')
 
     def items(self):
         gen = ijson.kvitems(self.jf, '', use_float=True)
