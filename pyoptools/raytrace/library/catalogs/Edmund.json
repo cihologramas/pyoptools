@@ -1163,7 +1163,7 @@
         "material": "BK7",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 2,
-        "radius": 1,
+        "radius": 1.0,
         "curvature_s2": -1.0,
         "curvature_s1": 1.0,
         "type": "SphericalLens"
@@ -1173,7 +1173,7 @@
         "material": "BK7",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 4,
-        "radius": 2,
+        "radius": 2.0,
         "curvature_s2": -0.5,
         "curvature_s1": 0.5,
         "type": "SphericalLens"
@@ -1183,7 +1183,7 @@
         "material": "BK7",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 6,
-        "radius": 3,
+        "radius": 3.0,
         "curvature_s2": -0.3333333333333333,
         "curvature_s1": 0.3333333333333333,
         "type": "SphericalLens"
@@ -1193,7 +1193,7 @@
         "material": "BK7",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 8,
-        "radius": 4,
+        "radius": 4.0,
         "curvature_s2": -0.25,
         "curvature_s1": 0.25,
         "type": "SphericalLens"
@@ -1203,7 +1203,7 @@
         "material": "BK7",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 10,
-        "radius": 5,
+        "radius": 5.0,
         "curvature_s2": -0.2,
         "curvature_s1": 0.2,
         "type": "SphericalLens"
@@ -14054,7 +14054,7 @@
         "material": "SAPPHIRE",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 2,
-        "radius": 1,
+        "radius": 1.0,
         "curvature_s2": -1.0,
         "curvature_s1": 1.0,
         "type": "SphericalLens"
@@ -14064,7 +14064,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 2,
-        "radius": 1,
+        "radius": 1.0,
         "curvature_s2": -1.0,
         "curvature_s1": 1.0,
         "type": "SphericalLens"
@@ -14084,7 +14084,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 3,
-        "radius": 1.5,
+        "radius": 1.4999999999999993,
         "curvature_s2": -0.666666666666667,
         "curvature_s1": 0.666666666666667,
         "type": "SphericalLens"
@@ -14194,7 +14194,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 2.78,
-        "radius": 1.39,
+        "radius": 1.3899999999999995,
         "curvature_s2": -0.719424460431655,
         "curvature_s1": 0.719424460431655,
         "type": "SphericalLens"
@@ -14204,7 +14204,7 @@
         "material": "SAPPHIRE",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 4,
-        "radius": 2,
+        "radius": 2.0,
         "curvature_s2": -0.5,
         "curvature_s1": 0.5,
         "type": "SphericalLens"
@@ -14214,7 +14214,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 4,
-        "radius": 2,
+        "radius": 2.0,
         "curvature_s2": -0.5,
         "curvature_s1": 0.5,
         "type": "SphericalLens"
@@ -14244,7 +14244,7 @@
         "material": "SAPPHIRE",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 6,
-        "radius": 3,
+        "radius": 3.0,
         "curvature_s2": -0.3333333333333333,
         "curvature_s1": 0.3333333333333333,
         "type": "SphericalLens"
@@ -14274,7 +14274,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 6.35,
-        "radius": 3.175,
+        "radius": 3.1749999999999985,
         "curvature_s2": -0.31496062992126,
         "curvature_s1": 0.31496062992126,
         "type": "SphericalLens"
@@ -21136,7 +21136,7 @@
         "material": "BK7",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 1,
-        "radius": 1,
+        "radius": 1.0,
         "curvature_s2": 0.0,
         "curvature_s1": 1.0,
         "type": "SphericalLens"
@@ -21146,7 +21146,7 @@
         "material": "BK7",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 2,
-        "radius": 2,
+        "radius": 2.0,
         "curvature_s2": 0.0,
         "curvature_s1": 0.5,
         "type": "SphericalLens"
@@ -21156,7 +21156,7 @@
         "material": "BK7",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 3,
-        "radius": 3,
+        "radius": 3.0,
         "curvature_s2": 0.0,
         "curvature_s1": 0.3333333333333333,
         "type": "SphericalLens"
@@ -21166,7 +21166,7 @@
         "material": "BK7",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 4,
-        "radius": 4,
+        "radius": 4.0,
         "curvature_s2": 0.0,
         "curvature_s1": 0.25,
         "type": "SphericalLens"
@@ -21176,7 +21176,7 @@
         "material": "BK7",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 5,
-        "radius": 5,
+        "radius": 5.0,
         "curvature_s2": 0.0,
         "curvature_s1": 0.2,
         "type": "SphericalLens"
@@ -21556,7 +21556,7 @@
         "material": "SAPPHIRE",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 4.76,
-        "radius": 2.38,
+        "radius": 2.3799999999999994,
         "curvature_s2": -0.4201680672268908,
         "curvature_s1": 0.4201680672268908,
         "type": "SphericalLens"
@@ -21566,7 +21566,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 0.3,
-        "radius": 0.15,
+        "radius": 0.14999999999999994,
         "curvature_s2": -6.66666666666667,
         "curvature_s1": 6.66666666666667,
         "type": "SphericalLens"
@@ -21606,7 +21606,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 2.38,
-        "radius": 1.19,
+        "radius": 1.1899999999999993,
         "curvature_s2": -0.840336134453782,
         "curvature_s1": 0.840336134453782,
         "type": "SphericalLens"
@@ -21616,7 +21616,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 3.18,
-        "radius": 1.59,
+        "radius": 1.5899999999999999,
         "curvature_s2": -0.628930817610063,
         "curvature_s1": 0.628930817610063,
         "type": "SphericalLens"
@@ -21626,7 +21626,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 4.76,
-        "radius": 2.38,
+        "radius": 2.3799999999999986,
         "curvature_s2": -0.420168067226891,
         "curvature_s1": 0.420168067226891,
         "type": "SphericalLens"
@@ -22112,7 +22112,7 @@
         "material": "S-LAH79",
         "glass_catalogs": "SCHOTT INFRARED MISC OHARA ",
         "thickness": 2,
-        "radius": 1,
+        "radius": 1.0,
         "curvature_s2": -1.0,
         "curvature_s1": 1.0,
         "type": "SphericalLens"
@@ -22132,7 +22132,7 @@
         "material": "S-LAH79",
         "glass_catalogs": "SCHOTT INFRARED MISC OHARA ",
         "thickness": 8,
-        "radius": 4,
+        "radius": 4.0,
         "curvature_s2": -0.25,
         "curvature_s1": 0.25,
         "type": "SphericalLens"
@@ -29721,7 +29721,7 @@
         "material": "SAPPHIRE",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 1,
-        "radius": 1,
+        "radius": 1.0,
         "curvature_s2": 0.0,
         "curvature_s1": 1.0,
         "type": "SphericalLens"
@@ -29741,7 +29741,7 @@
         "material": "SAPPHIRE",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 2.38,
-        "radius": 2.38,
+        "radius": 2.3799999999999994,
         "curvature_s2": 0.0,
         "curvature_s1": 0.4201680672268908,
         "type": "SphericalLens"
@@ -32981,7 +32981,7 @@
         "material": "S-LAH79",
         "glass_catalogs": "SCHOTT INFRARED MISC OHARA ",
         "thickness": 4,
-        "radius": 2,
+        "radius": 2.0,
         "curvature_s2": -0.5,
         "curvature_s1": 0.5,
         "type": "SphericalLens"
@@ -32991,7 +32991,7 @@
         "material": "S-LAH79",
         "glass_catalogs": "SCHOTT INFRARED MISC OHARA ",
         "thickness": 6,
-        "radius": 3,
+        "radius": 3.0,
         "curvature_s2": -0.3333333333333333,
         "curvature_s1": 0.3333333333333333,
         "type": "SphericalLens"
@@ -33001,7 +33001,7 @@
         "material": "S-LAH79",
         "glass_catalogs": "SCHOTT INFRARED MISC OHARA ",
         "thickness": 10,
-        "radius": 5,
+        "radius": 5.0,
         "curvature_s2": -0.2,
         "curvature_s1": 0.2,
         "type": "SphericalLens"
@@ -39107,7 +39107,7 @@
         "material": "SAPPHIRE",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 2,
-        "radius": 2,
+        "radius": 2.0,
         "curvature_s2": 0.0,
         "curvature_s1": 0.5,
         "type": "SphericalLens"
@@ -39117,7 +39117,7 @@
         "material": "SAPPHIRE",
         "glass_catalogs": "SCHOTT INFRARED MISC ",
         "thickness": 3,
-        "radius": 3,
+        "radius": 3.0,
         "curvature_s2": 0.0,
         "curvature_s1": 0.3333333333333333,
         "type": "SphericalLens"
@@ -39147,7 +39147,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 1,
-        "radius": 1,
+        "radius": 1.0,
         "curvature_s2": 0.0,
         "curvature_s1": 1.0,
         "type": "SphericalLens"
@@ -39167,7 +39167,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 1.59,
-        "radius": 1.59,
+        "radius": 1.5899999999999999,
         "curvature_s2": 0.0,
         "curvature_s1": 0.628930817610063,
         "type": "SphericalLens"
@@ -39177,7 +39177,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 2,
-        "radius": 2,
+        "radius": 2.0,
         "curvature_s2": 0.0,
         "curvature_s1": 0.5,
         "type": "SphericalLens"
@@ -39187,7 +39187,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 2.38,
-        "radius": 2.38,
+        "radius": 2.3799999999999986,
         "curvature_s2": 0.0,
         "curvature_s1": 0.420168067226891,
         "type": "SphericalLens"
@@ -39217,7 +39217,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 3.175,
-        "radius": 3.175,
+        "radius": 3.1749999999999985,
         "curvature_s2": 0.0,
         "curvature_s1": 0.31496062992126,
         "type": "SphericalLens"
@@ -43878,7 +43878,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 9.525,
-        "radius": 4.7625,
+        "radius": 4.7624999999999975,
         "curvature_s2": -0.20997375328084,
         "curvature_s1": 0.20997375328084,
         "type": "SphericalLens"
@@ -43888,7 +43888,7 @@
         "material": "AL2O3",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED BIREFRINGENT ",
         "thickness": 9.525,
-        "radius": 4.7625,
+        "radius": 4.7624999999999975,
         "curvature_s2": -0.20997375328084,
         "curvature_s1": 0.20997375328084,
         "type": "SphericalLens"
@@ -52213,7 +52213,7 @@
         "material": "C79-80",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED ",
         "thickness": 2,
-        "radius": 1,
+        "radius": 1.0,
         "curvature_s2": -1.0,
         "curvature_s1": 1.0,
         "type": "SphericalLens"
@@ -52233,7 +52233,7 @@
         "material": "C79-80",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED ",
         "thickness": 3,
-        "radius": 1.5,
+        "radius": 1.4999999999999993,
         "curvature_s2": -0.666666666666667,
         "curvature_s1": 0.666666666666667,
         "type": "SphericalLens"
@@ -52243,7 +52243,7 @@
         "material": "C79-80",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED ",
         "thickness": 4,
-        "radius": 2,
+        "radius": 2.0,
         "curvature_s2": -0.5,
         "curvature_s1": 0.5,
         "type": "SphericalLens"
@@ -52273,7 +52273,7 @@
         "material": "C79-80",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED ",
         "thickness": 8,
-        "radius": 4,
+        "radius": 4.0,
         "curvature_s2": -0.25,
         "curvature_s1": 0.25,
         "type": "SphericalLens"
@@ -52313,7 +52313,7 @@
         "material": "C79-80",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED ",
         "thickness": 1,
-        "radius": 1,
+        "radius": 1.0,
         "curvature_s2": 0.0,
         "curvature_s1": 1.0,
         "type": "SphericalLens"
@@ -52333,7 +52333,7 @@
         "material": "C79-80",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED ",
         "thickness": 1.5,
-        "radius": 1.5,
+        "radius": 1.4999999999999993,
         "curvature_s2": 0.0,
         "curvature_s1": 0.666666666666667,
         "type": "SphericalLens"
@@ -52343,7 +52343,7 @@
         "material": "C79-80",
         "glass_catalogs": "SCHOTT OHARA MISC CORNING INFRARED ",
         "thickness": 2,
-        "radius": 2,
+        "radius": 2.0,
         "curvature_s2": 0.0,
         "curvature_s1": 0.5,
         "type": "SphericalLens"
@@ -75693,7 +75693,7 @@
         "material": "S-LAH79",
         "glass_catalogs": "SCHOTT INFRARED MISC OHARA ",
         "thickness": 1,
-        "radius": 1,
+        "radius": 1.0,
         "curvature_s2": 0.0,
         "curvature_s1": 1.0,
         "type": "SphericalLens"
@@ -75703,7 +75703,7 @@
         "material": "S-LAH79",
         "glass_catalogs": "SCHOTT INFRARED MISC OHARA ",
         "thickness": 2,
-        "radius": 2,
+        "radius": 2.0,
         "curvature_s2": 0.0,
         "curvature_s1": 0.5,
         "type": "SphericalLens"
@@ -75713,7 +75713,7 @@
         "material": "S-LAH79",
         "glass_catalogs": "SCHOTT INFRARED MISC OHARA ",
         "thickness": 4,
-        "radius": 4,
+        "radius": 4.0,
         "curvature_s2": 0.0,
         "curvature_s1": 0.25,
         "type": "SphericalLens"
@@ -75723,7 +75723,7 @@
         "material": "S-LAH79",
         "glass_catalogs": "SCHOTT INFRARED MISC OHARA ",
         "thickness": 5,
-        "radius": 5,
+        "radius": 5.0,
         "curvature_s2": 0.0,
         "curvature_s1": 0.2,
         "type": "SphericalLens"

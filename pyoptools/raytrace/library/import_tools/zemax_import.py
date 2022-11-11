@@ -330,6 +330,17 @@ class ZmfImporter:
             lens_data["curvature_s1"] = surflist[0]["CURV"][0]
             lens_data["type"] = "SphericalLens"
 
+            # Ball and half-ball lenses often have a numerical issue where
+            # the aperture radius is slightly larger than allowed by the
+            # surface curvature. This handles that special case
+            if 'ball' in lens_data['description'].lower():
+                max_curve = max(abs(lens_data["curvature_s1"]),
+                                abs(lens_data["curvature_s2"]))
+                if r0 * max_curve >= 1:
+                    lens_data["radius"] = 1.0 / max_curve
+                    print(f"Fixed radius of {key} : "
+                          f"r0={r0} to {lens_data['radius']}")
+
             return lens_data
 
             # return CL.SphericalLens(r0,d0,c0,c1,material=m0)

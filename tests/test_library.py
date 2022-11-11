@@ -7,7 +7,7 @@ import tempfile
 
 class TestLibrary(unittest.TestCase):
 
-    @unittest.skip
+    #@unittest.skip
     def test_all_optics(self):
         i = -1
         for part, descriptor in library.items():
