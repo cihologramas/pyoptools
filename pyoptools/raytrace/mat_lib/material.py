@@ -14,7 +14,54 @@ import json
 from pathlib import Path
 from importlib_resources import files
 
+# This class overrides the module definition
 class MaterialLibrary:
+    """The material library provides access to refractive index data
+    for common optical glasses and generic organic and inorganic compounds.
+
+    All data is from www.refractiveindex.info. Please follow their guidelines
+    for citation.
+
+    `raytrace.mat_lib.material` instances for optical glasses can be retrieved
+    directly using dictionary-style access. For example:
+
+    `material['N-BK7']`
+
+    In some cases, materials from different manufacturer catalogs may share
+    the same identifier, in this case a KeyError will be raised.
+    This can be resolved using attribute access given the name of
+    the manufacturer catalog. For example:
+
+    ```
+    m = material['SF11']
+        KeyError: "Multiple matches for glass type SF11. Use one of:
+        material.hikari['SF11'] or material.schott['SF11']"
+    ```
+
+    Compounds are also available through the attributes `organic` and
+    `inorganic`. Note that in refractiveindex.info, inorganic is named _main_.
+
+    Often, multiple data sources are available for a given compound.
+    These can be disambiguated using a trailing : followed by the name of the
+    reference. For example:
+
+    ```
+    silver = material.inorganic['Ag:Yang']
+    ```
+    If the reference is omitted then the first available reference will be
+    returned.
+
+    Some glasses and compounds have common abbreviations. These can also be
+    used, through the ailises system, which takes precedent in material
+    retrieval. For example:
+
+    ```
+    m = material['SODA_LIME']
+    ```
+
+    the full dictionary of available in the attribute
+    `material.ailises`.
+    """
 
     def __init__(self, prefix = None):
 
@@ -77,18 +124,24 @@ class MaterialLibrary:
             raise KeyError(f"Material {name} not found.")
 
     def get_from(self, name: str, libs: str, check_aliases = True):
-        """Finds a glass type located in a specific manufacturer library
-        or space-seperate list of libraries,
+        """Finds a glass type located in a specific manufacturer library,
+        or space-separate list of libraries.
+
+        This is mostly used internally because many optical component
+        definitions specify the glass catalogs in this way.
+
+        Note that this method is only available from the base material
+        module.
 
         name : name of the glass to find
         libs : A name of a manufacturer library, e.g. 'schott', or a list
-            of space-seperate manufacturer names, in which case they will be
+            of space-separate manufacturer names, in which case they will be
             searched in the order given. Insensitive to capitalization.
         check_aliases : if True (default), will check within material
             aliases after checking in specified libraries.
             Note that aliases can include compounds in addition to glasses.
 
-        Raise Exception if no material found in the given libraries.
+        Raise KeyError if no material found in the given libraries.
         """
 
         if self.prefix is not None:
