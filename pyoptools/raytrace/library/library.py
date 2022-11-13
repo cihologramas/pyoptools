@@ -87,7 +87,7 @@ class LibraryModule:
         """
         warnings.simplefilter("default")
         warnings.warn(
-            "This method is deprecated, you can use dictionary-style access" "instead",
+            "This method is deprecated, you can use dictionary-style access " "instead",
             DeprecationWarning,
         )
         return optic_factory(**self.descriptor(part))

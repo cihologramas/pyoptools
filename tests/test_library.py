@@ -74,27 +74,5 @@ class TestLibrary(unittest.TestCase):
             self.assertEqual(library.descriptor('a_test_lens')['description'],
                              'test')
 
-
 if __name__ == '__main__':
     unittest.main()
-
-# failes on:
-"""
-67395
-67384
-63228
-63227
-49566
-49563
-49561
-48431
-46230
-46229
-46228
-46223
-46122
-43832
-43822
-43645
-"""
-
