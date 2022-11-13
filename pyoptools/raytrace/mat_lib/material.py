@@ -52,7 +52,7 @@ class MaterialLibrary:
     returned.
 
     Some glasses and compounds have common abbreviations. These can also be
-    used, through the ailises system, which takes precedent in material
+    used, through the aliases system, which takes precedent in material
     retrieval. For example:
 
     ```
@@ -60,7 +60,7 @@ class MaterialLibrary:
     ```
 
     the full dictionary of available in the attribute
-    `material.ailises`.
+    `material.aliases`.
     """
 
     def __init__(self, prefix = None):
@@ -76,7 +76,9 @@ class MaterialLibrary:
             self.glass_path = self.dp/'glass'/prefix
 
         with (self.dp/'aliases.json').open() as af:
-            self.ailises = json.load(af)
+            self.aliases = json.load(af)
+
+        self._compound_lib_names = ['organic', 'inorganic']
 
     def _material_factory(self, name, mat_path):
         "Builds and caches a material given path to yml file"
@@ -86,8 +88,8 @@ class MaterialLibrary:
 
     def _get_in_aliases(self, name):
 
-        if name in self.ailises:
-            a = self.ailises[name]
+        if name in self.aliases:
+            a = self.aliases[name]
             if a['type'] == 'organic':
                 return self.organic[a['material']]
             elif a['type'] == 'inorganic':
@@ -103,7 +105,7 @@ class MaterialLibrary:
         if name in self._cache:
             return self._cache[name]
 
-        # check in aliases, handling special case of a compond
+        # check in aliases, handling special case of a compound
         try:
             return self._get_in_aliases(name)
         except KeyError:
@@ -122,6 +124,67 @@ class MaterialLibrary:
             return self._material_factory(name, matches[0])
         else:
             raise KeyError(f"Material {name} not found.")
+
+    def find_material(self, search, printout=True):
+        """Search for a material where the string _search_ is found in the
+        name or description. For example:
+
+        If printout is True, prints a list of the commands used to access
+        the matching materials.
+
+        Returns a list of the keys which can be used to retrieve candidate
+        materials.
+
+        Example finding all SF-11 type glasses:
+        ```
+        material.find_material('SF11')
+            material.hikari['J-SF11']
+            material.hikari['E-SF11']
+            material.hikari['SF11']
+            material.schott['N-SF11']
+            material.schott['SF11']
+        ```
+
+        Note that for compounds, the common name can be searched as well,
+        for example:
+
+        ```
+        material.find_material('styrene')
+            material.organic['C8H8:Sultanova']
+            material.organic['C8H8:Myers']
+        ```
+        """
+
+        results = []
+        # Check in aliases:
+        for k, v in self.aliases.items():
+            if search in k or search in v['material']:
+                results.append((None, k, None))
+
+        # Check in glasses:
+        matches = list(self.glass_path.glob(f"**/*{search}*"))
+        for m in matches:
+            catalog = m.parts[-2]
+            name = m.parts[-1].split('.')[0]
+            results.append((catalog, name, None))
+
+        # Check in compounds:
+        for cln in self._compound_lib_names:
+            r = getattr(self, cln).find_material(search, printout=False)
+            if r is not None:
+                results += r
+
+        if printout:
+            for r in results:
+                catalog, name, ref = r
+                if catalog is None:
+                    print(f"material['{name}']")
+                if ref is None:
+                    print(f"material.{catalog}['{name}']")
+                else:
+                    print(f"material.{catalog}['{name}:{ref}']")
+
+        return results
 
     def get_from(self, name: str, libs: str, check_aliases = True):
         """Finds a glass type located in a specific manufacturer library,
@@ -232,6 +295,21 @@ class CompoundLibrary:
             return self._material_factory(identifier, compound_file)
         else:
             raise KeyError(f"Compound reference not found for {identifier}.")
+
+    def find_material(self, search, printout=True):
+
+        results = []
+        for i in self.lib_path.iterdir():
+            if i.is_dir():
+                if search in i.name:
+                    for ref in i.glob('*.yml'):
+                        results.append((
+                            self.lib_path.name,
+                            i.name.split(' ')[0],
+                            ref.name.split('.')[0]
+                        ))
+
+        return results
 
 sys.modules[__name__] = MaterialLibrary()
 
