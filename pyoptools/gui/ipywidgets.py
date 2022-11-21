@@ -93,6 +93,7 @@ def surf2mesh(S, P=(0, 0, 0), D=(0, 0, 0), wire=False):
         material=surfaceMaterial,
     )
 
+
     surfaceMesh.position = tuple(P)
     surfaceMesh.rotateZ(D[2])
     surfaceMesh.rotateY(D[1])
@@ -247,6 +248,16 @@ def Plot3D(
         pos = dot(rot_z(r[2]), pos)
         pos = dot(rot_y(r[1]), pos)
         pos = dot(rot_x(r[0]), pos)
+
+    #cam = py3js.OrthographicCamera(
+    #    -width / 2 * scale,
+    #    width / 2 * scale,
+    #    height / 2 * scale,
+    #    -height / 2 * scale,
+    #    children=[light],
+    #    position=list(pos),
+    #    zoom=scale,
+    #)
 
     cam = py3js.OrthographicCamera(
         -width / 2 * scale,
