@@ -98,3 +98,6 @@ def test_pep8_conformance():
     result = pep8style.check_files([dirname])
     msg = "Found code syntax errors (and warnings)."
     assert result.total_errors == 0, msg
+
+if __name__ == '__main__':
+    test_pep8_conformance()

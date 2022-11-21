@@ -1,0 +1,96 @@
+{
+    "BK7" : {
+        "type" : "glass",
+        "library" : "schott",
+        "material" : "N-BK7"
+    },
+    "SODA_LIME" : {
+        "type" : "glass",
+        "library" : "soda_lime_generic",
+        "material" : "Rubin-clear"
+    },
+    "FD10" : {
+        "type" : "glass",
+        "library" : "hoya",
+        "material" : "E-FD10"
+    },
+    "SK5" : {
+        "type" : "glass",
+        "library" : "schott",
+        "material" : "N-SK5"
+    },
+    "F4" : {
+        "type" : "glass",
+        "library" : "cdgm",
+        "material" : "F4"
+    },
+    "BASF1" : {
+        "type" : "glass",
+        "library" : "schott",
+        "material" : "N-BASF2"
+    },
+    "BAFN10" : {
+        "type" : "glass",
+        "library" : "hoya",
+        "material" : "BAF10"
+    },
+    "BAFN11" : {
+        "type" : "glass",
+        "library" : "hoya",
+        "material" : "BAF11"
+    },
+    "LAKN22" : {
+        "type" : "glass",
+        "library" : "schott",
+        "material" : "N-LAK22"
+    },
+    "SILICON" : {
+        "type" : "inorganic",
+        "material" : "Si:Aspnes"
+    },
+    "GERMANIUM" : {
+        "type" : "inorganic",
+        "material" : "Ge:Aspnes"
+    },
+    "ZNSE" : {
+        "type" : "inorganic",
+        "material" : "ZnSe:Adachi"
+    },
+    "F_SILICA" : {
+        "type" : "inorganic",
+        "material" : "SiO2:Malitson"
+    },
+    "SAPPHIRE" : {
+        "type" : "inorganic",
+        "material" : "Al2O3:Boidin"
+    },
+    "AL2O3" : {
+        "type" : "inorganic",
+        "material" : "Al2O3:Boidin"
+    },
+    "CAF2" : {
+        "type" : "inorganic",
+        "material" : "CaF2:Daimon-25"
+    },
+    "MGF2" : {
+        "type" : "inorganic",
+        "material" : "MgF2:Rodriguez-de Marcos"
+    },
+    "GAAS" : {
+        "type" : "inorganic",
+        "material" : "GaAs:Skauli"
+    },
+    "POLYCARBONATE" : {
+        "type" : "organic",
+        "material" : "(C16H14O3)n:Zhang"
+    },
+    "PMMA" : {
+       "type" : "organic",
+       "material" : "(C5H8O2)n:Zhang-Tomson"
+    },
+    "POLYSTYRENE" : {
+        "type" : "organic",
+        "material" : "(C8H8)n:Zhang"
+    }
+}
+

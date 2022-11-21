@@ -1,22 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8-*-
-
-# ------------------------------------------------------------------------------
-# Copyright (c) 2007-2021, Ricardo Amézquita Orozco
-# All rights reserved.
-#
-# This software is provided without warranty under the terms of the GPLv3
-# license included in LICENSE.txt and may be redistributed only
-# under the conditions described in the aforementioned license.
-#
-#
-# Author:          Ricardo Amézquita Orozco
-# Description:     Material definition helper class
-# Symbols Defined: Material
-#
-#
-# ------------------------------------------------------------------------------
-
 """
 Material class definition, and helper functions used to load the
 constants of the dispersion formula to be used in the calculation of
@@ -25,185 +6,310 @@ the refraction index.
 It uses the database from  https://refractiveindex.info
 """
 
-from os import walk
-from os.path import join, expanduser, relpath
-from pkg_resources import resource_filename
 from .mat_eq import from_yml, ModelNotImplemented
-from configparser import ConfigParser
 
-mat_config = resource_filename("pyoptools.raytrace.mat_lib", "data")
+import sys
+import json
 
-# mat_config = "../mat_lib/data/"
+from pathlib import Path
+from importlib_resources import files
 
-# Get library names from the system
+# This class overrides the module definition
+class MaterialLibrary:
+    """The material library provides access to refractive index data
+    for common optical glasses and generic organic and inorganic compounds.
 
-# Get data from glass folder
+    All data is from www.refractiveindex.info. Please follow their guidelines
+    for citation.
 
-libnames = []
-libpath = join(mat_config, "glass")
-for (dirpath, dirnames, filenames) in walk(libpath):
-    library = relpath(dirpath, libpath)
+    `raytrace.mat_lib.material` instances for optical glasses can be retrieved
+    directly using dictionary-style access. For example:
 
-    # Exclude some names that are not libraries
-    if library in [
-        ".",
-    ]:
-        continue
+    `material['N-BK7']`
 
-    libnames.append((relpath(dirpath, libpath)).replace("/", "_"))
+    In some cases, materials from different manufacturer catalogs may share
+    the same identifier, in this case a KeyError will be raised.
+    This can be resolved using attribute access given the name of
+    the manufacturer catalog. For example:
 
-# Get data from main folder
+    ```
+    m = material['SF11']
+        KeyError: "Multiple matches for glass type SF11. Use one of:
+        material.hikari['SF11'] or material.schott['SF11']"
+    ```
 
-# mainlibnames = []
-# mainlibpath = join(mat_config, "main")
-# for (dirpath, dirnames, filenames) in walk(mainlibpath):
-#    library = relpath(dirpath, mainlibpath)
+    Compounds are also available through the attributes `organic` and
+    `inorganic`. Note that in refractiveindex.info, inorganic is named _main_.
 
-#    # Exclude some names that are not libraries
-#    if library in [".", ]:
-#        continue
+    Often, multiple data sources are available for a given compound.
+    These can be disambiguated using a trailing : followed by the name of the
+    reference. For example:
 
-#    mainlibnames.append((relpath(dirpath, mainlibpath)).replace("/", "_"))
+    ```
+    silver = material.inorganic['Ag:Yang']
+    ```
+    If the reference is omitted then the first available reference will be
+    returned.
 
+    Some glasses and compounds have common abbreviations. These can also be
+    used, through the aliases system, which takes precedent in material
+    retrieval. For example:
 
-# Get library names from the user home
+    ```
+    m = material['SODA_LIME']
+    ```
 
-homelibpath = join(expanduser("~"), ".pyoptools", "material", "glass")
+    the full dictionary of available in the attribute
+    `material.aliases`.
+    """
 
-homelibnames = []
-for (dirpath, dirnames, filenames) in walk(homelibpath):
-    library = relpath(dirpath, homelibpath)
+    def __init__(self, prefix = None):
 
-    if library in [
-        ".",
-    ]:
-        continue
+        self.prefix = prefix
+        self._cache = {}
 
-    homelibnames.append((relpath(dirpath, homelibpath)).replace("/", "_"))
+        self.dp = files('pyoptools.raytrace.mat_lib').joinpath('data')
 
-# Create the materials dictionary
+        if self.prefix is None:
+            self.glass_path = self.dp/'glass'
+        else:
+            self.glass_path = self.dp/'glass'/prefix
 
-# Note: If a home library has the same name as a system library, all the
-# glasses defined will be merged in the same library
+        with (self.dp/'aliases.json').open() as af:
+            self.aliases = json.load(af)
 
-libset = list(set(libnames + ["main"] + homelibnames))
-liblist = []
+        self._compound_lib_names = ['organic', 'inorganic']
 
-for libname in libset:
-    # Create the dictionaries where the materials will be saved. One dictionary
-    # per library,
+    def _material_factory(self, name, mat_path):
+        "Builds and caches a material given path to yml file"
+        mat = from_yml(mat_path)
+        self._cache[name] = mat
+        return mat
 
-    # There are some libraries that use - sign in the name. This will create a
-    # non valid python attribute name. This character will be replaced by __
+    def _get_in_aliases(self, name):
 
-    libname=libname.replace("-","_")
+        if name in self.aliases:
+            a = self.aliases[name]
+            if a['type'] == 'organic':
+                return self.organic[a['material']]
+            elif a['type'] == 'inorganic':
+                return self.inorganic[a['material']]
+            elif a['type'] == 'glass':
+                ap = self.dp/'glass'/a['library']/f"{a['material']}.yml"
+                return self._material_factory(name, ap)
+        else:
+            raise KeyError
 
-    globals()[libname] = {}
-    liblist.append((libname, globals()[libname]))
+    def __getitem__(self, name: str):
 
-liblist.sort()
+        if name in self._cache:
+            return self._cache[name]
 
-# Fill the dictionaries with the current materials system wide, and then with
-# the materials defined in the home of the user
-
-for npath in [libpath, homelibpath]:
-
-    for (dirpath, dirnames, filenames) in walk(npath):
-        library = (relpath(dirpath, npath)).replace("/", "_").replace("-","_")
-
-        # Exclude some names that are not libraries
-        if library in [
-            ".",
-        ]:
-            continue
-
-        for name in filenames:
-            try:
-                matname = name.split(".")[0]
-                globals()[library][matname] = from_yml(join(dirpath, name))
-            except ModelNotImplemented:
-                continue
-
-# Fill the main library. The main folder is interpreted as a catalog, and each
-# material plus its different models are listed as material instances.
-# This was done to keep the list of catalogs short. In needed an alias can be
-# created
-
-npath = join(mat_config, "main")
-
-for (dirpath, dirnames, filenames) in walk(npath):
-    library = (relpath(dirpath, npath)).replace("/", "_")
-    # Exclude some names that are not libraries
-    if library in [
-        ".",
-    ]:
-        continue
-
-    for name in filenames:
+        # check in aliases, handling special case of a compound
         try:
-            matname = name.split(".")[0]
-            globals()["main"][library + "_" + matname] = from_yml(join(dirpath, name))
-        except ModelNotImplemented:
-            continue
+            return self._get_in_aliases(name)
+        except KeyError:
+            pass
 
+        # find in glasses
+        matches = list(self.glass_path.glob(f"**/{name}.yml"))
+        if len(matches) > 1:
+            warning = (f"Multiple matches for glass type {name}. "
+                       f"Use one of: ")
+            for m in matches:
+                warning += f"material.{m.parts[-2]}['{name}'] or "
+            raise KeyError(warning[:-4])
 
-# Create the aliases material library. It will read the information from the
-# aliases.cfg file
+        if matches:
+            return self._material_factory(name, matches[0])
+        else:
+            raise KeyError(f"Material {name} not found.")
 
-aliases_path = join(mat_config, "aliases.cfg")
+    def find_material(self, search, printout=True):
+        """Search for a material where the string _search_ is found in the
+        name or description. For example:
 
+        If printout is True, prints a list of the commands used to access
+        the matching materials.
 
-globals()["aliases"] = {}
-config = ConfigParser()
-config.read(aliases_path)
+        Returns a list of the keys which can be used to retrieve candidate
+        materials.
 
-for i in config:
-    if i == "DEFAULT":
-        continue
-    libr = config[i]["library"]
-    mate = config[i]["material"]
-    globals()["aliases"][i] = globals()[libr][mate]
+        Example finding all SF-11 type glasses:
+        ```
+        material.find_material('SF11')
+            material.hikari['J-SF11']
+            material.hikari['E-SF11']
+            material.hikari['SF11']
+            material.schott['N-SF11']
+            material.schott['SF11']
+        ```
 
-liblist.append(("aliases", globals()["aliases"]))
+        Note that for compounds, the common name can be searched as well,
+        for example:
 
+        ```
+        material.find_material('styrene')
+            material.organic['C8H8:Sultanova']
+            material.organic['C8H8:Myers']
+        ```
+        """
 
-def find_material(material):
-    """Search for a material in all the libraries
+        results = []
+        # Check in aliases:
+        for k, v in self.aliases.items():
+            if search in k or search in v['material']:
+                results.append((None, k, None))
 
-    This function returns a list with all the libraries that contain the material
+        # Check in glasses:
+        matches = list(self.glass_path.glob(f"**/*{search}*"))
+        for m in matches:
+            catalog = m.parts[-2]
+            name = m.parts[-1].split('.')[0]
+            results.append((catalog, name, None))
 
-    Arguments:
+        # Check in compounds:
+        for cln in self._compound_lib_names:
+            r = getattr(self, cln).find_material(search, printout=False)
+            if r is not None:
+                results += r
 
-    material
-        String with the material name
-    """
-    retv = []
-    for libn, _ in liblist:
-        if material in globals()[libn]:
-            retv.append(libn)
-    return retv
+        if printout:
+            for r in results:
+                catalog, name, ref = r
+                if catalog is None:
+                    print(f"material['{name}']")
+                if ref is None:
+                    print(f"material.{catalog}['{name}']")
+                else:
+                    print(f"material.{catalog}['{name}:{ref}']")
 
+        return results
 
-def get_material(material):
-    """Search for a material in all the libraries
+    def get_from(self, name: str, libs: str, check_aliases = True):
+        """Finds a glass type located in a specific manufacturer library,
+        or space-separate list of libraries.
 
-    This function search in all the material libraries, and return the
-    first instance found, that matches the name of the material requested.
-    If no material found, returns None
-    Arguments:
+        This is mostly used internally because many optical component
+        definitions specify the glass catalogs in this way.
 
-    material
-        String with the material name
-    """
-    for libn, _ in liblist:
-        tdict = globals()[libn]
-        if material in tdict:
-            return tdict[material]
-    print(material, " not found")
-    raise KeyError
+        Note that this method is only available from the base material
+        module.
 
+        name : name of the glass to find
+        libs : A name of a manufacturer library, e.g. 'schott', or a list
+            of space-separate manufacturer names, in which case they will be
+            searched in the order given. Insensitive to capitalization.
+        check_aliases : if True (default), will check within material
+            aliases after checking in specified libraries.
+            Note that aliases can include compounds in addition to glasses.
 
-def mat_list():
-    for libn, _ in liblist:
-        tdict = globals()[libn]
-        print(libn, tdict.keys())
+        Raise KeyError if no material found in the given libraries.
+        """
+
+        if self.prefix is not None:
+            raise Exception('get_from only availabe on base library.')
+
+        for libname in libs.split(' '):
+            libname = libname.lower()
+            if (self.glass_path/libname).is_dir():
+                try:
+                    return MaterialLibrary(prefix = libname)[name]
+                except AttributeError:
+                    #print('No library')
+                    pass
+                except KeyError:
+                    #print('Not in library')
+                    pass
+
+        warning = f"Material {name} not found in any of {libs.split()}."
+        if check_aliases:
+            warning = warning[:-1]+" or aliases."
+            try:
+                return self._get_in_aliases(name)
+            except KeyError:
+                pass
+        else:
+            warning = f"Material {name} not found in any of {libs.split()}."
+
+        raise KeyError(warning)
+
+    def __getattr__(self, name: str):
+        # Guard for if instantiated as a sub-module
+        if self.prefix is not None:
+            raise AttributeError()
+
+        if name == 'inorganic' or name == 'organic':
+            return CompoundLibrary(self.dp/name)
+        if (self.glass_path/name).is_dir():
+            return MaterialLibrary(prefix = name)
+        else:
+            raise AttributeError(f"Material {name} not found.")
+
+class CompoundLibrary:
+    def __init__(self, lib_path):
+        self.lib_path = lib_path
+
+        # Populate dict of all available compound dirs
+        # Organic compounds have long names with space so just use the
+        # first part as the identifier
+        self.compound_dirs = {}
+        for i in lib_path.iterdir():
+            if i.is_dir():
+                self.compound_dirs[i.name.split(' ')[0]] = i
+
+        self._cache = {}
+
+    def _material_factory(self, name, mat_path):
+        "Builds and caches a material given path to yml file"
+        mat = from_yml(mat_path)
+        self._cache[name] = mat
+        return mat
+
+    def __getitem__(self, identifier: str):
+
+        if identifier in self._cache:
+            return self._cache[identifier]
+
+        tokens = identifier.split(':')
+        tokens = [t for t in tokens if t != '']
+        compound = tokens[0]
+        try:
+            reference = tokens[1]
+        except IndexError:
+            reference = None
+
+        # Get the compound dir
+        try:
+            cd = self.compound_dirs[compound]
+        except KeyError:
+            raise KeyError(f"Compound {identifier} not found.")
+
+        if reference is None:
+            # if reference unspecified, default to the first item
+            compound_file = list(cd.glob('*.yml'))[0]
+        else:
+            compound_file = cd/f"{reference}.yml"
+
+        if compound_file.exists():
+            return self._material_factory(identifier, compound_file)
+        else:
+            raise KeyError(f"Compound reference not found for {identifier}.")
+
+    def find_material(self, search, printout=True):
+
+        results = []
+        for i in self.lib_path.iterdir():
+            if i.is_dir():
+                if search in i.name:
+                    for ref in i.glob('*.yml'):
+                        results.append((
+                            self.lib_path.name,
+                            i.name.split(' ')[0],
+                            ref.name.split('.')[0]
+                        ))
+
+        return results
+
+sys.modules[__name__] = MaterialLibrary()
+

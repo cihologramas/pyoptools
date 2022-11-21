@@ -51,7 +51,7 @@ from pyoptools.misc.resources import *
 from pyoptools.raytrace.calc import *
 from pyoptools.raytrace.comp_lib import *
 from pyoptools.raytrace.component import *
-from pyoptools.raytrace.library import *
+from pyoptools.raytrace.library import library
 from pyoptools.raytrace.mat_lib import *
 from pyoptools.raytrace.ray import *
 from pyoptools.raytrace.shape import *
