@@ -93,8 +93,6 @@ def surf2mesh(S, P=(0, 0, 0), D=(0, 0, 0), wire=False):
         material=surfaceMaterial,
     )
 
-    #surfaceMesh.rotation = *D, "ZYX"
-    #surfaceMesh.position = tuple(P)
 
     surfaceMesh.position = tuple(P)
     surfaceMesh.rotateZ(D[2])
@@ -116,19 +114,13 @@ def comp2mesh(C, P, D):
         for comp in C.complist:
             sC, sP, sD = comp
             c.add(comp2mesh(sC, sP, sD))
-    # glPopMatrix()
-
-    #c.rotation = *D, "ZYX"
-    #c.position = tuple(P)
 
     c.position = tuple(P)
     c.rotateZ(D[2])
     c.rotateY(D[1])
     c.rotateX(D[0])
 
-
     return c
-
 
 def ray2list(ray):
     rays = []
