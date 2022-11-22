@@ -252,15 +252,18 @@ class MaterialLibrary:
         
         libpaths = list(self.glass_path.glob("*"))
 
-        return [lib_path.parts[-1] for lib_path in libpaths]
+        return ["aliases"]+[lib_path.parts[-1] for lib_path in libpaths]
 
     def get_glass_materials_from_library(self,libname):
         """Returns a list of strings containing the names of the materials 
            defined in the library 'libname'
         """
-        matpaths = list(self.glass_path.glob(f"{libname}/*.yml"))
-        matfiles= [mat_path.parts[-1] for mat_path in matpaths]
-        return [mat.split(".")[0] for mat in matfiles]
+        
+        if libname == "aliases":
+            return list(self.aliases.keys())
+        
+        matfiles = self.glass_path.glob(f"{libname}/*.yml")
+        return [mat.stem for mat in matfiles]
         
 
 class CompoundLibrary:
