@@ -89,9 +89,9 @@ class BeamSplittingCube(System):
 
     :param size: Side dimension of the cube
     :type size: float
-    :param reflectivity: Reflectivity of the hypothenuse (between 0 and 1).
+    :param reflectivity: Reflectivity of the hypotenuse (between 0 and 1).
     :type reflectivity: float
-    :param material: Material used to make the cube. Usedto calculate the
+    :param material: Material used to make the cube. Used to calculate the
        refraction index of the cube
     :type material: float or
        :class:`~pyoptools.raytrace.mat_lib.material.Material` subclass instance

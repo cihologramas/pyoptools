@@ -20,10 +20,10 @@ cdef class poly1DrotDeriv:
     def __init__(self, coef, wrt):
         """Initilizer for a rotationally symmetric 1D polynomial derivative
 
-        Paramerers
+        Parameters
         ----------
         coef : tuple of float
-            All the coeffiecents starting from index 0
+            All the coefficients starting from index 0
         wrt: int
             Selector for the axis to find the derivative with respect to.
             Either 0 or 1 for the x or y axis respectively. Other values
@@ -83,10 +83,10 @@ cdef class poly1Drot:
         This can be evaluated at any point x, y in the same way as a 2D
         polynomial.
 
-        Paramerers
+        Parameters
         ----------
         coef : tuple of float
-            All the coeffiecents starting from index 0
+            All the coefficients starting from index 0
         """
 
         self.coef = np.array(coef, dtype=np.float64)
