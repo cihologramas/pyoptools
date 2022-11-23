@@ -122,6 +122,9 @@ class LibraryModule:
     def _json_files(self):
         return list(self.dp.glob("*.json")) + self._user_libraries
 
+    def catalogs(self):
+        return [catalog.stem for catalog in self._json_files()]
+
 
 sys.modules[__name__] = LibraryModule()
 
@@ -129,7 +132,7 @@ sys.modules[__name__] = LibraryModule()
 class OpticCatalog:
     def __init__(self, catalog_path):
         self.catalog_path = catalog_path
-        self.jf = catalog_path.open(mode="r+b")
+        self.jf = catalog_path.open(mode="rb")
 
     def items(self):
         gen = ijson.kvitems(self.jf, "", use_float=True)

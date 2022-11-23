@@ -30,6 +30,8 @@ setup(
             "data/glass/*/*/*",
             "data/inorganic/*",
             "data/inorganic/*/*",
+            "data/organic/*",
+            "data/organic/*/*",
             "data/aliases.json",
         ],
         "pyoptools.raytrace.library": [

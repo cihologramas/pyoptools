@@ -125,12 +125,18 @@ class MaterialLibrary:
         else:
             raise KeyError(f"Material {name} not found.")
 
-    def find_material(self, search, printout=True):
+    def find_material(self, search, printout=True, exact=False, unalias=False):
         """Search for a material where the string _search_ is found in the
         name or description. For example:
 
         If printout is True, prints a list of the commands used to access
         the matching materials.
+
+        If exact is True, return only the items where the material name is an
+        exact match of the search string.
+
+        If unalias is True, the materials found in the alises list, will be 
+        translated to the real material.
 
         Returns a list of the keys which can be used to retrieve candidate
         materials.
@@ -174,6 +180,23 @@ class MaterialLibrary:
             if r is not None:
                 results += r
 
+        if exact:
+            results = list(filter(lambda mat_item: mat_item[1]==search,
+                                  results))
+        if unalias:
+            unaliased = []
+            for r in results:
+                if r[0] is None:
+                    realmat = self.aliases[r[1]]
+
+                    if realmat["type"] != "glass":
+                        raise ValueError("Don't know how to handle {}".format(realmat["type"]))
+                    
+                    unaliased.append((realmat["library"], realmat["material"],None))
+                else:
+                    unaliased.append(r)
+            results = unaliased
+            
         if printout:
             for r in results:
                 catalog, name, ref = r
@@ -245,6 +268,26 @@ class MaterialLibrary:
             return MaterialLibrary(prefix = name)
         else:
             raise AttributeError(f"Material {name} not found.")
+
+    def get_glass_libraries(self):
+        """Returns a list of strings containing the names of the glass 
+        libraries defined in PyOpTools"""
+        
+        libpaths = list(self.glass_path.glob("*"))
+
+        return ["aliases"]+[lib_path.parts[-1] for lib_path in libpaths]
+
+    def get_glass_materials_from_library(self,libname):
+        """Returns a list of strings containing the names of the materials 
+           defined in the library 'libname'
+        """
+        
+        if libname == "aliases":
+            return list(self.aliases.keys())
+        
+        matfiles = self.glass_path.glob(f"{libname}/*.yml")
+        return [mat.stem for mat in matfiles]
+        
 
 class CompoundLibrary:
     def __init__(self, lib_path):
