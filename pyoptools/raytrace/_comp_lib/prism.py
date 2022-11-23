@@ -38,7 +38,7 @@ class RightAnglePrism(Component):
         height       Height of the prism face
         material     To calculate the refraction index of the prism (inherited
                      from component)
-        reflectivity Reflectivity of the coating of the hipotenuse. For a normal
+        reflectivity Reflectivity of the coating of the hypotenuse. For a normal
                      prism it is 0. Note: Total internal reflection works in the
                      prism.
         reflega      Reflectivity of the Leg A of the prism. For a normal prism
@@ -47,7 +47,7 @@ class RightAnglePrism(Component):
                      it is 0.
         ============ ===========================================================
 
-    The origin of the coordinate system is located at the center of hipotenuse
+    The origin of the coordinate system is located at the center of hypotenuse
     face of the prism
     """
 

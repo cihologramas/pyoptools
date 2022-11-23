@@ -257,7 +257,7 @@ cdef class Component(Picklable):
         Method that reset the optical surfaces that compose the Component.
         For example the detector surfaces should be reset before repeating the
         ray trace to erase the hit lists. Normally this method should not be
-        used directly. It is called when the reset method of the sistem class is
+        used directly. It is called when the reset method of the system class is
         called
         """
         for comp in self.surflist:
@@ -273,7 +273,7 @@ cdef class Component(Picklable):
         """
         # Determine the refraction index of the incident and the refracted media
         # If ri.n is equal to the component refraction index, the ray is coming out
-        # from the componnent, if not, it is goint in to the component.
+        # from the component, if not, it is goint in to the component.
 
         my_n = self.n(ri.wavelength)
 

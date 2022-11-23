@@ -153,7 +153,7 @@ class PSystem:  # (MutableSequence):
 
     def get_matrix(self, ua=False):
         """Get total system matrix
-        if ua == True, stop at the firs system aperture found
+        if ua == True, stop at the first system aperture found
         """
         na = self.surfaces[0].n
         mat = array(((1, 0), (0, 1)))

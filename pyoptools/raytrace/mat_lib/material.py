@@ -231,7 +231,7 @@ class MaterialLibrary:
         """
 
         if self.prefix is not None:
-            raise Exception('get_from only availabe on base library.')
+            raise Exception('get_from only available on base library.')
 
         for libname in libs.split(' '):
             libname = libname.lower()

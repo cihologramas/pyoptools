@@ -167,7 +167,7 @@ def gs(idata, itera=10, ia=None):
 
 
 def gs_mod(idata, itera=10, osize=256):
-    """Modiffied Gerchberg-Saxton algorithm to calculate DOEs
+    """Modified Gerchberg-Saxton algorithm to calculate DOEs
 
     Calculates the phase distribution in a object plane to obtain an
     specific amplitude distribution in the target plane. It uses a
