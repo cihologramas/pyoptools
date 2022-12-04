@@ -7,6 +7,8 @@ import sys
 import csv
 import textwrap
 import traceback
+import argparse
+import re
 
 from pyoptools.raytrace.mat_lib import material
 
@@ -29,12 +31,17 @@ def find_key(key, lines):
         rv = ""
     return rv
 
-def checktype(surflist, t):
+def old_checktype(surflist, t):
     for s in surflist:
         if (t in s) or (s.get('TYPE', [None])[0]) == t:
             return True
     return False
 
+def checktype(surflist, t):
+    for s in surflist:
+        if 'TYPE' in s and s['TYPE'][0] == t:
+            return True
+    return False
 
 def checkglas(surflist, t):
     for s in surflist:
@@ -81,13 +88,20 @@ class ZmfImporter:
         self.zmf_path = Path(zmf_filename)
         self.failed_imports = []
 
-        self.manual_exclusions = ['Triplet', 'GRIN Lens', '46227']
+        self.manual_exclusions = ['Triplet',
+                                  'GRIN Lens',
+                                  '46227',
+                                  'Fiber Collimation Pkg']
 
-    def import_all(self):
-        self.read_zmf()
+    def import_parts(self, match_name=None):
+        """Import parts into local instance dict zmx_data.
+        If match_name is None, will import all. Otherwise, only make available
+        exact match to name.
+        """
+        self.read_zmf(match_name=match_name)
         self.make_pyot_descriptors()
 
-    def read_zmf(self):
+    def read_zmf(self, match_name=None):
         """
         Reads a Zemax library (file ending zmf), and populates the
         self.zmx_data dict with the descriptions of each component.
@@ -118,7 +132,12 @@ class ZmfImporter:
                 description = zmf_decode(description, li[8], li[9])
                 description = description.decode("latin1")
                 assert description.startswith("VERS {:06d}\n".format(li[1]))
-                self.zmx_data[li[0]] = description
+
+                if match_name is None:
+                    self.zmx_data[li[0]] = description
+                elif match_name == li[0]:
+                    self.zmx_data[li[0]] = description
+                    return
 
     def make_pyot_descriptors(self):
         self.descriptors = {}
@@ -208,7 +227,15 @@ class ZmfImporter:
             code = line[:4]
             data = line[5:].split()
             data = [convert(d) for d in data]
-            surflist[-1][code] = data
+
+            # PARM item need to be a sub-dict
+            if code == 'PARM':
+                if not 'PARM' in surflist[-1]:
+                    surflist[-1]['PARM'] = {}
+                surflist[-1]['PARM'][data[0]] = data[1]
+            # otherwise, put data in array
+            else:
+                surflist[-1][code] = data
 
         # Flag
         if any(ex in lens_data['description'] for ex in self.manual_exclusions):
@@ -240,15 +267,19 @@ class ZmfImporter:
             return FailedImport.mirrors_unsupported
 
         # Don't include aspheres
-        if checktype(surflist, 'EVENASPH'):
-            return FailedImport.aspheres_unsupported
+        #if checktype(surflist, 'EVENASPH'):
+        #    print('evenasph')
+        #    for s in surflist:
+        #        print(s)
+        #        print('\n')
+        #    return FailedImport.aspheres_unsupported
 
         # Don't include diffractive optics
         if checktype(surflist, 'BINARY_2'):
             return FailedImport.diffractive_optics_unsupported
 
-        if checktype(surflist, 'CONI'):
-            return FailedImport.conical_unsupported
+        #if checktype(surflist, 'CONI'):
+        #    return FailedImport.conical_unsupported
 
         # Don't include Fresnel lenses.
         if checktype(surflist, 'FRESNELS'):
@@ -294,6 +325,101 @@ class ZmfImporter:
             lens_data["material"] = surf[0]['GLAS'][0]
 
             return lens_data
+
+        # Aspheres
+        if checktype(surflist, 'EVENASPH'):
+            print('Importing aspheric')
+
+            lens_data['type'] = 'AsphericLens'
+            lens_data['thickness'] = None
+            lens_data['material'] = None
+            lens_data['origin'] = 'center'
+
+            #find the maximum clear aperture
+            clear_aperture = 0
+            for s in surflist:
+                if 'MEMA' in s:
+                    clear_aperture = max(clear_aperture, s['MEMA'][0]*2)
+            if clear_aperture == 0:
+                clear_aperture = None
+            lens_data['max_clear_aperture'] = clear_aperture
+
+            #find the diameter if given in NAME field
+            match = re.search("Ø=(.*?)mm", lens_data['description'])
+            if match is not None:
+                diameter = float(match.group(0)[2:-2])
+            else:
+                diameter = None
+
+            #find the aspheric surfaces, may be one or possibly two
+            aspheric_surface_defs = []
+            first_aspheric_index = None
+            for i, s in enumerate(surflist):
+                if 'TYPE' in s and s['TYPE'][0] == 'EVENASPH':
+                    print(s)
+                    if first_aspheric_index is None:
+                        first_aspheric_index = i
+
+                    surface_def = {}
+
+                    # It is not trivial to find the surface diameter
+                    # if diameter directly specified, use that
+                    if 'DIAM' in s:
+                        surface_def['diameter'] = 2*s['DIAM'][0]
+                    # if diameter and max_ca known, use average of those
+                    # this is a compromise for the case where zmx does not
+                    # model the brim.
+                    elif diameter is not None and clear_aperture is not None:
+                        surface_def['diameter'] = 0.5*(diameter+clear_aperture)
+                    # otherwise, use the defined clear aperture
+                    elif 'MEMA' in s:
+                        surface_def['diameter'] = 2*s['MEMA'][0]
+                    else:
+                        return FailedImport.diameter_undefined
+
+                    surface_def['roc'] = 1.0/s['CURV'][0]
+                    surface_def['k'] = s['CONI'][0]
+                    coefficents = [0,0,0,0] + [s['PARM'][p] for p in range(2,9)]
+                    surface_def['polycoefficents'] = coefficents
+
+                    aspheric_surface_defs.append(surface_def)
+
+                    # so far as I can tell, DISZ of first surface always
+                    # the total thickness
+                    if lens_data['thickness'] is None:
+                        lens_data['thickness'] = s['DISZ'][0]
+
+                    if lens_data['material'] is None:
+                        lens_data['material'] = s['GLAS'][0]
+
+            lens_data['s1'] = aspheric_surface_defs[0]
+            try:
+                lens_data['s2'] = aspheric_surface_defs[1]
+            except IndexError:
+                # In only one aspheric surface found, decide what to do based
+                # on the next defined surface
+                posterior_surface = surflist[first_aspheric_index+1]
+
+                if posterior_surface['CURV'][0] == 0:
+                    # plano surface
+                    lens_data['s2'] = None
+                else:
+                    # spherical surface
+                    surface_def = {'diameter' : lens_data['s1']['diameter'],
+                                   'roc' : 1.0/posterior_surface['CURV'][0],
+                                   'k' : 0,
+                                   'polycoefficents' : (0, 0, 0, 0, 0, 0, 0)}
+                    lens_data['s2'] = surface_def
+
+
+            # put in the diameter
+            if diameter is None:
+                lens_data['outer_diameter'] = lens_data['s1']['diameter']
+            else:
+                lens_data['outer_diameter'] = diameter
+
+            return lens_data
+
 
         # Identify the type of lenses from the number of surfaces
         ns = len(surflist)
@@ -345,6 +471,7 @@ class ZmfImporter:
 
             # return CL.SphericalLens(r0,d0,c0,c1,material=m0)
 
+        # Doublets
         elif ns == 3:
             lens_data["curvature_s1"] = surflist[0]["CURV"][0]
             lens_data["curvature_s2"] = surflist[1]["CURV"][0]
@@ -498,14 +625,55 @@ class ZmfImporter:
             #for i in surflist:
             #    print("*", i)
 
-def main(filename):
-    imp = ZmfImporter(filename)
-    imp.import_all()
-    print(f"Imported {len(imp.descriptors)} items. "
-          f"Failed to import {len(imp.failed_imports)} items.")
+def main():
 
-    imp.save_json()
-    imp.save_failed_csv()
+    parser = argparse.ArgumentParser(
+                prog = 'Pyoptools ZMF importer',
+                description = ('Finds optical component descriptions '
+                               'in ZMF files and produces a .json '
+                               'component descriptor file. Failed imports '
+                               'are logged to a .csv file.'),
+                add_help=True)
+    parser.add_argument('ZMF_filename')
+    parser.add_argument('-p', '--part', type=str,
+                        help = ('optional : for decoding just one part. '
+                                'Ommit to decode all'))
+    parser.add_argument('-o', '--output', required=False, action='store_true',
+                        help = ('Output .json and .csv files. '
+                                'If not specified, output will be to terminal.')
+                        )
+    parser.add_argument('-d', '--decode', required=False,
+                        action='store_true',
+                        help = 'Just print the raw decoded ZMX output')
+
+    args = parser.parse_args()
+
+    imp = ZmfImporter(args.ZMF_filename)
+
+    if not args.decode:
+        imp.import_parts(match_name=args.part)
+        print(f"Imported {len(imp.descriptors)} items. "
+              f"Failed to import {len(imp.failed_imports)} items.")
+
+        if args.output:
+            imp.save_json()
+            imp.save_failed_csv()
+        else:
+            print(json.dumps(imp.descriptors, indent = 4))
+            if len(imp.failed_imports) > 0:
+                print('\n\nFailed imports:\n')
+                for failed in imp.failed_imports:
+                    print(f"{failed[0]} : {failed[1]}")
+
+    else:
+        imp.read_zmf(match_name=args.part)
+        for k, v in imp.zmx_data.items():
+            header = f"Part : {k}"
+            print(header)
+            print('─'*len(header)+'\n')
+            print(v)
+            print('\n')
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    main()
+    #main(sys.argv[1])

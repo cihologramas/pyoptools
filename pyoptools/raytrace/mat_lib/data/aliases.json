@@ -91,6 +91,21 @@
     "POLYSTYRENE" : {
         "type" : "organic",
         "material" : "(C8H8)n:Zhang"
+    },
+    "H-LAK54_MOLD" : {
+        "type" : "glass",
+        "library" : "cdgm",
+        "material" : "H-LAK54"
+    },
+    "D-ZLAF52LA_M" : {
+        "type" : "glass",
+        "library" : "cdgm",
+        "material" : "D-ZLAF52LA"
+    },
+    "D-ZK3M" : {
+        "type" : "glass",
+        "library" : "cdgm",
+        "material" : "D-ZK3"
     }
 }
 
