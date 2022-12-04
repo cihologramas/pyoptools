@@ -31,13 +31,14 @@ def find_key(key, lines):
         rv = ""
     return rv
 
-def old_checktype(surflist, t):
-    for s in surflist:
-        if (t in s) or (s.get('TYPE', [None])[0]) == t:
-            return True
-    return False
+#def old_checktype(surflist, t):
+#    for s in surflist:
+#        if (t in s) or (s.get('TYPE', [None])[0]) == t:
+#            return True
+#    return False
 
 def checktype(surflist, t):
+    "Returns true if any surfaces in list have type id string t"
     for s in surflist:
         if 'TYPE' in s and s['TYPE'][0] == t:
             return True
@@ -60,10 +61,15 @@ def zmf_decode(data, a, b):
     data ^= np.fromiter(k, np.uint8, len(data))
     return data.tobytes()
 
-#def zmx_read(fn):
-#    f = open(fn, "rU")
-#    data = f.read()
-#    return zmx_parse(data)
+def flip_aspheric_defn(defn):
+    "Flip the definition dict for an aspheric surface"
+    return {
+        'diameter' : defn['diameter'],
+        'roc' : -1*defn['roc'],
+        'k' : 1*defn['k'],
+        'polycoefficents' : tuple(
+            [-1*x for x in defn['polycoefficents']])
+    }
 
 class FailedImport(Enum):
     manual_exclusion = auto()
@@ -80,6 +86,7 @@ class FailedImport(Enum):
     diameter_undefined = auto()
     unequal_surface_radius = auto()
     unknown_material_type = auto()
+    glass_undefined = auto()
     unknown = auto()
 
 class ZmfImporter:
@@ -91,7 +98,8 @@ class ZmfImporter:
         self.manual_exclusions = ['Triplet',
                                   'GRIN Lens',
                                   '46227',
-                                  'Fiber Collimation Pkg']
+                                  'Fiber Collimation Pkg',
+                                  'Collimator']
 
     def import_parts(self, match_name=None):
         """Import parts into local instance dict zmx_data.
@@ -328,7 +336,7 @@ class ZmfImporter:
 
         # Aspheres
         if checktype(surflist, 'EVENASPH'):
-            print('Importing aspheric')
+            #print('Importing aspheric')
 
             lens_data['type'] = 'AsphericLens'
             lens_data['thickness'] = None
@@ -356,7 +364,7 @@ class ZmfImporter:
             first_aspheric_index = None
             for i, s in enumerate(surflist):
                 if 'TYPE' in s and s['TYPE'][0] == 'EVENASPH':
-                    print(s)
+                    #print(s)
                     if first_aspheric_index is None:
                         first_aspheric_index = i
 
@@ -378,7 +386,12 @@ class ZmfImporter:
                         return FailedImport.diameter_undefined
 
                     surface_def['roc'] = 1.0/s['CURV'][0]
-                    surface_def['k'] = s['CONI'][0]
+
+                    if 'CONI' in s:
+                        surface_def['k'] = s['CONI'][0]
+                    else:
+                        surface_def['k'] = 0
+
                     coefficents = [0,0,0,0] + [s['PARM'][p] for p in range(2,9)]
                     surface_def['polycoefficents'] = coefficents
 
@@ -390,27 +403,32 @@ class ZmfImporter:
                         lens_data['thickness'] = s['DISZ'][0]
 
                     if lens_data['material'] is None:
-                        lens_data['material'] = s['GLAS'][0]
+                        try:
+                            lens_data['material'] = s['GLAS'][0]
+                        except KeyError:
+                            return FailedImport.glass_undefined
 
             lens_data['s1'] = aspheric_surface_defs[0]
-            try:
-                lens_data['s2'] = aspheric_surface_defs[1]
-            except IndexError:
-                # In only one aspheric surface found, decide what to do based
+            if len(aspheric_surface_defs) > 1:
+                # Double-aspheric lens
+                lens_data['s2'] = flip_aspheric_defn(aspheric_surface_defs[1])
+            else:
+                # If only one aspheric surface found, decide what to do based
                 # on the next defined surface
                 posterior_surface = surflist[first_aspheric_index+1]
+                s1_data = lens_data['s1']
 
                 if posterior_surface['CURV'][0] == 0:
                     # plano surface
                     lens_data['s2'] = None
                 else:
                     # spherical surface
-                    surface_def = {'diameter' : lens_data['s1']['diameter'],
-                                   'roc' : 1.0/posterior_surface['CURV'][0],
-                                   'k' : 0,
-                                   'polycoefficents' : (0, 0, 0, 0, 0, 0, 0)}
-                    lens_data['s2'] = surface_def
-
+                    lens_data['s2'] = {
+                        'diameter' : s1_data['diameter'],
+                        'roc' : -1.0/posterior_surface['CURV'][0],
+                        'k' : 0,
+                        'polycoefficents' : (0, 0, 0, 0, 0, 0, 0)
+                    }
 
             # put in the diameter
             if diameter is None:
