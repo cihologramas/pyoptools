@@ -47,7 +47,7 @@ class SphericalLens(Component):
     in the optical axis (mid-point between vertex of the Spherical surfaces).
     """
 
-    # Aperture or the lens
+    # Aperture of the lens
     # radius = Float(50.)
 
     # Thickness of the lens at the optical axis
