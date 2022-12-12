@@ -243,7 +243,28 @@ class AsphericImporter(OpticImporter):
                 else:
                     surface_def['k'] = 0
 
-                coefficents = [0,0,0,0] + [s['PARM'][p] for p in range(2,9)]
+                # Put the coefficents in the right place in polycoefficents
+                coefficents = [0]*17
+                param_idx_to_coefficent = {
+                    2 : 4,
+                    3 : 6,
+                    4 : 8,
+                    5 : 10,
+                    6 : 12,
+                    7 : 14,
+                    8 : 16}
+                for p, value in s['PARM'].items():
+                    if p in param_idx_to_coefficent:
+                        coef_index = param_idx_to_coefficent[p]
+                        coefficents[coef_index] = value
+
+                if all(c == 0 for c in coefficents):
+                    coefficents = [0,0,0,0]
+                else:
+                    # Remove any trailing zeros
+                    while coefficents[-1] == 0:
+                        coefficents.pop(-1)
+
                 surface_def['polycoefficents'] = coefficents
 
                 aspheric_surface_defs.append(surface_def)
