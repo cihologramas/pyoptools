@@ -711,7 +711,7 @@ def main():
     parser.add_argument('ZMF_filename')
     parser.add_argument('-p', '--part', type=str,
                         help = ('optional : for decoding just one part. '
-                                'Ommit to decode all'))
+                                'Omit to decode all'))
     parser.add_argument('-o', '--output', required=False, action='store_true',
                         help = ('Output .json and .csv files. '
                                 'If not specified, output will be to terminal.')
