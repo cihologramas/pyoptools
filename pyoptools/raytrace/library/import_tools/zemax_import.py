@@ -7,6 +7,8 @@ import sys
 import csv
 import textwrap
 import traceback
+import argparse
+import re
 
 from pyoptools.raytrace.mat_lib import material
 
@@ -30,11 +32,11 @@ def find_key(key, lines):
     return rv
 
 def checktype(surflist, t):
+    "Returns true if any surfaces in list have type id string t"
     for s in surflist:
-        if (t in s) or (s.get('TYPE', [None])[0]) == t:
+        if 'TYPE' in s and s['TYPE'][0] == t:
             return True
     return False
-
 
 def checkglas(surflist, t):
     for s in surflist:
@@ -53,10 +55,15 @@ def zmf_decode(data, a, b):
     data ^= np.fromiter(k, np.uint8, len(data))
     return data.tobytes()
 
-#def zmx_read(fn):
-#    f = open(fn, "rU")
-#    data = f.read()
-#    return zmx_parse(data)
+def flip_aspheric_defn(defn):
+    "Flip the definition dict for an aspheric surface"
+    return {
+        'diameter' : defn['diameter'],
+        'roc' : -1*defn['roc'],
+        'k' : 1*defn['k'],
+        'polycoefficents' : tuple(
+            [-1*x for x in defn['polycoefficents']])
+    }
 
 class FailedImport(Enum):
     manual_exclusion = auto()
@@ -73,21 +80,426 @@ class FailedImport(Enum):
     diameter_undefined = auto()
     unequal_surface_radius = auto()
     unknown_material_type = auto()
+    glass_undefined = auto()
+    missing_aspheric_surface = auto()
     unknown = auto()
 
+class OpticImporter:
+    def __init__(self, description='', surflist=[], gcat='', key=''):
+        self.description = description
+        self.key = key
+        self.surflist = surflist
+        self.lens_data = {'description' : self.description,
+                          'glass_catalogs' : gcat}
+
+class SingletImporter(OpticImporter):
+    def valid(self):
+        return len(self.surflist) == 2
+
+    def definition(self):
+
+        c0 = self.surflist[0]["CURV"][0]
+        c1 = self.surflist[1]["CURV"][0]
+        d0 = self.surflist[0]["DISZ"][0]
+        # Not all lenses have DIAM in both surfaces
+        if "DIAM" in self.surflist[0] and "DIAM" in self.surflist[1]:
+            r0 = self.surflist[0]["DIAM"][0]
+            r1 = self.surflist[1]["DIAM"][0]
+        elif "DIAM" in self.surflist[0]:
+            r0 = self.surflist[0]["DIAM"][0]
+            r1 = r0
+        elif "DIAM" in self.surflist[1]:
+            r0 = self.surflist[1]["DIAM"][0]
+            r1 = r0
+        else:
+            return FailedImport.diameter_undefined
+
+        g0 = self.surflist[0]["GLAS"][0]
+
+        # Check that the surfaces are equal, if not issue an error
+        if not r0 == r1:
+            return FailedImport.unequal_surface_radius
+
+        self.lens_data["material"] = g0
+        self.lens_data["thickness"] = self.surflist[0]["DISZ"][0]
+        self.lens_data["radius"] = r0
+        self.lens_data["curvature_s2"] = self.surflist[1]["CURV"][0]
+        self.lens_data["curvature_s1"] = self.surflist[0]["CURV"][0]
+        self.lens_data["type"] = "SphericalLens"
+
+        # Ball and half-ball lenses often have a numerical issue where
+        # the aperture radius is slightly larger than allowed by the
+        # surface curvature. This handles that special case
+        if 'ball' in self.lens_data['description'].lower():
+            max_curve = max(abs(self.lens_data["curvature_s1"]),
+                            abs(self.lens_data["curvature_s2"]))
+            if r0 * max_curve >= 1:
+                self.lens_data["radius"] = 1.0 / max_curve
+                print(f"Fixed radius of item {self.key} : "
+                        f"r0={r0} to {self.lens_data['radius']}")
+
+        return self.lens_data
+
+class CylindricalImporter(OpticImporter):
+    """ Cylindrical lenses. It seems these are modeled as 'toroidal'
+        Currently working for plano-convex and plano-concave, rectangular
+    """
+
+    def valid(self):
+        return checktype(self.surflist, 'TOROIDAL')
+
+    def definition(self):
+
+        self.lens_data["type"] = "CylindricalLens"
+
+        # Get the size from the first surface
+        all_sqaps = [tuple(s['SQAP']) for s in self.surflist if 'SQAP' in s]
+        # Verify all SQAP elements same for all surfaces
+        if len(set(all_sqaps)) != 1:
+            return FailedImport.acylindrical_unsupported
+
+        self.lens_data["size"] = tuple(reversed(all_sqaps[0][0:2]))
+
+        # Get thickness. Seems the DISZ element in the surface with
+        # COMM equal to the key is where this is found
+        k = self.key
+        surf = [s for s in self.surflist if 'COMM' in s and s['COMM'][0] == k]
+        if len(surf) != 1:
+            return FailedImport.no_primary_surface
+
+        self.lens_data["thickness"] = float(surf[0]['DISZ'][0])
+        self.lens_data["curvature_s1"] = float(surf[0]['CURV'][0])
+        self.lens_data["curvature_s2"] = 0.0
+        self.lens_data["material"] = surf[0]['GLAS'][0]
+
+        return self.lens_data
+
+class AsphericImporter(OpticImporter):
+    def valid(self):
+        return checktype(self.surflist, 'EVENASPH')
+
+    def definition(self):
+        #print('Importing aspheric')
+
+        self.lens_data['type'] = 'AsphericLens'
+        self.lens_data['thickness'] = None
+        self.lens_data['material'] = None
+        self.lens_data['origin'] = 'center'
+
+        #find the maximum clear aperture
+        max_clear_aperture = 0
+        for s in self.surflist:
+            if 'MEMA' in s:
+                max_clear_aperture = max(max_clear_aperture, s['MEMA'][0]*2)
+        if max_clear_aperture == 0:
+            max_clear_aperture = None
+        self.lens_data['max_clear_aperture'] = max_clear_aperture
+
+        #find the diameter if given in NAME field
+        match = re.search("Ø=(.*?)mm", self.description)
+        if match is not None:
+            diameter = float(match.group(0)[2:-2])
+        else:
+            diameter = None
+
+        #find the aspheric surfaces, may be one or possibly two
+        aspheric_surface_defs = []
+        first_aspheric_index = None
+        for i, s in enumerate(self.surflist):
+            if ('TYPE' in s and
+                s['TYPE'][0] == 'EVENASPH' and
+                s['CURV'][0] != 0.0):
+
+                if first_aspheric_index is None:
+                    first_aspheric_index = i
+
+                surface_def = {}
+
+                # It is not trivial to find the surface diameter
+
+                # if diameter directly specified for the surface, use that
+                if 'DIAM' in s:
+                    surface_def['diameter'] = 2*s['DIAM'][0]
+
+                # otherwise, if clear aperture specified use that
+                elif 'MEMA' in s:
+                    surface_def['diameter'] = 2*s['MEMA'][0]
+
+                # otherwise, if diameter specified globally, use that
+                elif diameter is not None:
+                    surface_def['diameter'] = diameter
+
+                # otherwise, use the max clear aperture from all surfaces
+                elif max_clear_aperture is not None:
+                    surface_def['diameter'] = max_clear_aperture
+
+                else:
+                    return FailedImport.diameter_undefined
+
+                surface_def['roc'] = 1.0/s['CURV'][0]
+
+                if 'CONI' in s:
+                    surface_def['k'] = s['CONI'][0]
+                else:
+                    surface_def['k'] = 0
+
+                # Put the coefficents in the right place in polycoefficents
+                coefficents = [0]*17
+                param_idx_to_coefficent = {
+                    2 : 4,
+                    3 : 6,
+                    4 : 8,
+                    5 : 10,
+                    6 : 12,
+                    7 : 14,
+                    8 : 16}
+                for p, value in s['PARM'].items():
+                    if p in param_idx_to_coefficent:
+                        coef_index = param_idx_to_coefficent[p]
+                        coefficents[coef_index] = value
+
+                if all(c == 0 for c in coefficents):
+                    coefficents = [0,0,0,0]
+                else:
+                    # Remove any trailing zeros
+                    while coefficents[-1] == 0:
+                        coefficents.pop(-1)
+
+                surface_def['polycoefficents'] = coefficents
+
+                aspheric_surface_defs.append(surface_def)
+
+                # so far as I can tell, DISZ of first surface always
+                # the total thickness
+                if self.lens_data['thickness'] is None:
+                    self.lens_data['thickness'] = s['DISZ'][0]
+
+                if self.lens_data['material'] is None:
+                    try:
+                        self.lens_data['material'] = s['GLAS'][0]
+                    except KeyError:
+                        return FailedImport.glass_undefined
+
+        try:
+            self.lens_data['s1'] = aspheric_surface_defs[0]
+        except IndexError:
+            return FailedImport.missing_aspheric_surface
+
+        if len(aspheric_surface_defs) > 1:
+            # Double-aspheric lens
+            self.lens_data['s2'] = flip_aspheric_defn(aspheric_surface_defs[1])
+        else:
+            # If only one aspheric surface found, decide what to do based
+            # on the next defined surface
+            posterior_surface = self.surflist[first_aspheric_index+1]
+            s1_data = self.lens_data['s1']
+
+            if posterior_surface['CURV'][0] == 0:
+                # plano surface
+                self.lens_data['s2'] = None
+            else:
+                # spherical surface
+                self.lens_data['s2'] = {
+                    'diameter' : s1_data['diameter'],
+                    'roc' : -1.0/posterior_surface['CURV'][0],
+                    'k' : 0,
+                    'polycoefficents' : (0, 0, 0, 0, 0, 0, 0)
+                }
+
+        # put in the diameter
+        if diameter is None:
+            if max_clear_aperture is None:
+                # Default to s1 diameter if nothing known
+                self.lens_data['outer_diameter'] = self.lens_data['s1']['diameter']
+            else:
+                self.lens_data['outer_diameter'] = max_clear_aperture
+        else:
+            # special case : both known but clear aperture largest, use that
+            if max_clear_aperture is not None and max_clear_aperture > diameter:
+                self.lens_data['outer_diameter'] = max_clear_aperture
+            # in general, use the specified diameter
+            else:
+                self.lens_data['outer_diameter'] = diameter
+
+        return self.lens_data
+
+class DoubletImporter(OpticImporter):
+    def valid(self):
+        return len(self.surflist) == 3
+
+    def definition(self):
+        # Doublets
+        self.lens_data["curvature_s1"] = self.surflist[0]["CURV"][0]
+        self.lens_data["curvature_s2"] = self.surflist[1]["CURV"][0]
+        self.lens_data["curvature_s3"] = self.surflist[2]["CURV"][0]
+        self.lens_data["thickness_l1"] = self.surflist[0]["DISZ"][0]
+        self.lens_data["thickness_l2"] = self.surflist[1]["DISZ"][0]
+        r0 = self.surflist[0]["DIAM"][0]
+        r1 = self.surflist[1]["DIAM"][0]
+        r2 = self.surflist[2]["DIAM"][0]
+
+        # Check that the surfaces are equal, if not issue an error
+        if not (r0 == r1 and r1 == r2):
+            return FailedImport.unequal_surface_radius
+
+        self.lens_data["radius"] = r0
+
+        self.lens_data["material_l1"] = self.surflist[0]["GLAS"][0]
+        self.lens_data["material_l2"] = self.surflist[1]["GLAS"][0]
+        self.lens_data["type"] = "Doublet"
+        return self.lens_data
+
+class AirSpacedDoubletImporter(OpticImporter):
+
+    def valid(self):
+        return len(self.surflist) == 4
+
+    def definition(self):
+        self.lens_data["curvature_s1"] = self.surflist[0]["CURV"][0]
+        self.lens_data["curvature_s2"] = self.surflist[1]["CURV"][0]
+        self.lens_data["curvature_s3"] = self.surflist[2]["CURV"][0]
+        self.lens_data["curvature_s4"] = self.surflist[3]["CURV"][0]
+
+        self.lens_data["thickness_l1"] = self.surflist[0]["DISZ"][0]
+        self.lens_data["air_gap"] = self.surflist[1]["DISZ"][0]
+        self.lens_data["thickness_l2"] = self.surflist[2]["DISZ"][0]
+
+        # Verificar que las superficies son iguales, si no emitir un error
+        # assert r0==r1 and r1== r2 and r2 ==r3 Esto no siempre se cumple
+
+        r0 = self.surflist[0]["DIAM"][0]
+        r1 = self.surflist[1]["DIAM"][0]
+        r2 = self.surflist[2]["DIAM"][0]
+        r3 = self.surflist[3]["DIAM"][0]
+
+        # Verificar que las superficies son iguales, si no emitir un error
+        # assert r0==r1 and r1== r2 and r2 ==r3 #Esto no siempre se cumple
+
+        self.lens_data["radius"] = r0
+
+        self.lens_data["material_l1"] = self.surflist[0]["GLAS"][0]
+        # g1=surflist[1]["GLAS"][0] Este parametro no existe. Es aire
+        self.lens_data["material_l2"] = self.surflist[2]["GLAS"][0]
+
+        self.lens_data["type"] = "AirSpacedDoublet"
+        return self.lens_data
+
+class DoubletPairImporter(OpticImporter):
+    """ Doublet pair
+    Thorlabs have the term 'Matched Achromatic Pair'
+    in the description. Check for this to avoid
+    collision with triplets
+    """
+    def valid(self):
+        return len(self.surflist) == 6 and 'Pair' in self.description
+
+    def definition(self):
+
+        self.lens_data["curvature_s1"] = self.surflist[0]["CURV"][0]
+        self.lens_data["curvature_s2"] = self.surflist[1]["CURV"][0]
+        self.lens_data["curvature_s3"] = self.surflist[2]["CURV"][0]
+        self.lens_data["curvature_s4"] = self.surflist[3]["CURV"][0]
+        self.lens_data["curvature_s5"] = self.surflist[4]["CURV"][0]
+        self.lens_data["curvature_s6"] = self.surflist[5]["CURV"][0]
+
+        self.lens_data["thickness_l1"] = self.surflist[0]["DISZ"][0]
+        self.lens_data["thickness_l2"] = self.surflist[1]["DISZ"][0]
+        self.lens_data["air_gap"] = self.surflist[2]["DISZ"][0]
+        self.lens_data["thickness_l3"] = self.surflist[3]["DISZ"][0]
+        self.lens_data["thickness_l4"] = self.surflist[4]["DISZ"][0]
+
+        self.lens_data["material_l1"] = self.surflist[0]["GLAS"][0]
+        self.lens_data["material_l2"] = self.surflist[1]["GLAS"][0]
+        self.lens_data["material_l3"] = self.surflist[3]["GLAS"][0]
+        self.lens_data["material_l4"] = self.surflist[4]["GLAS"][0]
+
+        r0 = self.surflist[0]["DIAM"][0]
+        r1 = self.surflist[1]["DIAM"][0]
+        r2 = self.surflist[2]["DIAM"][0]
+        r3 = self.surflist[3]["DIAM"][0]
+        r4 = self.surflist[4]["DIAM"][0]
+        r5 = self.surflist[5]["DIAM"][0]
+
+        if not (r0 == r1 and r1 == r2 and r2 == r3 and r3 == r4 and r4 == r5):
+            return FailedImport.unequal_surface_radius
+
+        self.lens_data["radius"] = r0
+        self.lens_data["type"] = "DoubletPair"
+
+        #return lens_data
+        # There isn't yet a component class which can load these
+        return FailedImport.doublet_pairs_unsupported
+
+class DoubletPairCentStopImporter(OpticImporter):
+    """ Doublet pair with stop in the middle, stop ignored
+    Thorlabs have the term 'Matched Achromatic Pair'
+    in the description. Check for this to avoid
+    collision with triplets.
+    """
+    def valid(self):
+        return len(self.surflist) == 7 and 'Pair' in self.description
+
+    def definition(self):
+        self.lens_data["curvature_s1"] = self.surflist[0]["CURV"][0]
+        self.lens_data["curvature_s2"] = self.surflist[1]["CURV"][0]
+        self.lens_data["curvature_s3"] = self.surflist[2]["CURV"][0]
+        self.lens_data["curvature_s4"] = self.surflist[4]["CURV"][0]
+        self.lens_data["curvature_s5"] = self.surflist[5]["CURV"][0]
+        self.lens_data["curvature_s6"] = self.surflist[6]["CURV"][0]
+
+        self.lens_data["thickness_l1"] = self.surflist[0]["DISZ"][0]
+        self.lens_data["thickness_l2"] = self.surflist[1]["DISZ"][0]
+        self.lens_data["air_gap"] = (self.surflist[2]["DISZ"][0] +
+                                     self.surflist[3]["DISZ"][0])
+        self.lens_data["thickness_l3"] = self.surflist[4]["DISZ"][0]
+        self.lens_data["thickness_l4"] = self.surflist[5]["DISZ"][0]
+
+        self.lens_data["material_l1"] = self.surflist[0]["GLAS"][0]
+        self.lens_data["material_l2"] = self.surflist[1]["GLAS"][0]
+        self.lens_data["material_l3"] = self.surflist[4]["GLAS"][0]
+        self.lens_data["material_l4"] = self.surflist[5]["GLAS"][0]
+
+        r0 = self.surflist[0]["DIAM"][0]
+        r1 = self.surflist[1]["DIAM"][0]
+        r2 = self.surflist[2]["DIAM"][0]
+        r3 = self.surflist[4]["DIAM"][0]
+        r4 = self.surflist[5]["DIAM"][0]
+        r5 = self.surflist[1]["DIAM"][0]
+
+        if not(r0 == r1 and r1 == r2 and r2 == r3 and r3 == r4 and r4 == r5):
+            return FailedImport.unequal_surface_radius
+
+        self.lens_data["radius"] = r0
+        self.lens_data["type"] = "DoubletPair"
+
+        #return lens_data
+        # There isn't yet a component class which can load these
+        return FailedImport.doublet_pairs_unsupported
+
 class ZmfImporter:
+    """Imports a .ZMF file. List of definition dicts available in
+    .descriptors property after .import_parts has been called.
+    """
 
     def __init__(self, zmf_filename):
         self.zmf_path = Path(zmf_filename)
         self.failed_imports = []
 
-        self.manual_exclusions = ['Triplet', 'GRIN Lens', '46227']
+        self.manual_exclusions = ['Triplet',
+                                  'GRIN Lens',
+                                  '46227',
+                                  'Fiber Collimation Pkg',
+                                  'Collimator']
 
-    def import_all(self):
-        self.read_zmf()
+    def import_parts(self, match_name=None):
+        """Import parts into local instance dict zmx_data.
+        If match_name is None, will import all. Otherwise, only make available
+        exact match to name.
+        """
+        self.read_zmf(match_name=match_name)
         self.make_pyot_descriptors()
 
-    def read_zmf(self):
+    def read_zmf(self, match_name=None):
         """
         Reads a Zemax library (file ending zmf), and populates the
         self.zmx_data dict with the descriptions of each component.
@@ -118,7 +530,12 @@ class ZmfImporter:
                 description = zmf_decode(description, li[8], li[9])
                 description = description.decode("latin1")
                 assert description.startswith("VERS {:06d}\n".format(li[1]))
-                self.zmx_data[li[0]] = description
+
+                if match_name is None:
+                    self.zmx_data[li[0]] = description
+                elif match_name == li[0]:
+                    self.zmx_data[li[0]] = description
+                    return
 
     def make_pyot_descriptors(self):
         self.descriptors = {}
@@ -175,16 +592,10 @@ class ZmfImporter:
 
         # Thor uses the NAME key for description, while edmund puts there the
         # lens reference, and the description in NOTE 0
-        if name == key:
-            lens_data["description"] = description
-        else:
-            lens_data["description"] = name
+        if name != key:
+            description = name
 
-        # lens_data["description"]=name+"\n"+description
-
-        # I still don't know what to do with the mode
         mode = find_key("MODE", header)
-
         if mode != "SEQ":
             return FailedImport.mode_not_seq
 
@@ -192,8 +603,6 @@ class ZmfImporter:
 
         if unit != "MM":
             return FailedImport.units_not_mm
-
-        gcat = find_key("GCAT", header)
 
         # Separate the surfaces into a list of dictionaries
         surflist = []
@@ -208,10 +617,18 @@ class ZmfImporter:
             code = line[:4]
             data = line[5:].split()
             data = [convert(d) for d in data]
-            surflist[-1][code] = data
+
+            # PARM items need to be in a sub-dict
+            if code == 'PARM':
+                if not 'PARM' in surflist[-1]:
+                    surflist[-1]['PARM'] = {}
+                surflist[-1]['PARM'][data[0]] = data[1]
+            # otherwise, put data in array
+            else:
+                surflist[-1][code] = data
 
         # Flag
-        if any(ex in lens_data['description'] for ex in self.manual_exclusions):
+        if any(ex in description for ex in self.manual_exclusions):
             #print(f"\n *** \n Manually excluded : {key}")
             #print(libdata[key])
             #print('\n')
@@ -224,8 +641,9 @@ class ZmfImporter:
         surflist.pop(0)
         surflist.pop()
 
-        # Many lenses have a first surface with no glass, this mean air, so they will be
-        # removed. It seems this is user to mark the mounting tube
+        # Many lenses have a first surface with no glass, this mean air,
+        # so they will be removed.
+        # It seems this is user to mark the mounting tube
         if "GLAS" not in surflist[0]:
             surflist.pop(0)
 
@@ -239,16 +657,9 @@ class ZmfImporter:
         if checkglas(surflist, "MIRROR"):
             return FailedImport.mirrors_unsupported
 
-        # Don't include aspheres
-        if checktype(surflist, 'EVENASPH'):
-            return FailedImport.aspheres_unsupported
-
         # Don't include diffractive optics
         if checktype(surflist, 'BINARY_2'):
             return FailedImport.diffractive_optics_unsupported
-
-        if checktype(surflist, 'CONI'):
-            return FailedImport.conical_unsupported
 
         # Don't include Fresnel lenses.
         if checktype(surflist, 'FRESNELS'):
@@ -258,6 +669,7 @@ class ZmfImporter:
             return FailedImport.fresnet_unsupported
 
         # Check that all the glass types are supported
+        gcat = find_key("GCAT", header)
         for s in surflist:
             if "GLAS" in s:
                 name = s["GLAS"][0]
@@ -267,245 +679,74 @@ class ZmfImporter:
                     print('Unknown material', name)
                     return FailedImport.unknown_material_type
 
-        # Cylindrical lenses. It seems these are modeled as 'toroidal'
-        # Currently working for plano-convex and plano-concave, rectangular
-        if checktype(surflist, 'TOROIDAL'):
-            lens_data["type"] = "CylindricalLens"
+        # Select the importer to use and run the import
+        args = {'description' : description,
+                'gcat' : gcat,
+                'key' : key,
+                'surflist' : surflist}
+        optic_importers = (CylindricalImporter,
+                           AsphericImporter,
+                           SingletImporter,
+                           DoubletImporter,
+                           AirSpacedDoubletImporter,
+                           DoubletPairImporter,
+                           DoubletPairCentStopImporter)
+        for importer in optic_importers:
+           i = importer(**args)
+           if i.valid():
+               return i.definition()
+        return FailedImport.unknown
 
-            #print(f"Processing CylindricalLens {key}")
+def main():
 
-            # Get the size from the first surface
-            all_sqaps = [tuple(s['SQAP']) for s in surflist if 'SQAP' in s]
-            # Verify all SQAP elements same for all surfaces
-            if len(set(all_sqaps)) != 1:
-                return FailedImport.acylindrical_unsupported
+    parser = argparse.ArgumentParser(
+        prog = 'Pyoptools ZMF importer',
+        description = ('Finds optical component descriptions '
+                        'in ZMF files and produces a .json '
+                        'component descriptor file. Failed imports '
+                        'are logged to a .csv file.'),
+        add_help=True
+    )
 
-            lens_data["size"] = tuple(reversed(all_sqaps[0][0:2]))
+    parser.add_argument('ZMF_filename')
+    parser.add_argument('-p', '--part', type=str,
+                        help = ('optional : for decoding just one part. '
+                                'Omit to decode all'))
+    parser.add_argument('-o', '--output', required=False, action='store_true',
+                        help = ('Output .json and .csv files. '
+                                'If not specified, output will be to terminal.')
+                        )
+    parser.add_argument('-d', '--decode', required=False,
+                        action='store_true',
+                        help = 'Just print the raw decoded ZMX output')
 
-            # Get thickness. Seems the DISZ element in the surface with
-            # COMM equal to the key is where this is found
-            surf = [s for s in surflist if 'COMM' in s and s['COMM'][0] == key]
-            if len(surf) != 1:
-                return FailedImport.no_primary_surface
+    args = parser.parse_args()
 
-            lens_data["thickness"] = float(surf[0]['DISZ'][0])
-            lens_data["curvature_s1"] = float(surf[0]['CURV'][0])
-            lens_data["curvature_s2"] = 0.0
-            lens_data["material"] = surf[0]['GLAS'][0]
+    imp = ZmfImporter(args.ZMF_filename)
 
-            return lens_data
+    if not args.decode:
+        imp.import_parts(match_name=args.part)
+        print(f"Imported {len(imp.descriptors)} items. "
+              f"Failed to import {len(imp.failed_imports)} items.")
 
-        # Identify the type of lenses from the number of surfaces
-        ns = len(surflist)
-
-        # Normal Singlets
-        if ns == 2:
-            c0 = surflist[0]["CURV"][0]
-            c1 = surflist[1]["CURV"][0]
-            d0 = surflist[0]["DISZ"][0]
-            # Not all lenses have DIAM in both surfaces
-            if "DIAM" in surflist[0] and "DIAM" in surflist[1]:
-                r0 = surflist[0]["DIAM"][0]
-                r1 = surflist[1]["DIAM"][0]
-            elif "DIAM" in surflist[0]:
-                r0 = surflist[0]["DIAM"][0]
-                r1 = r0
-            elif "DIAM" in surflist[1]:
-                r0 = surflist[1]["DIAM"][0]
-                r1 = r0
-            else:
-                return FailedImport.diameter_undefined
-
-            g0 = surflist[0]["GLAS"][0]
-
-            # Check that the surfaces are equal, if not issue an error
-            if not r0 == r1:
-                return FailedImport.unequal_surface_radius
-
-            lens_data["material"] = g0
-            lens_data["glass_catalogs"] = gcat
-            lens_data["thickness"] = surflist[0]["DISZ"][0]
-            lens_data["radius"] = r0
-            lens_data["curvature_s2"] = surflist[1]["CURV"][0]
-            lens_data["curvature_s1"] = surflist[0]["CURV"][0]
-            lens_data["type"] = "SphericalLens"
-
-            # Ball and half-ball lenses often have a numerical issue where
-            # the aperture radius is slightly larger than allowed by the
-            # surface curvature. This handles that special case
-            if 'ball' in lens_data['description'].lower():
-                max_curve = max(abs(lens_data["curvature_s1"]),
-                                abs(lens_data["curvature_s2"]))
-                if r0 * max_curve >= 1:
-                    lens_data["radius"] = 1.0 / max_curve
-                    print(f"Fixed radius of {key} : "
-                          f"r0={r0} to {lens_data['radius']}")
-
-            return lens_data
-
-            # return CL.SphericalLens(r0,d0,c0,c1,material=m0)
-
-        elif ns == 3:
-            lens_data["curvature_s1"] = surflist[0]["CURV"][0]
-            lens_data["curvature_s2"] = surflist[1]["CURV"][0]
-            lens_data["curvature_s3"] = surflist[2]["CURV"][0]
-            lens_data["thickness_l1"] = surflist[0]["DISZ"][0]
-            lens_data["thickness_l2"] = surflist[1]["DISZ"][0]
-            r0 = surflist[0]["DIAM"][0]
-            r1 = surflist[1]["DIAM"][0]
-            r2 = surflist[2]["DIAM"][0]
-
-            # Check that the surfaces are equal, if not issue an error
-            if not (r0 == r1 and r1 == r2):
-                return FailedImport.unequal_surface_radius
-
-            lens_data["radius"] = r0
-
-            lens_data["material_l1"] = surflist[0]["GLAS"][0]
-            lens_data["material_l2"] = surflist[1]["GLAS"][0]
-            lens_data["glass_catalogs"] = gcat
-            # return CL.Doublet(r0,c0,c1,c2, d0,d1,m0,m1)
-            lens_data["type"] = "Doublet"
-            return lens_data
-
-        elif ns == 4:
-            lens_data["curvature_s1"] = surflist[0]["CURV"][0]
-            lens_data["curvature_s2"] = surflist[1]["CURV"][0]
-            lens_data["curvature_s3"] = surflist[2]["CURV"][0]
-            lens_data["curvature_s4"] = surflist[3]["CURV"][0]
-
-            lens_data["thickness_l1"] = surflist[0]["DISZ"][0]
-            lens_data["air_gap"] = surflist[1]["DISZ"][0]
-            lens_data["thickness_l2"] = surflist[2]["DISZ"][0]
-
-            # Verificar que las superficies son iguales, si no emitir un error
-            # assert r0==r1 and r1== r2 and r2 ==r3 Esto no siempre se cumple
-
-            r0 = surflist[0]["DIAM"][0]
-            r1 = surflist[1]["DIAM"][0]
-            r2 = surflist[2]["DIAM"][0]
-            r3 = surflist[3]["DIAM"][0]
-
-            # Verificar que las superficies son iguales, si no emitir un error
-            # assert r0==r1 and r1== r2 and r2 ==r3 #Esto no siempre se cumple
-
-            lens_data["radius"] = r0
-
-            lens_data["material_l1"] = surflist[0]["GLAS"][0]
-            # g1=surflist[1]["GLAS"][0] Este parametro no existe. Es aire
-            lens_data["material_l2"] = surflist[2]["GLAS"][0]
-
-            lens_data["glass_catalogs"] = gcat
-
-            lens_data["type"] = "AirSpacedDoublet"
-            return lens_data
-
-        # Doublet pair
-        # Thorlabs have the term 'Matched Achromatic Pair'
-        # in the description. Check for this to avoid
-        # collision with triplets
-        elif ns == 6 and 'Pair' in lens_data['description']:
-
-            lens_data["curvature_s1"] = surflist[0]["CURV"][0]
-            lens_data["curvature_s2"] = surflist[1]["CURV"][0]
-            lens_data["curvature_s3"] = surflist[2]["CURV"][0]
-            lens_data["curvature_s4"] = surflist[3]["CURV"][0]
-            lens_data["curvature_s5"] = surflist[4]["CURV"][0]
-            lens_data["curvature_s6"] = surflist[5]["CURV"][0]
-
-            lens_data["thickness_l1"] = surflist[0]["DISZ"][0]
-            lens_data["thickness_l2"] = surflist[1]["DISZ"][0]
-            lens_data["air_gap"] = surflist[2]["DISZ"][0]
-            lens_data["thickness_l3"] = surflist[3]["DISZ"][0]
-            lens_data["thickness_l4"] = surflist[4]["DISZ"][0]
-
-            lens_data["material_l1"] = surflist[0]["GLAS"][0]
-            lens_data["material_l2"] = surflist[1]["GLAS"][0]
-            lens_data["material_l3"] = surflist[3]["GLAS"][0]
-            lens_data["material_l4"] = surflist[4]["GLAS"][0]
-
-            r0 = surflist[0]["DIAM"][0]
-            r1 = surflist[1]["DIAM"][0]
-            r2 = surflist[2]["DIAM"][0]
-            r3 = surflist[3]["DIAM"][0]
-            r4 = surflist[4]["DIAM"][0]
-            r5 = surflist[5]["DIAM"][0]
-
-            if not (r0 == r1 and r1 == r2 and r2 == r3 and r3 == r4 and r4 == r5):
-                return FailedImport.unequal_surface_radius
-
-            lens_data["radius"] = r0
-            lens_data["glass_catalogs"] = gcat
-
-            lens_data["type"] = "DoubletPair"
-
-            #print('Imported a doublet pair with ns = 6\n')
-            #print(self.zmx_data[key])
-
-            #return lens_data
-            return FailedImport.doublet_pairs_unsupported
-
-        # Doublet pair with stop in the middle, stop ignored
-        # Thorlabs have the term 'Matched Achromatic Pair'
-        # in the description. Check for this to avoid
-        # collision with triplets
-        elif ns == 7 and 'Pair' in lens_data['description']:
-            lens_data["curvature_s1"] = surflist[0]["CURV"][0]
-            lens_data["curvature_s2"] = surflist[1]["CURV"][0]
-            lens_data["curvature_s3"] = surflist[2]["CURV"][0]
-            lens_data["curvature_s4"] = surflist[4]["CURV"][0]
-            lens_data["curvature_s5"] = surflist[5]["CURV"][0]
-            lens_data["curvature_s6"] = surflist[6]["CURV"][0]
-
-            lens_data["thickness_l1"] = surflist[0]["DISZ"][0]
-            lens_data["thickness_l2"] = surflist[1]["DISZ"][0]
-            lens_data["air_gap"] = surflist[2]["DISZ"][0]+surflist[3]["DISZ"][0]
-            lens_data["thickness_l3"] = surflist[4]["DISZ"][0]
-            lens_data["thickness_l4"] = surflist[5]["DISZ"][0]
-
-            lens_data["material_l1"] = surflist[0]["GLAS"][0]
-            lens_data["material_l2"] = surflist[1]["GLAS"][0]
-            lens_data["material_l3"] = surflist[4]["GLAS"][0]
-            lens_data["material_l4"] = surflist[5]["GLAS"][0]
-
-            r0 = surflist[0]["DIAM"][0]
-            r1 = surflist[1]["DIAM"][0]
-            r2 = surflist[2]["DIAM"][0]
-            r3 = surflist[4]["DIAM"][0]
-            r4 = surflist[5]["DIAM"][0]
-            r5 = surflist[1]["DIAM"][0]
-
-            if not(r0 == r1 and r1 == r2 and r2 == r3 and r3 == r4 and r4 == r5):
-                return FailedImport.unequal_surface_radius
-
-            lens_data["radius"] = r0
-            lens_data["glass_catalogs"] = gcat
-
-            lens_data["type"] = "DoubletPair"
-
-            #print('Imported a doublet pair with ns = 7\n')
-            #print(self.zmx_data[key])
-
-            #return lens_data
-            return FailedImport.doublet_pairs_unsupported
-
+        if args.output:
+            imp.save_json()
+            imp.save_failed_csv()
         else:
-            return FailedImport.unknown
-            # Print elements present in the library that were not processed or explicitly excluded
-            #print("***", key)
-            #print(description)
-            #print("Surfaces=", len(surflist))
-            #for i in surflist:
-            #    print("*", i)
+            print(json.dumps(imp.descriptors, indent = 4))
+            if len(imp.failed_imports) > 0:
+                print('\n\nFailed imports:\n')
+                for failed in imp.failed_imports:
+                    print(f"{failed[0]} : {failed[1]}")
 
-def main(filename):
-    imp = ZmfImporter(filename)
-    imp.import_all()
-    print(f"Imported {len(imp.descriptors)} items. "
-          f"Failed to import {len(imp.failed_imports)} items.")
-
-    imp.save_json()
-    imp.save_failed_csv()
+    else:
+        imp.read_zmf(match_name=args.part)
+        for k, v in imp.zmx_data.items():
+            header = f"Part : {k}"
+            print(header)
+            print('─'*len(header)+'\n')
+            print(v)
+            print('\n')
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    main()

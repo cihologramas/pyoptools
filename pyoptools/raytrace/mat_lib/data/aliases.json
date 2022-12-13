@@ -56,6 +56,10 @@
         "type" : "inorganic",
         "material" : "ZnSe:Adachi"
     },
+    "ZNS_IR" : {
+        "type" : "inorganic",
+        "material" : "ZnSe:Adachi"
+    },
     "F_SILICA" : {
         "type" : "inorganic",
         "material" : "SiO2:Malitson"
@@ -88,9 +92,63 @@
        "type" : "organic",
        "material" : "(C5H8O2)n:Zhang-Tomson"
     },
+    "ACRYLIC" : {
+       "type" : "organic",
+       "material" : "(C5H8O2)n:Zhang-Tomson"
+    },
     "POLYSTYRENE" : {
         "type" : "organic",
         "material" : "(C8H8)n:Zhang"
+    },
+    "H-LAK54_MOLD" : {
+        "type" : "glass",
+        "library" : "cdgm",
+        "material" : "H-LAK54"
+    },
+    "D-ZLAF52LA_M" : {
+        "type" : "glass",
+        "library" : "cdgm",
+        "material" : "D-ZLAF52LA"
+    },
+    "D-ZK3M" : {
+        "type" : "glass",
+        "library" : "cdgm",
+        "material" : "D-ZK3"
+    },
+    "D-ZLAF52LAM" : {
+        "type" : "glass",
+        "library" : "cdgm",
+        "material" : "D-ZLAF52LA"
+    },
+    "BD2" : {
+        "type" : "glass",
+        "library" : "lightpath",
+        "material" : "BD-2"
+    },
+    "D-K59_MOLD" : {
+        "type" : "glass",
+        "library" : "cdgm",
+        "material" : "D-K59"
+    },
+    "S-NPH1_MOLD" : {
+        "type" : "glass",
+        "library" : "ohara",
+        "material" : "S-NPH1"
+    },
+    "SF57_MOLD" : {
+        "type" : "glass",
+        "library" : "schott",
+        "material" : "SF57"
+    },
+    "D-LAK6_MOLD" : {
+        "type" : "glass",
+        "library" : "cdgm",
+        "material" : "D-LAK6"
+    },
+    "H-ZLAF52_MOLD" : {
+        "type" : "glass",
+        "library" : "cdgm",
+        "material" : "H-ZLAF52"
     }
 }
 
