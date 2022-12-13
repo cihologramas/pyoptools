@@ -31,13 +31,12 @@ def optic_factory(**kwargs):
                 m = material.get_from(v, kwargs['glass_catalogs'])
             else:
                 m = material[v]
+
             kwargs[k] = m
 
-    # Include only elements with corresponding key in constructor,
-    # or 'material' (since it is defined in the base class)
+    # Include only elements with corresponding key in constructor
     sig = signature(klass)
-    valid_keys = list(sig.parameters.keys()) + ['material']
-    new_kwargs = {k:v for (k,v) in kwargs.items() if k in valid_keys}
+    new_kwargs = {k:v for (k,v) in kwargs.items() if k in sig.parameters}
 
     return klass(**new_kwargs)
 
