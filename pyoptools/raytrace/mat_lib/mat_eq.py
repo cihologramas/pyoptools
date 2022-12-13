@@ -28,7 +28,6 @@ import numpy
 import io
 from math import sqrt
 
-
 class ModelNotImplemented(Exception):
     """Indicates that the model to calculate the index of refraction is not
     implemented yet"""
@@ -71,6 +70,12 @@ class Material:
             return self.__vd__
         else:
             return (self.n(0.5893) - 1) / (self.n(0.4861) - self.n(0.6563))
+
+    def __eq__(self, other):
+        return (isinstance(other, self.__class__) and
+                numpy.array_equal(self.__coef__, other.__coef__) and
+                self.__nd__ == other.__nd__ and
+                self.__vd__ == other.__vd__)
 
 
 class Sellmeier(Material):

@@ -51,5 +51,35 @@ class TestMaterial(unittest.TestCase):
         matches = len(material.find_material('not a material', False))
         self.assertEqual(matches, 0)
 
+    def test_ailised_glass_wrong_catalog(self):
+        with self.assertRaises(KeyError):
+            material.ami['BK7']
+
+    def test_ailised_compounds_wrong_catalog(self):
+        with self.assertRaises(KeyError):
+            material.inorganic['PMMA']
+
+        with self.assertRaises(KeyError):
+            material.organic['CAF2']
+
+    def test_ailised_organic_compounds(self):
+        a = material['PMMA']
+        b = material.organic['PMMA']
+        c = material.organic['(C5H8O2)n:Zhang-Tomson']
+        self.assertEqual(a, b)
+        self.assertEqual(a, c)
+
+    def test_ailised_inorganic_compounds(self):
+        a = material['GAAS']
+        b = material.inorganic['GAAS']
+        c = material.inorganic['GaAs:Skauli']
+        self.assertEqual(a, b)
+        self.assertEqual(a, c)
+
+    def test_ailas_glass(self):
+        a = material.schott['N-BK7']
+        b = material['BK7']
+        self.assertEqual(a, b)
+
 if __name__ == '__main__':
     unittest.main()
