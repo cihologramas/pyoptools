@@ -87,6 +87,23 @@ class MaterialLibrary:
         return mat
 
     def _get_in_aliases(self, name):
+        if self.prefix is None:
+            return self._get_in_aliases_base(name)
+        else:
+            return self._get_in_aliases_catalog(name)
+
+    def _get_in_aliases_catalog(self, name):
+        "Restricted version of get aliases for when accessing in a catalog"
+
+        if (name in self.aliases and
+            self.aliases[name]['library'] == self.prefix):
+            a = self.aliases[name]
+            ap = self.dp/'glass'/a['library']/f"{a['material']}.yml"
+            return self._material_factory(name, ap)
+        else:
+            raise KeyError
+
+    def _get_in_aliases_base(self, name):
 
         if name in self.aliases:
             a = self.aliases[name]
@@ -135,7 +152,7 @@ class MaterialLibrary:
         If exact is True, return only the items where the material name is an
         exact match of the search string.
 
-        If unalias is True, the materials found in the alises list, will be 
+        If unalias is True, the materials found in the alises list, will be
         translated to the real material.
 
         Returns a list of the keys which can be used to retrieve candidate
@@ -191,12 +208,12 @@ class MaterialLibrary:
 
                     if realmat["type"] != "glass":
                         raise ValueError("Don't know how to handle {}".format(realmat["type"]))
-                    
+
                     unaliased.append((realmat["library"], realmat["material"],None))
                 else:
                     unaliased.append(r)
             results = unaliased
-            
+
         if printout:
             for r in results:
                 catalog, name, ref = r
@@ -263,35 +280,36 @@ class MaterialLibrary:
             raise AttributeError()
 
         if name == 'inorganic' or name == 'organic':
-            return CompoundLibrary(self.dp/name)
+            return CompoundLibrary(self.dp/name, aliases=self.aliases)
         if (self.glass_path/name).is_dir():
             return MaterialLibrary(prefix = name)
         else:
             raise AttributeError(f"Material {name} not found.")
 
     def get_glass_libraries(self):
-        """Returns a list of strings containing the names of the glass 
+        """Returns a list of strings containing the names of the glass
         libraries defined in PyOpTools"""
-        
+
         libpaths = list(self.glass_path.glob("*"))
 
         return ["aliases"]+[lib_path.parts[-1] for lib_path in libpaths]
 
     def get_glass_materials_from_library(self,libname):
-        """Returns a list of strings containing the names of the materials 
+        """Returns a list of strings containing the names of the materials
            defined in the library 'libname'
         """
-        
+
         if libname == "aliases":
             return list(self.aliases.keys())
-        
+
         matfiles = self.glass_path.glob(f"{libname}/*.yml")
         return [mat.stem for mat in matfiles]
-        
+
 
 class CompoundLibrary:
-    def __init__(self, lib_path):
+    def __init__(self, lib_path, aliases=None):
         self.lib_path = lib_path
+        self.aliases = aliases
 
         # Populate dict of all available compound dirs
         # Organic compounds have long names with space so just use the
@@ -311,8 +329,15 @@ class CompoundLibrary:
 
     def __getitem__(self, identifier: str):
 
+        # Check in cache
         if identifier in self._cache:
             return self._cache[identifier]
+
+        # Check in aliases
+        if (self.aliases is not None and
+            identifier in self.aliases and
+            self.aliases[identifier]['type'] == self.lib_path.name):
+            identifier = self.aliases[identifier]['material']
 
         tokens = identifier.split(':')
         tokens = [t for t in tokens if t != '']
