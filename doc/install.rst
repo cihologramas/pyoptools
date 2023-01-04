@@ -9,7 +9,7 @@ pyOpTools can be downloaded from the project GitHub repository at:
     https://github.com/cihologramas/pyoptools
 
 
-Installing it in Debian 10 (should work on any Debian derivative)
+Installing it in Debian 11 (should work on any Debian derivative)
 -----------------------------------------------------------------
 
 pyOpTools is being developed almost exclusively using "Debian derivative" Linux
@@ -28,23 +28,37 @@ where version/platform should be adjusted accordingly.
 Installing pyOpTools inside a python virtualenv
 -----------------------------------------------
 
-After a Python3 virtualenv is creates and activated, pyOpTools can be installed by running the following command, inside the project root::
+After a Python3 virtualenv is created and activated, pyOpTools can be installed by running the following command, inside the project root::
   
     pip install -r requirements.txt
     python3 setup.py install
     
 .. _visualizing_pyoptools_in_jupyter:
 
-Visualizing pyOpTools simulations in a Jupyter notebook
--------------------------------------------------------
+Visualizing pyOpTools simulations in a JupyterLab notebook
+----------------------------------------------------------
 
-To use pyOpTools together with `jupyter <https://jupyter.org>`_, the jupyter plugin pythreejs must be installed. To install it in the user directory, use the following instructions::
+The easiest way to  use pyOpTools together with
+`jupyterlab <https://jupyter.org>`_, is to install pyOpTools
+inside a python virtualenv, and then install jupyterlab on it also::
 
-    pip3 install pythreejs --user
-    jupyter nbextension install --user --py pythreejs
-    jupyter nbextension enable pythreejs --user --py
+    pip install jupyterlab
 
-after this is done, you will be able to visualize the simulations using the :func:`~pyoptools.gui.ipywidgets.Plot3D` command.
+After that the jupyter plugin pythreejs must be installed and enabled::
 
-The plot window is interactive. Using the mouse, it is possible to rotate the image by click and drag with the 
-left button, zoom by using the scroll wheel and translate by click and drag with the right button. 
+    pip3 install pythreejs
+    jupyter labextension install jupyter-threejs
+
+after this is done, you will be able to visualize the simulations using the
+:func:`~pyoptools.gui.ipywidgets.Plot3D` command.
+
+The plot window is interactive. Using the mouse, it is possible to rotate
+the image by click and drag with the left button, zoom by using the scroll
+wheel and translate by click and drag with the right button.
+
+.. note ::
+    When installing pyoptools and jupyterlab in a debian 11 machine inside a
+    virtualenv, it was necesary to install also importlib-resources::
+      
+      pip install importlib-resources
+
