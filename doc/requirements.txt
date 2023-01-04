@@ -2,7 +2,7 @@ Pillow
 jupyter
 ipython
 six
-numpy==1.22.0 
+numpy
 scipy
 Cython
 matplotlib
