@@ -16,4 +16,5 @@ nbformat==5.0.7
 sphinx==1.8.4
 nbsphinx
 imageio==2.4.1
+jinja2==3.0.3
 PyYAML
