@@ -3,7 +3,7 @@ jupyter
 ipython
 numpy==1.22.0
 scipy==1.5.2
-Cython==0.29.2
+Cython==0.29.32
 matplotlib==3.3.0
 pythreejs
 pytest==4.6.11
