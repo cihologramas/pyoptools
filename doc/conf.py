@@ -226,3 +226,11 @@ latex_documents = [
 
 # If false, no module index is generated.
 # latex_use_modindex = True
+
+nbsphinx_prolog = """
+.. warning::
+    There is an issue in the generation of the documentation from notebooks,
+    that make the interactive plots generated using the Plot3D function to look
+    wrong. The examples should generate correct 3D plots when run directly in 
+    jupyter lab.
+"""

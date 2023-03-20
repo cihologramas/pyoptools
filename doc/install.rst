@@ -38,27 +38,21 @@ After a Python3 virtualenv is created and activated, pyOpTools can be installed 
 Visualizing pyOpTools simulations in a JupyterLab notebook
 ----------------------------------------------------------
 
-The easiest way to  use pyOpTools together with
-`jupyterlab <https://jupyter.org>`_, is to install pyOpTools
-inside a python virtualenv, and then install jupyterlab on it also::
+Before being able to visualize pyOpTools simulations in a
+`jupyterlab <https://jupyter.org>`_ Notebook, pythreejs must be enabled::
 
-    pip install jupyterlab
-
-After that the jupyter plugin pythreejs must be installed and enabled::
-
-    pip3 install pythreejs
     jupyter labextension install jupyter-threejs
 
-after this is done, you will be able to visualize the simulations using the
-:func:`~pyoptools.gui.ipywidgets.Plot3D` command.
+after this is done, you will be able to visualize the simulations using
+the :func:`~pyoptools.gui.ipywidgets.Plot3D` command. JupyterLab  and pythreejs
+are listed in the requirements.txt file so there is no need to install them
+separetelly.
+
 
 The plot window is interactive. Using the mouse, it is possible to rotate
 the image by click and drag with the left button, zoom by using the scroll
 wheel and translate by click and drag with the right button.
 
 .. note ::
-    When installing pyoptools and jupyterlab in a debian 11 machine inside a
-    virtualenv, it was necesary to install also importlib-resources::
-      
-      pip install importlib-resources
-
+    Please do not run jupyter lab from the pyOpTools source code directory.
+    pyOptools modules will not import correctly.

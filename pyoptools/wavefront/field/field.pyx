@@ -18,8 +18,8 @@
 from warnings import warn
 
 from numpy import dot, zeros, abs, meshgrid, pi, exp, where, angle, sqrt as npsqrt, indices,\
-    empty, complex, complex64, newaxis, column_stack, max, array, linspace, dot, zeros_like, \
-    round, float, arange, isnan, angle,  mgrid, rint, float32, uint32, exp
+    empty, complex128, complex64, newaxis, column_stack, max, array, linspace, dot, zeros_like, \
+    round, float64, arange, isnan, angle,  mgrid, rint, float32, uint32, exp
 
 
 from numpy.fft import fft2, ifft2, fftshift, ifftshift
@@ -69,8 +69,8 @@ def s(u, n):
 
 
 def s2d(kx, ky, nx, ny):
-    ux=kx - (arange(nx).astype(float))  # -int(nx/2))
-    uy=ky - (arange(ny).astype(float))  # -int(ny/2))
+    ux=kx - (arange(nx).astype(float64))  # -int(nx/2))
+    uy=ky - (arange(ny).astype(float64))  # -int(ny/2))
     ux= ux.reshape(1, nx)
     uy=uy.reshape(1, ny)
     #    print ux.shape, uy.shapefield.py
@@ -322,7 +322,7 @@ cdef class Field:
         nx=self.shape[0]
         ny=self.shape[1]
 
-        pd=zeros((kx*nx, ky*ny), dtype=complex)
+        pd=zeros((kx*nx, ky*ny), dtype=complex128)
 
         for i in range(kx):
             for j in range(ky):
