@@ -8,6 +8,14 @@ pyOpTools can be downloaded from the project GitHub repository at:
 
     https://github.com/cihologramas/pyoptools
 
+Installing via pip
+------------------
+
+On Windows, Mac OS and Linux you can use `pip`` to install pyOpTools.
+
+    pip install pyoptools
+
+This will install the latest available version of pyoptools.
 
 Installing it in Debian 11 (should work on any Debian derivative)
 -----------------------------------------------------------------
