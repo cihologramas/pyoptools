@@ -20,7 +20,7 @@ def create_extension(template, kwds: dict):
 
 setup(
     name="pyoptools",
-    version="0.1.1",
+    version="0.2",
     packages=find_packages(exclude=["tests"]),
     scripts=["ipyoptools"],
     package_data={
