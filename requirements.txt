@@ -1,4 +1,4 @@
-Pillow==9.0.1
+Pillow==10.0.1
 jupyterlab
 ipython
 numpy==1.21.5
