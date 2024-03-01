@@ -20,7 +20,7 @@ def create_extension(template, kwds: dict):
 
 setup(
     name="pyoptools",
-    version="0.2.0",
+    version="0.2.1",
     packages=find_packages(exclude=["tests"]),
     scripts=["ipyoptools"],
     package_data={
@@ -42,7 +42,6 @@ setup(
     description="Optical ray tracing simulation system",
     license="GPLv3",
     url="https://github.com/cihologramas/pyoptools/",
-    download_url="https://github.com/cihologramas/pyoptools/archive/v0.1.1.zip",
     ext_modules=cythonize("pyoptools/**/*.pyx", language_level="2", create_extension=create_extension),
     include_dirs=[numpy.get_include()],
     install_requires=['numpy', 'scipy', 'imageio', 'PyYAML', 'matplotlib', 'ijson'],

@@ -10,26 +10,27 @@ jobs:
       matrix:
         os: [ubuntu-20.04, windows-2019, macos-11]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: "3.10"
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip setuptools wheel twine
-        pip install Cython==0.29.30
-        pip install numpy==1.21.6 cibuildwheel
+        pip install Cython==0.29.32 --config-settings="--install-option=--no-cython-compile"
+        pip install numpy==1.24.2 cibuildwheel
     - name: Build sdist
       run: python setup.py sdist --formats=zip
     - name: Build wheels
       run: |
         python -m cibuildwheel --output-dir dist/
       env:
-        CIBW_BUILD: "cp37* cp38* cp39* cp310*"
+        CIBW_BUILD: "cp38* cp39* cp310* cp311*"
         CIBW_SKIP: "*_i686 *musllinux* pp*"
+
     - name: Upload Distributions
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: dist
         path: |
