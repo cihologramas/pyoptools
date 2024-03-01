@@ -30,7 +30,7 @@ jobs:
         CIBW_SKIP: "*_i686 *musllinux* pp*"
 
     - name: Upload Distributions
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: dist
         path: |
