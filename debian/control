@@ -2,12 +2,12 @@ Source: pyoptools
 Maintainer: Ricardo Amezquita Orozco <ramezquitao@cihologramas.com>
 Section: python
 Priority: optional
-Build-Depends: dh-python, python3-setuptools (>= 0.6b3), python3-all-dev (>= 2.6.6-3), debhelper (>= 9)
+Build-Depends: dh-python, python3-setuptools (>= 0.6b3), python3-all-dev (>= 2.6.6-3), debhelper (>= 9), cython3, python3-numpy, python3-yaml, python3-importlib-resources, python3-scipy, python3-matplotlib, python3-ijson, python3-pep8, python3-imageio, python3-mako
 Standards-Version: 3.9.6
 Homepage: https://github.com/cihologramas/pyoptools/
 
 Package: python3-pyoptools
 Architecture: any
-Depends: ${misc:Depends}, ${python:Depends}, ${shlibs:Depends} , python3-imageio
-Description: Optical ray tracing simulation system
+Depends: ${misc:Depends}, ${python:Depends}, ${shlibs:Depends} , python3-imageio, jupyter-notebook, python3-numpy, python3-yaml, python3-importlib-resources, python3-scipy, python3-matplotlib, python3-ijson, python3-pep8, python3-imageio, python3-mako
+Description: Optical ray tracing simulation library
 
