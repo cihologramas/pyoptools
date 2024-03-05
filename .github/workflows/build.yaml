@@ -36,7 +36,7 @@ jobs:
       run: |
         python -m cibuildwheel --output-dir dist/
       env:
-        CIBW_BUILD: "cp${{ matrix.python-version }}-*"
+        CIBW_BUILD: "cp${{ matrix.python-version }}*"
         CIBW_SKIP: "*_i686 *musllinux* pp* *win32" 
 
     - name: Upload Distributions
