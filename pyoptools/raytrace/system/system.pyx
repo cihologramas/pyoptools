@@ -37,6 +37,7 @@ from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.component.component cimport Component
 
 cimport numpy as np
+np.import_array()
 
 cdef extern from "math.h":
     bint isnan(double x) nogil

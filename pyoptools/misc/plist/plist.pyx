@@ -1,5 +1,7 @@
 # cython: profile=True
 cimport numpy as np
+np.import_array()
+
 from numpy import array, float64
 import six
 

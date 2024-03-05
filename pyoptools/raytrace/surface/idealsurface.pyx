@@ -12,6 +12,7 @@ from pyoptools.misc.definitions import inf_vect
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
 cimport numpy as np
+np.import_array()
 
 cdef class IdealSurface(Surface):
     """Clase que representa una superficie ideal. Se utiliza para crear

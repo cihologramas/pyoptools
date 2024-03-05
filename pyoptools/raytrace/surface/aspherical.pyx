@@ -30,6 +30,7 @@ cdef extern from "math.h":
 
 
 cimport numpy as np
+np.import_array()
 
 
 #from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx

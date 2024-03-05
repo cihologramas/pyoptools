@@ -10,6 +10,8 @@ from pyoptools.misc.Poly2D import ord2i, poly2d
 from pyoptools.wavefront.field import Field
 
 cimport numpy as np
+np.import_array()
+
 cdef extern from "math.h":
     double sqrt(double) nogil
     double atan2(double, double) nogil

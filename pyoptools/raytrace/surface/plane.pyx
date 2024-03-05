@@ -33,6 +33,7 @@ from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.misc.definitions import *
 
 cimport numpy as np
+np.import_array()
 
 
 cdef class Plane(Surface):

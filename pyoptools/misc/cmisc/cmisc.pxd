@@ -10,7 +10,7 @@ cdef extern from "Python.h":
 
 cdef extern from "numpy/arrayobject.h":
 
-    cdef void import_array()
+    #cdef void import_array()
 
     cdef object PyArray_ZEROS(int nd, np.npy_intp *dims, int typenum, int fortran)
     cdef object PyArray_SimpleNew(int nd, np.npy_intp *dims, int typenum)

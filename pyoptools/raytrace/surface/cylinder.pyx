@@ -23,6 +23,7 @@ from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
 from numpy import pi, power, array, inf, sqrt, absolute, float64, dot, sin, cos
 cimport numpy as np
+np.import_array()
 #from enthought.traits.api import Float, Tuple
 #from enthought.traits.ui.view import Group, Item
 #from enthought.tvtk.api import tvtk

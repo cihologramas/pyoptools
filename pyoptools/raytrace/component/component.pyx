@@ -11,6 +11,7 @@ from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
 from numpy import inf, asarray, pi, alltrue, sometrue, isinf, isnan, array, dot, float64
 cimport numpy as np
+np.import_array()
 
 
 #from misc import rot_mat, rot_mat_i

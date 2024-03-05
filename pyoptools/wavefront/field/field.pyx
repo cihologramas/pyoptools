@@ -52,6 +52,7 @@ cdef extern from "math.h":
     double sqrt(double)
 
 cimport numpy as np
+np.import_array()
 cimport cython
 
 
