@@ -36,12 +36,14 @@ jobs:
     # The env variable CIBW_BUILD is set here to be able to format matrix.python-version correctly  
     - name: Set CIBW_BUILD environment variable using Python
       run: |
-        python -c "import os;\
+        python -c "\
+        import os;\
         version='${{ matrix.python-version }}'.replace('.', '');\
         env_file=os.environ['GITHUB_ENV'];\
         with open(env_file, 'a') as f:\
-          f.write(f'CIBW_BUILD=cp{version}-*{os.linesep}')"
-          
+          f.write(f'CIBW_BUILD=cp{version}-*{os.linesep}')\
+        "
+
     - name: Build wheels
       run: |
         python -m cibuildwheel --output-dir dist/
