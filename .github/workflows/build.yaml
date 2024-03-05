@@ -20,13 +20,7 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel twine
         pip install Cython==0.29.32 --config-settings="--install-option=--no-cython-compile"
         pip install cibuildwheel
-        pip install numpy
-    - name: Build sdist
-      run: python setup.py sdist --formats=zip
-    - name: Build wheels
-      run: |
-        python -m cibuildwheel --output-dir dist/
-
+        
         python -c "import sys; \
         py_ver = sys.version_info; \
         numpy_version = 'numpy==1.19.3' if py_ver.minor == 8 else \
@@ -37,6 +31,13 @@ jobs:
         sys.exit(0 if py_ver.minor in [8, 9, 10, 11] else 1); \
         " > numpy_version.txt
         pip install -r numpy_version.txt
+        rm numpy_version.txt
+
+    - name: Build sdist
+      run: python setup.py sdist --formats=zip
+    - name: Build wheels
+      run: |
+        python -m cibuildwheel --output-dir dist/
             
     - name: Upload Distributions
       uses: actions/upload-artifact@v3
