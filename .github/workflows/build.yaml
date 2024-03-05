@@ -29,15 +29,15 @@ jobs:
                         'numpy==1.24.2' if py_ver.minor == 11 else 'numpy'; \
         print(numpy_version); \
         " | xargs pip install
-
-    - name: Build sdist
-      run: python setup.py sdist --formats=zip
+    
+    # For the moment the sdist build will be disabled.
+    # - name: Build sdist
+    #   run: python setup.py sdist --formats=zip
 
     # The env variable CIBW_BUILD is set here to be able to format matrix.python-version correctly  
     - name: Set CIBW_BUILD environment variable using Python
       env:
         PYTHON_VERSION: ${{ matrix.python-version }}
-        
       run: python ./.github/scripts/set_cibw_build_env.py
 
     - name: Build wheels
@@ -57,13 +57,13 @@ jobs:
           dist/*.zip
         retention-days: 7
 
-  publish:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-    steps:
-      - uses: actions/download-artifact@v2
-      - name: Publish distribution
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+  # publish:
+  #  runs-on: ubuntu-latest
+  #  needs: build
+  #  if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+  #  steps:
+  #    - uses: actions/download-artifact@v2
+  #    - name: Publish distribution
+  #      uses: pypa/gh-action-pypi-publish@release/v1
+  #      with:
+  #        password: ${{ secrets.PYPI_API_TOKEN }}
