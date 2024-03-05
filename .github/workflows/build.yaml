@@ -25,20 +25,18 @@ jobs:
         python -c "import sys; \
         py_ver = sys.version_info; \
         numpy_version = 'numpy==1.19.3' if py_ver.minor == 8 else \
-                        'numpy==1.26.2' if py_ver.minor == 9 else \
-                        'numpy==1.26.2' if py_ver.minor == 10 else \
-                        'numpy==1.24.2'; \
+                        'numpy==1.26.2' if py_ver.minor == 9 or py_ver.minor == 10 else \
+                        'numpy==1.24.2' if py_ver.minor == 11 else 'numpy'; \
         print(numpy_version); \
-        sys.exit(0 if py_ver.minor in [8, 9, 10, 11] else 1); \
-        " > numpy_version.txt
-        pip install -r numpy_version.txt
-        rm numpy_version.txt
+        " | xargs pip install
 
     - name: Build sdist
       run: python setup.py sdist --formats=zip
     - name: Build wheels
       run: |
         python -m cibuildwheel --output-dir dist/
+      env:
+        CIBW_BUILD: "cp${{ matrix.python-version }}-*"
         CIBW_SKIP: "*_i686 *musllinux* pp* *win32" 
 
     - name: Upload Distributions
