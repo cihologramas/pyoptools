@@ -32,11 +32,17 @@ jobs:
 
     - name: Build sdist
       run: python setup.py sdist --formats=zip
+
+    # The env variable CIBW_BUILD is set here to be able to format matrix.python-version correctly  
+    - name: Prepare CIBW_BUILD variable
+      run: |
+        python -c "import os; py_ver = '${{ matrix.python-version }}'.replace('.', ''); os.environ['CIBW_BUILD'] = f'cp{py_ver}-*'; print(f'::set-env name=CIBW_BUILD::cp{py_ver}-*')"
+
     - name: Build wheels
       run: |
         python -m cibuildwheel --output-dir dist/
       env:
-        CIBW_BUILD: "cp${{ matrix.python-version }}*"
+        # CIBW_BUILD: "cp${{ matrix.python-version }}*"
         CIBW_SKIP: "*_i686 *musllinux* pp* *win32" 
 
     - name: Upload Distributions
