@@ -9,7 +9,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04, windows-2019, macos-11]
-        python-version: ['3.8', '3.9', '3.10', '3.11']
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
@@ -21,12 +20,27 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel twine
         pip install Cython==0.29.32 --config-settings="--install-option=--no-cython-compile"
         pip install cibuildwheel
-        python -m pip install "numpy==$(case ${{ matrix.python-version }} in
-            '3.8') echo '1.19.3' ;;
-            '3.9') echo '1.26.2' ;;
-            '3.10') echo '1.26.2' ;;
-            '3.11') echo '1.24.2' ;;
-            *) echo '1.19.*' ;; esac)"
+        PYTHON_VERSION=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
+        # Install different numpy versions based on the Python version
+        case $PYTHON_VERSION in
+          3.8)
+            pip install numpy==1.19.3 # Example version for Python 3.8
+            ;;
+          3.9)
+            pip install numpy==1.26.2 # Example version for Python 3.9
+            ;;
+          3.10)
+            pip install numpy==1.26.2 # Example version for Python 3.10
+            ;;
+          3.11)
+            pip install numpy==1.24.2 # Assuming the latest numpy is compatible with Python 3.11
+            ;;
+          *)
+            echo "Unsupported Python version: $PYTHON_VERSION"
+            exit 1
+            ;;
+        esac
+        
     - name: Build sdist
       run: python setup.py sdist --formats=zip
     - name: Build wheels
