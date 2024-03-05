@@ -35,6 +35,9 @@ jobs:
 
     # The env variable CIBW_BUILD is set here to be able to format matrix.python-version correctly  
     - name: Set CIBW_BUILD environment variable using Python
+      env:
+        PYTHON_VERSION: ${{ matrix.python-version }}
+        
       run: python ./.github/scripts/set_cibw_build_env.py
 
     - name: Build wheels
