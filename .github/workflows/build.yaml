@@ -34,10 +34,14 @@ jobs:
       run: python setup.py sdist --formats=zip
 
     # The env variable CIBW_BUILD is set here to be able to format matrix.python-version correctly  
-    - name: Prepare CIBW_BUILD variable
+    - name: Set CIBW_BUILD environment variable using Python
       run: |
-        python -c "import os; py_ver = '${{ matrix.python-version }}'.replace('.', ''); os.environ['CIBW_BUILD'] = f'cp{py_ver}-*'; print(f'::set-env name=CIBW_BUILD::cp{py_ver}-*')"
-
+        python -c "import os;\
+        version='${{ matrix.python-version }}'.replace('.', '');\
+        env_file=os.environ['GITHUB_ENV'];\
+        with open(env_file, 'a') as f:\
+          f.write(f'CIBW_BUILD=cp{version}-*{os.linesep}')"
+          
     - name: Build wheels
       run: |
         python -m cibuildwheel --output-dir dist/
