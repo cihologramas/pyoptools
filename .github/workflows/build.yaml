@@ -9,6 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04, windows-2019, macos-11]
+        python-version: ['3.8', '3.9', '3.10', '3.11']
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
@@ -21,11 +22,10 @@ jobs:
         pip install Cython==0.29.32 --config-settings="--install-option=--no-cython-compile"
         pip install cibuildwheel
         python -m pip install "numpy==$(case ${{ matrix.python-version }} in
-            '3.7') echo '1.20.*' ;;
-            '3.8') echo '1.20.*' ;;
-            '3.9') echo '1.21.*' ;;
-            '3.10') echo '1.21.*' ;;
-            '3.11') echo '1.22.*' ;;
+            '3.8') echo '1.19.3' ;;
+            '3.9') echo '1.26.2' ;;
+            '3.10') echo '1.26.2' ;;
+            '3.11') echo '1.24.2' ;;
             *) echo '1.19.*' ;; esac)"
     - name: Build sdist
       run: python setup.py sdist --formats=zip
