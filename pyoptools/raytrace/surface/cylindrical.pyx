@@ -24,6 +24,7 @@ from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
 from numpy import power, array, inf, absolute, float64, dot, sqrt as npsqrt
 cimport numpy as np
+np.import_array()
 
 #from enthought.traits.api import Float, Tuple
 #from enthought.traits.ui.view import Group, Item

@@ -1,5 +1,7 @@
 
 cimport numpy as np
+np.import_array()
+
 from cpython cimport bool
 
 

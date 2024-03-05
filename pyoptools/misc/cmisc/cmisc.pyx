@@ -4,7 +4,7 @@
 import numpy as np
 cimport numpy as np
 
-import_array()
+np.import_array()
 
 cimport cython
 

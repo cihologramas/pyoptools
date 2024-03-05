@@ -32,6 +32,7 @@ cdef extern from "math.h":
 
 
 cimport numpy as np
+np.import_array()
 
 
 cdef class RPPMask(Surface):

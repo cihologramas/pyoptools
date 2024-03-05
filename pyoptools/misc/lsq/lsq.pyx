@@ -4,6 +4,7 @@ from pyoptools.misc.Poly2D.Poly2D cimport *
 #from pyoptools.misc.Poly2D import *
 
 cimport numpy as np
+np.import_array()
 import numpy as np
 cimport cython
 

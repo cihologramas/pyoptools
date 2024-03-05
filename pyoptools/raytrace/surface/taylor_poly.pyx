@@ -24,6 +24,7 @@ from numpy import array, asarray, arange, polyadd, polymul, polysub, polyval,\
      dot, inf, roots, zeros, meshgrid, where, abs, sqrt as npsqrt
 
 cimport numpy as np
+np.import_array()
 
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
