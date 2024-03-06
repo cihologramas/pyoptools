@@ -22,18 +22,6 @@ jobs:
         pip install Cython==0.29.32 --config-settings="--install-option=--no-cython-compile"
         pip install cibuildwheel
         
-        python -c "import sys; \
-        py_ver = sys.version_info; \
-        numpy_version = 'numpy==1.19.3' if py_ver.minor == 8 else \
-                        'numpy==1.26.2' if py_ver.minor == 9 or py_ver.minor == 10 else \
-                        'numpy==1.24.2' if py_ver.minor == 11 else 'numpy'; \
-        print(numpy_version); \
-        " | xargs pip install
-    
-    # For the moment the sdist build will be disabled.
-    # - name: Build sdist
-    #   run: python setup.py sdist --formats=zip
-
     # The env variable CIBW_BUILD is set here to be able to format matrix.python-version correctly  
     - name: Set CIBW_BUILD environment variable using Python
       env:
