@@ -18,3 +18,4 @@ nbsphinx
 imageio
 PyYAML
 importlib_resources
+sympy
