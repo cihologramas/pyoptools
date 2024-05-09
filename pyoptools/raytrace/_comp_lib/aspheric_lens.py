@@ -35,11 +35,13 @@ class AsphericLens(Component):
              Where along the optical axis to place the origin of the
              coordinate system. By default will the the geometric center. Can
              also be:
-               's1_max' : Point of maximum thickness on s1
-               's1_min' : Point of minimum thickness on s1
-               's2_max' : Point of maximum thickness on s2
-               's2_min' : Point of minimum thickness on s2
-               'center' : Geometric center
+
+             * 's1_max' : Point of maximum thickness on s1
+             * 's1_min' : Point of minimum thickness on s1
+             * 's2_max' : Point of maximum thickness on s2
+             * 's2_min' : Point of minimum thickness on s2
+             * 'center' : Geometric center
+             
              These options can be convenient for placing the origin
              at mounting face.
     s1 : dict

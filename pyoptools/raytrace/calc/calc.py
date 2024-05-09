@@ -631,24 +631,24 @@ def get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None):
 
     Parameters
     ----------
+
     opsys : :class:`~pyoptools.raytrace.system.System`
         Optical system under analysis
     opaxis : :class:`pyoptools.raytrace.ray.Ray`
         Ray indicating the optical axis. The origin of the optical axis must be
         the position of the object used in the image formation. This is needed
         to be able to calculate the radius of the reference sphere.
-
-    raylist: list(:class:`pyoptools.raytrace.ray.Ray`)
+    raylist : list(:class:`pyoptools.raytrace.ray.Ray`)
         List of rays that will be used to sample the optical path
-
     stop : :class:`~pyoptools.raytrace.comp_lib.Stop`
         Stop aperture of the system. It must belong to opsys. In not given it
         will be assumed that the exit pupil is at the primary principal plane.
-    r :
+    r : float, optional
         If None, measure up to the exit pupil plane. If given, use a reference
         sphere with a vertex coinciding with the optical vertex.
-        .. todo::
-            Need to check the function and fix this documentation
+
+    .. todo::
+        Need to check the function and fix this documentation
 
     Returns
     -------

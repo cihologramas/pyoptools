@@ -9,6 +9,16 @@ version: 2
 sphinx:
   configuration: doc/conf.py
 
+# Set the OS, Python version and other tools you might need
+build:
+  os: ubuntu-22.04
+  tools:
+    python: "3.12"
+    # You can also specify other tool versions:
+    # nodejs: "20"
+    # rust: "1.70"
+    # golang: "1.20"
+
 # Build documentation with MkDocs
 #mkdocs:
 #  configuration: mkdocs.yml
@@ -18,7 +28,6 @@ sphinx:
 
 # Optionally set the version of Python and requirements required to build your docs
 python:
-  version: 3.7
   install:
     - requirements: doc/requirements.txt
     - method: setuptools

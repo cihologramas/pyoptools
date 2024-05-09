@@ -46,6 +46,11 @@ extensions = [
     "nbsphinx",
 ]
 
+# The warnings should not be generated in the documentation, so we suppress them.
+# This may create issues later on, so be careful.
+suppress_warnings = [
+    'nbsphinx',
+]
 apidoc_module_dir = "../pyoptools"
 apidoc_output_dir = ""
 apidoc_excluded_paths = ["doc"]
@@ -227,10 +232,3 @@ latex_documents = [
 # If false, no module index is generated.
 # latex_use_modindex = True
 
-nbsphinx_prolog = """
-.. warning::
-    There is an issue with the generation of documentation from notebooks,
-    such as this page, that causes interactive plots generated using the
-    Plot3D function to appear incorrect. The examples should produce correct
-    3D plots when executed directly in Jupyter Lab.
-"""
