@@ -46,6 +46,11 @@ extensions = [
     "nbsphinx",
 ]
 
+# The warnings should not be generated in the documentation, so we suppress them.
+# This may create issues later on, so be careful.
+suppress_warnings = [
+    'nbsphinx',
+]
 apidoc_module_dir = "../pyoptools"
 apidoc_output_dir = ""
 apidoc_excluded_paths = ["doc"]

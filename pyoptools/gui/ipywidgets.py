@@ -4,7 +4,7 @@
 """Module with functions and classes to represent the pyoptools objects
 in `jupyter notebooks <http://jupyter.org>`_.
 """
-
+from IPython.display import display
 from pyoptools.raytrace.system import System
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Surface
@@ -20,6 +20,73 @@ from math import sqrt
 from matplotlib import colors
 
 __all__ = ["Plot3D"]
+
+
+import pythreejs as pjs
+import numpy as np
+
+def create_transformed_scene():
+    # Create a mesh with a basic geometry
+    mesh = pjs.BoxBufferGeometry()
+
+    # Create a group and add the mesh
+    group = pjs.Group()
+    group.add(mesh)
+
+    # Disable automatic updates of the transformation matrix
+    group.matrixAutoUpdate = False
+
+    # Manually compute and set the transformation matrix
+    D = [45, 30, 60]  # Rotation angles in degrees for X, Y, Z
+    P = [1, 2, 3]     # Translation vectors for X, Y, Z
+    transformation_matrix = create_transformation_matrix(D, P)
+    group.matrix = transformation_matrix
+
+    # Setup the scene and renderer
+    scene = pjs.Scene(children=[group])
+    camera = pjs.PerspectiveCamera(position=[2, 2, 2], fov=50)
+    renderer = pjs.Renderer(camera=camera, scene=scene, controls=[pjs.OrbitControls(controlling=camera)])
+
+    return renderer
+
+def create_transformation_matrix(D, P):
+    # Convert degrees to radians for rotation
+    #theta, phi, psi = np.radians(D)  # Assuming D is given in degrees
+    
+    #theta, phi, psi = D
+    
+    psi,phi,theta = D
+ 
+    # Rotation matrices
+    Rz = np.array([
+        [np.cos(theta), -np.sin(theta), 0, 0],
+        [np.sin(theta), np.cos(theta), 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1]
+    ])
+    Ry = np.array([
+        [np.cos(phi), 0, np.sin(phi), 0],
+        [0, 1, 0, 0],
+        [-np.sin(phi), 0, np.cos(phi), 0],
+        [0, 0, 0, 1]
+    ])
+    Rx = np.array([
+        [1, 0, 0, 0],
+        [0, np.cos(psi), -np.sin(psi), 0],
+        [0, np.sin(psi), np.cos(psi), 0],
+        [0, 0, 0, 1]
+    ])
+
+    # Translation matrix
+    T = np.array([
+        [1, 0, 0, P[0]],
+        [0, 1, 0, P[1]],
+        [0, 0, 1, P[2]],
+        [0, 0, 0, 1]
+    ])
+
+    # Composite transformation matrix
+    return T @ Rz @ Ry @ Rx
 
 
 def surf2mesh(S, P=(0, 0, 0), D=(0, 0, 0), wire=False):
@@ -77,7 +144,7 @@ def surf2mesh(S, P=(0, 0, 0), D=(0, 0, 0), wire=False):
 
     surfaceMaterial = py3js.MeshPhongMaterial(
         color=color,
-        ambient="#050505",
+        # ambient="#050505",
         specular="#ffffff",
         shininess=15,
         emissive="#000000",
@@ -93,13 +160,30 @@ def surf2mesh(S, P=(0, 0, 0), D=(0, 0, 0), wire=False):
         material=surfaceMaterial,
     )
 
+    group = py3js.Group()
 
-    surfaceMesh.position = tuple(P)
-    surfaceMesh.rotateZ(D[2])
-    surfaceMesh.rotateY(D[1])
-    surfaceMesh.rotateX(D[0])
+    group.add(surfaceMesh)
+    group.matrixAutoUpdate = False
 
-    return surfaceMesh
+    transformation_matrix = create_transformation_matrix(D, P)
+
+    group.matrix = tuple(transformation_matrix.flatten(order="F"))
+
+
+    #surfaceMesh.position = tuple(P)
+    #surfaceMesh.rotateZ(D[2])
+    #surfaceMesh.rotateY(D[1])
+    #surfaceMesh.rotateX(D[0])
+
+    #group.position = tuple(P)
+    #group.rotateZ(D[2])
+    #group.rotateY(D[1])
+    #group.rotateX(D[0])
+
+
+
+    #return surfaceMesh
+    return group
 
 
 def comp2mesh(C, P, D):
@@ -115,10 +199,16 @@ def comp2mesh(C, P, D):
             sC, sP, sD = comp
             c.add(comp2mesh(sC, sP, sD))
 
-    c.position = tuple(P)
-    c.rotateZ(D[2])
-    c.rotateY(D[1])
-    c.rotateX(D[0])
+    c.matrixAutoUpdate = False
+
+    transformation_matrix = create_transformation_matrix(D, P)
+
+    c.matrix = tuple(transformation_matrix.flatten(order="F"))
+
+    #c.position = tuple(P)
+    #c.rotateZ(D[2])
+    #c.rotateY(D[1])
+    #c.rotateX(D[0])
 
     return c
 
@@ -288,5 +378,5 @@ def Plot3D(
         width=width * scale,
         height=height * scale,
     )
-
+    
     return renderer

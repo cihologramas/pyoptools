@@ -19,3 +19,4 @@ imageio
 PyYAML
 importlib_resources
 sympy
+ijson
