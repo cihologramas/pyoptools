@@ -440,7 +440,7 @@ cdef class Surface(Picklable):
             # return [Ray(pos=PI,dir=S2,intensity=ri.intensity,
             #           wavelength=ri.wavelength,n=nr,
             #           label=ri.label, orig_surf=self.id)]
-            return [Rayf(PI, S2, ri.intensity, ri.wavelength, nr, ri.label, ri.draw_color, None, 0, self.id, 0)]
+            return [Rayf(PI, S2, ri.intensity, ri.wavelength, nr, ri.label, ri.draw_color, None, 0, self.id, 0, ri._parent_cnt+1)]
         elif sometrue(npisnan(S2)):
             # Total internal refraction case
             gamma1 = -2.*ni*cos(I)
@@ -465,7 +465,7 @@ cdef class Surface(Picklable):
             #            intensity=ri.intensity,
             #            wavelength=ri.wavelength,n=ni,
             #            label=ri.label, orig_surf=self.id)]
-            return [Rayf(PI, S3, ri.intensity, ri.wavelength, ni, ri.label, ri.draw_color, None, 0, self.id, 0)]
+            return [Rayf(PI, S3, ri.intensity, ri.wavelength, ni, ri.label, ri.draw_color, None, 0, self.id, 0, ri._parent_cnt+1)]
 
         else:
             # BeamSplitter case
@@ -490,18 +490,18 @@ cdef class Surface(Picklable):
                     #    intensity=ri.intensity*(1.-self.reflectivity),
                     #    wavelength=ri.wavelength,n=nr, label=ri.label, orig_surf=self.id),
                     Rayf(PI, S2, ri.intensity*(1.-reflect), ri.wavelength,
-                         nr, ri.label, ri.draw_color, None, 0, self.id, 0),
+                         nr, ri.label, ri.draw_color, None, 0, self.id, 0,ri._parent_cnt+1),
                     # Ray(pos=PI,dir=S3,
                     #    intensity=ri.intensity*self.reflectivity,
                     #    wavelength=ri.wavelength,n=ni,label=ri.label, orig_surf=self.id)
                     Rayf(PI, S3, ri.intensity*reflect, ri.wavelength, ni,
-                         ri.label, ri.draw_color, None, 0, self.id, 0)
+                         ri.label, ri.draw_color, None, 0, self.id, 0, ri._parent_cnt+1)
                 ]
             else:
                 # return [Ray(pos=PI,dir=S3,
                 #            intensity=ri.intensity*self.reflectivity,
                 #            wavelength=ri.wavelength,n=ni,label=ri.label, orig_surf=self.id)]
-                return [Rayf(PI, S3, ri.intensity, ri.wavelength, ni, ri.label, ri.draw_color, None, 0, self.id, 0)]
+                return [Rayf(PI, S3, ri.intensity, ri.wavelength, ni, ri.label, ri.draw_color, None, 0, self.id, 0, ri._parent_cnt+1)]
 
     cpdef pw_propagate1(self, Ray ri, ni, nr, rsamples, isamples, knots):
         '''Method to calculate wavefront emerging from the surface

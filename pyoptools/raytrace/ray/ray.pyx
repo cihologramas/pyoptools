@@ -41,7 +41,7 @@ np.import_array()
 
 
 cdef Ray Rayf(np.ndarray pos, np.ndarray dir, double intensity, double wavelength,
-              n, label, draw_color, parent, double pop, orig_surf, int order):
+              n, label, draw_color, parent, double pop, orig_surf, int order, int parent_cnt):
     """Function to create and initialize Ray instances Fast from cython
     when changing the code, always check that the __init__, and the
     Rayf initialization do the same.
@@ -65,6 +65,7 @@ cdef Ray Rayf(np.ndarray pos, np.ndarray dir, double intensity, double wavelengt
     instance.orig_surf=orig_surf
     instance.__childs=[]
     instance.order=order
+    instance._parent_cnt=parent_cnt
     return instance
 
 
@@ -147,6 +148,7 @@ cdef class Ray:
             self.orig_surf=orig_surf
             self.__childs=[]
             self.order=order
+            self._parent_cnt = 0
 
         # HasPrivateTraits.__init__(self,**traits)
     def __reduce__(self):
@@ -235,7 +237,8 @@ cdef class Ray:
         #        wavelength=self.wavelength,n=self.n, label=self.label,
         #        orig_surf=self.orig_surf)
 
-        cdef Ray parent=Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order)
+        cdef Ray parent=Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order, self._parent_cnt)
+        
 
         # Calculate the transform of the childs and link them
 
@@ -286,7 +289,7 @@ cdef class Ray:
 
         ndir=dot(tm, self.dir)
 
-        cdef Ray parent=Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order)
+        cdef Ray parent=Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order, self._parent_cnt)
 
         # Calculate the transform of the childs and link them
 
@@ -349,7 +352,7 @@ cdef class Ray:
         # npos=mvdot1(tm,t)
         # ndir=mvdot1(tm,self.dir)
 
-        return Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order)
+        return Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order, self._parent_cnt)
 
     def get_final_rays(self, inc_zeros=True):
         '''Find the final rays of the raytrace
@@ -410,6 +413,7 @@ cdef class Ray:
         assert(isinstance(cr, Ray)), "A ray child must be a ray"
         cr.parent=self
         cr.order=len(self.__childs)
+        # cr._parent_cnt = self._parent_cnt + 1
         self.__childs.append(cr)
 
     def optical_path_parent(self):
