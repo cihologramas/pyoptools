@@ -10,7 +10,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyoptools"
-version = "0.2.4"
+version = "0.2.5"
 description = "Python tools for simulation of optical systems"
 authors = [{ name = "Ricardo Amézquita Orozco", email = "ramezquitao@cihologramas.com" }]
 license = {file = "LICENSE.txt"}
