@@ -7,6 +7,10 @@ cdef class System(Picklable):
     cdef public double n  # This could be changed to material
     cdef public list _np_rays
     cdef public list _p_rays
+    cdef public int _max_ray_parent_cnt
+    cdef public float intensity_threshold
+
+    cdef public int _exit_status_flag # 0: no error, 1: error
 
     cpdef distance(self, Ray ri)
     cpdef propagate_ray(self, Ray ri)

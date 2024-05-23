@@ -1,7 +1,7 @@
 # cython: profile=True
 
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, <AUTHOR>
+# Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the GPLv3
@@ -9,10 +9,11 @@
 # under the conditions described in the aforementioned license.
 #
 #
-# Author: Ricardo Amézquita
+# Author: Ricardo Amézquita Orozco
 # Description: Definition of the System class.
 # ------------------------------------------------------------------------------
-#
+
+
 
 """Module that defines the optical system class System()
 """
@@ -44,95 +45,99 @@ cdef extern from "math.h":
     bint isinf(double x) nogil
 
 cdef class System(Picklable):
-    '''
+    """
     Class to define an optical system.
 
-    The System class defines an optical system as a list of optical components,
-    the coordinates of the component origin, and the rotation angles of
-    such components. To define a system the refraction index, or the material
-    surrounding the components must also be given in the *n* attribute.
+    The System class defines an optical system as a list of optical
+    components, the coordinates of the component origin, and the rotation
+    angles of such components. To define a system, the refraction index, or
+    the material surrounding the components must also be given in the `n`
+    attribute.
 
-    **ARGUMENTS:**
+    To avoid recursion errors, two other parameters are given:
+    `max_ray_parent` and `intensity_threshold`. See the parameters
+    description to understand their use.
 
-        ======== ========================================================
-        complist contains a tuple list that defines the optical system.
-                 The first component of the tuple is an instance of the
-                 component to include in the system.
-                 The second is tuple with the with the component location
-                 (X,Y,Z)
-                 The third is a tuple with the rotation around each axis
-                 (rx,ry,rz) the rotations ar applied first rz, then ry
-                 and then rx.
-        n        contains the refraction index of the media where the
-                 system is immersed.
-        ======== ========================================================
+    Parameters
+    ----------
+    complist : list of tuples
+        Contains a tuple list that defines the optical system. The first
+        component of the tuple is an instance of the component to include in
+        the system. The second is a tuple with the component location (X, Y,
+        Z). The third is a tuple with the rotation around each axis (rx, ry,
+        rz). The rotations are applied in the order: rz, then ry, and then rx.
+    n : float
+        Contains the refraction index of the media where the system is
+        immersed.
+    max_ray_parent : int, optional
+        Limits the number of parents and grandparents a ray can have,
+        effectively limiting the number of times a ray can be propagated.
+        This is used to avoid recursion errors in case a resonant cavity is
+        simulated. Default is None, meaning there is no limit for the
+        propagation.
+    intensity_threshold : float, optional
+        Another way to limit the number of times a ray is propagated. This is
+        used to avoid recursion errors in case a resonant cavity is simulated.
+        If a ray has an intensity less than the threshold, the ray is not
+        propagated. The intensity value of a ray is reduced each time it is
+        reflected in a beam splitter. Default is 0, meaning there is no limit
+        for the propagation.
 
-    **EXAMPLE:**
+    Examples
+    --------
+    Example of a system containing a doublet and a CCD detector::
 
-        Example of a system containing a doublet and a CCD detector::
+        # Definition of a doublet type lens
+        DB1 = Doublet(radius=12.5,
+                    curvature_as=1./61.47,
+                    curvature_ms=-1./44.64,
+                    curvature_ps=-1./129.94,
+                    thickness_al=6.,
+                    thickness_pl=2.5,
+                    material_al=N_BK7,
+                    material_pl=SF5)
 
-            # Definition of a doublet type lens
-            DB1=Doublet(radius=12.5,
-                curvature_as =1./61.47,
-                curvature_ms =-1./44.64,
-                curvature_ps =-1./129.94,
-                thickness_al = 6.,
-                thickness_pl = 2.5,
-                material_al  = N_BK7,
-                material_pl  = SF5)
+        # Definition of a CCD type detector
+        ccd = CCD()
 
-            # Definition of a ccd type detector
-            ccd=CCD()
+        # Definition of a system
+        os = System(complist=[(DB1, (20, 0, 200), (0, 0, 0)),
+                            (ccd, (20, 0, 400), (0, 0, 0))],
+                    n=1)
+    """
 
-            # Definition of a system
-            os=System(complist=[(DB1,(20,0,200),(0,0,0)),(ccd,(20,0,400),(0,0,0)),],n=1)
-    '''
+    @property
+    def max_ray_parent_cnt(self):
+        if self._max_ray_parent_cnt > 0:
+            return self._max_ray_parent_cnt
+        else:
+            return None
 
-    # TODO: check if this can accept Material Instances
+    @max_ray_parent_cnt.setter
+    def max_ray_parent_cnt(self, val):
 
-    # Refraction index of the surrounding media.
-    # n=Trait(None,Float)
+        if val is None:
+            self._max_ray_parent_cnt = 0
+        else:
+            self._max_ray_parent_cnt = int(val)
 
-    # Private attributes
 
-    # Numerical attribute that holds information about the number of changes
-    # made to the class. It should not be changed by the user.
-    # TODO: Need to check if this is working
-    # changes=Float(0)
-
-    # Numerical attribute that indicates that the ray propagation is over and
-    # that the system must be redrawn.
-    # TODO: Need to check if this is working
-    # reprops=Float(0)
-
-    # List containing rays to be propagated in to the system. This list should
-    # using the method be written using the method ray_add().
-    # _np_rays=List
-
-    # List that holds the rays that have been already propagated. This list
-    # should not be written by the user.
-    # _p_rays =List
-
-    # Read only propagated rays list
-    property prop_ray:
-        def __get__(self):
+    @property 
+    def prop_ray(self):
             return tuple(self._p_rays)
 
     ###############################################################
 
-    property complist:
-        def __get__(self):
+    @property 
+    def complist(self):
             return self._complist
 
-        def __set__(self, list):
-            self._complist=plist(list)
+    @complist.setter
+    def complist(self, list):
+        self._complist=plist(list)
 
-    # view=View(
-    #    Item(name="n",label="Indice de refraccion"),
-    #    Item(name="complist",label="Lista de Elementos",resizable=True,height=20),
-    #    title="Edicion de Sistema Optico",resizable=True)
-
-    def __init__(self, complist=None, n=1., ):
+    def __init__(self, complist=None, n=1., max_ray_parent_cnt = None, intensity_threshold=0):
+        
         # Look in the init os component to see why this in done this way
         if complist is None:
             self.complist=[]
@@ -142,17 +147,31 @@ cdef class System(Picklable):
         self._np_rays=[]  # not propagated rays
         self._p_rays=[]  # propagated rays
 
+        # self.propagation_limit is integer, so if it is 0, then there is no limit
+        
+        self.max_ray_parent_cnt = max_ray_parent_cnt
+
+    
+        self.intensity_threshold = intensity_threshold
+
+        # Flag that indicates if a ray propagarion was truncated or not by the
+        # intensity_threshold or the max_ray_parent_cnt condition
+        # if 0 no truncation was done
+    
+        self._exit_status_flag = 0
+
         for i in self.complist:
             comp=i[0]
-            # Registrar las componentes para que los cambios se propaguen
-            # comp.on_trait_change(self.comp_changed,"changes")
-            # Si el componente es un subsistema, el indice de refraccion debe
-            # ser el mismo del sistema
+            # If the component is a subsystem, the refraction index must be the
+            # same of the system, also the propagation limits must be the same
+            
             if isinstance(comp, System):
                 comp.n=self.n
+                comp.max_ray_parent_cnt = self.max_ray_parent_cnt
+                comp.intensity_threshold = self.intensity_threshold
 
         # Add to the keys to the state key list
-        Picklable.__init__(self, "complist", "n", "_np_rays", "_p_rays")
+        Picklable.__init__(self, "complist", "n", "_np_rays", "_p_rays", "_max_ray_parent_cnt", "intensity_threshold")
 
     # Dict type and list type interface to expose complist
 
@@ -459,6 +478,7 @@ cdef class System(Picklable):
             SR, PSR, DSR=comp_list[j]
             # SR.reset()
             SR.clear_ray_list()
+            
             R=ri.ch_coord_sys(PSR, DSR)
             SR.ray_add(R)
             # Ids must not be updated when propagating in subsystems
@@ -538,8 +558,18 @@ cdef class System(Picklable):
 
         for i in ri.get_final_rays():
             if (i!=ri):
-                if i.intensity>0:
-                    self.propagate_ray(i)
+                
+                # stop propagating if the ray has an intensity below the intensity propagation threshold
+                # or if it has been propagated more than propagation_limit times
+
+                if i.intensity>self.intensity_threshold:
+                    if self._max_ray_parent_cnt == 0 or i._parent_cnt<self.max_ray_parent_cnt:
+                        self.propagate_ray(i)
+                    else:
+                        self._exit_status_flag = 1
+                else:
+                    self._exit_status_flag = 1
+
             else:
                 raise Exception, "Error, a a ray can not be parent and child at the same time"
 

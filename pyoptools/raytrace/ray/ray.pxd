@@ -14,8 +14,14 @@ cdef class Ray:
 
     cdef public list orig_surf  # path of the originating surface
     cdef public double intensity, wavelength, pop
-    cdef list __childs,
+    cdef list __childs
     cdef np.ndarray _dir
+
+    # amount of parents of this ray in the optical path. It counts the number of
+    # times  a ray have been propagated through surfaces. It is used to stop
+    # the propagation in resonant cavities.
+
+    cdef public int _parent_cnt
 
     cpdef Ray ch_coord_sys(self, np.ndarray no, np. ndarray ae)
     cpdef Ray ch_coord_sys_inv_f(self, np.ndarray no , np.ndarray ae, bool childs)
@@ -31,4 +37,4 @@ cdef class Ray:
     # ~ def optical_path_parent(self):
     # ~ def optical_path(self):
 cdef Ray Rayf(np.ndarray pos, np.ndarray dir, double intensity, double wavelength,
-              n, label, draw_color, parent, double pop, orig_surf, int order)
+              n, label, draw_color, parent, double pop, orig_surf, int order, int _parent_cnt)
