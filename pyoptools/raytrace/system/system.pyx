@@ -21,10 +21,6 @@ import sys
 # TODO: Check if all modules use has strict traits
 from warnings import warn
 
-# from enthought.traits.api import HasPrivateTraits, Float, Trait,TraitList,\
-#    Array, List, Property, TraitHandler, Tuple
-# from enthought.traits.ui.view import View, Item
-# from enthought.tvtk.api import tvtk
 from numpy import asarray, array, float64, alltrue, isinf as npisinf, isnan as npisnan, sometrue,\
     pi, absolute, inf
 # from ray_trace.component.component cimport Component
