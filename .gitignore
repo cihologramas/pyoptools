@@ -26,3 +26,5 @@ debian/python3-pyoptools.debhelper.log
 *.debhelper
 debian/python3-pyoptools.substvars
 debian/files
+.coverage
+test_results.xml
