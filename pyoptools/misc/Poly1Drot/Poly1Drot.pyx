@@ -37,7 +37,7 @@ cdef class poly1DrotDeriv:
         self.clen = np.uint32(len(self.coef))
 
         if not (wrt == 0 or wrt ==1):
-            raise ValueError(wrt+' is not a valid axis for derivative, use 0 or 1 for x/y.')
+            raise ValueError(wrt+" is not a valid axis for derivative, use 0 or 1 for x/y.")
         self.wrt = wrt
 
     cpdef double peval(self, double x, double y):

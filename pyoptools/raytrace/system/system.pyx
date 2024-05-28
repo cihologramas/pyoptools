@@ -255,11 +255,11 @@ cdef class System(Picklable):
                 if isinstance(i, Ray):
                     self._np_rays.append(i)
                 else:
-                    raise Exception, 'Not a valid Ray'
+                    raise Exception, "Not a valid Ray"
         elif isinstance(ray, Ray):
             self._np_rays.append(ray)
         else:
-            raise Exception, 'Not a valid Ray'
+            raise Exception, "Not a valid Ray"
 
     # ~ def component_add(self, cmp,pos,dire):
         # ~ """

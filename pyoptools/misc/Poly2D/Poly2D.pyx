@@ -208,9 +208,9 @@ cdef class poly2d:
         """
 
         cohef=np.array(coh, dtype=np.float64)
-        if not cohef.flags['C_CONTIGUOUS']:
+        if not cohef.flags["C_CONTIGUOUS"]:
             # Array is not contiguous, need to make contiguous copy
-            c = cohef.copy('C')
+            c = cohef.copy("C")
         else:
             c = cohef
 
@@ -231,11 +231,11 @@ cdef class poly2d:
         self.px=np.array(self.px, dtype=np.float64)
         self.py=np.array(self.py, dtype=np.float64)
 
-        if not self.px.flags['C_CONTIGUOUS']:
-            self.px=self.px.copy('C')
+        if not self.px.flags["C_CONTIGUOUS"]:
+            self.px=self.px.copy("C")
 
-        if not self.py.flags['C_CONTIGUOUS']:
-            self.py=self.py.copy('C')
+        if not self.py.flags["C_CONTIGUOUS"]:
+            self.py=self.py.copy("C")
 
         self.px_c=<np.float64_t*>np.PyArray_DATA(self.px)
         self.py_c=<np.float64_t*>np.PyArray_DATA(self.py)

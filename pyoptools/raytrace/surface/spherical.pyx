@@ -1,6 +1,31 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 # cython: profile=True
+"""
+This module defines the Spherical class, which represents spherical optical
+surfaces within a ray tracing context.
+
+The Spherical class allows for the definition of spherical surfaces with
+specified curvature and shape parameters.
+
+Examples
+--------
+>>> from pyoptools.raytrace.surface import Spherical
+>>> from pyoptools.raytrace.shape import Circular
+>>> spherical_surface = Spherical(shape=Circular(radius=60), curvature=0.15)
+
+Classes
+-------
+Spherical
+    Defines a spherical optical surface.
+
+Notes
+-----
+The vertex of the spherical surface is assumed to be at the origin of the
+coordinate system, and the aperture is centered around this origin.
+"""
+
+
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
@@ -17,14 +42,10 @@
 
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import array, inf, sqrt as npsqrt, absolute, float64, dot, arcsin, pi, zeros
+from numpy import array, inf, sqrt as npsqrt, absolute, float64, dot
 cdef extern from "math.h":
     double sqrt(double)
     double abs(double)
-
-
-'''Module that defines an optical spherical surface
-'''
 
 cimport numpy as np
 np.import_array()
@@ -83,7 +104,8 @@ cdef class Spherical(Surface):
 
         # P1=A.pos     # Punto que pertenece al rayo "Origen" del rayo
         # L1= A.dir    #Vector paralelo a la linea
-        cdef double x1, y1, z1, x2, y2, z2, x21, y21, z21, z3, a, b, c, b2ac, u1, u2, X1, Y1, Z1, X2, Y2, Z2
+        cdef double x1, y1, z1, x2, y2, z2, x21, y21, z21, z3, a, b, c, b2ac
+        cdef double u1, u2, X1, Y1, Z1, X2, Y2, Z2
 
         cdef np.float64_t * pos = <np.float64_t*>(np.PyArray_DATA(A.pos))
         cdef np.float64_t * dir = <np.float64_t*>(np.PyArray_DATA(A.dir))
