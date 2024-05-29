@@ -41,14 +41,12 @@ from numpy import (
     pi,
     dot,
     array,
-    arctan2,
-    alltrue,
     isnan,
     nan,
     mgrid,
     where,
 )
-from scipy.optimize.minpack import fsolve
+from scipy.optimize import fsolve
 from numpy.random import normal
 import multiprocessing as mp
 
@@ -594,15 +592,21 @@ def find_ppp(opsys, opaxis):
 
     pv = [pv1, pv2, pv3]
 
+
     # Search for the longest pv
     pvn = array((dot(pv1, pv1), dot(pv2, pv2), dot(pv3, pv3)))
 
     pvm = pv[pvn.argmax()]
 
+
+
     # Create parallel ray
 
     par_ray = opaxis.copy()
-    par_ray.pos = par_ray.pos + pvm * 0.0001
+    par_ray.pos = par_ray.pos + pvm * 0.1
+
+    print(opaxis, par_ray)
+
 
     opsys.clear_ray_list()
     opsys.ray_add([opaxis, par_ray])
@@ -616,7 +620,7 @@ def find_ppp(opsys, opaxis):
 
     # Move the intersection point toward the optical axis
 
-    ppp = pppl[0] - pvm * 0.0001
+    ppp = pppl[0] - pvm * 0.1
     return ppp  # , pppl[1])
 
 
@@ -667,7 +671,7 @@ def get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None):
     Note: This method only works if the optical axis coincides with the Z axis.
     This must be corrected.
     """
-    if stop != None:
+    if stop is not None:
         enp, exp = pupil_location(opsys, stop, opaxis)
     else:
         exp = find_ppp(opsys, opaxis)
@@ -697,7 +701,7 @@ def get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None):
             nray.label = str(a[0].optical_path_parent())
 
     # Create a dummy system to calculate the wavefront at the exit pupil
-    if r == None:
+    if r is None:
         # TODO: This ccd should be infinitely big. Have to see how this can be done
         ccd = CCD(size=(1000, 1000))
     else:
@@ -819,7 +823,7 @@ def parallel_propagate(os, r, np=None):
         process per cpu
     """
 
-    if np == None:
+    if np is None:
         cpus = mp.cpu_count()
     else:
         cpus = np
@@ -879,7 +883,7 @@ def parallel_propagate_ns(os, rg, dp, r, np=None):
         process per cpu
     """
 
-    if np == None:
+    if np is None:
         cpus = mp.cpu_count()
     else:
         cpus = np
