@@ -56,7 +56,6 @@ EXCLUDE_FILES = [
     "component.pyx",
     "system.pyx",
     "taylor_poly.pyx",
-    "surface.pyx",
     "spherical.pyx",
     "plane_mask.pyx",
     "detector.pyx",
@@ -82,6 +81,10 @@ EXCLUDE_FILES = [
     "powell.pyx",
     "zemax_import.py",
     "ipywidgets.py",
+    "Poly1Drot.pyx",
+    "aspheric_lens.py",
+    "optic_factory.py",
+    "mat_eq.py",
 ]
 
 

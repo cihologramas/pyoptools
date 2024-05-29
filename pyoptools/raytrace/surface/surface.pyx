@@ -20,7 +20,8 @@
 
 
 from pyoptools.misc.pmisc import hitlist2int_list, hitlist2int, interpolate_g
-from numpy import absolute, arccos, array, cos as npcos, dot, isinf as npisinf, inf, isnan as npisnan, \
+from numpy import absolute, arccos, array, cos as npcos, dot, isinf as npisinf, \
+    inf, isnan as npisnan, \
     power, sqrt as npsqrt, sometrue, zeros_like, ones_like, histogram2d, \
     linspace, meshgrid, abs, indices, argwhere, tan, polyfit, arange, where
 import cython
@@ -82,15 +83,6 @@ cdef class Surface(Picklable):
     lists.
 
     '''
-
-    # A reflectivity=0 indicates a transparent surface and a reflectivity =1
-    # '''
-
-    #    indicates a perfect mirror. A value in between, indicates a beam splitter. The shape
-    #    attribute is used to define the perimeter of the surface, and it is an
-    #    instance of the Shape class.
-
-    # ~ '''
 
     def __init__(self, reflectivity=0., shape=Circular(radius=10.)):
         self.reflectivity = reflectivity
@@ -191,7 +183,7 @@ cdef class Surface(Picklable):
 
         int_p = self._intersection(iray)
 
-        if self.shape.fhit(int_p[0], int_p[1], int_p[2]) == False:
+        if not (self.shape.fhit(int_p[0], int_p[1], int_p[2])):
             return inf_vect
 
         return int_p
@@ -251,7 +243,7 @@ cdef class Surface(Picklable):
         '''
 # ~
 
-        cdef np.ndarray[np.double_t, ndim=1] PI = self.intersection(iray)
+        cdef np.ndarray[np.double_t, ndim = 1] PI = self.intersection(iray)
         cdef double Dist
         # Dist is positive if the current surface is ahead of the ray.
         # If the surface is behind the ray, Dist becomes negative
@@ -440,7 +432,8 @@ cdef class Surface(Picklable):
             # return [Ray(pos=PI,dir=S2,intensity=ri.intensity,
             #           wavelength=ri.wavelength,n=nr,
             #           label=ri.label, orig_surf=self.id)]
-            return [Rayf(PI, S2, ri.intensity, ri.wavelength, nr, ri.label, ri.draw_color, None, 0, self.id, 0, ri._parent_cnt+1)]
+            return [Rayf(PI, S2, ri.intensity, ri.wavelength, nr, ri.label,
+                         ri.draw_color, None, 0.d, self.id, 0, ri._parent_cnt+1)]
         elif sometrue(npisnan(S2)):
             # Total internal refraction case
             gamma1 = -2.*ni*cos(I)
@@ -465,7 +458,8 @@ cdef class Surface(Picklable):
             #            intensity=ri.intensity,
             #            wavelength=ri.wavelength,n=ni,
             #            label=ri.label, orig_surf=self.id)]
-            return [Rayf(PI, S3, ri.intensity, ri.wavelength, ni, ri.label, ri.draw_color, None, 0, self.id, 0, ri._parent_cnt+1)]
+            return [Rayf(PI, S3, ri.intensity, ri.wavelength, ni, ri.label,
+                         ri.draw_color, None, 0.d, self.id, 0, ri._parent_cnt+1)]
 
         else:
             # BeamSplitter case
@@ -488,20 +482,26 @@ cdef class Surface(Picklable):
             if reflect != 1.:
                 return [  # Ray(pos=PI,dir=S2,
                     #    intensity=ri.intensity*(1.-self.reflectivity),
-                    #    wavelength=ri.wavelength,n=nr, label=ri.label, orig_surf=self.id),
+                    #    wavelength=ri.wavelength,n=nr, label=ri.label,
+                    #    orig_surf=self.id),
                     Rayf(PI, S2, ri.intensity*(1.-reflect), ri.wavelength,
-                         nr, ri.label, ri.draw_color, None, 0, self.id, 0,ri._parent_cnt+1),
+                         nr, ri.label, ri.draw_color, None, 0.d, self.id, 0,
+                         ri._parent_cnt+1) ,
                     # Ray(pos=PI,dir=S3,
                     #    intensity=ri.intensity*self.reflectivity,
-                    #    wavelength=ri.wavelength,n=ni,label=ri.label, orig_surf=self.id)
+                    #    wavelength=ri.wavelength,n=ni,label=ri.label,
+                    #    orig_surf=self.id)
                     Rayf(PI, S3, ri.intensity*reflect, ri.wavelength, ni,
-                         ri.label, ri.draw_color, None, 0, self.id, 0, ri._parent_cnt+1)
+                         ri.label, ri.draw_color, None, 0, self.id, 0,
+                         ri._parent_cnt+1)
                 ]
             else:
                 # return [Ray(pos=PI,dir=S3,
                 #            intensity=ri.intensity*self.reflectivity,
-                #            wavelength=ri.wavelength,n=ni,label=ri.label, orig_surf=self.id)]
-                return [Rayf(PI, S3, ri.intensity, ri.wavelength, ni, ri.label, ri.draw_color, None, 0, self.id, 0, ri._parent_cnt+1)]
+                #            wavelength=ri.wavelength,n=ni,label=ri.label,
+                #            orig_surf=self.id)]
+                return [Rayf(PI, S3, ri.intensity, ri.wavelength, ni, ri.label,
+                             ri.draw_color, None, 0.d, self.id, 0, ri._parent_cnt+1)]
 
     cpdef pw_propagate1(self, Ray ri, ni, nr, rsamples, isamples, knots):
         '''Method to calculate wavefront emerging from the surface
@@ -634,8 +634,8 @@ cdef class Surface(Picklable):
         yy = linspace(ymin, ymax, isamples[1])
 
         # Use only half of the samples to create the Spline,
-        isp = argwhere(ii == True)
-        ich = argwhere(ii == False)
+        isp = argwhere(ii)  # (ii == True)
+        ich = argwhere(not ii)  # (ii == False)
 
         xsp = xi[isp]
         ysp = yi[isp]
@@ -692,7 +692,8 @@ cdef class Surface(Picklable):
 
              order -- order of the polynomial fit
 
-             z -- Z position of the input and output plane. The origin is the surface vertex
+             z -- Z position of the input and output plane. The origin is the
+                  surface vertex
 
         ri must be in the coordinate system of the surface
         Note: The ray comes from the negative side. Need to change this
@@ -746,7 +747,8 @@ cdef class Surface(Picklable):
 
              rsamples -- number of rays used to sample the surface (Tuple)
 
-             z -- Z position of the input and output plane. The origin is the surface vertex
+             z -- Z position of the input and output plane. The origin is the
+                  surface vertex
 
         ri must be in the coordinate system of the surface
         Note: The ray comes from the negative side. Need to change this
@@ -849,7 +851,8 @@ cdef class Surface(Picklable):
         '''
         from ray_trace.surface import Plane
         # Get the wavefront ray representation
-        # TODO: This representation only takes into account the phase, but not the intensity.
+        # TODO: This representation only takes into account the phase, but not
+        #       the intensity.
         #       This has to be fixed, because in practice this is not OK
         rays = wf.rayrep(samples[0], samples[1])
 
@@ -1015,7 +1018,8 @@ cdef class Surface(Picklable):
         for i in range(len(X)):
             points.append((X[i], Y[i], Z[i]))
 
-        # Need to find a better way to do this not using delaunay# or maybe to generate all using triangulations????
+        # Need to find a better way to do this not using delaunay
+        # or maybe to generate all using triangulations????
         tri = Triangulation(X, Y)
         trip = tri.triangles
         return points, trip

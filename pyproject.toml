@@ -45,3 +45,7 @@ dependencies = [
     "nbsphinx>=0.8.0",
     "importlib-resources>=3.3.0",
 ]
+
+[tool.cython-lint]
+max-line-length = 88
+ignore = ['E741',]
