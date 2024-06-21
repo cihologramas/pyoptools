@@ -18,11 +18,11 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip setuptools wheel twine
+        python -m pip install --upgrade pip setuptools wheel twine setuptools_scm[toml]
         pip install Cython==0.29.32 --config-settings="--install-option=--no-cython-compile"
         pip install cibuildwheel
-        
-    # The env variable CIBW_BUILD is set here to be able to format matrix.python-version correctly  
+
+    # The env variable CIBW_BUILD is set here to be able to format matrix.python-version correctly
     - name: Set CIBW_BUILD environment variable using Python
       env:
         PYTHON_VERSION: ${{ matrix.python-version }}
@@ -33,7 +33,7 @@ jobs:
         python -m cibuildwheel --output-dir dist/
       env:
         # CIBW_BUILD: "cp${{ matrix.python-version }}*"
-        CIBW_SKIP: "*_i686 *musllinux* pp* *win32" 
+        CIBW_SKIP: "*_i686 *musllinux* pp* *win32"
 
     - name: Upload Distributions
       uses: actions/upload-artifact@v3
