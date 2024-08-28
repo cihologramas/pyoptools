@@ -17,8 +17,8 @@ authors = [{ name = "Ricardo Amézquita Orozco", email = "ramezquitao@cihologram
 license = {file = "LICENSE.txt"}
 readme = "README.md"
 dependencies = [
-    # Different numpy versions required for the integration with Freecad
-    # 0.21.2 in windows and linux using the installer and appimage from the
+    # Different numpy versions required for the integration with FreeCAD
+    # 0.21.2 in windows and Linux using the installer and appimage from the
     # FreeCAD website
     "numpy==1.19.3; python_version=='3.8'",
     "numpy==1.26.2; python_version=='3.9'",
