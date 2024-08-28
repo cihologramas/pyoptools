@@ -1,17 +1,17 @@
 [build-system]
 requires = [
-    "setuptools>=42", 
-    "wheel", 
-    "Cython==0.29.32", 
-    "oldest-supported-numpy",
-    "build"
+    "setuptools>=70",
+    "setuptools_scm>=8",
+    "wheel",
+    "Cython==0.29.32",
+    "oldest-supported-numpy"
     ]
-    
+
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyoptools"
-version = "0.2.5"
+dynamic = ["version"]
 description = "Python tools for simulation of optical systems"
 authors = [{ name = "Ricardo Amézquita Orozco", email = "ramezquitao@cihologramas.com" }]
 license = {file = "LICENSE.txt"}

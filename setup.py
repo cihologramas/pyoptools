@@ -41,4 +41,5 @@ setup(
     url="https://github.com/cihologramas/pyoptools/",
     ext_modules=cythonize("pyoptools/**/*.pyx", language_level="2", create_extension=create_extension),
     include_dirs=[numpy.get_include()],   
+    use_scm_version=True,
 )
