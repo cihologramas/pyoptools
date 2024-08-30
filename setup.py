@@ -20,7 +20,7 @@ def create_extension(template, kwds: dict):
 
 setup(
     packages=find_packages(exclude=["tests"]),
-    scripts=["ipyoptools"],
+    #scripts=["ipyoptools"],
     package_data={
         "pyoptools.raytrace.mat_lib": [
             "data/glass/*",

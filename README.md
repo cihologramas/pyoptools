@@ -1,5 +1,9 @@
 # pyOpTools
 
-pyOpTools is a set of packages that allow the simulation of optical systems by raytracing as well as some calculations involving wavefronts, currently under development. It is written in Python and Cython, and is being developed by the technological development group of [Combustión Ingenieros S.A.S](http://www.cihologramas.com), and the applied optics group of the Universidad Nacional de Colombia.
+**pyOpTools** is a comprehensive set of packages designed for simulating optical systems using ray tracing, as well as performing various calculations involving wavefronts. Currently, the project is under active development and is written in both Python and Cython.
 
-At the moment the documentation is being created, you can find the work in progress [here](https://pyoptools.readthedocs.io/)
+The software is being developed by the technological development team at [Combustión Ingenieros S.A.S.](http://www.cihologramas.com) and [Colombian Imaging Technologies S.A.S.](http://www.citech.com.co).
+
+### Documentation
+
+The documentation is currently a work in progress and can be accessed [here](https://pyoptools.readthedocs.io/).
