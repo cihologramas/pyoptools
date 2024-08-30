@@ -1,4 +1,3 @@
-# cython: profile=True
 
 import numpy as np
 # from numpy import dot,arctan2, polyval, pi, indices, sort, cumsum, where

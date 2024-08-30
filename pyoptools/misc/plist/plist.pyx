@@ -1,4 +1,3 @@
-# cython: profile=True
 cimport numpy as np
 np.import_array()
 

@@ -13,8 +13,6 @@
 # ------------------------------------------------------------------------------
 #
 
-# cython: profile=True
-
 from warnings import warn
 
 from numpy import dot, zeros, abs, meshgrid, pi, exp, where, angle, sqrt as npsqrt, indices, \
@@ -115,7 +113,8 @@ cdef class Field:
     cdef public object data, psize
     cdef public double l
 
-    def __init__(self, data=None, psize=(10e-3, 10e-3), l=442e-6, amp_im=None, ph_im=None, amp_n=1/255., ph_n=2*pi/255.):
+    def __init__(self, data=None, psize=(10e-3, 10e-3), l=442e-6,
+                 amp_im=None, ph_im=None, amp_n=1/255., ph_n=2*pi/255.):
 
         # Comparing data with None does not work, It seems that cython has a bug
         # when data is a numpy arra and it is compared with none
@@ -249,14 +248,16 @@ cdef class Field:
 
     # Definition of arithmetic functions for fields
     def __add__(self, a):
-        assert isinstance(a, Field), "Error: can not add a Field with a %s" %[type(a)]
+        assert isinstance(a, Field), "Error: can not add a Field with a %s" %[
+                          type(a)]
         assert self.data.shape==a.data.shape, "Error: both fields must have the same shape"
         assert self.psize==a.psize , "Error: both fields must have the samepixel size"
         assert self.l==a.l , "Error: Both fields must have the same wavelength"
         return Field(data=self.data+a.data, psize=self.psize, l=self.l)
 
     def __sub__(self, a):
-        assert isinstance(a, Field), "Error: can not add a Field with a %s" %[type(a)]
+        assert isinstance(a, Field), "Error: can not add a Field with a %s" %[
+                          type(a)]
         assert self.data.shape==a.data.shape, "Error: both fields must have the same shape"
         assert self.psize==a.psize , "Error: both fields must have the samepixel size"
         assert self.l==a.l , "Error: Both fields must have the same wavelength"
@@ -265,7 +266,8 @@ cdef class Field:
 
     def __mul__(self, other):
 
-        if isinstance(self, Field):  # Note, this is different than standard python, here mul==rmul. We need to see what is going on
+        if isinstance(
+            self, Field):  # Note, this is different than standard python, here mul==rmul. We need to see what is going on
             f=self
             a=other
         else:
@@ -727,18 +729,21 @@ cdef class Field:
         U0=1./(2.*dx)
         dU=1./(sx)
 
-        # Maximum distance  that should be used for angular espectral propagation
+        # Maximum distance  that should be used for angular espectral
+        # propagation
         ae_max= 1/(2.*(sqrt((n/self.l)**2 -(U0-dU)**2)-\
             sqrt((n/self.l)**2 -(U0)**2)))
 
         # Minimum distance to be used by Rayleigh Sommerfeld
-        rs_min=(n/self.l)*sqrt(((self.l/(2*n))**2- sx**2 -(sx-dx)**2)**2 -4*sx**2*(sx-dx)**2)
+        rs_min=(n/self.l)*sqrt(((self.l/(2*n))**2- sx**
+                2 -(sx-dx)**2)**2 -4*sx**2*(sx-dx)**2)
 
         # Minimum distance to be used by the fresnel propagation method (FFT)
 
         fr_min= dx**2*n*nx/self.l
 
-        return {"ae_max": float(ae_max), "rs_min": float(rs_min), "fr_min": float(fr_min)}
+        return {"ae_max": float(ae_max), "rs_min": float(
+            rs_min), "fr_min": float(fr_min)}
 
     # method(This, Trait(None,Float,Array(shape=(3,))))
 
@@ -1001,7 +1006,8 @@ cdef class Field:
 
         # The number of rows and columns to add must be even
         if (((mnx-nx) %2 !=0)or((mny-ny) %2 !=0)):
-            raise ValueError("The number of rows and columns to add  or remove must be even")
+            raise ValueError(
+                "The number of rows and columns to add  or remove must be even")
 
         ndata=zeros((mnx, mny), complex)
         ix=(mnx-nx)/2
@@ -1135,8 +1141,10 @@ cdef class Field:
                 kr=z_r*sx+int(nx/2)
                 lr=e_r*sy+int(ny/2)
 
-                # Calculate the displacement matrix for the rotated planewave spectrum
-                c2=exp(-2.j*pi/nx*(nx2*(kr-nx2)))*exp(-2.j*pi/ny*(ny2*(lr-ny2)))
+                # Calculate the displacement matrix for the rotated planewave
+                # spectrum
+                c2=exp(-2.j*pi/nx*(nx2*(kr-nx2)))* \
+                       exp(-2.j*pi/ny*(ny2*(lr-ny2)))
                 Ar=Ar+Af[i]*c2*s2d(kr, lr, nx, ny)
 
         data=ifft2(ifftshift(Ar/(nx*ny)))
@@ -1281,5 +1289,6 @@ cdef class Field:
             if dz<0:
                 print dz
             if mask is False:
-                rl.append(Ray(pos=(x, y, 0), dir=(dx, dy, dz), wavelength=self.l, pop=self.l*path/(2.*pi)))
+                rl.append(Ray(pos=(x, y, 0), dir=(dx, dy, dz),
+                          wavelength=self.l, pop=self.l*path/(2.*pi)))
         return rl  # ,lapa,a2x,a2y,a2z

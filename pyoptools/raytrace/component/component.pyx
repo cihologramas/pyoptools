@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-# cython: profile=True
 from pyoptools.misc.plist.plist cimport plist
 # This might be changed to a cimport. need to check
 from pyoptools.misc.cmisc.cmisc cimport *

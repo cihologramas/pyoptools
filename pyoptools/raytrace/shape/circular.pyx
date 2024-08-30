@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-# cython: profile=True
-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007,  2008, 2009 Ricardo Amezquita Orozco
 # All rights reserved.

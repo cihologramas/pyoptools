@@ -1,5 +1,3 @@
-# cython: profile=True
-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amezquita Orozco
 # All rights reserved.
