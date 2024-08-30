@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-#
 """
 This module defines the Spherical class, which represents spherical optical
 surfaces within a ray tracing context.
