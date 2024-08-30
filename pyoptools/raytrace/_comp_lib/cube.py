@@ -18,7 +18,6 @@
 Definition of beam splitting cube object and helper functions
 """
 
-# from enthought.traits.api import Tuple, Float, Instance, HasTraits, Trait
 import warnings
 from numpy import pi
 

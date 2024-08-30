@@ -23,8 +23,6 @@
 
 from warnings import warn
 
-#from enthought.traits.api import HasTraits, Float, Trait, List, Function,  Method
-#from enthought.traits.ui.view import View, Item, Include,Group
 
 from numpy import arange, meshgrid, linspace
 from pyoptools.misc.picklable.picklable cimport Picklable

@@ -26,15 +26,13 @@ from numpy import power, array, inf, absolute, float64, dot, sqrt as npsqrt
 cimport numpy as np
 np.import_array()
 
-#from enthought.traits.api import Float, Tuple
-#from enthought.traits.ui.view import Group, Item
 
 cdef extern from "math.h":
     double sqrt(double)
     double abs(double)
 
 
-#from ray_trace.surface.surface import Surface
+# from ray_trace.surface.surface import Surface
 
 cdef class Cylindrical(Surface):
     '''**Class to define cylindrical surfaces.**
@@ -61,7 +59,7 @@ cdef class Cylindrical(Surface):
     # params is included in the view of Surface to include the specific
     # attributes of this class in the edit_traits window
 
-    #params=Group(Item(name="curvature",label="Curvatura de la superficie"))
+    # params=Group(Item(name="curvature",label="Curvatura de la superficie"))
     cdef public double curvature
 
     def __init__(self, curvature=0., *args, **kwargs):
@@ -72,7 +70,7 @@ cdef class Cylindrical(Surface):
         # self.shape.topo=self.topo
 
         # ~ #Add attributes to the state list
-        #~ self.state.append(self.curvature)
+        # ~ self.state.append(self.curvature)
 
     # ~ def __reduce__(self):
        # ~
@@ -155,12 +153,12 @@ cdef class Cylindrical(Surface):
             X, Y, Z = X2, Y2, Z2
         else:
             X, Y, Z = X1, Y1, Z1
-            
+
         # This cylindrical surface is only h alf surface, so:
- 
+
         if abs(Z) > abs(z3):
             return array([inf, inf, inf])
-        
+
         return array([X, Y, Z], dtype=float64)
 
     cpdef np.ndarray normal(self, IP):

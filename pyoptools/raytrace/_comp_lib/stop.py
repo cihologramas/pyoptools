@@ -18,7 +18,6 @@
 Definition of stop components
 """
 
-# from enthought.traits.api import Float, Instance, HasTraits, Range
 from numpy import sqrt, pi, absolute
 
 from pyoptools.raytrace.component import Component

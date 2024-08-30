@@ -1,4 +1,3 @@
-# cython: profile=True
 
 '''Ray class definition module
 '''
@@ -12,19 +11,14 @@ from sys import exit
 # Se cambio el traits por el HasStrictTraits, para verificar la asignación
 # de los atributos en la creacion de los scripts
 
-# from enthought.traits.api import Float, List, Trait, TraitHandler,\
-#     TraitList,Array,Property, HasPrivateTraits, String, This, \
-#     Any, Instance
-
-#from enthought.tvtk.api import tvtk
 
 import numpy as np
 from numpy import dot, array, float_, inf, float64, empty, zeros, sqrt as npsqrt
 
-#from misc import rot_mat, rot_mat_i,mvdot, dot_test
+# from misc import rot_mat, rot_mat_i,mvdot, dot_test
 from pyoptools.misc.cmisc.cmisc cimport *  # rot_mat, rot_mat_i
 
-#import tokyo
+# import tokyo
 # cimport tokyo
 from cpython.ref cimport PyObject, Py_INCREF, Py_DECREF
 
@@ -238,7 +232,6 @@ cdef class Ray:
         #        orig_surf=self.orig_surf)
 
         cdef Ray parent=Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order, self._parent_cnt)
-        
 
         # Calculate the transform of the childs and link them
 
@@ -346,8 +339,8 @@ cdef class Ray:
         ndir=dot(tm, self._dir)  # Using tokio this tokio works a little faster, but have to see
                               # How to install it right, or better to do something similar using inline snd blas
 
-        #tokyo.dgemv3( tm, t, npos )
-        #tokyo.dgemv3( tm, self.dir, ndir )
+        # tokyo.dgemv3( tm, t, npos )
+        # tokyo.dgemv3( tm, self.dir, ndir )
         # This resulted to be slower
         # npos=mvdot1(tm,t)
         # ndir=mvdot1(tm,self.dir)

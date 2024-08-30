@@ -18,7 +18,6 @@
 Definition of a spherical lens object and helper functions
 """
 
-# from enthought.traits.api import Float, Instance, HasTraits,  Trait
 from numpy import sqrt, pi, absolute, inf
 
 from pyoptools.raytrace.component import Component

@@ -14,7 +14,7 @@ cimport numpy as np
 np.import_array()
 
 
-#from misc import rot_mat, rot_mat_i
+# from misc import rot_mat, rot_mat_i
 
 
 __all__ = ["Component"]

@@ -9,7 +9,7 @@ np.import_array()
 cimport cython
 
 
-#from numpy.ma import is_masked, MaskedArray
+# from numpy.ma import is_masked, MaskedArray
 
 cdef extern from "math.h":
     double fabs(double) nogil
@@ -65,15 +65,15 @@ cdef inline np.ndarray rot_mat_i(np.ndarray r):
 
     # Slow Way
     # ~ rx=np.array([[ 1., 0., 0.],
-    #~ [ 0., c0, s0],
+    # ~ [ 0., c0, s0],
     # ~ [ 0.,-s0, c0]])
 
     # ~ ry=np.array([[ c1, 0.,-s1],
-    #~ [ 0., 1., 0.],
+    # ~ [ 0., 1., 0.],
     # ~ [ s1, 0., c1]])
 
     # ~ rz=np.array([[ c2, s2, 0.],
-    #~ [-s2, c2, 0.],
+    # ~ [-s2, c2, 0.],
     # ~ [ 0., 0., 1.]])
 
     # ~ return np.dot(rx,np.dot(ry,rz))
@@ -127,13 +127,13 @@ cdef inline np.ndarray rot_mat(np.ndarray r):
     cdef double s2 = sin(rd[2])
 
     # ~ rx=array([[1. , 0., 0.],
-    #~ [0. , c0,-s0],
+    # ~ [0. , c0,-s0],
     # ~ [0. , s0, c0]])
     # ~ ry=array([[ c1, 0., s1],
-    #~ [ 0., 1., 0.],
+    # ~ [ 0., 1., 0.],
     # ~ [-s1, 0., c1]])
     # ~ rz=array([[ c2,-s2, 0.],
-    #~ [ s2, c2, 0.],
+    # ~ [ s2, c2, 0.],
     # ~ [ 0., 0., 1.]])
     # ~ tm=dot(rz,dot(ry,rx))
     # ~ return tm

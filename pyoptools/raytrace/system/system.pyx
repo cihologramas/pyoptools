@@ -14,14 +14,13 @@
 # ------------------------------------------------------------------------------
 
 
-
 """Module that defines the optical system class System()
 """
 import sys
 # TODO: Check if all modules use has strict traits
 from warnings import warn
 
-from numpy import asarray, array, float64, alltrue, isinf as npisinf, isnan as npisnan, sometrue,\
+from numpy import asarray, array, float64, alltrue, isinf as npisinf, isnan as npisnan, sometrue, \
     pi, absolute, inf
 # from ray_trace.component.component cimport Component
 
@@ -117,14 +116,13 @@ cdef class System(Picklable):
         else:
             self._max_ray_parent_cnt = int(val)
 
-
-    @property 
+    @property
     def prop_ray(self):
             return tuple(self._p_rays)
 
     ###############################################################
 
-    @property 
+    @property
     def complist(self):
             return self._complist
 
@@ -132,8 +130,8 @@ cdef class System(Picklable):
     def complist(self, list):
         self._complist=plist(list)
 
-    def __init__(self, complist=None, n=1., max_ray_parent_cnt = None, intensity_threshold=0):
-        
+    def __init__(self, complist=None, n=1., max_ray_parent_cnt=None, intensity_threshold=0):
+
         # Look in the init os component to see why this in done this way
         if complist is None:
             self.complist=[]
@@ -144,23 +142,22 @@ cdef class System(Picklable):
         self._p_rays=[]  # propagated rays
 
         # self.propagation_limit is integer, so if it is 0, then there is no limit
-        
+
         self.max_ray_parent_cnt = max_ray_parent_cnt
 
-    
         self.intensity_threshold = intensity_threshold
 
         # Flag that indicates if a ray propagarion was truncated or not by the
         # intensity_threshold or the max_ray_parent_cnt condition
         # if 0 no truncation was done
-    
+
         self._exit_status_flag = 0
 
         for i in self.complist:
             comp=i[0]
             # If the component is a subsystem, the refraction index must be the
             # same of the system, also the propagation limits must be the same
-            
+
             if isinstance(comp, System):
                 comp.n=self.n
                 comp.max_ray_parent_cnt = self.max_ray_parent_cnt
@@ -474,7 +471,7 @@ cdef class System(Picklable):
             SR, PSR, DSR=comp_list[j]
             # SR.reset()
             SR.clear_ray_list()
-            
+
             R=ri.ch_coord_sys(PSR, DSR)
             SR.ray_add(R)
             # Ids must not be updated when propagating in subsystems
@@ -554,7 +551,7 @@ cdef class System(Picklable):
 
         for i in ri.get_final_rays():
             if (i!=ri):
-                
+
                 # stop propagating if the ray has an intensity below the intensity propagation threshold
                 # or if it has been propagated more than propagation_limit times
 

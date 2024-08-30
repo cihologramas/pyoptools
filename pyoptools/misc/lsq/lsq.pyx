@@ -1,14 +1,14 @@
 from numpy import array, sqrt, zeros, where, power, dot,  ones,  empty, inf
 from numpy.linalg import inv, pinv, cond,  solve
 from pyoptools.misc.Poly2D.Poly2D cimport *
-#from pyoptools.misc.Poly2D import *
+# from pyoptools.misc.Poly2D import *
 
 cimport numpy as np
 np.import_array()
 import numpy as np
 cimport cython
 
-#from openopt import DFP
+# from openopt import DFP
 
 
 @cython.boundscheck(False)
@@ -186,12 +186,12 @@ def polyfito2(x, y, z):
             YP[id, p]=YP[id, p-1]*ya[id]
 
     # Calculating X and Y powers
-    #potx=empty((nc, nc))
-    #poty=empty((nc, nc))
-    #potx[:, :]=px
+    # potx=empty((nc, nc))
+    # poty=empty((nc, nc))
+    # potx[:, :]=px
     # potx=potx+potx.T
     # print "*",potx
-    #poty[:, :]=py
+    # poty[:, :]=py
     # poty=poty+poty.T
     # print "**", poty
     potx=_potxo2
@@ -341,9 +341,9 @@ def polyfito2(x, y, z):
         # ~ for j in range(ndat):
             # ~ x=100.*rand()
             # ~ y=100.*rand()
-            #~ X.append(x)
-            #~ Y.append(y)
-            #~ Z.append(p.eval(x, y))
+            # ~ X.append(x)
+            # ~ Y.append(y)
+            # ~ Z.append(p.eval(x, y))
         # ~ co, er=polyfit(X, Y, Z, Omax)
         # ~ print cohef
         # ~ print sqrt(power(cohef-co.cohef.T, 2).sum())/ncohef

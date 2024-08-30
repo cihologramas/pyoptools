@@ -8,7 +8,7 @@ np.import_array()
 
 cimport cython
 
-#from numpy.ma import is_masked, MaskedArray
+# from numpy.ma import is_masked, MaskedArray
 cdef extern from "math.h":
     double sqrt(double) nogil
     double atan2(double, double) nogil

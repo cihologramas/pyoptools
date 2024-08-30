@@ -19,15 +19,14 @@
 
 
 from numpy import zeros, asarray, float64
-#from enthought.traits.api import Bool, Property, List,  Tuple,  Float
 
 from pyoptools.raytrace.surface.plane cimport Plane
 from pyoptools.raytrace.ray.ray cimport Ray
 
 from pyoptools.misc.pmisc import wavelength2RGB
 from pyoptools.raytrace.shape.rectangular cimport Rectangular
-#from gui.plotutils import plot, figure, cm
-#from gui.plotutils import *
+# from gui.plotutils import plot, figure, cm
+# from gui.plotutils import *
 
 cdef class ArrayDetector(Plane):
     '''**CCD like detector surface.**
@@ -41,7 +40,7 @@ cdef class ArrayDetector(Plane):
     '''
 
     # CCD physical size
-    #size=Tuple(Float(10), Float(10))
+    # size=Tuple(Float(10), Float(10))
     cdef public tuple size
 
     def __init__(self, size=(10, 10), *args, **kwargs):
@@ -54,7 +53,7 @@ cdef class ArrayDetector(Plane):
         # self.shape.size=self.size
 
         # ~ #Add attributes to the state list
-        #~ self.state.append(self.size)
+        # ~ self.state.append(self.size)
         # ~ #print"Warning the transparent attribute in ArrayDetector is not working"
 
     # ~ def __reduce__(self):

@@ -22,9 +22,8 @@
 
 
 from numpy import power, arange, pi, zeros, cos, sin, tan
-#from enthought.traits.api import Float, Tuple,  Instance
 
-#from ray_trace.surface import Plane
+# from ray_trace.surface import Plane
 from pyoptools.raytrace.surface.plane cimport Plane
 
 from pyoptools.raytrace.shape.shape  cimport Shape

@@ -20,7 +20,7 @@
 cdef extern from "math.h":
     double sqrt(double)
 
-from numpy import array, asarray, arange, polyadd, polymul, polysub, polyval,\
+from numpy import array, asarray, arange, polyadd, polymul, polysub, polyval, \
      dot, inf, roots, zeros, meshgrid, where, abs, sqrt as npsqrt
 
 cimport numpy as np
@@ -30,7 +30,7 @@ from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
 from scipy.optimize import fsolve, ridder, newton, brentq, brenth, fminbound
 
-#from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
+# from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
 from pyoptools.misc.Poly2D cimport *
 from pyoptools.misc.definitions import inf_vect
 
@@ -115,13 +115,13 @@ cdef class TaylorPoly(Surface):
         TODO: Hay que buscar una solución analitica
         """
         cdef double Ox, Oy, Oz, Dx, Dy, Dz
-        #Ox, Oy, Oz = iray.pos
+        # Ox, Oy, Oz = iray.pos
 
         Ox=iray.cpos[0]
         Oy=iray.cpos[1]
         Oz=iray.cpos[2]
 
-        #Dx, Dy, Dz = iray.dir
+        # Dx, Dy, Dz = iray.dir
 
         Dx=iray._dir[0]
         Dy=iray._dir[1]
@@ -162,7 +162,7 @@ cdef class TaylorPoly(Surface):
             if (fa<0 and fb>0) or (fa>0 and fb<0):
                 t=brentq(self.__f1, ta, tb, (iray,), maxiter=1000)
             else:  # there are more than 1 intersection points we are assuming 2
-                #tm=fsolve(self.__f1, 0,(iray,),warning=False)
+                # tm=fsolve(self.__f1, 0,(iray,),warning=False)
                 # In new scipy version the warning kw is not supported
                 tm=fsolve(self.__f1, 0, (iray,))
 

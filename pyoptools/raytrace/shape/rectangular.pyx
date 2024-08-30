@@ -21,8 +21,6 @@
 """Module that defines the Rectangular class
 """
 
-#from enthought.traits.api import HasTraits, Float, Tuple, Int
-#from enthought.traits.ui.view import View, Item, Include,Group
 
 from pyoptools.raytrace.shape.shape cimport Shape
 
@@ -36,7 +34,7 @@ cdef class Rectangular(Shape):
     # size=Tuple(Float(1.),Float(1.))
 
     # Tuple that holds the number of samples to be used to build the mesh
-    #samples=Tuple(Int(30), Int(30))
+    # samples=Tuple(Int(30), Int(30))
 
     def __init__(self, size=(1., 1.), samples=(30, 30), offset=(0, 0), *args, **kwargs):
         Shape.__init__(self, *args, **kwargs)
@@ -104,9 +102,9 @@ cdef class Rectangular(Shape):
         # ~ i=0
         # ~ for x in range(0,xs):
            # ~ for y in range(0,ys):
-            #~ points.append([X[x,y],Y[x,y],Z[x,y]]);
+            # ~ points.append([X[x,y],Y[x,y],Z[x,y]]);
             # ~ if y>0 and x>0:
-            #~ polylist.append([i-1,i,i-ys,i-ys-1])
+            # ~ polylist.append([i-1,i,i-ys,i-ys-1])
             # ~ i=i+1
         # ~
         # ~ return points, polylist

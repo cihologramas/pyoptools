@@ -17,7 +17,7 @@
 
 from warnings import warn
 
-from numpy import dot, zeros, abs, meshgrid, pi, exp, where, angle, sqrt as npsqrt, indices,\
+from numpy import dot, zeros, abs, meshgrid, pi, exp, where, angle, sqrt as npsqrt, indices, \
     empty, complex128, complex64, newaxis, column_stack, max, array, linspace, dot, zeros_like, \
     round, float64, arange, isnan, angle,  mgrid, rint, float32, uint32, exp
 
@@ -119,7 +119,7 @@ cdef class Field:
 
         # Comparing data with None does not work, It seems that cython has a bug
         # when data is a numpy arra and it is compared with none
-        assert (not(data is None)) ^ (not(amp_im is None) or not(ph_im is None)),\
+        assert (not(data is None)) ^ (not(amp_im is None) or not(ph_im is None)), \
             "The initizilation can be a numpy array, or a set of "+\
             "images but not both"
 
@@ -275,8 +275,8 @@ cdef class Field:
         # If you are multipliying 2 fields (1 field* 1 phase mask)
         if isinstance(a, Field):
             # TODO: Find a good way to do the assertions
-            #assert(a.l==f.l),"The field and the mask must be for the same wavelength"
-            #assert(a.psize==f.psize),"The pixel size in the field and the mask must be the same"
+            # assert(a.l==f.l),"The field and the mask must be for the same wavelength"
+            # assert(a.psize==f.psize),"The pixel size in the field and the mask must be the same"
             return Field(data=a.data*f.data, psize=f.psize, l=f.l)
 
         # If you are multipliying a field by a numpy array or a number
@@ -383,18 +383,18 @@ cdef class Field:
         X, Y=indices((2*nx, 2*ny))
         ux=(X-nx)*dx+x
         uy=(Y-ny)*dy+y
-        ##del X
-        ##del Y
+        ## del X
+        ## del Y
         krn=self._rs_kernel(ux, uy, z, n)
-        ##del ux
-        ##del uy
+        ## del ux
+        ## del uy
         krn=fftshift(krn)  # TODO: Check if it is fftshift or ifftshift
         fkrn=fft2(krn)
         # del(krn)
         nf=self.resize((2*nx, 2*ny))
         # ux,uy=self.field_sample_coord
         retval=ifft2(fft2(nf.data)*fkrn)
-        #fftconvolve(self.data, self._rs_kernel(x=ux,y=uy,z=z,n=n), mode='same')
+        # fftconvolve(self.data, self._rs_kernel(x=ux,y=uy,z=z,n=n), mode='same')
         retval=retval[nx/2:nx/2+nx, ny/2:ny/2+ny]*dx*dy
         return Field(data=retval, psize=self.psize, l=self.l)
 
@@ -674,7 +674,7 @@ cdef class Field:
         the propagated field is returned.
         """
 
-        #from cfield import _ursi
+        # from cfield import _ursi
         # cpus=detectCPUs()
 
         # job_server=pp.Server()
@@ -691,7 +691,7 @@ cdef class Field:
         cxy=column_stack((xf[:, newaxis], yf[:, newaxis]))
         for i, (xi, yi) in enumerate(cxy):
             U[i]=self._ursi(xi, yi, z, n=n)
-            #U[i]=_ursi(self,xi,yi, z, n=n)
+            # U[i]=_ursi(self,xi,yi, z, n=n)
 
         if dfield is None:
             return Field(data=U.reshape(X.shape), psize=self.psize, l=self.l)
@@ -740,7 +740,7 @@ cdef class Field:
 
         return {"ae_max": float(ae_max), "rs_min": float(rs_min), "fr_min": float(fr_min)}
 
-    #method(This, Trait(None,Float,Array(shape=(3,))))
+    # method(This, Trait(None,Float,Array(shape=(3,))))
 
     def propagate_rs(self, z, n=1, shape=None):
         """Method that calculates the free space propagation of an optical field.

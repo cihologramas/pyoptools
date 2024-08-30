@@ -44,7 +44,6 @@ from numpy import (
     abs,
 )
 
-# from enthought.traits.api import Tuple, Float, Array, Int
 import sympy
 
 from pyoptools.raytrace.surface.taylor_poly import TaylorPoly

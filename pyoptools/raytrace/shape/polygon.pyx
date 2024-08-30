@@ -151,7 +151,7 @@ cdef class Polygon(Shape):
                 # ~ else:
                     # ~ P=P0
                 # ~ Z=topo(P[0],P[1])
-                #~ points.append((P[0],P[1],Z))
+                # ~ points.append((P[0],P[1],Z))
                 # ~
         # ~ from matplotlib.delaunay import delaunay
         # ~

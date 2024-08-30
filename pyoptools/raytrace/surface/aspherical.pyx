@@ -23,7 +23,7 @@ from pyoptools.misc.definitions import inf_vect
 from pyoptools.misc.Poly2D cimport *
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import array, asarray, arange, polyadd, polymul, polysub, polyval,\
+from numpy import array, asarray, arange, polyadd, polymul, polysub, polyval, \
     dot, inf, roots, zeros, meshgrid, where, abs, sqrt as npsqrt
 cdef extern from "math.h":
     double sqrt(double)
@@ -33,7 +33,7 @@ cimport numpy as np
 np.import_array()
 
 
-#from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
+# from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
 
 cdef class Aspherical(Surface):
     """**Class that defines a high order aspherical surface**
@@ -155,13 +155,13 @@ cdef class Aspherical(Surface):
         Kx = self.Kx
         Ky = self.Ky
 
-        #Ox, Oy, Oz = iray.pos
+        # Ox, Oy, Oz = iray.pos
 
         Ox = iray.cpos[0]
         Oy = iray.cpos[1]
         Oz = iray.cpos[2]
 
-        #Dx, Dy, Dz = iray.dir
+        # Dx, Dy, Dz = iray.dir
 
         Dx = iray._dir[0]
         Dy = iray._dir[1]
@@ -181,12 +181,12 @@ cdef class Aspherical(Surface):
         Kx = self.Kx
         Ky = self.Ky
 
-        #Ox, Oy, Oz = iray.pos
+        # Ox, Oy, Oz = iray.pos
         Ox = iray.cpos[0]
         Oy = iray.cpos[1]
         Oz = iray.cpos[2]
 
-        #Dx, Dy, Dz = iray.dir
+        # Dx, Dy, Dz = iray.dir
         Dx = iray._dir[0]
         Dy = iray._dir[1]
         Dz = iray._dir[2]
@@ -221,7 +221,7 @@ cdef class Aspherical(Surface):
             if (fa < 0 and fb > 0) or (fa > 0 and fb < 0):
                 t = brentq(self.__f1, ta, tb, (iray,), maxiter=1000)
             else:  # there are more than 1 intersection points we are assuming 2
-                #tm=fsolve(self.__f1, 0,(iray,),warning=False)
+                # tm=fsolve(self.__f1, 0,(iray,),warning=False)
                 # In new scipy version the warning kw is not supported
                 tm = fsolve(self.__f1, 0, (iray,))
 
@@ -241,7 +241,7 @@ cdef class Aspherical(Surface):
                 t = brentq(self.__f2, ta, tb, (iray,), maxiter=1000)
             else:  # there are more than 1 intersection points we are assuming 2
                 # In new scipy version the warning kw is not supported
-                #tm=fsolve(self.__f2, 0,(iray,),warning=False)
+                # tm=fsolve(self.__f2, 0,(iray,),warning=False)
                 tm = fsolve(self.__f2, 0, (iray,))
 
                 if (tm < ta and tm < tb) or (tm > ta and tm > tb):

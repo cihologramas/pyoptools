@@ -23,10 +23,8 @@
 
 import cython
 from numpy import array, dot, inf, float64, zeros, asarray
-#from enthought.traits.api import Tuple,Float
-#from enthought.traits.ui.view import Group,Item
 
-#from ray_trace.surface import Surface
+# from ray_trace.surface import Surface
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
 
@@ -85,7 +83,7 @@ cdef class Plane(Surface):
         # Si u es muy grande, no hay intersección
 
         retval = P1+u*L1
-        #from sys import exit
+        # from sys import exit
         # if isnan(retval[0]):
         #    print P1,u,L1
         #    print A.dir

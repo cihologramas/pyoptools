@@ -243,7 +243,7 @@ cdef class Surface(Picklable):
         '''
 # ~
 
-        cdef np.ndarray[np.double_t, ndim = 1] PI = self.intersection(iray)
+        cdef np.ndarray[np.double_t, ndim=1] PI = self.intersection(iray)
         cdef double Dist
         # Dist is positive if the current surface is ahead of the ray.
         # If the surface is behind the ray, Dist becomes negative

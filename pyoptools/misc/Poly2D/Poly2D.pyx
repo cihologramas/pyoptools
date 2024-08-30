@@ -1,5 +1,3 @@
-#cython: profile=True
-
 cdef extern from "math.h":
     double pow(double, double)
     double sin(double)
@@ -268,7 +266,7 @@ cdef class poly2d:
             else:
                 o=o2
             ncohef=zero_vec(pxpy2i(0, o)+1)
-            #qncohef=np.zeros((pxpy2i(0,o)+1,), dtype=np.float64)
+            # qncohef=np.zeros((pxpy2i(0,o)+1,), dtype=np.float64)
             ncohef[:len(a.cohef)]=a.cohef
             ncohef[:len(p.cohef)]=ncohef[:len(p.cohef)]+p.cohef
             return poly2d(ncohef)
@@ -290,7 +288,7 @@ cdef class poly2d:
             else:
                 o=o2
             ncohef=zero_vec(pxpy2i(0, o)+1)
-            #ncohef=np.zeros((pxpy2i(0,o)+1,), dtype=np.float64)
+            # ncohef=np.zeros((pxpy2i(0,o)+1,), dtype=np.float64)
             ncohef[:len(a.cohef)]=-a.cohef
             ncohef[:len(p.cohef)]=ncohef[:len(p.cohef)]+p.cohef
             return poly2d(ncohef)
@@ -557,7 +555,7 @@ cdef class poly2d:
         cdef int i, j, nx, ny, ord, co, k
 
         # Calculate the rotation matrix
-        #Cos  -sin
+        # Cos  -sin
         # sin cos
 
         cdef double cosr= cos(rot)
@@ -778,7 +776,7 @@ cpdef i2pxpy(i):
 
     cdef np.ndarray ia=np.array(i)
     poly_order=(1+(np.sqrt(8*(ia)+1)-3)/2).astype(int)
-    ret_y=np.where(poly_order==0, 0,\
+    ret_y=np.where(poly_order==0, 0, \
                 ia-(((poly_order-1)**2+3*(poly_order-1)+2)/2 - 1)-1).astype(int)
     ret_x=poly_order-ret_y
     return ret_x, ret_y

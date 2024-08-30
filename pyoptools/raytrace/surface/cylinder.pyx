@@ -24,11 +24,8 @@ from pyoptools.raytrace.surface.surface cimport Surface
 from numpy import pi, power, array, inf, sqrt, absolute, float64, dot, sin, cos
 cimport numpy as np
 np.import_array()
-#from enthought.traits.api import Float, Tuple
-#from enthought.traits.ui.view import Group, Item
-#from enthought.tvtk.api import tvtk
 
-#from ray_trace.surface.surface import Surface
+# from ray_trace.surface.surface import Surface
 
 cdef class Cylinder(Surface):
     '''**Class to define cylinder shaped surfaces.**

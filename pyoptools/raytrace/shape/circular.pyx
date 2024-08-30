@@ -21,8 +21,6 @@
 """ Module that defines the Circular superclass """
 
 
-#from enthought.traits.api import HasTraits, Float, Tuple, Int
-#from enthought.traits.ui.view import View, Item, Include,Group
 from numpy import power, sin, cos, pi, where
 from pyoptools.raytrace.shape.shape cimport Shape
 
@@ -37,7 +35,7 @@ cdef class Circular(Shape):
 
     # Tuple that holds the number of samples to be used to build the mesh.
     # The first number gives radial samples, the second angular samples
-    #samples=Tuple(Int(10), Int(36))
+    # samples=Tuple(Int(10), Int(36))
 
     def __init__(self, radius=1., samples=(10, 36), *args, **kwargs):
         Shape.__init__(self, *args, **kwargs)
@@ -111,19 +109,19 @@ cdef class Circular(Shape):
         # ~ i=1
         # ~ for x in range(0,xs):
            # ~ for y in range(0,ys):
-            #~ points.append([X[x,y],Y[x,y],Z[x,y]]);
+            # ~ points.append([X[x,y],Y[x,y],Z[x,y]]);
             # ~ if y>=1 and x>=1 and Z[x, y]:
-            #~ polylist.append([i-1,i,i-ys,i-ys-1])
+            # ~ polylist.append([i-1,i,i-ys,i-ys-1])
             # ~ i=i+1
         # ~ # Close the vertex
         # ~
         # ~ for x in range(0,xs-1):
-           #~ polylist.append([0,x*ys+1,(x+1)*ys+1])
-        #~ polylist.append([0, 1, ys*(xs-1)+1])
+           # ~ polylist.append([0,x*ys+1,(x+1)*ys+1])
+        # ~ polylist.append([0, 1, ys*(xs-1)+1])
         # ~
         # ~ # Close the surface
         # ~ for y in range(1, ys):
-           #~ polylist.append([y,y+1, ys*(xs-1)+y+1, ys*(xs-1)+y ])
+           # ~ polylist.append([y,y+1, ys*(xs-1)+y+1, ys*(xs-1)+y ])
         # ~ return points, polylist
 
     cpdef pointlist(self):
