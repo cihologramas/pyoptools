@@ -17,7 +17,7 @@
 
 
 import cython
-from numpy import array, dot, inf, float64, zeros, asarray
+from numpy import array, float64, zeros, asarray
 
 # from ray_trace.surface import Surface
 from pyoptools.raytrace.surface.surface cimport Surface
@@ -52,7 +52,6 @@ cdef class Plane(Surface):
         # ~
         # ~ args=(self.reflectivity, self.shape)
         # ~ return(type(self),args,self.__getstate__())
- # ~
 
     @cython.boundscheck(False)
     @cython.wraparound(False)

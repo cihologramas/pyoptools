@@ -17,7 +17,7 @@
 
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import power, array, inf, absolute, float64, dot, sqrt as npsqrt
+from numpy import array, inf, absolute, float64, dot, sqrt as npsqrt
 cimport numpy as np
 np.import_array()
 
@@ -68,7 +68,7 @@ cdef class Cylindrical(Surface):
         # ~ self.state.append(self.curvature)
 
     # ~ def __reduce__(self):
-       # ~
+        # ~
         # ~ args=(self.curvature, self.reflectivity, self.shape)
         # ~ return(type(self),args,self.__getstate__())
 
@@ -95,7 +95,7 @@ cdef class Cylindrical(Surface):
         This function must not be called directly. You should call
         Surface.intersection instead.
         """
-        cdef double x1, y1, z1, x2, y2, z2, z3, x21, y21, z21
+        cdef double x1, y1, z1, x2, y2, z2, z3, x21, z21
         cdef double X1, Y1, Z1, X2, Y2, Z2, X, Y, Z
         cdef double a, b, c, b2ac, u1, u2
         # P1=A.pos     # Punto que pertenece al rayo "Origen" del rayo
@@ -114,7 +114,7 @@ cdef class Cylindrical(Surface):
         y2 = y1+dir[1]
         z2 = z1+dir[2]
         x21 = dir[0]
-        y21 = dir[1]
+        # y21 = dir[1]
         z21 = dir[2]
 
         # x3,y3=(0.,0.)

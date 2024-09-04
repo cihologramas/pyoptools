@@ -18,7 +18,7 @@
 
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import pi, power, array, inf, sqrt, absolute, float64, dot, sin, cos
+from numpy import pi, power, array, inf, sqrt, float64, dot, sin, cos
 cimport numpy as np
 np.import_array()
 
@@ -68,7 +68,7 @@ cdef class Cylinder(Surface):
         self.addkey("length")
 
     # ~ def __reduce__(self):
-     # ~
+        # ~
         # ~ args=(self.radius, self.length, self.reflectivity, self.shape)
         # ~ return(type(self),args,self.__getstate__())
 
@@ -171,7 +171,8 @@ cdef class Cylinder(Surface):
         given by int_p.
         """
 
-        N1 = int_p.copy()  # Need to do a copy so the intersection point does not get modified
+        # Need to do a copy so the intersection point does not get modified
+        N1 = int_p.copy()
         N1[2] = 0  # the normal should not have Z component
         N_ = N1/sqrt(dot(N1, N1))
         return N_

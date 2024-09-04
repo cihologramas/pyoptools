@@ -64,10 +64,10 @@ cdef class IdealSurface(Surface):
 
     cpdef propagate(self, Ray ri, double ni, double nr):
 
-        PI, P = self.int_nor(ri)
-        # l=ri.wavelength*1e-3 # Express wavelength in millimeters so all the method works in millimeters
-        rx, ry, rz = ri.dir
-        # Get the focussing point as the point where the principal ray hits the focal plane
+        PI, _P = self.int_nor(ri)
+        _rx, _ry, rz = ri.dir
+        # Get the focussing point as the point where the principal ray hits
+        # the focal plane
 
         FP = ri.dir*self.f/abs(rz)
 
@@ -80,12 +80,14 @@ cdef class IdealSurface(Surface):
                 d = -d
             ret.append(Ray(pos=PI, dir=d,
                            intensity=ri.intensity,
-                           wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
+                           wavelength=ri.wavelength, n=ni, label=ri.label,
+                           orig_surf=self.id))
         if self.reflectivity != 0:
             # print "not 0"
             ret.append(Ray(pos=PI, dir=PI-FP,
                            intensity=ri.intensity,
-                           wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
+                           wavelength=ri.wavelength, n=ni, label=ri.label,
+                           orig_surf=self.id))
 
         # print self.reflectivity
         return ret

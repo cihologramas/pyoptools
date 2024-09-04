@@ -5,7 +5,7 @@ from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.mat_lib import Material
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import inf, asarray, pi, alltrue, sometrue, isinf, isnan, array, dot, float64
+from numpy import asarray dot
 cimport numpy as np
 np.import_array()
 
@@ -57,8 +57,8 @@ cdef class Component(Picklable):
             return self._material
 
         def __set__(self, material):
-            assert isinstance(material, (float, Material)
-                              ), "material must be a floating point number or a Material instance"
+            assert isinstance(material, (float, Material)), \
+                "material must be a floating point number or a Material instance"
             self._material = material
 
     property hit_list:
@@ -121,7 +121,7 @@ cdef class Component(Picklable):
     def __contains__(self, key):
         return self._surflist.__contains__(key)
 
-     # Return an iterator so this can be used similar to a list
+    # Return an iterator so this can be used similar to a list
     def __iter__(self):
         return self._surflist.itervalues()
 
@@ -233,8 +233,8 @@ cdef class Component(Picklable):
 
         for surf in self.surflist:
             S, P, D = surf
-            # Change the coordinate system of the ray, From the Component coordinate system
-            # to the surface component system
+            # Change the coordinate system of the ray, From the Component
+            # coordinate system to the surface component system
 
             R = ri_.ch_coord_sys(P, D)
 

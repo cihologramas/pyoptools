@@ -23,7 +23,7 @@ cimport cython
 from pyoptools.raytrace.shape.shape cimport Shape
 
 
-from numpy import arange, meshgrid, where, dot, array
+from numpy import dot, array
 
 cdef class Triangular(Shape):
     ''' Class defining a triangular shape.
@@ -52,7 +52,6 @@ cdef class Triangular(Shape):
 
     def __reduce__(self):
 
-        state=None
         args=(self.coord, self.samples)
         return(type(self), args)
 
@@ -62,7 +61,7 @@ cdef class Triangular(Shape):
         if not it returns False.
         taken from http://www.blackpawn.com/texts/pointinpoly/default.html
         """
-        x, y, z=p
+        x, y, _z=p
         P=array((x, y))
         A=array(self.coord[0])
         B=array(self.coord[1])
@@ -118,7 +117,8 @@ cdef class Triangular(Shape):
         return (u > 0) and (v > 0) and (u + v < 1)
 
     # ~ cpdef polylist(self, topo): #Falta organizar el polilist
-        # ~ """Method that returns a tuple (point_list, poly_list) for a triangular mesh.
+        # ~ """Method that returns a tuple (point_list, poly_list) for a
+        #   triangular mesh.
         # ~
         # ~ Attributes:
         # ~ ===========
@@ -141,19 +141,20 @@ cdef class Triangular(Shape):
         # ~ #Get the mesh points
         # ~ points=[]
         # ~ for i in range(self.samples+1):
-            # ~ P0= A+i*(B-A)/self.samples
-            # ~ P1= A+i*(C-A)/self.samples
-            # ~ for j in range(i+1):
-                # ~ if i!=0:
-                    # ~ P=P0+(P1-P0)*j/i
-                # ~ else:
-                    # ~ P=P0
-                # ~ Z=topo(P[0],P[1])
-                # ~ points.append((P[0],P[1],Z))
-                # ~
+        # ~     P0= A+i*(B-A)/self.samples
+        # ~     P1= A+i*(C-A)/self.samples
+        # ~     for j in range(i+1):
+        # ~         if i!=0:
+        # ~         P=P0+(P1-P0)*j/i
+        # ~         else:
+        # ~              P=P0
+        # ~         Z=topo(P[0],P[1])
+        # ~         points.append((P[0],P[1],Z))
+        # ~
         # ~ from matplotlib.delaunay import delaunay
         # ~
-        # ~ #Need to find a better way to do this not using delaunay# or maybe to generate all using triangulations????
+        # ~  Need to find a better way to do this not using delaunay# or
+        #    maybe to generate all using triangulations????
         # ~
         # ~ x=[p[0] for p in points]
         # ~ y=[p[1] for p in points]

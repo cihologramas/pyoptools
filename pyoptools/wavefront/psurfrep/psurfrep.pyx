@@ -25,7 +25,8 @@ class PSurf:
     surface using a polynomial representation algorithm.
     """
 
-    def __init__(self, s, ni=1, nr=1, ilimit=0, slimit=1.3, l=.633e-3 , step=0.05, order=10, rsamples=(500, 500), zb=None):
+    def __init__(self, s, ni=1, nr=1, ilimit=0, slimit=1.3, l=.633e-3 ,
+                 step=0.05, order=10, rsamples=(500, 500), zb=None):
         """
 
         **ARGUMENTS**
@@ -33,15 +34,20 @@ class PSurf:
             ========= ==========================================================
             s         Optical surface to model
             ni,nr     Refraction index from the incident and refracted sides
-            ilimit    Inferior limit for incidence angle of the plane wave in radians
-            slimit    Superior limit for incidence angle of the plane wave in radians
-            l         Wavelength that will be used in the simulation. We need to find a solution for any wavelength
+            ilimit    Inferior limit for incidence angle of the plane wave in
+                      radians
+            slimit    Superior limit for incidence angle of the plane wave in
+                      radians
+            l         Wavelength that will be used in the simulation. We need to
+                      find a solution for any wavelength
             step      Step to be used to generate the interpolation data
             order     Order of the Taylor interpolation used
             rsamples  Tuple containing the number of ray samples to be used en
                       each direction
-            zb        Z position of the plane where the measurementas are made. The origin
-                      is the vertex of the surface. If None, an estimate position is taken.
+            zb        Z position of the plane where the measurementas are made.
+                      The origin
+                      is the vertex of the surface. If None, an estimate
+                      position is taken.
             ========= ==========================================================
 
         **Notes:**
@@ -51,7 +57,8 @@ class PSurf:
                - The intensity is normalized to 1
 
         """
-        self.pf, self.pi, self.zm=s.pw_cohef(ni, nr, ilimit, slimit, step, order, rsamples, zb)
+        self.pf, self.pi, self.zm=s.pw_cohef(ni, nr, ilimit, slimit, step,
+                                             order, rsamples, zb)
 
         # get the number of polynomial coheficients
         self.nc=ord2i(order)
@@ -80,7 +87,8 @@ class PSurf:
         di=poly2d(ci)
         return df, di
 
-    def pw_evaluate(self, np.ndarray[np.double_t, ndim=1] k, samples=(512, 512), gpu=True):
+    def pw_evaluate(self, np.ndarray[np.double_t, ndim=1] k, samples=(512, 512),
+                    gpu=True):
         """Plane wave evaluate
 
         **Arguments:**
@@ -110,8 +118,9 @@ class PSurf:
 
         # Create the circular mask
 
-        # There is a problem. Some of the pixels of the border of the aperture get an error
-        # Too big. I don't think this will be an issue, because it is just in the border.
+        # There is a problem. Some of the pixels of the border of the aperture get an
+        # error too big. I don't think this will be an issue, because it is just in the
+        # border.
 
         rm=np.where(xx**2+yy**2>1, True, False)
 
@@ -129,7 +138,8 @@ class PSurf:
         inte=ma.masked_array(ir, mask=rm)
         fdata=inte*np.exp(1.j*2*np.pi/self.l*f)
 
-        # fdata=fdata*fdata[samples[0]/2,samples[1]/2]/abs(fdata[samples[0]/2,samples[1]/2])
+        # fdata=
+        # fdata*fdata[samples[0]/2,samples[1]/2]/abs(fdata[samples[0]/2,samples[1]/2])
         print "**-->", np.angle(fdata[samples[0]/2, samples[1]/2])
         return Field(fdata, psize=(dx, dy), l=self.l)
 
@@ -212,19 +222,22 @@ class PSurf:
 
         for i in range(len(ki)-1):
             print "*", i
-            k=np.array((kx[ki[i+1], kj[i+1]], ky[ki[i+1], kj[i+1]], kz[ki[i+1], kj[i+1]]))
+            k=np.array((kx[ki[i+1], kj[i+1]],
+                        ky[ki[i+1], kj[i+1]],
+                        kz[ki[i+1], kj[i+1]]))
             print k/k[2], abs(a[ki[i+1], kj[i+1]])
             r+=a[ki[i+1], kj[i+1]]*self.pw_evaluate(k, samples, got_cl)
 
-            # TODO: Important------------------------------- ###### Need to take into account the phase............
+            # TODO: Important------- ###### Need to take into account the phase.........
 
-            # Need to add the polynomials before evaluating the resulting field. Have to check if this is possible, or if
+            # Need to add the polynomials before evaluating the resulting field. Have to
+            # check if this is possible, or if
             # it is better to add the evaluated fields
             # Or if it is possible to do an interpolation in the fourier plane
 
             # resf=resf+resf*exp(1.j*)
             # ~ if i%1 ==0:
-                # ~ print "**", time()-ti
-                # ~ print "***",i, len(ki)
-                # ~ ti=time()
+            # ~     print "**", time()-ti
+            # ~     print "***",i, len(ki)
+            # ~     ti=time()
         return r

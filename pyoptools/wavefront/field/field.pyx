@@ -15,9 +15,10 @@
 
 from warnings import warn
 
-from numpy import dot, zeros, abs, meshgrid, pi, exp, where, angle, sqrt as npsqrt, indices, \
-    empty, complex128, complex64, newaxis, column_stack, max, array, linspace, dot, zeros_like, \
-    round, float64, arange, isnan, angle,  mgrid, rint, float32, uint32, exp
+from numpy import dot, zeros, abs, meshgrid, pi, exp, where, angle, sqrt as npsqrt, \
+    indices, empty, complex128, complex64, newaxis, column_stack, max, array, \
+    linspace, dot, zeros_like, round, float64, arange, isnan, angle,  mgrid, rint, \
+    float32, uint32, exp
 
 
 from numpy.fft import fft2, ifft2, fftshift, ifftshift
@@ -77,7 +78,8 @@ def s2d(kx, ky, nx, ny):
     sy=s(uy, ny)
 
     # print sx.shape, sy.shape
-    # TODO: Verify if the correct expression is dot(sx.transpose(),sy) or dot(sy.transpose(),sx)
+    # TODO: Verify if the correct expression is
+    # dot(sx.transpose(),sy) or dot(sy.transpose(),sx)
     # retval=dot(sx.transpose(),sy)
     retval=dot(sy.transpose(), sx)
     return retval
@@ -154,7 +156,7 @@ cdef class Field:
         def __get__(self):
             try:
                 dx, dy=self.psize
-            except:
+            except ValueError:
                 dx=self.psize
                 dy=dx
             return dx, dy
@@ -250,7 +252,8 @@ cdef class Field:
     def __add__(self, a):
         assert isinstance(a, Field), "Error: can not add a Field with a %s" %[
                           type(a)]
-        assert self.data.shape==a.data.shape, "Error: both fields must have the same shape"
+        assert self.data.shape==a.data.shape, \
+               "Error: both fields must have the same shape"
         assert self.psize==a.psize , "Error: both fields must have the samepixel size"
         assert self.l==a.l , "Error: Both fields must have the same wavelength"
         return Field(data=self.data+a.data, psize=self.psize, l=self.l)
@@ -258,16 +261,17 @@ cdef class Field:
     def __sub__(self, a):
         assert isinstance(a, Field), "Error: can not add a Field with a %s" %[
                           type(a)]
-        assert self.data.shape==a.data.shape, "Error: both fields must have the same shape"
+        assert self.data.shape==a.data.shape, \
+               "Error: both fields must have the same shape"
         assert self.psize==a.psize , "Error: both fields must have the samepixel size"
         assert self.l==a.l , "Error: Both fields must have the same wavelength"
 
         return Field(data=self.data-a.data, psize=self.psize, l=self.l)
 
     def __mul__(self, other):
-
-        if isinstance(
-            self, Field):  # Note, this is different than standard python, here mul==rmul. We need to see what is going on
+        # Note, this is different than standard python, here mul==rmul.
+        # We need to see what is going on
+        if isinstance(self, Field):
             f=self
             a=other
         else:
@@ -278,7 +282,8 @@ cdef class Field:
         if isinstance(a, Field):
             # TODO: Find a good way to do the assertions
             # assert(a.l==f.l),"The field and the mask must be for the same wavelength"
-            # assert(a.psize==f.psize),"The pixel size in the field and the mask must be the same"
+            # assert(a.psize==f.psize),"The pixel size in the field and the mask must "
+            #                          "be the same"
             return Field(data=a.data*f.data, psize=f.psize, l=f.l)
 
         # If you are multipliying a field by a numpy array or a number
@@ -288,7 +293,8 @@ cdef class Field:
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    def _rs_kernel(self, np.ndarray[np.float64_t, ndim=2]x, np.ndarray[np.float64_t, ndim=2] y, double z, double n):
+    def _rs_kernel(self, np.ndarray[np.float64_t, ndim=2]x,
+                   np.ndarray[np.float64_t, ndim=2] y, double z, double n):
         """Calculate the Rayleigh Sommerfeld propagation Kernel, for a source point
         at the origin, and a observation point at (x,y,z)
         """
@@ -385,11 +391,11 @@ cdef class Field:
         X, Y=indices((2*nx, 2*ny))
         ux=(X-nx)*dx+x
         uy=(Y-ny)*dy+y
-        ## del X
-        ## del Y
+        # del X
+        # del Y
         krn=self._rs_kernel(ux, uy, z, n)
-        ## del ux
-        ## del uy
+        # del ux
+        # del uy
         krn=fftshift(krn)  # TODO: Check if it is fftshift or ifftshift
         fkrn=fft2(krn)
         # del(krn)
@@ -614,13 +620,16 @@ cdef class Field:
                  float32(dx),
                  float32(dy),
                  ifbr,
-                 ifbi,
-                 # local_size=(16,16)
-                    )
-        # print "nota: Al usar el metodo de integración de simpson, hay que tener un buen"
-        # print "muestreo en el campo objeto. Si se tiene un solo pixel en 1 y lo demas en 0 "
+                 ifbi,)
+        #        local_size=(16,16)
+        #        )
+        # print "nota: Al usar el metodo de integración de simpson, hay que tener"
+        #       "un buen"
+        # print "muestreo en el campo objeto. Si se tiene un solo pixel en 1 y lo demas"
+        #       " en 0 "
         # print "Puede haber problemas, por que el muestreo no es adecuado."
-        # print "Para generar frentes de onda creados por un filtro espacial, tratar de hallar "
+        # print "Para generar frentes de onda creados por un filtro espacial, tratar de"
+        #        "hallar "
         # print "la solución teorica"
 
         cl.enqueue_read_buffer(queue0, ifbr, ifr).wait()
@@ -731,12 +740,12 @@ cdef class Field:
 
         # Maximum distance  that should be used for angular espectral
         # propagation
-        ae_max= 1/(2.*(sqrt((n/self.l)**2 -(U0-dU)**2)-\
-            sqrt((n/self.l)**2 -(U0)**2)))
+        ae_max= 1/(2.*(sqrt((n/self.l)**2 -(U0-dU)**2)-
+                   sqrt((n/self.l)**2 -(U0)**2)))
 
         # Minimum distance to be used by Rayleigh Sommerfeld
         rs_min=(n/self.l)*sqrt(((self.l/(2*n))**2- sx**
-                2 -(sx-dx)**2)**2 -4*sx**2*(sx-dx)**2)
+                                2 -(sx-dx)**2)**2 -4*sx**2*(sx-dx)**2)
 
         # Minimum distance to be used by the fresnel propagation method (FFT)
 
@@ -914,7 +923,7 @@ cdef class Field:
 
         try:
             x, y, z=r
-        except:
+        except ValueError:
             x, y, z= 0., 0., r
 
         dx, dy=self.res
@@ -956,7 +965,7 @@ cdef class Field:
                     try:
                         tf=self.resize((nxmin, nxmin))
 
-                    except:
+                    except ValueError:
                         tf=self.resize((nxmin+1, nxmin+1))
             retval=tf.propagate_ae(z, n)
         elif m=="rsc" or m=="rsi":
@@ -1067,8 +1076,8 @@ cdef class Field:
             the rotation around the y axis and rz is the rotation around the z axis
             that must be issued to the object plane, to obtain the image plane.
 
-        The rotations are applied first to the z axis, and then to the y axis and finally to
-        the x axis.
+        The rotations are applied first to the z axis, and then to the y axis and
+        finally to the x axis.
         (need to verify this to check if this is consistent with wxRayTrace).
 
         """
@@ -1143,8 +1152,7 @@ cdef class Field:
 
                 # Calculate the displacement matrix for the rotated planewave
                 # spectrum
-                c2=exp(-2.j*pi/nx*(nx2*(kr-nx2)))* \
-                       exp(-2.j*pi/ny*(ny2*(lr-ny2)))
+                c2=exp(-2.j*pi/nx*(nx2*(kr-nx2)))* exp(-2.j*pi/ny*(ny2*(lr-ny2)))
                 Ar=Ar+Af[i]*c2*s2d(kr, lr, nx, ny)
 
         data=ifft2(ifftshift(Ar/(nx*ny)))
@@ -1262,7 +1270,7 @@ cdef class Field:
 
         # Check that there are no inconsistencies in the data
         # TODO: Fix the assert
-        # assert alltrue(dz2>=0), "There is an inconsistency in the gradient calculation"
+        # assert alltrue(dz2>=0), "There is aninconsistency in the gradient calculation"
         dz=sqrt(dz2)
 
         X, Y=self.field_sample_coord

@@ -20,7 +20,7 @@
 from pyoptools.raytrace.shape.shape cimport Shape
 
 
-from numpy import arange, meshgrid, where, linspace
+from numpy import meshgrid, where, linspace
 
 cdef class Rectangular(Shape):
     ''' Class defining an rectangular shape. '''
@@ -44,7 +44,7 @@ cdef class Rectangular(Shape):
         """Method  that returns True if a p=(x,y,z) point is inside the rectangle,
         if not it returns False.
         """
-        x, y, z = p
+        x, y, _z = p
         dx, dy = self.size
         ox, oy = self.offset
         x = x-ox
@@ -69,7 +69,8 @@ cdef class Rectangular(Shape):
             return True
 
     # ~ cpdef polylist(self, topo):
-        # ~ """Method that returns a tuple (point_list, poly_list) for a rectangular mesh.
+        # ~ """Method that returns a tuple (point_list, poly_list) for a
+        #   rectangular mesh.
         # ~
         # ~ Attributes:
         # ~ ===========
@@ -96,11 +97,11 @@ cdef class Rectangular(Shape):
         # ~ polylist=[]
         # ~ i=0
         # ~ for x in range(0,xs):
-           # ~ for y in range(0,ys):
-            # ~ points.append([X[x,y],Y[x,y],Z[x,y]]);
-            # ~ if y>0 and x>0:
-            # ~ polylist.append([i-1,i,i-ys,i-ys-1])
-            # ~ i=i+1
+        # ~    for y in range(0,ys):
+        # ~     points.append([X[x,y],Y[x,y],Z[x,y]]);
+        # ~     if y>0 and x>0:
+        # ~     polylist.append([i-1,i,i-ys,i-ys-1])
+        # ~     i=i+1
         # ~
         # ~ return points, polylist
 

@@ -101,7 +101,7 @@ cdef class Spherical(Surface):
 
         # P1=A.pos     # Punto que pertenece al rayo "Origen" del rayo
         # L1= A.dir    #Vector paralelo a la linea
-        cdef double x1, y1, z1, x2, y2, z2, x21, y21, z21, z3, a, b, c, b2ac
+        cdef double x1, y1, z1, x21, y21, z21, z3, a, b, c, b2ac
         cdef double u1, u2, X1, Y1, Z1, X2, Y2, Z2
 
         cdef np.float64_t * pos = <np.float64_t*>(np.PyArray_DATA(A.pos))
@@ -113,10 +113,10 @@ cdef class Spherical(Surface):
         x1 = pos[0]
         y1 = pos[1]
         z1 = pos[2]
-        x2 = x1+dir[0]
-        y2 = y1+dir[1]
-        z2 = z1+dir[2]
 
+        # x2 = x1 + dir[0]
+        # y2 = y1 + dir[1]
+        # z2 = z1 + dir[2]
         # x21=x2-x1; y21=y2-y1; z21=z2-z1
 
         # x21, y21, z21= A.dir #L1

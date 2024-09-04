@@ -3,7 +3,7 @@ Modulo con clases y funciones auxiliares.
 """
 
 
-from numpy import array, dot, inf, float64, zeros, asarray, isnan, mean, sqrt
+from numpy import array, float64, zeros, asarray
 from pyoptools.misc.definitions import inf_vect
 
 from pyoptools.raytrace.surface.surface import Surface
@@ -11,8 +11,8 @@ from pyoptools.raytrace.ray.ray import Ray
 
 
 class IdealPPlanes(Surface):
-    """Clase que representa un par de superficies principales ideales. Se utiliza para crear
-    lentes ideales gruesas
+    """Clase que representa un par de superficies principales ideales. Se
+    utiliza para crear lentes ideales gruesas
     """
 
     def __init__(self, f=100, d=20, *args, **kwargs):
@@ -77,10 +77,12 @@ class IdealPPlanes(Surface):
 
     def propagate(self, ri, ni, nr):
 
-        PI, P = self.int_nor(ri)
-        # l=ri.wavelength*1e-3 # Express wavelength in millimeters so all the method works in millimeters
-        rx, ry, rz = ri.dir
-        # Get the focussing point as the point where the principal ray hits the focal plane
+        PI, _P = self.int_nor(ri)
+
+        _rx, _ry, rz = ri.dir
+
+        # Get the focussing point as the point where the principal ray hits
+        # the focal plane
 
         FP = ri.dir*self.f/abs(rz)
         # Las ecuaciones de refraccion usadas funcionan para el caso donde el plano
@@ -99,12 +101,14 @@ class IdealPPlanes(Surface):
         if self.reflectivity != 1:
             ret.append(Ray(pos=PI, dir=d,
                            intensity=ri.intensity,
-                           wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
+                           wavelength=ri.wavelength, n=ni, label=ri.label,
+                           orig_surf=self.id))
         if self.reflectivity != 0:
             # print "not 0"
             ret.append(Ray(pos=PI, dir=PI-FP,
                            intensity=ri.intensity,
-                           wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
+                           wavelength=ri.wavelength, n=ni, label=ri.label,
+                           orig_surf=self.id))
 
         # print self.reflectivity
         return ret

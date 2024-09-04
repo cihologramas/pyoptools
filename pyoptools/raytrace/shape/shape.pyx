@@ -19,7 +19,7 @@
 from warnings import warn
 
 
-from numpy import arange, meshgrid, linspace
+from numpy import meshgrid, linspace
 from pyoptools.misc.picklable.picklable cimport Picklable
 
 cdef class Shape(Picklable):

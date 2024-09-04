@@ -15,10 +15,9 @@
 '''
 
 
-from numpy import zeros, asarray, float64
+from numpy import zeros
 
 from pyoptools.raytrace.surface.plane cimport Plane
-from pyoptools.raytrace.ray.ray cimport Ray
 
 from pyoptools.misc.pmisc import wavelength2RGB
 from pyoptools.raytrace.shape.rectangular cimport Rectangular
@@ -54,7 +53,7 @@ cdef class ArrayDetector(Plane):
         # ~ #print"Warning the transparent attribute in ArrayDetector is not working"
 
     # ~ def __reduce__(self):
-       # ~
+        # ~
         # ~ args=(self.size,  self.reflectivity, self.shape)
         # ~ return(type(self),args,self.__getstate__())
 
@@ -70,13 +69,13 @@ cdef class ArrayDetector(Plane):
         """
         px, py = size
         sx, sy = self.size
-        dx, dy = sx/px, sy/py
+        # dx, dy = sx/px, sy/py
 
         retval = zeros((px, py))
 
         # hit_list[0] holds the impact coordinates
         for i in self._hit_list:
-            x, y, z = i[0]  # z should always be 0
+            x, y, _z = i[0]  # z should always be 0
             nx = int(px*(x+sx/2.)/sx)
             ny = int(py*(y+sy/2.)/sy)
             retval[nx, ny] += 1
@@ -94,10 +93,10 @@ cdef class ArrayDetector(Plane):
         """
         px, py = size
         sx, sy = self.size
-        dx, dy = sx/px, sy/py
+        # dx, dy = sx/px, sy/py
         retval = zeros((px, py, 3))
         for i in self._hit_list:
-            x, y, z = i[0]
+            x, y, _z = i[0]
             # z must be always 0
             nx = int(px*(x+sx/2.)/sx)
             ny = int(py*(y+sy/2.)/sy)

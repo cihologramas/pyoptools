@@ -16,8 +16,6 @@
 '''
 
 
-from numpy import power, arange, pi, zeros, cos, sin, tan
-
 # from ray_trace.surface import Plane
 from pyoptools.raytrace.surface.plane cimport Plane
 
@@ -83,10 +81,10 @@ cdef class Aperture(Plane):
         """
 
         # Calculate the intersection point and the surface normal
-        PI, P = self.int_nor(ri)
-        X, Y, Z = PI
+        PI, _P = self.int_nor(ri)
+        # X, Y, Z = PI
 
-        if self.ap_shape.hit(PI) == True:
+        if self.ap_shape.hit(PI):  # is True:
             i = ri.intensity
         else:
             i = 0.

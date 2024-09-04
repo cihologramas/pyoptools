@@ -8,9 +8,11 @@ from cpython cimport bool
 cdef class Ray:
     cdef np.ndarray cpos
     cdef public object  n, parent, label, draw_color
-    cdef public int order  # In surfaces that produce multiple rays, each ray
-                          # should be assigned a different order. This is done
-                          # in the ray.add_child method
+
+    # In surfaces that produce multiple rays, each ray should be assigned a
+    # different order. This is done in the ray.add_child method
+
+    cdef public int order
 
     cdef public list orig_surf  # path of the originating surface
     cdef public double intensity, wavelength, pop
@@ -37,4 +39,5 @@ cdef class Ray:
     # ~ def optical_path_parent(self):
     # ~ def optical_path(self):
 cdef Ray Rayf(np.ndarray pos, np.ndarray dir, double intensity, double wavelength,
-              n, label, draw_color, parent, double pop, orig_surf, int order, int _parent_cnt)
+              n, label, draw_color, parent, double pop, orig_surf,
+              int order, int _parent_cnt)

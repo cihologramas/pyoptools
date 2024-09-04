@@ -151,17 +151,21 @@ cdef class RPPMask(Surface):
                 print "warning: eliminating physically impossible ray"
                 ret.append(Ray(pos=PI, dir=ri.dir,
                                intensity=0,
-                               wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
+                               wavelength=ri.wavelength, n=ni, label=ri.label,
+                               orig_surf=self.id))
             else:
                 oz = copysign(sqrt(oz2), rz)
-                # Check for transmitted or and reflected orders. Here intensities have no meaning
+                # Check for transmitted or and reflected orders. Here intensities
+                # have no meaning
                 if self.reflectivity != 1:
                     ret.append(Ray(pos=PI, dir=(ox, oy, oz),
                                    intensity=ri.intensity/len(self.M),
-                                   wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
+                                   wavelength=ri.wavelength, n=ni, label=ri.label,
+                                   orig_surf=self.id))
                 if self.reflectivity != 0:
                     ret.append(Ray(pos=PI, dir=(ox, oy, -oz),
                                    intensity=ri.intensity/len(self.M),
-                                   wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
+                                   wavelength=ri.wavelength, n=ni,
+                                   label=ri.label, orig_surf=self.id))
 
         return ret

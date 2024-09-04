@@ -15,13 +15,11 @@
 '''
 
 
-from scipy.optimize import fsolve, ridder, newton, brentq, brenth, fminbound
-from pyoptools.misc.definitions import inf_vect
+from scipy.optimize import fsolve, brentq
 from pyoptools.misc.Poly2D cimport *
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import array, asarray, arange, polyadd, polymul, polysub, polyval, \
-    dot, inf, roots, zeros, meshgrid, where, abs, sqrt as npsqrt
+from numpy import array, dot, inf, sqrt as npsqrt
 cdef extern from "math.h":
     double sqrt(double)
 
@@ -85,7 +83,8 @@ cdef class Aspherical(Surface):
 
     # ~ def __reduce__(self):
         # ~
-        # ~ args=(self.Ax, self.Ay, self.Kx, self.Ky, self.poly, self.reflectivity, self.shape)
+        # ~ args=(self.Ax, self.Ay, self.Kx, self.Ky, self.poly,
+        #          self.reflectivity, self.shape)
         # ~ return(type(self),args,self.__getstate__())
 
     cpdef topo(self, x, y):
@@ -118,20 +117,23 @@ cdef class Aspherical(Surface):
 
         Note: It uses ``x`` and ``y`` to calculate the ``z`` value and the normal.
         """
-        cdef double Ax, Ay, Kx, Ky, x, y, z, dxA, dyA, dxP, dyP
+        cdef double Ax, Ay, Kx, Ky, x, y, _z, dxA, dyA, dxP, dyP
         Ax = self.Ax
         Ay = self.Ay
         Kx = self.Kx
         Ky = self.Ky
 
-        x, y, z = int_p
+        x, y, _z = int_p
 
-        dxA = (2*Ax*x)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1) + (Ax**2*(Kx+1)*x*(Ay*y**2+Ax*x**2)) / \
-            (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
-             (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
-        dyA = (2*Ay*y)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)-(Ay**2*(-Ky-1)*y*(Ay*y**2+Ax*x**2)) / \
-            (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
-             (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
+        dxA = (2*Ax*x)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1) + \
+              (Ax**2*(Kx+1)*x*(Ay*y**2+Ax*x**2)) / \
+              (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
+               (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
+
+        dyA = (2*Ay*y)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)- \
+              (Ay**2*(-Ky-1)*y*(Ay*y**2+Ax*x**2)) / \
+              (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
+               (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
 
         if self.poly is not None:
             Dx, Dy = self.poly.dxdy()
@@ -168,7 +170,8 @@ cdef class Aspherical(Surface):
         X = Dx*t+Ox
         Y = Dy*t+Oy
         Z = Dz*t+Oz
-        return (Ay*Y**2+Ax*X**2)/(sqrt(Ay**2*(-Ky-1)*Y**2-Ax**2*(Kx+1)*X**2+1)+1)+self.poly.peval(X, Y) - Z
+        return (Ay*Y**2+Ax*X**2)/(sqrt(Ay**2*(-Ky-1)*Y**2-Ax**2*(Kx+1)*X**2+1)+1) + \
+            self.poly.peval(X, Y) - Z
 
     cpdef double __f2(self, double t, iray):
         cdef double Ax, Ay, Kx, Ky, Ox, Oy, Oz, Dx, Dy, Dz
@@ -188,7 +191,9 @@ cdef class Aspherical(Surface):
         Dy = iray._dir[1]
         Dz = iray._dir[2]
 
-        return (Ay*(Dy*t+Oy)**2+Ax*(Dx*t+Ox)**2)/(sqrt(Ay**2*(-Ky-1)*(Dy*t+Oy)**2-Ax**2*(Kx+1)*(Dx*t+Ox)**2+1)+1)-Dz*t-Oz
+        return (Ay*(Dy*t+Oy)**2+Ax*(Dx*t+Ox)**2)/(sqrt(Ay**2*(-Ky-1)*(Dy*t+Oy)**2-
+                                                  x**2*(Kx+1)*(Dx*t+Ox)**2+1)+1) - \
+            Dz*t-Oz
 
     cpdef _intersection(self, Ray iray):
         '''**Point of intersection between a ray and the asphere**

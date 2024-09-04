@@ -79,13 +79,15 @@ class IdealThickLens(System):
             if self.__PUP1__:
                 self.__P1__ = Plane(shape=pup_shape)
                 self.__C5__ = Component(surflist=[(self.__P1__, (0, 0, 0), (0, 0, 0))])
-                self.complist["P1"] = (self.__C5__, (0, 0, -thickness/2+pup_pos), (0, 0, 0))
+                self.complist["P1"] = (self.__C5__, (0, 0, -thickness/2+pup_pos),
+                                       (0, 0, 0))
                 self.__PUP1__ = True
 
             if self.__PUP2__:
                 self.__P2__ = Plane(shape=pup_shape)
                 self.__C6__ = Component(surflist=[(self.__P2__, (0, 0, 0), (0, 0, 0))])
-                self.complist["P2"] = (self.__C6__, (0, 0, thickness/2+pup_pos), (0, 0, 0))
+                self.complist["P2"] = (self.__C6__, (0, 0, thickness/2+pup_pos),
+                                       (0, 0, 0))
 
         self.__C1__ = Component(surflist=[(self.__E1__, (0, 0, 0), (0, 0, 0))])
         self.__C2__ = Component(surflist=[(self.__E2__, (0, 0, 0), (0, 0, 0))])
@@ -94,19 +96,21 @@ class IdealThickLens(System):
 
         self.complist["E1"]=(self.__C1__, (0, 0, -thickness/2.), (0, 0, 0))
         self.complist["E2"]=(self.__C2__, (0, 0, thickness/2.), (0, 0, 0))
-        self.complist["H1"]=(self.__C3__, (0, 0, -thickness/2.+princ_planes[0]), (0, 0, 0))
-        self.complist["H2"]=(self.__C4__, (0, 0, thickness/2.+princ_planes[1]), (0, 0, 0))
+        self.complist["H1"]=(self.__C3__, (0, 0, -thickness/2.+princ_planes[0]),
+                             (0, 0, 0))
+        self.complist["H2"]=(self.__C4__, (0, 0, thickness/2.+princ_planes[1]),
+                             (0, 0, 0))
 
         self.f=f
         self.complete_trace = complete_trace
 
     def propagate_ray(self, Ray ri):
 
-        pos = ri.pos
-        dir = ri.dir
+        # pos = ri.pos
+        # dir = ri.dir
         wav = ri.wavelength
-        label = ri.label
-        parent = ri
+        # label = ri.label
+        # parent = ri
         n=ri.n
 
         D, C, S = self.distance(ri)
@@ -180,7 +184,7 @@ class IdealThickLens(System):
         PI=C["S0"][0]._intersection(R)  # No se verifica apertura
 
         # Calculate the refraction in H2
-        rx, ry, rz = ri.dir
+        _rx, _ry, rz = ri.dir
         FP=ri.dir*self.f/abs(rz)
         d=FP-PI
         if self.f<0:
@@ -207,7 +211,7 @@ class IdealThickLens(System):
 
         # Verificar la pupila de salida
         if P2:
-            C0, P0, D0 = P2
+            C0, _P0, _D0 = P2
             R=R_H2.ch_coord_sys(P, D)
             PII=C0["S0"][0].intersection(R)
             if isinf(PII[0]) or isinf(PII[0]) or isinf(PII[0]):
@@ -234,7 +238,8 @@ class IdealThickLens(System):
             R_H1.add_child(R_H2)
             R_H2.add_child(R_E2)
         else:
-            R_E1_E2=Ray(pos=R_E1.pos, dir=R_E2.pos-R_E1.pos, wavelength=wav, n=n, intensity=ri.intensity)
+            R_E1_E2=Ray(pos=R_E1.pos, dir=R_E2.pos-R_E1.pos, wavelength=wav, n=n,
+                        intensity=ri.intensity)
             ri.add_child(R_E1_E2)
             R_E1_E2.add_child(R_E2)
 

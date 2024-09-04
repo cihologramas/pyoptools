@@ -41,15 +41,22 @@ cdef class plist(Picklable):
 
                     ap=array(p, dtype=float64)
                     ar=array(r, dtype=float64)
-                    assert len(ap)==3, "The position vector must be an array, or a list, or a tuple of len 3"
-                    assert len(ar)==3, "The rotation must be an array, or a list, or a tuple of len 3"
+                    assert len(ap)==3, \
+                        "The position vector must be an array, or a list, or" \
+                        " a tuple of len 3"
+                    assert len(ar)==3, \
+                        "The rotation must be an array, or a list, or a tuple of len 3"
                     self.append((O, ap, ar))
                 else:
                     O, p, r, k=i
                     ap=array(p, dtype=float64)
                     ar=array(r, dtype=float64)
-                    assert len(ap)==3, "The position vector must be an array, or a list, or a tuple of len 3"
-                    assert len(ar)==3, "The rotation must be an array, or a list, or a tuple of len 3"
+                    assert len(ap)==3, \
+                        "The position vector must be an array, or a list, " \
+                        "or a tuple of len 3"
+                    assert len(ar)==3, \
+                        "The rotation must be an array, or a list, or a tuple"\
+                        " of len 3"
                     self[k]=(O, ap, ar)
 
         elif isinstance(a, (dict, plist)):
@@ -57,13 +64,17 @@ cdef class plist(Picklable):
                 O, p, r = v
                 ap=array(p, dtype=float64)
                 ar=array(r, dtype=float64)
-                assert len(ap)==3, "The position vector must be an array, or a list, or a tuple of len 3"
-                assert len(ar)==3, "The rotation must be an array, or a list, or a tuple of len 3"
+                assert len(ap)==3, \
+                    "The position vector must be an array, or a list, " \
+                    "or a tuple of len 3"
+                assert len(ar)==3, \
+                    "The rotation must be an array, or a list, or a tuple of len 3"
                 self._buf[k]=(O, ap, ar)
         elif a is None:
             pass
         else:
-            raise ValueError, "plist can be initialized only with tuples, lists or dictionaries"
+            raise ValueError, \
+                "plist can be initialized only with tuples, lists or dictionaries"
 
     # Expose DICT API
 
@@ -77,8 +88,10 @@ cdef class plist(Picklable):
         O, p, r =val
         ap=array(p, dtype=float64)
         ar=array(r, dtype=float64)
-        assert len(ap)==3, "The position vector must be an array, or a list, or a tuple of len 3"
-        assert len(ar)==3, "The rotation must be an array, or a list, or a tuple of len 3"
+        assert len(ap)==3, \
+            "The position vector must be an array, or a list, or a tuple of len 3"
+        assert len(ar)==3, \
+            "The rotation must be an array, or a list, or a tuple of len 3"
         self._buf[key]=(O, ap, ar)
 
     def __delitem__(self, key):
@@ -149,8 +162,10 @@ cdef class plist(Picklable):
         O, p, r = a
         ap=array(p, dtype=float64)
         ar=array(r, dtype=float64)
-        assert len(ap)==3, "The position vector must be an array, or a list, or a tuple of len 3"
-        assert len(ar)==3, "The rotation must be an array, or a list, or a tuple of len 3"
+        assert len(ap)==3, \
+            "The position vector must be an array, or a list, or a tuple of len 3"
+        assert len(ar)==3, \
+            "The rotation must be an array, or a list, or a tuple of len 3"
 
         if isinstance(O, Surface):
             pf="S"

@@ -1,5 +1,3 @@
-
-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
@@ -16,13 +14,9 @@
 
 """Module that defines the optical system class System()
 """
-import sys
-# TODO: Check if all modules use has strict traits
-from warnings import warn
 
-from numpy import asarray, array, float64, alltrue, isinf as npisinf, isnan as npisnan, sometrue, \
-    pi, absolute, inf
-# from ray_trace.component.component cimport Component
+from numpy import asarray, array, float64, alltrue, isinf as npisinf, \
+    absolute, inf
 
 from pyoptools.raytrace.ray.ray cimport Ray
 
@@ -118,19 +112,20 @@ cdef class System(Picklable):
 
     @property
     def prop_ray(self):
-            return tuple(self._p_rays)
+        return tuple(self._p_rays)
 
     ###############################################################
 
     @property
     def complist(self):
-            return self._complist
+        return self._complist
 
     @complist.setter
     def complist(self, list):
         self._complist=plist(list)
 
-    def __init__(self, complist=None, n=1., max_ray_parent_cnt=None, intensity_threshold=0):
+    def __init__(self, complist=None, n=1., max_ray_parent_cnt=None,
+                 intensity_threshold=0):
 
         # Look in the init os component to see why this in done this way
         if complist is None:
@@ -164,7 +159,8 @@ cdef class System(Picklable):
                 comp.intensity_threshold = self.intensity_threshold
 
         # Add to the keys to the state key list
-        Picklable.__init__(self, "complist", "n", "_np_rays", "_p_rays", "_max_ray_parent_cnt", "intensity_threshold")
+        Picklable.__init__(self, "complist", "n", "_np_rays", "_p_rays",
+                           "_max_ray_parent_cnt", "intensity_threshold")
 
     # Dict type and list type interface to expose complist
 
@@ -371,7 +367,7 @@ cdef class System(Picklable):
         self._np_rays=[]
         self._p_rays=[]
         for comp in self.complist:
-            S, P, D=comp
+            S, _P, _D=comp
             S.reset()
 
     cpdef propagate_ray(self, Ray ri):
@@ -527,7 +523,8 @@ cdef class System(Picklable):
             R1=ri.ch_coord_sys(PSR1, DSR1)
             ri_n1=SR1.propagate(R1, n0)
 
-            # TODO: Need to find a solution when the two surfaces return more than one ray.
+            # TODO: Need to find a solution when the two surfaces return more
+            # than one ray.
             if (len(ri_n0)>1)and(len(ri_n1)>1):
                 raise Exception, "The two surfaces in contact, can not produce "\
                                  "both more than one propagated ray"
@@ -543,7 +540,7 @@ cdef class System(Picklable):
                     ri.add_child(ri_)
             else:
                 ri_0=ri_n0[0].ch_coord_sys_inv(PSR0, DSR0)
-                ri_1=ri_n1[0].ch_coord_sys_inv(PSR1, DSR1)
+                # ri_1=ri_n1[0].ch_coord_sys_inv(PSR1, DSR1)
                 # TODO: ri_0 and ri_1 must be equal. Needs to be checked
                 ri.add_child(ri_0)
 
@@ -552,11 +549,13 @@ cdef class System(Picklable):
         for i in ri.get_final_rays():
             if (i!=ri):
 
-                # stop propagating if the ray has an intensity below the intensity propagation threshold
-                # or if it has been propagated more than propagation_limit times
+                # stop propagating if the ray has an intensity below the
+                # intensity propagation threshold or if it has been propagated
+                # more than propagation_limit times
 
                 if i.intensity>self.intensity_threshold:
-                    if self._max_ray_parent_cnt == 0 or i._parent_cnt<self.max_ray_parent_cnt:
+                    if (self._max_ray_parent_cnt == 0 or
+                       i._parent_cnt<self.max_ray_parent_cnt):
                         self.propagate_ray(i)
                     else:
                         self._exit_status_flag = 1
@@ -564,7 +563,8 @@ cdef class System(Picklable):
                     self._exit_status_flag = 1
 
             else:
-                raise Exception, "Error, a a ray can not be parent and child at the same time"
+                raise Exception, \
+                    "Error, a a ray can not be parent and child at the same time"
 
         return ri
 
@@ -602,7 +602,8 @@ cdef class System(Picklable):
 
         while len(self._np_rays)>0:
             ri=self._np_rays.pop(0)
-            assert ri.wavelength==gr.wavelength, "Propagated rays, and guide ray wavelength must match"
+            assert ri.wavelength==gr.wavelength, \
+                "Propagated rays, and guide ray wavelength must match"
             # self.propagate_ray(ri)
             # ~ # Check if the ray comes from the media
             if ri.n is None:
@@ -635,19 +636,20 @@ cdef class System(Picklable):
                     O=C
 
                 # Get the distance to the next surface
-                Dist, pi=S.distance(R)
+                Dist, p_i=S.distance(R)
 
                 if isinf(Dist):
                     break  # No intersection continue with next ray
 
                 # Add ray to the hit list
-                S._hit_list.append((pi, ri))
+                S._hit_list.append((p_i, ri))
 
                 # TODO: The hitlists of the surfaces inside a subsystem are not accurate
                 # because the rays are in the subsystem coordinate system, and not in
                 # world coordinate system.
 
-                ri_n=S.propagate(R, ni, nr)[rp[i+1].order]  # Need to check which is the real one to take
+                # Need to check which is the real one to take
+                ri_n=S.propagate(R, ni, nr)[rp[i+1].order]
 
                 # Change the coordinate system of the propagated rays to the
                 # system coordinate system

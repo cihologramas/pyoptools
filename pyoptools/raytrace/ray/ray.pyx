@@ -35,13 +35,15 @@ np.import_array()
 
 
 cdef Ray Rayf(np.ndarray pos, np.ndarray dir, double intensity, double wavelength,
-              n, label, draw_color, parent, double pop, orig_surf, int order, int parent_cnt):
+              n, label, draw_color, parent, double pop, orig_surf,
+              int order, int parent_cnt):
     """Function to create and initialize Ray instances Fast from cython
     when changing the code, always check that the __init__, and the
     Rayf initialization do the same.
     """
     # Code taken from:
-    # http://wiki.cython.org/FAQ#CanCythoncreateobjectsorapplyoperatorstolocallycreatedobjectsaspureCcode.3F
+    # http://wiki.cython.org/
+    # FAQ#CanCythoncreateobjectsorapplyoperatorstolocallycreatedobjectsaspureCcode.3F
     cdef Ray instance = Ray.__new__(Ray)
 
     instance.cpos=pos
@@ -126,27 +128,32 @@ cdef class Ray:
     # ~ orig_surf=Any()
     # ~
 
-    # in order for the autodocumentation to work, the method definition mut be in a single line
+    # in order for the autodocumentation to work, the method definition must
+    # be in a single line
 
-    def __init__(self, pos=(0, 0, 0), dir=(0, 0, 1), double intensity=1., double wavelength=.58929, n=None, label="", draw_color=None, parent=None, double pop=0., orig_surf=None, order=0):
+    def __init__(self, pos=(0, 0, 0), dir=(0, 0, 1), double intensity=1.,
+                 double wavelength=.58929, n=None, label="", draw_color=None,
+                 parent=None, double pop=0., orig_surf=None, order=0):
 
-            self.pos=pos
-            self.dir=dir
-            self.intensity=intensity
-            self.wavelength=wavelength
-            self.n=n
-            self.label=label
-            self.draw_color=draw_color
-            self.parent=parent
-            self.pop=pop
-            self.orig_surf=orig_surf
-            self.__childs=[]
-            self.order=order
-            self._parent_cnt = 0
+        self.pos=pos
+        self.dir=dir
+        self.intensity=intensity
+        self.wavelength=wavelength
+        self.n=n
+        self.label=label
+        self.draw_color=draw_color
+        self.parent=parent
+        self.pop=pop
+        self.orig_surf=orig_surf
+        self.__childs=[]
+        self.order=order
+        self._parent_cnt = 0
 
         # HasPrivateTraits.__init__(self,**traits)
     def __reduce__(self):
-        args=(self.pos, self.dir, self.intensity, self.wavelength, self.n , self.label, self.draw_color, self.parent, self.pop, self.orig_surf, self.order)
+        args=(self.pos, self.dir, self.intensity, self.wavelength, self.n ,
+              self.label, self.draw_color, self.parent, self.pop,
+              self.orig_surf, self.order)
         return(type(self), args, self.__getstate__())
 
     def __getstate__(self):
@@ -231,11 +238,13 @@ cdef class Ray:
         #        wavelength=self.wavelength,n=self.n, label=self.label,
         #        orig_surf=self.orig_surf)
 
-        cdef Ray parent=Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order, self._parent_cnt)
+        cdef Ray parent=Rayf(npos, ndir, self.intensity, self.wavelength,
+                             self.n, self.label, self.draw_color, None , 0,
+                             self.orig_surf, self.order, self._parent_cnt)
 
         # Calculate the transform of the childs and link them
 
-        if childs==True:
+        if childs:
             for i in self.childs:
                 it=i.ch_coord_sys_inv(no, ae, childs)
                 parent.add_child(it)
@@ -282,7 +291,9 @@ cdef class Ray:
 
         ndir=dot(tm, self.dir)
 
-        cdef Ray parent=Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order, self._parent_cnt)
+        cdef Ray parent = Rayf(npos, ndir, self.intensity, self.wavelength,
+                               self.n, self.label, self.draw_color, None , 0,
+                               self.orig_surf, self.order, self._parent_cnt)
 
         # Calculate the transform of the childs and link them
 
@@ -295,7 +306,7 @@ cdef class Ray:
     @cython.boundscheck(False)
     @cython.wraparound(False)
     cpdef Ray ch_coord_sys(self, np.ndarray no, np.ndarray ae):
-    # cpdef Ray ch_coord_sys(self, no, ae):
+        # cpdef Ray ch_coord_sys(self, no, ae):
         '''Transform the coordinate system of the Ray
 
         Parameters
@@ -314,18 +325,23 @@ cdef class Ray:
         cdef np.ndarray ndir  # =empty_vec( 3 )
 
         # mvdotf(<np.float64_t*>np.PyArray_DATA(npos),
-        #        <np.float64_t*>np.PyArray_DATA(tm),<np.float64_t*>np.PyArray_DATA(array(self.pos-no,dtype=float64)))
+        #        <np.float64_t*>np.PyArray_DATA(tm),
+        #        <np.float64_t*>np.PyArray_DATA(array(self.pos-no,dtype=float64)))
 
         # mvdotf(<np.float64_t*>np.PyArray_DATA(ndir),
-        #        <np.float64_t*>np.PyArray_DATA(tm),<np.float64_t*>np.PyArray_DATA(array(self.dir,dtype=float64)))
+        #        <np.float64_t*>np.PyArray_DATA(tm),
+        #        <np.float64_t*>np.PyArray_DATA(array(self.dir,dtype=float64)))
 
         cdef np.ndarray t = empty_vec(3)
 
         # t=self.cpos-no
 
-        # (<np.float64_t*>np.PyArray_DATA(t))[0]=(<np.float64_t*>np.PyArray_DATA(self.cpos))[0]-(<np.float64_t*>np.PyArray_DATA(no))[0]
-        # (<np.float64_t*>np.PyArray_DATA(t))[1]=(<np.float64_t*>np.PyArray_DATA(self.cpos))[1]-(<np.float64_t*>np.PyArray_DATA(no))[1]
-        # (<np.float64_t*>np.PyArray_DATA(t))[2]=(<np.float64_t*>np.PyArray_DATA(self.cpos))[2]-(<np.float64_t*>np.PyArray_DATA(no))[2]
+        # (<np.float64_t*>np.PyArray_DATA(t))[0]=(<np.float64_t*>
+        #  np.PyArray_DATA(self.cpos))[0]-(<np.float64_t*>np.PyArray_DATA(no))[0]
+        # (<np.float64_t*>np.PyArray_DATA(t))[1]=(<np.float64_t*>
+        # np.PyArray_DATA(self.cpos))[1]-(<np.float64_t*>np.PyArray_DATA(no))[1]
+        # (<np.float64_t*>np.PyArray_DATA(t))[2]=(<np.float64_t*>
+        # np.PyArray_DATA(self.cpos))[2]-(<np.float64_t*>np.PyArray_DATA(no))[2]
 
         cdef np.float64_t* td= <np.float64_t*>(np.PyArray_DATA(t))
         cdef np.float64_t* cd= <np.float64_t*>(np.PyArray_DATA(self.cpos))
@@ -336,8 +352,12 @@ cdef class Ray:
         td[2]=cd[2]-nd[2]
 
         npos=dot(tm, t)        # if blas can be called directly, this can be improved
-        ndir=dot(tm, self._dir)  # Using tokio this tokio works a little faster, but have to see
-                              # How to install it right, or better to do something similar using inline snd blas
+
+        # Using tokio this tokio works a little faster, but have to see
+        ndir=dot(tm, self._dir)
+
+        # How to install it right, or better to do something similar using
+        # inline snd blas
 
         # tokyo.dgemv3( tm, t, npos )
         # tokyo.dgemv3( tm, self.dir, ndir )
@@ -345,7 +365,9 @@ cdef class Ray:
         # npos=mvdot1(tm,t)
         # ndir=mvdot1(tm,self.dir)
 
-        return Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order, self._parent_cnt)
+        return Rayf(npos, ndir, self.intensity, self.wavelength, self.n,
+                    self.label, self.draw_color, None , 0, self.orig_surf,
+                    self.order, self._parent_cnt)
 
     def get_final_rays(self, inc_zeros=True):
         '''Find the final rays of the raytrace
@@ -391,7 +413,8 @@ cdef class Ray:
         return "Ray(pos="+repr(self.pos)+",direc="+repr(self.dir)+\
             ",intensity="+repr(self.intensity)+",wavelength="+\
             repr(self.wavelength)+",n="+repr(self.n)+",label="+\
-            repr(self.label)+",orig_surf="+repr(self.orig_surf)+", order="+repr(self.order)+")"
+            repr(self.label)+",orig_surf="+repr(self.orig_surf)+",+\
+            order="+repr(self.order)+")"
 
     def add_child(self, cr):
         '''Add childs to the current ray, and create the appropriate links
@@ -417,9 +440,9 @@ cdef class Ray:
         if self.parent is not None:
             if self.pop!=0:
                 print "The pop attribute of the ray has a value of ", self.pop, \
-                " instead the real parent optical path is being used"
+                      " instead the real parent optical path is being used"
             path= sqrt(dot(self.pos-self.parent.pos, self.pos-self.parent.pos))*\
-            self.parent.n
+                self.parent.n
             return path+self.parent.optical_path_parent()
 
         return self.pop
@@ -438,14 +461,14 @@ cdef class Ray:
 
     def __eq__(self, other):
         return np.array_equal(self.pos, other.pos) and\
-        np.array_equal(self.dir, other.dir) and\
-        self.intensity == other.intensity and\
-        self.wavelength == other.wavelength and\
-        self.n == other.n and\
-        self.label == other.label and\
-        self.draw_color == other.draw_color and\
-        self.order == other.order and\
-        self.orig_surf == other.orig_surf
+            np.array_equal(self.dir, other.dir) and\
+            self.intensity == other.intensity and\
+            self.wavelength == other.wavelength and\
+            self.n == other.n and\
+            self.label == other.label and\
+            self.draw_color == other.draw_color and\
+            self.order == other.order and\
+            self.orig_surf == other.orig_surf
         # TODO do we have to compare self.pop and other.pop ?
         # self.copy() indicate that we should actually only compare
         # fields pos, dir, intensity, wavelength, n and label
@@ -472,14 +495,14 @@ cdef class Ray:
         rtol = 0
 
         return np.allclose(ray1.pos, ray2.pos, rtol=rtol, atol=atol) and \
-        np.allclose(ray1.dir, ray2.dir, rtol=rtol, atol=atol) and \
-        ray1.intensity == ray2.intensity and \
-        np.allclose(ray1.wavelength, ray2.wavelength, rtol=rtol, atol=atol) and \
-        ray1.n == ray2.n and \
-        ray1.label == ray2.label and \
-        ray1.draw_color == ray2.draw_color and \
-        ray1.order == ray2.order and \
-        ray1.orig_surf == ray2.orig_surf
+            np.allclose(ray1.dir, ray2.dir, rtol=rtol, atol=atol) and \
+            ray1.intensity == ray2.intensity and \
+            np.allclose(ray1.wavelength, ray2.wavelength, rtol=rtol, atol=atol) and \
+            ray1.n == ray2.n and \
+            ray1.label == ray2.label and \
+            ray1.draw_color == ray2.draw_color and \
+            ray1.order == ray2.order and \
+            ray1.orig_surf == ray2.orig_surf
         # TODO do we have to compare self.pop and other.pop ?
         # self.copy() indicate that we should actually only compare
         # fields pos, dir, intensity, wavelength, n and label

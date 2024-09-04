@@ -2,7 +2,8 @@ from pyoptools.wavefront.field import Field
 from numpy import indices, array, exp, sqrt, dot, pi
 
 
-def plane_wave(n=(0, 0, 1.), l=.633, size=(10000, 10000), samples=(256, 256), a=1.,  ph=0.):
+def plane_wave(n=(0, 0, 1.), l=.633, size=(10000, 10000), samples=(256, 256), a=1.,
+               ph=0.):
     """
     Function that returns a plane wave (Field object) that describes a plane wave
 
@@ -27,14 +28,15 @@ def plane_wave(n=(0, 0, 1.), l=.633, size=(10000, 10000), samples=(256, 256), a=
     ux=(X-nx/2)*dx
     uy=(Y-ny/2)*dy
     n=array(n)
-    kx, ky, kz=n/(sqrt(dot(n, n)))*2.*pi/l
+    kx, ky, _kz=n/(sqrt(dot(n, n)))*2.*pi/l
 
     f=a*exp(1.j*(kx*ux+ky*uy+ph))
 
     return Field(data=f, psize=(dx, dy), l=l)
 
 
-def spherical_wave(o=(0, 0, -100), l=.633, size=(10000, 10000), samples=(256, 256), a=1., ph=0.):
+def spherical_wave(o=(0, 0, -100), l=.633, size=(10000, 10000), samples=(256, 256),
+                   a=1., ph=0.):
     '''
     Function that returns a spherical wave (Field instance)
 
@@ -71,8 +73,8 @@ def spherical_wave(o=(0, 0, -100), l=.633, size=(10000, 10000), samples=(256, 25
     uy=(Y-ny/2)*dy
     try:
         x, y, z=o
-    except:
-      x, y, z=0., 0., o
+    except ValueError:
+        x, y, z=0., 0., o
 
     sp= sqrt((ux-x)**2+(uy-y)**2+z**2)
     sp=-(sp-sp.min())*z/abs(z)

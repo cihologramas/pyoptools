@@ -16,13 +16,12 @@ Module that defines support for Aspherical optical surfaces
 """
 
 
-from scipy.optimize import fsolve, ridder, newton, brentq, brenth, fminbound
-from pyoptools.misc.definitions import inf_vect
+from scipy.optimize import fsolve, brentq
+
 from pyoptools.misc.Poly2D cimport *
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import array, asarray, arange, polyadd, polymul, polysub, polyval, \
-    dot, inf, roots, zeros, meshgrid, where, abs, sqrt as npsqrt
+from numpy import array, dot, inf, sqrt as npsqrt
 cdef extern from "math.h":
     double sqrt(double)
 
@@ -81,7 +80,8 @@ cdef class Powell(Surface):
 
     # ~ def __reduce__(self):
         # ~
-        # ~ args=(self.Ax, self.Ay, self.Kx, self.Ky, self.poly, self.reflectivity, self.shape)
+        # ~ args=(self.Ax, self.Ay, self.Kx, self.Ky, self.poly,
+        #         self.reflectivity, self.shape)
         # ~ return(type(self),args,self.__getstate__())
 
     cpdef topo(self, x, y):
@@ -105,11 +105,11 @@ cdef class Powell(Surface):
 
         Note: It uses ``x`` and ``y`` to calculate the ``z`` value and the normal.
         """
-        cdef double K, R, x, y, z, dxA, dyA, dxP, dyP
+        cdef double K, R, x, y, _z, dxA, dyA, dxP, dyP
         K = self.K
         R = self.R
 
-        x, y, z = int_p
+        x, y, _z = int_p
 
         dxA = 2*(K+1)*x-2*R
         dyA = 2*y

@@ -17,19 +17,17 @@
 cdef extern from "math.h":
     double sqrt(double)
 
-from numpy import array, asarray, arange, polyadd, polymul, polysub, polyval, \
-     dot, inf, roots, zeros, meshgrid, where, abs, sqrt as npsqrt
+from numpy import array, dot, inf
 
 cimport numpy as np
 np.import_array()
 
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
-from scipy.optimize import fsolve, ridder, newton, brentq, brenth, fminbound
+from scipy.optimize import fsolve, brentq
 
 # from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
 from pyoptools.misc.Poly2D cimport *
-from pyoptools.misc.definitions import inf_vect
 
 cdef class TaylorPoly(Surface):
     """**Class that defines a high order polynomical surface**
@@ -88,9 +86,9 @@ cdef class TaylorPoly(Surface):
 
         Note: It uses ``x`` and ``y`` to calculate the ``z`` value and the normal.
         """
-        cdef double x, y, z, dxP, dyP
+        cdef double x, y, _z, dxP, dyP
 
-        x, y, z= int_p
+        x, y, _z= int_p
 
         if self.poly is not None:
             Dx, Dy=self.poly.dxdy()
@@ -178,5 +176,5 @@ cdef class TaylorPoly(Surface):
     def _repr_(self):
         '''Return an string with the representation of an aspherical surface.
         '''
-        return "TaylorPolt(shape="+str(self.shape)+",reflectivity="+\
-        str(self.reflectivity)+",poly="+str(self.poly)+")"
+        return "TaylorPolt(shape="+str(self.shape)+",reflectivity="+ \
+            str(self.reflectivity)+",poly="+str(self.poly)+")"
