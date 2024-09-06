@@ -1,5 +1,5 @@
-from numpy import array, sqrt, zeros, where, power, dot,  ones,  empty, inf
-from numpy.linalg import inv, pinv, cond,  solve
+from numpy import array, sqrt, power, ones,  empty
+from numpy.linalg import solve
 from pyoptools.misc.Poly2D.Poly2D cimport *
 # from pyoptools.misc.Poly2D import *
 
@@ -230,11 +230,11 @@ def polyfito2(x, y, z):
 
     # Calculate error. Verify if this is the best way
     ep=cohef[0]+\
-    cohef[1]*xa+\
-    cohef[2]*ya+\
-    cohef[3]*xa*xa+\
-    cohef[4]*xa*ya+\
-    cohef[5]*ya*ya
+        cohef[1]*xa+\
+        cohef[2]*ya+\
+        cohef[3]*xa*xa+\
+        cohef[4]*xa*ya+\
+        cohef[5]*ya*ya
 
     e= sqrt(power(array(z)-ep, 2).mean())
 
@@ -332,30 +332,30 @@ def polyfito2(x, y, z):
 # ~ def test(niter=10,Omax=4,  ndat=500):
     # ~ from numpy.random import rand
     # ~ for n in range(niter):
-        # ~ ncohef=ord2i(Omax)
-        # ~ cohef=100*rand(ncohef)
-        # ~ X=[]
-        # ~ Y=[]
-        # ~ Z=[]
-        # ~ p=poly2d(cohef)
-        # ~ for j in range(ndat):
-            # ~ x=100.*rand()
-            # ~ y=100.*rand()
-            # ~ X.append(x)
-            # ~ Y.append(y)
-            # ~ Z.append(p.eval(x, y))
-        # ~ co, er=polyfit(X, Y, Z, Omax)
-        # ~ print cohef
-        # ~ print sqrt(power(cohef-co.cohef.T, 2).sum())/ncohef
-        # ~ print "*"
-# ~  Test using the open opt library it seems not to be needed
-# ~ def polyfitOO(x, y, z, order):
+    #    # ~ ncohef=ord2i(Omax)
+    #    # ~ cohef=100*rand(ncohef)
+    #    # ~ X=[]
+    #    # ~ Y=[]
+    #    # ~ Z=[]
+    #    # ~ p=poly2d(cohef)
+    #    # ~ for j in range(ndat):
+    #        # ~ x=100.*rand()
+    #        # ~ y=100.*rand()
+    #        # ~ X.append(x)
+    #        # ~ Y.append(y)
+    #        # ~ Z.append(p.eval(x, y))
+    #    # ~ co, er=polyfit(X, Y, Z, Omax)
+    #    # ~ print cohef
+    #    # ~ print sqrt(power(cohef-co.cohef.T, 2).sum())/ncohef
+    #    # ~ print "*"
+    # ~  Test using the open opt library it seems not to be needed
+    # ~ def polyfitOO(x, y, z, order):
     # ~
     # ~ def f(C, D):
-        # ~ x=D[0]
-        # ~ y=D[1]
-        # ~ a=poly2d(cohef=C)
-        # ~ return a.eval(x, y)
+    #    # ~ x=D[0]
+    #    # ~ y=D[1]
+    #    # ~ a=poly2d(cohef=C)
+    #    # ~ return a.eval(x, y)
     # ~ ND=_ord2i_(order)
     # ~ p, e=polyfit(array(x), array(y), array(z), order=order)
     # ~ C=p.cohef

@@ -1,10 +1,8 @@
 
 import numpy as np
 # from numpy import dot,arctan2, polyval, pi, indices, sort, cumsum, where
-from numpy.fft import fft2, fftshift, ifftshift
 import numpy.ma as ma
 from pyoptools.misc import *
-from time import time
 from pyoptools.misc.Poly2D import ord2i, poly2d
 from pyoptools.wavefront.field import Field
 
@@ -140,7 +138,7 @@ class PSurf:
 
         # fdata=
         # fdata*fdata[samples[0]/2,samples[1]/2]/abs(fdata[samples[0]/2,samples[1]/2])
-        print "**-->", np.angle(fdata[samples[0]/2, samples[1]/2])
+        print("**-->", np.angle(fdata[samples[0]/2, samples[1]/2]))
         return Field(fdata, psize=(dx, dy), l=self.l)
 
     # @cython.boundscheck(False) # turn of bounds-checking for entire function
@@ -167,7 +165,7 @@ class PSurf:
 
         sx=dx*nx
         sy=dy*ny
-        print wf.shape, wf.res
+        print(wf.shape, wf.res)
         # Phase function calculation
         # cdef np.ndarray[np.complex128_t, ndim=3] a = \
         # np.zeros((3,3,3), dtype=np.complex128)
@@ -194,7 +192,7 @@ class PSurf:
         # Calculate the k vector corresponding to each sample of the fft2
         kx=(X/sx)
         ky=(Y/sy)
-        print sx, sy
+        print(sx, sy)
         kz=np.sqrt((1./wf.l)**2 -kx**2-ky**2)
 
         # Calculate the amplitude and phase of each plane wave
@@ -218,14 +216,14 @@ class PSurf:
         k=np.array((kx[ki[0], kj[0]], ky[ki[0], kj[0]], kz[ki[0], kj[0]]))
         # got_cl is importen from misc. Misc imports it from Poly2D
         r=a[ki[0], kj[0]]*self.pw_evaluate(k, samples, got_cl)
-        print "*****", len(ki), k/k[2], abs(a[ki[0], kj[0]]), k[0], k[1], k[2]
+        print("*****", len(ki), k/k[2], abs(a[ki[0], kj[0]]), k[0], k[1], k[2])
 
         for i in range(len(ki)-1):
-            print "*", i
+            print("*", i)
             k=np.array((kx[ki[i+1], kj[i+1]],
                         ky[ki[i+1], kj[i+1]],
                         kz[ki[i+1], kj[i+1]]))
-            print k/k[2], abs(a[ki[i+1], kj[i+1]])
+            print(k/k[2], abs(a[ki[i+1], kj[i+1]]))
             r+=a[ki[i+1], kj[i+1]]*self.pw_evaluate(k, samples, got_cl)
 
             # TODO: Important------- ###### Need to take into account the phase.........

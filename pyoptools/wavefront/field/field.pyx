@@ -17,7 +17,7 @@ from warnings import warn
 
 from numpy import dot, zeros, abs, meshgrid, pi, exp, where, angle, sqrt as npsqrt, \
     indices, empty, complex128, complex64, newaxis, column_stack, max, array, \
-    linspace, dot, zeros_like, round, float64, arange, isnan, angle,  mgrid, rint, \
+    linspace, dot, zeros_like, float64, arange, isnan, angle,  mgrid, rint, \
     float32, uint32, exp
 
 
@@ -26,9 +26,7 @@ from numpy.ma import array as maarray,  getmask,  getmaskarray
 # deprecated use scipy.interpolate.griddata
 # from matplotlib.mlab import griddata
 
-from scipy.signal import convolve2d, fftconvolve, resample
 from scipy.integrate import simps
-from scipy.interpolate import interp2d, bisplrep, bisplev, griddata
 from scipy.ndimage import map_coordinates
 # deprecated in scipy 1.2.1; change to imageio
 # from scipy.misc import imread
@@ -38,7 +36,7 @@ from imageio import imread
 # import pp
 # import pyopencl as cl
 
-from pyoptools.misc.cmisc.cmisc cimport rot_mat_i, rot_mat
+from pyoptools.misc.cmisc.cmisc cimport rot_mat
 
 from pyoptools.raytrace.ray import Ray
 
@@ -195,8 +193,8 @@ cdef class Field:
         '''Return the sample points in X'''
 
         def __get__(self):
-            dx, dy=self.res
-            nx, ny=self.shape
+            dx, _dy=self.res
+            nx, _ny=self.shape
             # TODO: Check if this can be calculated using linspaces
             return (arange(nx)-nx/2)*dx
 
@@ -204,8 +202,8 @@ cdef class Field:
         '''Return the sample points in Y'''
 
         def __get__(self):
-            dx, dy=self.res
-            nx, ny=self.shape
+            _dx, dy=self.res
+            _nx, ny=self.shape
             # TODO: Check if this can be calculated using linspace
             return (arange(ny)-ny/2)*dy
 
@@ -213,7 +211,7 @@ cdef class Field:
         '''Returns an array containing the unwrapped phase of the optical field'''
 
         def __get__(self):
-            print "Warning: The phase is not being cached. Need to fix this"
+            print("Warning: The phase is not being cached. Need to fix this")
             a=self.angle
             return unwrap(a)
 
@@ -409,7 +407,6 @@ cdef class Field:
     def _ursi(self, x=0., y=0., z=0., n=1.):
         """Calculate the field at x,y,z , using the Rayleigh Sommerfeld integral
         """
-        ux, uy=self.field_sample_coord
         krs=self._rs_kernel(x, y, z, n)
         # krs=self._rs_kernel(ux+x,uy+y,z,n=n)
         dx, dy=self.res
@@ -493,11 +490,11 @@ cdef class Field:
         return Field(data=pf, psize=self.psize, l=self.l)
 
     def propagate_rsi_gpu(self, z, n, dfield=None, offset=(0., 0.), gpu=0):
-        print"propagate_rsi_gpu: This method is not working fine needs to be checked"
+        print("propagate_rsi_gpu: This method is not working fine needs to be checked")
         import pyopencl as cl
         pl=cl.get_platforms()[0]
         dev=pl.get_devices(device_type=cl.device_type.GPU)
-        print dev
+        print(dev)
 
         # Inicio del programa
 
@@ -650,32 +647,31 @@ cdef class Field:
         from cfield import _propagate_rsi
         return _propagate_rsi(self, z, n, dfield)
 
-        """    from cfield import _ursi
-        #cpus=detectCPUs()
+        # """    from cfield import _ursi
+        # #cpus=detectCPUs()
 
-        #job_server=pp.Server()
+        # #job_server=pp.Server()
 
-        #TODO: Need to find a way to not recalculate the _RS_KERNEL
-        if dfield==None:
-            X,Y=self.field_sample_coord
-        else:
-            X,Y=dfield.field_sample_coord
-        U=empty((X.shape[0]*X.shape[1],), complex)
-        xf=X.flatten()
-        yf=Y.flatten()
+        # #TODO: Need to find a way to not recalculate the _RS_KERNEL
+        # if dfield==None:
+        #     X,Y=self.field_sample_coord
+        # else:
+        #     X,Y=dfield.field_sample_coord
+        # U=empty((X.shape[0]*X.shape[1],), complex)
+        # xf=X.flatten()
+        # yf=Y.flatten()
 
-        cxy=column_stack((xf[:,newaxis],yf[:,newaxis]))
-        for i,(xi,yi) in enumerate(cxy):
-            #U[i]=self._ursi(xi,yi, z, n=n)
-            U[i]=_ursi(self,xi,yi, z, n=n)
+        # cxy=column_stack((xf[:,newaxis],yf[:,newaxis]))
+        # for i,(xi,yi) in enumerate(cxy):
+        #    #U[i]=self._ursi(xi,yi, z, n=n)
+        #     U[i]=_ursi(self,xi,yi, z, n=n)
 
-
-        if dfield==None:
-            return Field(data=U.reshape(X.shape),psize=self.psize,l=self.l)
-        else:
-            dfield.data=U.reshape(X.shape)
-            return dfield
-        """
+        # if dfield==None:
+        #     return Field(data=U.reshape(X.shape),psize=self.psize,l=self.l)
+        # else:
+        #     dfield.data=U.reshape(X.shape)
+        #    return dfield
+        # """
 
     def propagate_rsi(self, z, n, dfield=None):
         """Propagate the field a distance z, using the Rayleigh Sommerfeld integral.
@@ -789,22 +785,22 @@ cdef class Field:
         d=self.check_z(n=n, shape=shape)
         dae=d["ae_max"]
         drs=d["rs_min"]
-        print dae, drs, z
-        dx, dy=self.res
+        print(dae, drs, z)
+        dx, _dy=self.res
         if z< dae:
-            print"ae"
+            print("ae")
             return self.propagate_ae(z, n, shape)
         elif z>drs:
-            print"rs"
+            print("rs")
             return self.propagate_rsc(z, n, shape)
         else:
-            print "Error: It is not possible to calculate using this distance"
+            print("Error: It is not possible to calculate using this distance")
             # Corregir esto, haciendo un remuestreo del campo, y usando espectro angular
             # TODO: Fix this when dx and dy are different
             a=1./(2*z)+sqrt((n/self.l)**2-(1/(2*dx))**2)
             nxmin=int(2/(1-2*dx*sqrt((n/self.l)**2-a**2)))
             nymin=nxmin
-            print nx, nxmin
+            print(nx, nxmin)
             if (nxmin-nx) %2!=0:
                 nxmin=nxmin+1
             if (nymin-ny) %2!=0:
@@ -828,8 +824,6 @@ cdef class Field:
                 =  ====================
         """
 
-        dx, dy=self.res
-        nx, ny=self.data.shape
         sx, sy=self.size
         l=self.l
         if z>0:
@@ -845,7 +839,7 @@ cdef class Field:
             dxp=-l*z/sx
             dyp=-l*z/sy
 
-        print "warning: The phase factor is not present. Must be corrected"
+        print("warning: The phase factor is not present. Must be corrected")
         return Field(data=data, psize=(dxp, dyp), l=self.l)
 
     def propagate_fresnel(self, z):
@@ -861,7 +855,7 @@ cdef class Field:
 
         '''
         dx, dy=self.res
-        nx, ny=self.data.shape
+
         sx, sy=self.size
         l=self.l
 
@@ -928,7 +922,7 @@ cdef class Field:
 
         dx, dy=self.res
         nx, ny=self.data.shape
-        sx, sy=dx*nx, dy*ny
+        sx, _sy=dx*nx, dy*ny
 
         m=None
 
@@ -941,7 +935,7 @@ cdef class Field:
             m=method
 
         # TODO: , Warning n not used in calculations must be fixed
-        print "Warning n not used in calculations must be fixed"
+        print("Warning n not used in calculations must be fixed")
         if m=="ae":
             tf=self
             if z>self.check_z(n)["ae_max"]:
@@ -961,7 +955,7 @@ cdef class Field:
                     # must be even.
                     # TODO: This is not OK, if the number of columns is even and rows
                     # is odd (or backwards), this will not work. FIXME
-                    print nxmin
+                    print(nxmin)
                     try:
                         tf=self.resize((nxmin, nxmin))
 
@@ -1108,7 +1102,7 @@ cdef class Field:
         nf=self
         if fm[-1]>1:
             fm=int(fm[-1])+1
-            print "Resampling field ", fm
+            print("Resampling field ", fm)
             nf=self.resample((nx*fm, ny*fm))
             nx, ny=nf.data.shape
             dx, dy=nf.res
@@ -1250,8 +1244,8 @@ cdef class Field:
         if abs(lapa).max()>eps:
             # TODO: establish a better warning system, and apply it to all warnings
             # in the program
-            print "Warning: the conversion from wavefront to rays, does not fulfil"
-            print "the eikonal equation max(lap(a)/a)", abs(lapa).max()
+            print("Warning: the conversion from wavefront to rays, does not fulfil")
+            print("the eikonal equation max(lap(a)/a)", abs(lapa).max())
 
         # TODO: Check if we need a condition for the continuity of the phase, or
         # if this condition is enough
@@ -1288,14 +1282,14 @@ cdef class Field:
         X=X.flatten()
         Y=Y.flatten()
 
-        print "Warning: The assignment of the optical path assumes n=1 \n"\
-              "This must be corrected."
+        print("Warning: The assignment of the optical path assumes n=1 \n"
+              "This must be corrected.")
 
         rl=[]
         dirs=zip(dx, dy, dz, X, Y,  fmask, ph)
         for dx, dy, dz, x, y,  mask,  path in dirs:
             if dz<0:
-                print dz
+                print(dz)
             if mask is False:
                 rl.append(Ray(pos=(x, y, 0), dir=(dx, dy, dz),
                           wavelength=self.l, pop=self.l*path/(2.*pi)))

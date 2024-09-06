@@ -3,7 +3,7 @@ cimport numpy as np
 
 cdef extern from "Python.h":
 
-        cdef void Py_INCREF(object)
+    cdef void Py_INCREF(object)
 
 
 cdef extern from "numpy/arrayobject.h":
@@ -31,7 +31,8 @@ cdef np.ndarray mvdot1(np.ndarray mat, np.ndarray vec)
 # cdef rot_mat_i(np.ndarray[np.double_t, ndim=1] r):
 # cdef rot_mat(np.ndarray[np.double_t, ndim=1] r):
 # def unwrap(inph,in_p=(), double uv=2*np.pi, int nn =1):
-# cdef mvdot(np.ndarray[np.double_t, ndim=2, mode="c"] mat, np.ndarray[np.double_t, ndim=1, mode="c"] vec):
+# cdef mvdot(np.ndarray[np.double_t, ndim=2, mode="c"] mat,
+# np.ndarray[np.double_t, ndim=1, mode="c"] vec):
 
 cdef void mvdotf(np.float64_t *ret, np.float64_t * mat, np.float64_t * vec)
 

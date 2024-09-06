@@ -162,7 +162,7 @@ def unwrap(inph, in_p=(), double uv=2*np.pi, int nn=1):
     """
 
     cdef np.ndarray[np.double_t, ndim=2, mode="c"] faseo
-    if np.ma.isMaskedArray(inph) == False:
+    if not np.ma.isMaskedArray(inph):
         faseo = inph.copy()
     else:
         faseo = inph.copy()
@@ -189,7 +189,7 @@ def unwrap(inph, in_p=(), double uv=2*np.pi, int nn=1):
     fl[in_p] = 1
 
     cdef int cx, cy
-    cdef int nv, wvi
+    cdef int nv
     cdef int i, j
     cdef int cx0, cx1, cy0, cy1
     cdef double wf, wv
@@ -239,7 +239,8 @@ def unwrap(inph, in_p=(), double uv=2*np.pi, int nn=1):
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-# cdef mvdot(np.ndarray[np.double_t, ndim=2, mode="c"] mat, np.ndarray[np.double_t, ndim=1, mode="c"] vec)
+# cdef mvdot(np.ndarray[np.double_t, ndim=2, mode="c"] mat,
+# np.ndarray[np.double_t, ndim=1, mode="c"] vec)
 cdef np.ndarray mvdot(np.ndarray mat, np.ndarray vec):
     """
     Dot product between a 3x3 matrix and a 3 element vector
@@ -282,7 +283,8 @@ cdef void mvdotf(np.float64_t * ret, np.float64_t * mat, np.float64_t * vec):
 
 
 def dot_test(mat, vec):
-    cdef np.ndarray[np.double_t, ndim=1, mode="c"] res = np.empty((3,), dtype=np.float64)
+    cdef np.ndarray[np.double_t, ndim=1, mode="c"] res = np.empty((3,),
+                                                                  dtype=np.float64)
     mvdotf(< np.float64_t*>np.PyArray_DATA(res),
            < np.float64_t*>np.PyArray_DATA(mat), < np.float64_t*>np.PyArray_DATA(vec))
 
@@ -292,13 +294,13 @@ def dot_test(mat, vec):
 def test_1(matrix):
     cdef np.float64_t * c = <np.float64_t*>np.PyArray_DATA(matrix)
     for i in range(9):
-        print c[i]
+        print(c[i])
 
 
 def test_2(vector):
     cdef np.float64_t * c = <np.float64_t*>np.PyArray_DATA(vector)
     for i in range(3):
-        print c[i]
+        print(c[i])
 
 
 #########################################################################

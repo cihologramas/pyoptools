@@ -6,21 +6,20 @@ cdef extern from "math.h":
     double sqrt(double)
 cimport cython
 
-from sys import exit
 # Se van a usar los traits para el desarrollo del programa
 # Se cambio el traits por el HasStrictTraits, para verificar la asignación
 # de los atributos en la creacion de los scripts
 
 
 import numpy as np
-from numpy import dot, array, float_, inf, float64, empty, zeros, sqrt as npsqrt
+from numpy import dot, array, inf, float64
 
 # from misc import rot_mat, rot_mat_i,mvdot, dot_test
 from pyoptools.misc.cmisc.cmisc cimport *  # rot_mat, rot_mat_i
 
 # import tokyo
 # cimport tokyo
-from cpython.ref cimport PyObject, Py_INCREF, Py_DECREF
+# from cpython.ref cimport PyObject, Py_INCREF, Py_DECREF
 
 cimport numpy as np
 
@@ -439,8 +438,8 @@ cdef class Ray:
 
         if self.parent is not None:
             if self.pop!=0:
-                print "The pop attribute of the ray has a value of ", self.pop, \
-                      " instead the real parent optical path is being used"
+                print("The pop attribute of the ray has a value of ", self.pop,
+                      " instead the real parent optical path is being used")
             path= sqrt(dot(self.pos-self.parent.pos, self.pos-self.parent.pos))*\
                 self.parent.n
             return path+self.parent.optical_path_parent()

@@ -5,7 +5,7 @@ from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.mat_lib import Material
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import asarray dot
+from numpy import asarray, dot
 cimport numpy as np
 np.import_array()
 
@@ -258,7 +258,7 @@ cdef class Component(Picklable):
         called
         """
         for comp in self.surflist:
-            S, P, D = comp
+            S, _P, _D = comp
             S.reset()
 
     def propagate(self, Ray ri, n_m):
@@ -275,13 +275,12 @@ cdef class Component(Picklable):
         my_n = self.n(ri.wavelength)
 
         if ri.n == my_n:
-            np = n_m
+            n_p = n_m
             n = my_n
         else:
             n = n_m
-            np = my_n
+            n_p = my_n
 
-        cnt = 0
         dist_list = [0]
 
         # Search for the next surface to be hitted
@@ -304,7 +303,7 @@ cdef class Component(Picklable):
 
         SR, PSR, DSR = surf_list[j]
         R = ri.ch_coord_sys(PSR, DSR)
-        ri_n = SR.propagate(R, n, np)
+        ri_n = SR.propagate(R, n, n_p)
 
         ret_rays = []
         for i in ri_n:

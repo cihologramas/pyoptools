@@ -192,7 +192,7 @@ cdef class Aspherical(Surface):
         Dz = iray._dir[2]
 
         return (Ay*(Dy*t+Oy)**2+Ax*(Dx*t+Ox)**2)/(sqrt(Ay**2*(-Ky-1)*(Dy*t+Oy)**2-
-                                                  x**2*(Kx+1)*(Dx*t+Ox)**2+1)+1) - \
+                                                  Ax**2*(Kx+1)*(Dx*t+Ox)**2+1)+1) - \
             Dz*t-Oz
 
     cpdef _intersection(self, Ray iray):

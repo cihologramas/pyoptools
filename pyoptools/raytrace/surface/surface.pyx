@@ -15,26 +15,21 @@
 
 
 from pyoptools.misc.pmisc import hitlist2int_list, hitlist2int, interpolate_g
-from numpy import absolute, arccos, array, cos as npcos, dot, isinf as npisinf, \
+from numpy import absolute, arccos, array, dot, isinf as npisinf, \
     inf, isnan as npisnan, \
-    power, sqrt as npsqrt, sometrue, zeros_like, ones_like, histogram2d, \
+    power, sometrue, \
     linspace, meshgrid, abs, indices, argwhere, tan, polyfit, arange, where
 import cython
 from matplotlib.tri import Triangulation
 from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.misc.definitions import inf_vect
 from pyoptools.raytrace.shape.circular cimport Circular
-from pyoptools.raytrace.shape.shape cimport Shape
 from pyoptools.raytrace.ray.ray cimport Ray, Rayf
 from pyoptools.misc.Poly2D import ord2i
 from pyoptools.misc.lsq import polyfit2d
-from pyoptools.misc.cmisc.cmisc cimport norm_vect, empty_vec, vector_length
-from inspect import getmembers, isroutine
+from pyoptools.misc.cmisc.cmisc cimport norm_vect, empty_vec
 from scipy import interpolate
-from scipy.signal import medfilt2d
 from numpy.ma import array as ma_array
-from numpy.fft import fft2, ifft2
-from sys import exit
 from warnings import warn
 cdef extern from "math.h":
     double sqrt(double) nogil
@@ -317,11 +312,11 @@ cdef class Surface(Picklable):
 
         ri must be in the coordinate system of the surface
         '''
-        cdef double I, IA, gamma, gamma1, R
+        cdef double I, gamma, gamma1
         cdef np.ndarray S1, PI, P, S2, A, A1, S3
 
         cdef np.float64_t * S1p
-        cdef np.float64_t * PIp
+        # cdef np.float64_t * PIp
         cdef np.float64_t * Pp
         cdef np.float64_t * S2p
         cdef np.float64_t * Ap
@@ -336,7 +331,7 @@ cdef class Surface(Picklable):
         PI = self.intersection(ri)
         P = self.normal(PI)
 
-        PIp = <np.float64_t * >np.PyArray_DATA(PI)
+        # PIp = <np.float64_t * >np.PyArray_DATA(PI)
         Pp = <np.float64_t * >np.PyArray_DATA(P)
 
         # The information is added in the  system.propagate_ray method.
@@ -543,7 +538,7 @@ cdef class Surface(Picklable):
         X, Y, Z = self.shape.mesh(ndat=rsamples, topo=self.topo)
 
         # The ecuation where the rays are shooted to is Z=0
-        N_ = array((0, 0, 1))
+        # N_ = array((0, 0, 1))
 
         # The ecuation where the rays are shooted from is
         # X*dx+Y*dy+Z*dz=0, where dx,dy,dx are the plane normal.
@@ -610,7 +605,7 @@ cdef class Surface(Picklable):
             # Calculate optical path
             d = din*ni+ddi*nr
             if d != inf:
-                x, y, z = PIR
+                x, y, _z = PIR
                 xi.append(x)
                 yi.append(y)
                 zi.append(d)
@@ -881,12 +876,12 @@ cdef class Surface(Picklable):
             d = di*ni+dr*nr+ri.optical_path_parent()
 
             if d != inf:
-                x, y, z = PI
+                x, y, _z = PI
                 xi.append(x)
                 yi.append(y)
                 zi.append(d)
             else:
-                print ri
+                print(ri)
 
         d = interpolate_g(xi, yi, zi, samples=shape,
                           knots=knots, error=False, mask=None)
@@ -962,13 +957,13 @@ cdef class Surface(Picklable):
             y = y/xm
 
             # Get the optical path polynomial coheficients
-            pf, ef = polyfit2d(x, y, d, order=order)
+            pf, _ef = polyfit2d(x, y, d, order=order)
 
             # get the intensity data
             xi, yi, I = hitlist2int_list(x, y)
 
             # Get the intensity polynomial coheficients
-            pi, ei = polyfit2d(xi, yi, I, order=order)
+            pi, _ei = polyfit2d(xi, yi, I, order=order)
 
             # TODO: Print something if error is too big
             # if ei>0.001: print ""

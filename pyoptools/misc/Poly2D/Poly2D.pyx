@@ -28,167 +28,167 @@ if got_cl:
 
 
 cdef init_cl():
-        """Routine to initialize the OpenGL kernels"""
-        global ctx0
-        global queue0
-        global prg0
-        global prg1
-        global prg2
+    """Routine to initialize the OpenGL kernels"""
+    global ctx0
+    global queue0
+    global prg0
+    global prg1
+    global prg2
 
-        # Look for  the first available GPU
-        # for GPU, create the contexts and the programs
-        # Its better not tu use CPU for calculatibg the polynomial.
-        # It is as slow as an optimized cython program.
-        # TODO: Needs to check if this is true
-        pls=cl.get_platforms()
-        foundgpu=False
+    # Look for  the first available GPU
+    # for GPU, create the contexts and the programs
+    # Its better not tu use CPU for calculatibg the polynomial.
+    # It is as slow as an optimized cython program.
+    # TODO: Needs to check if this is true
+    pls=cl.get_platforms()
+    foundgpu=False
 
-        for pl in pls:
-            devs=pl.get_devices(device_type=cl.device_type.ALL)
-            for dev in devs:
-                if dev.type==cl.device_type.GPU:
-                    foundgpu=True
-                    break
-
-            if foundgpu:
+    for pl in pls:
+        devs=pl.get_devices(device_type=cl.device_type.ALL)
+        for dev in devs:
+            if dev.type==cl.device_type.GPU:
+                foundgpu=True
                 break
 
-        # Inicio del programa
-	# Need to see how can cl_amd_fp64 can be automatically changed
-	# to cl_fp64
-        prg_src = """
-        #pragma OPENCL EXTENSION cl_khr_fp64 : enable
-        __kernel void rsk(
-                            __global double *Xb,
-                            __global double *Yb,
-                            __global double *PXb,
-                            __global double *PYb,
-                            __global double *COb,
-                            unsigned np,
-                            unsigned ord,
-                            __global double *RESb)
+        if foundgpu:
+            break
+
+    # Inicio del programa
+# Need to see how can cl_amd_fp64 can be automatically changed
+# to cl_fp64
+    prg_src = """
+    #pragma OPENCL EXTENSION cl_khr_fp64 : enable
+    __kernel void rsk(
+                        __global double *Xb,
+                        __global double *Yb,
+                        __global double *PXb,
+                        __global double *PYb,
+                        __global double *COb,
+                        unsigned np,
+                        unsigned ord,
+                        __global double *RESb)
+    {
+        int nWidth = get_global_size(0);
+        int nHeight = get_global_size(1);
+
+        int ox=get_global_id(0); // Toma los indices en X
+        int oy=get_global_id(1); // Toma los indices en Y
+        int oid= oy*nWidth+ox;
+
+        double Xp;
+        double Yp;
+        double X=Xb[ox];
+        double Y=Yb[oy];
+        double RES;
+        RES=0;
+
+        for(unsigned i=0;i<np;i++)
         {
-            int nWidth = get_global_size(0);
-            int nHeight = get_global_size(1);
-
-            int ox=get_global_id(0); // Toma los indices en X
-            int oy=get_global_id(1); // Toma los indices en Y
-            int oid= oy*nWidth+ox;
-
-            double Xp;
-            double Yp;
-            double X=Xb[ox];
-            double Y=Yb[oy];
-            double RES;
-            RES=0;
-
-            for(unsigned i=0;i<np;i++)
-            {
-                // Because of memory limitations, the powers can not be precomputed
-                Xp=1;
-                for(unsigned j=0;j<PXb[i];j++)
-                    Xp=Xp*X;
-
-                Yp=1;
-                for(unsigned j=0;j<PYb[i];j++)
-                    Yp=Yp*Y;
-
-                RES +=  COb[i]*Xp*Yp;
-            }
-            RESb[oid]=RES;
-        }
-        """
-
-        ctx0 = cl.Context(devices=[dev])
-        queue0 = cl.CommandQueue(ctx0)
-        prg0 = cl.Program(ctx0, prg_src).build()
-
-        prg_src = """
-        #pragma OPENCL EXTENSION cl_khr_fp64 : enable
-        __kernel void rsk(
-                          __global double *PXb,
-                          __global double *PYb,
-                          __global double *COb,
-                          unsigned np,
-                          unsigned ord,
-                          __global double *RESb)
-        {
-            int nWidth = get_global_size(0);
-            int nHeight = get_global_size(1);
-
-            int ox=get_global_id(0); // Toma los indices en X
-            int oy=get_global_id(1); // Toma los indices en Y
-            int oid= oy*nWidth+ox;
-            double Xp;
-            double Yp;
-            double X=2.*ox/(nWidth-1)-1.;
-            double Y=2.*oy/(nHeight-1)-1.;
-            double RES;
-            RES=0;
-
-            for(unsigned i=0;i<np;i++)
-            {
             // Because of memory limitations, the powers can not be precomputed
-                Xp=1;
-                for(unsigned j=0;j<PXb[i];j++)
-                    Xp=Xp*X;
-                Yp=1;
-                for(unsigned j=0;j<PYb[i];j++)
-                    Yp=Yp*Y;
-                RES +=  COb[i]*Xp*Yp;
+            Xp=1;
+            for(unsigned j=0;j<PXb[i];j++)
+                Xp=Xp*X;
 
-            }
-            RESb[oid]=RES;
+            Yp=1;
+            for(unsigned j=0;j<PYb[i];j++)
+                Yp=Yp*Y;
+
+            RES +=  COb[i]*Xp*Yp;
         }
-        """
-        prg1 = cl.Program(ctx0, prg_src).build()
+        RESb[oid]=RES;
+    }
+    """
 
-        prg_src = """
-        #pragma OPENCL EXTENSION cl_khr_fp64 : enable
-        __kernel void rsk(
-                          __global double *Xb,
-                          __global double *Yb,
-                          __global double *PXb,
-                          __global double *PYb,
-                          __global double *COb,
-                          double sinr,
-                          double cosr,
-                          unsigned np,
-                          unsigned ord,
-                          __global double *RESb)
+    ctx0 = cl.Context(devices=[dev])
+    queue0 = cl.CommandQueue(ctx0)
+    prg0 = cl.Program(ctx0, prg_src).build()
+
+    prg_src = """
+    #pragma OPENCL EXTENSION cl_khr_fp64 : enable
+    __kernel void rsk(
+                        __global double *PXb,
+                        __global double *PYb,
+                        __global double *COb,
+                        unsigned np,
+                        unsigned ord,
+                        __global double *RESb)
+    {
+        int nWidth = get_global_size(0);
+        int nHeight = get_global_size(1);
+
+        int ox=get_global_id(0); // Toma los indices en X
+        int oy=get_global_id(1); // Toma los indices en Y
+        int oid= oy*nWidth+ox;
+        double Xp;
+        double Yp;
+        double X=2.*ox/(nWidth-1)-1.;
+        double Y=2.*oy/(nHeight-1)-1.;
+        double RES;
+        RES=0;
+
+        for(unsigned i=0;i<np;i++)
         {
-            int nWidth = get_global_size(0);
-            int nHeight = get_global_size(1);
+        // Because of memory limitations, the powers can not be precomputed
+            Xp=1;
+            for(unsigned j=0;j<PXb[i];j++)
+                Xp=Xp*X;
+            Yp=1;
+            for(unsigned j=0;j<PYb[i];j++)
+                Yp=Yp*Y;
+            RES +=  COb[i]*Xp*Yp;
 
-            int ox=get_global_id(0); // Toma los indices en X
-            int oy=get_global_id(1); // Toma los indices en Y
-            int oid= oy*nWidth+ox;
-            //rx=  x[i,j]*cosr-y[i,j]*sinr
-            //ry= x[i,j]*sinr+y[i,j]*cosr
-            double Xp;
-            double Yp;
-            double X=Xb[ox]*cosr-Yb[oy]*sinr;
-            double Y=Xb[ox]*sinr+Yb[oy]*cosr;
-            double RES;
-            RES=0;
-
-            for(unsigned i=0;i<np;i++)
-            {
-                // Because of memory limitations, the powers can not be precomputed
-                Xp=1;
-                for(unsigned j=0;j<PXb[i];j++)
-                    Xp=Xp*X;
-                Yp=1;
-                for(unsigned j=0;j<PYb[i];j++)
-                    Yp=Yp*Y;
-
-                RES +=  COb[i]*Xp*Yp;
-            }
-            RESb[oid]=RES;
         }
-        """
+        RESb[oid]=RES;
+    }
+    """
+    prg1 = cl.Program(ctx0, prg_src).build()
 
-        prg2 = cl.Program(ctx0, prg_src).build()
+    prg_src = """
+    #pragma OPENCL EXTENSION cl_khr_fp64 : enable
+    __kernel void rsk(
+                        __global double *Xb,
+                        __global double *Yb,
+                        __global double *PXb,
+                        __global double *PYb,
+                        __global double *COb,
+                        double sinr,
+                        double cosr,
+                        unsigned np,
+                        unsigned ord,
+                        __global double *RESb)
+    {
+        int nWidth = get_global_size(0);
+        int nHeight = get_global_size(1);
+
+        int ox=get_global_id(0); // Toma los indices en X
+        int oy=get_global_id(1); // Toma los indices en Y
+        int oid= oy*nWidth+ox;
+        //rx=  x[i,j]*cosr-y[i,j]*sinr
+        //ry= x[i,j]*sinr+y[i,j]*cosr
+        double Xp;
+        double Yp;
+        double X=Xb[ox]*cosr-Yb[oy]*sinr;
+        double Y=Xb[ox]*sinr+Yb[oy]*cosr;
+        double RES;
+        RES=0;
+
+        for(unsigned i=0;i<np;i++)
+        {
+            // Because of memory limitations, the powers can not be precomputed
+            Xp=1;
+            for(unsigned j=0;j<PXb[i];j++)
+                Xp=Xp*X;
+            Yp=1;
+            for(unsigned j=0;j<PYb[i];j++)
+                Yp=Yp*Y;
+
+            RES +=  COb[i]*Xp*Yp;
+        }
+        RESb[oid]=RES;
+    }
+    """
+
+    prg2 = cl.Program(ctx0, prg_src).build()
 
 
 cdef class poly2d:
@@ -248,11 +248,14 @@ cdef class poly2d:
         self.dy=None
 
     def __reduce__(self):
-        args=(self.cohef,)  # self.intensity,self.wavelength,self.n ,self.label,self.parent,self.pop,self.orig_surf)
+        args=(self.cohef,)
         return(type(self), args)
 
     def __add__(self, other):
-        if isinstance(self, poly2d):  # Note, this is different than standard python, here mul==rmul. We need to see what is going on
+
+        # Note, this is different than standard python, here mul==rmul.
+        # We need to see what is going on
+        if isinstance(self, poly2d):
             p=self
             a=other
         else:
@@ -274,7 +277,9 @@ cdef class poly2d:
         return NotImplemented
 
     def __sub__(self, other):
-        if isinstance(self, poly2d):  # Note, this is different than standard python, here mul==rmul. We need to see what is going on
+        # Note, this is different than standard python, here mul==rmul.
+        # We need to see what is going on
+        if isinstance(self, poly2d):
             p=self
             a=other
         else:
@@ -304,7 +309,9 @@ cdef class poly2d:
         cdef int rxp, ryp, axp, ayp, pxp, pyp
         cdef int o1, o2
 
-        if isinstance(self, poly2d):  # Note, this is different than standard python, here mul==rmul. We need to see what is going on
+        # Note, this is different than standard python, here mul==rmul.
+        # We need to see what is going on
+        if isinstance(self, poly2d):
             p=self
             a=other
         else:
@@ -319,7 +326,7 @@ cdef class poly2d:
         elif isinstance(a, poly2d):
             o1=p.order
             o2=a.order
-            ncohef=zero_vec(pxpy2i(0, o1+o2)+1)  # np.zeros((pxpy2i(0,o1+o2)+1,), dtype=np.float64)
+            ncohef=zero_vec(pxpy2i(0, o1+o2)+1)
 
             for i in range((<poly2d>p).clen):  # len(p.cohef)):
                 for j in range((<poly2d>a).clen):  # len(a.cohef)):
@@ -430,7 +437,8 @@ cdef class poly2d:
         Result=np.zeros(np.array(x).shape, dtype=np.double)
         cdef int i
         for i in self.cohef.nonzero()[0]:
-            Result=Result+self.cohef[i]*np.power(x, self.px_c[i])*np.power(y, self.py_c[i])
+            Result=(Result+self.cohef[i]*
+                    np.power(x, self.px_c[i])*np.power(y, self.py_c[i]))
         return Result
 
     # ojr
@@ -438,7 +446,8 @@ cdef class poly2d:
         Result=np.zeros(np.array(x).shape, dtype=np.double)
         cdef int i
         for i in key:
-            Result=Result+self.cohef[i]*np.power(x, self.px_c[i])*np.power(y, self.py_c[i])
+            Result=(Result+self.cohef[i]*
+                    np.power(x, self.px_c[i])*np.power(y, self.py_c[i]))
         return Result
 
     @cython.boundscheck(False)  # turn of bounds-checking for entire function
@@ -460,7 +469,8 @@ cdef class poly2d:
             This method returns the polynomial evaluated z=P(X,Y).
 
         '''
-        cdef int i, j, nx, ny, ord, co, k
+        # cdef int i, j, nx, ny, ord, co,
+        cdef int k
 
         cdef double Result=0.
 
@@ -474,16 +484,18 @@ cdef class poly2d:
             X[ord+1]=X[ord]*x
             Y[ord+1]=Y[ord]*y
         for k in range(self.clen):
-            Result +=  self.cohef_c[k]*X[<int>self.px_c[k]]*Y[<int>self.py_c[k]]
-                #   Result[i,j] +=  self.cohef_c[k]*pow(x[i,j],self.px[k])*pow(y[i,j],self.py[k]);
-                # Calculating the exponentials using products is a lot faster
+            Result += self.cohef_c[k]*X[<int>self.px_c[k]]*Y[<int>self.py_c[k]]
+            # Result[i,j] +=  self.cohef_c[k]*pow(x[i,j],self.px[k])*
+            # pow(y[i,j],self.py[k]);
+            # Calculating the exponentials using products is a lot faster
         free(X)
         free(Y)
         return Result
 
     @cython.boundscheck(False)  # turn of bounds-checking for entire function
     @cython.wraparound(False)
-    def meval(self, np.ndarray[np.float64_t, ndim=2]x, np.ndarray[np.float64_t, ndim=2]y):
+    def meval(self, np.ndarray[np.float64_t, ndim=2]x,
+              np.ndarray[np.float64_t, ndim=2]y):
         '''
         Evaluate the polynomial at for the values given in the 2D matrices
         x, y.
@@ -501,12 +513,13 @@ cdef class poly2d:
             This method returns the polynomial evaluated Z=P(X,Y). Z will
             have the same shape as x and y
         '''
-        cdef int i, j, nx, ny, ord, co, k
+        cdef int i, j, nx, ny, ord, k
 
         nx=x.shape[0]
         ny=x.shape[1]
 
-        # cdef np.ndarray[np.float64_t, ndim=2] Result=np.zeros(np.array(x).shape, dtype=np.double)
+        # cdef np.ndarray[np.float64_t, ndim=2] \
+        # Result=np.zeros(np.array(x).shape, dtype=np.double)
         cdef np.ndarray[np.float64_t, ndim=2] Result=zero_mat(nx, ny)
 
         cdef double *X = <double *>malloc((self.order+1)*sizeof(double))
@@ -516,13 +529,16 @@ cdef class poly2d:
             for j in range(ny):
                 X[0]=1
                 Y[0]=1
-                # Calculate the powers (it is faster this way than using pow from math.h)
+                # Calculate the powers (it is faster this way than using pow
+                # from math.h)
                 for ord in range(self.order):
                     X[ord+1]=X[ord]*x[i, j]
                     Y[ord+1]=Y[ord]*y[i, j]
                 for k in range(self.clen):
-                    Result[i, j] +=  self.cohef_c[k]*X[<int>self.px_c[k]]*Y[<int>self.py_c[k]]
-                #   Result[i,j] +=  self.cohef_c[k]*pow(x[i,j],self.px[k])*pow(y[i,j],self.py[k]);
+                    Result[i, j] += self.cohef_c[k]* \
+                                    X[<int>self.px_c[k]]*Y[<int>self.py_c[k]]
+                #   Result[i,j] +=  self.cohef_c[k]*pow(x[i,j], \
+                # self.px[k])*pow(y[i,j],self.py[k]);
                 # Calculating the exponentials using products is a lot faster
         free(X)
         free(Y)
@@ -531,7 +547,8 @@ cdef class poly2d:
 
     @cython.boundscheck(False)  # turn of bounds-checking for entire function
     @cython.wraparound(False)
-    def mevalr(self, np.ndarray[np.float64_t, ndim=2]x, np.ndarray[np.float64_t, ndim=2]y, double rot=0):
+    def mevalr(self, np.ndarray[np.float64_t, ndim=2]x,
+               np.ndarray[np.float64_t, ndim=2]y, double rot=0):
         '''
         Evaluate the polynomial at for the values given in the 2D matrices
         x, y rotated.
@@ -552,7 +569,7 @@ cdef class poly2d:
             have the same shape as x and y. x' and y' are calculated from
             rotating x and y
         '''
-        cdef int i, j, nx, ny, ord, co, k
+        cdef int i, j, nx, ny, ord, k
 
         # Calculate the rotation matrix
         # Cos  -sin
@@ -566,7 +583,8 @@ cdef class poly2d:
         nx=x.shape[0]
         ny=x.shape[1]
 
-        # cdef np.ndarray[np.float64_t, ndim=2] Result=np.zeros(np.array(x).shape, dtype=np.double)
+        # cdef np.ndarray[np.float64_t, ndim=2] \
+        # Result=np.zeros(np.array(x).shape, dtype=np.double)
         cdef np.ndarray[np.float64_t, ndim=2] Result=zero_mat(nx, ny)
 
         cdef double *X = <double *>malloc((self.order+1)*sizeof(double))
@@ -576,7 +594,8 @@ cdef class poly2d:
             for j in range(ny):
                 X[0]=1
                 Y[0]=1
-                # Calculate the powers (it is faster this way than using pow from math.h)
+                # Calculate the powers (it is faster this way than using pow
+                # from math.h)
                 for ord in range(self.order):
                     rx= x[i, j]*cosr-y[i, j]*sinr
                     ry= x[i, j]*sinr+y[i, j]*cosr
@@ -585,8 +604,10 @@ cdef class poly2d:
 
                     Y[ord+1]=Y[ord]*ry
                 for k in range(self.clen):
-                    Result[i, j] +=  self.cohef_c[k]*X[<int>self.px_c[k]]*Y[<int>self.py_c[k]]
-                #   Result[i,j] +=  self.cohef_c[k]*pow(x[i,j],self.px[k])*pow(y[i,j],self.py[k]);
+                    Result[i, j] += self.cohef_c[k]*\
+                        X[<int>self.px_c[k]]*Y[<int>self.py_c[k]]
+                #   Result[i,j] +=  self.cohef_c[k]*pow(x[i,j],self.px[k])*\
+                # pow(y[i,j],self.py[k]);
                 # Calculating the exponentials using products is a lot faster
         free(X)
         free(Y)
@@ -594,7 +615,8 @@ cdef class poly2d:
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    def vveval(self, np.ndarray[np.float64_t, ndim=1]x, np.ndarray[np.float64_t, ndim=1]y):
+    def vveval(self, np.ndarray[np.float64_t, ndim=1]x,
+               np.ndarray[np.float64_t, ndim=1]y):
         '''
         Evaluate the polynomials in a 2D mesh defined by the vectors x and y.
 
@@ -618,12 +640,13 @@ cdef class poly2d:
         (vectors instead matrices).
         '''
 
-        cdef int i, j, nx, ny, ord, co, k
+        cdef int i, j, nx, ny, ord, k
 
         nx=x.shape[0]
         ny=y.shape[0]
 
-        # cdef np.ndarray[np.float64_t, ndim=2] Result=np.zeros((nx,ny), dtype=np.double)
+        # cdef np.ndarray[np.float64_t, ndim=2] \
+        # Result=np.zeros((nx,ny), dtype=np.double)
         cdef np.ndarray[np.float64_t, ndim=2] Result=zero_mat(nx, ny)
 
         # Calculate X**n and Y**n
@@ -662,7 +685,8 @@ cdef class poly2d:
         for j in range(nx):
             for i in range(ny):
                 for k in range(self.clen):
-                    Result[j, i] +=  self.cohef_c[k]*X[<int>self.px_c[k]][i]*Y[<int>self.py_c[k]][j]
+                    Result[j, i] += self.cohef_c[k]* \
+                        X[<int>self.px_c[k]][i]*Y[<int>self.py_c[k]][j]
                     # Result[j,i]=X[1][i]
         for i in range(self.order):
             free(X[i])
@@ -671,7 +695,8 @@ cdef class poly2d:
         free(Y)
         return Result
 
-    def gpu_eval(self, np.ndarray[np.float64_t, ndim=1]x, np.ndarray[np.float64_t, ndim=1]y):
+    def gpu_eval(self, np.ndarray[np.float64_t, ndim=1]x,
+                 np.ndarray[np.float64_t, ndim=1]y):
         '''
         Evaluate the polynomial using the GPU, x and y are vectors
 
@@ -687,7 +712,7 @@ cdef class poly2d:
         # X=x.astype(np.float64)
         # Y=y.astype(np.float64)
         # PX=self.px64 # The conversion to float64 is made in __init__
-       # PY=self.py64
+        # PY=self.py64
 
         CO=self.cohef.astype(np.float64)
 
@@ -716,8 +741,7 @@ cdef class poly2d:
                  np.uint32(len(CO)),
                  np.uint32(self.order),
                  RESb,
-                 local_size=(16, 16)
-                    )
+                 local_size=(16, 16))
 
         cl.enqueue_read_buffer(queue0, RESb, res).wait()
         return res
@@ -756,8 +780,7 @@ cdef class poly2d:
                  np.uint32(len(CO)),
                  np.uint32(self.order),
                  RESb,
-                 local_size=(16, 16)
-                    )
+                 local_size=(16, 16))
 
         cl.enqueue_read_buffer(queue0, RESb, res).wait()
         return res
@@ -776,8 +799,8 @@ cpdef i2pxpy(i):
 
     cdef np.ndarray ia=np.array(i)
     poly_order=(1+(np.sqrt(8*(ia)+1)-3)/2).astype(int)
-    ret_y=np.where(poly_order==0, 0, \
-                ia-(((poly_order-1)**2+3*(poly_order-1)+2)/2 - 1)-1).astype(int)
+    ret_y=np.where(poly_order==0, 0,
+                   ia-(((poly_order-1)**2+3*(poly_order-1)+2)/2 - 1)-1).astype(int)
     ret_x=poly_order-ret_y
     return ret_x, ret_y
 cpdef int pxpy2i(int px, int py):

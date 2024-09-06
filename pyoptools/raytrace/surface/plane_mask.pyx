@@ -14,7 +14,7 @@
 
 '''Module that defines a reflective plane phase mask surface class
 '''
-from numpy import array, dot, inf, float64, zeros, asarray, isnan
+from numpy import array, inf, float64, zeros, asarray
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.misc.Poly2D.Poly2D cimport poly2d
@@ -60,16 +60,22 @@ cdef class RPPMask(Surface):
     cdef public list M
     # def __init__(self,k=(0,2*pi/1e-3),M=[1],**traits):
 
-    def __init__(self, poly2d phm=poly2d((0, 0, 0, 0, 0, 0)), M=[1], *args, **kwargs):
+    def __init__(self, poly2d phm=None, M=None, *args, **kwargs):
         """
         phm represent the phase variations across the surface
         """
         Surface.__init__(self, *args, **kwargs)
-        self.phm = phm
-        dxdy = phm.dxdy()
+        if phm is None:
+            self.phm = poly2d((0, 0, 0, 0, 0, 0))
+        else:
+            self.phm = phm
+        dxdy = self.phm.dxdy()
         self.phx = <poly2d > dxdy[0]
         self.phy = <poly2d > dxdy[1]
-        self.M = M
+        if M is None:
+            self.M =[1]
+        else:
+            self.M = M
 
         # Add attributes to the state list
         self.addkey("phm")
@@ -126,7 +132,7 @@ cdef class RPPMask(Surface):
         This method uses all the units in millimeters
         """
         cdef double l, rx, ry, rz, k, d, kx, ky, ox, oy, oz, oz2, M
-        PI, P = self.int_nor(ri)
+        PI, _P = self.int_nor(ri)
         # Express wavelength in millimeters so all the method works in millimeters
         l = ri.wavelength*1e-3
         rx, ry, rz = ri.dir
@@ -148,7 +154,7 @@ cdef class RPPMask(Surface):
             oz2 = rz**2 - 2*M*l/d*(rx*kx+ry*ky)-(M*l/d)**2
 
             if oz2 < 0:
-                print "warning: eliminating physically impossible ray"
+                print("warning: eliminating physically impossible ray")
                 ret.append(Ray(pos=PI, dir=ri.dir,
                                intensity=0,
                                wavelength=ri.wavelength, n=ni, label=ri.label,
