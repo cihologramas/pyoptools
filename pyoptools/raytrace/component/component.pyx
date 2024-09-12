@@ -6,9 +6,6 @@ from pyoptools.raytrace.mat_lib import Material
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
 from numpy import asarray, dot
-cimport numpy as np
-np.import_array()
-
 
 # from misc import rot_mat, rot_mat_i
 
@@ -222,7 +219,10 @@ cdef class Component(Picklable):
             coordinate system of the surface, and a pointer to the surface
             that is closest to the ray (distance,point of intersection, surface)
         """
-        cdef np.ndarray P, D
+
+        # TODO: P and D neet to be replaced by cython arrays and memory views
+        # cdef np.ndarray P, D
+        cdef double[:] P,D
         cdef list dist_list = []
         cdef list pi_list = []
         cdef list surf_list = []

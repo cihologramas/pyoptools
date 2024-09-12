@@ -3,82 +3,166 @@ from numpy.linalg import solve
 from pyoptools.misc.Poly2D.Poly2D cimport *
 # from pyoptools.misc.Poly2D import *
 
-cimport numpy as np
-np.import_array()
-import numpy as np
 cimport cython
-
-# from openopt import DFP
-
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
 def polyfit2d(x, y, z, int order=2):
-    cdef int nc, nd, p
-    nc= (order+2)*(order+1)/2  # _ord2i_(order)
-    cdef np.ndarray[np.double_t, ndim=1, mode="c"] xa=array(x)
-    cdef np.ndarray[np.double_t, ndim=1, mode="c"] ya=array(y)
-    cdef np.ndarray[np.double_t, ndim=1, mode="c"] za=array(z)
-    cdef np.ndarray[np.int_t, ndim=1, mode="c"] px, py
+    """
+    Perform a 2D polynomial fit using least squares.
 
-    px, py=i2pxpy(range(0, nc))
-    nd=len(xa)
-    cdef np.ndarray[np.double_t, ndim=2, mode="c"] XP=ones((nd, 2*(order+1)))
-    cdef np.ndarray[np.double_t, ndim=2, mode="c"] YP=ones((nd, 2*(order+1)))
-    for p in range(1, 2*(order+1)):
-        XP[:, p]=XP[:, p-1]*xa
-        YP[:, p]=YP[:, p-1]*ya
+    This function fits a polynomial of a specified order to the provided 
+    two-dimensional data (x, y, z) using a least-squares approach. The fitting 
+    is done using a Vandermonde matrix, and the coefficients of the polynomial 
+    are solved to minimize the sum of squared residuals.
 
-    # Calculating X and Y powers
-    cdef np.ndarray[np.int_t, ndim=2, mode="c"] potx=empty((nc, nc), dtype=np.int)
-    cdef np.ndarray[np.int_t, ndim=2, mode="c"] poty=empty((nc, nc), dtype=np.int)
-    potx[:, :]=px
-    potx=potx+potx.T
+    Parameters
+    ----------
+    x : array-like
+        1D array representing the x-coordinates of the data points.
+    y : array-like
+        1D array representing the y-coordinates of the data points.
+    z : array-like
+        1D array representing the z-values (dependent variable) at the given 
+        (x, y) points.
+    order : int, optional
+        The order of the polynomial to fit (default is 2).
 
-    poty[:, :]=py
-    poty=poty+poty.T
+    Returns
+    -------
+    ret_poly : poly2d
+        A `poly2d` object representing the fitted polynomial function.
+    e : float
+        The root mean square error (RMSE) of the fit, calculated as the square 
+        root of the mean of the squared differences between the observed and 
+        fitted values.
 
-    # Creating the Vandermonde matrix
-    cdef np.ndarray[np.double_t, ndim=2, mode="c"] mat=empty((nc, nc))
-    # The python code was changed to a C++ inline
-    # for  ir in range(nc):
-    #    for ic in range(nc):
-    #        powx=potx[ir, ic]
-    #        powy=poty[ir, ic]
-    #        tv=XP[:, powx]*YP[:, powy]
-    #        mat[ir, ic]=tv.sum()
-    cdef int powx, powy, ir, ic, id
+    Examples
+    --------
+    >>> x = [1.0, 2.0, 3.0]
+    >>> y = [1.0, 2.0, 3.0]
+    >>> z = [1.0, 4.0, 9.0]
+    >>> ret_poly, error = polyfit2d(x, y, z, order=2)
+    >>> print(ret_poly)
+    poly2d object with coefficients: [ ... ]
+    >>> print(error)
+    0.1234
+
+    Notes
+    -----
+    The polynomial fit is performed using a Vandermonde matrix construction 
+    for two-dimensional data. The matrix is formed based on the powers of the 
+    input coordinates (x and y), and the least-squares solution is obtained 
+    by solving the corresponding normal equations.
+
+    """
+from numpy import array, sqrt, power, ones, empty, arange
+from numpy.linalg import solve
+cimport cython
+
+def polyfit2d(x, y, z, int order=2):
+    """
+    Perform a 2D polynomial fit using least squares.
+    """
+    cdef int nc, nd, p, n, ir, ic, id, powx, powy
     cdef double sum
+    cdef double[:, :] XP, YP, mat, vec, cohef
+    cdef int[:, :] potx, poty
+    cdef int[:] px, py
+
+    # Compute the number of coefficients
+    nc = (order + 2) * (order + 1) // 2  # Number of polynomial terms
+
+    # Convert input data to NumPy arrays and memoryviews
+    xa = array(x, order="C", dtype="double")
+    ya = array(y, order="C", dtype="double")
+    za = array(z, order="C", dtype="double")
+
+    # Create memoryviews for the input arrays
+    cdef double[:] xa_mv = xa
+    cdef double[:] ya_mv = ya
+    cdef double[:] za_mv = za
+
+    n = xa.shape[0]
+
+    # Create indices array and memoryview
+    indices = arange(n, dtype="int32")
+    cdef int[:] indices_mv = indices
+
+    # Compute powers for x and y
+    px, py = indices_to_powers(indices_mv)
+
+    nd = len(xa)
+
+    # Create Vandermonde matrices with memoryviews
+    XP = ones((nd, 2 * (order + 1)), order="C", dtype="double")
+    YP = ones((nd, 2 * (order + 1)), order="C", dtype="double")
+
+    # Create memoryviews for Vandermonde matrices
+    cdef double[:, :] XP_mv = XP
+    cdef double[:, :] YP_mv = YP
+
+    # Compute Vandermonde matrices for x and y
+    for p in range(1, 2 * (order + 1)):
+        for id in range(nd):
+            XP_mv[id, p] = XP_mv[id, p - 1] * xa_mv[id]
+            YP_mv[id, p] = YP_mv[id, p - 1] * ya_mv[id]
+
+    # Calculate X and Y powers
+    potx = empty((nc, nc), dtype="int32")
+    poty = empty((nc, nc), dtype="int32")
+
+    # Create memoryviews for power matrices
+    cdef int[:, :] potx_mv = potx
+    cdef int[:, :] poty_mv = poty
+
+    potx_mv[:, :] = array(px, dtype="int32")[:]
+    poty_mv[:, :] = array(py, dtype="int32")[:]
+
+
+    # The loop replace this as it is not allowed in cython memory views
+    # potx_mv[:, :] += potx_mv.T
+    # poty_mv[:, :] += poty_mv.T
+
     for ir in range(nc):
         for ic in range(nc):
-            powx=potx[ir, ic]
-            powy=poty[ir, ic]
-            sum=0
+            potx_mv[ir, ic] = potx_mv[ir, ic] + potx_mv[ic, ir]
+            poty_mv[ir, ic] = poty_mv[ir, ic] + poty_mv[ic, ir]
+
+
+
+    # Create Vandermonde matrix
+    mat = empty((nc, nc), dtype="double")
+    cdef double[:, :] mat_mv = mat
+
+    for ir in range(nc):
+        for ic in range(nc):
+            powx = potx_mv[ir, ic]
+            powy = poty_mv[ir, ic]
+            sum = 0.0
             for id in range(nd):
-                sum=sum+XP[id, powx]*YP[id, powy]
-            mat[ir, ic]=sum
+                sum += XP_mv[id, powx] * YP_mv[id, powy]
+            mat_mv[ir, ic] = sum
 
-    # imat=pinv(mat)
-
-    cdef np.ndarray[np.double_t, ndim=2, mode="c"] vec=empty((nc, 1))
-    # The python code was changed to C++ inline
-    # for ic in range (nc):
-    #    tv=XP[:, px[ic]]*YP[:, py[ic]]*z
-    #    vec[ic, 0]=tv.sum()
+    # Right-hand side vector
+    vec = empty((nc, 1), dtype="double")
+    cdef double[:, :] vec_mv = vec
 
     for ic in range(nc):
-        sum=0
-        powx=px[ic]
-        powy=py[ic]
+        sum = 0.0
+        powx = px[ic]
+        powy = py[ic]
         for id in range(nd):
-            sum=sum+za[id]*XP[id, powx]*YP[id, powy]
-        vec[ic, 0]=sum
+            sum += za_mv[id] * XP_mv[id, powx] * YP_mv[id, powy]
+        vec_mv[ic, 0] = sum
 
-    cohef= solve(mat, vec)
-    ret_poly=poly2d(cohef[:, 0])
+    # Solve for the coefficients
+    cohef = solve(mat_mv, vec_mv)
+    cdef double[:, :] cohef_mv = cohef
+    ret_poly = poly2d(cohef_mv[:, 0])
 
-    # Calculate error. Verify if this is the best way
-    e= sqrt(power(array(z)-ret_poly.eval(xa, ya), 2).mean())
+    # Calculate error
+    e = sqrt(power(za_mv - ret_poly.eval(xa_mv, ya_mv), 2).mean())
 
     return ret_poly, e
 
@@ -87,23 +171,32 @@ def polyfit2d(x, y, z, int order=2):
 @cython.wraparound(False)
 def vander_matrix(x, y, z, int order=2):
     cdef int nc, nd, p
-    nc= (order+2)*(order+1)/2  # _ord2i_(order)
-    cdef np.ndarray[np.double_t, ndim=1, mode="c"] xa=array(x)
-    cdef np.ndarray[np.double_t, ndim=1, mode="c"] ya=array(y)
-    cdef np.ndarray[np.double_t, ndim=1, mode="c"] za=array(z)
-    cdef np.ndarray[np.int_t, ndim=1, mode="c"] px, py
+    cdef int[:] px, py
 
-    px, py=i2pxpy(range(0, nc))
+    nc= (order+2)*(order+1)//2  # _ord2i_(order)
+    xa=array(x, order="C", dtype="double")
+    ya=array(y, order="C", dtype="double")
+    za=array(z, order="C", dtype="double")
+
+    # Create indices array and memoryview
+    n = xa.shape[0]
+    indices = arange(n, dtype="int32")
+    cdef int[:] indices_mv = indices
+
+    # Compute powers for x and y
+    px, py = indices_to_powers(indices_mv)
+
     nd=len(xa)
-    cdef np.ndarray[np.double_t, ndim=2, mode="c"] XP=ones((nd, 2*(order+1)))
-    cdef np.ndarray[np.double_t, ndim=2, mode="c"] YP=ones((nd, 2*(order+1)))
+    XP=ones((nd, 2*(order+1)), order="C", dtype="double")
+    YP=ones((nd, 2*(order+1)), order="C", dtype="double")
+    
     for p in range(1, 2*(order+1)):
         XP[:, p]=XP[:, p-1]*xa
         YP[:, p]=YP[:, p-1]*ya
 
     # Calculating X and Y powers
-    cdef np.ndarray[np.int_t, ndim=2, mode="c"] potx=empty((nc, nc), dtype=np.int)
-    cdef np.ndarray[np.int_t, ndim=2, mode="c"] poty=empty((nc, nc), dtype=np.int)
+    potx=empty((nc, nc), dtype="int")
+    poty=empty((nc, nc), dtype="int")
     potx[:, :]=px
     potx=potx+potx.T
 
@@ -111,7 +204,7 @@ def vander_matrix(x, y, z, int order=2):
     poty=poty+poty.T
 
     # Creating the Vandermonde matrix
-    cdef np.ndarray[np.double_t, ndim=2, mode="c"] mat=empty((nc, nc))
+    mat=empty((nc, nc))
     # The python code was changed to a C++ inline
     # for  ir in range(nc):
     #    for ic in range(nc):
@@ -132,7 +225,7 @@ def vander_matrix(x, y, z, int order=2):
 
     # imat=pinv(mat)
 
-    cdef np.ndarray[np.double_t, ndim=2, mode="c"] vec=empty((nc, 1))
+    vec=empty((nc, 1))
     # The python code was changed to C++ inline
     # for ic in range (nc):
     #    tv=XP[:, px[ic]]*YP[:, py[ic]]*z

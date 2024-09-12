@@ -1,26 +1,27 @@
-cimport numpy as np
-
 cdef class poly2d:
-    cdef public object cohef
-    # Slow lists to be used for python and for garbage collection
-    # if the slow lists are not attributes of the class they can get destroyed
-    # so px_c and py_c will get erased
-    cdef object px64, py64, px, py
-    # internal Fast C list
-    cdef np.float64_t *px_c
-    cdef np.float64_t *py_c
-    cdef np.float64_t *cohef_c
+    cdef public int[::1] cohef
+
+    cdef int[::1] px
+    cdef int[::1] py
+    cdef double[::1] coeff
     cdef public int order
     cdef int clen
-    cdef object ctx0, prg0, prg1, queue0
 
     # cache of the derivatives
     cdef poly2d dx, dy
 
+    # TODO: This name has to be changed to something more meaningfull
     cpdef double peval(self, double x, double y)
+    
     cpdef eval(self, x, y)
-    cpdef eval_2(self, x, y, key)
+    cdef double[:, :] eval2d(self, double[:, :] x, double[:, :] y)
+    cdef double[:, :, :] eval3d(self, double[:, :, :] x, double[:, :, :] y)
+    cdef double[:, :, :, :] eval4d(self, double[:, :, :, :] x, double[:, :, :, :] y)
+    cdef double[:, :, :, :, :] eval5d(self, double[:, :, :, :, :] x,
+                                      double[:, :, :, :, :] y)
 
 cpdef int pxpy2i(int px, int py)
-cpdef ord2i(o)
-cpdef i2pxpy(i)
+cpdef int ord2i(int o)
+cpdef tuple[int, int] index_to_powers(int i)
+cpdef tuple indices_to_powers(int[:] indices)
+
