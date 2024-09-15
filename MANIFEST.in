@@ -1,4 +1,4 @@
 include MANIFEST.in README.md 
-include setup.py
+include setup.py extensions.py
 recursive-include pyoptools *.pyx *.py *.pxd
 # recursive-include examples *ipynb

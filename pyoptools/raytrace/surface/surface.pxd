@@ -1,25 +1,53 @@
+
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.shape.shape cimport Shape
 from pyoptools.misc.picklable.picklable cimport Picklable
-cimport numpy as np
+from pyoptools.misc.cmisc.linalg cimport Vector3
+
 cdef class Surface(Picklable):
-    cdef public object reflectivity
+    # Object representing the surface reflectivity
+    cdef public double reflectivity
+
+    # Object containing the Shape limiting the surface
     cdef public Shape shape
+
+    # List of rays that have hit the surface
     cdef public list _hit_list
+
+    # Surface identifiers or tags (clarify its purpose if needed)
     cdef public list id
 
+    # Method representing the topography of the surface.
+    # Used for rendering the surface in Jupyter Lab
     cpdef topo(self, x, y)
-    cpdef int_nor(self, Ray iray)
-    cpdef np.ndarray normal(self, int_p)
-    cpdef np.ndarray intersection(self, Ray iray)
-    cpdef _intersection(self, Ray iray)
-    cpdef distance(self, Ray iray)
-    cpdef distance_s(self, Ray iray)
+
+    # Cython method to calculate the surface intersection with a ray
+    # To be used by pyoptools Cython functions and methods
+    cdef void intersection_cy(self, Ray incident_ray_ptr, Vector3 *intersection_point_ptr) # noexcept nogil
+
+    # Cython method to calculate the normal at a given intersection point
+    # To be used by pyoptools Cython functions and methods
+    cdef void normal_cy(self, Vector3 *intersection_point, Vector3 *Normal) noexcept nogil
+
+    # Method to be overloaded by subclasses that define the specific surface geometry
+    cdef void _calculate_intersection(self, Ray, Vector3*) noexcept nogil
+
+    # Method to be overloaded by subclasses that define the specific surface geometry
+    cdef void _calculate_normal(self, Vector3*, Vector3*) noexcept nogil
+
+    # Method to calculate the distance from the ray to the surface intersection
+    cdef double distance_cy(self, Ray incident_ray_ptr, Vector3 *intersection_point_ptr)
+
+    # Method to clear all internal structures and data within a surface after propagation
+    # Prepares the surface to be ready for a new propagation
+    cpdef reset(self)
+
+    # Calculates the propagation of a ray through the surface
     cpdef propagate(self, Ray ri, double ni, double nr)
+
+    # Legacy methods that need to be reviewed
     cpdef pw_propagate1(self, Ray ri, ni, nr, rsamples, isamples, knots)
     cpdef pw_propagate(self, Ray ri, ni, nr, rsamples, shape, order, z)
     cpdef pw_propagate_list(self, Ray ri, ni, nr, rsamples, z)
     cpdef wf_propagate(self, wf, ni, nr, samples, shape, knots)
-    # def __repr__(self)
-    cpdef reset(self)
     cpdef pw_cohef(self, ni, nr, ilimit, slimit, step, order, rsamples, zb)

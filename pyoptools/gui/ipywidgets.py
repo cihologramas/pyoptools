@@ -8,6 +8,7 @@ in `jupyter notebooks <http://jupyter.org>`_.
 from pyoptools.raytrace.system import System
 from pyoptools.raytrace.component import Component
 from pyoptools.misc.pmisc import wavelength2RGB, cross, rot_x, rot_y, rot_z
+from numpy import array
 
 try:
     import pythreejs as py3js
@@ -300,9 +301,9 @@ def ray2list(ray):
 
     P1 = ray.pos
     if len(ray.childs) > 0:
-        P2 = ray.childs[0].pos
+        P2 = array(ray.childs[0].origin)
     else:
-        P2 = P1 + 10.0 * ray.dir
+        P2 = P1 + 10.0 * array(ray.direction)
 
     if ray.intensity != 0:
 

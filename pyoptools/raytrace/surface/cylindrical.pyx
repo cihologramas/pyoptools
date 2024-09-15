@@ -104,8 +104,8 @@ cdef class Cylindrical(Surface):
         # x1,y1,z1=P1
         # x2,y2,z2=P1+L1
 
-        cdef np.float64_t * pos = <np.float64_t*>(np.PyArray_DATA(A.pos))
-        cdef np.float64_t * dir = <np.float64_t*>(np.PyArray_DATA(A.dir))
+        cdef np.float64_t * pos = <np.float64_t*>(np.PyArray_DATA(array(A.pos)))
+        cdef np.float64_t * dir = <np.float64_t*>(np.PyArray_DATA(array(A.dir)))
 
         x1 = pos[0]
         y1 = pos[1]

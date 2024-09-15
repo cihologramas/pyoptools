@@ -104,8 +104,8 @@ cdef class Spherical(Surface):
         cdef double x1, y1, z1, x21, y21, z21, z3, a, b, c, b2ac
         cdef double u1, u2, X1, Y1, Z1, X2, Y2, Z2
 
-        cdef np.float64_t * pos = <np.float64_t*>(np.PyArray_DATA(A.pos))
-        cdef np.float64_t * dir = <np.float64_t*>(np.PyArray_DATA(A.dir))
+        cdef np.float64_t * pos = <np.float64_t*>(np.PyArray_DATA(array(A.pos)))
+        cdef np.float64_t * dir = <np.float64_t*>(np.PyArray_DATA(array(A.dir)))
 
         # x1,y1,z1=A.pos
         # x2,y2,z2=A.pos+A.dir #P1+L1

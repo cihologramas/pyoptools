@@ -39,15 +39,17 @@ cdef inline double[::1] norm_vect(double[::1] v):
 
     assert v.shape[0] == 3, "Input vector must have exactly 3 elements."
 
-    cdef double norm
+    cdef double norm, sq_norm
 
     # Calculate the norm (Euclidean length) of the vector for 3 elements
-    norm = sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2])
+    sq_norm = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2])
 
     # Normalize the vector
-    v[0] /= norm
-    v[1] /= norm
-    v[2] /= norm
+    if sq_norm != 1.:
+        norm = sqrt(sq_norm)
+        v[0] /= norm
+        v[1] /= norm
+        v[2] /= norm
 
     # Return the modified vector as a memoryview
     return v
@@ -298,8 +300,8 @@ cpdef zero_memarray(tuple shape):
 @cython.wraparound(False)
 @cython.cdivision(True)
 @cython.nonecheck(False)
-cdef double[:, :] zero_memarray_2d(Py_ssize_t nx, Py_ssize_t ny):
-    cdef double[:, :] arr = cython.view.array(shape=(nx, ny), itemsize=cython.sizeof(double), format="d", mode="c")
+cdef double[:, ::1] zero_memarray_2d(Py_ssize_t nx, Py_ssize_t ny):
+    cdef double[:, ::1] arr = cython.view.array(shape=(nx, ny), itemsize=cython.sizeof(double), format="d", mode="c")
     cdef Py_ssize_t i, j
     for i in range(nx):
         for j in range(ny):
@@ -311,8 +313,8 @@ cdef double[:, :] zero_memarray_2d(Py_ssize_t nx, Py_ssize_t ny):
 @cython.wraparound(False)
 @cython.cdivision(True)
 @cython.nonecheck(False)
-cdef double[:, :, :] zero_memarray_3d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz):
-    cdef double[:, :, :] arr = cython.view.array(shape=(nx, ny, nz), itemsize=cython.sizeof(double), format="d", mode="c")
+cdef double[:, :, ::1] zero_memarray_3d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz):
+    cdef double[:, :, ::1] arr = cython.view.array(shape=(nx, ny, nz), itemsize=cython.sizeof(double), format="d", mode="c")
     cdef Py_ssize_t i, j, k
     for i in range(nx):
         for j in range(ny):
@@ -325,8 +327,8 @@ cdef double[:, :, :] zero_memarray_3d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t n
 @cython.wraparound(False)
 @cython.cdivision(True)
 @cython.nonecheck(False)
-cdef double[:, :, :, :] zero_memarray_4d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz, Py_ssize_t nw):
-    cdef double[:, :, :, :] arr = cython.view.array(shape=(nx, ny, nz, nw), itemsize=cython.sizeof(double), format="d", mode="c")
+cdef double[:, :, :, ::1] zero_memarray_4d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz, Py_ssize_t nw):
+    cdef double[:, :, :, ::1] arr = cython.view.array(shape=(nx, ny, nz, nw), itemsize=cython.sizeof(double), format="d", mode="c")
     cdef Py_ssize_t i, j, k, l
     for i in range(nx):
         for j in range(ny):
@@ -340,8 +342,8 @@ cdef double[:, :, :, :] zero_memarray_4d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_
 @cython.wraparound(False)
 @cython.cdivision(True)
 @cython.nonecheck(False)
-cdef double[:, :, :, :, :] zero_memarray_5d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz, Py_ssize_t nw, Py_ssize_t nv):
-    cdef double[:, :, :, :, :] arr = cython.view.array(shape=(nx, ny, nz, nw, nv), itemsize=cython.sizeof(double), format="d", mode="c")
+cdef double[:, :, :, :, ::1] zero_memarray_5d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz, Py_ssize_t nw, Py_ssize_t nv):
+    cdef double[:, :, :, :, ::1] arr = cython.view.array(shape=(nx, ny, nz, nw, nv), itemsize=cython.sizeof(double), format="d", mode="c")
     cdef Py_ssize_t i, j, k, l, m
     for i in range(nx):
         for j in range(ny):
@@ -350,3 +352,118 @@ cdef double[:, :, :, :, :] zero_memarray_5d(Py_ssize_t nx, Py_ssize_t ny, Py_ssi
                     for m in range(nv):
                         arr[i, j, k, l, m] = 0.0
     return arr
+
+
+
+@cython.boundscheck(False)  # Disable bounds checking for performance
+@cython.wraparound(False)   # Disable negative indexing for performance
+cdef double[::1]to_vector(object py_obj):
+    """
+    Convert a Python object (list, tuple, numpy array) to a memory view of 
+    double values.
+    
+    Parameters:
+    py_obj (list or tuple or array): The input Python object to convert.
+
+    Returns:
+    memoryview: A Cython memory view of the input object.
+    """
+    cdef Py_ssize_t size
+    cdef double[::1] memview
+
+    # Get the size of the input
+    size = len(py_obj)
+
+    # Create a memory view array to hold the converted values
+    memview = empty_vec(size)
+
+    # Copy elements from the Python object to the memory view
+    for i in range(size):
+        memview[i] = py_obj[i]
+
+    return memview
+
+@cython.boundscheck(False)  # Disable bounds checking for performance
+@cython.wraparound(False)   # Disable negative indexing for performance
+cpdef double[::1] dot_product_3x3_matrix_vector(double[:, :] matrix, double[:] vector):
+    """
+    Compute the dot product of a 3x3 matrix and a 3-element vector.
+
+    Parameters
+    ----------
+    matrix : memoryview of shape (3, 3) and dtype double
+        A memory view representing a 3x3 matrix.
+        
+    vector : memoryview of shape (3,) and dtype double
+        A memory view representing a 3-element vector.
+
+    Returns
+    -------
+    memoryview
+        A memory view representing the resulting 3-element vector after the dot product.
+
+    """
+    cdef int i, j
+    cdef double[::1] result = cython.view.array(shape=(3,), itemsize=cython.sizeof(cython.double), format="d")
+
+    # Compute the dot product
+    for i in range(3):
+        result[i] = 0.0
+        for j in range(3):
+            result[i] += matrix[i, j] * vector[j]
+
+    return result
+
+
+@cython.boundscheck(False)  # Disable bounds checking for performance
+@cython.wraparound(False)   # Disable negative indexing for performance
+cdef bint allclose_cython(double[::1] a, double[::1] b, double atol):
+    """
+    Simplified Cython version of numpy.allclose for 1D memory views of length 3.
+
+    Parameters
+    ----------
+    a : memoryview of shape (3,) and dtype double
+        First input memory view representing a 3-element vector.
+        
+    b : memoryview of shape (3,) and dtype double
+        Second input memory view representing a 3-element vector.
+        
+    atol : double, optional
+        Absolute tolerance. Default is 1e-08.
+
+    Returns
+    -------
+    bool
+        True if all corresponding elements of `a` and `b` are approximately equal within `atol`.
+        Otherwise, False.
+    """
+    cdef int i
+
+    for i in range(3):
+        if fabs(a[i] - b[i]) > atol:
+            return False  # Elements are not approximately equal
+    return True  # All elements are approximately equal   
+
+
+@cython.boundscheck(False)  # Disable bounds checking for performance
+@cython.wraparound(False)   # Disable negative indexing for performance
+cdef double norm_3d_vector(double[::1] vec):
+    """
+    Calculate the Euclidean norm of a 3D vector.
+
+    Parameters
+    ----------
+    vec : memoryview of shape (3,) and dtype double, contiguous
+        The 3D vector for which to calculate the norm. Must be a contiguous memory view.
+
+    Returns
+    -------
+    double
+        The Euclidean norm (length) of the 3D vector.
+    """
+    # Ensure the memoryview is of the correct shape
+    assert vec.shape[0] == 3, "Input vector must have 3 elements."
+
+    # Calculate the Euclidean norm
+    return sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2])

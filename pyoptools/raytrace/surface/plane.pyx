@@ -25,9 +25,11 @@ from pyoptools.raytrace.ray.ray cimport Ray
 
 from pyoptools.misc.definitions import *
 
-cimport numpy as np
-np.import_array()
-
+from pyoptools.misc.cmisc.linalg cimport Vector3, Matrix3x3, \
+     vector3_from_python_object, vector3_to_tuple, normalize_vector3, \
+     matrix3x3_vector3_dot, compute_rotation_matrix, compute_rotation_matrix_i, \
+     add_vector3, substract_vector3, vector3_magnitude, vector3_equals, vector3_dot_product, \
+     set_nan_vector3, vector3_times_scalar, negate_vector3_inplace
 
 cdef class Plane(Surface):
     '''Class to define a plane surface.
@@ -55,42 +57,31 @@ cdef class Plane(Surface):
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    cpdef _intersection(self, Ray A):
+    cdef void _calculate_intersection(self, Ray incident_ray, Vector3 *intersection_point_ptr) noexcept nogil:
         """Returns the intersection point between a ray and an the XY plane
 
         """
-        # N_=array([0.,0.,1.])
+        cdef double u
+        cdef Vector3 tmp_vector
 
-        # Punto que pertenece al rayo "Origen" del rayo
-        cdef np.ndarray[np.float64_t, ndim=1] P1 = A.pos
-        # Vector paralelo a la linea
-        cdef np.ndarray[np.float64_t, ndim=1] L1 = A.dir
+        # If ray is parallel to the surface, there is no intersection point.
+        if incident_ray._direction.data[2] == 0:
+            set_nan_vector3(intersection_point_ptr)
+        else:
+            # u=dot(N_,-_origin)/dot(N_,_direction) =-_origin[2]/_direction[2]
+            u = - incident_ray._origin.data[2] / incident_ray._direction.data[2]
 
-        # if dot(N_,L1) ==0 : return inf_vect
-        if L1[2] == 0:
-            return inf_vect
+            #  retval = _origin+u*_direction
+            
+            vector3_times_scalar(&(incident_ray._direction), u, &tmp_vector)
+            add_vector3(&(incident_ray._origin),&tmp_vector,intersection_point_ptr)
 
-        # print N_,P1,L1
-        # print dot(N_,-P1),dot(N_,L1)
-        # u=dot(N_,-P1)/dot(N_,L1)
-        cdef double u = -P1[2]/L1[2]
-        # Si u es muy grande, no hay intersección
-
-        retval = P1+u*L1
-        # from sys import exit
-        # if isnan(retval[0]):
-        #    print P1,u,L1
-        #    print A.dir
-        #    print type(A.orig_surf)
-        #    exit(0)
-
-        return retval
-
-    cpdef np.ndarray normal(self, ri):
+    cdef void _calculate_normal(self, Vector3 *intersection_point_ptr, Vector3 *normal_ptr) noexcept nogil:
         """Method that returns the normal to the surface
         """
-        N_ = array((0., 0., 1.)).astype(float64)
-        return (N_)
+        normal_ptr[0].data[0]= 0.
+        normal_ptr[0].data[1]= 0.
+        normal_ptr[0].data[2]= 1.
 
     def _repr_(self):
         '''Return an string with the representation of the optical plane

@@ -1,10 +1,5 @@
-#!/usr/bin/env python
 import sys
-from setuptools import setup
-from Cython.Build import cythonize
 from Cython.Build.Dependencies import default_create_extension
-import numpy
-
 
 def create_extension(template, kwds: dict):
     define_macros = kwds.get("define_macros", [])
@@ -17,14 +12,3 @@ def create_extension(template, kwds: dict):
 
     kwds["define_macros"] = define_macros
     return default_create_extension(template, kwds)
-
-
-if __name__ == "__main__":
-    # allow setup.py to run from another directory
-    setup(
-        ext_modules=cythonize("pyoptools/**/*.pyx", create_extension=create_extension,
-                              language_level="3str"),
-        include_dirs=[numpy.get_include()],   
-        use_scm_version=True,
-        include_package_data=True
-    )
