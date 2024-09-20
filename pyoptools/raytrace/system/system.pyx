@@ -139,7 +139,7 @@ cdef class System(Picklable):
 
         self.intensity_threshold = intensity_threshold
 
-        # Flag that indicates if a ray propagarion was truncated or not by the
+        # Flag that indicates if a ray propagation was truncated or not by the
         # intensity_threshold or the max_ray_parent_cnt condition
         # if 0 no truncation was done
 

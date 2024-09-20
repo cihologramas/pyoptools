@@ -100,6 +100,38 @@ cdef inline void assign_tuple_to_vector3d(tuple[double, double, double] t,
     ptr[0] = t[2]
 
 
+cdef inline void assign_tuple_to_vector2d(tuple[double, double] t, 
+                                          Vector2d& v) noexcept nogil:
+
+    """
+    Assign values from a tuple to an existing Eigen::Vector2d.
+    
+    Parameters
+    ----------
+    t : tuple[double, double]
+        A tuple of doubles with 2 elements.
+        
+    v : Vector2d
+        An Eigen::Vector2d instance that will be modified in place.
+        
+    Raises
+    ------
+    ValueError
+        If the input object does not have at least 3 elements or if its
+        elements cannot be converted to doubles.
+    """
+
+    # Convert and assign values to the Eigen::Vector3d
+    cdef double* ptr
+
+    # Assign x-coordinate
+    ptr = &v(0)
+    ptr[0] = t[0]
+
+    # Assign y-coordinate
+    ptr = &v(1)
+    ptr[0] = t[1]
+
 cdef inline void compute_rotation_matrix(const Vector3d& rotation,
                                          Matrix3d& result) noexcept nogil:
     """
@@ -206,7 +238,7 @@ cdef inline void compute_rotation_matrix_i(const Vector3d& rotation,
     (<double *>(&(result(2,2))))[0] = cos_rx * cos_ry
 
 
-cdef void assign_nan_to_vector3d(Vector3d& v) noexcept nogil:
+cdef inline void assign_nan_to_vector3d(Vector3d& v) noexcept nogil:
     """
     Assigns NaN to all components of an Eigen::Vector3d.
 
@@ -220,6 +252,41 @@ cdef void assign_nan_to_vector3d(Vector3d& v) noexcept nogil:
     (<double*>(&(v(0))))[0] = NAN
     (<double*>(&(v(1))))[0] = NAN
     (<double*>(&(v(2))))[0] = NAN
+
+cdef inline void assign_doubles_to_vector3d(double x, double y, double z, Vector3d& v) noexcept nogil:
+    """
+    Assign values to a Vector3d object from individual double components.
+
+    This function assigns the given `x`, `y`, and `z` double values to the
+    corresponding components of a `Vector3d` object. The assignment is
+    done directly and efficiently, without GIL (Global Interpreter Lock)
+    interference, making it suitable for use in performance-critical
+    Cython code.
+
+    Parameters
+    ----------
+    x : double
+        The value to assign to the x-component of the vector.
+    y : double
+        The value to assign to the y-component of the vector.
+    z : double
+        The value to assign to the z-component of the vector.
+    v : Vector3d&
+        A reference to the `Vector3d` object to which the values will be assigned.
+
+    Notes
+    -----
+    - The function uses direct memory access to assign the values, ensuring
+      that the operation is performed efficiently.
+    - This function is declared as `inline` to minimize function call overhead
+      and is marked `noexcept` to indicate that it does not throw exceptions.
+    - The `nogil` keyword allows this function to be used in `nogil` sections
+      of Cython code, which is important for performance in multi-threaded
+      applications.
+    """
+    (<double*>(&(v(0))))[0] = x
+    (<double*>(&(v(1))))[0] = y
+    (<double*>(&(v(2))))[0] = z
 
 cdef bint is_approx(Vector3d& a, Vector3d& b, double tol) noexcept nogil:
     """

@@ -25,6 +25,7 @@ cdef extern from "math.h":
 cimport cython
 from pyoptools.raytrace.surface.surface cimport Surface
 
+import warnings
 
 from pyoptools.misc.cmisc.eigen cimport Vector3d, Matrix3d, convert_vector3d_to_tuple, \
     assign_to_vector3d, compute_rotation_matrix, compute_rotation_matrix_i, is_approx
@@ -78,14 +79,32 @@ cdef class Ray:
     """
 
 
-    def __init__(self, origin, direction, double intensity=1.,
+    def __init__(self, origin = (0,0,0), direction = (0,0,1), double intensity=1.,
                  double wavelength=.58929, double n=NAN, label="",
                  draw_color=None, Ray parent=None, double pop=0., list orig_surf=None,
-                 order=0, parent_cnt=0):
+                 order=0, parent_cnt=0,**kwargs):
 
         # These are written through the properties, so any python object is valid
-        self.origin = origin
-        self.direction = direction
+
+        if "pos" in kwargs:
+            self.origin = kwargs["pos"]
+            warnings.warn(
+            "The 'pos' keyword argument is deprecated and will be removed in "
+            "a future version. Please use 'origin' instead.",
+            DeprecationWarning,
+            stacklevel=2)
+        else:
+            self.origin = origin
+
+        if "dir" in kwargs:
+            self.direction = kwargs["dir"]
+            warnings.warn(
+            "The 'dir' keyword argument is deprecated and will be removed in "
+            "a future version. Please use 'direction' instead.",
+            DeprecationWarning,
+            stacklevel=2)
+        else:
+            self.direction = direction
 
         self.intensity=intensity
         self.wavelength=wavelength

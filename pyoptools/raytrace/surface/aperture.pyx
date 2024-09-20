@@ -19,39 +19,45 @@
 # from ray_trace.surface import Plane
 from pyoptools.raytrace.surface.plane cimport Plane
 
-from pyoptools.raytrace.shape.shape  cimport Shape
+from pyoptools.raytrace.shape.shape cimport Shape
 from pyoptools.raytrace.ray.ray cimport Ray
+
+from pyoptools.misc.cmisc.eigen cimport Vector3d
 
 
 cdef class Aperture(Plane):
-    '''
-    Class to define a surface with an aperture
+    """
+    Class to define a surface with an aperture.
 
-    This class is used to define stops in the optical system. It receives two
-    parameters.
+    The `Aperture` class is used to define stops in an optical system. It
+    represents a surface that has both an external shape and an internal
+    shape, which defines the aperture (hole) in the surface.
 
-    **ARGUMENTS:**
+    Parameters
+    ----------
+    shape : Shape, optional
+        An instance of a `Shape` subclass that defines the external shape
+        of the stop. This parameter is inherited from the `Plane` class
+        and passed through to it.
+    ap_shape : Shape, optional
+        An instance of a `Shape` subclass that defines the internal shape
+        of the stop (the aperture shape). This parameter specifies the
+        shape of the hole in the surface.
 
-    ======== ================================================================
-    shape    It is a subclass of Shape, and defines the external shape of the
-             stop
-    ap_shape It is a subclass of Shape, and defines the internal shape of the
-             stop (the aperture shape).
-    ======== ================================================================
+    Examples
+    --------
+    Creating an aperture surface with a rectangular external shape and
+    a circular aperture::
 
-    **EXAMPLE**
+        ap = Aperture(shape=Rectangular(size=(60, 60)), ap_shape=Circular(radius=2.5))
 
-    Creation of an aperture surface::
+    Notes
+    -----
+    To create a stop component, it is recommended to use the `Stop` class
+    from the `comp_lib` module. The `Stop` class creates the aperture surface
+    and encapsulates it in a component that can be used within a `System`.
+    """
 
-        ap=Aperture(shape=Rectangular(size=(60,60)),ap_shape=Circular(radius=2.5))
-
-    Note: To create an stop component, use the Stop class from the comp_lib
-    module. It creates the aperture surface and encapsulate it in an component
-    that can be used in a System.
-    '''
-
-    # Attribute that defines the aperture shape (the shape of the hole)
-    # ap_shape=Instance(Shape)
     cdef public Shape ap_shape
 
     def __init__(self, ap_shape=None, *args, **kwargs):
@@ -61,33 +67,66 @@ cdef class Aperture(Plane):
         # Add items to the state list
         self.addkey("ap_shape")
 
-    # ~ def __reduce__(self):
-        # ~
-        # ~ args=(self.ap_shape, self.reflectivity, self.shape)
-        # ~ return(type(self),args,self.__getstate__())
-    # ~ #def __setstate__(self, state):
-    # ~ #    for child in state:
-    # ~ #        self.add_child(child)
-    # ~
 
     cpdef list propagate(self, Ray ri, double ni, double nr):
         """
-        The OptSurf.propagate is overloaded so it can be decided if the rays
-        continue propagating or not.
+        Determine whether a ray continues propagating after intersecting the surface.
 
-        Warning: This surface only checks if the ray continues or not. It does
-        not calculate refraction or reflection. It must not be used to create
-        lenses or mirrors.
+        This method overrides `Surface.propagate` to decide if a ray should continue 
+        propagating or not after it intersects the surface. It checks if the intersection 
+        point lies within the aperture defined by `ap_shape`.
+
+        Parameters
+        ----------
+        ri : Ray
+            The incoming ray to be propagated. This ray is in the coordinate system
+            of the surface.
+        ni : double
+            The refractive index of the medium from which the ray is incoming.
+            This parameter is not used in this implementation.
+        nr : double
+            The refractive index of the medium into which the ray would propagate.
+            This parameter is not used in this implementation.
+
+        Returns
+        -------
+        list of Ray
+            A list containing the resulting ray. The intensity of the ray is set to
+            zero if the intersection point does not lie within the aperture, indicating
+            that the ray does not continue propagating. Otherwise, the ray continues
+            with its original intensity.
+
+        Warnings
+        --------
+        This surface only checks if the ray continues propagating or not based on
+        the aperture shape. It does not calculate refraction or reflection.
+        Therefore, it must not be used to model lenses or mirrors.
+
+        Notes
+        -----
+        - The method calculates the intersection point between the incoming ray
+        and the surface and checks if this point is within the defined aperture.
+        - If the intersection point is within the aperture, the ray continues
+        propagating with its original intensity. If not, the ray's intensity
+        is set to zero, effectively stopping its propagation.
         """
-
         # Calculate the intersection point and the surface normal
-        PI, _P = self.int_nor(ri)
-        # X, Y, Z = PI
+        cdef Vector3d PI
 
-        if self.ap_shape.hit(PI):  # is True:
+        self._calculate_intersection(ri, PI)
+
+        # Check if the intersection point is within the aperture
+        if self.ap_shape.hit_cy(PI):
             i = ri.intensity
         else:
             i = 0.
-        ret_ray = Ray(pos=PI, dir=ri.dir, intensity=i, wavelength=ri.wavelength,
-                      n=ri.n, label=ri.label, orig_surf=self.id)
+
+        # Create the resulting ray
+        # ret_ray = Ray(pos=PI, dir=ri.dir, intensity=i, wavelength=ri.wavelength,
+        #              n=ri.n, label=ri.label, orig_surf=self.id)
+
+        ret_ray = Ray.fast_init(PI, ri._direction, i, ri.wavelength,
+                    ri.n, ri.label, ri.draw_color, ri, ri.pop, self.id,
+                    0, ri.parent_cnt+1)
+
         return [ret_ray]

@@ -11,8 +11,6 @@
 # Description:     Surface definition module
 # Symbols Defined: surface
 # ------------------------------------------------------------------------------
-#
-
 
 from pyoptools.misc.pmisc import hitlist2int_list, hitlist2int, interpolate_g
 from numpy import array, dot, isinf as npisinf, power, sometrue, linspace, \
@@ -311,10 +309,7 @@ cdef class Surface(Picklable):
         self._calculate_intersection(incident_ray, intersection_point)
 
         # Check if the intersection point is inside the shape
-        if not(self.shape.fhit(
-                intersection_point(0),
-                intersection_point(1),
-                intersection_point(2))):
+        if not(self.shape.hit_cy(intersection_point)):
             assign_nan_to_vector3d(intersection_point)
 
     def intersection(self, Ray incident_ray):

@@ -1,7 +1,7 @@
 from pyoptools.misc.picklable.picklable cimport Picklable
+from pyoptools.misc.cmisc.eigen cimport Vector3d
+
 cdef class Shape(Picklable):
-    cpdef hit(self, p)
-    cpdef bint fhit(self, double px, double py, double pz)
-    # cpdef polylist(self, topo)
+    cdef bint hit_cy(self, Vector3d& point)  noexcept nogil
     cpdef pointlist(self)
     cpdef limits(self)

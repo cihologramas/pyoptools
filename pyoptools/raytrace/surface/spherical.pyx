@@ -1,28 +1,3 @@
-"""
-This module defines the Spherical class, which represents spherical optical
-surfaces within a ray tracing context.
-
-The Spherical class allows for the definition of spherical surfaces with
-specified curvature and shape parameters.
-
-Examples
---------
->>> from pyoptools.raytrace.surface import Spherical
->>> from pyoptools.raytrace.shape import Circular
->>> spherical_surface = Spherical(shape=Circular(radius=60), curvature=0.15)
-
-Classes
--------
-Spherical
-    Defines a spherical optical surface.
-
-Notes
------
-The vertex of the spherical surface is assumed to be at the origin of the
-coordinate system, and the aperture is centered around this origin.
-"""
-
-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
@@ -39,92 +14,103 @@ coordinate system, and the aperture is centered around this origin.
 
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import array, inf, sqrt as npsqrt, absolute, float64, dot
-cdef extern from "math.h":
-    double sqrt(double)
-    double abs(double)
 
-cimport numpy as np
-np.import_array()
+from pyoptools.misc.cmisc.eigen cimport Vector3d, Matrix3d, \
+                                        assign_nan_to_vector3d, \
+                                        assign_doubles_to_vector3d
 
+from libc.math cimport sqrt, abs
 
 cdef class Spherical(Surface):
-    '''**Class to define spherical surfaces.**
+    """
+    Class to define spherical optical surfaces.
 
-    Spherical is a class to define spherical optical surfaces.
+    The `Spherical` class represents a spherical optical surface. The surface
+    is defined by specifying the shape of the aperture and the radius of
+    curvature of the sphere.
 
-    To define the spherical surface you should pass the shape
-    of the aperture, and the radius of curvature of the sphere.
+    The vertex of the spherical surface is located at the origin of coordinates
+    (0, 0, 0), and the aperture is centered at the origin as well.
 
-    The vertex of the surface is located at the origin of coordinates (0, 0, 0)
-    and the aperture is centered also about the origin
+    Parameters
+    ----------
+    curvature : double, optional
+        The curvature of the spherical surface. A positive curvature indicates
+        a convex surface, while a negative curvature indicates a concave surface.
+        The default is `0.0`.
+    *args : tuple, optional
+        Additional positional arguments passed to the `Surface` superclass.
+    **kwargs : dict, optional
+        Additional keyword arguments passed to the `Surface` superclass.
 
-    Example:
+    Attributes
+    ----------
+    curvature : double
+        The curvature of the spherical surface, as specified during initialization.
 
-        >>> cs=Spherical(shape=Circular(radius=60),curvature=0.15)
+    Examples
+    --------
+    Creating a spherical surface with a circular aperture and specific curvature::
 
-    See Surface documentation for other options
-    '''
+        >>> cs = Spherical(shape=Circular(radius=60), curvature=0.15)
 
-    # Curvature of the spherical surface
-#    curvature=Float(0.)
-
-    # params is included in the view of Surface to include the specific
-    # attributes of this class in the edit_traits window
-
-#    params=Group(Item(name="radius",label="Radio de la apertura"),
-#                 Item(name="curvature",label="Curvatura de la Superficie"))
-#
+    Notes
+    -----
+    - The `curvature` is defined as the reciprocal of the radius of curvature 
+      (i.e., `curvature = 1 / radius`). A flat surface would have a curvature of `0`.
+    - Refer to the `Surface` documentation for additional options and parameters 
+      that can be used when defining the surface.
+    """
     cdef public double curvature
 
     def __init__(self, curvature=0., *args, **kwargs):
         Surface.__init__(self, *args, **kwargs)
         self.curvature = curvature
         self.addkey("curvature")
-    # ~ def __reduce__(self):
-        # ~
-        # ~ args=(self.curvature, self.reflectivity, self.shape)
-        # ~ return(type(self),args,self.__getstate__())
-    # ~
 
-    cpdef _intersection(self, Ray A):
-        '''**Point of intersection between a ray and the sphere**
+    cdef void _calculate_intersection(self, Ray incident_ray, Vector3d& intersection_point) noexcept nogil:
+        """
+        Calculate the intersection point between a ray and the spherical surface.
 
-        This method returns the point of intersection  between the surface
-        and the ray. This intersection point is calculated in the coordinate
+        This method calculates the point of intersection between the surface
+        and the given ray. The intersection point is calculated in the coordinate
         system of the surface.
 
-           iray -- incident ray
+        Parameters
+        ----------
+        incident_ray : Ray
+            The incoming ray for which the intersection with the spherical surface
+            is to be calculated.
+        intersection_point : Vector3d&
+            A reference to a `Vector3d` object where the calculated intersection
+            point will be stored. If there is no valid intersection, this vector
+            is set to NaN.
 
-        iray must be in the coordinate system of the surface
-        '''
+        Notes
+        -----
+        - This method assumes the spherical surface is centered at the origin.
+        - The method only handles a spherical surface that represents a half-sphere.
+        If the calculated intersection point lies outside this half-sphere,
+        the intersection point will be set to NaN.
+        - This method uses the quadratic formula to find the intersection points
+        and selects the valid one based on the direction of propagation.
+        - There may be issues if the ray propagates along the X or Y direction
+        (i.e., if the ray is perpendicularto the Z-axis). This can lead
+        to numerical instability, and a better solution may be required.
 
-        # P1=A.pos     # Punto que pertenece al rayo "Origen" del rayo
-        # L1= A.dir    #Vector paralelo a la linea
+        """
+
         cdef double x1, y1, z1, x21, y21, z21, z3, a, b, c, b2ac
         cdef double u1, u2, X1, Y1, Z1, X2, Y2, Z2
 
-        cdef np.float64_t * pos = <np.float64_t*>(np.PyArray_DATA(array(A.pos)))
-        cdef np.float64_t * dir = <np.float64_t*>(np.PyArray_DATA(array(A.dir)))
+        x1 = incident_ray._origin(0)
+        y1 = incident_ray._origin(1)
+        z1 = incident_ray._origin(2)
 
-        # x1,y1,z1=A.pos
-        # x2,y2,z2=A.pos+A.dir #P1+L1
+        x21 = incident_ray._direction(0)
+        y21 = incident_ray._direction(1)
+        z21 = incident_ray._direction(2)
 
-        x1 = pos[0]
-        y1 = pos[1]
-        z1 = pos[2]
-
-        # x2 = x1 + dir[0]
-        # y2 = y1 + dir[1]
-        # z2 = z1 + dir[2]
-        # x21=x2-x1; y21=y2-y1; z21=z2-z1
-
-        # x21, y21, z21= A.dir #L1
-        x21 = dir[0]
-        y21 = dir[1]
-        z21 = dir[2]
-
-        # x3,y3=(0.,0.)
         z3 = 1./self.curvature
 
         a = x21**2+y21**2+z21**2
@@ -132,67 +118,119 @@ cdef class Spherical(Surface):
         c = x1**2+y1**2+z1**2-2*(z3*z1)
         b2ac = b**2-4*a*c
 
-        # print a, b, c, b2ac
-
         if b2ac <= 0.:
-            return array([inf, inf, inf])
-
-        u1 = (-b+sqrt(b2ac))/(2*a)
-        u2 = (-b-sqrt(b2ac))/(2*a)
-
-        X1 = x1 + u1 * (x21)
-        Y1 = y1 + u1 * (y21)
-        Z1 = z1 + u1 * (z21)
-
-        X2 = x1 + u2 * (x21)
-        Y2 = y1 + u2 * (y21)
-        Z2 = z1 + u2 * (z21)
-
-        # No hay interseccion
-        # o el rayo es tangente y no hay interseccion
-
-        # TODO: This can have problems if the ray is propagates in the X or Y direcction
-        # Need to find a better solution
-
-        if abs(Z2) < abs(Z1):
-            X, Y, Z = X2, Y2, Z2
+            assign_nan_to_vector3d(intersection_point)
         else:
-            X, Y, Z = X1, Y1, Z1
+            u1 = (-b+sqrt(b2ac))/(2*a)
+            u2 = (-b-sqrt(b2ac))/(2*a)
 
-        # This spherical surface is only half surface, so:
+            X1 = x1 + u1 * (x21)
+            Y1 = y1 + u1 * (y21)
+            Z1 = z1 + u1 * (z21)
 
-        if abs(Z) > abs(z3):
-            return array([inf, inf, inf])
+            X2 = x1 + u2 * (x21)
+            Y2 = y1 + u2 * (y21)
+            Z2 = z1 + u2 * (z21)
 
-        return array([X, Y, Z]).astype(float64)
+            if abs(Z2) < abs(Z1):
+                X, Y, Z = X2, Y2, Z2
+            else:
+                X, Y, Z = X1, Y1, Z1
 
-    cpdef np.ndarray normal(self, ip):
-        """**Return the vector normal to the surface**
 
-        This method returns the vector normal to the sphere at a point
-        ``int_p=(x,y,z)``.
+            if abs(Z) > abs(z3):
+                assign_nan_to_vector3d(intersection_point)
+            else:
+                assign_doubles_to_vector3d(X,Y,Z,intersection_point)
+
+    cdef void _calculate_normal(self, Vector3d& intersection_point, Vector3d& normal) noexcept nogil:
         """
+        Calculate the normal vector to the spherical surface at a given point.
 
-        N1 = ip-array((0., 0., 1./self.curvature)).astype(float64)
-        N_ = N1/sqrt(dot(N1, N1))
-        return N_
+        This method calculates the normal vector to the spherical surface at the
+        specified intersection point. The normal is computed in the coordinate
+        system of the surface.
 
-    cpdef topo(self, x, y):
-        """**Returns the Z value for a given X and Y**
+        Parameters
+        ----------
+        intersection_point : Vector3d&
+            A reference to a `Vector3d` object representing the point on the
+            spherical surface where the normal vector is to be calculated.
+        normal : Vector3d&
+            A reference to a `Vector3d` object where the calculated normal vector
+            will be stored.
 
-        This method returns the topography of the spherical surface to be
-        used to plot the surface.
+        Notes
+        -----
+        - The normal vector is calculated as the difference between the intersection
+        point and the sphere's center of curvature, which is located at `(0, 0, 1/curvature)`.
+        - The resulting normal vector is normalized to have a unit length.
+        - This method is marked `noexcept` and `nogil`, making it safe for use in 
+        performance-critical, multi-threaded Cython code.
         """
-        z = npsqrt((1./self.curvature)**2 - x**2 - y**2) - \
-            absolute(1./self.curvature)
-        if self.curvature > 0:
-            z = -z
-        return z
+        normal = intersection_point - Vector3d(0,0,1./self.curvature)
+        normal.normalize()
 
-    def _repr_(self):
-        '''Return an string with the representation of the optical spherical surface
-        '''
 
-        return "Spherical(shape="+str(self.shape)+",reflectivity=" +\
-            str(self.reflectivity)+",curvture=" +\
-            str(self.curvature)+")"
+    cpdef topo(self, X, Y):
+        """
+        Calculate the Z values for given X and Y coordinates on the spherical surface.
+
+        This method computes the topography (Z values) of the spherical surface 
+        corresponding to the provided X and Y coordinates. It is primarily used 
+        for plotting the surface.
+
+        Parameters
+        ----------
+        X : list of float
+            A list of X coordinates on the surface for which Z values are to be calculated.
+        Y : list of float
+            A list of Y coordinates on the surface for which Z values are to be calculated.
+
+        Returns
+        -------
+        list of float
+            A list of Z values corresponding to each (X, Y) pair, representing the
+            height of the spherical surface at those coordinates.
+
+        Notes
+        -----
+        - The method uses the equation of a sphere to calculate the Z value for
+        each (X, Y) pair: `z = sqrt((1/curvature)^2 - x^2 - y^2) - abs(1/curvature)`.
+        - If the curvature is positive, the Z values are negated to account for
+        the sphere's orientation.
+        - The method returns a list of Z values that can be used to visualize
+        the spherical surface.
+        """
+        cdef double x,y,z
+        cdef list Z = []
+
+        for x,y in zip (X,Y):
+            z = sqrt((1./self.curvature)**2 - x**2 - y**2) - abs(1./self.curvature)
+
+            if self.curvature > 0:
+                z = -z
+
+            Z.append(z)
+        return Z
+
+    def __repr__(self):
+        """
+        Return a string representation of the Spherical optical surface.
+
+        This method provides a detailed string representation of the `Spherical` 
+        object, including its shape, reflectivity, curvature, and other relevant 
+        attributes inherited from the `Surface` class.
+
+        Returns
+        -------
+        str
+            A string that represents the current state of the `Spherical` object.
+        """
+        return (
+            f"Spherical(shape={repr(self.shape)}, "
+            f"reflectivity={self.reflectivity}, "
+            f"curvature={self.curvature}, "
+            f"aperture_shape={repr(self.ap_shape)}, "
+            f"id={self.id})"
+        )
