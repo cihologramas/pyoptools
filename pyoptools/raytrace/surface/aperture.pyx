@@ -70,7 +70,7 @@ cdef class Aperture(Plane):
     # ~ #        self.add_child(child)
     # ~
 
-    cpdef propagate(self, Ray ri, double ni, double nr):
+    cpdef list propagate(self, Ray ri, double ni, double nr):
         """
         The OptSurf.propagate is overloaded so it can be decided if the rays
         continue propagating or not.

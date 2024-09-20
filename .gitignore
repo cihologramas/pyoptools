@@ -9,6 +9,7 @@ doc/_build/
 doc/pyoptools.*rst
 
 *.c
+*.cpp
 *.h
 *.so
 .idea

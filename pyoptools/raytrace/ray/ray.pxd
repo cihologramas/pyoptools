@@ -1,8 +1,9 @@
-
 from cpython cimport bool
 
-from pyoptools.misc.cmisc.linalg cimport Vector3, Matrix3x3
+from pyoptools.misc.cmisc.eigen cimport Vector3d, Matrix3d
+
 from pyoptools.raytrace.surface.surface cimport Surface
+
 
 cdef class Ray:
     # Se eliminó n de acá, hay que verificar por que era un objeto de python y
@@ -19,8 +20,8 @@ cdef class Ray:
     cdef public double intensity, wavelength, pop
     cdef list __childs
 
-    cdef public Vector3 _origin # _origin is the backing attribute for the origin property
-    cdef public Vector3 _direction # Baking of the dir property
+    cdef Vector3d _origin # _origin is the backing attribute for the origin property
+    cdef Vector3d _direction # Baking of the dir property
     cdef double n
 
     # amount of parents of this ray in the optical path. It counts the number of
@@ -29,12 +30,12 @@ cdef class Ray:
 
     cdef public int _parent_cnt
 
-    cdef Ray ch_coord_sys_inv_f(self, Vector3 *origin_coordinates ,
-                                Vector3 *rotation_angles, bool childs)
-    cdef Ray ch_coord_sys_f(self, Vector3 *origin_coordinates ,
-                            Vector3 *rotation_angles)
+    cdef Ray ch_coord_sys_inv_f(self, Vector3d& origin_coordinates ,
+                                Vector3d& rotation_angles, bool childs)
+    cdef Ray ch_coord_sys_f(self, Vector3d& origin_coordinates ,
+                            Vector3d& rotation_angles)
     @staticmethod
-    cdef Ray fast_init(Vector3* origin_ptr, Vector3* direction_ptr,
+    cdef Ray fast_init(Vector3d& origin, Vector3d& direction,
                        double intensity, double wavelength,double n,
                         object label, object draw_color, Ray parent,
                         double pop, list orig_surf,

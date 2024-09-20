@@ -1,28 +1,46 @@
-cimport numpy as np
-np.import_array()
-
-from numpy import array, float64
-import six
 
 from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.component.component cimport Component
 from pyoptools.raytrace.system.system cimport System
+
+
+
 cdef class plist(Picklable):
     """
-    Class used to define a part list. o in
+    Class representing a part or component list.
 
-    It is based on the dict interface.
+    This class is designed to facilitate access to the internals of a System
+    or a component using a dictionary-like interface. It functions as a
+    hybrid between a list and a dictionary, primarily operating as a
+    dictionary but with an `append` method similar to a list. Each item
+    must be a tuple `(O, P, D)`, where:
 
-    Each item must have a form (O,P,D), where O is an object, P is a position
-    vector (array, tuple or list), and D is a direction vector (array,tuple,list).
+    - `O` is an object (limited to `Surfaces`, `Components`, or `Systems`
+    in pyoptools).
+    - `P` is a position vector (array, tuple, or list).
+    - `D` is a direction vector (array, tuple, or list).
 
-    This class is based on the dict interface, to be able to use string keys instead
-    of just numbers. It does not inherit from dict, because of cython limitation in
-    multiple inheritance.
+    When creating the list from a list or tuple, as no key is provided,
+    the class automatically generates a key using `S#` for `Surfaces`
+    or `C#` for `Components` and `Systems`, where `#` is an incrementing
+    number. When created from a dictionary or another plist, the same
+    keys from the original data are used.
+
+    Parameters
+    ----------
+    items : list, tuple, dict, or plist
+        A collection of `(O, P, D)` tuples. This can be provided as a list,
+        tuple, dictionary, or plist.
+
+    Notes
+    -----
+    This class uses the `dict` interface, allowing the use of string keys. It 
+    does not inherit from `dict` due to Cython's limitations with multiple
+    inheritance.
     """
 
-    def __init__(self, a=None):
+    def __init__(self, items=None):
         """
         Create the list to save the objects, positions and rotations
         """
@@ -31,50 +49,34 @@ cdef class plist(Picklable):
         Picklable.__init__(self, "_buf")
 
         self._buf={}
-        cdef np.ndarray[np.float64_t, ndim=1] ap, ar
+        cdef tuple[double,double,double] ap, ar, a , r
 
-        # If a is a list, each key will be a number
-        if isinstance(a, (list, tuple)):
-            for i in a:
+        if isinstance(items, (list, tuple)):
+            for i in items:
                 if len(i)==3:
                     O, p, r=i
-
-                    ap=array(p, dtype=float64)
-                    ar=array(r, dtype=float64)
-                    assert len(ap)==3, \
-                        "The position vector must be an array, or a list, or" \
-                        " a tuple of len 3"
-                    assert len(ar)==3, \
-                        "The rotation must be an array, or a list, or a tuple of len 3"
+                    ap = p
+                    ar = r
                     self.append((O, ap, ar))
-                else:
+                else: # if len = 4
                     O, p, r, k=i
-                    ap=array(p, dtype=float64)
-                    ar=array(r, dtype=float64)
-                    assert len(ap)==3, \
-                        "The position vector must be an array, or a list, " \
-                        "or a tuple of len 3"
-                    assert len(ar)==3, \
-                        "The rotation must be an array, or a list, or a tuple"\
-                        " of len 3"
+
+                    ap = p
+                    ar = r
                     self[k]=(O, ap, ar)
 
-        elif isinstance(a, (dict, plist)):
-            for k, v in a.iteritems():
+        elif isinstance(items, (dict, plist)):
+            for k, v in items.iteritems():
                 O, p, r = v
-                ap=array(p, dtype=float64)
-                ar=array(r, dtype=float64)
-                assert len(ap)==3, \
-                    "The position vector must be an array, or a list, " \
-                    "or a tuple of len 3"
-                assert len(ar)==3, \
-                    "The rotation must be an array, or a list, or a tuple of len 3"
+                ap=p
+                ar=r
                 self._buf[k]=(O, ap, ar)
-        elif a is None:
+        elif items is None:
             pass
         else:
             raise ValueError, \
-                "plist can be initialized only with tuples, lists or dictionaries"
+                "plist can be initialized only with tuples, lists or " + \
+                "dictionaries"
 
     # Expose DICT API
 
@@ -85,13 +87,11 @@ cdef class plist(Picklable):
         return self._buf[x]
 
     def __setitem__(self, key, val):
+
+        cdef tuple[double,double,double] ap, ar
         O, p, r =val
-        ap=array(p, dtype=float64)
-        ar=array(r, dtype=float64)
-        assert len(ap)==3, \
-            "The position vector must be an array, or a list, or a tuple of len 3"
-        assert len(ar)==3, \
-            "The rotation must be an array, or a list, or a tuple of len 3"
+        ap= p
+        ar= r
         self._buf[key]=(O, ap, ar)
 
     def __delitem__(self, key):
@@ -105,7 +105,7 @@ cdef class plist(Picklable):
 
     # Return an iterator so this can be used similar to a list
     def __iter__(self):
-        return six.itervalues(self._buf)
+        return iter(self._buf.values())
 
     def iteritems(self):
         return self._buf.iteritems()
@@ -159,13 +159,11 @@ cdef class plist(Picklable):
         The key is auto generated
         '''
 
+        cdef tuple[double, double, double] ap,ar
+
         O, p, r = a
-        ap=array(p, dtype=float64)
-        ar=array(r, dtype=float64)
-        assert len(ap)==3, \
-            "The position vector must be an array, or a list, or a tuple of len 3"
-        assert len(ar)==3, \
-            "The rotation must be an array, or a list, or a tuple of len 3"
+        ap=p
+        ar=r
 
         if isinstance(O, Surface):
             pf="S"
@@ -180,3 +178,4 @@ cdef class plist(Picklable):
             k=k+1
 
         self._buf[pf+str(k)]=(O, ap, ar)
+

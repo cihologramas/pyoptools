@@ -15,14 +15,13 @@
 
 
 from pyoptools.misc.pmisc import hitlist2int_list, hitlist2int, interpolate_g
-from numpy import absolute, arccos, array, dot, isinf as npisinf, \
-    inf, isnan as npisnan, \
-    power, sometrue, \
-    linspace, meshgrid, abs, indices, argwhere, tan, polyfit, arange, where
+from numpy import array, dot, isinf as npisinf, power, sometrue, linspace, \
+    meshgrid, abs, indices, argwhere, tan, polyfit, arange, where, inf
+
 import cython
 from matplotlib.tri import Triangulation
 from pyoptools.misc.picklable.picklable cimport Picklable
-from pyoptools.misc.definitions import inf_vect
+
 from pyoptools.raytrace.shape.circular cimport Circular
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.misc.Poly2D import ord2i
@@ -31,59 +30,50 @@ from pyoptools.misc.cmisc.cmisc cimport norm_vect, empty_vec
 from scipy import interpolate
 from numpy.ma import array as ma_array
 from warnings import warn
-cdef extern from "math.h":
-    double sqrt(double) nogil
-    double acos(double) nogil
-    double cos(double) nogil
-    bint isnan(double x) nogil
-    bint isinf(double) nogil
-    double M_PI
 
-from libc.math cimport INFINITY
+from libc.math cimport sqrt, acos, cos, isnan, isinf, M_PI, INFINITY
 
-from pyoptools.misc.cmisc.linalg cimport Vector3, Matrix3x3, \
-     vector3_from_python_object, vector3_to_tuple, normalize_vector3, \
-     matrix3x3_vector3_dot, compute_rotation_matrix, compute_rotation_matrix_i, \
-     add_vector3, substract_vector3, vector3_magnitude, vector3_equals
+from pyoptools.misc.cmisc.eigen cimport Vector3d, assign_to_vector3d, \
+    convert_vector3d_to_tuple, assign_nan_to_vector3d
 
-
-
-from pyoptools.misc.cmisc.linalg cimport Vector3, Matrix3x3, \
-     vector3_from_python_object, vector3_to_tuple, normalize_vector3, \
-     matrix3x3_vector3_dot, compute_rotation_matrix, compute_rotation_matrix_i, \
-     add_vector3, substract_vector3, vector3_magnitude, vector3_equals, vector3_dot_product, \
-     set_nan_vector3, vector3_times_scalar, negate_vector3_inplace
 
 cdef class Surface(Picklable):
-    """
-    `Surface` is an abstract superclass for all optical surface objects. This class defines an API 
-    that all subclasses must implement.
+    """"
+    `Surface` is an abstract superclass for all optical surface objects. This
+    class defines an API that all subclasses must implement.
 
     All subclasses of `Surface` share the following attributes and properties:
 
     Attributes
     ----------
     reflectivity : float
-        A floating-point number between 0 and 1 representing the reflectivity of the surface. 
-        A value of 0 indicates a completely transparent surface, while a value of 1 indicates 
-        a completely reflective surface. Values between 0 and 1 represent beam splitters.
+        A floating-point number between 0 and 1 representing the reflectivity
+        of the surface. A value of 0 indicates a completely transparent
+        surface, while a value of 1 indicates a completely reflective surface.
+        Values between 0 and 1 represent beam splitters.
     shape : Shape
-        An instance of the `Shape` class that defines the aperture shape of the surface.
+        An instance of the `Shape` class that defines the aperture shape of
+        the surface.
     id : list
-        A list of surface identifiers or tags. (Clarification of its specific purpose may be needed.)
+        A list of surface identifiers or tags. (Clarification of its specific
+        purpose may be needed.)
 
     Properties
     ----------
     hit_list : list
-        A read-only property that provides access to the `_hit_list` attribute, which stores information 
-        about rays that have impacted the surface. This list tracks the points of impact in the surface's 
-        reference system and keeps a pointer to the hitting ray, allowing retrieval of information such 
-        as intensity, wavelength, and other ray properties. The `reset` method clears this list.
+        A read-only property that provides access to the `_hit_list`
+        attribute, which stores information about rays that have impacted the
+        surface. This list tracks the points of impact in the surface's
+        reference system and keeps a pointer to the hitting ray, allowing
+        retrieval of information such as intensity, wavelength, and other ray
+        properties. The `reset` method clears this list.
 
     Notes
     -----
-    Subclasses of `Surface` should implement specific methods to define their geometry and behavior.
+    Subclasses of `Surface` should implement specific methods to define
+    geometry and behavior.
     """
+
     def __init__(self, reflectivity=0., shape=Circular(radius=10.)):
             self.reflectivity = reflectivity
             self.shape = shape
@@ -100,7 +90,8 @@ cdef class Surface(Picklable):
         Returns
         -------
         tuple
-            A tuple containing the elements of the hit list, ensuring immutability.
+            A tuple containing the elements of the hit list, ensuring
+            immutability.
         """
         # Return the list as a tuple to prevent modification
         return tuple(self._hit_list)
@@ -109,13 +100,14 @@ cdef class Surface(Picklable):
         """
         Return the topography of the surface.
 
-        This method returns a matrix representing the topography of the surface, defined as
-        :math:`z = f(x, y)`, where `z` is a function of the coordinates `x` and `y`.
+        This method returns a matrix representing the topography of the
+        surface, defined as :math:`z = f(x, y)`, where `z` is a function of
+        the coordinates `x` and `y`.
 
         Notes
         -----
-        - This method must be overloaded in all subclasses of `Surface` to provide the specific
-        topography for each surface type.
+        - This method must be overloaded in all subclasses of `Surface` to
+        provide the specific topography for each surface type.
 
         Returns
         -------
@@ -125,34 +117,40 @@ cdef class Surface(Picklable):
         warn("Method topo, from class Surface, should be overloaded" +
              " in class "+self.__class__.__name__)
 
-    cdef void _calculate_normal(self, Vector3 *intersection_point, Vector3 *normal_ptr) noexcept nogil:
+    cdef void _calculate_normal(self, Vector3d& intersection_point,
+                                Vector3d& normal) noexcept nogil:
         """
-        Calculate the normal vector at the point of intersection between a ray and the surface.
+        Calculate the normal vector at the point of intersection between a ray
+        and the surface.
 
-        This method computes the normal vector at the given point of intersection on the
-        surface. The intersection point should already be calculated using the
-        `_calculate_intersection` method, and this method should not call it again to
-        avoid redundant computations.
+        This method computes the normal vector at the given point of
+        intersection on the surface. The intersection point should already be
+        calculated using the _calculate_intersection` method, and this method
+        should not call it again to avoid redundant computations.
 
         Parameters
         ----------
-        intersection_point : Vector3*
-            Pointer to the vector representing the point of intersection on the surface,
-            as returned by the `_calculate_intersection` method.
-        normal_ptr : Vector3*
-            Pointer to the output vector where the normal vector at the intersection point
-            will be stored.
+        intersection_point : Vector3d
+            An eigen::Vector3d instance representing the point of intersection
+            on the surface, as returned by the `_calculate_intersection`
+            method.
+        normal : Vector3d
+            An eigen::Vector3d instance representing the vector where the
+            normal vector at the intersection point will be stored.
 
         Notes
         -----
-        - This method should be overloaded in all subclasses of `Surface` to implement
-        the specific normal calculation for each surface type.
-        - The normal vector is calculated based on the surface's geometry at the given
-        intersection point and must be normalized such that |normal| = 1.
-        - The rest of the `pyoptools` code assumes that the normal vector is correctly
-        normalized; therefore, this method must ensure that |normal| = 1.
-        - This method should not call `_calculate_intersection` to avoid redundant
-        computations. The intersection point will be provided by the caller.
+        - This method should be overloaded in all subclasses of `Surface` to
+        implement the specific normal calculation for each surface type.
+        - The normal vector is calculated based on the surface's geometry at
+        the given intersection point and must be normalized such that
+        |normal| = 1.
+        - The rest of the `pyoptools` code assumes that the normal vector is
+        correctly normalized; therefore, this method must ensure that
+        |normal| = 1.
+        - This method should not call `_calculate_intersection` to avoid
+        redundant computations. The intersection point will be provided by the
+        caller.
         - This method should not be called directly. Use the `intersection` or
         `intersection_cy` methods instead.
 
@@ -162,101 +160,109 @@ cdef class Surface(Picklable):
             If the method is not overloaded in a subclass.
         """
         with gil:
-            raise NotImplementedError("The _calculate_normal method must be overloaded "
-                                      "in the subclass " + self.__class__.__name__)
+            raise NotImplementedError("The _calculate_normal method must be "
+                                      "overloaded in the subclass " +
+                                      self.__class__.__name__)
 
-    cdef inline void normal_cy(self, Vector3 *intersection_point, Vector3 *normal_ptr) noexcept nogil:
+    cdef inline void normal_cy(self, Vector3d& intersection_point,
+                               Vector3d& normal) noexcept nogil:
         """
         Calls the surface-specific `_calculate_normal` method of the subclass.
 
-        This method is designed to call the `_calculate_normal` method of the subclass
-        to compute the normal vector at the given intersection point. It introduces a
-        slight redundancy, but helps maintain a consistent API design similar to the
-        `intersection` method.
+        This method is designed to call the `_calculate_normal` method of the
+        subclass to compute the normal vector at the given intersection point.
+        It introduces a slight redundancy, but helps maintain a consistent API
+        design similar to the `intersection` method.
 
-        This Cython method should be used exclusively by Cython code. For Python code,
-        use the corresponding Python method `normal`, which internally calls this
-        Cython method.
+        This Cython method should be used exclusively by Cython code. For
+        Python code, use the corresponding Python method `normal`, which
+        internally calls this Cython method.
 
         Parameters
         ----------
-        intersection_point : Vector3*
-            Pointer to the vector representing the point of intersection on the surface.
-        normal_ptr : Vector3*
-            Pointer to the output vector where the normal vector at the intersection
-            point will be stored.
+        intersection_point : Vector3d
+            An eigen::Vector3d instance representing the point of intersection
+            on the surface.
+        normal : Vector3d
+            An eigen::Vector3d instance where the normal vector at the
+            intersection point will be stored.
 
         Notes
         -----
-        - This method provides a consistent interface for normal vector computation,
-        similar to how the `intersection` method is structured.
-        - The Cython method `normal_cy` should be used by all Cython code to ensure
-        optimal performance and direct access to internal functionality.
-        - The Python method `normal` is intended for use in Python code and calls
-        this Cython method to perform the actual computation.
+        - This method provides a consistent interface for normal vector
+        computation, similar to how the `intersection` method is structured.
+        - The Cython method `normal_cy` should be used by all Cython code to
+        ensure optimal performance and direct access to internal functionality.
+        - The Python method `normal` is intended for use in Python code and
+        calls this Cython method to perform the actual computation.
         """
-        self._calculate_normal(intersection_point, normal_ptr)
+        self._calculate_normal(intersection_point, normal)
 
 
-    def normal(self, int_p):
+    def normal(self, intersection_point):
         """
         Calculate the normal vector at a specific intersection point.
 
-        This method returns the normalized normal vector at a given intersection
-        point (`int_p`). The method must be overloaded in all `Surface` subclasses
-        to provide surface-specific geometry calculations.
+        This method returns the normalized normal vector at a given
+        intersection point. The method must be overloaded in all `Surface`
+        subclasses to provide surface-specific geometry calculations.
 
         Parameters
         ----------
-        int_p : tuple or list
-            The intersection point as a tuple or list (x, y, z) in the coordinate
-            system of the surface.
+        intersection_point : tuple or list
+            The intersection point as a tuple or list (x, y, z) in the
+            coordinate system of the surface.
 
         Returns
         -------
         tuple
-            A tuple (dx, dy, dz) representing the normalized normal vector at the
-            intersection point.
+            A tuple (dx, dy, dz) representing the normalized normal vector at
+            the intersection point.
 
         Notes
         -----
-        - The normal vector is normalized and perpendicular to the surface at the
-        given intersection point.
-        - This method should be overloaded in all subclasses of `Surface` to provide
-        specific implementations based on the surface geometry.
+        - The normal vector is normalized and perpendicular to the surface at
+        the given intersection point.
+        - This method should be overloaded in all subclasses of `Surface` to
+        provide specific implementations based on the surface geometry.
         """
-        cdef Vector3 intersection_point, normal_vector
-        intersection_point = vector3_from_python_object(int_p)
-        self.normal_cy(&intersection_point, &normal_vector)
-        return vector3_to_tuple(&normal_vector)
+        cdef Vector3d intersection_point_vector, normal_vector
+
+        assign_to_vector3d(intersection_point, intersection_point_vector)
+
+        self.normal_cy(intersection_point_vector, normal_vector)
+
+        return convert_vector3d_to_tuple(normal_vector)
 
     cdef void _calculate_intersection(self,
-                                      Ray iray,
-                                      Vector3 *intersection_point_ptr) \
+                                      Ray incident_ray,
+                                      Vector3d& intersection_point) \
                                       noexcept nogil:
         """
         Calculate the point of intersection between a ray and a surface.
 
-        This method computes the point of intersection between the surface and the
-        incident ray (`iray`) in the surface's coordinate system. It must be overloaded
-        in all subclasses of `Surface` to implement the geometry-specific intersection
-        calculation for each surface type.
+        This method computes the point of intersection between the surface
+        and the incident ray in the surface's coordinate system. It must be
+        overloaded in all subclasses of `Surface` to implement the
+        geometry-specific intersection calculation for each surface type.
 
         Parameters
         ----------
-        iray : Ray
-            The incident ray, which must be in the coordinate system of the surface.
-        intersection_point_ptr : Vector3*
-            Pointer to the output vector where the intersection point will be stored.
+        incident_ray : Ray
+            The incident ray, which must be in the coordinate system of the
+            surface.
+        intersection_point : Vector3d
+            An eigen::Vector3d instance where the intersection point will be
+            stored.
 
         Notes
         -----
-        - This method does not perform any checks for the aperture; such checks are
-        automatically handled by the `intersection_cy` method.
+        - This method does not perform any checks for the aperture; such checks
+        are automatically handled by the `intersection_cy` method.
         - This method should not be called directly. Use the `intersection` or
         `intersection_cy` methods instead.
-        - This function must be overloaded in all subclasses of `Surface` to provide
-        the specific intersection calculation for each type of surface.
+        - This function must be overloaded in all subclasses of `Surface` to
+        provide the specific intersection calculation for each type of surface.
 
         Raises
         ------
@@ -264,126 +270,133 @@ cdef class Surface(Picklable):
             If the method is not overloaded in a subclass.
         """
         with gil:
-            raise NotImplementedError("The _calculate_intersection method must be overloaded "
-                                      "in the subclass " + self.__class__.__name__)
-
-
+            raise NotImplementedError("The _calculate_intersection method must"
+                                      " be overloaded in the subclass " +
+                                      self.__class__.__name__)
 
     cdef inline void intersection_cy(self, Ray incident_ray,
-                              Vector3 *intersection_point_ptr): # noexcept nogil:
+                              Vector3d& intersection_point):
         """
         Compute the intersection point of a ray with the surface.
 
-        This method calculates the intersection point of the given incident ray with
-        the surface and stores the result in the provided `intersection_point_ptr`. It
-        also checks whether the ray intersects within the defined boundary of the surface.
-        If the intersection occurs outside the surface's boundary, the method sets
-        `intersection_point_ptr` to a NaN `Vector3`.
+        This method calculates the intersection point of the given incident ray
+        with the surface and stores the result in the provided
+        `intersection_point` vector. It also checks whether the ray intersects
+        within the defined boundary of the surface.
+        If the intersection occurs outside the surface's boundary, the method
+        sets `intersection_point_ptr` to a NaN `Vector3d`.
 
         Parameters
         ----------
         incident_ray : Ray
             The incident ray that intersects with the surface.
-        intersection_point_ptr : Vector3*
-            A pointer to a `Vector3` structure where the intersection point will be stored.
-            If the intersection is outside the surface boundary, this will be set to NaN.
+        intersection_point : Vector3d
+            A eigen::Vector3d instance where the intersection point will be
+            stored. If the intersection is outside the surface boundary, this
+            will be set to a (NaN, NaN, NaN) vector.
 
         Notes
         -----
-        - This method performs a check to ensure that the intersection occurs within the
-        defined boundary of the surface. If the intersection is outside this boundary,
-        it sets the intersection point to NaN.
-        - It is a Cython-specific, low-level function intended for internal use.
-        - This method should be called by other Cython code that requires direct access to the
-        intersection calculation without Python object overhead.
-        - The method is declared `nogil` to allow its use in a `nogil` context, making it
-        suitable for performance-critical sections of code.
+        - This method performs a check to ensure that the intersection occurs
+        within the defined boundary of the surface. If the intersection is
+        outside this boundary, it sets the intersection point to a
+        (NaN, NaN, NaN) vector.
+        - It is a Cython-specific, low-level function intended for internal
+        use.
+        - This method should be called by other Cython code that requires
+        direct access to the intersection calculation without Python object
+        overhead.
         """
         # Get ray intersection
-        self._calculate_intersection(incident_ray, intersection_point_ptr)
+        self._calculate_intersection(incident_ray, intersection_point)
 
         # Check if the intersection point is inside the shape
         if not(self.shape.fhit(
-                intersection_point_ptr[0].data[0],
-                intersection_point_ptr[0].data[1],
-                intersection_point_ptr[0].data[2])):
-            set_nan_vector3(intersection_point_ptr)
-
+                intersection_point(0),
+                intersection_point(1),
+                intersection_point(2))):
+            assign_nan_to_vector3d(intersection_point)
 
     def intersection(self, Ray incident_ray):
         """
         Calculate the point of intersection between a ray and a surface.
 
-        This method returns the point of intersection between the surface and the
-        incident ray. The intersection point is calculated in the coordinate system
-        of the surface.
+        This method returns the point of intersection between the surface and
+        the incident ray. The intersection point is calculated in the
+        coordinate system of the surface.
 
-        If there is no point of intersection, such as when the ray is outside the
-        surface's boundary, the method returns a tuple (NaN, NaN, NaN).
+        If there is no point of intersection, such as when the ray is outside
+        the surface's boundary, the method returns a tuple (NaN, NaN, NaN).
 
         Parameters
         ----------
         incident_ray : Ray
-            The incident ray, which must be in the coordinate system of the surface.
+            The incident ray, which must be in the coordinate system of the
+            surface.
 
         Returns
         -------
         tuple
-            A tuple (x, y, z) containing the coordinates of the point of intersection 
-            between the ray and the surface. If there is no intersection, it returns 
-            (NaN, NaN, NaN).
+            A tuple (x, y, z) containing the coordinates of the point of
+            intersection between the ray and the surface. If there is no
+            intersection, it returns (NaN, NaN, NaN).
         """
-        cdef Vector3 intersection_point
-        self.intersection_cy(incident_ray, &intersection_point)
-        return vector3_to_tuple(&intersection_point)
+        cdef Vector3d intersection_point
+        self.intersection_cy(incident_ray, intersection_point)
+        return convert_vector3d_to_tuple(intersection_point)
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
 
-    cdef double distance_cy(self, Ray incident_ray, Vector3 *intersection_point_ptr):
+    cdef double distance_cy(self, Ray incident_ray, Vector3d intersection_point):
         """
-        Calculate the distance from the ray's origin to the intersection point on the surface.
+        Calculate the distance from the ray's origin to the intersection point
+        on the surface.
 
-        This method computes the distance from the origin of the given incident ray to the
-        intersection point on the surface. It calculates the intersection point and stores
-        it in `intersection_point_ptr`. If there is no valid intersection, the method sets
-        the intersection point to NaN and returns infinity for the distance.
+        This method computes the distance from the origin of the given incident
+        ray to the intersection point on the surface. It calculates the
+        intersection point and stores it in `intersection_point_ptr`. If there
+        is no valid intersection, the method sets the intersection point to
+        NaN and returns infinity for the distance.
 
         Parameters
         ----------
         incident_ray : Ray
-            The incident ray for which the distance to the intersection point is calculated.
-        intersection_point_ptr : Vector3*
-            A pointer to a `Vector3` structure where the coordinates of the intersection point
-            will be stored.
+            The incident ray for which the distance to the intersection point
+            is calculated.
+        intersection_point : Vector3d
+            An eigen::Vector3d instance where the coordinates of the
+            intersection point will be stored.
 
         Returns
         -------
         double
-            The distance from the ray's origin to the intersection point. If there is no
-            intersection, the method returns infinity.
+            The distance from the ray's origin to the intersection point. If
+            there is no intersection, the method returns infinity.
 
         Notes
         -----
-        - If the intersection point is behind the ray's origin or too close due to rounding
-        errors, the distance is considered infinite.
-        - The method handles cases where the surface is ahead of or behind the ray, or when
-        there is no valid intersection.
+        - If the intersection point is behind the ray's origin or too close 
+        due to rounding errors, the distance is considered infinite.
+        - The method handles cases where the surface is ahead of or behind the
+        ray, or when there is no valid intersection.
         """
-        self.intersection_cy(incident_ray, intersection_point_ptr)
+        self.intersection_cy(incident_ray, intersection_point)
 
         cdef double dist
-        cdef Vector3 tmp_vector
+        cdef Vector3d tmp_vector
         # Dist is positive if the current surface is ahead of the ray.
         # If the surface is behind the ray, Dist becomes negative
         # If there is no intersection, Dist becomes inf
         # sometrue(isinf(PI)):
-        if isnan(intersection_point_ptr[0].data[0]):
+        if (isnan(intersection_point(0)) or
+            isnan(intersection_point(1)) or
+            isnan(intersection_point(2))):
             dist = INFINITY
         else:
             # Dist = dot(PI-iray.pos, iray.dir)
-            substract_vector3(intersection_point_ptr, &(incident_ray._origin), &tmp_vector)
-            dist = vector3_dot_product(&tmp_vector, &(incident_ray._direction))
+            dist = (intersection_point - incident_ray._origin). \
+                dot(incident_ray._direction)
 
         if dist > 1e10:
             dist = INFINITY
@@ -399,48 +412,52 @@ cdef class Surface(Picklable):
 
     def distance(self, incident_ray):
         """
-        Calculate the distance propagated by a ray until it intersects with a surface.
+        Calculate the distance propagated by a ray until it intersects with a
+        surface.
 
-        This method returns the distance traveled by a ray from its origin to its 
-        point of intersection with a surface.
+        This method returns the distance traveled by a ray from its origin to
+        its point of intersection with a surface.
 
         Parameters
         ----------
         incident_ray : Ray
-            The incident ray, which must be in the coordinate system of the surface.
+            The incident ray, which must be in the coordinate system of the
+            surface.
 
         Returns
         -------
         tuple
             A tuple `(distance, point_of_intersection, surface)`, where:
-            
+
             distance : float
-                The distance from the ray's origin to the point of intersection 
+                The distance from the ray's origin to the point of intersection
                 with the surface.
             point_of_intersection : tuple
-                The coordinates of the intersection point in the coordinate system 
-                of the surface.
+                The coordinates of the intersection point in the coordinate
+                system of the surface.
             surface : Surface
                 A reference to the surface object.
         """
-        cdef Vector3 intersection_point
+        cdef Vector3d intersection_point
         cdef double dist
 
-        dist = self.distance_cy(incident_ray, &intersection_point)
-        return dist, vector3_to_tuple(&intersection_point)
+        dist = self.distance_cy(incident_ray, intersection_point)
+        return dist, convert_vector3d_to_tuple(intersection_point)
 
 
     @cython.cdivision(True)
-    cpdef propagate(self, Ray incident_ray, double ni, double nr):
+    cpdef list propagate(self, Ray incident_ray, double ni, double nr):
         """
         Calculate the refracted ray on a surface.
 
-        This method calculates the ray refracted (or rays refracted and reflected) on a surface.
+        This method calculates the ray refracted (or both refracted and
+        reflected rays) on a surface.
 
         Parameters
         ----------
         incident_ray : Ray
-            The incident ray, which must be in the coordinate system of the surface.
+            The incident ray, which must be in the coordinate system of the
+            surface.
         ni : double
             The refractive index of the incident medium.
         nr : double
@@ -448,26 +465,30 @@ cdef class Surface(Picklable):
 
         Returns
         -------
-        None
-            The method performs the calculation in-place and does not return a value.
+        list
+            A list containing the rays resulting from the ray-surface
+            interaction.
         """
+
         cdef double incidence_angle, gamma, gamma1, ddot, reflect
-        cdef Vector3 intersection_point, normal_vector, A, A1, S1, S2, S3
+        cdef Vector3d intersection_point, normal_vector, A, A1, S1, S2, S3
 
-        self.intersection_cy(incident_ray, &intersection_point)
+        self.intersection_cy(incident_ray, intersection_point)
 
-        self.normal_cy(&intersection_point, &normal_vector)
+        self.normal_cy(intersection_point, normal_vector)
 
-        # The information about the hit list is added in the system.propagate_ray method.
+        # The information about the hit list is added in the
+        # system.propagate_ray method.
         # Do not uncomment the following line:
         # self._hit_list.append((intersection_point, incident_ray))
 
 
         # S1 = array(incident_ray.direction)*ni
-        vector3_times_scalar(&incident_ray._direction,ni,&S1)
-
+        S1 = incident_ray._direction * ni
+        
         # Calculate the incident angle
-        ddot = vector3_dot_product(&S1, &normal_vector)
+        # ddot = vector3_dot_product(&S1, &normal_vector)
+        ddot = S1.dot(normal_vector)
         incidence_angle = (acos(ddot/ni))
 
         # some times because rounding errors |incident_ray.dir|>1. In this cases
@@ -478,28 +499,36 @@ cdef class Surface(Picklable):
         # Take the correct normal
         if incidence_angle > M_PI/2:
             # P=-P
-            negate_vector3_inplace(&normal_vector)
-            ddot = vector3_dot_product(&S1, &normal_vector)
+            normal_vector = -normal_vector
+            ddot = S1.dot(normal_vector)
             incidence_angle = (acos(ddot/ni))
 
-        gamma = nr*sqrt((ni/nr*cos(incidence_angle))**2 - (ni/nr)**2+1.) - ni*cos(incidence_angle)
+        gamma = nr*sqrt((ni/nr*cos(incidence_angle))**2 - (ni/nr)**2+1.) \
+            - ni*cos(incidence_angle)
 
         # A=gamma*P
-        vector3_times_scalar(&normal_vector,gamma,&A)
-
+        # vector3_times_scalar(&normal_vector,gamma,&A)
+        A = normal_vector * gamma
         # S2=S1+A
-        add_vector3(&S1,&A,&S2)
+        #add_vector3(&S1,&A,&S2)
+        S2 = S1 + A
 
-        # If the refractive index (nr) is negative, a error is raised. This should not happen.
-        # If reflectivity is 0, the optical surface does not function as a beam splitter.
-        # If there is total internal reflection, the surface should also not function as a beam splitter.
+        # If the refractive index (nr) is negative, an error is raised. This
+        # should not happen.
+        # If reflectivity is 0, the optical surface does not function as a beam
+        # splitter.
+        # If there is total internal reflection, the surface should also not
+        # function as a beam splitter.
 
-        # If the optical surface is a beam splitter, this method should return a list 
-        # containing both the transmitted and reflected rays: [Transmitted ray, Reflected ray].
+        # If the optical surface is a beam splitter, this method should return
+        # a list containing both the transmitted and reflected rays:
+        # [Transmitted ray, Reflected ray].
 
-        normalize_vector3(&S2)
+        # normalize_vector3(&S2)
+        S2.normalize()
 
-        # This could be used in the future to define spectral filters, such as dichroic reflectors.
+        # This could be used in the future to define spectral filters, such as
+        # dichroic reflectors.
         # For example:
         # try:
         #     reflect = self.reflectivity(incident_ray.wavelength)
@@ -513,13 +542,14 @@ cdef class Surface(Picklable):
 
         if ni<0 or nr<0:
             # This case should never happen
-            warn("For a mirror use reflectivity=1, not n<0")
-            raise ValueError,f"Negative refractive index detected. ni={ni} nr={nr}"
+            raise ValueError, \
+                f"Negative refractive index detected. ni={ni} nr={nr}"
 
-        elif (reflect == 0) and not(isnan(S2.data[0]) or isnan(S2.data[1]) or isnan(S2.data[2])):
+        elif (reflect == 0) and \
+             not(isnan(S2(0)) or isnan(S2(1)) or isnan(S2(2))):
             # Normal refraction case
-            return [Ray.fast_init(&intersection_point,
-                                  &S2,
+            return [Ray.fast_init(intersection_point,
+                                  S2,
                                   incident_ray.intensity,
                                   incident_ray.wavelength,
                                   nr, incident_ray.label,
@@ -529,20 +559,19 @@ cdef class Surface(Picklable):
                                   self.id,
                                   0,
                                   incident_ray._parent_cnt+1)]
-        elif (isnan(S2.data[0]) or isnan(S2.data[1]) or isnan(S2.data[2])):
+        elif (isnan(S2(0)) or isnan(S2(1)) or isnan(S2(2))):
             # Total internal reflection case
             gamma1 = -2.*ni*cos(incidence_angle)
 
             # A1=gamma1*P
-            vector3_times_scalar(&normal_vector,gamma1,&A1)
-
+            A1 = normal_vector * gamma1
             # S3=S1+A1
-            add_vector3(&S1,&A1,&S3)
+            S3 = S1+A1
             
-            normalize_vector3(&S3)  # S3=S3/sqrt(dot(S3,S3))
+            S3.normalize()  # S3=S3/sqrt(dot(S3,S3))
 
-            return [Ray.fast_init(&intersection_point,
-                                  &S3,
+            return [Ray.fast_init(intersection_point,
+                                  S3,
                                   incident_ray.intensity,
                                   incident_ray.wavelength,
                                   ni,
@@ -559,16 +588,16 @@ cdef class Surface(Picklable):
             gamma1 = -2.*ni*cos(incidence_angle)
             # A1=gamma1*P
 
-            vector3_times_scalar(&normal_vector,gamma1,&A1)
+            A1 = normal_vector * gamma1
             
             # S3=S1+A1
+            S3 = S1 + A1
 
-            add_vector3(&S1,&A1,&S3)
-            
-            normalize_vector3(&S3)  # S3=S3/sqrt(dot(S3,S3))
+            S3.normalize() # S3=S3/sqrt(dot(S3,S3))
+
             if reflect != 1.:
-                return [Ray.fast_init(&intersection_point,
-                                      &S2,
+                return [Ray.fast_init(intersection_point,
+                                      S2,
                                       incident_ray.intensity*(1.-reflect),
                                       incident_ray.wavelength,
                                       nr,
@@ -579,8 +608,8 @@ cdef class Surface(Picklable):
                                       self.id,
                                       0,
                                       incident_ray._parent_cnt+1),
-                        Ray.fast_init(&intersection_point,
-                                      &S3,
+                        Ray.fast_init(intersection_point,
+                                      S3,
                                       incident_ray.intensity*reflect,
                                       incident_ray.wavelength,
                                       ni,
@@ -592,8 +621,8 @@ cdef class Surface(Picklable):
                                       0,
                                       incident_ray._parent_cnt+1)]
             else:
-                return [Ray.fast_init(&intersection_point,
-                                      &S3,
+                return [Ray.fast_init(intersection_point,
+                                      S3,
                                       incident_ray.intensity,
                                       incident_ray.wavelength,
                                       ni,
@@ -620,8 +649,8 @@ cdef class Surface(Picklable):
         The wavelength of the PW is given by the wavelength of ri.
         The origin of ri is not used at all.
 
-        The input and output planes are located at z=0 in the surface coordinated
-        system.
+        The input and output planes are located at z=0 in the surface
+        coordinated system.
 
         Note: this method needs to be checked, because the incoming plane wave
         has not a constant intensity. The ray distribution is affected by the
@@ -658,8 +687,8 @@ cdef class Surface(Picklable):
 
         ix, iy = indices(X.shape)
 
-        # Create a list of indexes to be able to select the points that are going
-        # to be used as spline generators, and as control points
+        # Create a list of indexes to be able to select the points that are
+        # going to be used as spline generators, and as control points
         idx = where((ix+iy) % 2 == 0, False, True)
 
         X = X.flatten()
@@ -689,12 +718,12 @@ cdef class Surface(Picklable):
             # only normal diffracted ray is taken into account
 
             # Calculate the incident angle
-            I = (arccos(dot(S1, Np)/ni))
+            I = (acos(dot(S1, Np)/ni))
 
             # Take the correct normal
             if I > M_PI/2:
                 Np = -Np
-                I = (arccos(dot(S1, Np)/ni))
+                I = (acos(dot(S1, Np)/ni))
             # Calculate the diffracted direction
 
             gamma = nr*sqrt(power(ni/nr*cos(I), 2) -
@@ -814,7 +843,7 @@ cdef class Surface(Picklable):
         p, er = polyfit2d(xi, yi, zi, order=order)
 
         d = ma_array(p.evalvv(xx, yy), mask=I.mask)
-        # d,er=interpolate_g(xi,yi,zi,xx,yy,knots=knots, error=True,mask=I.mask)
+        # d,er=interpolate_g(xi,yi,zi,xx,yy,knots=knots,error=True,mask=I.mask)
 
         # XD, YD=meshgrid(xx, yy)
 
@@ -831,8 +860,8 @@ cdef class Surface(Picklable):
         The wavelength of the PW is given by the wavelength of ri.
         The origin of ri is not used at all.
 
-        The returned value is a list containing the x,y coordinates of the ray list
-        in the output surface, and the optical path at such point.
+        The returned value is a list containing the x,y coordinates of the ray
+        list in the output surface, and the optical path at such point.
 
         To create an output matrix, this values must be interpolated.
 
@@ -936,8 +965,8 @@ cdef class Surface(Picklable):
         This method calculates the wavefront emerging from the optical surface
         when illuminated by an arbitrary wavefront.
 
-        The input and output planes are located at z=0 in the surface coordinated
-        system.
+        The input and output planes are located at z=0 in the surface
+        coordinated system.
 
         Arguments:
 
@@ -1088,7 +1117,8 @@ cdef class Surface(Picklable):
         dph = array(opcl)
         di = array(icl)
 
-        # Lista de los coheficientes de los polinomios para generar los coheficientes
+        # Lista de los coheficientes de los polinomios para generar los
+        # coheficientes
         phcohef = []
 
         # get the number of coheficients the polinomial expansion has

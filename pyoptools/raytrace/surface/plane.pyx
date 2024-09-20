@@ -17,19 +17,13 @@
 
 
 import cython
-from numpy import array, float64, zeros, asarray
+from numpy import zeros, asarray
 
-# from ray_trace.surface import Surface
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
 
-from pyoptools.misc.definitions import *
-
-from pyoptools.misc.cmisc.linalg cimport Vector3, Matrix3x3, \
-     vector3_from_python_object, vector3_to_tuple, normalize_vector3, \
-     matrix3x3_vector3_dot, compute_rotation_matrix, compute_rotation_matrix_i, \
-     add_vector3, substract_vector3, vector3_magnitude, vector3_equals, vector3_dot_product, \
-     set_nan_vector3, vector3_times_scalar, negate_vector3_inplace
+from pyoptools.misc.cmisc.eigen cimport Vector3d, Matrix3d, \
+                                        assign_nan_to_vector3d
 
 cdef class Plane(Surface):
     '''Class to define a plane surface.
@@ -50,38 +44,33 @@ cdef class Plane(Surface):
     cpdef topo(self, x, y):
         return zeros(asarray(x).shape)
 
-    # ~ def __reduce__(self):
-        # ~
-        # ~ args=(self.reflectivity, self.shape)
-        # ~ return(type(self),args,self.__getstate__())
-
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    cdef void _calculate_intersection(self, Ray incident_ray, Vector3 *intersection_point_ptr) noexcept nogil:
+    cdef void _calculate_intersection(self, Ray incident_ray, Vector3d& intersection_point) noexcept nogil:
         """Returns the intersection point between a ray and an the XY plane
 
         """
         cdef double u
-        cdef Vector3 tmp_vector
+        cdef Vector3d tmp_vector
 
         # If ray is parallel to the surface, there is no intersection point.
-        if incident_ray._direction.data[2] == 0:
-            set_nan_vector3(intersection_point_ptr)
+        if incident_ray._direction(2) == 0:
+            assign_nan_to_vector3d(intersection_point)
         else:
-            # u=dot(N_,-_origin)/dot(N_,_direction) =-_origin[2]/_direction[2]
-            u = - incident_ray._origin.data[2] / incident_ray._direction.data[2]
-
-            #  retval = _origin+u*_direction
+            # u = dot(N_,-_origin)/dot(N_,_direction)
+            u = - incident_ray._origin(2) / incident_ray._direction(2)
             
-            vector3_times_scalar(&(incident_ray._direction), u, &tmp_vector)
-            add_vector3(&(incident_ray._origin),&tmp_vector,intersection_point_ptr)
-
-    cdef void _calculate_normal(self, Vector3 *intersection_point_ptr, Vector3 *normal_ptr) noexcept nogil:
+            # retval = _origin+u*_direction
+            # for the moment u * incident_ray._direction (mult to the left,
+            # does not work) it has to be written incident_ray._direction * u
+            intersection_point = incident_ray._direction * u+ incident_ray._origin
+            
+    cdef void _calculate_normal(self, Vector3d& intersection_point, Vector3d& normal) noexcept nogil:
         """Method that returns the normal to the surface
         """
-        normal_ptr[0].data[0]= 0.
-        normal_ptr[0].data[1]= 0.
-        normal_ptr[0].data[2]= 1.
+        (<double*>(&normal(0)))[0] = 0.
+        (<double*>(&normal(1)))[0] = 0.
+        (<double*>(&normal(2)))[0] = 1.
 
     def _repr_(self):
         '''Return an string with the representation of the optical plane

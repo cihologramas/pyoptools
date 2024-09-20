@@ -125,7 +125,7 @@ cdef class RPPMask(Surface):
         N_ = array((0., 0., 1.)).astype(float64)
         return (N_)
 
-    cpdef propagate(self, Ray ri, double ni, double nr):
+    cpdef list propagate(self, Ray ri, double ni, double nr):
         """Method that calculates the propagation of a ray through a diffraction
         gratting.
 

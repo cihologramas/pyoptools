@@ -62,7 +62,7 @@ cdef class IdealSurface(Surface):
         N_ = array((0., 0., 1.)).astype(float64)
         return (N_)
 
-    cpdef propagate(self, Ray ri, double ni, double nr):
+    cpdef list propagate(self, Ray ri, double ni, double nr):
 
         PI, _P = self.int_nor(ri)
         _rx, _ry, rz = ri.dir

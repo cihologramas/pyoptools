@@ -2,7 +2,7 @@
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.shape.shape cimport Shape
 from pyoptools.misc.picklable.picklable cimport Picklable
-from pyoptools.misc.cmisc.linalg cimport Vector3
+from pyoptools.misc.cmisc.eigen cimport Vector3d
 
 cdef class Surface(Picklable):
     # Object representing the surface reflectivity
@@ -23,27 +23,27 @@ cdef class Surface(Picklable):
 
     # Cython method to calculate the surface intersection with a ray
     # To be used by pyoptools Cython functions and methods
-    cdef void intersection_cy(self, Ray incident_ray_ptr, Vector3 *intersection_point_ptr) # noexcept nogil
+    cdef void intersection_cy(self, Ray incident_ray, Vector3d& intersection_point) # noexcept nogil
 
     # Cython method to calculate the normal at a given intersection point
     # To be used by pyoptools Cython functions and methods
-    cdef void normal_cy(self, Vector3 *intersection_point, Vector3 *Normal) noexcept nogil
+    cdef void normal_cy(self, Vector3d& intersection_point, Vector3d &Normal) noexcept nogil
 
     # Method to be overloaded by subclasses that define the specific surface geometry
-    cdef void _calculate_intersection(self, Ray, Vector3*) noexcept nogil
+    cdef void _calculate_intersection(self, Ray, Vector3d&) noexcept nogil
 
     # Method to be overloaded by subclasses that define the specific surface geometry
-    cdef void _calculate_normal(self, Vector3*, Vector3*) noexcept nogil
+    cdef void _calculate_normal(self, Vector3d&, Vector3d&) noexcept nogil
 
     # Method to calculate the distance from the ray to the surface intersection
-    cdef double distance_cy(self, Ray incident_ray_ptr, Vector3 *intersection_point_ptr)
+    cdef double distance_cy(self, Ray incident_ray, Vector3d& intersection_point)
 
     # Method to clear all internal structures and data within a surface after propagation
     # Prepares the surface to be ready for a new propagation
     cpdef reset(self)
 
     # Calculates the propagation of a ray through the surface
-    cpdef propagate(self, Ray ri, double ni, double nr)
+    cpdef list propagate(self, Ray ri, double ni, double nr)
 
     # Legacy methods that need to be reviewed
     cpdef pw_propagate1(self, Ray ri, ni, nr, rsamples, isamples, knots)

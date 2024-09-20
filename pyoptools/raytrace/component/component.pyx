@@ -1,14 +1,10 @@
 from pyoptools.misc.plist.plist cimport plist
-# This might be changed to a cimport. need to check
 from pyoptools.misc.cmisc.cmisc cimport *
 from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.mat_lib import Material
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
 from numpy import asarray, dot
-
-# from misc import rot_mat, rot_mat_i
-
 
 __all__ = ["Component"]
 
@@ -220,9 +216,7 @@ cdef class Component(Picklable):
             that is closest to the ray (distance,point of intersection, surface)
         """
 
-        # TODO: P and D neet to be replaced by cython arrays and memory views
-        # cdef np.ndarray P, D
-        cdef double[:] P,D
+        cdef tuple[double, double, double] P,D
         cdef list dist_list = []
         cdef list pi_list = []
         cdef list surf_list = []
@@ -257,6 +251,7 @@ cdef class Component(Picklable):
         used directly. It is called when the reset method of the system class is
         called
         """
+        cdef Surface S
         for comp in self.surflist:
             S, _P, _D = comp
             S.reset()

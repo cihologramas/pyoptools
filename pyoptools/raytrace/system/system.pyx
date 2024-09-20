@@ -15,8 +15,7 @@
 """Module that defines the optical system class System()
 """
 
-from numpy import asarray, array, float64, alltrue, isinf as npisinf, \
-    absolute, inf
+from numpy import asarray, array, alltrue, isinf as npisinf
 
 from pyoptools.raytrace.ray.ray cimport Ray
 
@@ -26,12 +25,10 @@ from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.component.component cimport Component
 
-cimport numpy as np
-np.import_array()
+from pyoptools.misc.cmisc.eigen cimport Vector3d, convert_vector3d_to_tuple, \
+                                        assign_tuple_to_vector3d
 
-cdef extern from "math.h":
-    bint isnan(double x) nogil
-    bint isinf(double x) nogil
+from libc.math cimport isinf, INFINITY
 
 cdef class System(Picklable):
     """
@@ -254,19 +251,6 @@ cdef class System(Picklable):
         else:
             raise Exception, "Not a valid Ray"
 
-    # ~ def component_add(self, cmp,pos,dire):
-        # ~ """
-        # ~ """
-        # ~ # TODO: check if this method is needed
-        # ~ # TODO: design a method to delete components
-        # ~
-        # ~ if isinstance(cmp,OptCom):
-            # ~ pos_=array(pos).astype(float64)
-            # ~ dir_=array(dire).astype(float64)
-            # ~ self.complist.append((cmp,pos_,dir_))
-        # ~ else:
-            # ~ raise Exception,'Not a valid OptCom'
-
     def propagate(self, update_ids=True):
         """ Propagates all the rays in the non propagated list.
         """
@@ -394,7 +378,14 @@ cdef class System(Picklable):
 
         # Check if the ray comes from the media
 
-        cdef np.ndarray P, D, PSR, DSR, PSR0, DSR0, PSR1, DSR1
+        # These are defined as tuples, because they need to be python objects
+        # to be included in lists
+
+        cdef tuple[double, double, double] P, D, PSR, DSR, PSR0, DSR0, PSR1,\
+        DSR1
+
+        cdef int j, j1
+        cdef double d0, d1
 
         if ri.n is None:
             ri.n=self.n
@@ -405,7 +396,11 @@ cdef class System(Picklable):
         cdef list pi_list=[]
         # Calculate the path length followed by the ray until it intersects all
         # the components and subsystems
+        
+        # Note: C can be component or subsystem, so for the moment we will 
+        # leave it as a python object
 
+        cdef object C
         for i in self.complist:
             C, P, D = i
             comp_list.append((C, P, D))
@@ -446,7 +441,7 @@ cdef class System(Picklable):
             j1=sort_list[1]
             d1=dist_list[j1]
         else:
-            d1=inf
+            d1 = INFINITY
         # Si las compomentes mas cercanas no estan en contacto, calcular la
         # propagacion a travez de la componente mas cercana
         # Nota_: La comparacion de punto flotante no esta funcionando. Para
@@ -456,11 +451,14 @@ cdef class System(Picklable):
         # If the closest components are not in contact calculate the propagation
         # using the closest surface.
 
-        N_EPS=1.e-12  # Used to check the zero
+        cdef double N_EPS=1.e-12  # Used to check the zero
 
         # Check if you are propagating in a subsystem
 
-        # if isinstance(self.complist[j][0],System):
+        # Note: SR can be a System or a Component, so for the moment we will 
+        # leave it as a standard python object
+        cdef object SR
+
         if isinstance(comp_list[j][0], System):
             # Leer el elemento que primero intersecta el rayo, asi como
             # su posicion y orientacion
@@ -481,7 +479,7 @@ cdef class System(Picklable):
                 ri.add_child(i)
 
         # Verificar si no hay componentes en contacto
-        elif absolute(d0-d1)>N_EPS:
+        elif abs(d0-d1)>N_EPS:
 
             # Get the nearest element to the ray origin, as well as its
             # position and orientation
@@ -489,7 +487,8 @@ cdef class System(Picklable):
 
             # Change the ray to the coordinate system of the element
 
-            R=ri.ch_coord_sys(array(PSR, dtype=float64), array(DSR, dtype=float64))
+            R=ri.ch_coord_sys(PSR, DSR)
+
             # as there are no components in contact the refraction index outside the
             # is the media's
 
