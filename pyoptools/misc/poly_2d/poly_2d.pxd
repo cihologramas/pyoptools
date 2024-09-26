@@ -5,9 +5,9 @@ cdef class Poly2D:
 
     cdef VectorXi px
     cdef VectorXi py
-    cdef VectorXd coeff
+    cdef VectorXd _coeff
     cdef public int order
-    cdef int clen
+    cdef int _num_coeff
 
     # cache of the derivatives
     cdef Poly2D dx, dy

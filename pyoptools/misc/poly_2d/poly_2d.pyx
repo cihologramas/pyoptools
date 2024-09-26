@@ -28,26 +28,26 @@ cdef class Poly2D:
         # get the lenght of the coheficient vector
         # Maibe is better to remove
 
-        self.clen = len(coeff_py)
+        self._num_coeff = len(coeff_py)
 
-        self.coeff = VectorXd(self.clen)
+        self._coeff = VectorXd(self._num_coeff)
 
         # copy the python coheficient list to cython
-        for i in range(self.clen):
-            (<double*>(&(self.coeff(i))))[0] = coeff_py[i]
+        for i in range(self._num_coeff):
+            (<double*>(&(self._coeff(i))))[0] = coeff_py[i]
 
         # Save the powers so thy can be usedlatter
 
-        self.px.resize(self.clen)
-        self.py.resize(self.clen)
+        self.px.resize(self._num_coeff)
+        self.py.resize(self._num_coeff)
 
         # Fill the power vectors. This is to speed up the calcularion ahead
 
         self.order = 0
-        for i in range(self.clen):
+        for i in range(self._num_coeff):
             powers = index_to_powers(i)
-            (<double*>(&(self.px(i))))[0] = powers[0]
-            (<double*>(&(self.py(i))))[0] = powers[1]
+            (<int*>(&(self.px(i))))[0] = powers[0]
+            (<int*>(&(self.py(i))))[0] = powers[1]
 
             # Get the order of the polynomial as the highest power
             if self.order < powers[0]:
@@ -78,11 +78,13 @@ cdef class Poly2D:
         cdef int new_length
         cdef VectorXd ncoeff
 
+        cdef Poly2D __other = <Poly2D> other
+
         # If both self and other are instances of Poly2D
         if isinstance(self, Poly2D) and isinstance(other, Poly2D):
             # Determine the maximum order of the two polynomials
             o1 = self.order
-            o2 = other.order
+            o2 = __other.order
             o = max(o1, o2)
 
             # Calculate the new length for the coefficient vector
@@ -92,19 +94,18 @@ cdef class Poly2D:
             ncoeff.resize(new_length)
             ncoeff.setZero()
             # Copy coefficients from both polynomials to the new vector
-            for i in range(self.coeff.size()):
-                (<double*>(&(ncoeff(i))))[0]=self.coeff(i)
+            for i in range(self._coeff.size()):
+                (<double*>(&(ncoeff(i))))[0]=self._coeff(i)
 
-            for i in range(other.size()):
-                (<double*>(&(ncoeff(i))))[0]=ncoeff(i)+other.coeff(i)
+            for i in range(__other._coeff.size()):
+                (<double*>(&(ncoeff(i))))[0]=ncoeff(i)+__other._coeff(i)
 
             return Poly2D(convert_vectorXd_to_list(ncoeff))
 
         # If other is a scalar, add it to the constant term
         elif isinstance(other, (int, float)):
             # Create a copy of the coefficients to modify
-            ncoeff.resize(new_length)
-            ncohef = self.coeff
+            ncohef = self._coeff
             (<double*>(&(ncoeff(0))))[0] = ncoeff(0) + other
             return Poly2D(convert_vectorXd_to_list(ncohef))
 
@@ -130,6 +131,8 @@ cdef class Poly2D:
         cdef int new_length
         cdef VectorXd ncoeff
 
+        cdef Poly2D __other = <Poly2D> other
+
         # If both self and other are instances of Poly2D
         if isinstance(self, Poly2D) and isinstance(other, Poly2D):
             # Determine the maximum order of the two polynomials
@@ -144,19 +147,18 @@ cdef class Poly2D:
             ncoeff.resize(new_length)
             ncoeff.setZero()
             # Copy coefficients from both polynomials to the new vector
-            for i in range(self.coeff.size()):
-                (<double*>(&(ncoeff(i))))[0]=self.coeff(i)
+            for i in range(self._coeff.size()):
+                (<double*>(&(ncoeff(i))))[0]=self._coeff(i)
 
-            for i in range(other.size()):
-                (<double*>(&(ncoeff(i))))[0]=ncoeff(i)- other.coeff(i)
+            for i in range(__other._coeff.size()):
+                (<double*>(&(ncoeff(i))))[0]=ncoeff(i)- __other._coeff(i)
 
             return Poly2D(convert_vectorXd_to_list(ncoeff))
 
         # If other is a scalar, add it to the constant term
         elif isinstance(other, (int, float)):
             # Create a copy of the coefficients to modify
-            ncoeff.resize(new_length)
-            ncoeff = self.coeff
+            ncoeff = self._coeff
             (<double*>(&(ncoeff(0))))[0] = ncoeff(0) - other
             return Poly2D(convert_vectorXd_to_list(ncoeff))
 
@@ -176,11 +178,11 @@ cdef class Poly2D:
         cdef VectorXd neg_coeff
 
         # Create a zero-initialized vector for the negative coefficients
-        neg_coeff.resize(self.clen)
+        neg_coeff.resize(self._num_coeff)
 
         # Negate each coefficient
-        for i in range(self.clen):
-            (<double*>(&(neg_coeff(i))))[0] = -self.coeff(i)
+        for i in range(self._num_coeff):
+            (<double*>(&(neg_coeff(i))))[0] = -self._coeff(i)
         return Poly2D(convert_vectorXd_to_list(neg_coeff))
 
     def __mul__(self, other):
@@ -205,9 +207,9 @@ cdef class Poly2D:
 
         # Multiplication with a scalar
         if isinstance(other, (float, int)):
-            ncoeff.resize(self.clen)
-            for i in range(self.clen):
-                (<double*>(&(ncoeff(i))))[0] = self.coeff(i) * other
+            ncoeff.resize(self._num_coeff)
+            for i in range(self._num_coeff):
+                (<double*>(&(ncoeff(i))))[0] = self._coeff(i) * other
             return Poly2D(convert_vectorXd_to_list(ncoeff))
 
         # Multiplication with another Poly2D object
@@ -220,8 +222,8 @@ cdef class Poly2D:
             ncoeff.setZero()
 
             # Multiply the coefficients of both polynomials
-            for i in range(self.clen):
-                for j in range(other.clen):
+            for i in range(self._num_coeff):
+                for j in range(other._num_coeff):
                     axp = other.px(j)
                     ayp = other.py(j)
                     pxp = self.px(i)
@@ -231,10 +233,10 @@ cdef class Poly2D:
                     ryp = ayp + pyp
 
                     ir = pxpy2i(rxp, ryp)
-                    # ncohef[ir] += self.coeff[i] * other.coeff[j]
+                    # ncohef[ir] += self._coeff[i] * other._coeff[j]
                     (<double*>(&(ncoeff(ir))))[0] = \
                         (<double*>(&(ncoeff(ir))))[0] + \
-                        self.coeff(i) * other.coeff(j)
+                        self._coeff(i) * other._coeff(j)
             return Poly2D(convert_vectorXd_to_list(ncoeff))
 
         # If multiplication is not possible, return NotImplemented
@@ -254,10 +256,10 @@ cdef class Poly2D:
         cdef list terms = []
         cdef str term, retval = ""
 
-        for i in range(self.clen):
+        for i in range(self._num_coeff):
             # Get the powers of x and y for the current term
             px, py = index_to_powers(i)
-            c = self.coeff(i)
+            c = self._coeff(i)
 
             # Skip terms with a coefficient of 0
             if c == 0:
@@ -291,7 +293,7 @@ cdef class Poly2D:
             terms.append(term)
 
         # Join all terms with a plus sign, handle empty cases gracefully
-        retval = " + ".join(terms).replace("+-", "- ")
+        retval = " + ".join(terms).replace("+ -", "- ")
 
         return retval if retval else "0"
 
@@ -304,8 +306,8 @@ cdef class Poly2D:
         str
             A string representing the Poly2D object in detail.
         """
-        return f"Poly2D(coeff={convert_vectorXd_to_list(self.coeff)}," \
-            " order={self.order})"
+        return f"Poly2D(coeff={convert_vectorXd_to_list(self._coeff)}," \
+            f" order={self.order})"
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -333,25 +335,25 @@ cdef class Poly2D:
         # Check if derivatives are already cached
         if (self.dx is None) or (self.dy is None):
             # Create zero-initialized vectors for the derivatives
-            Dx.resize(self.clen)
+            Dx.resize(self._num_coeff)
             Dx.setZero()
-            Dy.resize(self.clen)
+            Dy.resize(self._num_coeff)
             Dy.setZero()
 
             # Calculate the derivatives
-            for i in range(1, self.clen):
+            for i in range(1, self._num_coeff):
                 px = self.px(i)
                 py = self.py(i)
 
                 if px > 0:  # Only compute Dx if px > 0
                     dxi = pxpy2i(px - 1, py)
                     (<double*>(&(Dx(dxi))))[0] = \
-                        (<double*>(&(Dx(dxi))))[0] + px * self.coeff(i)
+                        (<double*>(&(Dx(dxi))))[0] + px * self._coeff(i)
 
                 if py > 0:  # Only compute Dy if py > 0
                     dyi = pxpy2i(px, py - 1)
                     (<double*>(&(Dy(dyi))))[0] = \
-                        (<double*>(&(Dy(dyi))))[0] + py * self.coeff(i)
+                        (<double*>(&(Dy(dyi))))[0] + py * self._coeff(i)
 
             # Cache the results
             self.dx = Poly2D(convert_vectorXd_to_list(Dx))
@@ -366,8 +368,8 @@ cdef class Poly2D:
         # TODO: Cache the powers by creating a vector with the powers of x,
         # and power of y
 
-        for k in range(self.clen):
-            result += self.coeff(k) * (x ** self.px(k)) * (y ** self.py(k))
+        for k in range(self._num_coeff):
+            result += self._coeff(k) * (x ** self.px(k)) * (y ** self.py(k))
         return result
 
     cdef void eval2d(self, MatrixXd& x, MatrixXd& y, MatrixXd& result) noexcept nogil:
@@ -390,12 +392,20 @@ cdef class Poly2D:
         # Allocate a NumPy array for the result
         z_array = np.zeros((n_rows, n_cols), dtype=np.float64)
 
-        cdef double[:, ::1] z
+        cdef double[:, ::1] z = z_array
         for i in range(n_rows):
             for j in range(n_cols):
                 z[i, j] = self.eval_cy(x[i, j], y[i, j])
 
         return z_array
+
+    @property
+    def num_coefficients(self):
+        return self._num_coeff
+
+    @property
+    def coefficients(self):
+        return np.array(convert_vectorXd_to_list(self._coeff))
 
     # @cython.boundscheck(False)  # Disable bounds checking
     # @cython.wraparound(False)   # Disable negative index wraparound
@@ -449,8 +459,8 @@ cdef class Poly2D:
     #             ry = x[i, j] * sinr + y[i, j] * cosr
 
     #             # Compute the polynomial value at each point
-    #             for k in range(self.clen):
-    #                 Result[i, j] += self.coeff[k] * (rx ** self.px[k]) *
+    #             for k in range(self._num_coeff):
+    #                 Result[i, j] += self._coeff[k] * (rx ** self.px[k]) *
     #                 (ry ** self.py[k])
 
     #     return Result
@@ -492,8 +502,8 @@ cdef class Poly2D:
     #     for j in range(nx):
     #         for i in range(ny):
     #             # Initialize polynomial result at (x, y)
-    #             for k in range(self.clen):
-    #                 Result[j, i] += self.coeff[k] * (x[j] ** self.px[k]) *
+    #             for k in range(self._num_coeff):
+    #                 Result[j, i] += self._coeff[k] * (x[j] ** self.px[k]) *
     #                  (y[i] ** self.py[k])
     #     return Result
 
@@ -558,7 +568,7 @@ cpdef tuple indices_to_powers(int[:] indices):
         # Directly unpack the tuple returned by index_to_powers
         x_powers[idx], y_powers[idx] = index_to_powers(indices[idx])
 
-    return x_powers, y_powers
+    return np.array(x_powers), np.array(y_powers)
 
 
 cpdef int pxpy2i(int px, int py):
