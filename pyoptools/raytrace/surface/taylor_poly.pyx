@@ -148,8 +148,8 @@ cdef class TaylorPoly(Surface):
 
         cdef double ta, tb, t, fa, fb, tm, tta, ttb, dt
 
-        ta=(self.zmax-iray.pos[2])/iray.dir[2]
-        tb=(self.zmin-iray.pos[2])/iray.dir[2]
+        ta=(self.zmax-iray.origin[2])/iray.direction[2]
+        tb=(self.zmin-iray.origin[2])/iray.direction[2]
 
         if self.poly is not None:
             fa=self.__f1(ta, iray)
@@ -169,7 +169,7 @@ cdef class TaylorPoly(Surface):
                     ttb=tm+0.2*dt
                     t=brentq(self.__f1, tta, ttb, (iray,), maxiter=1000)
 
-        ret_val= iray.pos+t*iray.dir
+        ret_val= iray.origin+t*iray.direction
 
         return ret_val
 

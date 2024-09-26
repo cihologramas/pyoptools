@@ -7,6 +7,7 @@ import sys
 from importlib_resources import files
 from pathlib import Path
 
+
 # This class overrides the module, to provide direct attribute and item access
 class LibraryModule:
     """The optics library provides access to optical components from

@@ -27,7 +27,6 @@ from math import cos, radians, sin
 
 
 class RightAnglePrism(Component):
-
     """Class to define a Right Angle Prism.
 
     **ARGUMENTS:**
@@ -172,7 +171,7 @@ class DovePrism(Component):
     """
 
     # TODO: El prismadove está abierto por arriba y por abajo. Hay que definir las superficies para cerrarlo
-    def __init__(self, s, l, *args, **kwargs):
+    def __init__(self, s, length, *args, **kwargs):
         # s alto o profundidad del prisma
         # l Longitud del lado mas largo del prisma
 
@@ -188,11 +187,11 @@ class DovePrism(Component):
         s2 = Plane(shape=Rectangular(size=(d, s)))
 
         # Lado largo del prisma
-        s3 = Plane(shape=Rectangular(size=(l, s)))
+        s3 = Plane(shape=Rectangular(size=(length, s)))
         # lado corto del prisma
-        s4 = Plane(shape=Rectangular(size=(l - 2 * s, s)))
+        s4 = Plane(shape=Rectangular(size=(length - 2 * s, s)))
 
-        sp1 = (l - s) / 2.0
+        sp1 = (length - s) / 2.0
         self.surflist["S1"] = (s1, (-sp1, 0, 0), (0, -pi / 4, 0))
         self.surflist["S2"] = (s2, (sp1, 0, 0), (0, pi / 4, 0))
         self.surflist["S3"] = (s3, (0, 0, -s / 2.0), (0, 0, 0))

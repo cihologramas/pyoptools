@@ -226,7 +226,7 @@ cdef class Ray:
         return instance
 
     def __reduce__(self):
-        args=(self.pos, self.dir, self.intensity, self.wavelength, self.n ,
+        args=(self.origin, self.direction, self.intensity, self.wavelength, self.n ,
               self.label, self.draw_color, self.parent, self.pop,
               self.orig_surf, self.order)
         return(type(self), args, self.__getstate__())
@@ -591,8 +591,9 @@ cdef class Ray:
         and the `order` attribute set to 0.
         """
 
-        return Ray(pos=self.pos, dir=self.dir, intensity=self.intensity,
-                   wavelength=self.wavelength, n=self.n, label=self.label)
+        return Ray(origin=self.origin, direction=self.direction,
+                   intensity=self.intensity, wavelength=self.wavelength,
+                   n=self.n, label=self.label)
 
     def reverse(self):
         """
@@ -621,7 +622,7 @@ cdef class Ray:
         of the Ray.
         """
         return ("Ray(" + repr(self.origin) +
-                ", " + repr(self.dir) +
+                ", " + repr(self.direction) +
                 ", intensity=" + repr(self.intensity) +
                 ", wavelength=" + repr(self.wavelength) +
                 ", n=" + repr(self.n) +

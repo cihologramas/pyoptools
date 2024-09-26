@@ -47,8 +47,8 @@ def polar_array(Rmax=1.0, DS=0.1, pr=1.0):
     ..  TODO:: This function should be moved to a auxiliary functions module
     """
 
-    X, Y = mgrid[-Rmax : Rmax + DS : DS, -Rmax : Rmax + DS : DS] / pr
-    r = sqrt(X ** 2 + Y ** 2)
+    X, Y = mgrid[-Rmax:Rmax + DS:DS, -Rmax:Rmax + DS:DS] / pr
+    r = sqrt(X**2 + Y**2)
     th = arccos(transpose(X * 1.0 / r))
     th = where(th < 2.0 * pi, th, 0)
     th = where(X < 0, 2.0 * pi - th, th)
@@ -324,7 +324,7 @@ class ZernikeXY(object):
         """
 
         if mask:
-            r = x ** 2 + y ** 2
+            r = x**2 + y**2
             m = where(r < 1, False, True)
             retval = masked_array(self.poly.meval(x, y), m)
         else:

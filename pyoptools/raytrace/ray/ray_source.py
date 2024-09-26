@@ -66,8 +66,8 @@ def parallel_beam_c(
             y = -dy / 2.0 + dy * iy / (ny - 1)
             ret_val.append(
                 Ray(
-                    pos=(x, y, 0),
-                    dir=(0, 0, 1),
+                    origin=(x, y, 0),
+                    direction=(0, 0, 1),
                     wavelength=wavelength,
                     label=label,
                     draw_color=draw_color,
@@ -112,7 +112,7 @@ def parallel_beam_p(
 
     ret_val = [
         Ray(
-            pos=(0, 0, 0), dir=(0, 0, 1), wavelength=wavelength, label=label
+            origin=(0, 0, 0), direction=(0, 0, 1), wavelength=wavelength, label=label
         ).ch_coord_sys_inv(origin, direction)
     ]
     nr, nt = num_rays
@@ -123,8 +123,8 @@ def parallel_beam_p(
             y_ = r * cos(2 * pi * t / nt)
             ret_val.append(
                 Ray(
-                    pos=(x_, y_, 0),
-                    dir=(0, 0, 1),
+                    origin=(x_, y_, 0),
+                    direction=(0, 0, 1),
                     wavelength=wavelength,
                     label=label,
                     draw_color=draw_color,
@@ -183,8 +183,8 @@ def point_source_c(
             else:
                 ty = 0.0
             temp_ray = Ray(
-                pos=(0, 0, 0),
-                dir=(0, 0, 1),
+                origin=(0, 0, 0),
+                direction=(0, 0, 1),
                 wavelength=wavelength,
                 label=label,
                 draw_color=draw_color,
@@ -231,7 +231,7 @@ def point_source_p(
 
     ret_val = [
         Ray(
-            pos=(0, 0, 0), dir=(0, 0, 1), wavelength=wavelength, label=label
+            origin=(0, 0, 0), direction=(0, 0, 1), wavelength=wavelength, label=label
         ).ch_coord_sys_inv(origin, direction)
     ]
 
@@ -240,8 +240,8 @@ def point_source_p(
     for r_ in range(1, nr):
         r = span * float(r_) / nr
         temp_ray = Ray(
-            pos=(0, 0, 0),
-            dir=(0, 0, 1),
+            origin=(0, 0, 0),
+            direction=(0, 0, 1),
             wavelength=wavelength,
             label=label,
             draw_color=draw_color,
@@ -293,8 +293,8 @@ def point_source_r(
         rx = normal(0, span)
         ry = normal(0, span)
         temp_ray = Ray(
-            pos=(0, 0, 0),
-            dir=(0, 0, 1),
+            origin=(0, 0, 0),
+            direction=(0, 0, 1),
             wavelength=wavelength,
             label=label,
             draw_color=draw_color,

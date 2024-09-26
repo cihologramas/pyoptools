@@ -228,8 +228,8 @@ cdef class Aspherical(Surface):
         # Find the limits for t
         cdef double ta, tb, t, fa, fb, tm, tta, ttb, dt
         with gil:
-            ta = (self.zmax-incident_ray.pos[2])/incident_ray.dir[2]
-            tb = (self.zmin-incident_ray.pos[2])/incident_ray.dir[2]
+            ta = (self.zmax-incident_ray.origin[2])/incident_ray.direction[2]
+            tb = (self.zmin-incident_ray.origin[2])/incident_ray.direction[2]
 
             if self.poly is not None:
                 fa = self.__f1(ta, incident_ray)

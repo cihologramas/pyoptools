@@ -42,8 +42,8 @@ class IdealPPlanes(Surface):
         """
         # N_=array([0.,0.,1.])
 
-        P1 = A.pos     # Punto que pertenece al rayo "Origen" del rayo
-        L1 = A.dir  # Vector paralelo a la linea
+        P1 = A.origin     # Punto que pertenece al rayo "Origen" del rayo
+        L1 = A.direction  # Vector paralelo a la linea
 
         # if dot(N_,L1) ==0 : return inf_vect
         if L1[2] == 0:
@@ -79,12 +79,12 @@ class IdealPPlanes(Surface):
 
         PI, _P = self.int_nor(ri)
 
-        _rx, _ry, rz = ri.dir
+        _rx, _ry, rz = ri.direction
 
         # Get the focussing point as the point where the principal ray hits
         # the focal plane
 
-        FP = ri.dir*self.f/abs(rz)
+        FP = ri.direction*self.f/abs(rz)
         # Las ecuaciones de refraccion usadas funcionan para el caso donde el plano
         # esta en Z=0. Como aca el plano no esta en z=0, hay que moverlo para el
         # calculo, y luego moverlo nuevamente a las posiciones adecuadas
@@ -99,13 +99,13 @@ class IdealPPlanes(Surface):
 
         ret = []
         if self.reflectivity != 1:
-            ret.append(Ray(pos=PI, dir=d,
+            ret.append(Ray(origin=PI, direction=d,
                            intensity=ri.intensity,
                            wavelength=ri.wavelength, n=ni, label=ri.label,
                            orig_surf=self.id))
         if self.reflectivity != 0:
             # print "not 0"
-            ret.append(Ray(pos=PI, dir=PI-FP,
+            ret.append(Ray(origin=PI, direction=PI-FP,
                            intensity=ri.intensity,
                            wavelength=ri.wavelength, n=ni, label=ri.label,
                            orig_surf=self.id))

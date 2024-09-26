@@ -15,7 +15,7 @@
 """Module that defines the optical system class System()
 """
 
-from numpy import asarray, array, alltrue, isinf as npisinf
+from numpy import asarray, array, all, isinf as npisinf
 
 from pyoptools.raytrace.ray.ray cimport Ray
 
@@ -417,7 +417,7 @@ cdef class System(Picklable):
         # Check if there are more components in front of the ray
         # if not, return the original ray
 
-        if alltrue(npisinf(array(dist_list))):
+        if all(npisinf(array(dist_list))):
             return ri
 
         # Sort the components by distance

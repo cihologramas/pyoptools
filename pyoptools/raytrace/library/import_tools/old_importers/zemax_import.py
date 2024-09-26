@@ -67,7 +67,7 @@ def find_key(key, lines):
     try:
         rv = ""
         for s in list(filter(lambda x: x.startswith(key), lines)):
-            rv = rv + s[len(key) + 1 :]
+            rv = rv + s[len(key) + 1:]
     except IndexError:
         # No se encontró la llave
         rv = ""

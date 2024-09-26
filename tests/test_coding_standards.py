@@ -7,12 +7,10 @@ import pyoptools
 
 PEP8_ADDITIONAL_IGNORE = ["E501"]
 
-EXCLUDE_FILES = [
-
-]
+EXCLUDE_FILES = []
 
 
-EXCLUDE_CYTHON_FILES = [ ]
+EXCLUDE_CYTHON_FILES = []
 
 
 @pytest.mark.linting
@@ -36,8 +34,14 @@ def test_cython_conformance():
 
     for root, dirs, files in os.walk(dirname):
         for file in files:
-            if (file.endswith(".pyx") or file.endswith(".pxd")) and file not in EXCLUDE_CYTHON_FILES:
+            if (
+                file.endswith(".pyx") or file.endswith(".pxd")
+            ) and file not in EXCLUDE_CYTHON_FILES:
                 filepath = os.path.join(root, file)
-                result = run(["cython-lint", filepath], stdout=PIPE, stderr=PIPE, text=True)
+                result = run(
+                    ["cython-lint", filepath], stdout=PIPE, stderr=PIPE, text=True
+                )
 
-                assert result.returncode == 0, f"Found Cython code syntax errors in {file}:\n{result.stdout}{result.stderr}"
+                assert (
+                    result.returncode == 0
+                ), f"Found Cython code syntax errors in {file}:\n{result.stdout}{result.stderr}"

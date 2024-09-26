@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 import pyoptools.raytrace.ray.ray as ray
-
+from math import nan
 
 def test_ray_equal():
     "Rays with exactly same attributes are equals."
@@ -13,7 +13,7 @@ def test_ray_equal():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -24,7 +24,7 @@ def test_ray_equal():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -43,7 +43,7 @@ def test_ray_almost_equal_pos():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -54,7 +54,7 @@ def test_ray_almost_equal_pos():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -73,7 +73,7 @@ def test_ray_almost_equal_dir():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -84,7 +84,7 @@ def test_ray_almost_equal_dir():
         direction=np.array([0.0, 0.00000001, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -103,7 +103,7 @@ def test_ray_dir_different_norm():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -114,7 +114,7 @@ def test_ray_dir_different_norm():
         direction=np.array([0.0, 0.0, 1.01]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -133,7 +133,7 @@ def test_ray_almost_equal_intensity():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -144,7 +144,7 @@ def test_ray_almost_equal_intensity():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0000001,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -163,7 +163,7 @@ def test_ray_almost_equal_wavelength():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -174,7 +174,7 @@ def test_ray_almost_equal_wavelength():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength + 0.00000001,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -193,7 +193,7 @@ def test_ray_different_n():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -223,7 +223,7 @@ def test_ray_different_label():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -234,7 +234,7 @@ def test_ray_different_label():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label + "_different",
         orig_surf=None,
         order=0,
@@ -253,7 +253,7 @@ def test_ray_different_orig_surf():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -264,7 +264,7 @@ def test_ray_different_orig_surf():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=[],
         order=0,
@@ -283,7 +283,7 @@ def test_ray_different_order():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -294,7 +294,7 @@ def test_ray_different_order():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=1,
@@ -313,7 +313,7 @@ def test_ray_almost_equal_same():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -324,7 +324,7 @@ def test_ray_almost_equal_same():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -343,7 +343,7 @@ def test_ray_almost_equal_almost_same():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -354,7 +354,7 @@ def test_ray_almost_equal_almost_same():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -373,7 +373,7 @@ def test_ray_almost_equal_less_almost_same():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -384,7 +384,7 @@ def test_ray_almost_equal_less_almost_same():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=wavelength,
-        n=None,
+        n=nan,
         label=label,
         orig_surf=None,
         order=0,
@@ -396,24 +396,26 @@ def test_ray_almost_equal_less_almost_same():
 def test_ray_dir():
     "The direction is always a unitary vector. This is done with the setter."
     ray1 = ray.Ray(direction=(0, 0, 5))
-    assert np.array_equal(ray1.dir, np.array([0, 0, 1]))
+    assert np.array_equal(ray1.direction, np.array([0, 0, 1]))
 
-    ray1.dir = (0, 5, -5)
-    np.testing.assert_array_almost_equal(ray1.dir, [0, 0.70710678, -0.70710678])
+    ray1.direction = (0, 5, -5)
+    np.testing.assert_array_almost_equal(ray1.direction, [0, 0.70710678, -0.70710678])
 
 
 def test_ray_pos():
     ray1 = ray.Ray()
 
-    ray1.pos = (1, 2, 3)
-    np.testing.assert_array_almost_equal(ray1.pos, [1, 2, 3])
+    ray1.origin = (1, 2, 3)
+    np.testing.assert_array_almost_equal(ray1.origin, [1, 2, 3])
 
 
 def test_ch_coord_sys_inv():
     origin = np.array([0, 0, 0])
     direction = np.array([0, 1, 0])
 
-    ray_expected = ray.Ray(origin=(0.0, 0.0, 0.0), direction=(0.84147098, 0.0, 0.54030231))
+    ray_expected = ray.Ray(
+        origin=(0.0, 0.0, 0.0), direction=(0.84147098, 0.0, 0.54030231)
+    )
 
     ray1 = ray.Ray()
     ray_calculated = ray1.ch_coord_sys_inv(origin, direction)
@@ -445,7 +447,7 @@ def test_copy():
         direction=np.array([0.0, 0.0, 1.0]),
         intensity=1.0,
         wavelength=0.6328,
-        n=None,
+        n=nan,
         label="HeNe",
         orig_surf=None,
         order=0,

@@ -50,34 +50,35 @@ def create_transformation_matrix(P, D):
     """
 
     psi, phi, theta = D
- 
+
     # Rotation matrices
-    Rz = array([
-        [cos(theta), -sin(theta), 0, 0],
-        [sin(theta), cos(theta), 0, 0],
-        [0, 0, 1, 0],
-        [0, 0, 0, 1]
-    ])
-    Ry = array([
-        [cos(phi), 0, sin(phi), 0],
-        [0, 1, 0, 0],
-        [-sin(phi), 0, cos(phi), 0],
-        [0, 0, 0, 1]
-    ])
-    Rx = array([
-        [1, 0, 0, 0],
-        [0, cos(psi), -sin(psi), 0],
-        [0, sin(psi), cos(psi), 0],
-        [0, 0, 0, 1]
-    ])
+    Rz = array(
+        [
+            [cos(theta), -sin(theta), 0, 0],
+            [sin(theta), cos(theta), 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1],
+        ]
+    )
+    Ry = array(
+        [
+            [cos(phi), 0, sin(phi), 0],
+            [0, 1, 0, 0],
+            [-sin(phi), 0, cos(phi), 0],
+            [0, 0, 0, 1],
+        ]
+    )
+    Rx = array(
+        [
+            [1, 0, 0, 0],
+            [0, cos(psi), -sin(psi), 0],
+            [0, sin(psi), cos(psi), 0],
+            [0, 0, 0, 1],
+        ]
+    )
 
     # Translation matrix
-    T = array([
-        [1, 0, 0, P[0]],
-        [0, 1, 0, P[1]],
-        [0, 0, 1, P[2]],
-        [0, 0, 0, 1]
-    ])
+    T = array([[1, 0, 0, P[0]], [0, 1, 0, P[1]], [0, 0, 1, P[2]], [0, 0, 0, 1]])
 
     # Composite transformation matrix
     return T @ Rz @ Ry @ Rx
@@ -85,12 +86,12 @@ def create_transformation_matrix(P, D):
 
 def surf2mesh(S, P=(0, 0, 0), D=(0, 0, 0), wire=False):
     """
-    Convert a pyOpTools surface to a mesh representation suitable for rendering 
+    Convert a pyOpTools surface to a mesh representation suitable for rendering
     with pythreejs.
 
-    This function takes a surface object, which is expected to have a method 
-    `polylist` that returns a list of points and polygons defining the surface. 
-    It then creates a mesh representation of this surface, which can be 
+    This function takes a surface object, which is expected to have a method
+    `polylist` that returns a list of points and polygons defining the surface.
+    It then creates a mesh representation of this surface, which can be
     displayed in a Jupyter notebook using pythreejs. The function allows for the
     mesh to be translated and rotated according to the provided parameters, and
     optionally displayed as a wireframe.
@@ -98,7 +99,7 @@ def surf2mesh(S, P=(0, 0, 0), D=(0, 0, 0), wire=False):
     Parameters
     ----------
     S : object
-        The surface object to be converted into a mesh. This object must have a 
+        The surface object to be converted into a mesh. This object must have a
         `polylist` method that returns two elements: a list of points and a list
          of polygons.
     P : tuple of float, optional
@@ -106,24 +107,24 @@ def surf2mesh(S, P=(0, 0, 0), D=(0, 0, 0), wire=False):
         applied to the mesh.
         Default is (0, 0, 0), meaning no translation.
     D : tuple of float, optional
-        A 3-element tuple representing the Euler angles (psi, phi, theta) in 
-        radians for rotation of the mesh. Default is (0, 0, 0), meaning no 
+        A 3-element tuple representing the Euler angles (psi, phi, theta) in
+        radians for rotation of the mesh. Default is (0, 0, 0), meaning no
         rotation.
     wire : bool, optional
-        If True, the mesh is created as a wireframe. Otherwise, a solid mesh is 
+        If True, the mesh is created as a wireframe. Otherwise, a solid mesh is
         created. Default is False.
 
     Returns
     -------
     pythreejs.Group
-        A pythreejs Group object containing the mesh representation of the 
+        A pythreejs Group object containing the mesh representation of the
         surface, which can be directly added to a pythreejs scene for rendering.
 
     Notes
     -----
-    The function computes normals for the faces of the mesh to ensure proper 
+    The function computes normals for the faces of the mesh to ensure proper
     lighting and shading when rendered. The color of the mesh is hardcoded to
-    yellow, and the material properties are set to create a somewhat shiny and 
+    yellow, and the material properties are set to create a somewhat shiny and
     semi-transparent appearance.
     """
 
@@ -136,11 +137,11 @@ def surf2mesh(S, P=(0, 0, 0), D=(0, 0, 0), wire=False):
     lpoly = []
     lpoints = []
 
-    for l in points:
-        lpoints.append(list(l))
+    for point in points:
+        lpoints.append(list(point))
 
-    for l in polylist:
-        lpoly.append(list(map(int, l)))
+    for poly in polylist:
+        lpoly.append(list(map(int, poly)))
 
     vertices = lpoints
 
@@ -166,7 +167,6 @@ def surf2mesh(S, P=(0, 0, 0), D=(0, 0, 0), wire=False):
         vertices=vertices,
         faces=nfaces,
     )
-
 
     if wire:
         surfaceGeometry = py3js.WireframeGeometry(surfaceGeometry)
@@ -299,7 +299,7 @@ def ray2list(ray):
     """
     rays = []
 
-    P1 = ray.pos
+    P1 = ray.origin
     if len(ray.childs) > 0:
         P2 = array(ray.childs[0].origin)
     else:
@@ -374,7 +374,6 @@ def ray2mesh(ray):
     return rays
 
 
-
 def sys2mesh(os):
     """
     Convert an optical system into a mesh representation for rendering with pythreejs.
@@ -420,8 +419,8 @@ def sys2mesh(os):
 
 
 def Plot3D(
-        S, size=(800, 200), center=(0, 0, 0), rot=[(pi / 3.0, pi / 6.0, 0)],
-        scale=1):
+    S, size=(800, 200), center=(0, 0, 0), rot=[(pi / 3.0, pi / 6.0, 0)], scale=1
+):
     """
     Creates a 3D interactive visualization of an optical system, component,
     or surface within a Jupyter notebook using pythreejs.
@@ -468,7 +467,7 @@ def Plot3D(
         This example creates a 3D visualization of 'my_system' with a window
         size of 800x600 pixels, centered at the origin, with an initial rotation
         and a scale factor of 1.
-    """    
+    """
     width, height = size
 
     light = py3js.DirectionalLight(
@@ -514,5 +513,5 @@ def Plot3D(
         width=width * scale,
         height=height * scale,
     )
-    
+
     return renderer

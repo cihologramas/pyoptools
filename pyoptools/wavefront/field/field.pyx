@@ -36,6 +36,7 @@ from imageio import imread
 # import pp
 # import pyopencl as cl
 
+
 from pyoptools.misc.cmisc.cmisc cimport rot_mat
 
 from pyoptools.raytrace.ray import Ray
@@ -1291,6 +1292,6 @@ cdef class Field:
             if dz<0:
                 print(dz)
             if mask is False:
-                rl.append(Ray(pos=(x, y, 0), dir=(dx, dy, dz),
+                rl.append(Ray(origin=(x, y, 0), direction=(dx, dy, dz),
                           wavelength=self.l, pop=self.l*path/(2.*pi)))
         return rl  # ,lapa,a2x,a2y,a2z

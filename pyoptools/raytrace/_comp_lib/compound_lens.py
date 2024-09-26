@@ -224,7 +224,7 @@ class MultiLens(System):
         that contain each of the parameters needed to define
         each spherical surface using the same format used by the standard
         raytracing software.
-        
+
         * ty: str
               String representing the surface type. For the moment only
               "spherical" surfaces are valid.

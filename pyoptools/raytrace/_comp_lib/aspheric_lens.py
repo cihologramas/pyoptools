@@ -41,7 +41,7 @@ class AsphericLens(Component):
              * 's2_max' : Point of maximum thickness on s2
              * 's2_min' : Point of minimum thickness on s2
              * 'center' : Geometric center
-             
+
              These options can be convenient for placing the origin
              at mounting face.
     s1 : dict
@@ -98,9 +98,9 @@ class AsphericLens(Component):
         self.outer_diameter = outer_diameter
 
         # Fill defaults and put surface definitions into namespaces
-        if not "max_thickness" in s1:
+        if "max_thickness" not in s1:
             s1["max_thickness"] = None
-        if s2 is not None and not "max_thickness" in s2:
+        if s2 is not None and "max_thickness" not in s2:
             s2["max_thickness"] = None
 
         s1_defn = SimpleNamespace(**s1)

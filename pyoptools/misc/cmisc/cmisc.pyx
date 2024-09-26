@@ -1,7 +1,6 @@
 cimport cython
 
 from cython.view cimport array
-from libc.stdlib cimport malloc, free
 
 
 cdef extern from "math.h":
@@ -54,6 +53,7 @@ cdef inline double[::1] norm_vect(double[::1] v):
     # Return the modified vector as a memoryview
     return v
 
+
 @cython.boundscheck(False)   # Disable bounds checking for array accesses
 @cython.wraparound(False)    # Disable negative index wraparound
 cdef inline double vector_length(double[::1] v):
@@ -80,7 +80,7 @@ cdef inline double vector_length(double[::1] v):
 
     .. math::
 
-        \text{length} = \sqrt{v[0]^2 + v[1]^2 + v[2]^2}
+        \text{length} = \\sqrt{v[0]^2 + v[1]^2 + v[2]^2}
 
     The input vector `v` is expected to have exactly 3 elements. This function
     is implemented in Cython for efficient computation.
@@ -93,6 +93,7 @@ cdef inline double vector_length(double[::1] v):
     length = sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2])
 
     return length
+
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
@@ -110,7 +111,8 @@ cdef inline double[:, ::1] rot_mat_i(double[::1] r):
     Returns
     -------
     double[:, ::1]
-        A 2-dimensional contiguous memoryview representing a 3x3 inverse rotation matrix.
+        A 2-dimensional contiguous memoryview representing a 3x3 inverse
+        rotation matrix.
 
     Notes
     -----
@@ -123,14 +125,14 @@ cdef inline double[:, ::1] rot_mat_i(double[::1] r):
     cdef double cos_rx = cos(r[0])
     cdef double cos_ry = cos(r[1])
     cdef double cos_rz = cos(r[2])
-    
+
     cdef double sin_rx = sin(r[0])
     cdef double sin_ry = sin(r[1])
     cdef double sin_rz = sin(r[2])
 
     # Allocate a contiguous memoryview on the heap
     cdef double[:, ::1] rv = \
-        cython.view.array(shape=(3, 3), itemsize=sizeof(double), format="d", 
+        cython.view.array(shape=(3, 3), itemsize=sizeof(double), format="d",
                           mode="c")
 
     rv[0, 0] = cos_ry * cos_rz
@@ -146,6 +148,7 @@ cdef inline double[:, ::1] rot_mat_i(double[::1] r):
     rv[2, 2] = cos_rx * cos_ry
 
     return rv  # Cast to a contiguous memoryview
+
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
@@ -184,7 +187,7 @@ cdef inline double[:, ::1] rot_mat(double[::1] r):
     cdef double sin_rz = sin(r[2])
 
     # Allocate a contiguous memoryview for the rotation matrix
-     # Allocate a contiguous memoryview on the heap
+    # Allocate a contiguous memoryview on the heap
     cdef double[:, ::1] rv = \
         cython.view.array(shape=(3, 3), itemsize=sizeof(double), format="d",
                           mode="c")
@@ -206,40 +209,43 @@ cdef inline double[:, ::1] rot_mat(double[::1] r):
     return rv
 
 cdef double[::1] empty_vec(int length):
-        """
-        Create an empty 1D array of doubles using Cython memoryviews.
+    """
+    Create an empty 1D array of doubles using Cython memoryviews.
 
-        This function initializes an uninitialized 1D array (vector) of length `length` 
-        with double-precision floating-point numbers. The array is created using 
-        Cython's memory allocation features and returned as a memoryview.
+    This function initializes an uninitialized 1D array (vector) of length
+    `length` with double-precision floating-point numbers. The array is
+    created using Cython's memory allocation features and returned as a
+    memoryview.
 
-        Parameters
-        ----------
-        length : int
-            The length of the array (number of elements) to create.
+    Parameters
+    ----------
+    length : int
+        The length of the array (number of elements) to create.
 
-        Returns
-        -------
-        vec : double[::1]
-            A C-contiguous memoryview of the uninitialized array of doubles.
+    Returns
+    -------
+    vec : double[::1]
+        A C-contiguous memoryview of the uninitialized array of doubles.
 
-        Notes
-        -----
-        The array is created uninitialized, meaning it will contain arbitrary values.
-        Use this function when you intend to fill the array immediately afterward, 
-        as accessing uninitialized data can lead to undefined behavior.
+    Notes
+    -----
+    The array is created uninitialized, meaning it will contain arbitrary values.
+    Use this function when you intend to fill the array immediately afterward,
+    as accessing uninitialized data can lead to undefined behavior.
 
-        Examples
-        --------
-        >>> cdef double[::1] my_array = empty_vec(10)
-        >>> print(len(my_array))
-        10
+    Examples
+    --------
+    >>> cdef double[::1] my_array = empty_vec(10)
+    >>> print(len(my_array))
+    10
 
-        """
-        # Allocate memory for 'length' elements of type double
-        cdef double[::1] vec = array(shape=(length,), itemsize=sizeof(double), format="d", mode="c")
-        
-        return vec
+    """
+    # Allocate memory for 'length' elements of type double
+    cdef double[::1] vec = array(shape=(length,),
+                                 itemsize=sizeof(double),
+                                 format="d", mode="c")
+
+    return vec
 
 
 cdef double[::1] zero_vec(int length):
@@ -258,7 +264,9 @@ cdef double[::1] zero_vec(int length):
     """
     cdef int i
     # Allocate memory for 'length' elements of type double
-    cdef double[::1] vec = array(shape=(length,), itemsize=sizeof(double), format="d", mode="c")
+    cdef double[::1] vec = array(shape=(length,),
+                                 itemsize=sizeof(double),
+                                 format="d", mode="c")
 
     # Zero-initialize the allocated memory
     for i in range(length):
@@ -293,7 +301,8 @@ cpdef zero_memarray(tuple shape):
     elif ndim == 5:
         return zero_memarray_5d(shape[0], shape[1], shape[2], shape[3], shape[4])
     else:
-        raise ValueError("Unsupported number of dimensions: %d. Supported dimensions are 2, 3, 4, or 5." % ndim)
+        raise ValueError("Unsupported number of dimensions: %d. Supported "
+                         "dimensions are 2, 3, 4, or 5." % ndim)
 
 
 @cython.boundscheck(False)
@@ -301,7 +310,9 @@ cpdef zero_memarray(tuple shape):
 @cython.cdivision(True)
 @cython.nonecheck(False)
 cdef double[:, ::1] zero_memarray_2d(Py_ssize_t nx, Py_ssize_t ny):
-    cdef double[:, ::1] arr = cython.view.array(shape=(nx, ny), itemsize=cython.sizeof(double), format="d", mode="c")
+    cdef double[:, ::1] arr = cython.view.array(shape=(nx, ny),
+                                                itemsize=cython.sizeof(double),
+                                                format="d", mode="c")
     cdef Py_ssize_t i, j
     for i in range(nx):
         for j in range(ny):
@@ -314,7 +325,9 @@ cdef double[:, ::1] zero_memarray_2d(Py_ssize_t nx, Py_ssize_t ny):
 @cython.cdivision(True)
 @cython.nonecheck(False)
 cdef double[:, :, ::1] zero_memarray_3d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz):
-    cdef double[:, :, ::1] arr = cython.view.array(shape=(nx, ny, nz), itemsize=cython.sizeof(double), format="d", mode="c")
+    cdef double[:, :, ::1] arr = cython.view.array(shape=(nx, ny, nz),
+                                                   itemsize=cython.sizeof(double),
+                                                   format="d", mode="c")
     cdef Py_ssize_t i, j, k
     for i in range(nx):
         for j in range(ny):
@@ -327,8 +340,11 @@ cdef double[:, :, ::1] zero_memarray_3d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t
 @cython.wraparound(False)
 @cython.cdivision(True)
 @cython.nonecheck(False)
-cdef double[:, :, :, ::1] zero_memarray_4d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz, Py_ssize_t nw):
-    cdef double[:, :, :, ::1] arr = cython.view.array(shape=(nx, ny, nz, nw), itemsize=cython.sizeof(double), format="d", mode="c")
+cdef double[:, :, :, ::1] zero_memarray_4d(Py_ssize_t nx, Py_ssize_t ny,
+                                           Py_ssize_t nz, Py_ssize_t nw):
+    cdef double[:, :, :, ::1] arr = cython.view.array(shape=(nx, ny, nz, nw),
+                                                      itemsize=cython.sizeof(double),
+                                                      format="d", mode="c")
     cdef Py_ssize_t i, j, k, l
     for i in range(nx):
         for j in range(ny):
@@ -342,8 +358,12 @@ cdef double[:, :, :, ::1] zero_memarray_4d(Py_ssize_t nx, Py_ssize_t ny, Py_ssiz
 @cython.wraparound(False)
 @cython.cdivision(True)
 @cython.nonecheck(False)
-cdef double[:, :, :, :, ::1] zero_memarray_5d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz, Py_ssize_t nw, Py_ssize_t nv):
-    cdef double[:, :, :, :, ::1] arr = cython.view.array(shape=(nx, ny, nz, nw, nv), itemsize=cython.sizeof(double), format="d", mode="c")
+cdef double[:, :, :, :, ::1] zero_memarray_5d(Py_ssize_t nx, Py_ssize_t ny,
+                                              Py_ssize_t nz, Py_ssize_t nw,
+                                              Py_ssize_t nv):
+    cdef double[:, :, :, :, ::1] arr =  \
+        cython.view.array(shape=(nx, ny, nz, nw, nv),
+                          itemsize=cython.sizeof(double), format="d", mode="c")
     cdef Py_ssize_t i, j, k, l, m
     for i in range(nx):
         for j in range(ny):
@@ -354,14 +374,13 @@ cdef double[:, :, :, :, ::1] zero_memarray_5d(Py_ssize_t nx, Py_ssize_t ny, Py_s
     return arr
 
 
-
 @cython.boundscheck(False)  # Disable bounds checking for performance
 @cython.wraparound(False)   # Disable negative indexing for performance
 cdef double[::1]to_vector(object py_obj):
     """
-    Convert a Python object (list, tuple, numpy array) to a memory view of 
+    Convert a Python object (list, tuple, numpy array) to a memory view of
     double values.
-    
+
     Parameters:
     py_obj (list or tuple or array): The input Python object to convert.
 
@@ -383,6 +402,7 @@ cdef double[::1]to_vector(object py_obj):
 
     return memview
 
+
 @cython.boundscheck(False)  # Disable bounds checking for performance
 @cython.wraparound(False)   # Disable negative indexing for performance
 cpdef double[::1] dot_product_3x3_matrix_vector(double[:, :] matrix, double[:] vector):
@@ -393,7 +413,7 @@ cpdef double[::1] dot_product_3x3_matrix_vector(double[:, :] matrix, double[:] v
     ----------
     matrix : memoryview of shape (3, 3) and dtype double
         A memory view representing a 3x3 matrix.
-        
+
     vector : memoryview of shape (3,) and dtype double
         A memory view representing a 3-element vector.
 
@@ -404,7 +424,9 @@ cpdef double[::1] dot_product_3x3_matrix_vector(double[:, :] matrix, double[:] v
 
     """
     cdef int i, j
-    cdef double[::1] result = cython.view.array(shape=(3,), itemsize=cython.sizeof(cython.double), format="d")
+    cdef double[::1] result = cython.view.array(shape=(3,),
+                                                itemsize=cython.sizeof(cython.double),
+                                                format="d")
 
     # Compute the dot product
     for i in range(3):
@@ -425,17 +447,18 @@ cdef bint allclose_cython(double[::1] a, double[::1] b, double atol):
     ----------
     a : memoryview of shape (3,) and dtype double
         First input memory view representing a 3-element vector.
-        
+
     b : memoryview of shape (3,) and dtype double
         Second input memory view representing a 3-element vector.
-        
+
     atol : double, optional
         Absolute tolerance. Default is 1e-08.
 
     Returns
     -------
     bool
-        True if all corresponding elements of `a` and `b` are approximately equal within `atol`.
+        True if all corresponding elements of `a` and `b` are approximately
+        equal within `atol`.
         Otherwise, False.
     """
     cdef int i
@@ -443,7 +466,7 @@ cdef bint allclose_cython(double[::1] a, double[::1] b, double atol):
     for i in range(3):
         if fabs(a[i] - b[i]) > atol:
             return False  # Elements are not approximately equal
-    return True  # All elements are approximately equal   
+    return True  # All elements are approximately equal
 
 
 @cython.boundscheck(False)  # Disable bounds checking for performance

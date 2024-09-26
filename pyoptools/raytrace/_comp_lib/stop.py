@@ -26,7 +26,6 @@ from pyoptools.raytrace.shape import Shape
 
 
 class Stop(Component):
-
     """Class to define an stop component.
 
     This component is used to simulate apertures or diafragms in an optical

@@ -101,9 +101,9 @@ cdef class RPPMask(Surface):
         # N_=array([0.,0.,1.])
 
         # Punto que pertenece al rayo "Origen" del rayo
-        cdef np.ndarray[np.float64_t, ndim=1] P1 = A.pos
+        cdef np.ndarray[np.float64_t, ndim=1] P1 = A.origin
         # Vector paralelo a la linea
-        cdef np.ndarray[np.float64_t, ndim=1] L1 = A.dir
+        cdef np.ndarray[np.float64_t, ndim=1] L1 = A.direction
 
         # if dot(N_,L1) ==0 : return inf_vect
         if L1[2] == 0:
@@ -135,7 +135,7 @@ cdef class RPPMask(Surface):
         PI, _P = self.int_nor(ri)
         # Express wavelength in millimeters so all the method works in millimeters
         l = ri.wavelength*1e-3
-        rx, ry, rz = ri.dir
+        rx, ry, rz = ri.direction
         K = array((self.phx.peval(PI[0], PI[1]), self.phy.peval(PI[0], PI[1])))
         k = sqrt(K[0]**2+K[1]**2)
         if k != 0:
@@ -155,7 +155,7 @@ cdef class RPPMask(Surface):
 
             if oz2 < 0:
                 print("warning: eliminating physically impossible ray")
-                ret.append(Ray(pos=PI, dir=ri.dir,
+                ret.append(Ray(origin=PI, direction=ri.direction,
                                intensity=0,
                                wavelength=ri.wavelength, n=ni, label=ri.label,
                                orig_surf=self.id))
@@ -164,12 +164,12 @@ cdef class RPPMask(Surface):
                 # Check for transmitted or and reflected orders. Here intensities
                 # have no meaning
                 if self.reflectivity != 1:
-                    ret.append(Ray(pos=PI, dir=(ox, oy, oz),
+                    ret.append(Ray(origin=PI, direction=(ox, oy, oz),
                                    intensity=ri.intensity/len(self.M),
                                    wavelength=ri.wavelength, n=ni, label=ri.label,
                                    orig_surf=self.id))
                 if self.reflectivity != 0:
-                    ret.append(Ray(pos=PI, dir=(ox, oy, -oz),
+                    ret.append(Ray(origin=PI, direction=(ox, oy, -oz),
                                    intensity=ri.intensity/len(self.M),
                                    wavelength=ri.wavelength, n=ni,
                                    label=ri.label, orig_surf=self.id))

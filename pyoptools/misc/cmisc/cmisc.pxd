@@ -11,8 +11,11 @@ cdef double[::1] to_vector(object py_obj)
 cpdef zero_memarray(tuple shape)
 cdef double[:, ::1] zero_memarray_2d(Py_ssize_t nx, Py_ssize_t ny)
 cdef double[:, :, ::1] zero_memarray_3d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz)
-cdef double[:, :, :, ::1] zero_memarray_4d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz, Py_ssize_t nw)
-cdef double[:, :, :, :, ::1] zero_memarray_5d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz, Py_ssize_t nw, Py_ssize_t nv)
+cdef double[:, :, :, ::1] zero_memarray_4d(Py_ssize_t nx, Py_ssize_t ny,
+                                           Py_ssize_t nz, Py_ssize_t nw)
+cdef double[:, :, :, :, ::1] zero_memarray_5d(Py_ssize_t nx, Py_ssize_t ny,
+                                              Py_ssize_t nz, Py_ssize_t nw,
+                                              Py_ssize_t nv)
 
 
 cpdef double[::1] dot_product_3x3_matrix_vector(double[:, :] matrix, double[:] vector)

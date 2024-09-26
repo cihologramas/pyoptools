@@ -672,7 +672,7 @@ cdef class Surface(Picklable):
 
         # The ecuation where the rays are shooted from is
         # X*dx+Y*dy+Z*dz=0, where dx,dy,dx are the plane normal.
-        N_p = ri.dir
+        N_p = ri.direction
 
         ix, iy = indices(X.shape)
 
@@ -688,7 +688,7 @@ cdef class Surface(Picklable):
         # Get the rays that hit the surface
         li = H.nonzero()[0]
         # rin=Ray( dir=L1, wavelength=wavelength)
-        dir = ri.dir
+        dir = ri.direction
         S1 = dir*ni
         # Intersection point and optical path for the incident rays
         xi = []
@@ -879,7 +879,7 @@ cdef class Surface(Picklable):
         Za = z
 
         # Create an array of rays to simulate the plane wave
-        dir = ri.dir
+        dir = ri.direction
         xmin, xmax, ymin, ymax = self.shape.limits()
 
         # Calculate the position maximum and minimum z values for the surface
@@ -915,7 +915,7 @@ cdef class Surface(Picklable):
 
             P0 = array((Xa[i], Ya[i], Z[i]))
 
-            ri = Ray(pos=P0, dir=dir, wavelength=ri.wavelength)
+            ri = Ray(origin=P0, direction=dir, wavelength=ri.wavelength)
             # if the ray do not intersect the surface, break current iteration
             if sometrue(npisinf(self.intersection(ri))):
                 continue
@@ -927,7 +927,7 @@ cdef class Surface(Picklable):
             rd = rd[0]
 
             # Translate rd, to put it in the aperture reference plane
-            rd.pos[2] = rd.pos[2]-Za
+            rd.origin[2] = rd.origin[2]-Za
             di = self.distance_s(ri)[0]
             dr = pl.distance_s(rd)[0]
 
@@ -1001,7 +1001,7 @@ cdef class Surface(Picklable):
             # propagation values
 
             PI = pl._intersection(rd)
-            dr = dot(PI-rd.pos, rd.dir)
+            dr = dot(PI-rd.origin, rd.direction)
 
             d = di*ni+dr*nr+ri.optical_path_parent()
 
@@ -1080,7 +1080,7 @@ cdef class Surface(Picklable):
             xd.append(i)
 
             x, y, d = self.pw_propagate_list(
-                Ray(dir=(tan(i), 0, 1)), ni, nr, rsamples=rsamples, z=zm)
+                Ray(direction=(tan(i), 0, 1)), ni, nr, rsamples=rsamples, z=zm)
 
             # Normalize the pupil
             x = x/xm

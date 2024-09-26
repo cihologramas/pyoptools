@@ -152,9 +152,11 @@ class IdealThickLens(System):
 
         # Generar el rayo que va de E1 a H1
         if E1[1][2]<H1[1][2]:
-            R = Ray(pos=PI, dir=R.dir, wavelength=wav, n=n, intensity=ri.intensity)
+            R = Ray(origin=PI, direction=R.direction, wavelength=wav, n=n,
+                    intensity=ri.intensity)
         else:
-            R = Ray(pos=PI, dir=-R.dir, wavelength=wav, n=n, intensity=ri.intensity)
+            R = Ray(origin=PI, direction=-R.direction, wavelength=wav, n=n,
+                    intensity=ri.intensity)
 
         R_E1 = R.ch_coord_sys_inv(P, D)
 
@@ -173,9 +175,11 @@ class IdealThickLens(System):
 
         # Crear el rayo que va entre H1 y H2
         if H1[1][2] < H2[1][2]:
-            R=Ray(pos=PI, dir=(0, 0, 1), wavelength=wav, n=n, intensity=ri.intensity)
+            R=Ray(origin=PI, direction=(0, 0, 1), wavelength=wav, n=n,
+                  intensity=ri.intensity)
         else:
-            R=Ray(pos=PI, dir=(0, 0, -1), wavelength=wav, n=n, intensity=ri.intensity)
+            R=Ray(origin=PI, direction=(0, 0, -1), wavelength=wav, n=n,
+                  intensity=ri.intensity)
         R_H1=R.ch_coord_sys_inv(P, D)
 
         # Propagar hasta H2
@@ -184,17 +188,17 @@ class IdealThickLens(System):
         PI=C["S0"][0]._intersection(R)  # No se verifica apertura
 
         # Calculate the refraction in H2
-        _rx, _ry, rz = ri.dir
-        FP=ri.dir*self.f/abs(rz)
+        _rx, _ry, rz = ri.direction
+        FP=ri.direction*self.f/abs(rz)
         d=FP-PI
         if self.f<0:
             d=-d
 
         # Crear el rayo que va entre H2 y E2
         if H2[1][2] < E2[1][2]:
-            R=Ray(pos=PI, dir=d, wavelength=wav, n=n, intensity=ri.intensity)
+            R=Ray(origin=PI, direction=d, wavelength=wav, n=n, intensity=ri.intensity)
         else:
-            R=Ray(pos=PI, dir=-d, wavelength=wav, n=n, intensity=ri.intensity)
+            R=Ray(origin=PI, direction=-d, wavelength=wav, n=n, intensity=ri.intensity)
 
         R_H2=R.ch_coord_sys_inv(P, D)
 
@@ -227,9 +231,9 @@ class IdealThickLens(System):
             ie2=0
 
         if H2[1][2] < E2[1][2]:
-            R=Ray(pos=PI, dir=R.dir, wavelength=wav, intensity=ie2, n=n)
+            R=Ray(origin=PI, direction=R.direction, wavelength=wav, intensity=ie2, n=n)
         else:
-            R=Ray(pos=PI, dir=-R.dir, wavelength=wav, intensity=ie2, n=n)
+            R=Ray(origin=PI, direction=-R.direction, wavelength=wav, intensity=ie2, n=n)
         R_E2=R.ch_coord_sys_inv(P, D)
 
         if self.complete_trace:
@@ -238,7 +242,8 @@ class IdealThickLens(System):
             R_H1.add_child(R_H2)
             R_H2.add_child(R_E2)
         else:
-            R_E1_E2=Ray(pos=R_E1.pos, dir=R_E2.pos-R_E1.pos, wavelength=wav, n=n,
+            R_E1_E2=Ray(origin=R_E1.origin, direction=R_E2.origin-R_E1.origin,
+                        wavelength=wav, n=n,
                         intensity=ri.intensity)
             ri.add_child(R_E1_E2)
             R_E1_E2.add_child(R_E2)

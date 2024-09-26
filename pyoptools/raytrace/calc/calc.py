@@ -3,7 +3,7 @@
 
 """Method collection to obtain optical system information
 
-This module contains a method collection to obtain information, and analyze 
+This module contains a method collection to obtain information, and analyze
 optical systems
 """
 
@@ -246,7 +246,7 @@ def chief_ray_search(
     try:
         x, y, z = ccds.hit_list[0][0]
         dist = sqrt(square(x) + square(y))
-    except:
+    except ValueError:
         dist = inf
 
     p_dist = dist
@@ -265,7 +265,7 @@ def chief_ray_search(
         try:
             x, y, z = ccds.hit_list[0][0]
             dist = sqrt(square(x) + square(y))
-        except:
+        except ValueError:
             # log.info("CCD not hitted by ray")
             dist = inf
 
@@ -327,7 +327,7 @@ def pupil_location(opsys, ccds, opaxis):
     if len(ccds.hit_list) > 1:
         raise Exception("The optical axis intersected the aperture more than once")
 
-    aip = ccds.hit_list[0][0]
+    # aip = ccds.hit_list[0][0]
     air = ccds.hit_list[0][1]
 
     # log.info("Optical Axis Intersection point= "+str(aip))
@@ -338,8 +338,8 @@ def pupil_location(opsys, ccds, opaxis):
     if len(air.childs) != 1:
         raise Exception("The intersected ray can only have one child")
 
-    ip = air.childs[0].pos
-    d = air.childs[0].dir
+    # ip = air.childs[0].pos
+    d = air.childs[0].direction
     # log.info("Intersection point in world coordinates= "+str(ip))
     # log.info("Direction of the optical axis at the intersection point"+str(d))
 
@@ -361,7 +361,7 @@ def pupil_location(opsys, ccds, opaxis):
 
     # Create ray to calculate the exit pupil
     expuray = air.childs[0].copy()
-    expuray.dir = expuray.dir + pvm * 0.0001
+    expuray.direction = expuray.direction + pvm * 0.0001
 
     # Create the ray to calculate the entrance pupil
     enpuray = expuray.reverse()
@@ -455,7 +455,7 @@ def paraxial_location(opsys, opaxis):
     opsys.propagate()
 
     # Calculate vectors perpendicular to the optical axis and to the XYZ axes
-    d = opaxis.dir
+    d = opaxis.direction
     pv1 = cross(d, (0, 0, 1))
     pv2 = cross(d, (0, 1, 0))
     pv3 = cross(d, (1, 0, 0))
@@ -472,7 +472,7 @@ def paraxial_location(opsys, opaxis):
     # Create paraxial ray
 
     par_ray = opaxis.copy()
-    par_ray.dir = par_ray.dir + pvm * 0.001
+    par_ray.direction = par_ray.direction + pvm * 0.001
 
     opsys.clear_ray_list()
     opsys.reset()
@@ -533,8 +533,8 @@ def find_aperture(ccd, size=(50, 50)):
     tx, ty = size
     dx, dy = sx / (tx - 1), sy / (ty - 1)
     CG = mgrid[
-        float(-sx / 2.0) : float(sx / 2.0 + dx) : float(dx),
-        float(-sy / 2.0) : float(sy / 2.0 + dy) : float(dy),
+        float(-sx / 2.0):float(sx / 2.0 + dx):float(dx),
+        float(-sy / 2.0):float(sy / 2.0 + dy):float(dy),
     ]
 
     rm = sqrt(CG[0] ** 2 + CG[1] ** 2)
@@ -585,28 +585,24 @@ def find_ppp(opsys, opaxis):
     # To create a ray parallel to the optical axis, find a displacement vector
     # perpendicular to the optical axis, and to the XYZ axes
 
-    d = opaxis.dir
+    d = opaxis.direction
     pv1 = cross(d, (0, 0, 1))
     pv2 = cross(d, (0, 1, 0))
     pv3 = cross(d, (1, 0, 0))
 
     pv = [pv1, pv2, pv3]
 
-
     # Search for the longest pv
     pvn = array((dot(pv1, pv1), dot(pv2, pv2), dot(pv3, pv3)))
 
     pvm = pv[pvn.argmax()]
 
-
-
     # Create parallel ray
 
     par_ray = opaxis.copy()
-    par_ray.pos = par_ray.pos + pvm * 0.1
+    par_ray.origin = par_ray.origin + pvm * 0.1
 
     print(opaxis, par_ray)
-
 
     opsys.clear_ray_list()
     opsys.ray_add([opaxis, par_ray])
@@ -686,7 +682,7 @@ def get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None):
     opsys.propagate()
     # pf=PlotFrame(opsys=opsys)
     rl = []
-    l = []
+    # l = []
 
     # Get the optical path up to the final element in the system
     for i in raylist:
@@ -783,7 +779,7 @@ def find_reference_sphere_radius(ip, pl):
     # Encontrar el radio de la esfera de mejor ajuste
     def F(z):
         dist = pla - (sqrt(ipa[:, 0] ** 2 + ipa[:, 1] ** 2 + (ipa[:, 2] - z) ** 2) - z)
-        u = sqrt((dist ** 2).sum())
+        u = sqrt((dist**2).sum())
         # print "*", u
         # u=dist[-1]
         # print u
@@ -834,8 +830,8 @@ def parallel_propagate(os, r, np=None):
     r_list = []
     r_list.append((os, r[: nr / cpus]))
     for i in range(2, cpus):
-        r_list.append((os, r[(nr / cpus) * (i - 1) : (nr / cpus) * (i)]))
-    r_list.append((os, r[(nr / cpus) * (cpus - 1) :]))
+        r_list.append((os, r[(nr / cpus) * (i - 1):(nr / cpus) * (i)]))
+    r_list.append((os, r[(nr / cpus) * (cpus - 1):]))
     osi = pool.map(aux_paral_f, r_list)
 
     pool.close()
@@ -895,8 +891,8 @@ def parallel_propagate_ns(os, rg, dp, r, np=None):
     r_list.append((os, rg, dp, r[: nr / cpus]))
     for i in range(2, cpus):
         # os,rg,dp,rb=x
-        r_list.append((os, rg, dp, r[(nr / cpus) * (i - 1) : (nr / cpus) * (i)]))
-    r_list.append((os, rg, dp, r[(nr / cpus) * (cpus - 1) :]))
+        r_list.append((os, rg, dp, r[(nr / cpus) * (i - 1):(nr / cpus) * (i)]))
+    r_list.append((os, rg, dp, r[(nr / cpus) * (cpus - 1):]))
     osi = pool.map(aux_paral_f_ns, r_list)
 
     pool.close()
@@ -925,15 +921,15 @@ def ray_paths(r):
     """
 
     def rt(r):
-        l = []
+        ray_list = []
         rays = r.childs
         for ray in rays:
             a = rt(ray)
             for ray1 in a:
-                l.append([ray] + ray1)
+                ray_list.append([ray] + ray1)
             if len(a) == 0:
-                l.append([ray])
-        return l
+                ray_list.append([ray])
+        return ray_list
 
     A = rt(r)
     B = []
