@@ -18,7 +18,7 @@ Module that defines support for Aspherical optical surfaces
 
 from scipy.optimize import fsolve, brentq
 
-from pyoptools.misc.Poly2D cimport *
+from pyoptools.misc.poly_2d cimport *
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
 from numpy import array, dot, inf, sqrt as npsqrt

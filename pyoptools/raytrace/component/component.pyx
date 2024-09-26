@@ -1,10 +1,10 @@
 from pyoptools.misc.plist.plist cimport plist
-from pyoptools.misc.cmisc.cmisc cimport *
+# from pyoptools.misc.cmisc.cmisc cimport *
 from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.mat_lib import Material
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import asarray, dot
+from numpy import asarray
 
 __all__ = ["Component"]
 
@@ -54,20 +54,21 @@ cdef class Component(Picklable):
                 "material must be a floating point number or a Material instance"
             self._material = material
 
-    property hit_list:
-        def __get__(self):
-            ret_list = []
-            for i in self.surflist:
-                S, SC, SR = i
-                HL = S.hit_list
-                for j in HL:
-                    PI, R = j
-                    # Calculate the intersection point in the Component coordinate
-                    # System
-                    tm = rot_mat(SR)
-                    PI_C = dot(tm, PI)+SC
-                    ret_list.append((PI_C, R))
-            return tuple(ret_list)
+    # TODO: FIX THIS HITLIST TO WORK WITH EIGEN
+    # property hit_list:
+    #    def __get__(self):
+    #        ret_list = []
+    #        for i in self.surflist:
+    #            S, SC, SR = i
+    #            HL = S.hit_list
+    #            for j in HL:
+    #                PI, R = j
+    #                # Calculate the intersection point in the Component coordinate
+    #                # System
+    #                tm = rot_mat(SR)
+    #                PI_C = dot(tm, PI)+SC
+    #                ret_list.append((PI_C, R))
+    #        return tuple(ret_list)
 
     def __init__(self, surflist=None, material=1.):
 
@@ -216,7 +217,7 @@ cdef class Component(Picklable):
             that is closest to the ray (distance,point of intersection, surface)
         """
 
-        cdef tuple[double, double, double] P,D
+        cdef tuple[double, double, double] P, D
         cdef list dist_list = []
         cdef list pi_list = []
         cdef list surf_list = []

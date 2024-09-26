@@ -19,15 +19,23 @@ cdef class Surface(Picklable):
 
     # Method representing the topography of the surface.
     # Used for rendering the surface in Jupyter Lab
+    # Also to find the bounding box when using iterative methods to find the
+    # ray intersection.
+    # TODO: define a topo_cy method to improve the calculation speed.
     cpdef topo(self, x, y)
 
     # Cython method to calculate the surface intersection with a ray
     # To be used by pyoptools Cython functions and methods
-    cdef void intersection_cy(self, Ray incident_ray, Vector3d& intersection_point) # noexcept nogil
+    # TODO: Check what needs to be done for this method to be nogil
+    cdef void intersection_cy(self,
+                              Ray incident_ray,
+                              Vector3d& intersection_point)  # noexcept nogil
 
     # Cython method to calculate the normal at a given intersection point
     # To be used by pyoptools Cython functions and methods
-    cdef void normal_cy(self, Vector3d& intersection_point, Vector3d &Normal) noexcept nogil
+    cdef void normal_cy(self,
+                        Vector3d& intersection_point,
+                        Vector3d &Normal) noexcept nogil
 
     # Method to be overloaded by subclasses that define the specific surface geometry
     cdef void _calculate_intersection(self, Ray, Vector3d&) noexcept nogil
@@ -38,8 +46,8 @@ cdef class Surface(Picklable):
     # Method to calculate the distance from the ray to the surface intersection
     cdef double distance_cy(self, Ray incident_ray, Vector3d& intersection_point)
 
-    # Method to clear all internal structures and data within a surface after propagation
-    # Prepares the surface to be ready for a new propagation
+    # Method to clear all internal structures and data within a surface
+    # after propagation. Prepares the surface to be ready for a new propagation
     cpdef reset(self)
 
     # Calculates the propagation of a ray through the surface

@@ -15,15 +15,9 @@
 import warnings
 
 from libc.math cimport isnan, NAN, INFINITY
-from libc.string cimport memcpy
-
-'''Ray class definition module
-'''
 
 cdef extern from "math.h":
     double sqrt(double)
-cimport cython
-from pyoptools.raytrace.surface.surface cimport Surface
 
 import warnings
 
@@ -77,32 +71,30 @@ cdef class Ray:
         The count of parent rays for this ray, used to manage complex
         ray trajectories. Defaults to 0.
     """
-
-
-    def __init__(self, origin = (0,0,0), direction = (0,0,1), double intensity=1.,
-                 double wavelength=.58929, double n=NAN, label="",
+    def __init__(self, origin = (0, 0, 0), direction = (0, 0, 1),
+                 double intensity=1., double wavelength=.58929, object n=NAN, label="",
                  draw_color=None, Ray parent=None, double pop=0., list orig_surf=None,
-                 order=0, parent_cnt=0,**kwargs):
+                 order=0, parent_cnt=0, **kwargs):
 
         # These are written through the properties, so any python object is valid
 
         if "pos" in kwargs:
             self.origin = kwargs["pos"]
             warnings.warn(
-            "The 'pos' keyword argument is deprecated and will be removed in "
-            "a future version. Please use 'origin' instead.",
-            DeprecationWarning,
-            stacklevel=2)
+                "The 'pos' keyword argument is deprecated and will be removed in "
+                "a future version. Please use 'origin' instead.",
+                DeprecationWarning,
+                stacklevel=2)
         else:
             self.origin = origin
 
         if "dir" in kwargs:
             self.direction = kwargs["dir"]
             warnings.warn(
-            "The 'dir' keyword argument is deprecated and will be removed in "
-            "a future version. Please use 'direction' instead.",
-            DeprecationWarning,
-            stacklevel=2)
+                "The 'dir' keyword argument is deprecated and will be removed in "
+                "a future version. Please use 'direction' instead.",
+                DeprecationWarning,
+                stacklevel=2)
         else:
             self.direction = direction
 
@@ -111,7 +103,18 @@ cdef class Ray:
 
         # TODO: Check in all pyoptools where Ray.n is checked against None.
         # It should be NaN
-        self.n=n
+
+        if n is None:
+            warnings.warn(
+                "The refraction index given as None is deprecated and will be "
+                "removed in a future version. Please use 'NaN' instead.",
+                DeprecationWarning,
+                stacklevel=2
+            )
+            self.n = NAN
+        else:
+            self.n=n
+
         self.label=label
         self.draw_color=draw_color
         self.parent=parent
@@ -122,10 +125,18 @@ cdef class Ray:
         self._parent_cnt = parent_cnt
 
     @staticmethod
-
-    cdef Ray fast_init(Vector3d& origin, Vector3d& direction, double intensity, double wavelength,
-                double n, object label, object draw_color, Ray parent, double pop, list orig_surf,
-                int order, int parent_cnt):
+    cdef Ray fast_init(Vector3d& origin,
+                       Vector3d& direction,
+                       double intensity,
+                       double wavelength,
+                       double n,
+                       object label,
+                       object draw_color,
+                       Ray parent,
+                       double pop,
+                       list orig_surf,
+                       int order,
+                       int parent_cnt):
         """
         Function to create and initialize Ray instances fast from Cython.
         When changing the code, always check that the __init__ and the
@@ -158,7 +169,7 @@ cdef class Ray:
             Color used to render this ray. If None, the wavelength is used to
             determine the color; otherwise, any valid matplotlib color
             identifier can be used.
-            TODO: This should be removed, is up to the plotting engine to 
+            TODO: This should be removed, is up to the plotting engine to
             decide the color.
         parent : Ray
             Ray instance representing the parent Ray from which this Ray
@@ -196,8 +207,8 @@ cdef class Ray:
         cdef Ray instance = Ray.__new__(Ray)
 
         # _direction is not normalized here
-        instance._origin =  origin
-        instance._direction =  direction
+        instance._origin = origin
+        instance._direction = direction
 
         # Set the remaining properties
         instance.intensity = intensity
@@ -231,9 +242,10 @@ cdef class Ray:
         """
         Get a tuple of child Rays.
 
-        This property returns a tuple containing all child Ray objects. The internal list
-        is converted to a tuple to prevent accidental modifications (e.g., using `append`),
-        ensuring that the child list cannot be modified directly through this property.
+        This property returns a tuple containing all child Ray objects. The
+        internal list is converted to a tuple to prevent accidental modifications
+        (e.g., using `append`), ensuring that the child list cannot be modified
+        directly through this property.
 
         Returns
         -------
@@ -281,33 +293,33 @@ cdef class Ray:
     @property
     def dir(self):
         warnings.warn(
-        "The 'dir' attribute is deprecated and will be removed in a future"
-        " version. Please use the 'direction' attribute instead.",
-        DeprecationWarning,
-        stacklevel=2)
+            "The 'dir' attribute is deprecated and will be removed in a future"
+            " version. Please use the 'direction' attribute instead.",
+            DeprecationWarning,
+            stacklevel=2)
         return self.direction
 
     @dir.setter
     def dir(self, dir):
         warnings.warn(
-        "The 'dir' attribute is deprecated and will be removed in a future"
-        " version. Please use the 'direction' attribute instead.",
-        DeprecationWarning,
-        stacklevel=2)
+            "The 'dir' attribute is deprecated and will be removed in a future"
+            " version. Please use the 'direction' attribute instead.",
+            DeprecationWarning,
+            stacklevel=2)
         self.direction = dir
-
 
     # Use property origin to access the field _origin from a python program.
     # It can receive lists, tuples or arrays
     # the cython only visible _origin, can only receive arrays
+
     @property
     def origin(self):
         """
         Get the origin of the ray as a tuple.
 
         This property returns the origin of the ray in 3D space, represented as
-        a tuple (x, y, z). The origin is stored internally as an 
-        Eigen::Vector3d and is converted to a Python tuple when accessed 
+        a tuple (x, y, z). The origin is stored internally as an
+        Eigen::Vector3d and is converted to a Python tuple when accessed
         through this property.
 
         Returns
@@ -322,23 +334,23 @@ cdef class Ray:
         """
         Set the origin of the ray.
 
-        This setter method assigns the given coordinates to the ray's origin. 
-        The input should be a Python object that supports indexing (such as a 
-        list, tuple, or NumPy array) with at least three elements representing 
-        the (x, y, z) coordinates. The internal origin is stored as an 
+        This setter method assigns the given coordinates to the ray's origin.
+        The input should be a Python object that supports indexing (such as a
+        list, tuple, or NumPy array) with at least three elements representing
+        the (x, y, z) coordinates. The internal origin is stored as an
         Eigen::Vector3d, and this method updates it with the provided values.
 
         Parameters
         ----------
         origin_coordinates : object
-            A Python object that supports indexing (e.g., list, tuple, or 
-            NumPy array) and contains at least three elements representing 
+            A Python object that supports indexing (e.g., list, tuple, or
+            NumPy array) and contains at least three elements representing
             the (x, y, z) coordinates of the new origin.
-        
+
         Raises
         ------
         ValueError
-            If `origin_coordinates` does not have at least three elements or 
+            If `origin_coordinates` does not have at least three elements or
             if the elements cannot be converted to floating-point numbers.
         """
         assign_to_vector3d(origin_coordinates, self._origin)
@@ -346,21 +358,20 @@ cdef class Ray:
     @property
     def pos(self):
         warnings.warn(
-        "The 'pos' attribute is deprecated and will be removed in a future"
-        " version. Please use the 'origin' attribute instead.",
-        DeprecationWarning,
-        stacklevel=2)
+            "The 'pos' attribute is deprecated and will be removed in a future"
+            " version. Please use the 'origin' attribute instead.",
+            DeprecationWarning,
+            stacklevel=2)
         return self.origin
 
     @pos.setter
     def pos(self, pos):
         warnings.warn(
-        "The 'pos' attribute is deprecated and will be removed in a future"
-        " version. Please use the 'origin' attribute instead.",
-        DeprecationWarning,
-        stacklevel=2)
+            "The 'pos' attribute is deprecated and will be removed in a future"
+            " version. Please use the 'origin' attribute instead.",
+            DeprecationWarning,
+            stacklevel=2)
         self.origin = pos
-
 
     def ch_coord_sys_inv(self, origin_coordinates, rotation_angles, bool childs=False):
         """
@@ -406,9 +417,9 @@ cdef class Ray:
         cdef Vector3d rotation_angles_vector
         assign_to_vector3d(rotation_angles, rotation_angles_vector)
 
-        cdef Ray parent =  self.ch_coord_sys_inv_f(origin_coordinates_vector,
-                                                   rotation_angles_vector,
-                                                   childs)
+        cdef Ray parent = self.ch_coord_sys_inv_f(origin_coordinates_vector,
+                                                  rotation_angles_vector,
+                                                  childs)
         return parent
 
     cdef Ray ch_coord_sys_inv_f(self, Vector3d& origin_coordinates ,
@@ -429,12 +440,11 @@ cdef class Ray:
         # matrix3x3_vector3_dot(&tm, &self._origin, &rotated_ray_origin)
 
         cdef Vector3d new_ray_origin = rotated_ray_origin + origin_coordinates
-        #add_vector3(&rotated_ray_origin, origin_coordinates_ptr, &new_ray_origin)
+        # add_vector3(&rotated_ray_origin, origin_coordinates_ptr, &new_ray_origin)
 
-
-        #Calculate new ray direction
+        # Calculate new ray direction
         cdef Vector3d new_ray_direction = tm*self._direction
-        #matrix3x3_vector3_dot(&tm, &self._direction, &new_ray_direction)
+        # matrix3x3_vector3_dot(&tm, &self._direction, &new_ray_direction)
 
         cdef Ray parent = Ray.fast_init(new_ray_origin,
                                         new_ray_direction,
@@ -499,8 +509,8 @@ cdef class Ray:
         cdef Vector3d rotation_angles_vector
         assign_to_vector3d(rotation_angles, rotation_angles_vector)
 
-        cdef Ray parent =  self.ch_coord_sys_f(origin_coordinates_vector,
-                                               rotation_angles_vector)
+        cdef Ray parent = self.ch_coord_sys_f(origin_coordinates_vector,
+                                              rotation_angles_vector)
         return parent
 
     cdef Ray ch_coord_sys_f(self, Vector3d& origin_coordinates,
@@ -518,13 +528,14 @@ cdef class Ray:
 
         cdef Vector3d new_ray_origin, new_ray_direction, translated_ray_origin
 
-        #substract_vector3(&self._origin, origin_coordinates_ptr,&translated_ray_origin)
+        # substract_vector3(&self._origin, origin_coordinates_ptr,
+        # &translated_ray_origin)
         translated_ray_origin = self._origin - origin_coordinates
 
-        #matrix3x3_vector3_dot(&tm, &translated_ray_origin, &new_ray_origin)
+        # matrix3x3_vector3_dot(&tm, &translated_ray_origin, &new_ray_origin)
         new_ray_origin = tm*translated_ray_origin
 
-        #matrix3x3_vector3_dot(&tm, &self._direction, &new_ray_direction)
+        # matrix3x3_vector3_dot(&tm, &self._direction, &new_ray_direction)
         new_ray_direction = tm*self._direction
 
         return Ray.fast_init(new_ray_origin,
@@ -592,8 +603,13 @@ cdef class Ray:
         attribute set to `None`, the `childs` attribute set to an empty list,
         the `order` attribute set to 0, and the ray direction inverted.
         """
-        return Ray(pos=self.pos, dir=-self.dir, intensity=self.intensity,
-                   wavelength=self.wavelength, n=self.n, label=self.label,
+        cdef Vector3d new_dir = - self._direction
+        return Ray(origin=self.origin,
+                   direction=convert_vector3d_to_tuple(new_dir),
+                   intensity=self.intensity,
+                   wavelength=self.wavelength,
+                   n=self.n,
+                   label=self.label,
                    orig_surf=self.orig_surf)
 
     def __repr__(self):
@@ -643,7 +659,7 @@ cdef class Ray:
 
     def optical_path_parent(self):
         """
-        Return the optical path length from the origin of the original ray to 
+        Return the optical path length from the origin of the original ray to
         the end of this ray's parent (i.e., the origin of this ray).
 
         This method calculates the optical path length recursively, starting
@@ -655,13 +671,13 @@ cdef class Ray:
         Returns
         -------
         float
-            The total optical path length from the original ray's origin to 
+            The total optical path length from the original ray's origin to
             this ray's origin.
 
         Notes
         -----
-        The optical path length is calculated as the product of the distance 
-        between two points and the refractive index (`n`) of the medium. 
+        The optical path length is calculated as the product of the distance
+        between two points and the refractive index (`n`) of the medium.
         If the ray has a parent, this calculation is performed recursively.
         """
         cdef Vector3d length_vector
@@ -672,7 +688,7 @@ cdef class Ray:
                       " instead the real parent optical path is being used")
 
             length_vector = self._origin - self.parent._origin
-            path =  length_vector.norm()*self.parent.n
+            path = length_vector.norm()*self.parent.n
             return path+self.parent.optical_path_parent()
 
         return self.pop
@@ -704,26 +720,25 @@ cdef class Ray:
 
         cdef Ray other_ray = <Ray> other
 
-        return ((self._origin-other_ray._origin).norm() == 0 and
-                (self._direction-other_ray._direction).norm() == 0 and
-                self.intensity == other.intensity and
-                self.wavelength == other.wavelength and
-                self.n == other.n and
-                self.label == other.label and
-                self.draw_color == other.draw_color and
-                self.order == other.order and
-                self.orig_surf == other.orig_surf)
+        return Ray.almost_equal(self, other_ray, 1e-10)
         # TODO do we have to compare self.pop and other.pop ?
         # self.copy() indicate that we should actually only compare
         # fields pos, dir, intensity, wavelength, n and label
 
     @staticmethod
     def almost_equal(Ray ray1, Ray ray2, double tol=1e-7):
+
+        cdef bint is_n_eq
+        if isnan(ray1.n) and isnan(ray2.n):
+            is_n_eq = True
+        else:
+            is_n_eq = (ray1.n == ray2.n)
+
         return (is_approx(ray1._origin, ray2._origin, tol) and
                 is_approx(ray1._direction, ray2._direction, tol) and
                 ray1.intensity == ray2.intensity and
                 ray1.wavelength == ray2.wavelength and
-                ray1.n == ray2.n and
+                is_n_eq and
                 ray1.label == ray2.label and
                 ray1.draw_color == ray2.draw_color and
                 ray1.order == ray2.order and

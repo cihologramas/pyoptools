@@ -14,7 +14,7 @@
 
 from pyoptools.misc.pmisc import hitlist2int_list, hitlist2int, interpolate_g
 from numpy import array, dot, isinf as npisinf, power, sometrue, linspace, \
-    meshgrid, abs, indices, argwhere, tan, polyfit, arange, where, inf
+    meshgrid, indices, argwhere, tan, polyfit, arange, where, inf
 
 import cython
 from matplotlib.tri import Triangulation
@@ -22,14 +22,13 @@ from pyoptools.misc.picklable.picklable cimport Picklable
 
 from pyoptools.raytrace.shape.circular cimport Circular
 from pyoptools.raytrace.ray.ray cimport Ray
-from pyoptools.misc.Poly2D import ord2i
+from pyoptools.misc.poly_2d import ord2i
 from pyoptools.misc.lsq import polyfit2d
-from pyoptools.misc.cmisc.cmisc cimport norm_vect, empty_vec
 from scipy import interpolate
 from numpy.ma import array as ma_array
 from warnings import warn
 
-from libc.math cimport sqrt, acos, cos, isnan, isinf, M_PI, INFINITY
+from libc.math cimport sqrt, acos, cos, isnan, M_PI, INFINITY
 
 from pyoptools.misc.cmisc.eigen cimport Vector3d, assign_to_vector3d, \
     convert_vector3d_to_tuple, assign_nan_to_vector3d
@@ -73,18 +72,18 @@ cdef class Surface(Picklable):
     """
 
     def __init__(self, reflectivity=0., shape=Circular(radius=10.)):
-            self.reflectivity = reflectivity
-            self.shape = shape
-            self._hit_list = []
-            self.id = []  # The id of each surface gets registered when the component
-            # is created, and when the system is created
-            Picklable.__init__(self, "reflectivity", "shape", "_hit_list", "id")
+        self.reflectivity = reflectivity
+        self.shape = shape
+        self._hit_list = []
+        self.id = []  # The id of each surface gets registered when the component
+        # is created, and when the system is created
+        Picklable.__init__(self, "reflectivity", "shape", "_hit_list", "id")
 
-    @property 
+    @property
     def hit_list(self):
         """
         A read-only property that provides an immutable view of the hit list.
-        
+
         Returns
         -------
         tuple
@@ -196,7 +195,6 @@ cdef class Surface(Picklable):
         """
         self._calculate_normal(intersection_point, normal)
 
-
     def normal(self, intersection_point):
         """
         Calculate the normal vector at a specific intersection point.
@@ -234,8 +232,8 @@ cdef class Surface(Picklable):
 
     cdef void _calculate_intersection(self,
                                       Ray incident_ray,
-                                      Vector3d& intersection_point) \
-                                      noexcept nogil:
+                                      Vector3d& intersection_point) noexcept nogil:
+
         """
         Calculate the point of intersection between a ray and a surface.
 
@@ -273,7 +271,7 @@ cdef class Surface(Picklable):
                                       self.__class__.__name__)
 
     cdef inline void intersection_cy(self, Ray incident_ray,
-                              Vector3d& intersection_point):
+                                     Vector3d& intersection_point):
         """
         Compute the intersection point of a ray with the surface.
 
@@ -342,8 +340,7 @@ cdef class Surface(Picklable):
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-
-    cdef double distance_cy(self, Ray incident_ray, Vector3d intersection_point):
+    cdef double distance_cy(self, Ray incident_ray, Vector3d& intersection_point):
         """
         Calculate the distance from the ray's origin to the intersection point
         on the surface.
@@ -371,7 +368,7 @@ cdef class Surface(Picklable):
 
         Notes
         -----
-        - If the intersection point is behind the ray's origin or too close 
+        - If the intersection point is behind the ray's origin or too close
         due to rounding errors, the distance is considered infinite.
         - The method handles cases where the surface is ahead of or behind the
         ray, or when there is no valid intersection.
@@ -379,14 +376,14 @@ cdef class Surface(Picklable):
         self.intersection_cy(incident_ray, intersection_point)
 
         cdef double dist
-        cdef Vector3d tmp_vector
         # Dist is positive if the current surface is ahead of the ray.
         # If the surface is behind the ray, Dist becomes negative
         # If there is no intersection, Dist becomes inf
         # sometrue(isinf(PI)):
-        if (isnan(intersection_point(0)) or
-            isnan(intersection_point(1)) or
-            isnan(intersection_point(2))):
+        if  (isnan(intersection_point(0)) or
+             isnan(intersection_point(1)) or
+             isnan(intersection_point(2))):
+
             dist = INFINITY
         else:
             # Dist = dot(PI-iray.pos, iray.dir)
@@ -439,7 +436,6 @@ cdef class Surface(Picklable):
         dist = self.distance_cy(incident_ray, intersection_point)
         return dist, convert_vector3d_to_tuple(intersection_point)
 
-
     @cython.cdivision(True)
     cpdef list propagate(self, Ray incident_ray, double ni, double nr):
         """
@@ -477,10 +473,9 @@ cdef class Surface(Picklable):
         # Do not uncomment the following line:
         # self._hit_list.append((intersection_point, incident_ray))
 
-
         # S1 = array(incident_ray.direction)*ni
         S1 = incident_ray._direction * ni
-        
+
         # Calculate the incident angle
         # ddot = vector3_dot_product(&S1, &normal_vector)
         ddot = S1.dot(normal_vector)
@@ -489,7 +484,7 @@ cdef class Surface(Picklable):
         # some times because rounding errors |incident_ray.dir|>1. In this cases
         # I=nan
         if isnan(incidence_angle):
-            I = 0.
+            incidence_angle = 0.
 
         # Take the correct normal
         if incidence_angle > M_PI/2:
@@ -505,7 +500,7 @@ cdef class Surface(Picklable):
         # vector3_times_scalar(&normal_vector,gamma,&A)
         A = normal_vector * gamma
         # S2=S1+A
-        #add_vector3(&S1,&A,&S2)
+        # add_vector3(&S1,&A,&S2)
         S2 = S1 + A
 
         # If the refractive index (nr) is negative, an error is raised. This
@@ -540,8 +535,7 @@ cdef class Surface(Picklable):
             raise ValueError, \
                 f"Negative refractive index detected. ni={ni} nr={nr}"
 
-        elif (reflect == 0) and \
-             not(isnan(S2(0)) or isnan(S2(1)) or isnan(S2(2))):
+        elif (reflect == 0) and not(isnan(S2(0)) or isnan(S2(1)) or isnan(S2(2))):
             # Normal refraction case
             return [Ray.fast_init(intersection_point,
                                   S2,
@@ -562,7 +556,7 @@ cdef class Surface(Picklable):
             A1 = normal_vector * gamma1
             # S3=S1+A1
             S3 = S1+A1
-            
+
             S3.normalize()  # S3=S3/sqrt(dot(S3,S3))
 
             return [Ray.fast_init(intersection_point,
@@ -584,11 +578,11 @@ cdef class Surface(Picklable):
             # A1=gamma1*P
 
             A1 = normal_vector * gamma1
-            
+
             # S3=S1+A1
             S3 = S1 + A1
 
-            S3.normalize() # S3=S3/sqrt(dot(S3,S3))
+            S3.normalize()  # S3=S3/sqrt(dot(S3,S3))
 
             if reflect != 1.:
                 return [Ray.fast_init(intersection_point,

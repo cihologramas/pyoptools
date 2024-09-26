@@ -46,10 +46,10 @@ cdef class Rectangular(Shape):
     size : tuple of float
         A tuple `(width, height)` representing the dimensions of the rectangle.
     samples : tuple of int
-        A tuple `(nx, ny)` representing the number of samples along the width 
+        A tuple `(nx, ny)` representing the number of samples along the width
         and height of the rectangle.
     offset : tuple of float
-        A tuple `(x_offset, y_offset)` representing the offset of the rectangle 
+        A tuple `(x_offset, y_offset)` representing the offset of the rectangle
         from the origin.
     """
     def __init__(self, size=(1., 1.), samples=(30, 30), offset=(0, 0)):
@@ -79,15 +79,16 @@ cdef class Rectangular(Shape):
         Returns
         -------
         bint
-            `True` if the point is within the rectangular surface aperture, `False` otherwise.
+            `True` if the point is within the rectangular surface aperture,
+            `False` otherwise.
 
         """
         cdef double dx, dy, ox, oy, opx, opy
-        cdef double px, py, pz
+        cdef double px, py
 
         px = point(0)
         py = point(1)
-        pz = point(2)
+        # pz = point(2)
 
         dx, dy = self.size
         ox, oy = self.offset
@@ -95,7 +96,6 @@ cdef class Rectangular(Shape):
         opy = py-oy
 
         return (opx >= -dx/2.) and (opx <= dx/2.) and (opy >= -dy/2.) and (opy <= dy/2.)
-
 
     cpdef pointlist(self):
         """
@@ -155,7 +155,7 @@ cdef class Rectangular(Shape):
                 Y.append(y_val)
 
         return X, Y
-  
+
     cpdef limits(self):
         """
         Return the minimum and maximum limits of the rectangular aperture.
@@ -183,7 +183,7 @@ cdef class Rectangular(Shape):
         - These limits define a rectangular bounding box that fully contains
         the aperture.
         """
-        cdef float dx,dy,ox,oy
+        cdef float dx, dy, ox, oy
         dx, dy = self.size
         ox, oy = self.offset
         return -dx/2+ox, dx/2+ox, -dy/2+oy, dy/2+oy

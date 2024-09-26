@@ -17,7 +17,7 @@
 from numpy import array, inf, float64, zeros, asarray
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from pyoptools.misc.Poly2D.Poly2D cimport poly2d
+from pyoptools.misc.poly_2d.poly_2d cimport Poly2D
 from pyoptools.misc.definitions import inf_vect
 import cython
 cdef extern from "math.h":
@@ -42,36 +42,36 @@ cdef class RPPMask(Surface):
 
     The surface shape is given by the shape attribute
 
-    The phm attribute is a poly2d instance, that contains the polinomial
+    The phm attribute is a Poly2D instance, that contains the polinomial
     describing the phase modulation of the gratting. The X and Y input
     values of the polynomial are in microns.
 
     Example:
 
-        >>> g=RPPMask(shape=Rectangular(size=(10,10)), phm=poly2d([0,2*pi/15.,0]),M=[1])
+        >>> g=RPPMask(shape=Rectangular(size=(10,10)), phm=Poly2D([0,2*pi/15.,0]),M=[1])
 
     This is a 10 mm x 10 mm linear gratting that has a fringe each 15 microns
     '''
 
     # cdef np.ndarray k
-    cdef public poly2d phx
-    cdef public poly2d phy
-    cdef public poly2d phm
+    cdef public Poly2D phx
+    cdef public Poly2D phy
+    cdef public Poly2D phm
     cdef public list M
     # def __init__(self,k=(0,2*pi/1e-3),M=[1],**traits):
 
-    def __init__(self, poly2d phm=None, M=None, *args, **kwargs):
+    def __init__(self, Poly2D phm=None, M=None, *args, **kwargs):
         """
         phm represent the phase variations across the surface
         """
         Surface.__init__(self, *args, **kwargs)
         if phm is None:
-            self.phm = poly2d((0, 0, 0, 0, 0, 0))
+            self.phm = Poly2D((0, 0, 0, 0, 0, 0))
         else:
             self.phm = phm
         dxdy = self.phm.dxdy()
-        self.phx = <poly2d > dxdy[0]
-        self.phy = <poly2d > dxdy[1]
+        self.phx = <Poly2D > dxdy[0]
+        self.phy = <Poly2D > dxdy[1]
         if M is None:
             self.M =[1]
         else:

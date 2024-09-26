@@ -25,9 +25,6 @@ from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.component.component cimport Component
 
-from pyoptools.misc.cmisc.eigen cimport Vector3d, convert_vector3d_to_tuple, \
-                                        assign_tuple_to_vector3d
-
 from libc.math cimport isinf, INFINITY
 
 cdef class System(Picklable):
@@ -381,8 +378,8 @@ cdef class System(Picklable):
         # These are defined as tuples, because they need to be python objects
         # to be included in lists
 
-        cdef tuple[double, double, double] P, D, PSR, DSR, PSR0, DSR0, PSR1,\
-        DSR1
+        cdef tuple[double, double, double] P, D, PSR, DSR, PSR0, DSR0, PSR1, \
+            DSR1
 
         cdef int j, j1
         cdef double d0, d1
@@ -396,8 +393,8 @@ cdef class System(Picklable):
         cdef list pi_list=[]
         # Calculate the path length followed by the ray until it intersects all
         # the components and subsystems
-        
-        # Note: C can be component or subsystem, so for the moment we will 
+
+        # Note: C can be component or subsystem, so for the moment we will
         # leave it as a python object
 
         cdef object C
@@ -455,7 +452,7 @@ cdef class System(Picklable):
 
         # Check if you are propagating in a subsystem
 
-        # Note: SR can be a System or a Component, so for the moment we will 
+        # Note: SR can be a System or a Component, so for the moment we will
         # leave it as a standard python object
         cdef object SR
 

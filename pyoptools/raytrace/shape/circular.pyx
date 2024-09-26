@@ -18,8 +18,6 @@ from pyoptools.raytrace.shape.shape cimport Shape
 from pyoptools.misc.cmisc.eigen cimport Vector3d
 
 
-from numpy import arange, meshgrid
-
 cdef class Circular(Shape):
     """
     Class defining a circular shape.
@@ -47,10 +45,10 @@ cdef class Circular(Shape):
     radius : float
         The radius of the circular shape.
     samples : tuple of int
-        A tuple `(radial_samples, angular_samples)` representing the sampling 
+        A tuple `(radial_samples, angular_samples)` representing the sampling
         resolution of the circle.
     """
-    
+
     def __init__(self, radius=1., samples=(10, 36)):
         Shape.__init__(self)
         self.radius = radius
@@ -67,9 +65,9 @@ cdef class Circular(Shape):
         """
         Determine if a point is inside the circular surface aperture.
 
-        This method checks whether a given point `p = (x, y, z)` lies inside the 
-        circular surface aperture. It returns `True` if the point is within the 
-        aperture and `False` otherwise. This method is implemented in Cython to 
+        This method checks whether a given point `p = (x, y, z)` lies inside the
+        circular surface aperture. It returns `True` if the point is within the
+        aperture and `False` otherwise. This method is implemented in Cython to
         ensure fast execution.
 
         Parameters
@@ -120,14 +118,14 @@ cdef class Circular(Shape):
 
         cdef double angle, radius
 
-        for ia in range(0,na):
+        for ia in range(0, na):
 
             angle = ia*2*M_PI/na
-            for ir in range(1,nr+1):
+            for ir in range(1, nr+1):
                 radius = ir * self.radius / nr
 
-                X.append(radius * cos(angle) )
-                Y.append(radius * sin(angle) )
+                X.append(radius * cos(angle))
+                Y.append(radius * sin(angle))
 
         return X, Y
 
@@ -150,7 +148,7 @@ cdef class Circular(Shape):
 
         Notes
         -----
-        These limits define a square bounding box that fully contains the circular 
+        These limits define a square bounding box that fully contains the circular
         aperture.
         """
         return -self.radius, self.radius, -self.radius, self.radius

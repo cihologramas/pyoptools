@@ -124,10 +124,10 @@ def nearest_points(ray1, ray2):
         as in virtual image i.e. c1 and c2 are not in the actual path, or are
         behind the ray's origin.
     """
-    e1 = ray1.dir
-    e2 = ray2.dir
-    p1 = ray1.pos
-    p2 = ray2.pos
+    e1 = np.array(ray1.direction)
+    e2 = np.array(ray2.direction)
+    p1 = np.array(ray1.origin)
+    p2 = np.array(ray2.origin)
 
     # the directions are unit vectors
     denominator = 1 - np.dot(e1, e2) ** 2

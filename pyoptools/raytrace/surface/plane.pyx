@@ -22,8 +22,7 @@ from numpy import zeros, asarray
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
 
-from pyoptools.misc.cmisc.eigen cimport Vector3d, Matrix3d, \
-                                        assign_nan_to_vector3d
+from pyoptools.misc.cmisc.eigen cimport Vector3d, assign_nan_to_vector3d
 
 cdef class Plane(Surface):
     '''Class to define a plane surface.
@@ -46,12 +45,13 @@ cdef class Plane(Surface):
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    cdef void _calculate_intersection(self, Ray incident_ray, Vector3d& intersection_point) noexcept nogil:
+    cdef void _calculate_intersection(self,
+                                      Ray incident_ray,
+                                      Vector3d& intersection_point) noexcept nogil:
         """Returns the intersection point between a ray and an the XY plane
 
         """
         cdef double u
-        cdef Vector3d tmp_vector
 
         # If ray is parallel to the surface, there is no intersection point.
         if incident_ray._direction(2) == 0:
@@ -59,13 +59,15 @@ cdef class Plane(Surface):
         else:
             # u = dot(N_,-_origin)/dot(N_,_direction)
             u = - incident_ray._origin(2) / incident_ray._direction(2)
-            
+
             # retval = _origin+u*_direction
             # for the moment u * incident_ray._direction (mult to the left,
             # does not work) it has to be written incident_ray._direction * u
             intersection_point = incident_ray._direction * u+ incident_ray._origin
-            
-    cdef void _calculate_normal(self, Vector3d& intersection_point, Vector3d& normal) noexcept nogil:
+
+    cdef void _calculate_normal(self,
+                                Vector3d& intersection_point,
+                                Vector3d& normal) noexcept nogil:
         """Method that returns the normal to the surface
         """
         (<double*>(&normal(0)))[0] = 0.

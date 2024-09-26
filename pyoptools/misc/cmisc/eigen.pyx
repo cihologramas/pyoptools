@@ -1,7 +1,7 @@
 # distutils: language=c++
 
 from .eigen cimport Vector3d
-from libc.math cimport fabs, sin, cos, sqrt, NAN
+from libc.math cimport sin, cos, NAN
 
 
 cdef tuple convert_vector3d_to_tuple(Vector3d& v):
@@ -21,21 +21,30 @@ cdef tuple convert_vector3d_to_tuple(Vector3d& v):
     # Access vector components and return them as a Python tuple
     return (v(0), v(1), v(2))
 
+cdef list convert_vectorXd_to_list(VectorXd& v):
+
+    cdef int vect_lenght = v.size()
+    cdef int i
+    ret_val = []
+    for i in range(vect_lenght):
+        ret_val.append(v(i))
+    return ret_val
+
 
 cdef inline void assign_to_vector3d(object obj, Vector3d& v):
     """
     Assign values from a Python object (such as a list, tuple, or NumPy array)
     to an existing Eigen::Vector3d.
-    
+
     Parameters
     ----------
     obj : object
         A Python object that supports indexing (e.g., list, tuple, or NumPy
         array) with at least 3 elements.
-        
+
     v : Vector3d
         An Eigen::Vector3d instance that will be modified in place.
-        
+
     Raises
     ------
     ValueError
@@ -48,7 +57,7 @@ cdef inline void assign_to_vector3d(object obj, Vector3d& v):
         raise ValueError("Input object must have at least 3 elements.")
 
     # Convert and assign values to the Eigen::Vector3d
-    cdef double* ptr 
+    cdef double* ptr
 
     # Assign x-coordinate
     ptr = &v(0)
@@ -63,20 +72,20 @@ cdef inline void assign_to_vector3d(object obj, Vector3d& v):
     ptr[0] = <double>obj[2]  # Convert to double if necessary
 
 
-cdef inline void assign_tuple_to_vector3d(tuple[double, double, double] t, 
+cdef inline void assign_tuple_to_vector3d(tuple[double, double, double] t,
                                           Vector3d& v) noexcept nogil:
 
     """
     Assign values from a tuple to an existing Eigen::Vector3d.
-    
+
     Parameters
     ----------
     t : tuple[double, double, double]
         A tuple of doubles with 3 elements.
-        
+
     v : Vector3d
         An Eigen::Vector3d instance that will be modified in place.
-        
+
     Raises
     ------
     ValueError
@@ -100,20 +109,20 @@ cdef inline void assign_tuple_to_vector3d(tuple[double, double, double] t,
     ptr[0] = t[2]
 
 
-cdef inline void assign_tuple_to_vector2d(tuple[double, double] t, 
+cdef inline void assign_tuple_to_vector2d(tuple[double, double] t,
                                           Vector2d& v) noexcept nogil:
 
     """
     Assign values from a tuple to an existing Eigen::Vector2d.
-    
+
     Parameters
     ----------
     t : tuple[double, double]
         A tuple of doubles with 2 elements.
-        
+
     v : Vector2d
         An Eigen::Vector2d instance that will be modified in place.
-        
+
     Raises
     ------
     ValueError
@@ -174,17 +183,17 @@ cdef inline void compute_rotation_matrix(const Vector3d& rotation,
     cdef double sin_rz = sin(rotation(2))
 
     # Compute the rotation matrix and store it in the result
-    (<double *>(&(result(0,0))))[0] = cos_ry * cos_rz
-    (<double *>(&(result(0,1))))[0] = cos_rz * sin_rx * sin_ry - cos_rx * sin_rz
-    (<double *>(&(result(0,2))))[0] = sin_rx * sin_rz + cos_rx * cos_rz * sin_ry
+    (<double *>(&(result(0, 0))))[0] = cos_ry * cos_rz
+    (<double *>(&(result(0, 1))))[0] = cos_rz * sin_rx * sin_ry - cos_rx * sin_rz
+    (<double *>(&(result(0, 2))))[0] = sin_rx * sin_rz + cos_rx * cos_rz * sin_ry
 
-    (<double *>(&(result(1,0))))[0] = cos_ry * sin_rz
-    (<double *>(&(result(1,1))))[0] = sin_rx * sin_ry * sin_rz + cos_rx * cos_rz
-    (<double *>(&(result(1,2))))[0] = cos_rx * sin_rz * sin_ry - cos_rz * sin_rx
+    (<double *>(&(result(1, 0))))[0] = cos_ry * sin_rz
+    (<double *>(&(result(1, 1))))[0] = sin_rx * sin_ry * sin_rz + cos_rx * cos_rz
+    (<double *>(&(result(1, 2))))[0] = cos_rx * sin_rz * sin_ry - cos_rz * sin_rx
 
-    (<double *>(&(result(2,0))))[0] = -sin_ry
-    (<double *>(&(result(2,1))))[0] = cos_ry * sin_rx
-    (<double *>(&(result(2,2))))[0] = cos_rx * cos_ry
+    (<double *>(&(result(2, 0))))[0] = -sin_ry
+    (<double *>(&(result(2, 1))))[0] = cos_ry * sin_rx
+    (<double *>(&(result(2, 2))))[0] = cos_rx * cos_ry
 
 cdef inline void compute_rotation_matrix_i(const Vector3d& rotation,
                                            Matrix3d& result) noexcept nogil:
@@ -225,17 +234,17 @@ cdef inline void compute_rotation_matrix_i(const Vector3d& rotation,
     cdef double sin_ry = sin(rotation(1))
     cdef double sin_rz = sin(rotation(2))
 
-    (<double *>(&(result(0,0))))[0] = cos_ry * cos_rz
-    (<double *>(&(result(0,1))))[0] = cos_ry * sin_rz
-    (<double *>(&(result(0,2))))[0] = -sin_ry
+    (<double *>(&(result(0, 0))))[0] = cos_ry * cos_rz
+    (<double *>(&(result(0, 1))))[0] = cos_ry * sin_rz
+    (<double *>(&(result(0, 2))))[0] = -sin_ry
 
-    (<double *>(&(result(1,0))))[0] = cos_rz * sin_rx * sin_ry - cos_rx * sin_rz
-    (<double *>(&(result(1,1))))[0] = sin_rx * sin_ry * sin_rz + cos_rx * cos_rz
-    (<double *>(&(result(1,2))))[0] = cos_ry * sin_rx
+    (<double *>(&(result(1, 0))))[0] = cos_rz * sin_rx * sin_ry - cos_rx * sin_rz
+    (<double *>(&(result(1, 1))))[0] = sin_rx * sin_ry * sin_rz + cos_rx * cos_rz
+    (<double *>(&(result(1, 2))))[0] = cos_ry * sin_rx
 
-    (<double *>(&(result(2,0))))[0] = sin_rx * sin_rz + cos_rx * cos_rz * sin_ry
-    (<double *>(&(result(2,1))))[0] = cos_rx * sin_ry * sin_rz - cos_rz * sin_rx
-    (<double *>(&(result(2,2))))[0] = cos_rx * cos_ry
+    (<double *>(&(result(2, 0))))[0] = sin_rx * sin_rz + cos_rx * cos_rz * sin_ry
+    (<double *>(&(result(2, 1))))[0] = cos_rx * sin_ry * sin_rz - cos_rz * sin_rx
+    (<double *>(&(result(2, 2))))[0] = cos_rx * cos_ry
 
 
 cdef inline void assign_nan_to_vector3d(Vector3d& v) noexcept nogil:
@@ -253,7 +262,8 @@ cdef inline void assign_nan_to_vector3d(Vector3d& v) noexcept nogil:
     (<double*>(&(v(1))))[0] = NAN
     (<double*>(&(v(2))))[0] = NAN
 
-cdef inline void assign_doubles_to_vector3d(double x, double y, double z, Vector3d& v) noexcept nogil:
+cdef inline void assign_doubles_to_vector3d(double x, double y, double z,
+                                            Vector3d& v) noexcept nogil:
     """
     Assign values to a Vector3d object from individual double components.
 
@@ -311,4 +321,4 @@ cdef bint is_approx(Vector3d& a, Vector3d& b, double tol) noexcept nogil:
         True if the Euclidean distance between the two vectors is less than
         `tol`, False otherwise.
     """
-    return (a-b).norm()<tol
+    return (a-b).norm()<=tol

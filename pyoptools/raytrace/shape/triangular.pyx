@@ -56,8 +56,8 @@ cdef class Triangular(Shape):
 
     def __init__(self, coord=((0, 0), (0, 100), (100, 0)), samples=10):
         Shape.__init__(self)
-        
-        #self.coord=coord
+
+        # self.coord=coord
         assign_tuple_to_vector2d(coord[0], self.point_a)
         assign_tuple_to_vector2d(coord[1], self.point_b)
         assign_tuple_to_vector2d(coord[2], self.point_c)
@@ -75,7 +75,6 @@ cdef class Triangular(Shape):
 
         args=(self.coord, self.samples)
         return(type(self), args)
-
 
     cdef bint hit_cy(self, Vector3d &point) noexcept nogil:
         """
@@ -100,32 +99,33 @@ cdef class Triangular(Shape):
         Returns
         -------
         bint
-            `True` if the point is within the triangular surface aperture, `False` otherwise.
+            `True` if the point is within the triangular surface aperture,
+            `False` otherwise.
 
         """
-        
+
         cdef double dot00, dot01, dot02, dot11, dot12, invDenom, u, v
 
-        cdef double px, py, pz
+        cdef double px, py, _pz
 
         px = point(0)
         py = point(1)
-        pz = point(2)
+        _pz = point(2)
 
-        cdef Vector2d P = Vector2d(px, py) # = array((px, py))
+        cdef Vector2d P = Vector2d(px, py)  # = array((px, py))
         # A=array(self.coord[0])
         # B=array(self.coord[1])
         # C=array(self.coord[2])
 
-        cdef Vector2d v0 = self.point_c - self.point_a # C-A
-        cdef Vector2d v1 = self.point_b - self.point_a # B-A
-        cdef Vector2d v2=  P - self.point_a #P-A
+        cdef Vector2d v0 = self.point_c - self.point_a  # C-A
+        cdef Vector2d v1 = self.point_b - self.point_a  # B-A
+        cdef Vector2d v2 = P - self.point_a  # P-A
 
-        dot00=v0.dot(v0) # dot(v0, v0)
-        dot01=v0.dot(v1) # dot(v0, v1)
-        dot02=v0.dot(v2) # dot(v0, v2)
-        dot11=v1.dot(v1) # dot(v1, v1)
-        dot12=v1.dot(v2) # dot(v1, v2)
+        dot00=v0.dot(v0)  # dot(v0, v0)
+        dot01=v0.dot(v1)  # dot(v0, v1)
+        dot02=v0.dot(v2)  # dot(v0, v2)
+        dot11=v1.dot(v1)  # dot(v1, v1)
+        dot12=v1.dot(v2)  # dot(v1, v2)
 
         invDenom=1./(dot00 * dot11 - dot01 * dot01)
 
@@ -170,7 +170,7 @@ cdef class Triangular(Shape):
         cdef Vector2d A=self.point_a
         cdef Vector2d B=self.point_b
         cdef Vector2d C=self.point_c
-        cdef Vector2d P0,P1,P
+        cdef Vector2d P0, P1, P
         # Get the mesh points
         cdef list X=[]
         cdef list Y=[]
@@ -191,8 +191,8 @@ cdef class Triangular(Shape):
         """
         Return the minimum and maximum limits of the triangular aperture.
 
-        This method returns the minimum and maximum X and Y coordinates that 
-        define the bounding box of the triangular aperture. These limits are 
+        This method returns the minimum and maximum X and Y coordinates that
+        define the bounding box of the triangular aperture. These limits are
         calculated based on the coordinates of the three vertices of the triangle.
 
         Returns
@@ -206,9 +206,9 @@ cdef class Triangular(Shape):
 
         Notes
         -----
-        - The limits are calculated directly from the coordinates of the triangle's 
+        - The limits are calculated directly from the coordinates of the triangle's
         vertices (`point_a`, `point_b`, and `point_c`).
-        - The returned limits define a rectangular bounding box that fully contains 
+        - The returned limits define a rectangular bounding box that fully contains
         the triangular shape.
         """
         cdef double xmin, xmax, ymin, ymax

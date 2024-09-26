@@ -50,9 +50,11 @@ cdef class plist(dict):
         Raises
         ------
         TypeError
-            If any object in items is not an instance of `Surface`, `Component`, or `System`.
+            If any object in items is not an instance of `Surface`, `Component`,
+            or `System`.
         ValueError
-            If the items are not a list, tuple, dict, or plist, or if they do not have the correct format.
+            If the items are not a list, tuple, dict, or plist, or if they do not
+            have the correct format.
         """
         cdef tuple[double, double, double] position, rotation
         cdef str key

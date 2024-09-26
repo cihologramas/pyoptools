@@ -23,7 +23,7 @@ from math import pi, sin, cos
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Plane, RPPMask
 from pyoptools.raytrace.shape import Rectangular
-from pyoptools.misc.Poly2D.Poly2D import poly2d
+from pyoptools.misc.poly_2d.poly_2d import Poly2D
 
 
 class RectGratting(Component):
@@ -42,7 +42,7 @@ class RectGratting(Component):
         w, h, l = self.size
         lpmmx = lpmm * cos(angle)
         lpmmy = lpmm * sin(angle)
-        phf = poly2d([0, 2 * pi * lpmmx, 2 * pi * lpmmy])
+        phf = Poly2D([0, 2 * pi * lpmmx, 2 * pi * lpmmy])
         __a_surf = RPPMask(
             shape=Rectangular(size=(w, h)), phm=phf, reflectivity=reflectivity, M=M
         )

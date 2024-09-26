@@ -13,11 +13,10 @@
 # ------------------------------------------------------------------------------
 #
 
-from numpy import meshgrid, linspace
-from pyoptools.misc.picklable.picklable cimport Picklable
+# from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.misc.cmisc.eigen cimport Vector3d, assign_tuple_to_vector3d
 
-cdef class Shape: #(Picklable):
+cdef class Shape:  # (Picklable):
     """
     Abstract superclass for all optical surface shapes.
 
@@ -78,7 +77,7 @@ cdef class Shape: #(Picklable):
         Parameters
         ----------
         point : Vector3d&
-            A reference to a `Vector3d` object representing the coordinates 
+            A reference to a `Vector3d` object representing the coordinates
             `(x, y, z)` of the point to be checked.
 
         Returns
@@ -123,9 +122,7 @@ cdef class Shape: #(Picklable):
             indicating that the method must be overloaded.
         """
         raise NotImplementedError("The `pointlist` method must be overloaded in " +
-                                "class " + self.__class__.__name__)
-
-
+                                  "class " + self.__class__.__name__)
 
     # def mesh(self, size=None, grid_size=(100, 100), topo=None):
     #     """
@@ -141,10 +138,10 @@ cdef class Shape: #(Picklable):
     #         The limits `(xi, xf, yi, yf)` of the mesh grid. If not provided,
     #         the limits are derived from the aperture size.
     #     grid_size : tuple of int, optional
-    #         The number of points in the mesh along each axis `(nx, ny)`. 
+    #         The number of points in the mesh along each axis `(nx, ny)`.
     #         Defaults to `(100, 100)`.
     #     topo : callable, optional
-    #         A function `Z(x, y)` that describes the topography of the surface. 
+    #         A function `Z(x, y)` that describes the topography of the surface.
     #         If not provided, the function will return 0 for points outside the
     #         aperture and 1 for points inside.
 
@@ -176,7 +173,7 @@ cdef class Shape: #(Picklable):
         """
         Return the minimum and maximum limits for the aperture.
 
-        This method should be overridden in each subclass to return the 
+        This method should be overridden in each subclass to return the
         specific limits of the shape.
 
         Returns
@@ -186,4 +183,3 @@ cdef class Shape: #(Picklable):
         """
         raise NotImplementedError("The `limits` method must be overloaded " +
                                   "in the subclass " + self.__class__.__name__)
-

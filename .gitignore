@@ -29,3 +29,4 @@ debian/python3-pyoptools.substvars
 debian/files
 .coverage
 test_results.xml
+.eggs

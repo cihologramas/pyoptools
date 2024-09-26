@@ -12,11 +12,6 @@
 # Symbols Defined: Stop, StopCircAp, StopRecAp
 # ------------------------------------------------------------------------------
 
-'''Module that defines stops classes
-'''
-
-
-# from ray_trace.surface import Plane
 from pyoptools.raytrace.surface.plane cimport Plane
 
 from pyoptools.raytrace.shape.shape cimport Shape
@@ -67,14 +62,13 @@ cdef class Aperture(Plane):
         # Add items to the state list
         self.addkey("ap_shape")
 
-
     cpdef list propagate(self, Ray ri, double ni, double nr):
         """
         Determine whether a ray continues propagating after intersecting the surface.
 
-        This method overrides `Surface.propagate` to decide if a ray should continue 
-        propagating or not after it intersects the surface. It checks if the intersection 
-        point lies within the aperture defined by `ap_shape`.
+        This method overrides `Surface.propagate` to decide if a ray should continue
+        propagating or not after it intersects the surface. It checks if the
+        intersection point lies within the aperture defined by `ap_shape`.
 
         Parameters
         ----------
@@ -121,12 +115,36 @@ cdef class Aperture(Plane):
         else:
             i = 0.
 
-        # Create the resulting ray
-        # ret_ray = Ray(pos=PI, dir=ri.dir, intensity=i, wavelength=ri.wavelength,
-        #              n=ri.n, label=ri.label, orig_surf=self.id)
-
-        ret_ray = Ray.fast_init(PI, ri._direction, i, ri.wavelength,
-                    ri.n, ri.label, ri.draw_color, ri, ri.pop, self.id,
-                    0, ri.parent_cnt+1)
+        ret_ray = Ray.fast_init(PI,
+                                ri._direction,
+                                i,
+                                ri.wavelength,
+                                ri.n,
+                                ri.label,
+                                ri.draw_color,
+                                ri,
+                                ri.pop,
+                                self.id,
+                                0,
+                                ri._parent_cnt+1)
 
         return [ret_ray]
+
+    def __repr__(self):
+        """
+        Return a string representation of the Aperture optical surface.
+
+        This method provides a detailed string representation of the `Aperture`
+        object, including its shape, aperture shape, and other relevant attributes
+        inherited from the `Plane` class.
+
+        Returns
+        -------
+        str
+            A string that represents the current state of the `Aperture` object.
+        """
+        return (
+            f"Aperture(shape={repr(self.shape)}, "
+            f"ap_shape={repr(self.ap_shape)}, "
+            f"id={self.id})"
+        )

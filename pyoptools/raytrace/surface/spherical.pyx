@@ -15,8 +15,7 @@
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
 
-from pyoptools.misc.cmisc.eigen cimport Vector3d, Matrix3d, \
-                                        assign_nan_to_vector3d, \
+from pyoptools.misc.cmisc.eigen cimport Vector3d, assign_nan_to_vector3d, \
                                         assign_doubles_to_vector3d
 
 from libc.math cimport sqrt, abs
@@ -56,9 +55,9 @@ cdef class Spherical(Surface):
 
     Notes
     -----
-    - The `curvature` is defined as the reciprocal of the radius of curvature 
+    - The `curvature` is defined as the reciprocal of the radius of curvature
       (i.e., `curvature = 1 / radius`). A flat surface would have a curvature of `0`.
-    - Refer to the `Surface` documentation for additional options and parameters 
+    - Refer to the `Surface` documentation for additional options and parameters
       that can be used when defining the surface.
     """
     cdef public double curvature
@@ -68,7 +67,9 @@ cdef class Spherical(Surface):
         self.curvature = curvature
         self.addkey("curvature")
 
-    cdef void _calculate_intersection(self, Ray incident_ray, Vector3d& intersection_point) noexcept nogil:
+    cdef void _calculate_intersection(self,
+                                      Ray incident_ray,
+                                      Vector3d& intersection_point) noexcept nogil:
         """
         Calculate the intersection point between a ray and the spherical surface.
 
@@ -137,13 +138,14 @@ cdef class Spherical(Surface):
             else:
                 X, Y, Z = X1, Y1, Z1
 
-
             if abs(Z) > abs(z3):
                 assign_nan_to_vector3d(intersection_point)
             else:
-                assign_doubles_to_vector3d(X,Y,Z,intersection_point)
+                assign_doubles_to_vector3d(X, Y, Z, intersection_point)
 
-    cdef void _calculate_normal(self, Vector3d& intersection_point, Vector3d& normal) noexcept nogil:
+    cdef void _calculate_normal(self,
+                                Vector3d& intersection_point,
+                                Vector3d& normal) noexcept nogil:
         """
         Calculate the normal vector to the spherical surface at a given point.
 
@@ -163,29 +165,31 @@ cdef class Spherical(Surface):
         Notes
         -----
         - The normal vector is calculated as the difference between the intersection
-        point and the sphere's center of curvature, which is located at `(0, 0, 1/curvature)`.
+        point and the sphere's center of curvature, which is located at
+        `(0, 0, 1/curvature)`.
         - The resulting normal vector is normalized to have a unit length.
-        - This method is marked `noexcept` and `nogil`, making it safe for use in 
+        - This method is marked `noexcept` and `nogil`, making it safe for use in
         performance-critical, multi-threaded Cython code.
         """
-        normal = intersection_point - Vector3d(0,0,1./self.curvature)
+        normal = intersection_point - Vector3d(0, 0, 1./self.curvature)
         normal.normalize()
-
 
     cpdef topo(self, X, Y):
         """
         Calculate the Z values for given X and Y coordinates on the spherical surface.
 
-        This method computes the topography (Z values) of the spherical surface 
-        corresponding to the provided X and Y coordinates. It is primarily used 
+        This method computes the topography (Z values) of the spherical surface
+        corresponding to the provided X and Y coordinates. It is primarily used
         for plotting the surface.
 
         Parameters
         ----------
         X : list of float
-            A list of X coordinates on the surface for which Z values are to be calculated.
+            A list of X coordinates on the surface for which Z values are to be
+            calculated.
         Y : list of float
-            A list of Y coordinates on the surface for which Z values are to be calculated.
+            A list of Y coordinates on the surface for which Z values are to be
+            calculated.
 
         Returns
         -------
@@ -202,10 +206,10 @@ cdef class Spherical(Surface):
         - The method returns a list of Z values that can be used to visualize
         the spherical surface.
         """
-        cdef double x,y,z
+        cdef double x, y, z
         cdef list Z = []
 
-        for x,y in zip (X,Y):
+        for x, y in zip (X, Y):
             z = sqrt((1./self.curvature)**2 - x**2 - y**2) - abs(1./self.curvature)
 
             if self.curvature > 0:
@@ -218,8 +222,8 @@ cdef class Spherical(Surface):
         """
         Return a string representation of the Spherical optical surface.
 
-        This method provides a detailed string representation of the `Spherical` 
-        object, including its shape, reflectivity, curvature, and other relevant 
+        This method provides a detailed string representation of the `Spherical`
+        object, including its shape, reflectivity, curvature, and other relevant
         attributes inherited from the `Surface` class.
 
         Returns

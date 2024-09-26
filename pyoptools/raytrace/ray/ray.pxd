@@ -20,9 +20,9 @@ cdef class Ray:
     cdef public double intensity, wavelength, pop
     cdef list __childs
 
-    cdef Vector3d _origin # _origin is the backing attribute for the origin property
-    cdef Vector3d _direction # Baking of the dir property
-    cdef double n
+    cdef Vector3d _origin  # _origin is the backing attribute for the origin property
+    cdef Vector3d _direction  # Baking of the dir property
+    cdef public double n
 
     # amount of parents of this ray in the optical path. It counts the number of
     # times  a ray have been propagated through surfaces. It is used to stop
@@ -34,9 +34,10 @@ cdef class Ray:
                                 Vector3d& rotation_angles, bool childs)
     cdef Ray ch_coord_sys_f(self, Vector3d& origin_coordinates ,
                             Vector3d& rotation_angles)
+
     @staticmethod
     cdef Ray fast_init(Vector3d& origin, Vector3d& direction,
-                       double intensity, double wavelength,double n,
-                        object label, object draw_color, Ray parent,
-                        double pop, list orig_surf,
-                        int order, int parent_cnt)
+                       double intensity, double wavelength, double n,
+                       object label, object draw_color, Ray parent,
+                       double pop, list orig_surf,
+                       int order, int parent_cnt)

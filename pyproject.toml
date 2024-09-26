@@ -54,3 +54,8 @@ directive = {language_level = "3"}
 [tool.cython-lint]
 max-line-length = 88
 ignore = ["E741"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["tests"]

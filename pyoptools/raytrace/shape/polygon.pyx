@@ -12,13 +12,9 @@
 # Symbols Defined: Polygon
 # ------------------------------------------------------------------------------
 
-
-
 from pyoptools.raytrace.shape.shape cimport Shape
 from pyoptools.misc.cmisc.eigen cimport Vector3d, Vector2d, \
     assign_tuple_to_vector2d
-
-cimport cython
 
 cdef class Polygon(Shape):
 
@@ -38,8 +34,8 @@ cdef class Polygon(Shape):
 
     def __init__(self, coord=((0, 0), (0, 100), (100, 0)), samples=10, *args, **kwargs):
         Shape.__init__(self, *args, **kwargs)
-        
-        #self.coord=coord
+
+        # self.coord=coord
         assign_tuple_to_vector2d(coord[0], self.point_a)
         assign_tuple_to_vector2d(coord[1], self.point_b)
         assign_tuple_to_vector2d(coord[2], self.point_c)
@@ -58,7 +54,6 @@ cdef class Polygon(Shape):
         args=(self.coord, self.samples)
         return(type(self), args)
 
-
     cdef bint hit_cy(self, Vector3d &point) noexcept nogil:
         """This method returns TRUE if an p=(x,y,z)point is inside the surface
         aperture if not it must return FALSE.
@@ -66,26 +61,25 @@ cdef class Polygon(Shape):
         """
         cdef double dot00, dot01, dot02, dot11, dot12, invDenom, u, v
 
-        cdef double px, py, pz
+        cdef double px, py
 
         px = point(0)
         py = point(1)
-        pz = point(2)
 
-        cdef Vector2d P = Vector2d(px, py) # = array((px, py))
+        cdef Vector2d P = Vector2d(px, py)  # = array((px, py))
         # A=array(self.coord[0])
         # B=array(self.coord[1])
         # C=array(self.coord[2])
 
-        cdef Vector2d v0 = self.point_c - self.point_a # C-A
-        cdef Vector2d v1 = self.point_b - self.point_a # B-A
-        cdef Vector2d v2=  P - self.point_a #P-A
+        cdef Vector2d v0 = self.point_c - self.point_a  # C-A
+        cdef Vector2d v1 = self.point_b - self.point_a  # B-A
+        cdef Vector2d v2 = P - self.point_a  # P-A
 
-        dot00=v0.dot(v0) # dot(v0, v0)
-        dot01=v0.dot(v1) # dot(v0, v1)
-        dot02=v0.dot(v2) # dot(v0, v2)
-        dot11=v1.dot(v1) # dot(v1, v1)
-        dot12=v1.dot(v2) # dot(v1, v2)
+        dot00=v0.dot(v0)  # dot(v0, v0)
+        dot01=v0.dot(v1)  # dot(v0, v1)
+        dot02=v0.dot(v2)  # dot(v0, v2)
+        dot11=v1.dot(v1)  # dot(v1, v1)
+        dot12=v1.dot(v2)  # dot(v1, v2)
 
         invDenom=1./(dot00 * dot11 - dot01 * dot01)
 
@@ -99,10 +93,10 @@ cdef class Polygon(Shape):
 
         cdef int i, j
 
-        cdef Vector2d A=self.point_a
-        cdef Vector2d B=self.point_b
-        cdef Vector2d C=self.point_c
-        cdef Vector2d P0,P1,P
+        cdef Vector2d A = self.point_a
+        cdef Vector2d B = self.point_b
+        cdef Vector2d C = self.point_c
+        cdef Vector2d P0, P1, P
         # Get the mesh points
         cdef list X=[]
         cdef list Y=[]

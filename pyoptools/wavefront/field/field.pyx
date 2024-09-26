@@ -41,7 +41,7 @@ from pyoptools.misc.cmisc.cmisc cimport rot_mat
 from pyoptools.raytrace.ray import Ray
 
 
-#from pyoptools.misc.cmisc.cmisc import unwrap
+# from pyoptools.misc.cmisc.cmisc import unwrap
 
 
 cdef extern from "math.h":
@@ -213,7 +213,7 @@ cdef class Field:
         def __get__(self):
             print("Warning: The phase is not being cached. Need to fix this")
             a=self.angle
-            return a # NEED TO FIX UNWRAP AND UNCOMMENT THIS unwrap(a)
+            return a  # NEED TO FIX UNWRAP AND UNCOMMENT THIS unwrap(a)
 
     property angle:
         ''' Returns the wrapped phase of the field (mod 2 pi)'''

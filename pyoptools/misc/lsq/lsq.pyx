@@ -1,9 +1,12 @@
-from numpy import array, sqrt, power, ones,  empty
+from numpy import array, sqrt, power, ones, empty, arange
 from numpy.linalg import solve
-from pyoptools.misc.Poly2D.Poly2D cimport *
+cimport cython
+from numpy.linalg import solve
+from pyoptools.misc.poly_2d.poly_2d cimport *
 # from pyoptools.misc.Poly2D import *
 
 cimport cython
+
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
@@ -11,9 +14,9 @@ def polyfit2d(x, y, z, int order=2):
     """
     Perform a 2D polynomial fit using least squares.
 
-    This function fits a polynomial of a specified order to the provided 
-    two-dimensional data (x, y, z) using a least-squares approach. The fitting 
-    is done using a Vandermonde matrix, and the coefficients of the polynomial 
+    This function fits a polynomial of a specified order to the provided
+    two-dimensional data (x, y, z) using a least-squares approach. The fitting
+    is done using a Vandermonde matrix, and the coefficients of the polynomial
     are solved to minimize the sum of squared residuals.
 
     Parameters
@@ -23,18 +26,18 @@ def polyfit2d(x, y, z, int order=2):
     y : array-like
         1D array representing the y-coordinates of the data points.
     z : array-like
-        1D array representing the z-values (dependent variable) at the given 
+        1D array representing the z-values (dependent variable) at the given
         (x, y) points.
     order : int, optional
         The order of the polynomial to fit (default is 2).
 
     Returns
     -------
-    ret_poly : poly2d
-        A `poly2d` object representing the fitted polynomial function.
+    ret_poly : Poly2D
+        A `Poly2D` object representing the fitted polynomial function.
     e : float
-        The root mean square error (RMSE) of the fit, calculated as the square 
-        root of the mean of the squared differences between the observed and 
+        The root mean square error (RMSE) of the fit, calculated as the square
+        root of the mean of the squared differences between the observed and
         fitted values.
 
     Examples
@@ -44,25 +47,16 @@ def polyfit2d(x, y, z, int order=2):
     >>> z = [1.0, 4.0, 9.0]
     >>> ret_poly, error = polyfit2d(x, y, z, order=2)
     >>> print(ret_poly)
-    poly2d object with coefficients: [ ... ]
+    Poly2D object with coefficients: [ ... ]
     >>> print(error)
     0.1234
 
     Notes
     -----
-    The polynomial fit is performed using a Vandermonde matrix construction 
-    for two-dimensional data. The matrix is formed based on the powers of the 
-    input coordinates (x and y), and the least-squares solution is obtained 
+    The polynomial fit is performed using a Vandermonde matrix construction
+    for two-dimensional data. The matrix is formed based on the powers of the
+    input coordinates (x and y), and the least-squares solution is obtained
     by solving the corresponding normal equations.
-
-    """
-from numpy import array, sqrt, power, ones, empty, arange
-from numpy.linalg import solve
-cimport cython
-
-def polyfit2d(x, y, z, int order=2):
-    """
-    Perform a 2D polynomial fit using least squares.
     """
     cdef int nc, nd, p, n, ir, ic, id, powx, powy
     cdef double sum
@@ -119,7 +113,6 @@ def polyfit2d(x, y, z, int order=2):
     potx_mv[:, :] = array(px, dtype="int32")[:]
     poty_mv[:, :] = array(py, dtype="int32")[:]
 
-
     # The loop replace this as it is not allowed in cython memory views
     # potx_mv[:, :] += potx_mv.T
     # poty_mv[:, :] += poty_mv.T
@@ -128,8 +121,6 @@ def polyfit2d(x, y, z, int order=2):
         for ic in range(nc):
             potx_mv[ir, ic] = potx_mv[ir, ic] + potx_mv[ic, ir]
             poty_mv[ir, ic] = poty_mv[ir, ic] + poty_mv[ic, ir]
-
-
 
     # Create Vandermonde matrix
     mat = empty((nc, nc), dtype="double")
@@ -159,7 +150,7 @@ def polyfit2d(x, y, z, int order=2):
     # Solve for the coefficients
     cohef = solve(mat_mv, vec_mv)
     cdef double[:, :] cohef_mv = cohef
-    ret_poly = poly2d(cohef_mv[:, 0])
+    ret_poly = Poly2D(cohef_mv[:, 0])
 
     # Calculate error
     e = sqrt(power(za_mv - ret_poly.eval(xa_mv, ya_mv), 2).mean())
@@ -189,7 +180,7 @@ def vander_matrix(x, y, z, int order=2):
     nd=len(xa)
     XP=ones((nd, 2*(order+1)), order="C", dtype="double")
     YP=ones((nd, 2*(order+1)), order="C", dtype="double")
-    
+
     for p in range(1, 2*(order+1)):
         XP[:, p]=XP[:, p-1]*xa
         YP[:, p]=YP[:, p-1]*ya
@@ -319,7 +310,7 @@ def polyfito2(x, y, z):
         vec[ic, 0]=tv.sum()
 
     cohef= solve(mat, vec)
-    ret_poly=poly2d(cohef, px=px, py=py)
+    ret_poly=Poly2D(cohef, px=px, py=py)
 
     # Calculate error. Verify if this is the best way
     ep=cohef[0]+\

@@ -16,8 +16,7 @@
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
 
-from pyoptools.misc.cmisc.eigen cimport Vector3d, Matrix3d, \
-                                        assign_nan_to_vector3d, \
+from pyoptools.misc.cmisc.eigen cimport Vector3d, assign_nan_to_vector3d, \
                                         assign_doubles_to_vector3d
 
 from libc.math cimport sqrt, abs
@@ -51,7 +50,8 @@ cdef class Cylindrical(Surface):
 
     Examples
     --------
-    Creating a cylindrical surface with a rectangular aperture and a specific curvature::
+    Creating a cylindrical surface with a rectangular aperture and a specific
+    curvature::
 
         >>> cs = Cylindrical(shape=Rectangular(size=(10, 20)), curvature=0.15)
 
@@ -70,8 +70,9 @@ cdef class Cylindrical(Surface):
         self.curvature = curvature
         self.addkey("curvature")
 
-
-    cdef void _calculate_intersection(self, Ray incident_ray, Vector3d& intersection_point) noexcept nogil:
+    cdef void _calculate_intersection(self,
+                                      Ray incident_ray,
+                                      Vector3d& intersection_point) noexcept nogil:
         """
         Calculate the intersection point between a ray and the cylindrical surface.
 
@@ -84,8 +85,9 @@ cdef class Cylindrical(Surface):
         Parameters
         ----------
         incident_ray : Ray
-            The incoming ray for which the intersection with the cylindrical surface
-            is to be calculated. The ray must be in the coordinate system of the surface.
+            The incoming ray for which the intersection with the cylindrical
+            surface is to be calculated. The ray must be in the coordinate
+            system of the surface.
         intersection_point : Vector3d&
             A reference to a `Vector3d` object where the calculated intersection
             point will be stored. If there is no valid intersection, this vector
@@ -149,10 +151,11 @@ cdef class Cylindrical(Surface):
             if abs(Z) > abs(z3):
                 assign_nan_to_vector3d(intersection_point)
             else:
-                assign_doubles_to_vector3d(X,Y,Z,intersection_point)
+                assign_doubles_to_vector3d(X, Y, Z, intersection_point)
 
-
-    cdef void _calculate_normal(self, Vector3d& intersection_point, Vector3d& normal) noexcept nogil:
+    cdef void _calculate_normal(self,
+                                Vector3d& intersection_point,
+                                Vector3d& normal) noexcept nogil:
         """
         Calculate the normal vector to the cylindrical surface at a given point.
 
@@ -172,17 +175,18 @@ cdef class Cylindrical(Surface):
         Notes
         -----
         - The normal vector is calculated as the difference between the intersection
-        point and the center of curvature of the cylinder, which is located at `(0, 0, 1/curvature)`.
+        point and the center of curvature of the cylinder, which is located at
+        `(0, 0, 1/curvature)`.
         - The Y component of the normal vector is set to zero to ensure the normal
-        lies in the XZ plane, which is consistent with the geometry of a cylindrical surface.
+        lies in the XZ plane, which is consistent with the geometry of a
+        cylindrical surface.
         - The resulting normal vector is then normalized to have a unit length.
         - This method is marked `noexcept` and `nogil`, making it safe for use in
         performance-critical, multi-threaded Cython code.
         """
-        normal = intersection_point - Vector3d(0,0,1./self.curvature)
+        normal = intersection_point - Vector3d(0, 0, 1./self.curvature)
         (<double*>(&(normal(1))))[0] = 0
         normal.normalize()
-
 
     cpdef topo(self, X, Y):
         """
@@ -221,9 +225,9 @@ cdef class Cylindrical(Surface):
         the cylindrical surface.
         """
 
-        cdef double x,y,z
+        cdef double x, y, z
         cdef list Z = []
-        for x,y in zip (X,Y):
+        for x, y in zip (X, Y):
             z = sqrt((1./self.curvature)**2 - x**2) - abs(1./self.curvature)
 
             if self.curvature > 0:
