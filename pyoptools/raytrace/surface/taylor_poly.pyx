@@ -19,9 +19,6 @@ cdef extern from "math.h":
 
 from numpy import array, dot, inf
 
-cimport numpy as np
-np.import_array()
-
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
 from scipy.optimize import fsolve, brentq
@@ -78,7 +75,7 @@ cdef class TaylorPoly(Surface):
             Z1=0.
         return Z1
 
-    cpdef np.ndarray normal(self, int_p):
+    cpdef normal(self, int_p):
         """**Return the vector normal to the surface**
 
         This method returns the vector normal to the asphere at a point

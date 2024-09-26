@@ -26,10 +26,6 @@ cdef extern from "math.h":
     double M_PI
 
 
-cimport numpy as np
-np.import_array()
-
-
 cdef class RPPMask(Surface):
     '''Class to define a reflective plane phase mask.
 
@@ -101,9 +97,11 @@ cdef class RPPMask(Surface):
         # N_=array([0.,0.,1.])
 
         # Punto que pertenece al rayo "Origen" del rayo
-        cdef np.ndarray[np.float64_t, ndim=1] P1 = A.origin
+        # cdef np.ndarray[np.float64_t, ndim=1]
+        P1 = A.origin
         # Vector paralelo a la linea
-        cdef np.ndarray[np.float64_t, ndim=1] L1 = A.direction
+        # cdef np.ndarray[np.float64_t, ndim=1]
+        L1 = A.direction
 
         # if dot(N_,L1) ==0 : return inf_vect
         if L1[2] == 0:
@@ -119,7 +117,7 @@ cdef class RPPMask(Surface):
 
         return retval
 
-    cpdef np.ndarray normal(self, ri):
+    cpdef normal(self, ri):
         """Method that returns the normal to the surface
         """
         N_ = array((0., 0., 1.)).astype(float64)

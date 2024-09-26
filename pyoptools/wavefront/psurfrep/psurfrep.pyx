@@ -6,9 +6,6 @@ from pyoptools.misc import *
 from pyoptools.misc.Poly2D import ord2i, poly2d
 from pyoptools.wavefront.field import Field
 
-cimport numpy as np
-np.import_array()
-
 cdef extern from "math.h":
     double sqrt(double) nogil
     double atan2(double, double) nogil
@@ -63,7 +60,7 @@ class PSurf:
 
         self.l=l
 
-    def wf_polys(self, np.ndarray[np.double_t, ndim=1] k):
+    def wf_polys(self, double [:] k):
         '''Return the polynomials that describe the wavefront
 
         (fase_poly, i_poly)
@@ -73,8 +70,8 @@ class PSurf:
         r=sqrt(k[0]**2+k[1]**2)
         iang =atan2(r, k[2])
 
-        cdef np.ndarray[np.double_t, ndim=1] cf=np.zeros((self.nc,), dtype=np.double)
-        cdef np.ndarray[np.double_t, ndim=1] ci=np.zeros((self.nc,), dtype=np.double)
+        cdef double [:] cf=np.zeros((self.nc,), dtype=np.double)
+        cdef double [:] ci=np.zeros((self.nc,), dtype=np.double)
         for i in range(self.nc):
             pof=self.pf[i]
             cf[i]=np.polyval(pof, iang)
@@ -85,7 +82,7 @@ class PSurf:
         di=poly2d(ci)
         return df, di
 
-    def pw_evaluate(self, np.ndarray[np.double_t, ndim=1] k, samples=(512, 512),
+    def pw_evaluate(self, double [:] k, samples=(512, 512),
                     gpu=True):
         """Plane wave evaluate
 
@@ -99,7 +96,7 @@ class PSurf:
         r=sqrt(k[0]**2+k[1]**2)
         iang =atan2(r, k[2])
 
-        cdef np.ndarray[np.double_t, ndim=1] cf=np.zeros((self.nc,), dtype=np.double)
+        cdef double [:] cf=np.zeros((self.nc,), dtype=np.double)
         ci=np.zeros((self.nc,))
         for i in range(self.nc):
             pof=self.pf[i]
@@ -170,8 +167,8 @@ class PSurf:
         # cdef np.ndarray[np.complex128_t, ndim=3] a = \
         # np.zeros((3,3,3), dtype=np.complex128)
 
-        cdef np.ndarray[np.double_t, ndim=2] X  # = np.empty([nx, ny], dtype=np.double)
-        cdef np.ndarray[np.double_t, ndim=2] Y  # = np.zeros([nx, ny], dtype=np.double)
+        # cdef double [:, :] X  # = np.empty([nx, ny], dtype=np.double)
+        # cdef double [:, :] Y  # = np.zeros([nx, ny], dtype=np.double)
 
         X, Y=np.indices((nx, ny), dtype=np.double)
         X=X-nx/2

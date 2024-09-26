@@ -4,8 +4,6 @@ from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.plane cimport Plane
 from math import isinf
 from numpy import asarray
-cimport numpy as np
-np.import_array()
 
 
 class IdealThickLens(System):

@@ -1,8 +1,6 @@
 from pyoptools.misc import *
 
 import numpy as np
-cimport numpy as np
-np.import_array()
 
 cimport cython
 
@@ -11,12 +9,10 @@ cdef extern from "math.h":
     double sqrt(double) nogil
     double atan2(double, double) nogil
 
-ctypedef np.complex_t complex_t
-
 
 @cython.boundscheck(False)  # turn of bounds-checking for entire function
 @cython.wraparound(False)
-def cpw_evaluate_c(self, np.ndarray[np.double_t, ndim=1] k, samples=(512, 512)):
+def cpw_evaluate_c(self, double [:] k, samples=(512, 512)):
     """Plane wave evaluate, return the 2d polynomials
 
     Arguments:
@@ -33,13 +29,13 @@ def cpw_evaluate_c(self, np.ndarray[np.double_t, ndim=1] k, samples=(512, 512)):
 
     iang =atan2(r, k[2])
 
-    cdef np.ndarray[np.double_t, ndim=1] cf
-    cdef np.ndarray[np.double_t, ndim=1] ci
+    cdef double [:] cf
+    cdef double [:] ci
 
     cf=np.zeros((self.nc,))
     ci=np.zeros((self.nc,))
 
-    cdef np.ndarray[np.double_t, ndim=1] pof
+    cdef double [:] pof
     for i in range(self.nc):
         pof=self.pf[i]
         cf[i]=np.polyval(pof, iang)

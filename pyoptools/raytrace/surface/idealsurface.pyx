@@ -9,8 +9,7 @@ from pyoptools.misc.definitions import inf_vect
 
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
-cimport numpy as np
-np.import_array()
+
 
 cdef class IdealSurface(Surface):
     """Clase que representa una superficie ideal. Se utiliza para crear
@@ -56,7 +55,7 @@ cdef class IdealSurface(Surface):
 
         return retval
 
-    cpdef np.ndarray normal(self, ri):
+    cpdef normal(self, ri):
         """Method that returns the normal to the surface
         """
         N_ = array((0., 0., 1.)).astype(float64)

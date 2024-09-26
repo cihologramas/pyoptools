@@ -49,8 +49,6 @@ cdef extern from "math.h":
     double M_PI
     double sqrt(double)
 
-cimport numpy as np
-np.import_array()
 cimport cython
 
 
@@ -292,8 +290,8 @@ cdef class Field:
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    def _rs_kernel(self, np.ndarray[np.float64_t, ndim=2]x,
-                   np.ndarray[np.float64_t, ndim=2] y, double z, double n):
+    def _rs_kernel(self, double[:, :]x,
+                   double[:, :] y, double z, double n):
         """Calculate the Rayleigh Sommerfeld propagation Kernel, for a source point
         at the origin, and a observation point at (x,y,z)
         """
@@ -301,10 +299,10 @@ cdef class Field:
         cdef int nx, ny, i, j
         cdef double xd, yd, R2, R, R3
         # cdef double complex ikR
-        cdef np.complex64_t ikR
+        cdef complex ikR
         nx=x.shape[0]
         ny=x.shape[1]
-        cdef np.ndarray[np.complex64_t, ndim=2] result=zeros((nx, ny), dtype=complex64)
+        cdef double[:, :] result=zeros((nx, ny), dtype=complex64)
         for i in range(nx):
             for j in range(ny):
                 xd=x[i, j]

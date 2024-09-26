@@ -25,11 +25,6 @@ from numpy import array, dot, inf, sqrt as npsqrt
 cdef extern from "math.h":
     double sqrt(double)
 
-
-cimport numpy as np
-np.import_array()
-
-
 # from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
 
 cdef class Powell(Surface):
@@ -97,7 +92,7 @@ cdef class Powell(Surface):
 
         return Z0
 
-    cpdef np.ndarray normal(self, int_p):
+    cpdef normal(self, int_p):
         """**Return the vector normal to the surface**
 
         This method returns the vector normal to the asphere at a point
