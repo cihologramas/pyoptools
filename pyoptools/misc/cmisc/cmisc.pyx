@@ -296,10 +296,6 @@ cpdef zero_memarray(tuple shape):
         return zero_memarray_2d(shape[0], shape[1])
     elif ndim == 3:
         return zero_memarray_3d(shape[0], shape[1], shape[2])
-    elif ndim == 4:
-        return zero_memarray_4d(shape[0], shape[1], shape[2], shape[3])
-    elif ndim == 5:
-        return zero_memarray_5d(shape[0], shape[1], shape[2], shape[3], shape[4])
     else:
         raise ValueError("Unsupported number of dimensions: %d. Supported "
                          "dimensions are 2, 3, 4, or 5." % ndim)
@@ -333,44 +329,6 @@ cdef double[:, :, ::1] zero_memarray_3d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t
         for j in range(ny):
             for k in range(nz):
                 arr[i, j, k] = 0.0
-    return arr
-
-
-@cython.boundscheck(False)
-@cython.wraparound(False)
-@cython.cdivision(True)
-@cython.nonecheck(False)
-cdef double[:, :, :, ::1] zero_memarray_4d(Py_ssize_t nx, Py_ssize_t ny,
-                                           Py_ssize_t nz, Py_ssize_t nw):
-    cdef double[:, :, :, ::1] arr = cython.view.array(shape=(nx, ny, nz, nw),
-                                                      itemsize=cython.sizeof(double),
-                                                      format="d", mode="c")
-    cdef Py_ssize_t i, j, k, l
-    for i in range(nx):
-        for j in range(ny):
-            for k in range(nz):
-                for l in range(nw):
-                    arr[i, j, k, l] = 0.0
-    return arr
-
-
-@cython.boundscheck(False)
-@cython.wraparound(False)
-@cython.cdivision(True)
-@cython.nonecheck(False)
-cdef double[:, :, :, :, ::1] zero_memarray_5d(Py_ssize_t nx, Py_ssize_t ny,
-                                              Py_ssize_t nz, Py_ssize_t nw,
-                                              Py_ssize_t nv):
-    cdef double[:, :, :, :, ::1] arr =  \
-        cython.view.array(shape=(nx, ny, nz, nw, nv),
-                          itemsize=cython.sizeof(double), format="d", mode="c")
-    cdef Py_ssize_t i, j, k, l, m
-    for i in range(nx):
-        for j in range(ny):
-            for k in range(nz):
-                for l in range(nw):
-                    for m in range(nv):
-                        arr[i, j, k, l, m] = 0.0
     return arr
 
 

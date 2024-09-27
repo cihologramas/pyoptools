@@ -3,7 +3,7 @@ import numpy as np
 # from numpy import dot,arctan2, polyval, pi, indices, sort, cumsum, where
 import numpy.ma as ma
 from pyoptools.misc import *
-from pyoptools.misc.Poly2D import ord2i, poly2d
+from pyoptools.misc.poly_2d import ord2i, Poly2D
 from pyoptools.wavefront.field import Field
 
 cdef extern from "math.h":
@@ -78,8 +78,8 @@ class PSurf:
             poi=self.pi[i]
             ci[i]=np.polyval(poi, iang)
 
-        df=poly2d(cf)
-        di=poly2d(ci)
+        df=Poly2D(cf)
+        di=Poly2D(ci)
         return df, di
 
     def pw_evaluate(self, double [:] k, samples=(512, 512),
@@ -104,8 +104,8 @@ class PSurf:
             poi=self.pi[i]
             ci[i]=np.polyval(poi, iang)
 
-        df=poly2d(cf)
-        di=poly2d(ci)
+        df=Poly2D(cf)
+        di=Poly2D(ci)
 
         xxl, dx=np.linspace(-1., 1., samples[0], retstep=True)
         yyl, dy=np.linspace(-1., 1., samples[1], retstep=True)

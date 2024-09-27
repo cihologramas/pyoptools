@@ -25,7 +25,7 @@ from numpy import (
 )
 
 from numpy.ma import masked_array
-from pyoptools.misc.Poly2D import ord2i, indices_to_powers as i2pxpy, poly2d
+from pyoptools.misc.poly_2d import ord2i, indices_to_powers as i2pxpy, Poly2D
 
 
 def polar_array(Rmax=1.0, DS=0.1, pr=1.0):
@@ -180,7 +180,7 @@ def zernike2taylor(n, m):
         n,m     n and m orders of the Zernike polynomials
 
     **RETURN VALUE**
-        poly2d instance containing the polynomial
+        Poly2D instance containing the polynomial
     """
     TC = zeros((n + 1, n + 1))
     mm = (n - m) / 2
@@ -224,7 +224,7 @@ def zernike2taylor(n, m):
     for i in range(ord2i(n)):
         px, py = i2pxpy(i)
         cohef[i] = TC[px, py]
-    return poly2d(cohef)
+    return Poly2D(cohef)
 
 
 def i2nm(i):
@@ -283,7 +283,7 @@ class ZernikeXY(object):
 
         # Generate the taylor representation of the zernike polinomial
 
-        p = poly2d([0])
+        p = Poly2D([0])
 
         for i, c in enumerate(cohef):
             n, m = i2nm(i)

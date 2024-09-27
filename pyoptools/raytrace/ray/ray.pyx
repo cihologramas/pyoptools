@@ -22,7 +22,8 @@ cdef extern from "math.h":
 import warnings
 
 from pyoptools.misc.cmisc.eigen cimport Vector3d, Matrix3d, convert_vector3d_to_tuple, \
-    assign_to_vector3d, compute_rotation_matrix, compute_rotation_matrix_i, is_approx
+    assign_to_vector3d, compute_rotation_matrix, compute_rotation_matrix_i, is_approx, \
+    convert_vector3d_to_array
 
 cdef class Ray:
     """
@@ -266,10 +267,11 @@ cdef class Ray:
 
         Returns
         -------
-        tuple
-            A tuple (X, Y, Z) with the components of the direction vector of the ray.
+        array
+            A numpy array (X, Y, Z) with the components of the direction vector
+            of the ray.
         """
-        return convert_vector3d_to_tuple(self._direction)
+        return convert_vector3d_to_array(self._direction)
 
     @direction.setter
     def direction(self, dir):
@@ -324,10 +326,10 @@ cdef class Ray:
 
         Returns
         -------
-        tuple of float
-            A tuple containing the (x, y, z) coordinates of the ray's origin.
+        numpy array
+            A numpy array containing the (x, y, z) coordinates of the ray's origin.
         """
-        return convert_vector3d_to_tuple(self._origin)
+        return convert_vector3d_to_array(self._origin)
 
     @origin.setter
     def origin(self, origin_coordinates):

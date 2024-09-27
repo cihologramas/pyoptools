@@ -13,7 +13,7 @@
 # ------------------------------------------------------------------------------
 
 from pyoptools.misc.pmisc import hitlist2int_list, hitlist2int, interpolate_g
-from numpy import array, dot, isinf as npisinf, power, sometrue, linspace, \
+from numpy import array, dot, isinf as npisinf, power, any, linspace, \
     meshgrid, indices, argwhere, tan, polyfit, arange, where, inf
 
 import cython
@@ -379,7 +379,7 @@ cdef class Surface(Picklable):
         # Dist is positive if the current surface is ahead of the ray.
         # If the surface is behind the ray, Dist becomes negative
         # If there is no intersection, Dist becomes inf
-        # sometrue(isinf(PI)):
+        # any(isinf(PI)):
         if  (isnan(intersection_point(0)) or
              isnan(intersection_point(1)) or
              isnan(intersection_point(2))):
@@ -917,7 +917,7 @@ cdef class Surface(Picklable):
 
             ri = Ray(origin=P0, direction=dir, wavelength=ri.wavelength)
             # if the ray do not intersect the surface, break current iteration
-            if sometrue(npisinf(self.intersection(ri))):
+            if any(npisinf(self.intersection(ri))):
                 continue
 
             # print self.intersection(ri)

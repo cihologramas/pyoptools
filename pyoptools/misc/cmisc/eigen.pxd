@@ -114,3 +114,5 @@ cdef void assign_doubles_to_vector3d(double x,
                                      Vector3d& v) noexcept nogil
 
 cdef bint is_approx(Vector3d& a, Vector3d& b, double tol) noexcept nogil
+
+cdef object convert_vector3d_to_array(Vector3d& v)

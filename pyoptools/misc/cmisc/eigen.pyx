@@ -2,6 +2,7 @@
 
 from .eigen cimport Vector3d
 from libc.math cimport sin, cos, NAN
+from numpy import array
 
 
 cdef tuple convert_vector3d_to_tuple(Vector3d& v):
@@ -322,3 +323,21 @@ cdef bint is_approx(Vector3d& a, Vector3d& b, double tol) noexcept nogil:
         `tol`, False otherwise.
     """
     return (a-b).norm()<=tol
+
+
+cdef object convert_vector3d_to_array(Vector3d& v):
+    """
+    Convert an Eigen::Vector3d to a numpy array.
+
+    Parameters
+    ----------
+    v : Vector3d
+        An Eigen::Vector3d instance to be converted.
+
+    Returns
+    -------
+    array
+        An array containing the x, y, and z components of the vector.
+    """
+    # Access vector components and return them as a Python tuple
+    return array((v(0), v(1), v(2)))
