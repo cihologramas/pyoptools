@@ -150,5 +150,6 @@ class BeamSplitingCube(BeamSplittingCube):
             "correct) . Please fix your code by using "
             "BeamSplittingCube instead",
             DeprecationWarning,
+            stacklevel=2
         )
         super().__init__(*argv, **kwargs)

@@ -18,12 +18,11 @@ Module that defines support for Aspherical optical surfaces
 
 from scipy.optimize import fsolve, brentq
 
-from pyoptools.misc.poly_2d cimport *
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import array, dot, inf, sqrt as npsqrt
-cdef extern from "math.h":
-    double sqrt(double)
+from numpy import array, dot, inf
+from libc.math cimport sqrt
+from pyoptools.misc.poly_2d.poly_2d cimport Poly2D
 
 # from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
 
@@ -42,29 +41,48 @@ cdef class Powell(Surface):
     """
 
     cdef public double K, R
-    cdef public object poly
+    cdef public Poly2D poly
     cdef public double zmax, zmin
 
     def __init__(self, K=0., R=0., poly=None, *args, **kwargs):
         Surface.__init__(self, *args, **kwargs)
         self.K = K
         self.R = R
-        self.poly = poly
 
-        z = self.shape.mesh(ndat=(200, 200), topo=self.topo)[2]
-        cdef double zmax, zmin, dz
-        zmax = z.max()
-        zmin = z.min()
-        dz = zmax-zmin
+        if poly is None:
+            self.poly = Poly2D([0])
+        else:
+            self.poly = <Poly2D>poly
 
-        # to make sure the limits of t are found correctly
+        # Find the X,Y,Z volume where the Powel Surface is defined
+        # The X Y limits are provided by the shape. The Z limit will be aproxi
+        # by sampling the surface
+        cdef double xmax, xmin, ymax, ymin, zmax, zmin
+
+        xmin, xmax, ymin, ymax = self.shape.limits()
+
+        cdef int ndat = 200
+        cdef double dx = (xmax -xmin)/ndat
+        cdef double dy = (ymax -ymin)/ndat
+        cdef int ix, iy
+        cdef double x, y, z
+
+        # Sample z in the middle of the interval
+        zmax = self.topo_cy((xmax+xmin)/2, (ymax+ymin)/2)
+        zmin = zmax
+        for ix in range(ndat+1):
+            x=xmin + ix* dx
+            for iy in range(ndat+1):
+                y=ymin + iy* dy
+                z = self.topo_cy(x, y)
+                zmax = zmax if zmax > z else z
+                zmin = zmin if zmin < z else z
+
+        cdef double dz = zmax - zmin
+
+        # Increase a little the bound box just for safety
         self.zmax = zmax+0.01*dz
         self.zmin = zmin-0.01*dz
-
-        # if abs(self.zmin)<abs(self.zmax):
-        #    self.zmin=0
-        # else:
-        #    self.zmax=0
 
         # Add attributes to the state list
         self.addkey("K")
@@ -79,17 +97,15 @@ cdef class Powell(Surface):
         #         self.reflectivity, self.shape)
         # ~ return(type(self),args,self.__getstate__())
 
-    cpdef topo(self, x, y):
+    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
         """**Returns the Z value for a given X and Y**
 
         This method returns the topography of the Powell lens surface to be
         used to plot the surface.
         """
-        K = self.K
-        R = self.R
-
-        Z0 = npsqrt((1+K)*x**2 - 2*R*x+y**2)
-
+        cdef double K = self.K
+        cdef double R = self.R
+        cdef double Z0 = sqrt((1+K)*x**2 - 2*R*x+y**2)
         return Z0
 
     cpdef normal(self, int_p):

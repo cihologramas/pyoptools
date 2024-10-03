@@ -13,6 +13,7 @@ cdef extern from "Eigen/Dense" namespace "Eigen":
         Vector3d operator+(const Vector3d&) const
         Vector3d operator-(const Vector3d&) const
         Vector3d operator*(double) const
+        Vector3d operator/(double) const
         Vector3d operator-() const
         void normalize()
         Vector3d normalized() const

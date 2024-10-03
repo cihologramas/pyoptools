@@ -21,8 +21,11 @@ cdef class Surface(Picklable):
     # Used for rendering the surface in Jupyter Lab
     # Also to find the bounding box when using iterative methods to find the
     # ray intersection.
-    # TODO: define a topo_cy method to improve the calculation speed.
-    cpdef topo(self, x, y)
+    cpdef list topo(self, list x, list y)
+
+    # fast cython version of topo, for one point (x,y). Must be overloaded in all
+    # subclasses of Surface
+    cdef double topo_cy(self, double x, double y) noexcept nogil
 
     # Cython method to calculate the surface intersection with a ray
     # To be used by pyoptools Cython functions and methods

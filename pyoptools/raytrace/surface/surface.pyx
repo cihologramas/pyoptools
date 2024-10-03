@@ -29,6 +29,7 @@ from numpy.ma import array as ma_array
 from warnings import warn
 
 from libc.math cimport sqrt, acos, cos, isnan, M_PI, INFINITY
+from libc.stdlib cimport malloc, free
 
 from pyoptools.misc.cmisc.eigen cimport Vector3d, assign_to_vector3d, \
     convert_vector3d_to_tuple, assign_nan_to_vector3d
@@ -93,26 +94,51 @@ cdef class Surface(Picklable):
         # Return the list as a tuple to prevent modification
         return tuple(self._hit_list)
 
-    cpdef topo(self, x, y):
+    cpdef list topo(self, list X, list Y):
         """
-        Return the topography of the surface.
+        Calculate the Z values for given X and Y coordinates on the Surface object.
 
-        This method returns a matrix representing the topography of the
-        surface, defined as :math:`z = f(x, y)`, where `z` is a function of
-        the coordinates `x` and `y`.
+        This method computes the topography (Z values) of the Surface object
+        corresponding to the provided X and Y coordinates. It is primarily used
+        for plotting the surface.
 
-        Notes
-        -----
-        - This method must be overloaded in all subclasses of `Surface` to
-        provide the specific topography for each surface type.
+        Parameters
+        ----------
+        X : list of float
+            A list of X coordinates on the surface for which Z values are to be
+            calculated.
+        Y : list of float
+            A list of Y coordinates on the surface for which Z values are to be
+            calculated.
 
         Returns
         -------
-        ndarray
-            A matrix representing the surface topography.
+        list of float
+            A list of Z values corresponding to each (X, Y) pair, representing the
+            height of the surface at those coordinates.
+
+        Note
+        ----
+        This method uses the topo_cy method, which must be overloaded in all
+        Surface subclasses.
         """
-        warn("Method topo, from class Surface, should be overloaded" +
-             " in class "+self.__class__.__name__)
+        cdef int n = min(len(X), len(Y))
+        cdef double* Z = <double*>malloc(n * sizeof(double))
+        cdef int i
+        cdef double x, y
+        for i in range(n):
+            x = X[i]
+            y = Y[i]
+            Z[i] = self.topo_cy(x, y)
+
+        output = [Z[i] for i in range(n)]
+        free(Z)
+        return output
+
+    cdef double topo_cy(self, double x, double y) noexcept nogil:
+        with gil:
+            warn("Method topo_cy, from class Surface, should be overloaded" +
+                 " in class "+self.__class__.__name__)
 
     cdef void _calculate_normal(self, Vector3d& intersection_point,
                                 Vector3d& normal) noexcept nogil:

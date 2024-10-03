@@ -2,119 +2,190 @@ from pyoptools.raytrace.component.component import Component
 from pyoptools.raytrace.system.system import System
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.plane cimport Plane
-from math import isinf
-from numpy import asarray
+from pyoptools.misc.cmisc.eigen cimport assign_tuple_to_vector3d, Vector3d
+from math import isnan
+
+import warnings
+from functools import wraps
+
+
+def deprecated_params(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if "f" in kwargs:
+            warnings.warn("The 'f' parameter is deprecated. Use 'focal_length' "
+                          "instead.", DeprecationWarning, stacklevel=2)
+            kwargs["focal_length"] = kwargs.pop("f")
+
+        if "pupils" in kwargs:
+            warnings.warn("The 'pupils' parameter is deprecated. Use "
+                          "'pupil_config' instead.", DeprecationWarning,
+                          stacklevel=2)
+            kwargs["pupil_config"] = kwargs.pop("pupils")
+
+        if "complete_trace" in kwargs:
+            warnings.warn("The 'complete_trace' parameter is deprecated. Use "
+                          "'show_internal_rays' instead.", DeprecationWarning,
+                          stacklevel=2)
+            kwargs["show_internal_rays"] = kwargs.pop("complete_trace")
+
+        return func(*args, **kwargs)
+    return wrapper
 
 
 class IdealThickLens(System):
     """
-    Class defined to create an Ideal ThickLens.
+    Class defined to create an Ideal Thick Lens.
 
-    Is is created as a subsystem because the propagation inside has multiple
-    rays
-    entrance-> principal plane1
-    principal plane1 -> principal plane2
-    principal plane 2 -> exit
-    fl -> focal length
+    It is implemented as a subsystem because the propagation inside involves
+    multiple rays: first surface -> first principal plane -> second principal
+    plane -> second surface
 
-    **ARGUMENTS**
+    Parameters
+    ----------
+    lens_shape : object
+        Shape of the lens (shape of both lens surfaces).
+    lens_thickness : float
+        Thickness of the lens (distance between the two surfaces).
+    principal_plane_positions : tuple of float, optional
+        Principal planes position. The position of each principal plane is
+        measured from its corresponding surface. Default is (0., 0.).
+    pupil_config : tuple or None, optional
+        Configuration for the pupil. If None, no pupil is defined. Default is
+        None. When provided, it should be a tuple containing:
+        (pupil_distance, pupil_aperture_shape, pupil_reference_surface)
 
-        ============== ============================================================
-        shape          Shape of the lens (Entrance and exit surface's shape).
-        thickness      Thinckness of the lens (Distance between the entrance and
-                       exit surfaces)
-        princ_planes   Tuple with the principal planes position. The position of
-                       each principal plane is measured from its corresponding
-                       entrance surface.
-        pupils         (pupil_pos, pupil_diam,pupil_rs)
-                       pupil_pos: pupil position measured from the active side
-                       pupil_shape: pupil shape
-                       pupil_rs: pupil reference surface. If true the reference
-                       surface will be E1. If false it will be E2 (see the source
-                       code).
-                       If True it will be an entrance pupil for the rays entering
-                       through surface E1, and an exit pupil for rays exiting
-                       through E1, or an exit pupil for rays entering through E2,
-                       and and an entrance pupil exiting through E2.
+        - pupil_distance : float
+            Distance of the pupil from the reference surface.
+        - pupil_aperture_shape : object
+            Shape of the pupil aperture.
+        - pupil_reference_surface : bool
+            Determines which lens surface is used as the reference for pupil
+            positioning. If True, E1 is the reference surface. If False, E2 is
+            the reference surface.
+    focal_length : float, optional
+        Focal length of the lens. Default is 100.
+    show_internal_rays : bool, optional
+        If True, the trace between the principal planes will be shown.
+        If False, only the trace from and to the lens surfaces will be exact.
+        Default is False.
 
-                       If false, E1 and E2 are switched.
-                       None if no pupil is defined
+    Notes
+    -----
+    The origin of the component is located at the midpoint between the two lens
+    surfaces.
 
-        complete_trace If set to false the trace between the principal rays will
-                       not be shown. Still the trace from and to the entrance and
-                       exit surfaces will be exact
-        ============== ============================================================
+    E1 is positioned at -lens_thickness/2 along the z-axis.
+    E2 is positioned at +lens_thickness/2 along the z-axis.
 
-    The origin of the component is located in the middle point between the
-    entrance and exit surface.
+    Rays can travel in either direction through the lens:
+    - For rays traveling in the positive z-direction, E1 is encountered first.
+    - For rays traveling in the negative z-direction, E2 is encountered first.
+
+    For the `pupil_config` parameter:
+        The pupil_distance is always measured from the reference surface.
+
+        When pupil_reference_surface is True (E1 is reference):
+            - For rays entering through E1, it acts as an entrance pupil.
+            - For rays exiting through E1, it acts as an exit pupil.
+            - For rays entering through E2, it acts as an exit pupil.
+            - For rays exiting through E2, it acts as an entrance pupil.
+        When pupil_reference_surface is False (E2 is reference), the roles of
+        E1 and E2 are reversed.
+
+    The behavior of the pupil depends on the direction of ray propagation and
+    the reference surface chosen.
+
+    TODO: Convert from python to cython everything possible to increase
+    performance
     """
-
-    def __init__(self, shape, thickness, princ_planes=(0., 0.), pupils=None,
-                 f=100, complete_trace=False):
+    @deprecated_params
+    def __init__(self,
+                 lens_shape,
+                 lens_thickness,
+                 principal_plane_positions=(0., 0.),
+                 pupil_config=None,
+                 focal_length=100,
+                 show_internal_rays=False):
 
         System.__init__(self, n=1)
 
-        self.__E1__ = Plane(shape=shape)
-        self.__E2__ = Plane(shape=shape)
-        self.__H1__ = Plane(shape=shape)
-        self.__H2__ = Plane(shape=shape)
-
-        if pupils is None:
+        self.__E1__ = Plane(shape=lens_shape)
+        self.__E2__ = Plane(shape=lens_shape)
+        self.__H1__ = Plane(shape=lens_shape)
+        self.__H2__ = Plane(shape=lens_shape)
+        # Pupil setup
+        if pupil_config is None:
             self.__PUP1__ = False
             self.__PUP2__ = False
         else:
-            pup_pos = pupils[0]
-            pup_shape = pupils[1]
-            pup_rs = pupils[2]
+            pupil_distance, pupil_aperture_shape, pupil_reference_surface = \
+                pupil_config
 
-            if pup_rs:
-                self.__PUP1__ = True
-                self.__PUP2__ = False
-            else:
-                self.__PUP1__ = False
-                self.__PUP2__ = True
+            self.__PUP1__ = bool(pupil_reference_surface)
+            self.__PUP2__ = not pupil_reference_surface
 
             if self.__PUP1__:
-                self.__P1__ = Plane(shape=pup_shape)
+                self.__P1__ = Plane(shape=pupil_aperture_shape)
                 self.__C5__ = Component(surflist=[(self.__P1__, (0, 0, 0), (0, 0, 0))])
-                self.complist["P1"] = (self.__C5__, (0, 0, -thickness/2+pup_pos),
+                self.complist["P1"] = (self.__C5__,
+                                       (0, 0, -lens_thickness/2+pupil_distance),
                                        (0, 0, 0))
-                self.__PUP1__ = True
-
             if self.__PUP2__:
-                self.__P2__ = Plane(shape=pup_shape)
-                self.__C6__ = Component(surflist=[(self.__P2__, (0, 0, 0), (0, 0, 0))])
-                self.complist["P2"] = (self.__C6__, (0, 0, thickness/2+pup_pos),
+                self.__P2__ = Plane(shape=pupil_aperture_shape)
+                self.__C6__ = Component(surflist=[(self.__P2__,
+                                                   (0, 0, 0),
+                                                   (0, 0, 0))])
+                self.complist["P2"] = (self.__C6__,
+                                       (0, 0, lens_thickness/2+pupil_distance),
                                        (0, 0, 0))
 
+        # Component setup
         self.__C1__ = Component(surflist=[(self.__E1__, (0, 0, 0), (0, 0, 0))])
         self.__C2__ = Component(surflist=[(self.__E2__, (0, 0, 0), (0, 0, 0))])
         self.__C3__ = Component(surflist=[(self.__H1__, (0, 0, 0), (0, 0, 0))])
         self.__C4__ = Component(surflist=[(self.__H2__, (0, 0, 0), (0, 0, 0))])
 
-        self.complist["E1"]=(self.__C1__, (0, 0, -thickness/2.), (0, 0, 0))
-        self.complist["E2"]=(self.__C2__, (0, 0, thickness/2.), (0, 0, 0))
-        self.complist["H1"]=(self.__C3__, (0, 0, -thickness/2.+princ_planes[0]),
+        self.complist["E1"]=(self.__C1__, (0, 0, -lens_thickness/2.), (0, 0, 0))
+        self.complist["E2"]=(self.__C2__, (0, 0, lens_thickness/2.), (0, 0, 0))
+        self.complist["H1"]=(self.__C3__,
+                             (0, 0, -lens_thickness/2.+principal_plane_positions[0]),
                              (0, 0, 0))
-        self.complist["H2"]=(self.__C4__, (0, 0, thickness/2.+princ_planes[1]),
+        self.complist["H2"]=(self.__C4__,
+                             (0, 0, lens_thickness/2.+principal_plane_positions[1]),
                              (0, 0, 0))
 
-        self.f=f
-        self.complete_trace = complete_trace
+        self.focal_length = focal_length
+        self.show_internal_rays = show_internal_rays
 
     def propagate_ray(self, Ray ri):
+        """
+        Propagate a ray through the ideal thick lens.
 
-        # pos = ri.pos
-        # dir = ri.dir
-        wav = ri.wavelength
-        # label = ri.label
-        # parent = ri
-        n=ri.n
+        Parameters
+        ----------
+        ri : Ray
+            Incident ray to be propagated.
 
-        D, C, S = self.distance(ri)
+        Returns
+        -------
+        Ray
+            The propagated ray with its child rays.
+        """
+        cdef double wav = ri.wavelength
+        cdef double n = ri.n
 
-        # Verificar si entra por E1 o E2
-        if S==self.__E1__:
+        cdef Vector3d p_cy, d_cy
+        cdef tuple[double, double, double] P, D
+
+        cdef bint ST, ST2
+
+        cdef Ray R, R_E1, R_E1_E2, R_E2, R_H1, R_H2
+
+        _D, _C, S = self.distance(ri)
+
+        # Determine if the ray enters through E1 or E2
+        if S == self.__E1__:
             P1 = self.complist["P1"] if self.__PUP1__ else False
             E1 = self.complist["E1"]
             H1 = self.complist["H1"]
@@ -129,150 +200,148 @@ class IdealThickLens(System):
             E2 = self.complist["E1"]
             P2 = self.complist["P1"] if self.__PUP1__ else False
 
-        # Verificar si el rayo pasa por la pupila de entrada
+        # Check if the ray passes through the entrance pupil
         if P1:
             C, P, D = P1
-            R=ri.ch_coord_sys(P, D)
-            PI=C["S0"][0].intersection(R)
-            if isinf(PI[0]):
-                ST=True
-                # Aunque el rayo le pega a la superficie de entrada, el rayo no
-                # pasa por la pupila de entrada
-            else:
-                ST=False
-        else:  # No se verifican la pupila de entrada
-            ST=False
+            assign_tuple_to_vector3d(P, p_cy)
+            assign_tuple_to_vector3d(D, d_cy)
+            R = ri.ch_coord_sys_f(p_cy, d_cy)
+            PI = C["S0"][0].intersection(R)
+            ST = isnan(PI[0])
+        else:  # No entrance pupil check
+            ST = False
 
-        # Encontrar el punto de corte en la superficie de entrada E1
+        # Find the intersection point on the entrance surface E1
         C, P, D = E1
-        R = ri.ch_coord_sys(P, D)
+        assign_tuple_to_vector3d(P, p_cy)
+        assign_tuple_to_vector3d(D, d_cy)
+        R = ri.ch_coord_sys_f(p_cy, d_cy)
         PI = C["S0"][0].intersection(R)
 
-        # Generar el rayo que va de E1 a H1
-        if E1[1][2]<H1[1][2]:
-            R = Ray(origin=PI, direction=R.direction, wavelength=wav, n=n,
-                    intensity=ri.intensity)
-        else:
-            R = Ray(origin=PI, direction=-R.direction, wavelength=wav, n=n,
-                    intensity=ri.intensity)
-
-        R_E1 = R.ch_coord_sys_inv(P, D)
+        # Generate the ray from E1 to H1
+        direction = R.direction if E1[1][2] < H1[1][2] else -R.direction
+        R = Ray(origin=PI, direction=direction, wavelength=wav, n=n,
+                intensity=ri.intensity)
+        R_E1 = R.ch_coord_sys_inv_f(p_cy, d_cy, False)
 
         if ST:
-            # El rayo no pasa la pupila de entrada. Pintarlo hasta la superficie
-            # de entrada
-            R_E1.intensity=0
+            # The ray doesn't pass the entrance pupil. Draw it up to the entrance
+            # surface
+            R_E1.intensity = 0
             ri.add_child(R_E1)
             return ri
 
-        # Propagar hasta  H1
-        C, P, D =H1
-        R=R_E1.ch_coord_sys(P, D)
-        # Calcular el punto de corte con H1 sin verificar apertura
-        PI=C["S0"][0]._intersection(R)
-
-        # Crear el rayo que va entre H1 y H2
-        if H1[1][2] < H2[1][2]:
-            R=Ray(origin=PI, direction=(0, 0, 1), wavelength=wav, n=n,
-                  intensity=ri.intensity)
-        else:
-            R=Ray(origin=PI, direction=(0, 0, -1), wavelength=wav, n=n,
-                  intensity=ri.intensity)
-        R_H1=R.ch_coord_sys_inv(P, D)
-
-        # Propagar hasta H2
-        C, P, D =H2
-        R=R_H1.ch_coord_sys(P, D)
-        PI=C["S0"][0]._intersection(R)  # No se verifica apertura
-
-        # Calculate the refraction in H2
-        _rx, _ry, rz = ri.direction
-        FP=ri.direction*self.f/abs(rz)
-        d=FP-PI
-        if self.f<0:
-            d=-d
-
-        # Crear el rayo que va entre H2 y E2
-        if H2[1][2] < E2[1][2]:
-            R=Ray(origin=PI, direction=d, wavelength=wav, n=n, intensity=ri.intensity)
-        else:
-            R=Ray(origin=PI, direction=-d, wavelength=wav, n=n, intensity=ri.intensity)
-
-        R_H2=R.ch_coord_sys_inv(P, D)
-
-        # Propagar hasta E2
-        C, P, D = E2
-        R=R_H2.ch_coord_sys(P, D)
+        # Propagate to H1
+        C, P, D = H1
+        assign_tuple_to_vector3d(P, p_cy)
+        assign_tuple_to_vector3d(D, d_cy)
+        R = R_E1.ch_coord_sys_f(p_cy, d_cy)
         PI = C["S0"][0].intersection(R)
 
-        # Verificar la apertura de salida
-        if isinf(PI[0]):
-            PE2 = False
-        else:
-            PE2 = True
+        # Create the ray between H1 and H2
+        direction = (0, 0, 1) if H1[1][2] < H2[1][2] else (0, 0, -1)
+        R = Ray(origin=PI, direction=direction, wavelength=wav, n=n,
+                intensity=ri.intensity)
+        R_H1 = R.ch_coord_sys_inv_f(p_cy, d_cy, False)
 
-        # Verificar la pupila de salida
+        # Propagate to H2
+        C, P, D = H2
+        assign_tuple_to_vector3d(P, p_cy)
+        assign_tuple_to_vector3d(D, d_cy)
+
+        R = R_H1.ch_coord_sys_f(p_cy, d_cy)
+        PI = C["S0"][0].intersection(R)
+
+        # Calculate the refraction at H2
+        _rx, _ry, rz = ri.direction
+        FP = ri.direction * self.focal_length/ abs(rz)
+        d = FP - PI
+        if self.focal_length< 0:
+            d = -d
+
+        # Create the ray between H2 and E2
+        direction = d if H2[1][2] < E2[1][2] else -d
+        R = Ray(origin=PI,
+                direction=direction,
+                wavelength=wav,
+                n=n,
+                intensity=ri.intensity)
+        R_H2 = R.ch_coord_sys_inv_f(p_cy, d_cy, False)
+
+        # Propagate to E2
+        C, P, D = E2
+        assign_tuple_to_vector3d(P, p_cy)
+        assign_tuple_to_vector3d(D, d_cy)
+        R = R_H2.ch_coord_sys_f(p_cy, d_cy)
+        PI = C["S0"][0].intersection(R)
+
+        # Check the exit aperture
+        PE2 = not isnan(PI[0])
+
+        # Check the exit pupil
         if P2:
             C0, _P0, _D0 = P2
-            R=R_H2.ch_coord_sys(P, D)
-            PII=C0["S0"][0].intersection(R)
-            if isinf(PII[0]) or isinf(PII[0]) or isinf(PII[0]):
-                ST2=False
-            else:
-                ST2=True
-        else:  # No se verifica la pupila de salida
-            ST2=True
+            R = R_H2.ch_coord_sys_f(p_cy, d_cy)
+            PII = C0["S0"][0].intersection(R)
+            ST2 = not (isnan(PII[0]) or isnan(PII[1]) or isnan(PII[2]))
+        else:  # No exit pupil check
+            ST2 = True
 
-        if ST2 and PE2:
-            ie2 = ri.intensity
-        else:
-            ie2=0
+        ie2 = ri.intensity if ST2 and PE2 else 0
 
-        if H2[1][2] < E2[1][2]:
-            R=Ray(origin=PI, direction=R.direction, wavelength=wav, intensity=ie2, n=n)
-        else:
-            R=Ray(origin=PI, direction=-R.direction, wavelength=wav, intensity=ie2, n=n)
-        R_E2=R.ch_coord_sys_inv(P, D)
+        direction = R.direction if H2[1][2] < E2[1][2] else -R.direction
+        R = Ray(origin=PI, direction=direction, wavelength=wav, intensity=ie2, n=n)
+        R_E2 = R.ch_coord_sys_inv_f(p_cy, d_cy, False)
 
-        if self.complete_trace:
+        if self.show_internal_rays:
             ri.add_child(R_E1)
             R_E1.add_child(R_H1)
             R_H1.add_child(R_H2)
             R_H2.add_child(R_E2)
         else:
-            R_E1_E2=Ray(origin=R_E1.origin, direction=R_E2.origin-R_E1.origin,
-                        wavelength=wav, n=n,
-                        intensity=ri.intensity)
+            R_E1_E2 = Ray(origin=R_E1.origin, direction=R_E2.origin-R_E1.origin,
+                          wavelength=wav, n=n,
+                          intensity=ri.intensity)
             ri.add_child(R_E1_E2)
             R_E1_E2.add_child(R_E2)
 
         return ri
 
     def distance(self, Ray ri):
-        """Solo se tienen en cuenta C1 y C2, que son los limites de entrada y
-        salida del sistema.
         """
-        # cdef np.ndarray P,D
-        cdef list dist_list=[]
-        cdef list pi_list=[]
-        cdef list surf_list=[]
-        # print self.complist
+        Calculate the distance to the first intersection with the lens.
+
+        Only C1 and C2, which are the entrance and exit surfaces of the system,
+        are taken into account.
+
+        Parameters
+        ----------
+        ri : Ray
+            Incident ray.
+
+        Returns
+        -------
+        tuple
+            (distance, intersection point, intersected surface)
+        """
+        cdef float min_dist = float("inf")
+        cdef Vector3d p_cy, d_cy
+        cdef tuple[double, double, double] P, D
+        min_pi = None
+        min_surf = None
 
         for comp in [self.complist["E1"], self.complist["E2"]]:
-            C, P, D =comp
-            # C,P,D = i
-            # Reorientar el rayo, al sistema de coordenadas del elemento
-            # y calcular el recorrido del rayo hasta chocar con la
-            # el elemento
-            R=ri.ch_coord_sys(P, D)
+            C, P, D = comp
+            # Reorient the ray to the coordinate system of the element
+            # and calculate the ray's path until it intersects with the element
+            assign_tuple_to_vector3d(P, p_cy)
+            assign_tuple_to_vector3d(D, d_cy)
+            R = ri.ch_coord_sys_f(p_cy, d_cy)
+            Dist = C.distance(R)
 
-            Dist=C.distance(R)
+            if Dist[0] < min_dist:
+                min_dist = Dist[0]
+                min_pi = Dist[1]
+                min_surf = Dist[2]
 
-            dist_list.append(Dist[0])
-
-            pi_list.append(Dist[1])
-            surf_list.append(Dist[2])
-
-        mini=asarray(dist_list).argmin()
-
-        return dist_list[mini], pi_list[mini], surf_list[mini]
+        return min_dist, min_pi, min_surf

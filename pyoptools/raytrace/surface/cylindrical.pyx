@@ -188,54 +188,22 @@ cdef class Cylindrical(Surface):
         (<double*>(&(normal(1))))[0] = 0
         normal.normalize()
 
-    cpdef topo(self, X, Y):
+    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
         """
         Calculate the topography (Z values) of the cylindrical surface for
         given X and Y coordinates.
 
         This method computes the topography of the cylindrical surface, represented
-        as Z values, for the provided X and Y coordinates. The Z values correspond
-        to the height of the cylindrical surface at each (X, Y) coordinate pair.
+        as a z value, for the provided x and x coordinate. The z values correspond
+        to the height of the cylindrical surface at each (x, y) coordinate pair.
         This method is overloaded from the `Surface` superclass.
-
-        Parameters
-        ----------
-        X : list of float
-            A list of X coordinates on the surface for which Z values are to be
-            calculated.
-        Y : list of float
-            A list of Y coordinates on the surface for which Z values are to be
-            calculated.
-
-        Returns
-        -------
-        list of float
-            A list of Z values corresponding to each (X, Y) pair, representing the
-            height of the cylindrical surface at those coordinates.
-
-        Notes
-        -----
-        - The method uses the equation of a cylinder to calculate the Z value for
-        each (X, Y) pair: `z = sqrt((1/curvature)^2 - x^2) - abs(1/curvature)`.
-        - If the curvature is positive, the Z values are negated to account for
-        the cylinder's orientation (convex surface).
-        - The Y coordinate is not used in the Z calculation, as the cylindrical
-        surface is symmetric about the Y axis.
-        - The method returns a list of Z values that can be used to visualize
-        the cylindrical surface.
         """
 
-        cdef double x, y, z
-        cdef list Z = []
-        for x, y in zip (X, Y):
-            z = sqrt((1./self.curvature)**2 - x**2) - abs(1./self.curvature)
-
-            if self.curvature > 0:
-                z = -z
-
-            Z.append(z)
-
-        return Z
+        cdef double z
+        z = sqrt((1./self.curvature)**2 - x**2) - abs(1./self.curvature)
+        if self.curvature > 0:
+            z = -z
+        return z
 
     def __repr__(self):
         """

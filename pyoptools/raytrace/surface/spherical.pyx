@@ -174,49 +174,21 @@ cdef class Spherical(Surface):
         normal = intersection_point - Vector3d(0, 0, 1./self.curvature)
         normal.normalize()
 
-    cpdef topo(self, X, Y):
+    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
         """
-        Calculate the Z values for given X and Y coordinates on the spherical surface.
+        Calculate the z value for given x and y coordinates on the spherical surface.
 
-        This method computes the topography (Z values) of the spherical surface
-        corresponding to the provided X and Y coordinates. It is primarily used
+        This method computes the topography (z value) of the spherical surface
+        corresponding to the provided x and y coordinate. It is primarily used
         for plotting the surface.
 
-        Parameters
-        ----------
-        X : list of float
-            A list of X coordinates on the surface for which Z values are to be
-            calculated.
-        Y : list of float
-            A list of Y coordinates on the surface for which Z values are to be
-            calculated.
-
-        Returns
-        -------
-        list of float
-            A list of Z values corresponding to each (X, Y) pair, representing the
-            height of the spherical surface at those coordinates.
-
-        Notes
-        -----
-        - The method uses the equation of a sphere to calculate the Z value for
-        each (X, Y) pair: `z = sqrt((1/curvature)^2 - x^2 - y^2) - abs(1/curvature)`.
-        - If the curvature is positive, the Z values are negated to account for
-        the sphere's orientation.
-        - The method returns a list of Z values that can be used to visualize
-        the spherical surface.
         """
-        cdef double x, y, z
-        cdef list Z = []
+        cdef double z
+        z = sqrt((1./self.curvature)**2 - x**2 - y**2) - abs(1./self.curvature)
 
-        for x, y in zip (X, Y):
-            z = sqrt((1./self.curvature)**2 - x**2 - y**2) - abs(1./self.curvature)
-
-            if self.curvature > 0:
-                z = -z
-
-            Z.append(z)
-        return Z
+        if self.curvature > 0:
+            z = -z
+        return z
 
     def __repr__(self):
         """

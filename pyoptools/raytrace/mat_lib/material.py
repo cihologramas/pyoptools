@@ -141,6 +141,13 @@ class MaterialLibrary:
         else:
             raise KeyError(f"Material {name} not found.")
 
+    def __contains__(self, name):
+        try:
+            self[name]  # This will call __getitem__
+            return True
+        except KeyError:
+            return False
+
     def find_material(self, search, printout=True, exact=False, unalias=False):
         """Search for a material where the string _search_ is found in the
         name or description. For example:

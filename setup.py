@@ -70,8 +70,5 @@ if __name__ == "__main__":
         use_scm_version=True,
         include_package_data=True,
         cmdclass={"test": TestCommand},
-        setup_requires=["setuptools_scm", "Cython"],
-        extras_require={
-            "test": ["pytest"],
-        },
+        setup_requires=["setuptools_scm", "Cython"]
     )

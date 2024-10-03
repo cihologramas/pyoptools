@@ -17,7 +17,6 @@
 
 
 import cython
-from numpy import zeros, asarray
 
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
@@ -40,8 +39,8 @@ cdef class Plane(Surface):
     def __init__(self, *args, **kwargs):
         Surface.__init__(self, *args, **kwargs)
 
-    cpdef topo(self, x, y):
-        return zeros(asarray(x).shape)
+    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
+        return 0
 
     @cython.boundscheck(False)
     @cython.wraparound(False)

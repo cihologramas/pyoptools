@@ -4,7 +4,6 @@ requires = [
     "setuptools_scm>=8",
     "wheel",
     "Cython==3.0.11",
-    "oldest-supported-numpy"
 ]
 build-backend = "setuptools.build_meta"
 
@@ -40,6 +39,9 @@ dependencies = [
     "nbsphinx>=0.8.0",
     "importlib-resources>=3.3.0"
 ]
+
+[project.optional-dependencies]
+test = ["pytest"]
 
 [tool.setuptools]
 packages = { find = {} }

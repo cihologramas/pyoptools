@@ -19,12 +19,11 @@ from scipy.optimize import fsolve, brentq
 from pyoptools.misc.poly_2d.poly_2d cimport Poly2D
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import inf, sqrt as npsqrt
+from numpy import inf
 
 from pyoptools.misc.cmisc.eigen cimport Vector3d, VectorXd, convert_vectorXd_to_list
 
-cdef extern from "math.h":
-    double sqrt(double)
+from libc.math cimport sqrt
 
 # from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
 
@@ -40,12 +39,12 @@ cdef class Aspherical(Surface):
 
     Example
         >>> cs=Aspherical(shape=Rectangle(size=(5,5)),Ax=.5,Ay=.3,Kx=.1, Ky=.1\
-                            poly =Poly2D((0,1,1)))
+                            poly = Poly2D((0,1,1)))
     """
 
     cdef public double Ax, Ay, Kx, Ky
     # TODO check the correct type
-    cdef public object poly
+    cdef public Poly2D poly
     cdef public double zmax, zmin
 
     def __init__(self, Ax=0., Ay=0., Kx=0., Ky=0., poly=None, *args, **kwargs):
@@ -59,7 +58,8 @@ cdef class Aspherical(Surface):
 
         if poly is None:
             self.poly = Poly2D(convert_vectorXd_to_list(zero_c))
-        self.poly = poly
+        else:
+            self.poly = <Poly2D>poly
 
         # Find the X,Y,Z volume where the Aspherical Surface is defined
         # The X Y limits are provided by the shape. The Z limit will be aproxi
@@ -75,13 +75,13 @@ cdef class Aspherical(Surface):
         cdef double x, y, z
 
         # Sample z in the middle of the interval
-        zmax = self.topo((xmax+xmin)/2, (ymax+ymin)/2)
+        zmax = self.topo_cy((xmax+xmin)/2, (ymax+ymin)/2)
         zmin = zmax
         for ix in range(ndat+1):
             x=xmin + ix* dx
             for iy in range(ndat+1):
                 y=ymin + iy* dy
-                z = self.topo(x, y)
+                z = self.topo_cy(x, y)
                 zmax = zmax if zmax > z else z
                 zmin = zmin if zmin < z else z
 
@@ -100,25 +100,17 @@ cdef class Aspherical(Surface):
         self.addkey("zmax")
         self.addkey("zmin")
 
-    # cdef double cy_topo(self, double x, double y):
+    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
+        cdef double Ax = self.Ax
+        cdef double Ay = self.Ay
+        cdef double Kx = self.Kx
+        cdef double Ky = self.Ky
 
-    cpdef topo(self, x, y):
-        """**Returns the Z value for a given X and Y**
+        cdef double Z0 = (Ax*x**2+Ay*y**2) / \
+            (1+sqrt(1-(1+Kx)*Ax**2*x**2+(-(1+Ky))*Ay**2*y**2))
 
-        This method returns the topography of the aspherical surface to be
-        used to plot the surface.
-        """
-        Ax = self.Ax
-        Ay = self.Ay
-        Kx = self.Kx
-        Ky = self.Ky
+        cdef double Z1 = self.poly.eval_cy(x, y)
 
-        Z0 = (Ax*x**2+Ay*y**2) / \
-            (1+npsqrt(1-(1+Kx)*Ax**2*x**2+(-(1+Ky))*Ay**2*y**2))
-        if self.poly is not None:
-            Z1 = self.poly.eval(x, y)
-        else:
-            Z1 = 0.
         return Z0+Z1
 
     cdef void _calculate_normal(self,

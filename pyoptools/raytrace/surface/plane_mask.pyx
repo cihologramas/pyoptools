@@ -14,7 +14,7 @@
 
 '''Module that defines a reflective plane phase mask surface class
 '''
-from numpy import array, inf, float64, zeros, asarray
+from numpy import array, inf, float64
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.misc.poly_2d.poly_2d cimport Poly2D
@@ -85,8 +85,8 @@ cdef class RPPMask(Surface):
         # ~ return(type(self),args,self.__getstate__())
         # ~
 
-    cpdef topo(self, x, y):
-        return zeros(asarray(x).shape)
+    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
+        return 0
 
     @cython.boundscheck(False)
     @cython.wraparound(False)

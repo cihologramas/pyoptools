@@ -4,7 +4,7 @@ Modulo con clases y funciones auxiliares.
 """
 
 
-from numpy import array, float64, zeros, asarray
+from numpy import array, float64
 from pyoptools.misc.definitions import inf_vect
 
 from pyoptools.raytrace.surface.surface cimport Surface
@@ -29,8 +29,8 @@ cdef class IdealSurface(Surface):
         # Add attributes to the state list
         self.addkey("f")
 
-    cpdef topo(self, x, y):
-        return zeros(asarray(x).shape)
+    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
+        return 0
 
     cpdef _intersection(self, Ray A):
         """Returns the intersection point between a ray and an the XY plane
