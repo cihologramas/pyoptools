@@ -4,9 +4,21 @@ from pyoptools.raytrace.shape.shape cimport Shape
 from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.misc.cmisc.eigen cimport Vector3d
 
+ctypedef double (*ReflectivityFunctionPtr)(Surface, double)
+
+
 cdef class Surface(Picklable):
     # Object representing the surface reflectivity
     cdef public double reflectivity
+
+    # Cutoff values for filters, the values are given in um as the wavelenghts
+    # for the rays
+
+    cdef double cutoff, lower_cutoff, upper_cutoff
+
+    # Pointer to the reflectivity function to use
+
+    cdef ReflectivityFunctionPtr reflectivity_function
 
     # Object containing the Shape limiting the surface
     cdef public Shape shape
@@ -55,6 +67,13 @@ cdef class Surface(Picklable):
 
     # Calculates the propagation of a ray through the surface
     cpdef list propagate(self, Ray ri, double ni, double nr)
+
+    # Methods to be able to simulate optical filters. These are just for
+    # internal use in the class.
+    cdef double constant_reflectivity(self, double wavelength) noexcept nogil
+    cdef double longpass_reflectivity(self, double wavelength) noexcept nogil
+    cdef double shortpass_reflectivity(self, double wavelength) noexcept nogil
+    cdef double bandpass_reflectivity(self, double wavelength) noexcept nogil
 
     # Legacy methods that need to be reviewed
     cpdef pw_propagate1(self, Ray ri, ni, nr, rsamples, isamples, knots)

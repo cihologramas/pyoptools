@@ -72,12 +72,49 @@ cdef class Surface(Picklable):
     geometry and behavior.
     """
 
-    def __init__(self, reflectivity=0., shape=Circular(radius=10.)):
+    def __init__(self,
+                 reflectivity=0.,
+                 shape=None,
+                 filter_spec=("nofilter",)):
         self.reflectivity = reflectivity
-        self.shape = shape
+        self.shape = shape if shape is not None else Circular(radius=10.)
         self._hit_list = []
-        self.id = []  # The id of each surface gets registered when the component
-        # is created, and when the system is created
+
+        # The id of each surface gets registered when the component is created,
+        # and when the system is created
+
+        self.id = []
+
+        if not isinstance(filter_spec, tuple) or len(filter_spec) < 1:
+            raise ValueError("filter_spec must be a non-empty tuple")
+
+        filter_type = filter_spec[0].lower()
+        if filter_type == "nofilter":
+            self.reflectivity_function = \
+                <ReflectivityFunctionPtr>self.constant_reflectivity
+        elif filter_type == "shortpass":
+            if len(filter_spec) != 2:
+                raise ValueError("Shortpass filter requires a cutoff parameter")
+            self.cutoff = filter_spec[1]
+            self.reflectivity_function = \
+                <ReflectivityFunctionPtr>self.shortpass_reflectivity
+        elif filter_type == "longpass":
+            if len(filter_spec) != 2:
+                raise ValueError("Longpass filter requires a cutoff parameter")
+            self.cutoff = filter_spec[1]
+            self.reflectivity_function = \
+                <ReflectivityFunctionPtr>self.longpass_reflectivity
+        elif filter_type == "bandpass":
+            if len(filter_spec) != 3:
+                raise ValueError("Bandpass filter requires lower and upper "
+                                 "cutoff parameters")
+            self.lower_cutoff = filter_spec[1]
+            self.upper_cutoff = filter_spec[2]
+            self.reflectivity_function = \
+                <ReflectivityFunctionPtr>self.bandpass_reflectivity
+        else:
+            raise ValueError(f"Invalid filter type: {filter_type}")
+
         Picklable.__init__(self, "reflectivity", "shape", "_hit_list", "id")
 
     @property
@@ -551,7 +588,7 @@ cdef class Surface(Picklable):
         # except TypeError:
         #     reflect = self.reflectivity
 
-        reflect = self.reflectivity
+        reflect = self.reflectivity_function(self, incident_ray.wavelength)
 
         if reflect > 1 or reflect < 0:
             raise ValueError
@@ -648,6 +685,22 @@ cdef class Surface(Picklable):
                                       self.id,
                                       0,
                                       incident_ray._parent_cnt+1)]
+
+    cdef double constant_reflectivity(self, double wavelength) noexcept nogil:
+        return self.reflectivity
+
+    cdef double longpass_reflectivity(self, double wavelength) noexcept nogil:
+        return self.reflectivity if wavelength < self.cutoff else 0.0
+
+    cdef double shortpass_reflectivity(self, double wavelength) noexcept nogil:
+        return self.reflectivity if wavelength > self.cutoff else 0.0
+
+    cdef double bandpass_reflectivity(self, double wavelength) noexcept nogil:
+        return (0.0 if self.lower_cutoff < wavelength < self.upper_cutoff
+                else self.reflectivity)
+
+    # Note: We could add a function that runs a custom python function so it
+    # could be provided at runtime
 
     cpdef pw_propagate1(self, Ray ri, ni, nr, rsamples, isamples, knots):
         '''Method to calculate wavefront emerging from the surface
