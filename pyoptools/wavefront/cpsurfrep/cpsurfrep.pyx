@@ -1,4 +1,4 @@
-from scipy.integrate import simps
+from scipy.integrate import simpson
 from pyoptools.wavefront.field import Field
 from pyoptools.misc import *
 

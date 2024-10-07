@@ -19,7 +19,7 @@ def polyfit2d(x, y, z, int order=2):
     cdef np.ndarray[np.double_t, ndim=1, mode="c"] xa=array(x)
     cdef np.ndarray[np.double_t, ndim=1, mode="c"] ya=array(y)
     cdef np.ndarray[np.double_t, ndim=1, mode="c"] za=array(z)
-    cdef np.ndarray[np.int_t, ndim=1, mode="c"] px, py
+    cdef np.ndarray[np.int32_t, ndim=1, mode="c"] px, py
 
     px, py=i2pxpy(range(0, nc))
     nd=len(xa)
@@ -30,8 +30,8 @@ def polyfit2d(x, y, z, int order=2):
         YP[:, p]=YP[:, p-1]*ya
 
     # Calculating X and Y powers
-    cdef np.ndarray[np.int_t, ndim=2, mode="c"] potx=empty((nc, nc), dtype=np.int)
-    cdef np.ndarray[np.int_t, ndim=2, mode="c"] poty=empty((nc, nc), dtype=np.int)
+    cdef np.ndarray[np.int32_t, ndim=2, mode="c"] potx=empty((nc, nc), dtype=np.int32)
+    cdef np.ndarray[np.int32_t, ndim=2, mode="c"] poty=empty((nc, nc), dtype=np.int32)
     potx[:, :]=px
     potx=potx+potx.T
 
@@ -91,7 +91,7 @@ def vander_matrix(x, y, z, int order=2):
     cdef np.ndarray[np.double_t, ndim=1, mode="c"] xa=array(x)
     cdef np.ndarray[np.double_t, ndim=1, mode="c"] ya=array(y)
     cdef np.ndarray[np.double_t, ndim=1, mode="c"] za=array(z)
-    cdef np.ndarray[np.int_t, ndim=1, mode="c"] px, py
+    cdef np.ndarray[np.int32_t, ndim=1, mode="c"] px, py
 
     px, py=i2pxpy(range(0, nc))
     nd=len(xa)
@@ -102,8 +102,8 @@ def vander_matrix(x, y, z, int order=2):
         YP[:, p]=YP[:, p-1]*ya
 
     # Calculating X and Y powers
-    cdef np.ndarray[np.int_t, ndim=2, mode="c"] potx=empty((nc, nc), dtype=np.int)
-    cdef np.ndarray[np.int_t, ndim=2, mode="c"] poty=empty((nc, nc), dtype=np.int)
+    cdef np.ndarray[np.int32_t, ndim=2, mode="c"] potx=empty((nc, nc), dtype=np.int32)
+    cdef np.ndarray[np.int32_t, ndim=2, mode="c"] poty=empty((nc, nc), dtype=np.int32)
     potx[:, :]=px
     potx=potx+potx.T
 

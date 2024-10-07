@@ -25,7 +25,7 @@ from warnings import warn
 #    Array, List, Property, TraitHandler, Tuple
 # from enthought.traits.ui.view import View, Item
 # from enthought.tvtk.api import tvtk
-from numpy import asarray, array, float64, alltrue, isinf as npisinf, isnan as npisnan, sometrue,\
+from numpy import asarray, array, float64, all, isinf as npisinf, isnan as npisnan,\
     pi, absolute, inf
 # from ray_trace.component.component cimport Component
 
@@ -436,7 +436,7 @@ cdef class System(Picklable):
         # Check if there are more components in front of the ray
         # if not, return the original ray
 
-        if alltrue(npisinf(array(dist_list))):
+        if all(npisinf(array(dist_list))):
             return ri
 
         # Sort the components by distance

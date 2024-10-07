@@ -21,7 +21,7 @@
 
 from pyoptools.misc.pmisc import hitlist2int_list, hitlist2int, interpolate_g
 from numpy import absolute, arccos, array, cos as npcos, dot, isinf as npisinf, inf, isnan as npisnan, \
-    power, sqrt as npsqrt, sometrue, zeros_like, ones_like, histogram2d, \
+    power, sqrt as npsqrt, zeros_like, ones_like, histogram2d, any,\
     linspace, meshgrid, abs, indices, argwhere, tan, polyfit, arange, where
 import cython
 from matplotlib.tri import Triangulation
@@ -256,7 +256,7 @@ cdef class Surface(Picklable):
         # Dist is positive if the current surface is ahead of the ray.
         # If the surface is behind the ray, Dist becomes negative
         # If there is no intersection, Dist becomes inf
-        # sometrue(isinf(PI)):
+        # any(isinf(PI)):
         if isinf(PI[0]) or isinf(PI[1]) or isinf(PI[2]):
             # if PI[0]==inf or PI[0]==inf or PI[0]==inf:
             Dist = infty
@@ -435,13 +435,13 @@ cdef class Surface(Picklable):
                         wavelength=ri.wavelength, n=absolute(ni),
                         label=ri.label, orig_surf=self.id)]
 
-        elif (reflect == 0) and not(sometrue(npisnan(S2))):
+        elif (reflect == 0) and not(any(npisnan(S2))):
             # Normal refraction case
             # return [Ray(pos=PI,dir=S2,intensity=ri.intensity,
             #           wavelength=ri.wavelength,n=nr,
             #           label=ri.label, orig_surf=self.id)]
             return [Rayf(PI, S2, ri.intensity, ri.wavelength, nr, ri.label, ri.draw_color, None, 0, self.id, 0, ri._parent_cnt+1)]
-        elif sometrue(npisnan(S2)):
+        elif any(npisnan(S2)):
             # Total internal refraction case
             gamma1 = -2.*ni*cos(I)
 
@@ -795,7 +795,7 @@ cdef class Surface(Picklable):
 
             ri = Ray(pos=P0, dir=dir, wavelength=ri.wavelength)
             # if the ray do not intersect the surface, break current iteration
-            if sometrue(npisinf(self.intersection(ri))):
+            if any(npisinf(self.intersection(ri))):
                 continue
 
             # print self.intersection(ri)

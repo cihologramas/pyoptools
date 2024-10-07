@@ -19,7 +19,7 @@ from sys import exit
 #from enthought.tvtk.api import tvtk
 
 import numpy as np
-from numpy import dot, array, float_, inf, float64, empty, zeros, sqrt as npsqrt
+from numpy import dot, array, inf, float64, empty, zeros, sqrt as npsqrt
 
 #from misc import rot_mat, rot_mat_i,mvdot, dot_test
 from pyoptools.misc.cmisc.cmisc cimport *  # rot_mat, rot_mat_i
