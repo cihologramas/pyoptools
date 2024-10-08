@@ -1,10 +1,10 @@
 [build-system]
 requires = [
-    "setuptools>=70",
-    "setuptools_scm>=8",
+    "setuptools",
+    "setuptools_scm",
     "wheel",
-    "Cython==0.29.32",
-    "oldest-supported-numpy"
+    "Cython",
+    "numpy",
     ]
 
 build-backend = "setuptools.build_meta"
@@ -21,8 +21,8 @@ authors = [{ name = "Ricardo Amézquita Orozco", email = "ramezquitao@cihologram
 license = {file = "LICENSE.txt"}
 readme = "README.md"
 dependencies = [
-    "numpy==2.1.0",
-    "scipy==1.14.0",
+    "numpy>=2.1.0",
+    "scipy>=1.14.0",
     "imageio>=2.35.0",
     "PyYAML>=6.0.2",
     "matplotlib>=3.9.2",
