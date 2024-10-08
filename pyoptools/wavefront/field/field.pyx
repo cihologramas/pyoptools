@@ -28,7 +28,7 @@ from numpy.ma import array as maarray,  getmask,  getmaskarray
 # from matplotlib.mlab import griddata
 
 from scipy.signal import convolve2d, fftconvolve, resample
-from scipy.integrate import simps
+from scipy.integrate import simpson
 from scipy.interpolate import interp2d, bisplrep, bisplev, griddata
 from scipy.ndimage import map_coordinates
 # deprecated in scipy 1.2.1; change to imageio
@@ -411,7 +411,7 @@ cdef class Field:
         # TODO: Check if it is possible to do the integral using the method in
         # Calculation of the Rayleigh–Sommerfeld diffraction integral by exact
         # integration of the fast oscillating factor
-        return simps(simps(krs*self.data, dx=dx), dx=dy)
+        return simpson(simpson(krs*self.data, dx=dx), dx=dy)
 
     def propagate_ae(self, z, n=1, shape=None):
         """
@@ -1254,7 +1254,7 @@ cdef class Field:
 
         # Check that there are no inconsistencies in the data
         # TODO: Fix the assert
-        # assert alltrue(dz2>=0), "There is an inconsistency in the gradient calculation"
+        # assert all(dz2>=0), "There is an inconsistency in the gradient calculation"
         dz=sqrt(dz2)
 
         X, Y=self.field_sample_coord

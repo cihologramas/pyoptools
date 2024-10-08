@@ -42,7 +42,7 @@ from numpy import (
     dot,
     array,
     arctan2,
-    alltrue,
+    all,
     isnan,
     nan,
     mgrid,

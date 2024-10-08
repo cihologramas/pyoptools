@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # cython: profile=True
-
 import numpy as np
 cimport numpy as np
 
@@ -25,15 +24,13 @@ ctypedef np.double_t DTYPE_t
 
 cdef inline np.ndarray norm_vect(np.ndarray v):
     '''Normalize a vector
-
     Normalizes a vector, and return a pointer to itself
     '''
-
-    cdef np.float64_t * vd = <np.float64_t*>(np.PyArray_DATA(v))
-    cdef double norm = sqrt(vd[0]*vd[0]+vd[1]*vd[1]+vd[2]*vd[2])
-    vd[0] = vd[0]/norm
-    vd[1] = vd[1]/norm
-    vd[2] = vd[2]/norm
+    cdef np.float64_t *vd = <np.float64_t *> v.data
+    cdef double norm = sqrt(vd[0]*vd[0] + vd[1]*vd[1] + vd[2]*vd[2])
+    vd[0] /= norm
+    vd[1] /= norm
+    vd[2] /= norm
     return v
 
 cdef inline double vector_length(np.ndarray v):
@@ -184,7 +181,7 @@ def unwrap(inph, in_p=(), double uv=2*np.pi, int nn=1):
     # 1 the point has not been unwrapped, but it is in the unwrapping list
     # 2 the point was already unwrapped
 
-    cdef np.ndarray[np.int_t, ndim=2, mode="c"] fl = np.zeros((nx, ny), dtype=np.int)
+    cdef np.ndarray[np.int32_t, ndim=2, mode="c"] fl = np.zeros((nx, ny), dtype=np.int32)
 
     # List containing the points to unwrap
 
@@ -317,41 +314,32 @@ cdef inline np.ndarray empty_mat(int M, int N):
     cdef np.npy_intp length[2]
     length[0] = M
     length[1] = N
-    Py_INCREF(np.NPY_DOUBLE)  # This is apparently necessary
-    return PyArray_EMPTY(2, length, np.NPY_DOUBLE, 0)
+    return np.empty((M, N), dtype=np.float64)
 
 
 # Create a new empty double precision vector
-cdef inline np.ndarray empty_vec(int M):
-    cdef np.npy_intp length[1]
-    length[0] = M
-    Py_INCREF(np.NPY_DOUBLE)  # This is apparently necessary
-    return PyArray_EMPTY(1, length, np.NPY_DOUBLE, 0)
-
-
-# Create a new zeroed double precision matrix
 cdef inline np.ndarray zero_mat(int M, int N):
     cdef np.npy_intp length[2]
     length[0] = M
     length[1] = N
-    Py_INCREF(np.NPY_DOUBLE)  # This is apparently necessary
-    return PyArray_ZEROS(2, length, np.NPY_DOUBLE, 0)
+    return np.zeros((M, N), dtype=np.float64)
+
+
+# Create a new zeroed double precision matrix
+cdef inline np.ndarray empty_vec(int M):
+    return np.empty(M, dtype=np.float64)
 
 
 # Create a new zeroed double precision vector
 cdef inline np.ndarray zero_vec(int M):
-    cdef np.npy_intp length[1]
-    length[0] = M
-    Py_INCREF(np.NPY_DOUBLE)  # This is apparently necessary
-    return PyArray_ZEROS(1, length, np.NPY_DOUBLE, 0)
+    return np.zeros(M, dtype=np.float64)
 
 
-# Set a matrix to all zeros: must be doubles in contiguous memory.
+# Set a matrix to all zeros
 cdef inline void clear_mat(np.ndarray A):
-
     if A.ndim != 2:
         raise ValueError("A is not a matrix")
-    if A.descr.type_num != PyArray_DOUBLE:
+    if A.dtype != np.float64:
         raise ValueError("A is not of type double")
 
     cdef double * ptr = <double*>A.data
@@ -360,13 +348,11 @@ cdef inline void clear_mat(np.ndarray A):
         ptr[0] = 0.0
         ptr += 1
 
-
-# Set a vector to all zeros: ust be doubles in contiguous memory.
+# Set a vector to all zeros
 cdef inline void clear_vec(np.ndarray x):
-
     if x.ndim != 1:
-        raise ValueError("A is not a vector")
-    if x.descr.type_num != PyArray_DOUBLE:
+        raise ValueError("x is not a vector")
+    if x.dtype != np.float64:
         raise ValueError("x is not of type double")
 
     cdef double * ptr = <double*>x.data

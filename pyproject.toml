@@ -1,13 +1,17 @@
 [build-system]
 requires = [
-    "setuptools>=70",
-    "setuptools_scm>=8",
+    "setuptools",
+    "setuptools_scm",
     "wheel",
-    "Cython==0.29.32",
-    "oldest-supported-numpy"
+    "Cython",
+    "numpy",
     ]
 
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_scheme = "guess-next-dev"
+write_to = "pyoptools/_version.py"
 
 [project]
 name = "pyoptools"
@@ -17,30 +21,23 @@ authors = [{ name = "Ricardo Amézquita Orozco", email = "ramezquitao@cihologram
 license = {file = "LICENSE.txt"}
 readme = "README.md"
 dependencies = [
-    # Different numpy versions required for the integration with Freecad
-    # 0.21.2 in windows and linux using the installer and appimage from the
-    # FreeCAD website
-    "numpy==1.19.3; python_version=='3.8'",
-    "numpy==1.26.2; python_version=='3.9'",
-    "numpy==1.26.2; python_version=='3.10'",
-    # So it works directly in Debian 12
-    "numpy==1.24.2; python_version=='3.11'",
-    "scipy>=1.5.2",
-    "imageio>=2.9.0",
-    "PyYAML>=5.3.1",
-    "matplotlib>=3.3.1",
-    "ijson>=3.1.3",
-    "Pillow>=10.0.1",
-    "jupyterlab>=3.0.0",
-    "ipython>=7.19.0",
-    "pythreejs>=2.2.0",
-    "pytest>=6.1.1",
-    "pep8>=1.7.1",
-    "sphinxcontrib-apidoc>=0.3.0",
-    "mako>=1.1.3",
-    "ipykernel>=5.3.4",
-    "nbformat>=5.0.8",
-    "sphinx>=3.2.1",
-    "nbsphinx>=0.8.0",
-    "importlib-resources>=3.3.0",
+    "numpy>=2.1.0",
+    "scipy>=1.14.0",
+    "imageio>=2.35.0",
+    "PyYAML>=6.0.2",
+    "matplotlib>=3.9.2",
+    "ijson>=3.3.0",
+    "Pillow>=10.4.0",
+    "jupyterlab>=4.2.5",
+    "ipython>=8.28.0",
+    "pythreejs>=2.4.2",
+    "pytest>=8.3.3",
+    "pycodestyle>=2.11.0",
+    "sphinxcontrib-apidoc>=0.5.0",
+    "mako>=1.3.1",
+    "ipykernel>=6.25.1",
+    "nbformat>=5.9.1",
+    "sphinx>=7.4.5",
+    "nbsphinx>=0.9.4",
+    "importlib-resources>=6.2.1",
 ]

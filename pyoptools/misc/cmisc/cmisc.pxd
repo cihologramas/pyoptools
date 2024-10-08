@@ -19,7 +19,7 @@ cdef extern from "numpy/arrayobject.h":
     int PyArray_ISCARRAY(np.ndarray instance)  # I can't get this one to work?!?
 
     int PyArray_FLOAT
-    int PyArray_DOUBLE
+    int NPY_DOUBLE
 
 
 cdef inline np.ndarray norm_vect(np.ndarray v)
