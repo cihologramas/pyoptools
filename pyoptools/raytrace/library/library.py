@@ -160,4 +160,3 @@ class OpticCatalog:
     def parts(self):
         """Returns a list of all available optical component by part number."""
         return list(self.catalog_data.keys())
-

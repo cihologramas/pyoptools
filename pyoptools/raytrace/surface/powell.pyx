@@ -97,7 +97,7 @@ cdef class Powell(Surface):
         #         self.reflectivity, self.shape)
         # ~ return(type(self),args,self.__getstate__())
 
-    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
+    cdef double topo_cy(self, double x, double y) noexcept nogil:
         """**Returns the Z value for a given X and Y**
 
         This method returns the topography of the Powell lens surface to be

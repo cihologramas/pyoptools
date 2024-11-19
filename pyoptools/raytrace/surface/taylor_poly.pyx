@@ -81,7 +81,7 @@ cdef class TaylorPoly(Surface):
         self.addkey("zmax")
         self.addkey("zmin")
 
-    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
+    cdef double topo_cy(self, double x, double y) noexcept nogil:
 
         """**Returns the Z value for a given X and Y**
 

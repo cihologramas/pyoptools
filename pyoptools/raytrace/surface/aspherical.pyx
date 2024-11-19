@@ -100,7 +100,7 @@ cdef class Aspherical(Surface):
         self.addkey("zmax")
         self.addkey("zmin")
 
-    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
+    cdef double topo_cy(self, double x, double y) noexcept nogil:
         cdef double Ax = self.Ax
         cdef double Ay = self.Ay
         cdef double Kx = self.Kx
