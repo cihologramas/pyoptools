@@ -23,7 +23,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y libeigen3-dev pkg-config
       env:
-        PKG_CONFIG_PATH: "/usr/lib/x86_64-linux-gnu/pkgconfig"
+        PKG_CONFIG_PATH: "/usr/share/pkgconfig/"
     - name: Install Eigen3 (macOS)
       if: matrix.os == 'macos-11'
       run: |
