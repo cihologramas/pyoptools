@@ -12,6 +12,9 @@ jobs:
         python-version: ['3.8', '3.9', '3.10', '3.11']
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetches the entire history
+
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
