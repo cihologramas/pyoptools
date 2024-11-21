@@ -7,7 +7,14 @@ from Cython.Build.Dependencies import default_create_extension
 
 
 def get_eigen_include():
-    try:
+    # Run pkg-config to get the include flags
+    include_path = subprocess.check_output(
+            ["pkg-config", "--cflags-only-I", "eigen3"]
+        )
+    include_path = include_path.decode("utf-8").strip().replace("-I", "")
+    return include_path
+    
+    """ try:
         # Run pkg-config to get the include flags
         include_path = subprocess.check_output(
             ["pkg-config", "--cflags-only-I", "eigen3"]
@@ -18,7 +25,7 @@ def get_eigen_include():
         print(
             "Could not find Eigen include path using pkg-config. Make sure Eigen is installed and pkg-config is configured correctly."
         )
-        return None
+        return None """
 
 
 eigen_include_path = get_eigen_include()

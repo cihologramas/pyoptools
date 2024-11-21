@@ -22,8 +22,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y libeigen3-dev pkg-config
-      env:
-        PKG_CONFIG_PATH: "/usr/share/pkgconfig/"
+        pkg-config --cflags-only-I eigen3
+
     - name: Install Eigen3 (macOS)
       if: matrix.os == 'macos-11'
       run: |
@@ -36,10 +36,14 @@ jobs:
         vcpkg install eigen3:x64-windows
         echo "EIGEN3_ROOT=C:/vcpkg/installed/x64-windows" >> $GITHUB_ENV
 
+    - name: Set Eigen3 Environment Variable (Ubuntu)
+      if: matrix.os == 'ubuntu-24.04'
+      run: echo "EIGEN3_ROOT=/usr/include/eigen3" >> $GITHUB_ENV
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip setuptools wheel twine setuptools_scm[toml]
-        pip install Cython==0.29.32 --config-settings="--install-option=--no-cython-compile"
+        pip install Cython==3.0.11 --config-settings="--install-option=--no-cython-compile"
         pip install cibuildwheel
 
 
