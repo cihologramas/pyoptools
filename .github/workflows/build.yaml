@@ -22,11 +22,12 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y libeigen3-dev
-
+        sudo apt-get install -y pkg-config
     - name: Install Eigen3 (macOS)
       if: matrix.os == 'macos-11'
       run: |
         brew install eigen
+        brew install pkg-config
 
     - name: Install Eigen3 (Windows)
       if: matrix.os == 'windows-2019'
