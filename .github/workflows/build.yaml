@@ -24,8 +24,7 @@ jobs:
       if: matrix.os == 'ubuntu-24.04'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libeigen3-dev pkg-config
-        pkg-config --cflags-only-I eigen3
+        sudo apt-get install -y libeigen3-dev
 
     - name: Install Eigen3 (macOS)
       if: matrix.os == 'macos-11'
@@ -37,11 +36,6 @@ jobs:
       if: matrix.os == 'windows-2019'
       run: |
         vcpkg install eigen3:x64-windows
-        echo "EIGEN3_ROOT=C:/vcpkg/installed/x64-windows" >> $GITHUB_ENV
-
-    - name: Set Eigen3 Environment Variable (Ubuntu)
-      if: matrix.os == 'ubuntu-24.04'
-      run: echo "EIGEN3_ROOT=/usr/include/eigen3" >> $GITHUB_ENV
 
     - name: Install dependencies
       run: |
@@ -58,6 +52,7 @@ jobs:
 
     - name: Build wheels
       run: |
+        ls /usr/include/eigen3
         python -m cibuildwheel --output-dir dist/
       env:
         # CIBW_BUILD: "cp${{ matrix.python-version }}*"
