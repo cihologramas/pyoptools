@@ -16,11 +16,6 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip setuptools wheel twine setuptools_scm[toml]
-        pip install Cython==0.29.32 --config-settings="--install-option=--no-cython-compile"
-        pip install cibuildwheel
 
     - name: Install Eigen3 (Ubuntu)
       if: matrix.os == 'ubuntu-20.04'
@@ -38,6 +33,12 @@ jobs:
       run: |
         vcpkg install eigen3:x64-windows
         echo "EIGEN3_ROOT=C:/vcpkg/installed/x64-windows" >> $GITHUB_ENV
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel twine setuptools_scm[toml]
+        pip install Cython==0.29.32 --config-settings="--install-option=--no-cython-compile"
+        pip install cibuildwheel
 
 
     # The env variable CIBW_BUILD is set here to be able to format matrix.python-version correctly
