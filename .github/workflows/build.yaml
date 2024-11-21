@@ -56,7 +56,7 @@ jobs:
         CIBW_SKIP: "*_i686 *musllinux* pp* *win32"
         CIBW_ENVIRONMENT: >-
           EIGEN3_ROOT=/usr/include/eigen3
-          PKG_CONFIG_PATH: /usr/share/pkgconfig/
+          PKG_CONFIG_PATH=/usr/share/pkgconfig/
         CIBW_ENVIRONMENT_WINDOWS: >-
           EIGEN3_ROOT=C:/vcpkg/installed/x64-windows
 
