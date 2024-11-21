@@ -22,6 +22,24 @@ jobs:
         pip install Cython==0.29.32 --config-settings="--install-option=--no-cython-compile"
         pip install cibuildwheel
 
+    - name: Install Eigen3 (Ubuntu)
+      if: matrix.os == 'ubuntu-20.04'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libeigen3-dev
+
+    - name: Install Eigen3 (macOS)
+      if: matrix.os == 'macos-11'
+      run: |
+        brew install eigen
+
+    - name: Install Eigen3 (Windows)
+      if: matrix.os == 'windows-2019'
+      run: |
+        vcpkg install eigen3:x64-windows
+        echo "EIGEN3_ROOT=C:/vcpkg/installed/x64-windows" >> $GITHUB_ENV
+
+
     # The env variable CIBW_BUILD is set here to be able to format matrix.python-version correctly
     - name: Set CIBW_BUILD environment variable using Python
       env:
@@ -34,6 +52,10 @@ jobs:
       env:
         # CIBW_BUILD: "cp${{ matrix.python-version }}*"
         CIBW_SKIP: "*_i686 *musllinux* pp* *win32"
+        CIBW_ENVIRONMENT: >-
+          EIGEN3_ROOT=/usr/include/eigen3
+        CIBW_ENVIRONMENT_WINDOWS: >-
+          EIGEN3_ROOT=C:/vcpkg/installed/x64-windows
 
     - name: Upload Distributions
       uses: actions/upload-artifact@v3
