@@ -1,32 +1,26 @@
 #!/usr/bin/env python
 import sys
 import subprocess
+import platform
 from setuptools import setup, Command
 from Cython.Build import cythonize
 from Cython.Build.Dependencies import default_create_extension
 
-
 def get_eigen_include():
-    # Run pkg-config to get the include flags
-    include_path = subprocess.check_output(
-            ["pkg-config", "--cflags-only-I", "eigen3"]
-        )
-    include_path = include_path.decode("utf-8").strip().replace("-I", "")
-    return include_path
-    
-    """ try:
-        # Run pkg-config to get the include flags
-        include_path = subprocess.check_output(
-            ["pkg-config", "--cflags-only-I", "eigen3"]
-        )
-        include_path = include_path.decode("utf-8").strip().replace("-I", "")
-        return include_path
-    except subprocess.CalledProcessError:
-        print(
-            "Could not find Eigen include path using pkg-config. Make sure Eigen is installed and pkg-config is configured correctly."
-        )
-        return None """
+    system = platform.system()
 
+    if system == "Linux":
+        return "/usr/include/eigen3"  # Example path for Ubuntu 24.04
+
+    elif system == "Windows":
+        return "C:\\path\\to\\eigen"  # Example path for Windows 2019
+
+    elif system == "Darwin":
+        # Check macOS version here if needed
+        return "/usr/local/include/eigen3"  # Example path for macOS 11
+    
+    else:
+        raise ValueError("Unsupported operating system")
 
 eigen_include_path = get_eigen_include()
 
