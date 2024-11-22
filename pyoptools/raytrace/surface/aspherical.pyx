@@ -15,13 +15,13 @@
 '''
 
 
-from scipy.optimize import fsolve, brentq
+from scipy.optimize import fsolve
 from pyoptools.misc.poly_2d.poly_2d cimport Poly2D
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import inf
 
-from pyoptools.misc.cmisc.eigen cimport Vector3d, VectorXd, convert_vectorXd_to_list
+from pyoptools.misc.cmisc.eigen cimport Vector3d, VectorXd, convert_vectorXd_to_list, \
+     assign_nan_to_vector3d
 
 from libc.math cimport sqrt
 
@@ -44,7 +44,7 @@ cdef class Aspherical(Surface):
 
     cdef public double Ax, Ay, Kx, Ky
     # TODO check the correct type
-    cdef public Poly2D poly
+    cdef public Poly2D poly, DX, DY
     cdef public double zmax, zmin
 
     def __init__(self, Ax=0., Ay=0., Kx=0., Ky=0., poly=None, *args, **kwargs):
@@ -60,6 +60,8 @@ cdef class Aspherical(Surface):
             self.poly = Poly2D(convert_vectorXd_to_list(zero_c))
         else:
             self.poly = <Poly2D>poly
+
+        self.DX, self.DY = self.poly.dxdy()
 
         # Find the X,Y,Z volume where the Aspherical Surface is defined
         # The X Y limits are provided by the shape. The Z limit will be aproxi
@@ -124,6 +126,7 @@ cdef class Aspherical(Surface):
         Note: It uses ``x`` and ``y`` to calculate the ``z`` value and the normal.
         """
         cdef double Ax, Ay, Kx, Ky, x, y, _z, dxA, dyA, dxP, dyP
+
         Ax = self.Ax
         Ay = self.Ay
         Kx = self.Kx
@@ -132,135 +135,92 @@ cdef class Aspherical(Surface):
         x = intersection_point(0)
         y = intersection_point(1)
         # x, y, _z = intersection_point(0)
-        with gil:
-            dxA = (2*Ax*x)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1) + \
-                (Ax**2*(Kx+1)*x*(Ay*y**2+Ax*x**2)) / \
-                (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
-                 (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
 
-            dyA = (2*Ay*y)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)- \
-                (Ay**2*(-Ky-1)*y*(Ay*y**2+Ax*x**2)) / \
-                (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
-                 (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
+        dxA = (2*Ax*x)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1) + \
+              (Ax**2*(Kx+1)*x*(Ay*y**2+Ax*x**2)) / \
+              (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
+                   (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
 
-            Dx, Dy = self.poly.dxdy()
-            dxP = Dx.peval(x, y)
-            dyP = Dy.peval(x, y)
+        dyA = (2*Ay*y)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)- \
+              (Ay**2*(-Ky-1)*y*(Ay*y**2+Ax*x**2)) / \
+              (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
+                   (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
+
+        dxP = self.DX.eval_cy(x, y)
+        dyP = self.DY.eval_cy(x, y)
 
         normal = Vector3d(dxA+dxP, dyA+dyP, -1)
         normal.normalize()
 
-    cpdef double __f1(self, double t, Ray iray):
-        cdef double Ax, Ay, Kx, Ky, Ox, Oy, Oz, Dx, Dy, Dz
-        Ax = self.Ax
-        Ay = self.Ay
-        Kx = self.Kx
-        Ky = self.Ky
-
-        # Ox, Oy, Oz = iray.pos
-
-        Ox = iray.cpos[0]
-        Oy = iray.cpos[1]
-        Oz = iray.cpos[2]
-
-        # Dx, Dy, Dz = iray.dir
-
-        Dx = iray._dir[0]
-        Dy = iray._dir[1]
-        Dz = iray._dir[2]
-
+    cdef double __f1(self, double t, Ray iray) noexcept nogil:
+        cdef double Ox, Oy, Oz, Dx, Dy, Dz
         cdef double X, Y, Z
-        X = Dx*t+Ox
-        Y = Dy*t+Oy
-        Z = Dz*t+Oz
-        return (Ay*Y**2+Ax*X**2)/(sqrt(Ay**2*(-Ky-1)*Y**2-Ax**2*(Kx+1)*X**2+1)+1) + \
-            self.poly.peval(X, Y) - Z
-
-    cpdef double __f2(self, double t, iray):
-        cdef double Ax, Ay, Kx, Ky, Ox, Oy, Oz, Dx, Dy, Dz
-
-        Ax = self.Ax
-        Ay = self.Ay
-        Kx = self.Kx
-        Ky = self.Ky
 
         # Ox, Oy, Oz = iray.pos
-        Ox = iray.cpos[0]
-        Oy = iray.cpos[1]
-        Oz = iray.cpos[2]
+        Ox = iray._origin(0)
+        Oy = iray._origin(1)
+        Oz = iray._origin(2)
 
         # Dx, Dy, Dz = iray.dir
-        Dx = iray._dir[0]
-        Dy = iray._dir[1]
-        Dz = iray._dir[2]
+        Dx = iray._direction(0)
+        Dy = iray._direction(1)
+        Dz = iray._direction(2)
 
-        return (Ay*(Dy*t+Oy)**2+Ax*(Dx*t+Ox)**2)/(sqrt(Ay**2*(-Ky-1)*(Dy*t+Oy)**2-
-                                                  Ax**2*(Kx+1)*(Dx*t+Ox)**2+1)+1) - \
-            Dz*t-Oz
+        X = Dx * t + Ox
+        Y = Dy * t + Oy
+        Z = Dz * t + Oz
+        return self.topo_cy(X, Y) - Z
+
+    cdef double __df1(self, double t, Ray ray) noexcept nogil:
+        """
+        Numerically calculate the derivative of __f1 with respect to t
+        using the central difference method.
+        """
+        cdef double h = 1e-6  # Step size for numerical differentiation
+        cdef double f_plus = self.__f1(t + h, ray)
+        cdef double f_minus = self.__f1(t - h, ray)
+        return (f_plus - f_minus) / (2 * h)
 
     cdef void _calculate_intersection(self,
                                       Ray incident_ray,
                                       Vector3d& intersection_point) noexcept nogil:
+        """
+        Calculate the point of intersection between a ray and the asphere.
 
-        '''**Point of intersection between a ray and the asphere**
+        This method returns the point of intersection between the surface
+        and the ray. The intersection point is calculated in the coordinate
+        system of the surface using an iterative process.
 
-        This method returns the point of intersection  between the surface
-        and the ray. This intersection point is calculated in the coordinate
-        system of the surface.
+        Parameters
+        ----------
+        incident_ray : Ray
+            The incident ray in the coordinate system of the surface.
 
-        It uses an iterative process to calculate the intersection point.
+        Returns
+        -------
+        Vector3d
+            The point of intersection between the ray and the asphere.
 
-
-           incident_ray -- incident ray
-
-        incident_ray must be in the coordinate system of the surface
-        '''
-
-        # z=pz+t*dz t=(z-pz)/dz
-        # Find the limits for t
-        cdef double ta, tb, t, fa, fb, tm, tta, ttb, dt
+        Notes
+        -----
+        The incident ray must be in the coordinate system of the surface.
+        """
+        cdef double t, Z
         with gil:
-            ta = (self.zmax-incident_ray.origin[2])/incident_ray.direction[2]
-            tb = (self.zmin-incident_ray.origin[2])/incident_ray.direction[2]
+            t0 = 0
+            t_sol, _info, ier, _mesg = fsolve(self.__f1, t0, (incident_ray) ,
+                                              full_output=True)
 
-            if self.poly is not None:
-                fa = self.__f1(ta, incident_ray)
-                fb = self.__f1(tb, incident_ray)
-                if (fa < 0 and fb > 0) or (fa > 0 and fb < 0):
-                    t = brentq(self.__f1, ta, tb, (incident_ray,), maxiter=1000)
-                else:  # there are more than 1 intersection points we are assuming 2
-                    # tm=fsolve(self.__f1, 0,(incident_ray,),warning=False)
-                    # In new scipy version the warning kw is not supported
-                    tm = fsolve(self.__f1, 0, (incident_ray,))
+            if ier == 1:
+                t = t_sol[0]
+                Z=incident_ray._origin(2)+t*incident_ray._direction(2)
 
-                    if (tm < ta and tm < tb) or (tm > ta and tm > tb):
-                        t = inf
-                    else:
-                        dt = tb-ta
-                        tta = tm-0.2*dt
-                        ttb = tm+0.2*dt
-                        t = brentq(self.__f1, tta, ttb, (incident_ray,), maxiter=1000)
-
+                if self.zmax > Z > self.zmin:
+                    intersection_point = incident_ray._origin+incident_ray._direction*t
+                else:
+                    assign_nan_to_vector3d(intersection_point)
             else:
-                fa = self.__f2(ta, incident_ray)
-                fb = self.__f2(tb, incident_ray)
-
-                if (fa < 0 and fb > 0) or (fa > 0 and fb < 0):
-                    t = brentq(self.__f2, ta, tb, (incident_ray,), maxiter=1000)
-                else:  # there are more than 1 intersection points we are assuming 2
-                    # In new scipy version the warning kw is not supported
-                    # tm=fsolve(self.__f2, 0,(incident_ray,),warning=False)
-                    tm = fsolve(self.__f2, 0, (incident_ray,))
-
-                    if (tm < ta and tm < tb) or (tm > ta and tm > tb):
-                        t = inf
-                    else:
-                        dt = tb-ta
-                        tta = tm-0.1*dt
-                        ttb = tm+0.1*dt
-                        t = brentq(self.__f2, tta, ttb, (incident_ray,), maxiter=1000)
-
-        intersection_point = incident_ray._origin+incident_ray._direction*t
+                assign_nan_to_vector3d(intersection_point)
 
     def _repr_(self):
         '''Return an string with the representation of an aspherical surface.
