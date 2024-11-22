@@ -2,116 +2,66 @@ name: Build and Publish Wheel
 
 on:
   push:
-    tags: 'v*.*.*'
+    # tags: 'v*.*.*'
 
 jobs:
-  build_wheel:
+  build_wheels:
     runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
-        exclude:
-          - os: macos-latest
-            python-version: '3.8'
-          - os: macos-latest
-            python-version: '3.9'
-          - os: macos-latest
-            python-version: '3.10'
-
 
     steps:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
-          architecture: 'x64'
+          python-version: '3.x'
 
-      # Install Build Dependencies on Ubuntu
-      - name: Install Build Dependencies on Ubuntu
-        if: runner.os == 'Linux'
-        run: |
-          sudo add-apt-repository ppa:deadsnakes/ppa -y
-          sudo apt-get update
-          sudo apt-get install -y python${{ matrix.python-version }}-dev libeigen3-dev
-          python -m pip install --upgrade pip setuptools wheel build cython
-          echo "EIGEN3_INCLUDE_DIR=/usr/include/eigen3" >> $GITHUB_ENV
+      - name: Install cibuildwheel
+        run: pip install cibuildwheel
 
-      # Install Build Dependencies on macOS
-      - name: Install Build Dependencies on macOS
-        if: runner.os == 'macOS'
+      # Set up Build Dependencies and Environment Variables
+      - name: Set up Build Dependencies and Environment Variables
+        shell: bash
         run: |
-          brew update
-          brew install eigen
-          python -m pip install --upgrade pip setuptools wheel build cython
-          EIGEN_PATH=$(brew --prefix eigen)/include/eigen3
-          echo "EIGEN3_INCLUDE_DIR=$EIGEN_PATH" >> $GITHUB_ENV
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            # Commands to run inside the build containers to install Eigen
+            echo "CIBW_BEFORE_ALL_LINUX='yum install -y eigen3-devel && export EIGEN3_INCLUDE_DIR=/usr/include/eigen3'" >> $GITHUB_ENV
+            echo "CIBW_ENVIRONMENT_LINUX='EIGEN3_INCLUDE_DIR=/usr/include/eigen3'" >> $GITHUB_ENV
+          elif [[ "$RUNNER_OS" == "macOS" ]]; then
+            brew update
+            brew install eigen
+            EIGEN_DIR=$(brew --prefix eigen)/include/eigen3
+            echo "EIGEN3_INCLUDE_DIR=$EIGEN_DIR" >> $GITHUB_ENV
+            # Skip building for Python 3.8, 3.9, and 3.10 on macOS
+            echo "CIBW_SKIP=cp38-macosx_* cp39-macosx_* cp310-macosx_*" >> $GITHUB_ENV
+          elif [[ "$RUNNER_OS" == "Windows" ]]; then
+            choco install -y 7zip
+            curl -L -o eigen.zip https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip
+            7z x eigen.zip -oeigen
+            EIGEN_DIR=$(cygpath -m "$PWD")/eigen/eigen-3.4.0
+            echo "EIGEN3_INCLUDE_DIR=$EIGEN_DIR" >> $GITHUB_ENV
+          fi
 
-      # Install Build Dependencies on Windows
-      - name: Install Build Dependencies on Windows
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          # Install 7zip for extraction
-          choco install -y 7zip
-          # Download Eigen
-          Invoke-WebRequest -Uri 'https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip' -OutFile 'eigen.zip'
-          # Extract Eigen
-          & 'C:\Program Files\7-Zip\7z.exe' x eigen.zip -o"eigen"
-          # Set EIGEN3_INCLUDE_DIR environment variable
-          $eigen_include_dir = "${{ github.workspace }}\eigen\eigen-3.4.0"
-          echo "EIGEN3_INCLUDE_DIR=$eigen_include_dir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          # Upgrade pip and install build tools
-          python -m pip install --upgrade pip setuptools wheel build cython
+      # Build Wheels using cibuildwheel
+      - name: Build Wheels
+        run: cibuildwheel --output-dir wheelhouse
 
-     # Build Wheel for Linux
-      - name: Build Wheel for Linux in Manylinux Docker
-        if: runner.os == 'Linux'
-        run: |
-          docker run --rm -v $PWD:/project quay.io/pypa/manylinux_2_28_x86_64 bash -c "
-            cd /project && \
-            python${{ matrix.python-version }} -m pip install --upgrade pip setuptools wheel build cython && \
-            python${{ matrix.python-version }} -m build --wheel && \
-            auditwheel repair dist/*.whl -w /project/dist/"
-      
-      # Build Wheel for macOS
-      - name: Build Wheel for macOS
-        if: runner.os == 'macOS'
-        run: |
-          brew update
-          brew install eigen
-          python -m pip install --upgrade pip setuptools wheel build cython
-          EIGEN_PATH=$(brew --prefix eigen)/include/eigen3
-          echo "EIGEN3_INCLUDE_DIR=$EIGEN_PATH" >> $GITHUB_ENV
-          python -m build --wheel
-      
-      # Build Wheel for Windows
-      - name: Build Wheel for Windows
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          choco install -y 7zip
-          Invoke-WebRequest -Uri 'https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip' -OutFile 'eigen.zip'
-          & 'C:\Program Files\7-Zip\7z.exe' x eigen.zip -o"eigen"
-          $eigen_include_dir = "${{ github.workspace }}\eigen\eigen-3.4.0"
-          echo "EIGEN3_INCLUDE_DIR=$eigen_include_dir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          python -m pip install --upgrade pip setuptools wheel build cython
-          python -m build --wheel
-
-      - name: Upload Wheel as Artifact
-        uses: actions/upload-artifact@v4
+      # Upload Wheels as Artifacts
+      - name: Upload Wheels as Artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: dist-${{ matrix.os }}-py${{ matrix.python-version }}
-          path: dist
+          name: wheelhouse-${{ runner.os }}
+          path: wheelhouse
 
-      - name: Upload Wheel to PyPI
+      # Upload Wheels to PyPI
+      - name: Upload Wheels to PyPI
         if: startsWith(github.ref, 'refs/tags/v')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
-          packages_dir: dist
+          packages_dir: wheelhouse
