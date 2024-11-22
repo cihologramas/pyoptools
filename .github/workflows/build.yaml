@@ -2,7 +2,7 @@ name: Build and Publish Wheel
 
 on:
   push:
-    # tags: 'v*.*.*'
+    tags: 'v*.*.*'
 
 jobs:
   build_wheels:
@@ -30,8 +30,13 @@ jobs:
         run: |
           if [[ "$RUNNER_OS" == "Linux" ]]; then
             # Commands to run inside the build containers to install Eigen
-            echo "CIBW_BEFORE_ALL_LINUX='yum install -y eigen3-devel && export EIGEN3_INCLUDE_DIR=/usr/include/eigen3'" >> $GITHUB_ENV
-            echo "CIBW_ENVIRONMENT_LINUX='EIGEN3_INCLUDE_DIR=/usr/include/eigen3'" >> $GITHUB_ENV
+            echo "CIBW_BEFORE_ALL_LINUX<<EOF" >> $GITHUB_ENV
+            echo "yum install -y eigen3-devel && export EIGEN3_INCLUDE_DIR=/usr/include/eigen3" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+
+            echo "CIBW_ENVIRONMENT_LINUX<<EOF" >> $GITHUB_ENV
+            echo "EIGEN3_INCLUDE_DIR=/usr/include/eigen3" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
           elif [[ "$RUNNER_OS" == "macOS" ]]; then
             brew update
             brew install eigen
@@ -42,7 +47,7 @@ jobs:
           elif [[ "$RUNNER_OS" == "Windows" ]]; then
             choco install -y 7zip
             curl -L -o eigen.zip https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip
-            7z x eigen.zip -oeigen
+            "C:\Program Files\7-Zip\7z.exe" x eigen.zip -oeigen
             EIGEN_DIR=$(cygpath -m "$PWD")/eigen/eigen-3.4.0
             echo "EIGEN3_INCLUDE_DIR=$EIGEN_DIR" >> $GITHUB_ENV
           fi
