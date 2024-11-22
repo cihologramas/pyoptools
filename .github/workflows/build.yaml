@@ -55,6 +55,7 @@ jobs:
     - name: Build wheels
       run: |
         ls /usr/include/eigen3
+        ls /usr/include/eigen3/Eigen
         python -m cibuildwheel --output-dir dist/
       env:
         # CIBW_BUILD: "cp${{ matrix.python-version }}*"
