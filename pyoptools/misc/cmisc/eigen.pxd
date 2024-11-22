@@ -2,7 +2,7 @@
 
 from libc.stddef cimport size_t  # Import size_t
 
-cdef extern from "Eigen/Dense" namespace "Eigen":
+cdef extern from "<Eigen/Dense>" namespace "Eigen":
     cdef cppclass Vector3d nogil:
         Vector3d()
         Vector3d(double, double, double)
