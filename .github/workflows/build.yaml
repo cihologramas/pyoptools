@@ -1,66 +1,43 @@
-name: Build and Publish Wheels
+name: Build and Publish Wheel
 
 on:
   push:
-    #tags: 'v*.*.*'
+    # tags: 'v*.*.*'
 
 jobs:
-  build_wheels:
-    runs-on: ${{ matrix.os }}
+  build_wheel:
+    runs-on: ubuntu-latest
+
     strategy:
-      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11']
 
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
-          fetch-depth: 0  # For setuptools_scm
+          python-version: ${{ matrix.python-version }}
 
-      - name: Install cibuildwheel
-        run: pip install cibuildwheel==2.12.1
-
-      # Install Eigen3 and set EIGEN3_INCLUDE_DIR on Ubuntu
-      - name: Install Eigen3 on Ubuntu
-        if: runner.os == 'Linux'
+      - name: Install Build Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libeigen3-dev python3-dev
-          echo "EIGEN3_INCLUDE_DIR=/usr/include/eigen3" >> $GITHUB_ENV
+          sudo apt-get install -y python${{ matrix.python-version }}-dev libeigen3-dev
+          pip install --upgrade pip setuptools wheel
 
-      # Verify Eigen headers on Ubuntu
-      - name: Verify Eigen Headers on Ubuntu
-        if: runner.os == 'Linux'
-        run: ls /usr/include/eigen3/Eigen
+      - name: Install Cython
+        run: pip install cython
 
-      # Install Eigen3 and set EIGEN3_INCLUDE_DIR on macOS
-      - name: Install Eigen3 on macOS
-        if: runner.os == 'macOS'
-        run: |
-          brew update
-          brew install eigen
-          EIGEN_PATH=$(brew --prefix eigen)/include/eigen3
-          echo "EIGEN3_INCLUDE_DIR=$EIGEN_PATH" >> $GITHUB_ENV
-
-      # Install Eigen3 and set EIGEN3_INCLUDE_DIR on Windows
-      - name: Install Eigen3 on Windows
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          Invoke-WebRequest -Uri 'https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip' -OutFile 'eigen.zip'
-          Expand-Archive -Path 'eigen.zip' -DestinationPath 'eigen'
-          $env:EIGEN3_INCLUDE_DIR = "${{ github.workspace }}\eigen\eigen-3.4.0"
-          Add-Content -Path $env:GITHUB_ENV -Value "EIGEN3_INCLUDE_DIR=$env:EIGEN3_INCLUDE_DIR"
-
-      - name: Build Wheels
+      - name: Build Wheel
         env:
-          CIBW_BUILD: cp38-* cp39-* cp310-* cp311-*
-          CIBW_BEFORE_BUILD: pip install cython
-          CIBW_ENVIRONMENT: EIGEN3_INCLUDE_DIR=$EIGEN3_INCLUDE_DIR
-        run: python -m cibuildwheel --output-dir wheelhouse
-      #- name: Upload Wheels to PyPI
-      #  uses: pypa/gh-action-pypi-publish@release/v1
-      #  with:
-      #    password: ${{ secrets.PYPI_API_TOKEN }}
-      #    packages_dir: wheelhouse
+          EIGEN3_INCLUDE_DIR: /usr/include/eigen3
+        run: |
+          python setup.py bdist_wheel
+
+      - name: Upload Wheel to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          packages_dir: dist
