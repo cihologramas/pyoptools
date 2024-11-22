@@ -69,10 +69,38 @@ jobs:
           # Upgrade pip and install build tools
           python -m pip install --upgrade pip setuptools wheel build cython
 
-      - name: Build Wheel
-        env:
-          EIGEN3_INCLUDE_DIR: ${{ env.EIGEN3_INCLUDE_DIR }}
+     # Build Wheel for Linux
+      - name: Build Wheel for Linux in Manylinux Docker
+        if: runner.os == 'Linux'
         run: |
+          docker run --rm -v $PWD:/project quay.io/pypa/manylinux_2_28_x86_64 bash -c "
+            cd /project && \
+            python${{ matrix.python-version }} -m pip install --upgrade pip setuptools wheel build cython && \
+            python${{ matrix.python-version }} -m build --wheel && \
+            auditwheel repair dist/*.whl -w /project/dist/"
+      
+      # Build Wheel for macOS
+      - name: Build Wheel for macOS
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install eigen
+          python -m pip install --upgrade pip setuptools wheel build cython
+          EIGEN_PATH=$(brew --prefix eigen)/include/eigen3
+          echo "EIGEN3_INCLUDE_DIR=$EIGEN_PATH" >> $GITHUB_ENV
+          python -m build --wheel
+      
+      # Build Wheel for Windows
+      - name: Build Wheel for Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          choco install -y 7zip
+          Invoke-WebRequest -Uri 'https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip' -OutFile 'eigen.zip'
+          & 'C:\Program Files\7-Zip\7z.exe' x eigen.zip -o"eigen"
+          $eigen_include_dir = "${{ github.workspace }}\eigen\eigen-3.4.0"
+          echo "EIGEN3_INCLUDE_DIR=$eigen_include_dir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          python -m pip install --upgrade pip setuptools wheel build cython
           python -m build --wheel
 
       - name: Upload Wheel as Artifact
