@@ -45,9 +45,15 @@ jobs:
         pip install Cython==3.0.11
         pip install cibuildwheel
 
+    - name: Set CIBW_BUILD
+      run: |
+        python_version="${{ matrix.python-version }}"
+        cibw_python="${python_version//./}"
+        echo "CIBW_BUILD=cp${cibw_python}-*" >> $GITHUB_ENV
+
+
     - name: Build wheels
       env:
-        CIBW_BUILD: "cp${{ matrix.python-version/.//_/}}-*"
         CIBW_SKIP: "*_i686 *musllinux* pp* *win32"
       run: |
         python -m cibuildwheel --output-dir dist/
