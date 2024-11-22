@@ -18,6 +18,14 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
+      # Install gettext on macOS before setting up Python
+      - name: Install gettext on macOS
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install gettext
+          brew link --force gettext
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
