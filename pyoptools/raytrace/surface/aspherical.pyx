@@ -28,22 +28,47 @@ cimport cython
 # from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
 
 cdef class Aspherical(Surface):
-    """**Class that defines a high order aspherical surface**
+    """
+    Class that defines a high order aspherical surface.
 
-    An aspherical surface is defined as::
+    An aspherical surface is defined by the equation:
 
-      Z=(Ax*x**2+Ay*y**2)/(1+sqrt(1-(1+Kx)*Ax**2*x**2-(1+Ky)*Ay**2*y**2))+ Poly2D()
+    Z = (Ax*x**2 + Ay*y**2) /
+        (1 + sqrt(1 - (1+Kx)*Ax**2*x**2 - (1+Ky)*Ay**2*y**2))
+        + Poly2D()
 
-    The Poly2D is defined by a array in the same way as it is defined in the
-    TaylorPoly Class
+    The Poly2D is defined by an array in the same way as it is defined in the
+    TaylorPoly Class.
 
-    Example
-        >>> cs=Aspherical(shape=Rectangle(size=(5,5)),Ax=.5,Ay=.3,Kx=.1, Ky=.1\
-                            poly = Poly2D((0,1,1)))
+    Parameters
+    ----------
+    shape : Shape object
+        The shape of the aspherical surface.
+    Ax : float
+        The x-axis curvature coefficient.
+    Ay : float
+        The y-axis curvature coefficient.
+    Kx : float
+        The x-axis conic constant.
+    Ky : float
+        The y-axis conic constant.
+    poly : array_like
+        Coefficients for the Poly2D term.
+
+    Examples
+    --------
+    >>> from pyoptools.raytrace.surface import Aspherical
+    >>> from pyoptools.raytrace.shape import Rectangle
+    >>> cs = Aspherical(shape=Rectangle(size=(5,5)), Ax=0.5, Ay=0.3, Kx=0.1, Ky=0.1,
+    ...                 poly=Poly2D((0,1,1)))
+
+    Notes
+    -----
+    The Poly2D term allows for additional surface deformation beyond the basic
+    aspherical equation.
     """
 
     cdef public double Ax, Ay, Kx, Ky
-    # TODO check the correct type
     cdef public Poly2D poly, DX, DY
     cdef public double xmin, xmax, ymin, ymax, zmax, zmin
 
@@ -109,6 +134,33 @@ cdef class Aspherical(Surface):
 
     @cython.cdivision(True)
     cdef double topo_cy(self, double x, double y) noexcept nogil:
+        """
+        Calculate the topography of the aspherical surface.
+
+        This method computes the z-coordinate of a point on the aspherical surface
+        given its x and y coordinates.
+
+        Parameters
+        ----------
+        x : double
+            The x-coordinate of the point.
+        y : double
+            The y-coordinate of the point.
+
+        Returns
+        -------
+        double
+            The z-coordinate of the point on the aspherical surface.
+
+        Notes
+        -----
+        The aspherical surface is defined by the equation:
+        Z = (Ax*x**2 + Ay*y**2) / (1 + sqrt(1 - (1+Kx)*Ax**2*x**2 - (1+Ky)*Ay**2*y**2))
+            + Poly2D()
+
+        Where Ax, Ay are the curvature coefficients, Kx, Ky are the conic constants,
+        and Poly2D() is an additional polynomial term for surface deformation.
+        """
         cdef double Ax = self.Ax
         cdef double Ay = self.Ay
         cdef double Kx = self.Kx
@@ -124,12 +176,32 @@ cdef class Aspherical(Surface):
     cdef void _calculate_normal(self,
                                 Vector3d& intersection_point,
                                 Vector3d& normal) noexcept nogil:
-        """**Return the vector normal to the surface**
+        """
+        Calculate the normal vector to the aspherical surface at a given point.
 
-        This method returns the vector normal to the asphere at a point
-        ``int_p=(x,y,z)``.
+        This method computes the vector normal to the aspherical surface at the
+        intersection point.
 
-        Note: It uses ``x`` and ``y`` to calculate the ``z`` value and the normal.
+        Parameters
+        ----------
+        intersection_point : Vector3d
+            The point on the surface where the normal is to be calculated.
+        normal : Vector3d
+            The output vector where the calculated normal will be stored.
+
+        Returns
+        -------
+        None
+            The method modifies the `normal` vector in-place.
+
+        Notes
+        -----
+        The method uses the x and y coordinates of the intersection point to
+        calculate the z value and the normal vector. The normal vector is
+        normalized before returning.
+
+        The calculation takes into account both the basic aspherical equation
+        and the additional polynomial deformation term.
         """
         cdef double Ax, Ay, Kx, Ky, x, y, _z, dxA, dyA, dxP, dyP
 
@@ -159,6 +231,26 @@ cdef class Aspherical(Surface):
         normal.normalize()
 
     cdef double __f1(self, double t, Ray iray) noexcept nogil:
+        """
+        Auxiliary function to find the intersection point.
+
+        This function calculates the difference between the z-coordinate of a point
+        on the ray and the corresponding z-coordinate on the aspherical surface.
+        It is used in the root-finding algorithm to determine the intersection point.
+
+        Parameters
+        ----------
+        t : double
+            The parameter along the ray.
+        iray : Ray
+            The incident ray.
+
+        Returns
+        -------
+        double
+            The difference between the z-coordinate on the ray and the z-coordinate
+            on the aspherical surface at the given (x, y) point.
+        """
         cdef double Ox, Oy, Oz, Dx, Dy, Dz
         cdef double X, Y, Z
 
@@ -178,18 +270,35 @@ cdef class Aspherical(Surface):
         return self.topo_cy(X, Y) - Z
 
     @cython.cdivision(True)
-    cdef double __df1(self, double t, Ray ray) noexcept nogil:
+    cdef bint find_t_range(self, Ray incident_ray, double& t_min_out,
+                           double& t_max_out) noexcept nogil:
         """
-        Numerically calculate the derivative of __f1 with respect to t
-        using the central difference method.
-        """
-        cdef double h = 1e-6  # Step size for numerical differentiation
-        cdef double f_plus = self.__f1(t + h, ray)
-        cdef double f_minus = self.__f1(t - h, ray)
-        return (f_plus - f_minus) / (2 * h)
+        Find the range of t values for which the ray intersects the bounding box of the
+        aspherical surface.
 
-    @cython.cdivision(True)
-    cdef bint find_t_range(self, Ray incident_ray, double& t_min_out, double& t_max_out) noexcept nogil:
+        This method calculates the minimum and maximum t values for which the given ray
+        intersects the bounding box of the aspherical surface. It checks intersections
+        with the bounding planes in X, Y, and Z dimensions.
+
+        Parameters
+        ----------
+        incident_ray : Ray
+            The incident ray for which to calculate the intersection range.
+        t_min_out : double&
+            Output parameter for the minimum t value.
+        t_max_out : double&
+            Output parameter for the maximum t value.
+
+        Returns
+        -------
+        bint
+            True if a valid intersection range is found, False otherwise.
+
+        Notes
+        -----
+        This method uses the ray equation P(t) = O + tD, where O is the ray origin
+        and D is the ray direction, to calculate intersections with the bounding box.
+        """
         cdef double t_min = 0
         cdef double t_max = INFINITY
         cdef double Ox = incident_ray._origin(0)
@@ -237,27 +346,55 @@ cdef class Aspherical(Surface):
         if t_max <= t_min:
             return False
 
-
         t_min_out = t_min
         t_max_out = t_max
         return True
 
-
     cdef void _calculate_intersection(self,
                                       Ray incident_ray,
                                       Vector3d& intersection_point) noexcept nogil:
-        cdef double t = 0.0
-        cdef double t_new = 0.0
-        cdef double Z, f, df
+        """
+        Calculate the intersection point of a ray with the aspherical surface.
+
+        This method uses a combination of bracketing and the secant method to find
+        the intersection point of an incident ray with the aspherical surface.
+
+        Parameters
+        ----------
+        incident_ray : Ray
+            The incident ray to intersect with the surface.
+        intersection_point : Vector3d
+            A vector to store the calculated intersection point.
+
+        Returns
+        -------
+        None
+            The method modifies the intersection_point vector in-place.
+
+        Notes
+        -----
+        The method first finds a range of t values where the intersection might occur,
+        then uses a bracketing method to narrow down the range, and finally applies
+        the secant method for precise intersection calculation. If no intersection
+        is found or the maximum number of iterations is reached, the intersection_point
+        is set to NaN values.
+        """
+        cdef double t
+        cdef double f
         cdef int max_iterations = 100
-        cdef double epsilon = 1e-6
+        cdef double epsilon = 1e-10
         cdef Vector3d origin = incident_ray._origin
         cdef Vector3d direction = incident_ray._direction
-        
+
         cdef double fval_0
         cdef double fval_1 = self.__f1(t, incident_ray)
 
-        while t<200:
+        cdef double t_min, t_max
+        if not self.find_t_range(incident_ray, t_min, t_max):
+            assign_nan_to_vector3d(intersection_point)
+            return
+        t=t_min
+        while t<t_max:
             t=t+0.5
             fval_0 = self.__f1(t, incident_ray)
 
@@ -265,11 +402,14 @@ cdef class Aspherical(Surface):
                 break
             fval_1 = fval_0
 
-        
+        if t>=t_max:
+            assign_nan_to_vector3d(intersection_point)
+            return
+
         cdef double ta = t-0.5
-        cdef double tb = t+0.5
-        cdef double fa = self.__f1(ta, incident_ray)
-        cdef double fb = self.__f1(tb, incident_ray)
+        cdef double tb = t
+        cdef double fa = fval_1
+        cdef double fb = fval_0
 
         for i in range(max_iterations):
             t = ta - fa*(tb-ta)/(fb-fa)
@@ -287,7 +427,6 @@ cdef class Aspherical(Surface):
             assign_nan_to_vector3d(intersection_point)
         else:
             intersection_point = origin + direction * t
-
 
     def _repr_(self):
         '''Return an string with the representation of an aspherical surface.
