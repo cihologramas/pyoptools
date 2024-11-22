@@ -29,8 +29,10 @@ jobs:
           sudo apt-get install -y python${{ matrix.python-version }}-dev libeigen3-dev
           pip install --upgrade pip setuptools wheel
 
-      - name: Install Cython
-        run: pip install cython
+      - name: Install Python Tools
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install build cython
 
       - name: Build Wheel
         env:
