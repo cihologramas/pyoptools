@@ -69,13 +69,18 @@ jobs:
           retention-days: 7
   publish:
     runs-on: ubuntu-latest
-    needs: build_wheels 
+    needs: build_wheels
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: dist  # This should match the name used in the upload step
-          path: dist  # This ensures the artifacts are placed in the 'dist/' directory
+          path: artifacts  # Downloads all artifacts into 'artifacts/' directory
+      - name: Move artifacts to dist directory
+        run: |
+          mkdir -p dist
+          find artifacts -type f -name "*.whl" -exec mv {} dist/ \;
+          find artifacts -type f -name "*.tar.gz" -exec mv {} dist/ \;
+          find artifacts -type f -name "*.zip" -exec mv {} dist/ \;
       - name: Publish distribution
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
