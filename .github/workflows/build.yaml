@@ -63,10 +63,13 @@ jobs:
         with:
           name: wheelhouse-${{ runner.os }}-py${{ matrix.python-version }}
           path: wheelhouse
-
-      - name: Upload Wheels to PyPI
-        if: startsWith(github.ref, 'refs/tags/v')
+  publish:
+    runs-on: ubuntu-latest
+    needs: build_wheels 
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    steps:
+      - uses: actions/download-artifact@v2
+      - name: Publish distribution
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
-          packages_dir: wheelhouse
