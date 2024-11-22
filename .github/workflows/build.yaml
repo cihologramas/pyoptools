@@ -29,7 +29,7 @@ jobs:
       - name: Set CIBW_BUILD environment variable using Python
         env:
           PYTHON_VERSION: ${{ matrix.python-version }}
-       run: python ./.github/scripts/set_cibw_build_env.py
+        run: python ./.github/scripts/set_cibw_build_env.py
 
       - name: Set up cibuildwheel Environment
         shell: bash
