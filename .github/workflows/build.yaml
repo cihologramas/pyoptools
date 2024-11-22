@@ -2,7 +2,7 @@ name: Build and Publish Wheels
 
 on:
   push:
-    tags: 'v*.*.*'
+    # tags: 'v*.*.*'
 
 jobs:
   build_wheels:
