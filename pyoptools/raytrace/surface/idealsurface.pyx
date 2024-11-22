@@ -1,18 +1,15 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 """
 Modulo con clases y funciones auxiliares.
 """
 
 
-from numpy import array, float64, zeros, asarray
+from numpy import array, float64
 from pyoptools.misc.definitions import inf_vect
 
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
-cimport numpy as np
-np.import_array()
+
 
 cdef class IdealSurface(Surface):
     """Clase que representa una superficie ideal. Se utiliza para crear
@@ -32,8 +29,8 @@ cdef class IdealSurface(Surface):
         # Add attributes to the state list
         self.addkey("f")
 
-    cpdef topo(self, x, y):
-        return zeros(asarray(x).shape)
+    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
+        return 0
 
     cpdef _intersection(self, Ray A):
         """Returns the intersection point between a ray and an the XY plane
@@ -41,8 +38,8 @@ cdef class IdealSurface(Surface):
         """
         # N_=array([0.,0.,1.])
 
-        P1 = A.pos     # Punto que pertenece al rayo "Origen" del rayo
-        L1 = A.dir  # Vector paralelo a la linea
+        P1 = A.origin     # Punto que pertenece al rayo "Origen" del rayo
+        L1 = A.direction  # Vector paralelo a la linea
 
         # if dot(N_,L1) ==0 : return inf_vect
         if L1[2] == 0:
@@ -58,20 +55,20 @@ cdef class IdealSurface(Surface):
 
         return retval
 
-    cpdef np.ndarray normal(self, ri):
+    cpdef normal(self, ri):
         """Method that returns the normal to the surface
         """
         N_ = array((0., 0., 1.)).astype(float64)
         return (N_)
 
-    cpdef propagate(self, Ray ri, double ni, double nr):
+    cpdef list propagate(self, Ray ri, double ni, double nr):
 
-        PI, P = self.int_nor(ri)
-        # l=ri.wavelength*1e-3 # Express wavelength in millimeters so all the method works in millimeters
-        rx, ry, rz = ri.dir
-        # Get the focussing point as the point where the principal ray hits the focal plane
+        PI, _P = self.int_nor(ri)
+        _rx, _ry, rz = ri.direction
+        # Get the focussing point as the point where the principal ray hits
+        # the focal plane
 
-        FP = ri.dir*self.f/abs(rz)
+        FP = ri.direction*self.f/abs(rz)
 
         ret = []
 
@@ -80,14 +77,16 @@ cdef class IdealSurface(Surface):
             d = FP-PI
             if self.f < 0:
                 d = -d
-            ret.append(Ray(pos=PI, dir=d,
+            ret.append(Ray(origin=PI, direction=d,
                            intensity=ri.intensity,
-                           wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
+                           wavelength=ri.wavelength, n=ni, label=ri.label,
+                           orig_surf=self.id))
         if self.reflectivity != 0:
             # print "not 0"
-            ret.append(Ray(pos=PI, dir=PI-FP,
+            ret.append(Ray(origin=PI, direction=PI-FP,
                            intensity=ri.intensity,
-                           wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
+                           wavelength=ri.wavelength, n=ni, label=ri.label,
+                           orig_surf=self.id))
 
         # print self.reflectivity
         return ret

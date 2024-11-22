@@ -1,57 +1,89 @@
-name: Build Package
+name: Build and Publish Wheel
 
-on: push
+on:
+  push:
+    tags: 'v*.*.*'
 
 jobs:
-  build:
-    name: Build wheels on ${{ matrix.os }}
+  build_wheel:
     runs-on: ${{ matrix.os }}
+
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-20.04, windows-2019, macos-11]
-        python-version: ['3.8', '3.9', '3.10', '3.11']
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        exclude:
+          - os: macos-latest
+            python-version: '3.8'
+          - os: macos-latest
+            python-version: '3.9'
+          - os: macos-latest
+            python-version: '3.10'
+
+
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip setuptools wheel twine setuptools_scm[toml]
-        pip install Cython==0.29.32 --config-settings="--install-option=--no-cython-compile"
-        pip install cibuildwheel
+      - name: Check out code
+        uses: actions/checkout@v4
 
-    # The env variable CIBW_BUILD is set here to be able to format matrix.python-version correctly
-    - name: Set CIBW_BUILD environment variable using Python
-      env:
-        PYTHON_VERSION: ${{ matrix.python-version }}
-      run: python ./.github/scripts/set_cibw_build_env.py
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: 'x64'
 
-    - name: Build wheels
-      run: |
-        python -m cibuildwheel --output-dir dist/
-      env:
-        # CIBW_BUILD: "cp${{ matrix.python-version }}*"
-        CIBW_SKIP: "*_i686 *musllinux* pp* *win32"
+      # Install Build Dependencies on Ubuntu
+      - name: Install Build Dependencies on Ubuntu
+        if: runner.os == 'Linux'
+        run: |
+          sudo add-apt-repository ppa:deadsnakes/ppa -y
+          sudo apt-get update
+          sudo apt-get install -y python${{ matrix.python-version }}-dev libeigen3-dev
+          python -m pip install --upgrade pip setuptools wheel build cython
+          echo "EIGEN3_INCLUDE_DIR=/usr/include/eigen3" >> $GITHUB_ENV
 
-    - name: Upload Distributions
-      uses: actions/upload-artifact@v3
-      with:
-        name: dist
-        path: |
-          dist/*.whl
-          dist/*.tar.gz
-          dist/*.zip
-        retention-days: 7
+      # Install Build Dependencies on macOS
+      - name: Install Build Dependencies on macOS
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install eigen
+          python -m pip install --upgrade pip setuptools wheel build cython
+          EIGEN_PATH=$(brew --prefix eigen)/include/eigen3
+          echo "EIGEN3_INCLUDE_DIR=$EIGEN_PATH" >> $GITHUB_ENV
 
-  publish:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-    steps:
-      - uses: actions/download-artifact@v2
-      - name: Publish distribution
+      # Install Build Dependencies on Windows
+      - name: Install Build Dependencies on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          # Install 7zip for extraction
+          choco install -y 7zip
+          # Download Eigen
+          Invoke-WebRequest -Uri 'https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip' -OutFile 'eigen.zip'
+          # Extract Eigen
+          & 'C:\Program Files\7-Zip\7z.exe' x eigen.zip -o"eigen"
+          # Set EIGEN3_INCLUDE_DIR environment variable
+          $eigen_include_dir = "${{ github.workspace }}\eigen\eigen-3.4.0"
+          echo "EIGEN3_INCLUDE_DIR=$eigen_include_dir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          # Upgrade pip and install build tools
+          python -m pip install --upgrade pip setuptools wheel build cython
+
+      - name: Build Wheel
+        env:
+          EIGEN3_INCLUDE_DIR: ${{ env.EIGEN3_INCLUDE_DIR }}
+        run: |
+          python -m build --wheel
+
+      - name: Upload Wheel as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: dist
+
+      - name: Upload Wheel to PyPI
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
+          packages_dir: dist

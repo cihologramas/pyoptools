@@ -45,5 +45,6 @@ cdef class Picklable:
         Because of python limitations, the attributes must be public
         '''
 
-        assert hasattr(self, key), "Class %s has no attribute %s" %(str(type(self)), key)
+        assert hasattr(self, key), \
+            "Class %s has no attribute %s" %(str(type(self)), key)
         self.__pkeys__.append(key)

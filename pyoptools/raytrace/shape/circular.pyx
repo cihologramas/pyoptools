@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-
-# cython: profile=True
-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007,  2008, 2009 Ricardo Amezquita Orozco
 # All rights reserved.
@@ -16,135 +11,144 @@
 # Description:     Rectangle definition module
 # Symbols Defined: Circular
 # ------------------------------------------------------------------------------
-#
 
-""" Module that defines the Circular superclass """
+from libc.math cimport M_PI, sin, cos
 
-
-#from enthought.traits.api import HasTraits, Float, Tuple, Int
-#from enthought.traits.ui.view import View, Item, Include,Group
-from numpy import power, sin, cos, pi, where
 from pyoptools.raytrace.shape.shape cimport Shape
+from pyoptools.misc.cmisc.eigen cimport Vector3d
 
-
-from numpy import arange, meshgrid
 
 cdef class Circular(Shape):
-    ''' Class defining an circular shape. '''
+    """
+    Class defining a circular shape.
 
-    # Radius of the circular shape
-    # radius=Float(1.)
+    The `Circular` class represents a circular aperture or surface shape,
+    defined by a given radius. It inherits from the `Shape` class and
+    implements methods specific to circular shapes.
 
-    # Tuple that holds the number of samples to be used to build the mesh.
-    # The first number gives radial samples, the second angular samples
-    #samples=Tuple(Int(10), Int(36))
+    Parameters
+    ----------
+    radius : float, optional
+        The radius of the circular shape. Defaults to 1.0.
+    samples : tuple of int, optional
+        A tuple `(radial_samples, angular_samples)` that determines the number
+        of samples used to discretize the circle. `radial_samples` defines the
+        number of divisions along the radius, and `angular_samples` defines the
+        number of divisions around the circle. Defaults to `(10, 36)`.
+    *args : tuple, optional
+        Additional positional arguments passed to the `Shape` superclass.
+    **kwargs : dict, optional
+        Additional keyword arguments passed to the `Shape` superclass.
 
-    def __init__(self, radius=1., samples=(10, 36), *args, **kwargs):
-        Shape.__init__(self, *args, **kwargs)
+    Attributes
+    ----------
+    radius : float
+        The radius of the circular shape.
+    samples : tuple of int
+        A tuple `(radial_samples, angular_samples)` representing the sampling
+        resolution of the circle.
+    """
+
+    def __init__(self, radius=1., samples=(10, 36)):
+        Shape.__init__(self)
         self.radius = radius
         self.samples = samples
-        self.addkey("radius")
-        self.addkey("samples")
+        # self.addkey("radius")
+        # self.addkey("samples")
 
     def __reduce__(self):
 
-        state = None
         args = (self.radius, self.samples)
         return(type(self), args)
 
-    cpdef hit(self, p):
-        """Method that returns True if a p=(X,Y,Z) point is inside the aperture,
-        if not it returns False.
+    cdef bint hit_cy(self, Vector3d& point) noexcept nogil:
         """
-        x, y, z = p
-        return where(power(x, 2)+power(y, 2) > power(self.radius, 2), False, True)
+        Determine if a point is inside the circular surface aperture.
 
-    cpdef bint fhit(self, double px, double py, double pz):
-        """This method returns TRUE if an p=(x,y,z)point is inside the surface
-        aperture if not it must return FALSE.
-        This is implemented for a point, in cython, to make it fast
+        This method checks whether a given point `p = (x, y, z)` lies inside the
+        circular surface aperture. It returns `True` if the point is within the
+        aperture and `False` otherwise. This method is implemented in Cython to
+        ensure fast execution.
+
+        Parameters
+        ----------
+        point : Vector3d&
+            A reference to a `Vector3d` object representing the coordinates `(x, y, z)`
+            of the point to be checked.
+
+        Returns
+        -------
+        bint
+            `True` if the point is within the surface aperture, `False` otherwise.
         """
-
-        if px**2+py**2 > self.radius**2:
-            return False
-        else:
-            return True
-
-    # ~ cpdef polylist(self, topo):
-        # ~ """Method that returns a tuple (point_list, poly_list) for a circular mesh.
-        # ~
-        # ~ Attributes:
-        # ~ ===========
-        # ~
-        # ~ topo    Z=topo(x,y) is the function that gives the surface topography
-        # ~
-        # ~ The point list is a list of tuples (X,Y,Z) containing the coordinates of
-        # ~ the points used to build the surface mesh.
-        # ~ The poly_list is a list of tuples (n1,n2,n3,n3) containing the indices
-        # ~ of the points in the polylist used to build each polygon that will be
-        # ~ used to visualize the mesh.
-        # ~ """
-        # ~
-        # ~ nr, na=self.samples
-        # ~
-        # ~ R=arange(self.radius*(1./nr),self.radius*(1.+1./(2*nr)),self.radius/nr)
-        # ~ A=arange(0,2*pi,2*pi/na)
-# ~
-        # ~ # Create the point list, and locate the vertex as the first point
-        # ~
-        # ~ RM, AM=meshgrid(R,A)
-        # ~ #print RM
-        # ~ #print AM
-# ~
-        # ~ X=RM*cos(AM)
-        # ~ Y=RM*sin(AM)
-        # ~
-        # ~ #print X
-        # ~ #print Y
-        # ~
-        # ~ Z=topo(X, Y)
-        # ~ # Create the list leaving the surface open at the vertex, and at a=0
-        # ~ xs,ys= Z.shape
-# ~
-        # ~ points=[(0., 0., topo(0., 0.)), ]
-        # ~ polylist=[]
-        # ~ i=1
-        # ~ for x in range(0,xs):
-           # ~ for y in range(0,ys):
-            #~ points.append([X[x,y],Y[x,y],Z[x,y]]);
-            # ~ if y>=1 and x>=1 and Z[x, y]:
-            #~ polylist.append([i-1,i,i-ys,i-ys-1])
-            # ~ i=i+1
-        # ~ # Close the vertex
-        # ~
-        # ~ for x in range(0,xs-1):
-           #~ polylist.append([0,x*ys+1,(x+1)*ys+1])
-        #~ polylist.append([0, 1, ys*(xs-1)+1])
-        # ~
-        # ~ # Close the surface
-        # ~ for y in range(1, ys):
-           #~ polylist.append([y,y+1, ys*(xs-1)+y+1, ys*(xs-1)+y ])
-        # ~ return points, polylist
+        return point.dot(point) < self.radius * self.radius
 
     cpdef pointlist(self):
+        """
+        Generate a list of points that adequately sample the circular shape.
+
+        This method returns two lists, `X` and `Y`, representing the X and Y
+        coordinates of points that sample the circular shape. The sampling is
+        based on the number of radial (`nr`) and angular (`na`) divisions specified
+        in the `samples` attribute. The center point `(0, 0)` is always included
+        in the list.
+
+        Returns
+        -------
+        tuple of lists
+            A tuple `(X, Y)` where `X` is a list of X coordinates and `Y` is a list
+            of Y coordinates for the sampled points on the circular shape.
+
+        Notes
+        -----
+        - The `samples` attribute defines the resolution of the sampling:
+            - `nr` (number of radial samples) determines the number of points
+            along the radius of the circle.
+            - `na` (number of angular samples) determines the number of points
+            around the circle's circumference.
+        - The point `(0, 0)` is always included at the start of the lists.
+        """
+        cdef int nr, na, ir, ia
 
         nr, na = self.samples
 
-        R = arange(self.radius*(1./nr), self.radius *
-                   (1.+1./(2*nr)), self.radius/nr)
-        A = arange(0, 2*pi, 2*pi/na)
+        # Add the center point
+        cdef list X = [0.,]
+        cdef list Y = [0.,]
 
-        RM, AM = meshgrid(R, A)
-        # print RM
-        # print AM
+        cdef double angle, radius
 
-        X = RM*cos(AM)
-        Y = RM*sin(AM)
+        for ia in range(0, na):
 
-        return X.ravel(), Y.ravel()
+            angle = ia*2*M_PI/na
+            for ir in range(1, nr+1):
+                radius = ir * self.radius / nr
+
+                X.append(radius * cos(angle))
+                Y.append(radius * sin(angle))
+
+        return X, Y
 
     cpdef limits(self):
         """
-        Returns the minimum limits for the aperture
+        Return the minimum and maximum limits of the circular aperture.
+
+        This method returns the minimum and maximum X and Y coordinates that
+        define the bounding box of the circular aperture. These limits are
+        determined by the radius of the circle.
+
+        Returns
+        -------
+        tuple of float
+            A tuple `(xmin, xmax, ymin, ymax)` where:
+            - `xmin` is the minimum X-coordinate (`-self.radius`).
+            - `xmax` is the maximum X-coordinate (`self.radius`).
+            - `ymin` is the minimum Y-coordinate (`-self.radius`).
+            - `ymax` is the maximum Y-coordinate (`self.radius`).
+
+        Notes
+        -----
+        These limits define a square bounding box that fully contains the circular
+        aperture.
         """
         return -self.radius, self.radius, -self.radius, self.radius

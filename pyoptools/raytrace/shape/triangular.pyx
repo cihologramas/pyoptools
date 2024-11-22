@@ -1,5 +1,3 @@
-# cython: profile=True
-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amezquita Orozco
 # All rights reserved.
@@ -18,97 +16,116 @@
 """Module that defines the Triangular class
 """
 
-cimport cython
-
 
 from pyoptools.raytrace.shape.shape cimport Shape
+from pyoptools.misc.cmisc.eigen cimport Vector3d, Vector2d, \
+    assign_tuple_to_vector2d
 
-
-from numpy import arange, meshgrid, where, dot, array
 
 cdef class Triangular(Shape):
-    ''' Class defining a triangular shape.
-    '''
-    cdef public tuple coord
-    cdef public int samples
 
-    @cython.embedsignature(True)
-    def __init__(self, coord=((0, 0), (0, 100), (100, 0)), samples=10, *args, **kwargs):
-        """
-        Class defining a triagular shape
+    """
+    Class defining a triangular polygonal shape.
 
-        Args:
-            coords (tuple): Tuple containing the coordinates of the 3 corners
-                of a  triangle. Each coordinate is a(float, float) tuple.
-            samples (int): Number of subdivitions per side used to sample the
-                triangle.
-        """
-        Shape.__init__(self, *args, **kwargs)
-        self.coord=coord
+    This class represents a triangular shape defined by the coordinates of
+    its three corners. It inherits from the `Shape` class and implements
+    methods specific to triangular shapes.
+
+    Parameters
+    ----------
+    coord : tuple of tuple of float, optional
+        A tuple containing the coordinates of the three corners of the
+        triangle. Each corner is represented by a `(x, y)` tuple.
+        Defaults to `((0, 0), (0, 100), (100, 0))`.
+    samples : int, optional
+        The number of subdivisions per side used to sample the triangle.
+        This determines the resolution of the grid points within the triangle.
+        Defaults to `10`.
+
+    Attributes
+    ----------
+    point_a : Vector2d
+        A `Vector2d` object representing the first corner of the triangle.
+    point_b : Vector2d
+        A `Vector2d` object representing the second corner of the triangle.
+    point_c : Vector2d
+        A `Vector2d` object representing the third corner of the triangle.
+    samples : int
+        The number of subdivisions per side used to sample the triangle.
+    """
+
+    def __init__(self, coord=((0, 0), (0, 100), (100, 0)), samples=10):
+        Shape.__init__(self)
+
+        # self.coord=coord
+        assign_tuple_to_vector2d(coord[0], self.point_a)
+        assign_tuple_to_vector2d(coord[1], self.point_b)
+        assign_tuple_to_vector2d(coord[2], self.point_c)
+
         self.samples=samples
 
         # Register picklable attributes
-        self.addkey("coord")
-        self.addkey("samples")
+        # self.addkey("point_a")
+        # self.addkey("point_b")
+        # self.addkey("point_c")
+
+        # self.addkey("samples")
 
     def __reduce__(self):
 
-        state=None
         args=(self.coord, self.samples)
         return(type(self), args)
 
-    @cython.embedsignature(True)
-    cpdef hit(self, p):
-        """Method  that returns True if a p=(x,y,z) point is inside the triangle,
-        if not it returns False.
-        taken from http://www.blackpawn.com/texts/pointinpoly/default.html
+    cdef bint hit_cy(self, Vector3d &point) noexcept nogil:
         """
-        x, y, z=p
-        P=array((x, y))
-        A=array(self.coord[0])
-        B=array(self.coord[1])
-        C=array(self.coord[2])
+        Determine if a point is inside the triangular surface aperture.
 
-        v0=C-A
-        v1=B-A
-        v2=P-A
+        This method checks whether a given point `p = (x, y, z)` lies within
+        the boundaries of the triangular surface aperture. It returns `True`
+        if the point is inside the triangle and `False` otherwise. This method
+        is implemented in Cython to ensure fast execution.
 
-        dot00=dot(v0, v0)
-        dot01=dot(v0, v1)
-        dot02=dot(v0, v2)
-        dot11=dot(v1, v1)
-        dot12=dot(v1, v2)
+        The algorithm used is based on barycentric coordinates, which are computed
+        to determine if the point lies inside the triangle formed by the corners
+        `point_a`, `point_b`, and `point_c`.
 
-        invDenom=1./(dot00 * dot11 - dot01 * dot01)
+        Parameters
+        ----------
+        point : Vector3d&
+            A reference to a `Vector3d` object representing the coordinates `(x, y, z)`
+            of the point to be checked. Only the x and y coordinates are used in
+            the calculation.
 
-        u = (dot11 * dot02 - dot01 * dot12) * invDenom
-        v = (dot00 * dot12 - dot01 * dot02) * invDenom
+        Returns
+        -------
+        bint
+            `True` if the point is within the triangular surface aperture,
+            `False` otherwise.
 
-        # Check if point is in triangle
-        return (u > 0) and (v > 0) and (u + v < 1)
-
-    @cython.embedsignature(True)
-    cpdef bint fhit(self, double px, double py, double pz):
-        """This method returns TRUE if an p=(x,y,z)point is inside the surface
-        aperture if not it must return FALSE.
-        This is implemented for a point, in cython, to make it fast
         """
+
         cdef double dot00, dot01, dot02, dot11, dot12, invDenom, u, v
-        # This one needs to be optimized
-        P=array((px, py))
-        A=array(self.coord[0])
-        B=array(self.coord[1])
-        C=array(self.coord[2])
 
-        v0=C-A
-        v1=B-A
-        v2=P-A
+        cdef double px, py, _pz
 
-        dot00=dot(v0, v0)
-        dot01=dot(v0, v1)
-        dot02=dot(v0, v2)
-        dot11=dot(v1, v1)
-        dot12=dot(v1, v2)
+        px = point(0)
+        py = point(1)
+        _pz = point(2)
+
+        cdef Vector2d P = Vector2d(px, py)  # = array((px, py))
+        # A=array(self.coord[0])
+        # B=array(self.coord[1])
+        # C=array(self.coord[2])
+
+        cdef Vector2d v0 = self.point_c - self.point_a  # C-A
+        cdef Vector2d v1 = self.point_b - self.point_a  # B-A
+        cdef Vector2d v2 = P - self.point_a  # P-A
+
+        dot00=v0.dot(v0)  # dot(v0, v0)
+        dot01=v0.dot(v1)  # dot(v0, v1)
+        dot02=v0.dot(v2)  # dot(v0, v2)
+        dot11=v1.dot(v1)  # dot(v1, v1)
+        dot12=v1.dot(v2)  # dot(v1, v2)
 
         invDenom=1./(dot00 * dot11 - dot01 * dot01)
 
@@ -118,77 +135,94 @@ cdef class Triangular(Shape):
         # Check if point is in triangle
         return (u > 0) and (v > 0) and (u + v < 1)
 
-    # ~ cpdef polylist(self, topo): #Falta organizar el polilist
-        # ~ """Method that returns a tuple (point_list, poly_list) for a triangular mesh.
-        # ~
-        # ~ Attributes:
-        # ~ ===========
-        # ~
-        # ~ topo    Z=topo(x,y) is the function that gives the surface topography
-        # ~
-        # ~ The point list is a list of tuples (X,Y,Z) containing the coordinates of
-        # ~ the points used to build the surface mesh.
-        # ~ The poly_list is a list of tuples (n1,n2,n3,n3) containing the indices
-        # ~ of the points in the polylist used to build each polygon that will be
-        # ~ used to visualize the mesh.
-        # ~ """
-        # ~
-        # ~ cdef int i,j
-        # ~
-        # ~ A=array(self.coord[0])
-        # ~ B=array(self.coord[1])
-        # ~ C=array(self.coord[2])
-        # ~
-        # ~ #Get the mesh points
-        # ~ points=[]
-        # ~ for i in range(self.samples+1):
-            # ~ P0= A+i*(B-A)/self.samples
-            # ~ P1= A+i*(C-A)/self.samples
-            # ~ for j in range(i+1):
-                # ~ if i!=0:
-                    # ~ P=P0+(P1-P0)*j/i
-                # ~ else:
-                    # ~ P=P0
-                # ~ Z=topo(P[0],P[1])
-                #~ points.append((P[0],P[1],Z))
-                # ~
-        # ~ from matplotlib.delaunay import delaunay
-        # ~
-        # ~ #Need to find a better way to do this not using delaunay# or maybe to generate all using triangulations????
-        # ~
-        # ~ x=[p[0] for p in points]
-        # ~ y=[p[1] for p in points]
-        # ~ cs,e,trip,trin=delaunay(x,y)
-        # ~ return points, trip
-
-    @cython.embedsignature(True)
     cpdef pointlist(self):
+        """
+        Generate a list of points that adequately sample the triangular shape.
+
+        This method returns two lists, `X` and `Y`, representing the X and Y
+        coordinates of points that sample the triangular shape defined by the
+        vertices `point_a`, `point_b`, and `point_c`. The sampling resolution
+        is determined by the `samples` attribute, which specifies the number of
+        subdivisions per side of the triangle.
+
+        Returns
+        -------
+        tuple of lists
+            A tuple `(X, Y)` where `X` is a list of X coordinates and `Y` is a
+            list of Y coordinates for the sampled points within the triangular shape.
+
+        Notes
+        -----
+        - The method generates a triangular grid of points by linearly interpolating
+        between the vertices `point_a`, `point_b`, and `point_c`.
+        - The `samples` attribute determines the number of subdivisions along
+        each side of the triangle.
+        - The outer loop iterates over the number of samples, creating points along
+        the edges of the triangle.
+        - The inner loop interpolates between the points on the two sides of the
+        triangle to fill in the interior points.
+        - The method handles the edge case when `i == 0` to ensure that the starting
+        vertex is correctly included.
+        """
 
         cdef int i, j
 
-        A=array(self.coord[0])
-        B=array(self.coord[1])
-        C=array(self.coord[2])
-
+        cdef Vector2d A=self.point_a
+        cdef Vector2d B=self.point_b
+        cdef Vector2d C=self.point_c
+        cdef Vector2d P0, P1, P
         # Get the mesh points
-        X=[]
-        Y=[]
+        cdef list X=[]
+        cdef list Y=[]
+
         for i in range(self.samples+1):
-            P0= A+i*(B-A)/self.samples
-            P1= A+i*(C-A)/self.samples
+            P0= A+((B-A)*<double>i)/<double>self.samples
+            P1= A+((C-A)*<double>i)/<double>self.samples
             for j in range(i+1):
                 if i!=0:
-                    P=P0+(P1-P0)*j/i
+                    P=P0+(P1-P0)*(<double>j/i)
                 else:
                     P=P0
-                X.append(P[0])
-                Y.append(P[1])
+                X.append(P(0))
+                Y.append(P(1))
         return X, Y
 
-    @cython.embedsignature(True)
     cpdef limits(self):
         """
-        Returns the minimum limits for the aperture
+        Return the minimum and maximum limits of the triangular aperture.
+
+        This method returns the minimum and maximum X and Y coordinates that
+        define the bounding box of the triangular aperture. These limits are
+        calculated based on the coordinates of the three vertices of the triangle.
+
+        Returns
+        -------
+        tuple of float
+            A tuple `(xmin, xmax, ymin, ymax)` where:
+            - `xmin` is the minimum X-coordinate among the three vertices.
+            - `xmax` is the maximum X-coordinate among the three vertices.
+            - `ymin` is the minimum Y-coordinate among the three vertices.
+            - `ymax` is the maximum Y-coordinate among the three vertices.
+
+        Notes
+        -----
+        - The limits are calculated directly from the coordinates of the triangle's
+        vertices (`point_a`, `point_b`, and `point_c`).
+        - The returned limits define a rectangular bounding box that fully contains
+        the triangular shape.
         """
-        dx, dy=self.size
-        return -dx/2, dx/2, -dy/2, dy/2
+        cdef double xmin, xmax, ymin, ymax
+
+        # Extract coordinates from the vertices
+        cdef double ax, ay, bx, by, cx, cy
+        ax, ay = self.point_a(0), self.point_a(1)
+        bx, by = self.point_b(0), self.point_b(1)
+        cx, cy = self.point_c(0), self.point_c(1)
+
+        # Calculate bounding box limits
+        xmin = min(ax, bx, cx)
+        xmax = max(ax, bx, cx)
+        ymin = min(ay, by, cy)
+        ymax = max(ay, by, cy)
+
+        return xmin, xmax, ymin, ymax

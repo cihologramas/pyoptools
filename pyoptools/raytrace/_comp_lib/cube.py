@@ -18,7 +18,6 @@
 Definition of beam splitting cube object and helper functions
 """
 
-# from enthought.traits.api import Tuple, Float, Instance, HasTraits, Trait
 import warnings
 from numpy import pi
 
@@ -44,24 +43,24 @@ class Block(Component):
     def __init__(self, size=(10, 10, 10), **traits):
         Component.__init__(self, **traits)
         self.size = size
-        w, h, l = self.size
-        __a_surf = Plane(shape=Rectangular(size=(w, h)))
-        __p_surf = Plane(shape=Rectangular(size=(w, h)))
+        width, height, length = self.size
+        __a_surf = Plane(shape=Rectangular(size=(width, height)))
+        __p_surf = Plane(shape=Rectangular(size=(width, height)))
 
-        __u_surf = Plane(shape=Rectangular(size=(w, l)))
-        __l_surf = Plane(shape=Rectangular(size=(w, l)))
+        __u_surf = Plane(shape=Rectangular(size=(width, length)))
+        __l_surf = Plane(shape=Rectangular(size=(width, length)))
 
-        __lf_surf = Plane(shape=Rectangular(size=(l, h)))
-        __rg_surf = Plane(shape=Rectangular(size=(l, h)))
+        __lf_surf = Plane(shape=Rectangular(size=(length, height)))
+        __rg_surf = Plane(shape=Rectangular(size=(length, height)))
 
-        self.surflist["S1"] = (__a_surf, (0, 0, -l / 2), (0, 0, 0))
-        self.surflist["S2"] = (__p_surf, (0, 0, l / 2), (0, 0, 0))
+        self.surflist["S1"] = (__a_surf, (0, 0, -length / 2), (0, 0, 0))
+        self.surflist["S2"] = (__p_surf, (0, 0, length / 2), (0, 0, 0))
 
-        self.surflist["S3"] = (__u_surf, (0, h / 2, 0), (pi / 2, 0, 0))
-        self.surflist["S4"] = (__l_surf, (0, -h / 2, 0), (pi / 2, 0, 0))
+        self.surflist["S3"] = (__u_surf, (0, height / 2, 0), (pi / 2, 0, 0))
+        self.surflist["S4"] = (__l_surf, (0, -height / 2, 0), (pi / 2, 0, 0))
 
-        self.surflist["S5"] = (__lf_surf, (-w / 2, 0, 0), (0, pi / 2, 0))
-        self.surflist["S6"] = (__rg_surf, (w / 2, 0, 0), (0, pi / 2, 0))
+        self.surflist["S5"] = (__lf_surf, (-width / 2, 0, 0), (0, pi / 2, 0))
+        self.surflist["S6"] = (__rg_surf, (width / 2, 0, 0), (0, pi / 2, 0))
 
     # ~ def __reduce__(self):
     # ~ args=() #self.intensity,self.wavelength,self.n ,self.label,self.parent,self.pop,self.orig_surf)
@@ -151,5 +150,6 @@ class BeamSplitingCube(BeamSplittingCube):
             "correct) . Please fix your code by using "
             "BeamSplittingCube instead",
             DeprecationWarning,
+            stacklevel=2
         )
         super().__init__(*argv, **kwargs)

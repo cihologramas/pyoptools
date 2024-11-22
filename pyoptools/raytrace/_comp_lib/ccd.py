@@ -62,7 +62,7 @@ class CCD(Component):
 
     hit_list = property(_get_hitlist)
     """List containing a tuple for each ray hitting the CCD. The first component
-    of the tuple is the coordinates of intersection of the ray with the CCD 
+    of the tuple is the coordinates of intersection of the ray with the CCD
     (in its coordinate system). The second component of each tuple points to the
     :class:`~pyoptools.raytrace.ray.Ray` that intersected the CCD.
     """
@@ -208,7 +208,7 @@ class CCD(Component):
         yd = linspace(yi, yf, ny)
         data = bisplev(xd, yd, rv)
 
-        if mask != None:
+        if mask is not None:
             assert isinstance(mask, Shape)
             X, Y = meshgrid(xd, yd)
             m = ~mask.hit((X, Y, 0))

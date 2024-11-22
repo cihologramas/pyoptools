@@ -9,6 +9,7 @@ doc/_build/
 doc/pyoptools.*rst
 
 *.c
+*.cpp
 *.h
 *.so
 .idea
@@ -26,3 +27,6 @@ debian/python3-pyoptools.debhelper.log
 *.debhelper
 debian/python3-pyoptools.substvars
 debian/files
+.coverage
+test_results.xml
+.eggs

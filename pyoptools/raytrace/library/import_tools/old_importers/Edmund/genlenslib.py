@@ -8,7 +8,7 @@ from six.moves import configparser as cp
 def tofloat(x):
     try:
         retval = float(x.replace(",", "."))
-    except:
+    except ValueError:
         retval = 0
     return retval
 

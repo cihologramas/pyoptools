@@ -1,5 +1,3 @@
-# cython: profile=True
-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
@@ -14,20 +12,10 @@
 # ------------------------------------------------------------------------------
 
 
-
 """Module that defines the optical system class System()
 """
-import sys
-# TODO: Check if all modules use has strict traits
-from warnings import warn
 
-# from enthought.traits.api import HasPrivateTraits, Float, Trait,TraitList,\
-#    Array, List, Property, TraitHandler, Tuple
-# from enthought.traits.ui.view import View, Item
-# from enthought.tvtk.api import tvtk
-from numpy import asarray, array, float64, alltrue, isinf as npisinf, isnan as npisnan, sometrue,\
-    pi, absolute, inf
-# from ray_trace.component.component cimport Component
+from numpy import asarray, array, all, isinf as npisinf
 
 from pyoptools.raytrace.ray.ray cimport Ray
 
@@ -37,12 +25,7 @@ from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.component.component cimport Component
 
-cimport numpy as np
-np.import_array()
-
-cdef extern from "math.h":
-    bint isnan(double x) nogil
-    bint isinf(double x) nogil
+from libc.math cimport isinf, INFINITY
 
 cdef class System(Picklable):
     """
@@ -121,23 +104,23 @@ cdef class System(Picklable):
         else:
             self._max_ray_parent_cnt = int(val)
 
-
-    @property 
+    @property
     def prop_ray(self):
-            return tuple(self._p_rays)
+        return tuple(self._p_rays)
 
     ###############################################################
 
-    @property 
+    @property
     def complist(self):
-            return self._complist
+        return self._complist
 
     @complist.setter
     def complist(self, list):
         self._complist=plist(list)
 
-    def __init__(self, complist=None, n=1., max_ray_parent_cnt = None, intensity_threshold=0):
-        
+    def __init__(self, complist=None, n=1., max_ray_parent_cnt=None,
+                 intensity_threshold=0):
+
         # Look in the init os component to see why this in done this way
         if complist is None:
             self.complist=[]
@@ -148,30 +131,30 @@ cdef class System(Picklable):
         self._p_rays=[]  # propagated rays
 
         # self.propagation_limit is integer, so if it is 0, then there is no limit
-        
+
         self.max_ray_parent_cnt = max_ray_parent_cnt
 
-    
         self.intensity_threshold = intensity_threshold
 
-        # Flag that indicates if a ray propagarion was truncated or not by the
+        # Flag that indicates if a ray propagation was truncated or not by the
         # intensity_threshold or the max_ray_parent_cnt condition
         # if 0 no truncation was done
-    
+
         self._exit_status_flag = 0
 
         for i in self.complist:
             comp=i[0]
             # If the component is a subsystem, the refraction index must be the
             # same of the system, also the propagation limits must be the same
-            
+
             if isinstance(comp, System):
                 comp.n=self.n
                 comp.max_ray_parent_cnt = self.max_ray_parent_cnt
                 comp.intensity_threshold = self.intensity_threshold
 
         # Add to the keys to the state key list
-        Picklable.__init__(self, "complist", "n", "_np_rays", "_p_rays", "_max_ray_parent_cnt", "intensity_threshold")
+        Picklable.__init__(self, "complist", "n", "_np_rays", "_p_rays",
+                           "_max_ray_parent_cnt", "intensity_threshold")
 
     # Dict type and list type interface to expose complist
 
@@ -259,24 +242,11 @@ cdef class System(Picklable):
                 if isinstance(i, Ray):
                     self._np_rays.append(i)
                 else:
-                    raise Exception, 'Not a valid Ray'
+                    raise Exception, "Not a valid Ray"
         elif isinstance(ray, Ray):
             self._np_rays.append(ray)
         else:
-            raise Exception, 'Not a valid Ray'
-
-    # ~ def component_add(self, cmp,pos,dire):
-        # ~ """
-        # ~ """
-        # ~ # TODO: check if this method is needed
-        # ~ # TODO: design a method to delete components
-        # ~
-        # ~ if isinstance(cmp,OptCom):
-            # ~ pos_=array(pos).astype(float64)
-            # ~ dir_=array(dire).astype(float64)
-            # ~ self.complist.append((cmp,pos_,dir_))
-        # ~ else:
-            # ~ raise Exception,'Not a valid OptCom'
+            raise Exception, "Not a valid Ray"
 
     def propagate(self, update_ids=True):
         """ Propagates all the rays in the non propagated list.
@@ -378,7 +348,7 @@ cdef class System(Picklable):
         self._np_rays=[]
         self._p_rays=[]
         for comp in self.complist:
-            S, P, D=comp
+            S, _P, _D=comp
             S.reset()
 
     cpdef propagate_ray(self, Ray ri):
@@ -405,7 +375,14 @@ cdef class System(Picklable):
 
         # Check if the ray comes from the media
 
-        cdef np.ndarray P, D, PSR, DSR, PSR0, DSR0, PSR1, DSR1
+        # These are defined as tuples, because they need to be python objects
+        # to be included in lists
+
+        cdef tuple[double, double, double] P, D, PSR, DSR, PSR0, DSR0, PSR1, \
+            DSR1
+
+        cdef int j, j1
+        cdef double d0, d1
 
         if ri.n is None:
             ri.n=self.n
@@ -417,6 +394,10 @@ cdef class System(Picklable):
         # Calculate the path length followed by the ray until it intersects all
         # the components and subsystems
 
+        # Note: C can be component or subsystem, so for the moment we will
+        # leave it as a python object
+
+        cdef object C
         for i in self.complist:
             C, P, D = i
             comp_list.append((C, P, D))
@@ -436,7 +417,7 @@ cdef class System(Picklable):
         # Check if there are more components in front of the ray
         # if not, return the original ray
 
-        if alltrue(npisinf(array(dist_list))):
+        if all(npisinf(array(dist_list))):
             return ri
 
         # Sort the components by distance
@@ -457,7 +438,7 @@ cdef class System(Picklable):
             j1=sort_list[1]
             d1=dist_list[j1]
         else:
-            d1=inf
+            d1 = INFINITY
         # Si las compomentes mas cercanas no estan en contacto, calcular la
         # propagacion a travez de la componente mas cercana
         # Nota_: La comparacion de punto flotante no esta funcionando. Para
@@ -467,18 +448,21 @@ cdef class System(Picklable):
         # If the closest components are not in contact calculate the propagation
         # using the closest surface.
 
-        N_EPS=1.e-12  # Used to check the zero
+        cdef double N_EPS=1.e-12  # Used to check the zero
 
         # Check if you are propagating in a subsystem
 
-        # if isinstance(self.complist[j][0],System):
+        # Note: SR can be a System or a Component, so for the moment we will
+        # leave it as a standard python object
+        cdef object SR
+
         if isinstance(comp_list[j][0], System):
             # Leer el elemento que primero intersecta el rayo, asi como
             # su posicion y orientacion
             SR, PSR, DSR=comp_list[j]
             # SR.reset()
             SR.clear_ray_list()
-            
+
             R=ri.ch_coord_sys(PSR, DSR)
             SR.ray_add(R)
             # Ids must not be updated when propagating in subsystems
@@ -492,7 +476,7 @@ cdef class System(Picklable):
                 ri.add_child(i)
 
         # Verificar si no hay componentes en contacto
-        elif absolute(d0-d1)>N_EPS:
+        elif abs(d0-d1)>N_EPS:
 
             # Get the nearest element to the ray origin, as well as its
             # position and orientation
@@ -500,7 +484,8 @@ cdef class System(Picklable):
 
             # Change the ray to the coordinate system of the element
 
-            R=ri.ch_coord_sys(array(PSR, dtype=float64), array(DSR, dtype=float64))
+            R=ri.ch_coord_sys(PSR, DSR)
+
             # as there are no components in contact the refraction index outside the
             # is the media's
 
@@ -534,7 +519,8 @@ cdef class System(Picklable):
             R1=ri.ch_coord_sys(PSR1, DSR1)
             ri_n1=SR1.propagate(R1, n0)
 
-            # TODO: Need to find a solution when the two surfaces return more than one ray.
+            # TODO: Need to find a solution when the two surfaces return more
+            # than one ray.
             if (len(ri_n0)>1)and(len(ri_n1)>1):
                 raise Exception, "The two surfaces in contact, can not produce "\
                                  "both more than one propagated ray"
@@ -550,7 +536,7 @@ cdef class System(Picklable):
                     ri.add_child(ri_)
             else:
                 ri_0=ri_n0[0].ch_coord_sys_inv(PSR0, DSR0)
-                ri_1=ri_n1[0].ch_coord_sys_inv(PSR1, DSR1)
+                # ri_1=ri_n1[0].ch_coord_sys_inv(PSR1, DSR1)
                 # TODO: ri_0 and ri_1 must be equal. Needs to be checked
                 ri.add_child(ri_0)
 
@@ -558,12 +544,14 @@ cdef class System(Picklable):
 
         for i in ri.get_final_rays():
             if (i!=ri):
-                
-                # stop propagating if the ray has an intensity below the intensity propagation threshold
-                # or if it has been propagated more than propagation_limit times
+
+                # stop propagating if the ray has an intensity below the
+                # intensity propagation threshold or if it has been propagated
+                # more than propagation_limit times
 
                 if i.intensity>self.intensity_threshold:
-                    if self._max_ray_parent_cnt == 0 or i._parent_cnt<self.max_ray_parent_cnt:
+                    if (self._max_ray_parent_cnt == 0 or
+                       i._parent_cnt<self.max_ray_parent_cnt):
                         self.propagate_ray(i)
                     else:
                         self._exit_status_flag = 1
@@ -571,7 +559,8 @@ cdef class System(Picklable):
                     self._exit_status_flag = 1
 
             else:
-                raise Exception, "Error, a a ray can not be parent and child at the same time"
+                raise Exception, \
+                    "Error, a a ray can not be parent and child at the same time"
 
         return ri
 
@@ -609,7 +598,8 @@ cdef class System(Picklable):
 
         while len(self._np_rays)>0:
             ri=self._np_rays.pop(0)
-            assert ri.wavelength==gr.wavelength, "Propagated rays, and guide ray wavelength must match"
+            assert ri.wavelength==gr.wavelength, \
+                "Propagated rays, and guide ray wavelength must match"
             # self.propagate_ray(ri)
             # ~ # Check if the ray comes from the media
             if ri.n is None:
@@ -642,19 +632,20 @@ cdef class System(Picklable):
                     O=C
 
                 # Get the distance to the next surface
-                Dist, pi=S.distance(R)
+                Dist, p_i=S.distance(R)
 
                 if isinf(Dist):
                     break  # No intersection continue with next ray
 
                 # Add ray to the hit list
-                S._hit_list.append((pi, ri))
+                S._hit_list.append((p_i, ri))
 
                 # TODO: The hitlists of the surfaces inside a subsystem are not accurate
                 # because the rays are in the subsystem coordinate system, and not in
                 # world coordinate system.
 
-                ri_n=S.propagate(R, ni, nr)[rp[i+1].order]  # Need to check which is the real one to take
+                # Need to check which is the real one to take
+                ri_n=S.propagate(R, ni, nr)[rp[i+1].order]
 
                 # Change the coordinate system of the propagated rays to the
                 # system coordinate system

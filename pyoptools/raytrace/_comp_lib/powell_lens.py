@@ -18,12 +18,10 @@
 Definition of a spherical lens object and helper functions
 """
 
-# from enthought.traits.api import Float, Instance, HasTraits,  Trait
-
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Aspherical, Plane
 from pyoptools.raytrace.shape import Circular
-from pyoptools.misc.Poly2D import *
+from pyoptools.misc.poly_2d import *
 
 
 class PowellLens(Component):

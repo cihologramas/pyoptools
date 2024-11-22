@@ -1,15 +1,22 @@
 #!/usr/bin/env python
 import sys
-
-from setuptools import setup, find_packages
+import os
+import subprocess
+import platform
+from setuptools import setup, Command
 from Cython.Build import cythonize
 from Cython.Build.Dependencies import default_create_extension
 
-import numpy
+
+
+eigen_include_path = os.environ.get('EIGEN3_INCLUDE_DIR', '/usr/include/eigen3')
 
 
 def create_extension(template, kwds: dict):
     define_macros = kwds.get("define_macros", [])
+
+    # Use the new numpy API and remove all the compilation warnings
+    define_macros.append(("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION"))
 
     if sys.platform in ("darwin", "win32"):
         define_macros.append(("CYTHON_INLINE", ""))
@@ -18,28 +25,38 @@ def create_extension(template, kwds: dict):
     return default_create_extension(template, kwds)
 
 
-setup(
-    packages=find_packages(exclude=["tests"]),
-    scripts=["ipyoptools"],
-    package_data={
-        "pyoptools.raytrace.mat_lib": [
-            "data/glass/*",
-            "data/glass/*/*",
-            "data/glass/*/*/*",
-            "data/inorganic/*",
-            "data/inorganic/*/*",
-            "data/organic/*",
-            "data/organic/*/*",
-            "data/aliases.json",
-        ],
-        "pyoptools.raytrace.library": [
-            "catalogs/*"],
-    },
-    author="Ricardo Amezquita Orozco",
-    author_email="ramezquitao@cihologramas.com",
-    description="Optical ray tracing simulation system",
-    url="https://github.com/cihologramas/pyoptools/",
-    ext_modules=cythonize("pyoptools/**/*.pyx", language_level="2", create_extension=create_extension),
-    include_dirs=[numpy.get_include()],   
-    use_scm_version=True,
-)
+# Custom command to build extensions and run tests
+class TestCommand(Command):
+    description = "Build extensions and run tests."
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        # Build extensions
+        self.run_command("build_ext")
+        # Install the package in editable mode
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-e", ".[test]"])
+        # Run tests using pytest
+        errno = subprocess.call([sys.executable, "-m", "pytest"])
+        raise SystemExit(errno)
+
+
+if __name__ == "__main__":
+    # allow setup.py to run from another directory
+    setup(
+        ext_modules=cythonize(
+            "pyoptools/**/*.pyx",
+            create_extension=create_extension,
+            language_level="3str",
+        ),
+        include_dirs=[eigen_include_path],
+        use_scm_version=True,
+        include_package_data=True,
+        cmdclass={"test": TestCommand},
+        setup_requires=["setuptools_scm", "Cython"]
+    )

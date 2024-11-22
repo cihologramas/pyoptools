@@ -57,7 +57,7 @@ def ffGS(z, target, estimate=None, iterations=20, error=None):
 
     """
 
-    if estimate == None:
+    if estimate is None:
         edata = exp(2.0j * pi * random(target.shape))
         sx, sy = target.size
         dxe = target.l * z / sx
@@ -102,7 +102,7 @@ def ffGS(z, target, estimate=None, iterations=20, error=None):
 
         err = (ntarget - imp.abs() / imp.abs().max()).std()
 
-        if error != None and err < error:
+        if error is not None and err < error:
             break
 
         d = exp(1.0j * imp.angle)
@@ -164,7 +164,7 @@ def fftGS(z, target, estimate=None, iterations=20, error=None, flagRand=True):
 
     """
 
-    if estimate == None:
+    if estimate is None:
         if flagRand:
             edata = exp(2.0j * pi * random(target.shape))
         else:
@@ -212,7 +212,7 @@ def fftGS(z, target, estimate=None, iterations=20, error=None, flagRand=True):
 
         err = (ntarget - abs(imp) / abs(imp).max()).std()
 
-        if error != None and err < error:
+        if error is not None and err < error:
             break
 
         d = exp(1.0j * angle(imp))
@@ -274,7 +274,7 @@ def frGS(z, target, estimate=None, iterations=20, error=None):
 
     """
 
-    if estimate == None:
+    if estimate is None:
         edata = exp(2.0j * pi * random(target.shape))
         sx, sy = target.size
         dxe = target.l * z / sx
@@ -320,7 +320,7 @@ def frGS(z, target, estimate=None, iterations=20, error=None):
 
         err = (ntarget - imp.abs() / imp.abs().max()).std()
 
-        if error != None and err < error:
+        if error is not None and err < error:
             break
 
         d = exp(1.0j * imp.angle)
@@ -381,7 +381,7 @@ def asGS(z, target, estimate=None, iterations=20, error=None):
 
     """
 
-    if estimate == None:
+    if estimate is None:
         edata = exp(2.0j * pi * random(target.shape))
         sx, sy = target.size
         dxe = target.l * z / sx
@@ -424,7 +424,7 @@ def asGS(z, target, estimate=None, iterations=20, error=None):
 
         err = (ntarget - imp.abs() / imp.abs().max()).std()
 
-        if error != None and err < error:
+        if error is not None and err < error:
             break
 
         d = exp(1.0j * imp.angle)

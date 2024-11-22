@@ -6,6 +6,7 @@ import numpy as np
 # local imports
 import pyoptools.raytrace.ray.ray as ray
 import pyoptools.raytrace.ray.ray_source as ray_source
+from math import nan
 
 
 def beam_equal(beam1, beam2):
@@ -27,17 +28,17 @@ def beam_almost_equal(beam1, beam2):
 
 
 def test_beam_equal_same():
-    "Ray must have the same .pos to be equal"
+    "Ray must have the same .origin to be equal"
     wavelength = 0.1234
     label = "dummy_label"
 
     beam1 = [
         ray.Ray(
-            pos=np.array([i, 0.0, 0.0]),
-            dir=np.array([0.0, 0.0, 1.0]),
+            origin=np.array([i, 0.0, 0.0]),
+            direction=np.array([0.0, 0.0, 1.0]),
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,
@@ -47,11 +48,11 @@ def test_beam_equal_same():
 
     beam2 = [
         ray.Ray(
-            pos=np.array([i, 0.0, 0.0]),
-            dir=np.array([0.0, 0.0, 1.0]),
+            origin=np.array([i, 0.0, 0.0]),
+            direction=np.array([0.0, 0.0, 1.0]),
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,
@@ -65,17 +66,17 @@ def test_beam_equal_same():
 
 
 def test_beam_equal_different_pos():
-    "Ray must have the same .pos to be equal"
+    "Ray must have the same .origin to be equal"
     wavelength = 0.1234
     label = "dummy_label"
 
     beam1 = [
         ray.Ray(
-            pos=np.array([i, 0.0, 0.0]),
-            dir=np.array([0.0, 0.0, 1.0]),
+            origin=np.array([i, 0.0, 0.0]),
+            direction=np.array([0.0, 0.0, 1.0]),
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,
@@ -85,11 +86,11 @@ def test_beam_equal_different_pos():
 
     beam2 = [
         ray.Ray(
-            pos=np.array([i, 0.0, 0.0]),
-            dir=np.array([0.0, 0.0, 1.0]),
+            origin=np.array([i, 0.0, 0.0]),
+            direction=np.array([0.0, 0.0, 1.0]),
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,
@@ -107,11 +108,11 @@ def test_beam_almost_equal_same():
 
     beam1 = [
         ray.Ray(
-            pos=np.array([i, 0.0, 0.0000001]),
-            dir=np.array([0.0, 0.0, 1.0]),
+            origin=np.array([i, 0.0, 0.0000001]),
+            direction=np.array([0.0, 0.0, 1.0]),
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,
@@ -121,11 +122,11 @@ def test_beam_almost_equal_same():
 
     beam2 = [
         ray.Ray(
-            pos=np.array([i, 0.0, 0.0]),
-            dir=np.array([0.0, 0.0, 1.0]),
+            origin=np.array([i, 0.0, 0.0]),
+            direction=np.array([0.0, 0.0, 1.0]),
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,
@@ -145,11 +146,11 @@ def test_beam_less_almost_equal_not_same():
 
     beam1 = [
         ray.Ray(
-            pos=np.array([i, 0.0, 0.000001]),
-            dir=np.array([0.0, 0.0, 1.0]),
+            origin=np.array([i, 0.0, 0.000001]),
+            direction=np.array([0.0, 0.0, 1.0]),
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,
@@ -159,11 +160,11 @@ def test_beam_less_almost_equal_not_same():
 
     beam2 = [
         ray.Ray(
-            pos=np.array([i, 0.0, 0.0]),
-            dir=np.array([0.0, 0.0, 1.0]),
+            origin=np.array([i, 0.0, 0.0]),
+            direction=np.array([0.0, 0.0, 1.0]),
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,
@@ -187,11 +188,11 @@ def test_parallel_beam_c():
 
     expected = [
         ray.Ray(
-            pos=np.array([i, j, 0.0]),
-            dir=np.array([0.0, 0.0, 1.0]),
+            origin=np.array([i, j, 0.0]),
+            direction=np.array([0.0, 0.0, 1.0]),
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,
@@ -230,11 +231,11 @@ def test_parallel_beam_p():
     ]
     expected = [
         ray.Ray(
-            pos=i,
-            dir=expected_dir,
+            origin=i,
+            direction=expected_dir,
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,
@@ -274,11 +275,11 @@ def test_point_source_c():
     ]
     expected = [
         ray.Ray(
-            pos=pos_origin_ray,
-            dir=i,
+            origin=pos_origin_ray,
+            direction=i,
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,
@@ -316,11 +317,11 @@ def test_point_source_p():
     ]
     expected = [
         ray.Ray(
-            pos=pos_origin_ray,
-            dir=i,
+            origin=pos_origin_ray,
+            direction=i,
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,
@@ -361,11 +362,11 @@ def test_point_source_r():
     ]
     expected = [
         ray.Ray(
-            pos=pos_origin_ray,
-            dir=i,
+            origin=pos_origin_ray,
+            direction=i,
             intensity=1.0,
             wavelength=wavelength,
-            n=None,
+            n=nan,
             label=label,
             orig_surf=None,
             order=0,

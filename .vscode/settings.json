@@ -1,0 +1,13 @@
+{
+    "cSpell.enableFiletypes": [
+        "cython"
+    ],
+
+    "[cython]": {
+        "editor.formatOnSave": false,
+        "editor.defaultFormatter": "charliermarsh.ruff"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff"
+    
+    
+}

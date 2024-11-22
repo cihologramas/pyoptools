@@ -1,168 +1,200 @@
-# cython: profile=True
-cimport numpy as np
-np.import_array()
 
-from numpy import array, float64
-import six
-
-from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.component.component cimport Component
 from pyoptools.raytrace.system.system cimport System
-cdef class plist(Picklable):
+
+
+cdef class plist(dict):
     """
-    Class used to define a part list. o in
+    Class representing a surface or component list.
 
-    It is based on the dict interface.
+    This class is designed to facilitate access to the internals of a system
+    or component using a dictionary-like interface. It functions as a hybrid
+    between a list and a dictionary, primarily operating as a dictionary but
+    with an `append` method similar to a list. Each item must be a tuple `(O, P, D)`,
+    where:
 
-    Each item must have a form (O,P,D), where O is an object, P is a position
-    vector (array, tuple or list), and D is a direction vector (array,tuple,list).
+    - `O` is an object (limited to `Surfaces`, `Components`, or `Systems` in pyoptools).
+    - `P` is a position vector (array, tuple, or list).
+    - `D` is a direction vector (array, tuple, or list).
 
-    This class is based on the dict interface, to be able to use string keys instead
-    of just numbers. It does not inherit from dict, because of cython limitation in
-    multiple inheritance.
+    When creating the list from a list or tuple, as no key is provided,
+    the class automatically generates a key using `S#` for `Surfaces`
+    or `C#` for `Components` and `Systems`, where `#` is an incrementing
+    number. When created from a dictionary or another plist, the same
+    keys from the original data are used.
+
+    Parameters
+    ----------
+    items : list, tuple, dict, or plist, optional
+        A collection of `(O, P, D)` tuples or `(O, P, D, Key)` tuples/lists. This can be
+        provided as a list, tuple, dictionary, or plist.
+
+    Notes
+    -----
+    This class uses the `dict` interface, allowing the use of string keys. It
+    inherits from `dict` but adds additional functionality like automatic key
+    generation and an `append` method.
     """
 
-    def __init__(self, a=None):
+    def __init__(self, items=None):
         """
-        Create the list to save the objects, positions and rotations
+        Initialize the plist with optional items.
+
+        Parameters
+        ----------
+        items : list, tuple, dict, or plist, optional
+            A collection of items to initialize the plist. Each item should be in the
+            form `(O, P, D)` or `(O, P, D, Key)`.
+
+        Raises
+        ------
+        TypeError
+            If any object in items is not an instance of `Surface`, `Component`,
+            or `System`.
+        ValueError
+            If the items are not a list, tuple, dict, or plist, or if they do not
+            have the correct format.
         """
+        cdef tuple[double, double, double] position, rotation
+        cdef str key
 
-        # Register class attributes on Picklable superclass
-        Picklable.__init__(self, "_buf")
+        super().__init__()  # Initialize the dictionary
 
-        self._buf={}
-        cdef np.ndarray[np.float64_t, ndim=1] ap, ar
-
-        # If a is a list, each key will be a number
-        if isinstance(a, (list, tuple)):
-            for i in a:
-                if len(i)==3:
-                    O, p, r=i
-
-                    ap=array(p, dtype=float64)
-                    ar=array(r, dtype=float64)
-                    assert len(ap)==3, "The position vector must be an array, or a list, or a tuple of len 3"
-                    assert len(ar)==3, "The rotation must be an array, or a list, or a tuple of len 3"
-                    self.append((O, ap, ar))
+        if isinstance(items, (list, tuple)):
+            for item in items:
+                if len(item) == 3:
+                    obj, position, rotation = item
+                    key = self._generate_key(obj)
+                elif len(item) == 4:
+                    obj, position, rotation, key = item
                 else:
-                    O, p, r, k=i
-                    ap=array(p, dtype=float64)
-                    ar=array(r, dtype=float64)
-                    assert len(ap)==3, "The position vector must be an array, or a list, or a tuple of len 3"
-                    assert len(ar)==3, "The rotation must be an array, or a list, or a tuple of len 3"
-                    self[k]=(O, ap, ar)
+                    raise ValueError("Items must be a tuple or list of length 3 or 4")
 
-        elif isinstance(a, (dict, plist)):
-            for k, v in a.iteritems():
-                O, p, r = v
-                ap=array(p, dtype=float64)
-                ar=array(r, dtype=float64)
-                assert len(ap)==3, "The position vector must be an array, or a list, or a tuple of len 3"
-                assert len(ar)==3, "The rotation must be an array, or a list, or a tuple of len 3"
-                self._buf[k]=(O, ap, ar)
-        elif a is None:
-            pass
+                # The type check for obj is performed in self.__setitem__
+                self[key] = (obj, position, rotation)
+
+        elif isinstance(items, (dict, plist)):
+            for key, value in items.items():
+                obj, position, rotation = value
+
+                # The type check for obj is performed in self.__setitem__
+                self[key] = (obj, position, rotation)
+
+        elif items is None:
+            pass  # Do nothing if no items are provided
+
         else:
-            raise ValueError, "plist can be initialized only with tuples, lists or dictionaries"
+            raise ValueError("plist can be initialized only with tuples, "
+                             "lists, dictionaries, or other plists")
 
-    # Expose DICT API
+    cdef str _generate_key(self, o):
+        """
+        Generate a unique key for the given object based on its type.
 
-    def __len__(self):
-        return self._buf.__len__()
+        Parameters
+        ----------
+        o : object
+            The object for which the key is being generated. Must be an instance of
+            `Surface`, `Component`, or `System`.
 
-    def __getitem__(self , x):
-        return self._buf[x]
+        Returns
+        -------
+        str
+            A unique key string in the form 'S#' for `Surface` objects or 'C#' for
+            `Component` or `System` objects.
 
-    def __setitem__(self, key, val):
-        O, p, r =val
-        ap=array(p, dtype=float64)
-        ar=array(r, dtype=float64)
-        assert len(ap)==3, "The position vector must be an array, or a list, or a tuple of len 3"
-        assert len(ar)==3, "The rotation must be an array, or a list, or a tuple of len 3"
-        self._buf[key]=(O, ap, ar)
-
-    def __delitem__(self, key):
-        self._buf.__delitem__(key)
-
-    def __contains__(self, key):
-        return self._buf.__contains__(key)
-
-    def __repr__(self):
-        return repr(self._buf)
-
-    # Return an iterator so this can be used similar to a list
-    def __iter__(self):
-        return six.itervalues(self._buf)
-
-    def iteritems(self):
-        return self._buf.iteritems()
-
-    def iter(self):
-        return self._buf.iter()
-
-    def clear(self):
-        return self._buf.clear()
-
-    def items(self):
-        return self._buf.items()
-
-    def iterkeys(self):
-        return self._buf.iterkeys()
-
-    def itervalues(self):
-        return self._buf.itervalues()
-
-    def keys(self):
-        return self._buf.keys()
-
-    def pop(self, *argv, **argkw):
-        return self._buf.pop(*argv, **argkw)
-
-    def popitem(self):
-        return self._buf.popitem()
-
-    def setdefault(self, *argv, **argkw):
-        return self._buf.setdefault(*argv, **argkw)
-
-    def update(self, *argv, **argkw):
-        return self._buf.update(*argv, **argkw)
-
-    def values(self):
-        return self._buf.values()
-
-    def viewitems(self):
-        return self._buf.viewitems()
-
-    def viewkeys(self):
-        return self._buf.viewkeys()
-
-    def viewvalues(self):
-        return self._buf.viewvalues()
-
-    def append(self, a):
-        '''
-        Append an instance in a similar way as they are append in a list.
-
-        The key is auto generated
-        '''
-
-        O, p, r = a
-        ap=array(p, dtype=float64)
-        ar=array(r, dtype=float64)
-        assert len(ap)==3, "The position vector must be an array, or a list, or a tuple of len 3"
-        assert len(ar)==3, "The rotation must be an array, or a list, or a tuple of len 3"
-
-        if isinstance(O, Surface):
-            pf="S"
-        elif isinstance(O, (Component, System)):
-            pf="C"
+        Raises
+        ------
+        ValueError
+            If the object type is not recognized.
+        """
+        if isinstance(o, Surface):
+            prefix = "S"
+        elif isinstance(o, (Component, System)):
+            prefix = "C"
         else:
-            pf="A"  # Auto
+            raise ValueError(f"Type {type(o).__name__} not recognized")
 
         # Find an unused key
-        k=0
-        while pf+str(k) in self._buf:
-            k=k+1
+        key_number = 0
+        while prefix + str(key_number) in self:
+            key_number += 1
+        return prefix + str(key_number)
 
-        self._buf[pf+str(k)]=(O, ap, ar)
+    def __setitem__(self, key, item):
+        """
+        Set an item in the dictionary.
+
+        Parameters
+        ----------
+        key : str
+            The key under which the item is stored. Must be a string.
+        item : tuple
+            A tuple containing the object, position, and rotation. The object
+            must be an instance of `Surface`, `Component`, or `System`, and
+            position and rotation must be tuples of doubles.
+
+        Raises
+        ------
+        TypeError
+            If the object is not an instance of `Surface`, `Component`, or
+            `System`, or if the key is not a string.
+        """
+
+        cdef tuple[double, double, double] position, rotation
+
+        # Unpack the item tuple
+        obj, position, rotation = item
+
+        # Validate the object type
+        if not isinstance(obj, (Surface, Component, System)):
+            raise TypeError(f"Object must be an instance of 'Surface', "
+                            f"'Component', or 'System', got {type(obj).__name__}")
+
+        # Validate the key type
+        if not isinstance(key, str):
+            raise TypeError("Key must be a string")
+
+        # Assign the item to the dictionary
+        super().__setitem__(key, (obj, position, rotation))
+
+    def append(self, item):
+        """
+        Append an item to the plist, similar to how items are appended to a list.
+
+        The key is auto-generated based on the type of the object.
+
+        Parameters
+        ----------
+        item : tuple
+            A tuple containing the object, position, and rotation. The object
+            must be an instance of `Surface`, `Component`, or `System`.
+
+        Raises
+        ------
+        TypeError
+            If the object is not an instance of `Surface`, `Component`, or `System`.
+        """
+
+        cdef tuple[double, double, double] position, rotation
+        cdef str key
+
+        obj, position, rotation = item
+
+        # Generate a key for the object
+        key = self._generate_key(obj)
+
+        # The type check for obj is performed in self.__setitem__
+        self[key] = (obj, position, rotation)
+
+    def __iter__(self):
+        """
+        Return an iterator over the values in the dictionary.
+
+        Yields
+        ------
+        str
+            The next key in the dictionary.
+        """
+        return iter(self.values())

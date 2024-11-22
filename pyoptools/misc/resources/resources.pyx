@@ -24,7 +24,7 @@
 #       (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #       OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import types, os
+import os
 
 cpdef int detectCPUs():
     """
@@ -52,6 +52,9 @@ cpdef bint detectOpenCL():
         import pyopencl as cl
     except ImportError:
         got_cl=False
+    # TODO: the dir is to use cl, and to avoid errors in the linter. It is not
+    # doing anything. Need to find a better solution so the dir can be removed
+    dir(cl)
     return got_cl
 
 cpdef has_double_support(dev):

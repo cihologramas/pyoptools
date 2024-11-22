@@ -9,14 +9,10 @@ from numpy import (
     float64,
     dot,
     sqrt,
-    ceil,
     floor,
-    dot,
     meshgrid,
     zeros,
-    zeros_like,
     where,
-    nan,
     pi,
     isnan,
     nonzero,
@@ -123,7 +119,7 @@ def rot_z(tz):
 
 
 def cross(a, b):
-    """3D Vector product producto vectorial """
+    """3D Vector product producto vectorial"""
     x1, y1, z1 = a
     x2, y2, z2 = b
     return array((y1 * z2 - y2 * z1, x2 * z1 - x1 * z2, x1 * y2 - x2 * y1))
@@ -207,7 +203,7 @@ def matrix_interpolation(M, i, j, type="bilinear"):
         "nearest",
         "bilinear",
     ]
-    if not type in inter_types:
+    if type not in inter_types:
         raise ValueError(
             "Interpolation type not allowed. The allowed types"
             " are: {0}".format(inter_types)
@@ -219,7 +215,7 @@ def matrix_interpolation(M, i, j, type="bilinear"):
     elif type == "bilinear":
         i_s, j_s = floor((i, j))
         # calc 1
-        m = M[i_s : i_s + 2, j_s : j_s + 2]
+        m = M[i_s:i_s + 2, j_s:j_s + 2]
         iv = array([1 - (i - i_s), i - i_s])
         jv = array(
             [
@@ -296,7 +292,7 @@ def hitlist2int(x, y, z, xi, yi):
 
     v1 = p1 - p2
     v2 = p3 - p2
-    I = abs(1.0 / (v1[:, 0] * v2[:, 1] - v1[:, 1] * v2[:, 0]))
+    intensity = abs(1.0 / (v1[:, 0] * v2[:, 1] - v1[:, 1] * v2[:, 0]))
 
     c = (p1 + p2 + p3) / 3.0
     xc = c[:, 0]
@@ -306,12 +302,12 @@ def hitlist2int(x, y, z, xi, yi):
     # Because of the triangulation algorithm, there are some really high values
     # in the intensity data. To filter these values, remove the 5% points of the
     # higher intensity.
-    ni = int(0.1 * len(I))
-    j = I.argsort()[:-ni]
+    ni = int(0.1 * len(intensity))
+    j = intensity.argsort()[:-ni]
     xc = xc[j]
     yc = yc[j]
-    I = I[j]
-    I = I / I.max()
+    intensity = intensity[j]
+    intensity = intensity / intensity.max()
 
     #    #print tri.circumcenters[:, 0]
     #    #print tri.circumcenters.shape
@@ -328,7 +324,7 @@ def hitlist2int(x, y, z, xi, yi):
 
     # Interpolacion nn, y generación de pupila
     xi, yi = meshgrid(xi, yi)
-    d1 = interpolate.griddata(xc, yc, I, xi, yi)
+    d1 = interpolate.griddata(xc, yc, intensity, xi, yi)
 
     return d1
 
@@ -386,7 +382,7 @@ def hitlist2int_list(x, y):
 
     v1 = p1 - p2
     v2 = p3 - p2
-    I = abs(1.0 / (v1[:, 0] * v2[:, 1] - v1[:, 1] * v2[:, 0]))
+    intensity = abs(1.0 / (v1[:, 0] * v2[:, 1] - v1[:, 1] * v2[:, 0]))
 
     c = (p1 + p2 + p3) / 3.0
     xc = c[:, 0]
@@ -396,12 +392,12 @@ def hitlist2int_list(x, y):
     # Because of the triangulation algorithm, there are some really high values
     # in the intensity data. To filter these values, remove the 5% points of the
     # higher intensity.
-    ni = int(0.1 * len(I))
-    j = I.argsort()[:-ni]
+    ni = int(0.1 * len(intensity))
+    j = intensity.argsort()[:-ni]
     xc = xc[j]
     yc = yc[j]
-    I = I[j]
-    I = I / I.max()
+    intensity = intensity[j]
+    intensity = intensity / intensity.max()
 
     #    #print tri.circumcenters[:, 0]
     #    #print tri.circumcenters.shape
@@ -416,7 +412,7 @@ def hitlist2int_list(x, y):
     # di=interpolate.SmoothBivariateSpline(xc, yc, I)
     # d1=di(xi,yi)
 
-    return xc, yc, I
+    return xc, yc, intensity
 
 
 def unwrapv(inph, in_p=(), uv=2 * pi):
@@ -474,7 +470,7 @@ def unwrapv(inph, in_p=(), uv=2 * pi):
         wv = 0
 
         for co in lco:
-            if (fl[co] == 0) & (faseo.mask[co] == False):
+            if (fl[co] == 0) & (faseo.mask[co] is False):
                 fl[co] = 1
                 l_un.append(co)
             elif fl[co] == 2:
@@ -534,7 +530,7 @@ def unwrap_py(inph, in_p=(), uv=2 * pi):
         for i in range(cx - 1, cx + 2):
             for j in range(cy - 1, cy + 2):
                 if (i > -1) and (i < nx) and (j > -1) and (j < ny):
-                    if (fl[i, j] == 0) & (faseo.mask[i, j] == False):
+                    if (fl[i, j] == 0) & (faseo.mask[i, j] is False):
                         fl[i, j] = 1
                         l_un.append((i, j))
                     elif fl[i, j] == 2:
@@ -585,15 +581,15 @@ def interpolate_g(xi, yi, zi, xx, yy, knots=10, error=False, mask=None):
         zi
     ), "xi, yi, zi must have the same number of items"
 
-    if error == True:
+    if error:
         # Create a list of indexes to be able to select the points that are going
         # to be used as spline generators, and as control points
         idx = where(arange(len(xi)) % 2 == 0, False, True)
 
     # Use only half of the samples to create the Spline,
-    if error == True:
-        isp = argwhere(idx == True)
-        ich = argwhere(idx == False)
+    if error is True:
+        isp = argwhere(idx)
+        ich = argwhere(not idx)
 
         xsp = xi[isp]
         ysp = yi[isp]
@@ -618,17 +614,17 @@ def interpolate_g(xi, yi, zi, xx, yy, knots=10, error=False, mask=None):
     # di=interpolate.SmoothBivariateSpline(xsp, ysp, zsp)
 
     # Evaluate error
-    if error == True:
+    if error:
         zch1 = di.ev(xch, ych)
         er = (zch.flatten() - zch1).std()
 
-    if mask == None:
+    if mask is None:
         # d=griddata(xi,  yi,  zi,  xx, yy) #
         d = di(xx, yy).transpose()
     else:
         d = ma_array(di(xx, yy).transpose(), mask=mask)
 
-    if error == True:
+    if error:
         return d, er
     else:
         return d
@@ -665,9 +661,9 @@ def spot_info(C):
     ym = mean(Y)
     X = array(X) - xm
     Y = array(Y) - ym
-    R = sqrt(X ** 2 + Y ** 2)
-    XR = sqrt(X ** 2)
-    YR = sqrt(Y ** 2)
+    R = sqrt(X**2 + Y**2)
+    XR = sqrt(X**2)
+    YR = sqrt(Y**2)
     return mean(R), (xm, ym), (mean(XR), mean(YR)), R.max()
 
 

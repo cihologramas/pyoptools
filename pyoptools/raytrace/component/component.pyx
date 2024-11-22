@@ -1,21 +1,10 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-
-# cython: profile=True
 from pyoptools.misc.plist.plist cimport plist
-# This might be changed to a cimport. need to check
-from pyoptools.misc.cmisc.cmisc cimport *
+# from pyoptools.misc.cmisc.cmisc cimport *
 from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.mat_lib import Material
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from numpy import inf, asarray, pi, alltrue, sometrue, isinf, isnan, array, dot, float64
-cimport numpy as np
-np.import_array()
-
-
-#from misc import rot_mat, rot_mat_i
-
+from numpy import asarray
 
 __all__ = ["Component"]
 
@@ -61,24 +50,25 @@ cdef class Component(Picklable):
             return self._material
 
         def __set__(self, material):
-            assert isinstance(material, (float, Material)
-                              ), "material must be a floating point number or a Material instance"
+            assert isinstance(material, (float, Material)), \
+                "material must be a floating point number or a Material instance"
             self._material = material
 
-    property hit_list:
-        def __get__(self):
-            ret_list = []
-            for i in self.surflist:
-                S, SC, SR = i
-                HL = S.hit_list
-                for j in HL:
-                    PI, R = j
-                    # Calculate the intersection point in the Component coordinate
-                    # System
-                    tm = rot_mat(SR)
-                    PI_C = dot(tm, PI)+SC
-                    ret_list.append((PI_C, R))
-            return tuple(ret_list)
+    # TODO: FIX THIS HITLIST TO WORK WITH EIGEN
+    # property hit_list:
+    #    def __get__(self):
+    #        ret_list = []
+    #        for i in self.surflist:
+    #            S, SC, SR = i
+    #            HL = S.hit_list
+    #            for j in HL:
+    #                PI, R = j
+    #                # Calculate the intersection point in the Component coordinate
+    #                # System
+    #                tm = rot_mat(SR)
+    #                PI_C = dot(tm, PI)+SC
+    #                ret_list.append((PI_C, R))
+    #        return tuple(ret_list)
 
     def __init__(self, surflist=None, material=1.):
 
@@ -125,7 +115,7 @@ cdef class Component(Picklable):
     def __contains__(self, key):
         return self._surflist.__contains__(key)
 
-     # Return an iterator so this can be used similar to a list
+    # Return an iterator so this can be used similar to a list
     def __iter__(self):
         return self._surflist.itervalues()
 
@@ -226,7 +216,8 @@ cdef class Component(Picklable):
             coordinate system of the surface, and a pointer to the surface
             that is closest to the ray (distance,point of intersection, surface)
         """
-        cdef np.ndarray P, D
+
+        cdef tuple[double, double, double] P, D
         cdef list dist_list = []
         cdef list pi_list = []
         cdef list surf_list = []
@@ -237,8 +228,8 @@ cdef class Component(Picklable):
 
         for surf in self.surflist:
             S, P, D = surf
-            # Change the coordinate system of the ray, From the Component coordinate system
-            # to the surface component system
+            # Change the coordinate system of the ray, From the Component
+            # coordinate system to the surface component system
 
             R = ri_.ch_coord_sys(P, D)
 
@@ -261,8 +252,9 @@ cdef class Component(Picklable):
         used directly. It is called when the reset method of the system class is
         called
         """
+        cdef Surface S
         for comp in self.surflist:
-            S, P, D = comp
+            S, _P, _D = comp
             S.reset()
 
     def propagate(self, Ray ri, n_m):
@@ -279,13 +271,12 @@ cdef class Component(Picklable):
         my_n = self.n(ri.wavelength)
 
         if ri.n == my_n:
-            np = n_m
+            n_p = n_m
             n = my_n
         else:
             n = n_m
-            np = my_n
+            n_p = my_n
 
-        cnt = 0
         dist_list = [0]
 
         # Search for the next surface to be hitted
@@ -308,7 +299,7 @@ cdef class Component(Picklable):
 
         SR, PSR, DSR = surf_list[j]
         R = ri.ch_coord_sys(PSR, DSR)
-        ri_n = SR.propagate(R, n, np)
+        ri_n = SR.propagate(R, n, n_p)
 
         ret_rays = []
         for i in ri_n:

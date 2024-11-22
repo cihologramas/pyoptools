@@ -1,9 +1,6 @@
-#cython: profile=True
 import numpy as np
-cimport numpy as np
-np.import_array()
 
-cimport cython
+# cimport cython
 
 cdef extern from "math.h":
     double pow(double, double)
@@ -14,7 +11,7 @@ cdef class poly1DrotDeriv:
     """
 
     cdef public object coef
-    cdef np.float64_t *coef_c
+    # cdef np.float64_t *coef_c
     cdef int clen
 
     cdef public int wrt
@@ -33,11 +30,12 @@ cdef class poly1DrotDeriv:
         """
         self.coef = np.array(coef, dtype=np.float64)
 
-        self.coef_c = <np.float64_t*>np.PyArray_DATA(self.coef)
+        self.coef_c = np.PyArray_DATA(self.coef)
         self.clen = np.uint32(len(self.coef))
 
         if not (wrt == 0 or wrt ==1):
-            raise ValueError(wrt+' is not a valid axis for derivative, use 0 or 1 for x/y.')
+            raise ValueError(wrt+" is not a valid axis for derivative,"
+                                 " use 0 or 1 for x/y.")
         self.wrt = wrt
 
     cpdef double peval(self, double x, double y):
@@ -77,7 +75,7 @@ cdef class poly1Drot:
 
     cdef public object coef
 
-    cdef np.float64_t *coef_c
+    # cdef np.float64_t *coef_c
     cdef int clen
 
     def __init__(self, coef):
@@ -92,7 +90,7 @@ cdef class poly1Drot:
         """
 
         self.coef = np.array(coef, dtype=np.float64)
-        self.coef_c = <np.float64_t*>np.PyArray_DATA(self.coef)
+        self.coef_c = np.PyArray_DATA(self.coef)
         self.clen = np.uint32(len(self.coef))
 
     def eval(self, x, y):

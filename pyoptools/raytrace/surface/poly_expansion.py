@@ -14,13 +14,13 @@
 # Description:    Aspherical surface definition module
 # ------------------------------------------------------------------------------
 #
-"""Module that defines support for Aspherical optical surfaces 
+"""Module that defines support for Aspherical optical surfaces
 
 The aspherical optical surfaces defined in this module are defined by the following equation
 
 Z(s):=(c*s^2)/(1+sqrt(1-(1+k)*c^2*s^2))+TaylorPoly(x,y)
 
-The taylor polynomial is defined as in the TaylorPoly Class. 
+The taylor polynomial is defined as in the TaylorPoly Class.
 The aspherical optical surface, is modeled as a taylor polynomial.
 
 This module is not working and should not be used
@@ -44,7 +44,6 @@ from numpy import (
     abs,
 )
 
-# from enthought.traits.api import Tuple, Float, Array, Int
 import sympy
 
 from pyoptools.raytrace.surface.taylor_poly import TaylorPoly
@@ -92,9 +91,8 @@ class AsphericalHO(TaylorPoly):
         Z = sympy.Function("Z")
         Ax, Ay, Kx, Ky = sympy.symbols(("Ax", "Ay", "Kx", "Ky"))
         x, y = sympy.symbols("xy")
-        Z = (Ax * x ** 2 + Ay * y ** 2) / (
-            1
-            + sympy.sqrt(1 - (1 + Kx) * Ax ** 2 * x ** 2 - (1 + Ky) * Ay ** 2 * y ** 2)
+        Z = (Ax * x**2 + Ay * y**2) / (
+            1 + sympy.sqrt(1 - (1 + Kx) * Ax**2 * x**2 - (1 + Ky) * Ay**2 * y**2)
         )
 
         # Calculate taylor polynomial coheficients
@@ -156,8 +154,8 @@ class AsphericalHO(TaylorPoly):
 
         Ax, Ay, Kx, Ky = self.Ax, self.Ay, self.Kx, self.Ky
 
-        Z1 = (Ax * X ** 2 + Ay * Y ** 2) / (
-            1 + sqrt(1 - (1 + Kx) * Ax ** 2 * X ** 2 - (1 + Ky) * Ay ** 2 * Y ** 2)
+        Z1 = (Ax * X**2 + Ay * Y**2) / (
+            1 + sqrt(1 - (1 + Kx) * Ax**2 * X**2 - (1 + Ky) * Ay**2 * Y**2)
         )
 
         return Z0 * Z, Z1 * Z

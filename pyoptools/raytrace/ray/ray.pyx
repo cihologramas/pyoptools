@@ -1,158 +1,235 @@
-# cython: profile=True
+# ------------------------------------------------------------------------------
+# Copyright (c) 2007, Ricardo Amézquita Orozco
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the GPLv3
+# license included in LICENSE.txt and may be redistributed only
+# under the conditions described in the aforementioned license.
+#
+#
+# Author:          Ricardo Amézquita Orozco
+# Description:     Plane surface definition module
+# Symbols Defined: Plane
+# ------------------------------------------------------------------------------
 
-'''Ray class definition module
-'''
+import warnings
+
+from libc.math cimport isnan, NAN, INFINITY
 
 cdef extern from "math.h":
     double sqrt(double)
-cimport cython
 
-from sys import exit
-# Se van a usar los traits para el desarrollo del programa
-# Se cambio el traits por el HasStrictTraits, para verificar la asignación
-# de los atributos en la creacion de los scripts
+import warnings
 
-# from enthought.traits.api import Float, List, Trait, TraitHandler,\
-#     TraitList,Array,Property, HasPrivateTraits, String, This, \
-#     Any, Instance
-
-#from enthought.tvtk.api import tvtk
-
-import numpy as np
-from numpy import dot, array, float_, inf, float64, empty, zeros, sqrt as npsqrt
-
-#from misc import rot_mat, rot_mat_i,mvdot, dot_test
-from pyoptools.misc.cmisc.cmisc cimport *  # rot_mat, rot_mat_i
-
-#import tokyo
-# cimport tokyo
-from cpython.ref cimport PyObject, Py_INCREF, Py_DECREF
-
-cimport numpy as np
-
-np.import_array()
-
-# class Ray(HasPrivateTraits):
-
-# Trick to create instances of ray fast from a cython code. From python
-# use the standard
-# Note: when changing the code, always check that the __init__, and the
-# Rayf initialization do the same.
-
-
-cdef Ray Rayf(np.ndarray pos, np.ndarray dir, double intensity, double wavelength,
-              n, label, draw_color, parent, double pop, orig_surf, int order, int parent_cnt):
-    """Function to create and initialize Ray instances Fast from cython
-    when changing the code, always check that the __init__, and the
-    Rayf initialization do the same.
-    """
-    # Code taken from:
-    # http://wiki.cython.org/FAQ#CanCythoncreateobjectsorapplyoperatorstolocallycreatedobjectsaspureCcode.3F
-    cdef Ray instance = Ray.__new__(Ray)
-
-    instance.cpos=pos
-
-    # Be careful no normalization is made here
-    instance._dir=dir
-
-    instance.intensity=intensity
-    instance.wavelength=wavelength
-    instance.n=n
-    instance.label=label
-    instance.draw_color=draw_color
-    instance.parent=parent
-    instance.pop=pop
-    instance.orig_surf=orig_surf
-    instance.__childs=[]
-    instance.order=order
-    instance._parent_cnt=parent_cnt
-    return instance
-
+from pyoptools.misc.cmisc.eigen cimport Vector3d, Matrix3d, convert_vector3d_to_tuple, \
+    assign_to_vector3d, compute_rotation_matrix, compute_rotation_matrix_i, is_approx, \
+    convert_vector3d_to_array
 
 cdef class Ray:
-    """Class to define a ray
-
-    **ARGUMENTS**
-
-    =========== =======================================================
-    pos         Tuple (x,y,z) containing the origin of the Ray
-    dir         Tuple (x,y,z)  containing the direction vector of the Ray
-    intensity   Floating point number representing the Intensity of the
-                Ray.
-                Warning: Check how can a physically correct definition
-                can be made
-    wavelength  Wavelength (in vacuum) of the ray in micrometers
-                (.58929 by default)
-    n           Refraction index of the point originating the ray.
-                If the value is None, the ray was emitted from the media
-                and its Refraction index is taken (not from inside a
-                component)
-    label       String used to follow the rays through the system.
-    draw_color  Color used to render this ray. If None, the wavelength
-                will be used to determine the color. Otherwise, can be
-                any valid matplotlib color identifier.
-    parent      Ray where this ray comes from (used to follow ray
-                trajectory).
-    childs      List of rays originated by the interaction of this ray
-                with an optical surface.
-    =========== =======================================================
     """
-    # ~ # (x,y,z) tuple containing the ray origin
-    # ~ pos=Array('d',shape=(3,),value=(0.,0.,0.))
-    # ~
-    # ~ # (x,y,z) tuple containing the unit vector representing the direction of
-    # ~ # propagation of the ray (this vector gets normalized automatically)
-    # ~ dir=UnitVector()
-    # ~
-    # ~ # Intensity of the ray.
-    # ~ intensity=Float(1)
-    # ~
-    # ~ # Wavelength of the ray in micrometers (.58929 by default)
-    # ~ wavelength=Float(.58929)
-    # ~
-    # ~ # Refraction index of the point originating the ray. If the value is None,
-    # ~ # the ray was emitted from the media (not from inside a component)
-    # ~ n=Trait(None,None,Float)
-    # ~
-    # ~ # Label to follow the rays through the system. This attribute propagates with
-    # ~ # the ray trace.
-    # ~ label=String("")
-    # ~
-    # ~ # Ray where this ray comes from. It is the ray before the interaction with the
-    # ~ # previous optical surface in the propagation
-    # ~ parent= This
-    # ~
-    # ~ # If this ray has no parent, use this value as the parent optical path. If
-    # ~ # the ray has a parent, this value must be ignored and instead the real
-    # ~ # must be used.
-    # ~ pop= Float(0)
-    # ~
-    # ~ # Surface where the ray originates. All the rays not originated by interaction
-    # ~ # with a Surface have this attribute set to None
-    # ~ orig_surf=Any()
-    # ~
+    Class to define a ray in an optical system.
 
-    # in order for the autodocumentation to work, the method definition mut be in a single line
+    Parameters
+    ----------
+    origin : tuple of float
+        A tuple (x, y, z) representing the origin of the ray.
+    direction : tuple of float
+        A tuple (x, y, z) representing the direction vector of the ray.
+    intensity : float, optional
+        The intensity of the ray. Defaults to 1.0.
+        Note: The physical meaning of this intensity is currently not
+        well-defined.
+    wavelength : float, optional
+        The wavelength of the ray in vacuum, in micrometers.
+        Defaults to 0.58929 μm.
+    n : float, optional
+        The refractive index of the medium from which the ray originates.
+        If `n` is `NaN`, the ray is assumed to have been emitted from
+        the medium, and the medium's refractive index is used.
+        Defaults to `NaN`.
+    label : str or object, optional
+        A string or identifier used to track the ray through the optical
+        system. Defaults to an empty string.
+    draw_color : object, optional
+        The color used to render this ray. If `None`, the wavelength is
+        used to determine the color. Otherwise, any valid Matplotlib
+        color identifier can be used. Defaults to `None`.
+    parent : Ray or None, optional
+        The parent ray from which this ray originates, used to follow the
+        ray's trajectory. Defaults to `None`.
+    pop : float, optional
+        The optical path length of the parent ray. This may be removed
+        in future versions. Defaults to 0.0.
+        TODO: Check if this may be removed
 
-    def __init__(self, pos=(0, 0, 0), dir=(0, 0, 1), double intensity=1., double wavelength=.58929, n=None, label="", draw_color=None, parent=None, double pop=0., orig_surf=None, order=0):
+    orig_surf : list, optional
+        A list representing the originating surface of the ray. Defaults to
+        `None`.
+        TODO: Explain what path means
+    order : int, optional
+        The index of the ray in the parent's child ray list. Defaults to 0.
+    parent_cnt : int, optional
+        The count of parent rays for this ray, used to manage complex
+        ray trajectories. Defaults to 0.
+    """
+    def __init__(self, origin = (0, 0, 0), direction = (0, 0, 1),
+                 double intensity=1., double wavelength=.58929, object n=NAN, label="",
+                 draw_color=None, Ray parent=None, double pop=0., list orig_surf=None,
+                 order=0, parent_cnt=0, **kwargs):
 
-            self.pos=pos
-            self.dir=dir
-            self.intensity=intensity
-            self.wavelength=wavelength
+        # These are written through the properties, so any python object is valid
+
+        if "pos" in kwargs:
+            self.origin = kwargs["pos"]
+            warnings.warn(
+                "The 'pos' keyword argument is deprecated and will be removed in "
+                "a future version. Please use 'origin' instead.",
+                DeprecationWarning,
+                stacklevel=2)
+        else:
+            self.origin = origin
+
+        if "dir" in kwargs:
+            self.direction = kwargs["dir"]
+            warnings.warn(
+                "The 'dir' keyword argument is deprecated and will be removed in "
+                "a future version. Please use 'direction' instead.",
+                DeprecationWarning,
+                stacklevel=2)
+        else:
+            self.direction = direction
+
+        self.intensity=intensity
+        self.wavelength=wavelength
+
+        # TODO: Check in all pyoptools where Ray.n is checked against None.
+        # It should be NaN
+
+        if n is None:
+            warnings.warn(
+                "The refraction index given as None is deprecated and will be "
+                "removed in a future version. Please use 'NaN' instead.",
+                DeprecationWarning,
+                stacklevel=2
+            )
+            self.n = NAN
+        else:
             self.n=n
-            self.label=label
-            self.draw_color=draw_color
-            self.parent=parent
-            self.pop=pop
-            self.orig_surf=orig_surf
-            self.__childs=[]
-            self.order=order
-            self._parent_cnt = 0
 
-        # HasPrivateTraits.__init__(self,**traits)
+        self.label=label
+        self.draw_color=draw_color
+        self.parent=parent
+        self.pop=pop
+        self.orig_surf=orig_surf
+        self.__childs=[]
+        self.order=order
+        self._parent_cnt = parent_cnt
+
+    @staticmethod
+    cdef Ray fast_init(Vector3d& origin,
+                       Vector3d& direction,
+                       double intensity,
+                       double wavelength,
+                       double n,
+                       object label,
+                       object draw_color,
+                       Ray parent,
+                       double pop,
+                       list orig_surf,
+                       int order,
+                       int parent_cnt):
+        """
+        Function to create and initialize Ray instances fast from Cython.
+        When changing the code, always check that the __init__ and the
+        fast_init initialization do the same.
+
+        Parameters
+        ----------
+        origin : Vector3d&
+            An eigen::Vector3d instance representing the origin of the Ray.
+            Must be a 3D point in space (x, y, z).
+        direction_ptr : Vector3&
+            An eigen::Vector3d instance representing the direction vector of
+            the Ray. Must be a 3D direction vector (x, y, z) with a magnitude
+            of 1.
+            Note: The magnitude is not checked for efficiency; ensure it is
+            normalized before passing.
+        intensity : double
+            Floating point number representing the intensity of the Ray.
+            Warning: Ensure a physically correct definition of intensity.
+        wavelength : double
+            Wavelength (in vacuum) of the ray in micrometers. Default is
+            0.58929 µm.
+        n : double
+            Refraction index of the point originating the ray.
+            If None, the ray is emitted from the media and takes the refraction
+            index of the surrounding environment (not from inside a component).
+        label : object
+            String or any identifier used to track the rays through the system.
+        draw_color : object
+            Color used to render this ray. If None, the wavelength is used to
+            determine the color; otherwise, any valid matplotlib color
+            identifier can be used.
+            TODO: This should be removed, is up to the plotting engine to
+            decide the color.
+        parent : Ray
+            Ray instance representing the parent Ray from which this Ray
+            originates.
+        pop : double
+            The optical path length of the parent ray. This may be removed
+            in future versions. Defaults to 0.0.
+            TODO: Check if this may be removed
+        orig_surf : list
+            A list representing the originating surface of the ray. Defaults
+            to `None`.
+            TODO: Explain what path means
+        order : int
+            The index of the ray in the parent's child ray list. Defaults to 0.
+            parent_cnt : int
+
+        Returns
+        -------
+        Ray
+            A new Ray instance with all properties initialized according to the
+            provided arguments.
+
+        Notes
+        -----
+        - This function directly initializes Ray attributes for fast
+        construction, bypassing the usual Python __init__ method for
+        performance reasons.
+        - Be cautious when modifying the initialization parameters or the
+        corresponding __init__ method to ensure consistency.
+        - The direction vector's magnitude must be 1. However, for efficiency,
+        this is not checked in the function. Ensure the direction is
+        normalized before passing it to this function.
+        """
+
+        cdef Ray instance = Ray.__new__(Ray)
+
+        # _direction is not normalized here
+        instance._origin = origin
+        instance._direction = direction
+
+        # Set the remaining properties
+        instance.intensity = intensity
+        instance.wavelength = wavelength
+        instance.n = n
+        instance.label = label
+        instance.draw_color = draw_color
+        instance.parent = parent
+        instance.pop = pop
+        instance.orig_surf = orig_surf
+        instance.__childs = []
+        instance.order = order
+        instance._parent_cnt = parent_cnt
+
+        return instance
+
     def __reduce__(self):
-        args=(self.pos, self.dir, self.intensity, self.wavelength, self.n , self.label, self.draw_color, self.parent, self.pop, self.orig_surf, self.order)
+        args=(self.origin, self.direction, self.intensity, self.wavelength, self.n ,
+              self.label, self.draw_color, self.parent, self.pop,
+              self.orig_surf, self.order)
         return(type(self), args, self.__getstate__())
 
     def __getstate__(self):
@@ -161,208 +238,337 @@ cdef class Ray:
     def __setstate__(self, state):
         self.__childs=state
 
-    property childs:
-        def __get__(self):
-            # The list is converted to a tuple, so the internal list does not
-            # get exposed, and it can not be modified by accident using an
-            # append
+    @property
+    def childs(self):
+        """
+        Get a tuple of child Rays.
 
-            return tuple(self.__childs)
+        This property returns a tuple containing all child Ray objects. The
+        internal list is converted to a tuple to prevent accidental modifications
+        (e.g., using `append`), ensuring that the child list cannot be modified
+        directly through this property.
 
-            # All internal lists that uses Properties are converted to
-            # tuples to protect internal data.
+        Returns
+        -------
+        tuple of Ray
+            A tuple containing all child Ray objects.
+        """
+        # The list is converted to a tuple to prevent accidental modification
+        return tuple(self.__childs)
 
-    # ~ __childs= Trait([],TraitList(Trait(This)))
-    # ~
+    @property
+    def direction(self):
+        """
+        Get the direction vector of the ray.
 
-    # Correct way to define properties in cython
-    property dir:
-        def __get__(self):
-            return self._dir
+        The direction vector is normalized to have a length of 1. However, due to
+        floating-point rounding errors, the vector may occasionally deviate slightly
+        from being perfectly normalized.
 
-        @cython.boundscheck(False)
-        @cython.wraparound(False)
-        def __set__(self, dir):
-            """
-            This should create a normalized direction. Some times due to
-            rounding errors |dir|>1. Caution must be taken so this do not create
-            a problem
-            """
-            cdef np.ndarray[np.float64_t, ndim=1] adir=array(dir, dtype=float64)
-            cdef double n
-            n =sqrt(1./(adir[0]*adir[0]+adir[1]*adir[1]+adir[2]*adir[2]))
-            adir[0]=n*adir[0]
-            adir[1]=n*adir[1]
-            adir[2]=n*adir[2]
-            self._dir=adir
-            # if (adir[0]*adir[0]+adir[1]*adir[1]+adir[2]*adir[2])>1:
-            #    print "warning: The direction of a ray was not normalized correctly"
+        Returns
+        -------
+        array
+            A numpy array (X, Y, Z) with the components of the direction vector
+            of the ray.
+        """
+        return convert_vector3d_to_array(self._direction)
 
-    # Use property pos to access the field cpos from a python program.
-    # It can receive lists, tuples or arrays
-    # the cython only visible cpos, can only receive arrays
-    property pos:
-        def __get__(self):
-            return self.cpos
+    @direction.setter
+    def direction(self, dir):
+        """
+        Set the direction vector of the ray, ensuring it is normalized.
 
-        def __set__(self, pos):
-            self.cpos=array(pos, dtype=float64)
-
-    def ch_coord_sys_inv(self, no, ae, childs=False):
-        '''Transform the coordinate system of the Ray
+        The input vector will be normalized to have a length of 1. Due to
+        floating-point rounding errors, the magnitude of the input vector
+        (`|dir|`) may occasionally be slightly different than 1.
 
         Parameters
+        ----------
+        dir : array-like
+            The input direction vector and normalized to ensure its magnitude is 1.
+        """
+        # Convert input to memory view
+        cdef Vector3d tmp_dir
+        assign_to_vector3d(dir, tmp_dir)
+        self._direction = tmp_dir.normalized()
 
-        *no*
-            Tuple (X,Y,Z) containing the coordinates of the origin of the
-            old coordinate system in the new coordinate system
+    @property
+    def dir(self):
+        warnings.warn(
+            "The 'dir' attribute is deprecated and will be removed in a future"
+            " version. Please use the 'direction' attribute instead.",
+            DeprecationWarning,
+            stacklevel=2)
+        return self.direction
 
-        *ae*
-            Tuple (RX,RY,RZ) containing the rotation angles to be applied to
-            the  old coordinate system. The rotations are applied RZ first,
-            then RY and last RX
+    @dir.setter
+    def dir(self, dir):
+        warnings.warn(
+            "The 'dir' attribute is deprecated and will be removed in a future"
+            " version. Please use the 'direction' attribute instead.",
+            DeprecationWarning,
+            stacklevel=2)
+        self.direction = dir
 
-        *childs*
-            Transform also the coordinate system of the childs. By default (False)
-            don't do it.
+    # Use property origin to access the field _origin from a python program.
+    # It can receive lists, tuples or arrays
+    # the cython only visible _origin, can only receive arrays
 
-        The rotation is made first, and then the translation is made.
-        Note, this has to be checked
-        '''
+    @property
+    def origin(self):
+        """
+        Get the origin of the ray as a tuple.
 
-        cdef np.ndarray tm=rot_mat(array(ae, dtype=float64))
-        npos=dot(tm, self.pos)+no
-        ndir=dot(tm, self.dir)
-        # parent=Ray(pos=npos,dir=ndir,intensity=self.intensity,
-        #        wavelength=self.wavelength,n=self.n, label=self.label,
-        #        orig_surf=self.orig_surf)
+        This property returns the origin of the ray in 3D space, represented as
+        a tuple (x, y, z). The origin is stored internally as an
+        Eigen::Vector3d and is converted to a Python tuple when accessed
+        through this property.
 
-        cdef Ray parent=Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order, self._parent_cnt)
-        
+        Returns
+        -------
+        numpy array
+            A numpy array containing the (x, y, z) coordinates of the ray's origin.
+        """
+        return convert_vector3d_to_array(self._origin)
 
-        # Calculate the transform of the childs and link them
+    @origin.setter
+    def origin(self, origin_coordinates):
+        """
+        Set the origin of the ray.
 
-        if childs==True:
-            for i in self.childs:
-                it=i.ch_coord_sys_inv(no, ae, childs)
-                parent.add_child(it)
+        This setter method assigns the given coordinates to the ray's origin.
+        The input should be a Python object that supports indexing (such as a
+        list, tuple, or NumPy array) with at least three elements representing
+        the (x, y, z) coordinates. The internal origin is stored as an
+        Eigen::Vector3d, and this method updates it with the provided values.
+
+        Parameters
+        ----------
+        origin_coordinates : object
+            A Python object that supports indexing (e.g., list, tuple, or
+            NumPy array) and contains at least three elements representing
+            the (x, y, z) coordinates of the new origin.
+
+        Raises
+        ------
+        ValueError
+            If `origin_coordinates` does not have at least three elements or
+            if the elements cannot be converted to floating-point numbers.
+        """
+        assign_to_vector3d(origin_coordinates, self._origin)
+
+    @property
+    def pos(self):
+        warnings.warn(
+            "The 'pos' attribute is deprecated and will be removed in a future"
+            " version. Please use the 'origin' attribute instead.",
+            DeprecationWarning,
+            stacklevel=2)
+        return self.origin
+
+    @pos.setter
+    def pos(self, pos):
+        warnings.warn(
+            "The 'pos' attribute is deprecated and will be removed in a future"
+            " version. Please use the 'origin' attribute instead.",
+            DeprecationWarning,
+            stacklevel=2)
+        self.origin = pos
+
+    def ch_coord_sys_inv(self, origin_coordinates, rotation_angles, bool childs=False):
+        """
+        Transform the coordinate system of the Ray.
+
+        This method applies a transformation to the coordinate system of
+        the Ray, consisting of a rotation followed by a translation. The
+        rotation is applied in the order of the X, Y, and then Z axes. The
+        rotation matrix is calculated as Rm = Rz * Ry * Rx. Optionally,
+        the transformation can also be applied to any child objects.
+
+        Parameters
+        ----------
+        origin_coordinates : array-like of float
+            A list-like object (e.g., tuple, list, or NumPy array) containing
+            three elements (X, Y, Z) that represent the coordinates of the
+            origin of the old coordinate system in the new coordinate system.
+
+        rotation_angles : array-like of float
+            A list-like object (e.g., tuple, list, or NumPy array) containing
+            three elements (Rx, Ry, Rz) that represent the rotation angles in
+            radians to be applied to the old coordinate system. The rotations
+            are applied in the order of Rz (around the Z-axis), then Ry (around
+            the Y-axis), and finally Rx (around the X-axis).
+
+        childs : bool, optional
+            If True, the coordinate system transformation is also applied to
+            child objects. Default is False.
+
+        Returns
+        -------
+        Ray
+            A transformed Ray object with the new coordinate system applied.
+
+        Notes
+        -----
+        The transformation consists of a rotation applied first, followed
+        by a translation to the new origin.
+        """
+
+        cdef Vector3d origin_coordinates_vector
+        assign_to_vector3d(origin_coordinates, origin_coordinates_vector)
+        cdef Vector3d rotation_angles_vector
+        assign_to_vector3d(rotation_angles, rotation_angles_vector)
+
+        cdef Ray parent = self.ch_coord_sys_inv_f(origin_coordinates_vector,
+                                                  rotation_angles_vector,
+                                                  childs)
         return parent
 
-    cpdef Ray ch_coord_sys_inv_f(self, np.ndarray no , np.ndarray ae, bool childs):
-        '''Transform the coordinate system of the Ray
+    cdef Ray ch_coord_sys_inv_f(self, Vector3d& origin_coordinates ,
+                                Vector3d& rotation_angles, bool childs):
+        """
+        Transform the coordinate system of the Ray.
 
-        Fast version
+        This is a fast version intended for use in Cython. For a detailed
+        explanation of the transformation process, see the `ch_coord_sys_inv`
+        method.
+        """
 
-        Parameters
+        cdef Matrix3d tm
+        compute_rotation_matrix(rotation_angles, tm)
 
-        *no*
-            Tuple (X,Y,Z) containing the coordinates of the origin of the
-            old coordinate system in the new coordinate system
+        # Calculate new ray origin by applying rotation and translation
+        cdef Vector3d rotated_ray_origin = tm*self._origin
+        # matrix3x3_vector3_dot(&tm, &self._origin, &rotated_ray_origin)
 
-        *ae*
-            Tuple (RX,RY,RZ) containing the rotation angles to be applied to
-            the  old coordinate system. The rotations are applied RZ first,
-            then RY and last RX
+        cdef Vector3d new_ray_origin = rotated_ray_origin + origin_coordinates
+        # add_vector3(&rotated_ray_origin, origin_coordinates_ptr, &new_ray_origin)
 
-        *childs*
-            Transform also the coordinate system of the childs. By default (False)
-            don't do it.
+        # Calculate new ray direction
+        cdef Vector3d new_ray_direction = tm*self._direction
+        # matrix3x3_vector3_dot(&tm, &self._direction, &new_ray_direction)
 
-        The rotation is made first, and then the translation is made.
-        Note, this has to be checked
-        '''
-
-        cdef np.ndarray tm=rot_mat(ae.astype(float64))
-        cdef np.ndarray npos  # =dot(tm,self.pos)+no
-        cdef np.ndarray t
-
-        t=dot(tm, self.pos)
-        npos = empty_vec(3)
-
-        cdef np.float64_t* nposd= <np.float64_t*>(np.PyArray_DATA(npos))
-        cdef np.float64_t* nod= <np.float64_t*>(np.PyArray_DATA(no))
-        cdef np.float64_t* td= <np.float64_t*>(np.PyArray_DATA(t))
-
-        nposd[0]=td[0]+nod[0]
-        nposd[1]=td[1]+nod[1]
-        nposd[2]=td[2]+nod[2]
-
-        ndir=dot(tm, self.dir)
-
-        cdef Ray parent=Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order, self._parent_cnt)
+        cdef Ray parent = Ray.fast_init(new_ray_origin,
+                                        new_ray_direction,
+                                        self.intensity,
+                                        self.wavelength,
+                                        self.n,
+                                        self.label,
+                                        self.draw_color,
+                                        None ,
+                                        0,
+                                        self.orig_surf,
+                                        self.order,
+                                        self._parent_cnt)
 
         # Calculate the transform of the childs and link them
+
+        cdef Ray i
 
         if childs:
             for i in self.childs:
-                it=i.ch_coord_sys_inv_f(no, ae, childs, True)
+                it=i.ch_coord_sys_inv_f(origin_coordinates, rotation_angles,
+                                        childs)
                 parent.add_child(it)
         return parent
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    cpdef Ray ch_coord_sys(self, np.ndarray no, np.ndarray ae):
-    # cpdef Ray ch_coord_sys(self, no, ae):
-        '''Transform the coordinate system of the Ray
+    def ch_coord_sys(self, origin_coordinates, rotation_angles):
+        """
+        Transform the coordinate system of the Ray.
+
+        This method applies a transformation to the coordinate system of
+        the Ray, consisting of translation followed by a rotation. The
+        rotation is applied in the order of the Z, Y, and then X axes. The
+        rotation matrix is calculated as Rm = Rx * Ry * Rz.
 
         Parameters
-        no
-        Tuple (X,Y,Z) containing the coordinates of the origin of the  new coordinate
-        system in the old coordinate system
-        ae
-        Tuple (RX,RY,RZ) containing the rotation angles to be applied to the  old
-        coordinate system. The rotations are applied RZ first, then RY and last RX
+        ----------
+        origin_coordinates : array-like of float
+            A list-like object (e.g., tuple, list, or NumPy array) containing
+            three elements (X, Y, Z) that represent the coordinates of the
+            origin of the new coordinate system in the old coordinate system.
 
-        Note this has to be checked
-        '''
-        # cdef np.ndarray tm=rot_mat_i(array(ae,dtype=float64))
-        cdef np.ndarray tm=rot_mat_i(ae)
-        cdef np.ndarray npos  # =empty_vec( 3 )
-        cdef np.ndarray ndir  # =empty_vec( 3 )
+        rotation_angles : array-like of float
+            A list-like object (e.g., tuple, list, or NumPy array) containing
+            three elements (Rx, Ry, Rz) that represent the rotation angles in
+            radians to be applied to the old coordinate system. The rotations
+            are applied in the order of Rz (around the Z-axis), then Ry (around
+            the Y-axis), and finally Rx (around the X-axis).
 
-        # mvdotf(<np.float64_t*>np.PyArray_DATA(npos),
-        #        <np.float64_t*>np.PyArray_DATA(tm),<np.float64_t*>np.PyArray_DATA(array(self.pos-no,dtype=float64)))
+        Returns
+        -------
+        Ray
+            A transformed Ray object with the new coordinate system applied.
 
-        # mvdotf(<np.float64_t*>np.PyArray_DATA(ndir),
-        #        <np.float64_t*>np.PyArray_DATA(tm),<np.float64_t*>np.PyArray_DATA(array(self.dir,dtype=float64)))
+        Notes
+        -----
+        The transformation consists of a translation to the new origin first,
+        followed by a rotation.
+        """
 
-        cdef np.ndarray t = empty_vec(3)
+        cdef Vector3d origin_coordinates_vector
+        assign_to_vector3d(origin_coordinates, origin_coordinates_vector)
+        cdef Vector3d rotation_angles_vector
+        assign_to_vector3d(rotation_angles, rotation_angles_vector)
 
-        # t=self.cpos-no
+        cdef Ray parent = self.ch_coord_sys_f(origin_coordinates_vector,
+                                              rotation_angles_vector)
+        return parent
 
-        # (<np.float64_t*>np.PyArray_DATA(t))[0]=(<np.float64_t*>np.PyArray_DATA(self.cpos))[0]-(<np.float64_t*>np.PyArray_DATA(no))[0]
-        # (<np.float64_t*>np.PyArray_DATA(t))[1]=(<np.float64_t*>np.PyArray_DATA(self.cpos))[1]-(<np.float64_t*>np.PyArray_DATA(no))[1]
-        # (<np.float64_t*>np.PyArray_DATA(t))[2]=(<np.float64_t*>np.PyArray_DATA(self.cpos))[2]-(<np.float64_t*>np.PyArray_DATA(no))[2]
+    cdef Ray ch_coord_sys_f(self, Vector3d& origin_coordinates,
+                            Vector3d& rotation_angles):
+        """
+        Transform the coordinate system of the Ray.
 
-        cdef np.float64_t* td= <np.float64_t*>(np.PyArray_DATA(t))
-        cdef np.float64_t* cd= <np.float64_t*>(np.PyArray_DATA(self.cpos))
-        cdef np.float64_t* nd= <np.float64_t*>(np.PyArray_DATA(no))
+        This is a fast version intended for use in Cython. For a detailed
+        explanation of the transformation process, see the `ch_coord_sys`
+        method.
+        """
 
-        td[0]=cd[0]-nd[0]
-        td[1]=cd[1]-nd[1]
-        td[2]=cd[2]-nd[2]
+        cdef Matrix3d tm
+        compute_rotation_matrix_i(rotation_angles, tm)
 
-        npos=dot(tm, t)        # if blas can be called directly, this can be improved
-        ndir=dot(tm, self._dir)  # Using tokio this tokio works a little faster, but have to see
-                              # How to install it right, or better to do something similar using inline snd blas
+        cdef Vector3d new_ray_origin, new_ray_direction, translated_ray_origin
 
-        #tokyo.dgemv3( tm, t, npos )
-        #tokyo.dgemv3( tm, self.dir, ndir )
-        # This resulted to be slower
-        # npos=mvdot1(tm,t)
-        # ndir=mvdot1(tm,self.dir)
+        # substract_vector3(&self._origin, origin_coordinates_ptr,
+        # &translated_ray_origin)
+        translated_ray_origin = self._origin - origin_coordinates
 
-        return Rayf(npos, ndir, self.intensity, self.wavelength, self.n, self.label, self.draw_color, None , 0, self.orig_surf, self.order, self._parent_cnt)
+        # matrix3x3_vector3_dot(&tm, &translated_ray_origin, &new_ray_origin)
+        new_ray_origin = tm*translated_ray_origin
+
+        # matrix3x3_vector3_dot(&tm, &self._direction, &new_ray_direction)
+        new_ray_direction = tm*self._direction
+
+        return Ray.fast_init(new_ray_origin,
+                             new_ray_direction,
+                             self.intensity,
+                             self.wavelength,
+                             self.n,
+                             self.label,
+                             self.draw_color,
+                             None ,
+                             0,
+                             self.orig_surf,
+                             self.order,
+                             self._parent_cnt)
 
     def get_final_rays(self, inc_zeros=True):
-        '''Find the final rays of the raytrace
+        """
+        Find the final rays of the raytrace.
 
-        *inc_zeros*
-            If inc_zeros == True, all the child rays are included.
-            If set to false, the rays with intensity==0 are not
-            included
-        '''
+        Parameters
+        ----------
+        inc_zeros : bool
+            If True, all child rays are included in the result.
+            If False, rays with `intensity == 0` are excluded.
 
+        Returns
+        -------
+        list of Ray
+            A list of final rays from the raytrace, optionally excluding rays
+            with zero intensity.
+        """
         retval=[]
 
         if len(self.childs)==0:
@@ -379,114 +585,164 @@ cdef class Ray:
         return retval
 
     def copy(self):
-        '''Return a copy ray leaving the parent=None, and childs=[], and
-        order=0
-        '''
-        return Ray(pos=self.pos, dir=self.dir, intensity=self.intensity,
-                   wavelength=self.wavelength, n=self.n, label=self.label)
+        """
+        Return a copy of the Ray with specific attributes reset.
+
+        This method returns a copy of the current Ray object with the `parent`
+        attribute set to `None`, the `childs` attribute set to an empty list,
+        and the `order` attribute set to 0.
+        """
+
+        return Ray(origin=self.origin, direction=self.direction,
+                   intensity=self.intensity, wavelength=self.wavelength,
+                   n=self.n, label=self.label)
 
     def reverse(self):
-        '''Return a copy ray leaving the parent=None, and childs=[], and
-        order=0, and inverting the ray direction.
-        '''
-        return Ray(pos=self.pos, dir=-self.dir, intensity=self.intensity,
-                   wavelength=self.wavelength, n=self.n, label=self.label,
+        """
+        Return a copy of the Ray with specific attributes reset and the
+        direction inverted.
+
+        This method returns a copy of the current Ray object with the `parent`
+        attribute set to `None`, the `childs` attribute set to an empty list,
+        the `order` attribute set to 0, and the ray direction inverted.
+        """
+        cdef Vector3d new_dir = - self._direction
+        return Ray(origin=self.origin,
+                   direction=convert_vector3d_to_tuple(new_dir),
+                   intensity=self.intensity,
+                   wavelength=self.wavelength,
+                   n=self.n,
+                   label=self.label,
                    orig_surf=self.orig_surf)
 
     def __repr__(self):
-        # TODO: why 'direc' and not 'dir' ? This is confusing
-        return "Ray(pos="+repr(self.pos)+",direc="+repr(self.dir)+\
-            ",intensity="+repr(self.intensity)+",wavelength="+\
-            repr(self.wavelength)+",n="+repr(self.n)+",label="+\
-            repr(self.label)+",orig_surf="+repr(self.orig_surf)+", order="+repr(self.order)+")"
+        """
+        Return a string representation of the Ray object.
+
+        The string representation includes the origin, direction, intensity,
+        wavelength, refractive index (n), label, originating surface, and order
+        of the Ray.
+        """
+        return ("Ray(" + repr(self.origin) +
+                ", " + repr(self.direction) +
+                ", intensity=" + repr(self.intensity) +
+                ", wavelength=" + repr(self.wavelength) +
+                ", n=" + repr(self.n) +
+                ", label=" + repr(self.label) +
+                ", orig_surf=" + repr(self.orig_surf) +
+                ", order=" + repr(self.order) + ")")
 
     def add_child(self, cr):
-        '''Add childs to the current ray, and create the appropriate links
+        """
+        Add a child Ray to the current Ray and create the appropriate links.
 
-        *cr*
-            Ray to include in the child list
-        '''
+        This method adds a Ray object to the child list of the current Ray.
+        The child Ray's `parent` attribute is set to the current Ray, and
+        its `order` attribute is set based on its position in the child list.
 
-        # A child with intensity==0 is used to indicate a parent end point, for
-        # example the intersection point with a stop, so it must be in the
+        Parameters
+        ----------
+        cr : Ray
+            The Ray object to include in the child list.
+
+        Notes
+        -----
+        A child Ray with `intensity == 0` is used to indicate a parent
+        endpoint, such as an intersection point with a stop, so it must be
+        included in the child list even if its intensity is zero.
+        """
+
+        # A child with intensity == 0 is used to indicate a parent endpoint,
+        # for example the intersection point with a stop, so it must be in the
         # list as a child.
-        assert(isinstance(cr, Ray)), "A ray child must be a ray"
-        cr.parent=self
-        cr.order=len(self.__childs)
-        # cr._parent_cnt = self._parent_cnt + 1
+        assert isinstance(cr, Ray), "A ray child must be a Ray instance"
+        cr.parent = self
+        cr.order = len(self.__childs)
         self.__childs.append(cr)
 
     def optical_path_parent(self):
-        ''' Return the optical path from the origin of the origin ray to the
-       end of this ray parent (this ray origin)
-        '''
+        """
+        Return the optical path length from the origin of the original ray to
+        the end of this ray's parent (i.e., the origin of this ray).
+
+        This method calculates the optical path length recursively, starting
+        from the origin of the first ray in the sequence and ending at the
+        origin of the current ray. If the `pop` attribute of the current ray
+        is non-zero, a warning is printed, and the actual parent optical path
+        is used instead.
+
+        Returns
+        -------
+        float
+            The total optical path length from the original ray's origin to
+            this ray's origin.
+
+        Notes
+        -----
+        The optical path length is calculated as the product of the distance
+        between two points and the refractive index (`n`) of the medium.
+        If the ray has a parent, this calculation is performed recursively.
+        """
+        cdef Vector3d length_vector
 
         if self.parent is not None:
             if self.pop!=0:
-                print "The pop attribute of the ray has a value of ", self.pop, \
-                " instead the real parent optical path is being used"
-            path= sqrt(dot(self.pos-self.parent.pos, self.pos-self.parent.pos))*\
-            self.parent.n
+                print("The pop attribute of the ray has a value of ", self.pop,
+                      " instead the real parent optical path is being used")
+
+            length_vector = self._origin - self.parent._origin
+            path = length_vector.norm()*self.parent.n
             return path+self.parent.optical_path_parent()
 
         return self.pop
 
     def optical_path(self):
-        ''' Return the optical path of the beam propagation from the origin of
-        the origin ray, to the end of this ray (intersection with a surface)
-        '''
+        """
+        Return the optical path of the beam propagation from the origin of the
+        original ray to the end of this ray (intersection with a surface).
+
+        This method calculates the total optical path length from the origin
+        of the original ray to the intersection point of this ray with a
+        surface.
+
+        Returns
+        -------
+        float
+            The optical path length. Returns 0 if the ray's intensity is zero.
+            If the ray has no child rays, returns infinity.
+        """
 
         if self.intensity==0:
             return 0.
         elif len(self.childs)==0:
-            return inf
+            return INFINITY
         else:
             return self.childs[0].optical_path_parent()
 
     def __eq__(self, other):
-        return np.array_equal(self.pos, other.pos) and\
-        np.array_equal(self.dir, other.dir) and\
-        self.intensity == other.intensity and\
-        self.wavelength == other.wavelength and\
-        self.n == other.n and\
-        self.label == other.label and\
-        self.draw_color == other.draw_color and\
-        self.order == other.order and\
-        self.orig_surf == other.orig_surf
+
+        cdef Ray other_ray = <Ray> other
+
+        return Ray.almost_equal(self, other_ray, 1e-10)
         # TODO do we have to compare self.pop and other.pop ?
         # self.copy() indicate that we should actually only compare
         # fields pos, dir, intensity, wavelength, n and label
 
     @staticmethod
-    def almost_equal(ray1, ray2, decimal=7):
-        """
-        Test if two rays are equal up to desired precision.
+    def almost_equal(Ray ray1, Ray ray2, double tol=1e-7):
 
-        **ARGUMENTS**
+        cdef bint is_n_eq
+        if isnan(ray1.n) and isnan(ray2.n):
+            is_n_eq = True
+        else:
+            is_n_eq = (ray1.n == ray2.n)
 
-            ======= ===============================================
-            other   Ray other ray to be compared against.
-            decimal int, optional, Desired precision, default is 7.
-            ======= ===============================================
-
-
-        **RETURN VALUE**
-            bool   True if two rays are equal to the desired precision. i.e.
-                   if abs(self - other) < 1.5 * 10**(-decimal) for attributes
-                   pos, dir, wavelength and n.
-        """
-        atol = 1.5 * 10 ** (-decimal)
-        rtol = 0
-
-        return np.allclose(ray1.pos, ray2.pos, rtol=rtol, atol=atol) and \
-        np.allclose(ray1.dir, ray2.dir, rtol=rtol, atol=atol) and \
-        ray1.intensity == ray2.intensity and \
-        np.allclose(ray1.wavelength, ray2.wavelength, rtol=rtol, atol=atol) and \
-        ray1.n == ray2.n and \
-        ray1.label == ray2.label and \
-        ray1.draw_color == ray2.draw_color and \
-        ray1.order == ray2.order and \
-        ray1.orig_surf == ray2.orig_surf
-        # TODO do we have to compare self.pop and other.pop ?
-        # self.copy() indicate that we should actually only compare
-        # fields pos, dir, intensity, wavelength, n and label
+        return (is_approx(ray1._origin, ray2._origin, tol) and
+                is_approx(ray1._direction, ray2._direction, tol) and
+                ray1.intensity == ray2.intensity and
+                ray1.wavelength == ray2.wavelength and
+                is_n_eq and
+                ray1.label == ray2.label and
+                ray1.draw_color == ray2.draw_color and
+                ray1.order == ray2.order and
+                ray1.orig_surf == ray2.orig_surf)

@@ -18,7 +18,6 @@
 Definition of a spherical lens object and helper functions
 """
 
-# from enthought.traits.api import Float, Instance, HasTraits,  Trait
 from numpy import sqrt, pi, absolute, inf
 
 from pyoptools.raytrace.component import Component
@@ -87,10 +86,14 @@ class SphericalLens(Component):
         self.curvature_s2 = curvature_s2
 
         if self.radius * abs(self.curvature_s1) > 1.0:
-            raise ValueError("Aperture radius can not be larger than s1 curvature radius")
+            raise ValueError(
+                "Aperture radius can not be larger than s1 curvature radius"
+            )
 
         if self.radius * abs(self.curvature_s2) > 1.0:
-            raise ValueError("Aperture radius can not be larger than s2 curvature radius")
+            raise ValueError(
+                "Aperture radius can not be larger than s2 curvature radius"
+            )
 
         if self.curvature_s1 != 0.0:
             __a_surf = Spherical(

@@ -7,7 +7,7 @@ try:
     from pyfft.cl import Plan
     import pyopencl as cl
     import pyopencl.array as cl_array
-except:
+except ImportError:
     pass
 
 
@@ -16,12 +16,10 @@ from numpy import angle, exp, pi, complex128, zeros, sqrt, int32, zeros_like, on
 from numpy.random import random
 
 
-from pylab import imshow, colorbar
-
-KERNEL = """   
+KERNEL = """
     //There are some operations that are not defined in the RV770 GPUs
     // for doubles, so a cast to float is needed
-    
+
     % if double_support:
         #pragma OPENCL EXTENSION cl_khr_fp64: enable
         #define CAST (double)
@@ -29,7 +27,7 @@ KERNEL = """
         #pragma OPENCL EXTENSION cl_amd_fp64: enable
         #define CAST (float)
     % endif
-    
+
     __kernel void norm(__global double2 *data)
     {
       int nWidth = get_global_size(0);
@@ -37,7 +35,7 @@ KERNEL = """
       int ox=get_global_id(0); // Toma los indices en X
       int oy=get_global_id(1); // Toma los indices en Y
       int i= oy*nWidth+ox;
-      
+
       double norm=sqrt(CAST(data[i].x*data[i].x+data[i].y*data[i].y));
       if (norm>0)
       {
@@ -50,7 +48,7 @@ KERNEL = """
         data[i].y=0;
       }
     }
-  
+
     __kernel void norm1(__global double2 *data, __global double2 *idata, __global double *error, int cut)
     {
       int nWidth = get_global_size(0);
@@ -58,7 +56,7 @@ KERNEL = """
       int ox=get_global_id(0); // Toma los indices en X
       int oy=get_global_id(1); // Toma los indices en Y
       int i;
-    
+
       double norm,intdata;
       i= oy*nWidth+ox;
       error[i]=0;
@@ -71,7 +69,7 @@ KERNEL = """
           intdata=data[i].x*data[i].x+data[i].y*data[i].y;
           intdata=sqrt((float)intdata);
           error[i]=(intdata-idata[i].x)*(intdata-idata[i].x);
-        
+
           norm=sqrt(CAST(data[i].x*data[i].x+data[i].y*data[i].y));
           if (norm>0)
           {
@@ -84,10 +82,8 @@ KERNEL = """
             data[i].y=0;
           }
       }
-      
-      
-    }
 
+    }
 
     __kernel void norm2(__global double2 *data, __global double2 *idata)
     {
@@ -111,8 +107,6 @@ KERNEL = """
         data[i].x=idata[i].x;
         data[i].y=0;
       }
-      
-      
     }
 
      """
@@ -140,7 +134,7 @@ def gs(idata, itera=10, ia=None):
         ========== ========================================================
     """
 
-    if ia == None:
+    if ia is None:
         inpa = ones(idata.shape)
     else:
         inpa = ia
@@ -189,7 +183,7 @@ def gs_mod(idata, itera=10, osize=256):
     cut = osize // 2
 
     zone = zeros_like(idata)
-    zone[M / 2 - cut : M / 2 + cut, N / 2 - cut : N / 2 + cut] = 1
+    zone[M / 2 - cut:M / 2 + cut, N / 2 - cut:N / 2 + cut] = 1
     zone = zone.astype(bool)
 
     mask = exp(2.0j * pi * random(idata.shape))
@@ -201,8 +195,6 @@ def gs_mod(idata, itera=10, osize=256):
         fft2(ifftshift(idata + mask))
     )  # Nota, colocar esta mascara es muy importante, por que si no  no converge tan rapido
 
-    e = 1000
-    ea = 1000
     for i in range(itera):
         fdata = exp(1.0j * angle(fdata))
 
@@ -211,7 +203,6 @@ def gs_mod(idata, itera=10, osize=256):
         # ~ if e>ea:
         # ~
         # ~ break
-        ea = e
         rdata[zone] = exp(1.0j * angle(rdata[zone])) * (idata[zone])
         fdata = fftshift(fft2(ifftshift(rdata)))
     fdata = exp(1.0j * angle(fdata))
@@ -311,7 +302,7 @@ def gs_mod_gpu(idata, itera=10, osize=256):
     plan.execute(idata_gpu.data, fdata_gpu.data)
 
     mask = exp(2.0j * pi * random(idata.shape))
-    mask[512 - cut : 512 + cut, 512 - cut : 512 + cut] = 0
+    mask[512 - cut:512 + cut, 512 - cut:512 + cut] = 0
 
     idata_gpu = cl_array.to_device(queue, ifftshift(idata + mask).astype("complex128"))
     fdata_gpu = cl_array.empty_like(idata_gpu)
@@ -319,8 +310,8 @@ def gs_mod_gpu(idata, itera=10, osize=256):
     error_gpu = cl_array.to_device(ctx, queue, zeros(idata_gpu.shape).astype("double"))
     plan.execute(idata_gpu.data, fdata_gpu.data)
 
-    e = 1000
-    ea = 1000
+    # e = 1000
+    # ea = 1000
     for i in range(itera):
         prg.norm(queue, fdata_gpu.shape, None, fdata_gpu.data)
         plan.execute(fdata_gpu.data, rdata_gpu.data, inverse=True)
@@ -337,7 +328,7 @@ def gs_mod_gpu(idata, itera=10, osize=256):
             int32(cut),
         )
 
-        e = sqrt(cl_array.sum(error_gpu).get()) / (2 * cut)
+        # e = sqrt(cl_array.sum(error_gpu).get()) / (2 * cut)
 
         # ~ if e>ea:
         # ~

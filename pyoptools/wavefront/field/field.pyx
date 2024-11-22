@@ -13,13 +13,12 @@
 # ------------------------------------------------------------------------------
 #
 
-# cython: profile=True
-
 from warnings import warn
 
-from numpy import dot, zeros, abs, meshgrid, pi, exp, where, angle, sqrt as npsqrt, indices,\
-    empty, complex128, complex64, newaxis, column_stack, max, array, linspace, dot, zeros_like, \
-    round, float64, arange, isnan, angle,  mgrid, rint, float32, uint32, exp
+from numpy import dot, zeros, abs, meshgrid, pi, exp, where, angle, sqrt as npsqrt, \
+    indices, empty, complex128, complex64, newaxis, column_stack, max, array, \
+    linspace, dot, zeros_like, float64, arange, isnan, angle,  mgrid, rint, \
+    float32, uint32, exp
 
 
 from numpy.fft import fft2, ifft2, fftshift, ifftshift
@@ -27,9 +26,7 @@ from numpy.ma import array as maarray,  getmask,  getmaskarray
 # deprecated use scipy.interpolate.griddata
 # from matplotlib.mlab import griddata
 
-from scipy.signal import convolve2d, fftconvolve, resample
-from scipy.integrate import simps
-from scipy.interpolate import interp2d, bisplrep, bisplev, griddata
+from scipy.integrate import simpson as simps
 from scipy.ndimage import map_coordinates
 # deprecated in scipy 1.2.1; change to imageio
 # from scipy.misc import imread
@@ -39,20 +36,19 @@ from imageio import imread
 # import pp
 # import pyopencl as cl
 
-from pyoptools.misc.cmisc.cmisc cimport rot_mat_i, rot_mat
+
+from pyoptools.misc.cmisc.cmisc cimport rot_mat
 
 from pyoptools.raytrace.ray import Ray
 
 
-from pyoptools.misc.cmisc.cmisc import unwrap
+# from pyoptools.misc.cmisc.cmisc import unwrap
 
 
 cdef extern from "math.h":
     double M_PI
     double sqrt(double)
 
-cimport numpy as np
-np.import_array()
 cimport cython
 
 
@@ -79,7 +75,8 @@ def s2d(kx, ky, nx, ny):
     sy=s(uy, ny)
 
     # print sx.shape, sy.shape
-    # TODO: Verify if the correct expression is dot(sx.transpose(),sy) or dot(sy.transpose(),sx)
+    # TODO: Verify if the correct expression is
+    # dot(sx.transpose(),sy) or dot(sy.transpose(),sx)
     # retval=dot(sx.transpose(),sy)
     retval=dot(sy.transpose(), sx)
     return retval
@@ -115,11 +112,12 @@ cdef class Field:
     cdef public object data, psize
     cdef public double l
 
-    def __init__(self, data=None, psize=(10e-3, 10e-3), l=442e-6, amp_im=None, ph_im=None, amp_n=1/255., ph_n=2*pi/255.):
+    def __init__(self, data=None, psize=(10e-3, 10e-3), l=442e-6,
+                 amp_im=None, ph_im=None, amp_n=1/255., ph_n=2*pi/255.):
 
         # Comparing data with None does not work, It seems that cython has a bug
         # when data is a numpy arra and it is compared with none
-        assert (not(data is None)) ^ (not(amp_im is None) or not(ph_im is None)),\
+        assert (not(data is None)) ^ (not(amp_im is None) or not(ph_im is None)), \
             "The initizilation can be a numpy array, or a set of "+\
             "images but not both"
 
@@ -155,7 +153,7 @@ cdef class Field:
         def __get__(self):
             try:
                 dx, dy=self.psize
-            except:
+            except ValueError:
                 dx=self.psize
                 dy=dx
             return dx, dy
@@ -194,8 +192,8 @@ cdef class Field:
         '''Return the sample points in X'''
 
         def __get__(self):
-            dx, dy=self.res
-            nx, ny=self.shape
+            dx, _dy=self.res
+            nx, _ny=self.shape
             # TODO: Check if this can be calculated using linspaces
             return (arange(nx)-nx/2)*dx
 
@@ -203,8 +201,8 @@ cdef class Field:
         '''Return the sample points in Y'''
 
         def __get__(self):
-            dx, dy=self.res
-            nx, ny=self.shape
+            _dx, dy=self.res
+            _nx, ny=self.shape
             # TODO: Check if this can be calculated using linspace
             return (arange(ny)-ny/2)*dy
 
@@ -212,9 +210,9 @@ cdef class Field:
         '''Returns an array containing the unwrapped phase of the optical field'''
 
         def __get__(self):
-            print "Warning: The phase is not being cached. Need to fix this"
+            print("Warning: The phase is not being cached. Need to fix this")
             a=self.angle
-            return unwrap(a)
+            return a  # NEED TO FIX UNWRAP AND UNCOMMENT THIS unwrap(a)
 
     property angle:
         ''' Returns the wrapped phase of the field (mod 2 pi)'''
@@ -249,23 +247,28 @@ cdef class Field:
 
     # Definition of arithmetic functions for fields
     def __add__(self, a):
-        assert isinstance(a, Field), "Error: can not add a Field with a %s" %[type(a)]
-        assert self.data.shape==a.data.shape, "Error: both fields must have the same shape"
+        assert isinstance(a, Field), "Error: can not add a Field with a %s" %[
+                          type(a)]
+        assert self.data.shape==a.data.shape, \
+               "Error: both fields must have the same shape"
         assert self.psize==a.psize , "Error: both fields must have the samepixel size"
         assert self.l==a.l , "Error: Both fields must have the same wavelength"
         return Field(data=self.data+a.data, psize=self.psize, l=self.l)
 
     def __sub__(self, a):
-        assert isinstance(a, Field), "Error: can not add a Field with a %s" %[type(a)]
-        assert self.data.shape==a.data.shape, "Error: both fields must have the same shape"
+        assert isinstance(a, Field), "Error: can not add a Field with a %s" %[
+                          type(a)]
+        assert self.data.shape==a.data.shape, \
+               "Error: both fields must have the same shape"
         assert self.psize==a.psize , "Error: both fields must have the samepixel size"
         assert self.l==a.l , "Error: Both fields must have the same wavelength"
 
         return Field(data=self.data-a.data, psize=self.psize, l=self.l)
 
     def __mul__(self, other):
-
-        if isinstance(self, Field):  # Note, this is different than standard python, here mul==rmul. We need to see what is going on
+        # Note, this is different than standard python, here mul==rmul.
+        # We need to see what is going on
+        if isinstance(self, Field):
             f=self
             a=other
         else:
@@ -275,8 +278,9 @@ cdef class Field:
         # If you are multipliying 2 fields (1 field* 1 phase mask)
         if isinstance(a, Field):
             # TODO: Find a good way to do the assertions
-            #assert(a.l==f.l),"The field and the mask must be for the same wavelength"
-            #assert(a.psize==f.psize),"The pixel size in the field and the mask must be the same"
+            # assert(a.l==f.l),"The field and the mask must be for the same wavelength"
+            # assert(a.psize==f.psize),"The pixel size in the field and the mask must "
+            #                          "be the same"
             return Field(data=a.data*f.data, psize=f.psize, l=f.l)
 
         # If you are multipliying a field by a numpy array or a number
@@ -286,7 +290,8 @@ cdef class Field:
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    def _rs_kernel(self, np.ndarray[np.float64_t, ndim=2]x, np.ndarray[np.float64_t, ndim=2] y, double z, double n):
+    def _rs_kernel(self, double[:, :]x,
+                   double[:, :] y, double z, double n):
         """Calculate the Rayleigh Sommerfeld propagation Kernel, for a source point
         at the origin, and a observation point at (x,y,z)
         """
@@ -294,10 +299,10 @@ cdef class Field:
         cdef int nx, ny, i, j
         cdef double xd, yd, R2, R, R3
         # cdef double complex ikR
-        cdef np.complex64_t ikR
+        cdef complex ikR
         nx=x.shape[0]
         ny=x.shape[1]
-        cdef np.ndarray[np.complex64_t, ndim=2] result=zeros((nx, ny), dtype=complex64)
+        cdef double[:, :] result=zeros((nx, ny), dtype=complex64)
         for i in range(nx):
             for j in range(ny):
                 xd=x[i, j]
@@ -383,25 +388,24 @@ cdef class Field:
         X, Y=indices((2*nx, 2*ny))
         ux=(X-nx)*dx+x
         uy=(Y-ny)*dy+y
-        ##del X
-        ##del Y
+        # del X
+        # del Y
         krn=self._rs_kernel(ux, uy, z, n)
-        ##del ux
-        ##del uy
+        # del ux
+        # del uy
         krn=fftshift(krn)  # TODO: Check if it is fftshift or ifftshift
         fkrn=fft2(krn)
         # del(krn)
         nf=self.resize((2*nx, 2*ny))
         # ux,uy=self.field_sample_coord
         retval=ifft2(fft2(nf.data)*fkrn)
-        #fftconvolve(self.data, self._rs_kernel(x=ux,y=uy,z=z,n=n), mode='same')
+        # fftconvolve(self.data, self._rs_kernel(x=ux,y=uy,z=z,n=n), mode='same')
         retval=retval[nx/2:nx/2+nx, ny/2:ny/2+ny]*dx*dy
         return Field(data=retval, psize=self.psize, l=self.l)
 
     def _ursi(self, x=0., y=0., z=0., n=1.):
         """Calculate the field at x,y,z , using the Rayleigh Sommerfeld integral
         """
-        ux, uy=self.field_sample_coord
         krs=self._rs_kernel(x, y, z, n)
         # krs=self._rs_kernel(ux+x,uy+y,z,n=n)
         dx, dy=self.res
@@ -485,11 +489,11 @@ cdef class Field:
         return Field(data=pf, psize=self.psize, l=self.l)
 
     def propagate_rsi_gpu(self, z, n, dfield=None, offset=(0., 0.), gpu=0):
-        print"propagate_rsi_gpu: This method is not working fine needs to be checked"
+        print("propagate_rsi_gpu: This method is not working fine needs to be checked")
         import pyopencl as cl
         pl=cl.get_platforms()[0]
         dev=pl.get_devices(device_type=cl.device_type.GPU)
-        print dev
+        print(dev)
 
         # Inicio del programa
 
@@ -612,13 +616,16 @@ cdef class Field:
                  float32(dx),
                  float32(dy),
                  ifbr,
-                 ifbi,
-                 # local_size=(16,16)
-                    )
-        # print "nota: Al usar el metodo de integración de simpson, hay que tener un buen"
-        # print "muestreo en el campo objeto. Si se tiene un solo pixel en 1 y lo demas en 0 "
+                 ifbi,)
+        #        local_size=(16,16)
+        #        )
+        # print "nota: Al usar el metodo de integración de simpson, hay que tener"
+        #       "un buen"
+        # print "muestreo en el campo objeto. Si se tiene un solo pixel en 1 y lo demas"
+        #       " en 0 "
         # print "Puede haber problemas, por que el muestreo no es adecuado."
-        # print "Para generar frentes de onda creados por un filtro espacial, tratar de hallar "
+        # print "Para generar frentes de onda creados por un filtro espacial, tratar de"
+        #        "hallar "
         # print "la solución teorica"
 
         cl.enqueue_read_buffer(queue0, ifbr, ifr).wait()
@@ -639,32 +646,31 @@ cdef class Field:
         from cfield import _propagate_rsi
         return _propagate_rsi(self, z, n, dfield)
 
-        """    from cfield import _ursi
-        #cpus=detectCPUs()
+        # """    from cfield import _ursi
+        # #cpus=detectCPUs()
 
-        #job_server=pp.Server()
+        # #job_server=pp.Server()
 
-        #TODO: Need to find a way to not recalculate the _RS_KERNEL
-        if dfield==None:
-            X,Y=self.field_sample_coord
-        else:
-            X,Y=dfield.field_sample_coord
-        U=empty((X.shape[0]*X.shape[1],), complex)
-        xf=X.flatten()
-        yf=Y.flatten()
+        # #TODO: Need to find a way to not recalculate the _RS_KERNEL
+        # if dfield==None:
+        #     X,Y=self.field_sample_coord
+        # else:
+        #     X,Y=dfield.field_sample_coord
+        # U=empty((X.shape[0]*X.shape[1],), complex)
+        # xf=X.flatten()
+        # yf=Y.flatten()
 
-        cxy=column_stack((xf[:,newaxis],yf[:,newaxis]))
-        for i,(xi,yi) in enumerate(cxy):
-            #U[i]=self._ursi(xi,yi, z, n=n)
-            U[i]=_ursi(self,xi,yi, z, n=n)
+        # cxy=column_stack((xf[:,newaxis],yf[:,newaxis]))
+        # for i,(xi,yi) in enumerate(cxy):
+        #    #U[i]=self._ursi(xi,yi, z, n=n)
+        #     U[i]=_ursi(self,xi,yi, z, n=n)
 
-
-        if dfield==None:
-            return Field(data=U.reshape(X.shape),psize=self.psize,l=self.l)
-        else:
-            dfield.data=U.reshape(X.shape)
-            return dfield
-        """
+        # if dfield==None:
+        #     return Field(data=U.reshape(X.shape),psize=self.psize,l=self.l)
+        # else:
+        #     dfield.data=U.reshape(X.shape)
+        #    return dfield
+        # """
 
     def propagate_rsi(self, z, n, dfield=None):
         """Propagate the field a distance z, using the Rayleigh Sommerfeld integral.
@@ -674,7 +680,7 @@ cdef class Field:
         the propagated field is returned.
         """
 
-        #from cfield import _ursi
+        # from cfield import _ursi
         # cpus=detectCPUs()
 
         # job_server=pp.Server()
@@ -691,7 +697,7 @@ cdef class Field:
         cxy=column_stack((xf[:, newaxis], yf[:, newaxis]))
         for i, (xi, yi) in enumerate(cxy):
             U[i]=self._ursi(xi, yi, z, n=n)
-            #U[i]=_ursi(self,xi,yi, z, n=n)
+            # U[i]=_ursi(self,xi,yi, z, n=n)
 
         if dfield is None:
             return Field(data=U.reshape(X.shape), psize=self.psize, l=self.l)
@@ -727,20 +733,23 @@ cdef class Field:
         U0=1./(2.*dx)
         dU=1./(sx)
 
-        # Maximum distance  that should be used for angular espectral propagation
-        ae_max= 1/(2.*(sqrt((n/self.l)**2 -(U0-dU)**2)-\
-            sqrt((n/self.l)**2 -(U0)**2)))
+        # Maximum distance  that should be used for angular espectral
+        # propagation
+        ae_max= 1/(2.*(sqrt((n/self.l)**2 -(U0-dU)**2)-
+                   sqrt((n/self.l)**2 -(U0)**2)))
 
         # Minimum distance to be used by Rayleigh Sommerfeld
-        rs_min=(n/self.l)*sqrt(((self.l/(2*n))**2- sx**2 -(sx-dx)**2)**2 -4*sx**2*(sx-dx)**2)
+        rs_min=(n/self.l)*sqrt(((self.l/(2*n))**2- sx**
+                                2 -(sx-dx)**2)**2 -4*sx**2*(sx-dx)**2)
 
         # Minimum distance to be used by the fresnel propagation method (FFT)
 
         fr_min= dx**2*n*nx/self.l
 
-        return {"ae_max": float(ae_max), "rs_min": float(rs_min), "fr_min": float(fr_min)}
+        return {"ae_max": float(ae_max), "rs_min": float(
+            rs_min), "fr_min": float(fr_min)}
 
-    #method(This, Trait(None,Float,Array(shape=(3,))))
+    # method(This, Trait(None,Float,Array(shape=(3,))))
 
     def propagate_rs(self, z, n=1, shape=None):
         """Method that calculates the free space propagation of an optical field.
@@ -775,22 +784,22 @@ cdef class Field:
         d=self.check_z(n=n, shape=shape)
         dae=d["ae_max"]
         drs=d["rs_min"]
-        print dae, drs, z
-        dx, dy=self.res
+        print(dae, drs, z)
+        dx, _dy=self.res
         if z< dae:
-            print"ae"
+            print("ae")
             return self.propagate_ae(z, n, shape)
         elif z>drs:
-            print"rs"
+            print("rs")
             return self.propagate_rsc(z, n, shape)
         else:
-            print "Error: It is not possible to calculate using this distance"
+            print("Error: It is not possible to calculate using this distance")
             # Corregir esto, haciendo un remuestreo del campo, y usando espectro angular
             # TODO: Fix this when dx and dy are different
             a=1./(2*z)+sqrt((n/self.l)**2-(1/(2*dx))**2)
             nxmin=int(2/(1-2*dx*sqrt((n/self.l)**2-a**2)))
             nymin=nxmin
-            print nx, nxmin
+            print(nx, nxmin)
             if (nxmin-nx) %2!=0:
                 nxmin=nxmin+1
             if (nymin-ny) %2!=0:
@@ -814,8 +823,6 @@ cdef class Field:
                 =  ====================
         """
 
-        dx, dy=self.res
-        nx, ny=self.data.shape
         sx, sy=self.size
         l=self.l
         if z>0:
@@ -831,7 +838,7 @@ cdef class Field:
             dxp=-l*z/sx
             dyp=-l*z/sy
 
-        print "warning: The phase factor is not present. Must be corrected"
+        print("warning: The phase factor is not present. Must be corrected")
         return Field(data=data, psize=(dxp, dyp), l=self.l)
 
     def propagate_fresnel(self, z):
@@ -847,7 +854,7 @@ cdef class Field:
 
         '''
         dx, dy=self.res
-        nx, ny=self.data.shape
+
         sx, sy=self.size
         l=self.l
 
@@ -909,12 +916,12 @@ cdef class Field:
 
         try:
             x, y, z=r
-        except:
+        except ValueError:
             x, y, z= 0., 0., r
 
         dx, dy=self.res
         nx, ny=self.data.shape
-        sx, sy=dx*nx, dy*ny
+        sx, _sy=dx*nx, dy*ny
 
         m=None
 
@@ -927,7 +934,7 @@ cdef class Field:
             m=method
 
         # TODO: , Warning n not used in calculations must be fixed
-        print "Warning n not used in calculations must be fixed"
+        print("Warning n not used in calculations must be fixed")
         if m=="ae":
             tf=self
             if z>self.check_z(n)["ae_max"]:
@@ -947,11 +954,11 @@ cdef class Field:
                     # must be even.
                     # TODO: This is not OK, if the number of columns is even and rows
                     # is odd (or backwards), this will not work. FIXME
-                    print nxmin
+                    print(nxmin)
                     try:
                         tf=self.resize((nxmin, nxmin))
 
-                    except:
+                    except ValueError:
                         tf=self.resize((nxmin+1, nxmin+1))
             retval=tf.propagate_ae(z, n)
         elif m=="rsc" or m=="rsi":
@@ -1001,7 +1008,8 @@ cdef class Field:
 
         # The number of rows and columns to add must be even
         if (((mnx-nx) %2 !=0)or((mny-ny) %2 !=0)):
-            raise ValueError("The number of rows and columns to add  or remove must be even")
+            raise ValueError(
+                "The number of rows and columns to add  or remove must be even")
 
         ndata=zeros((mnx, mny), complex)
         ix=(mnx-nx)/2
@@ -1061,8 +1069,8 @@ cdef class Field:
             the rotation around the y axis and rz is the rotation around the z axis
             that must be issued to the object plane, to obtain the image plane.
 
-        The rotations are applied first to the z axis, and then to the y axis and finally to
-        the x axis.
+        The rotations are applied first to the z axis, and then to the y axis and
+        finally to the x axis.
         (need to verify this to check if this is consistent with wxRayTrace).
 
         """
@@ -1093,7 +1101,7 @@ cdef class Field:
         nf=self
         if fm[-1]>1:
             fm=int(fm[-1])+1
-            print "Resampling field ", fm
+            print("Resampling field ", fm)
             nf=self.resample((nx*fm, ny*fm))
             nx, ny=nf.data.shape
             dx, dy=nf.res
@@ -1135,8 +1143,9 @@ cdef class Field:
                 kr=z_r*sx+int(nx/2)
                 lr=e_r*sy+int(ny/2)
 
-                # Calculate the displacement matrix for the rotated planewave spectrum
-                c2=exp(-2.j*pi/nx*(nx2*(kr-nx2)))*exp(-2.j*pi/ny*(ny2*(lr-ny2)))
+                # Calculate the displacement matrix for the rotated planewave
+                # spectrum
+                c2=exp(-2.j*pi/nx*(nx2*(kr-nx2)))* exp(-2.j*pi/ny*(ny2*(lr-ny2)))
                 Ar=Ar+Af[i]*c2*s2d(kr, lr, nx, ny)
 
         data=ifft2(ifftshift(Ar/(nx*ny)))
@@ -1234,8 +1243,8 @@ cdef class Field:
         if abs(lapa).max()>eps:
             # TODO: establish a better warning system, and apply it to all warnings
             # in the program
-            print "Warning: the conversion from wavefront to rays, does not fulfil"
-            print "the eikonal equation max(lap(a)/a)", abs(lapa).max()
+            print("Warning: the conversion from wavefront to rays, does not fulfil")
+            print("the eikonal equation max(lap(a)/a)", abs(lapa).max())
 
         # TODO: Check if we need a condition for the continuity of the phase, or
         # if this condition is enough
@@ -1254,7 +1263,7 @@ cdef class Field:
 
         # Check that there are no inconsistencies in the data
         # TODO: Fix the assert
-        # assert alltrue(dz2>=0), "There is an inconsistency in the gradient calculation"
+        # assert alltrue(dz2>=0), "There is aninconsistency in the gradient calculation"
         dz=sqrt(dz2)
 
         X, Y=self.field_sample_coord
@@ -1272,14 +1281,15 @@ cdef class Field:
         X=X.flatten()
         Y=Y.flatten()
 
-        print "Warning: The assignment of the optical path assumes n=1 \n"\
-              "This must be corrected."
+        print("Warning: The assignment of the optical path assumes n=1 \n"
+              "This must be corrected.")
 
         rl=[]
         dirs=zip(dx, dy, dz, X, Y,  fmask, ph)
         for dx, dy, dz, x, y,  mask,  path in dirs:
             if dz<0:
-                print dz
+                print(dz)
             if mask is False:
-                rl.append(Ray(pos=(x, y, 0), dir=(dx, dy, dz), wavelength=self.l, pop=self.l*path/(2.*pi)))
+                rl.append(Ray(origin=(x, y, 0), direction=(dx, dy, dz),
+                          wavelength=self.l, pop=self.l*path/(2.*pi)))
         return rl  # ,lapa,a2x,a2y,a2z

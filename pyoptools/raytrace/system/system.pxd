@@ -10,7 +10,7 @@ cdef class System(Picklable):
     cdef public int _max_ray_parent_cnt
     cdef public float intensity_threshold
 
-    cdef public int _exit_status_flag # 0: no error, 1: error
+    cdef public int _exit_status_flag  # 0: no error, 1: error
 
     cpdef distance(self, Ray ri)
     cpdef propagate_ray(self, Ray ri)

@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-
-# cython: profile=True
-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
@@ -19,20 +14,16 @@
 
 '''Module that defines a reflective plane phase mask surface class
 '''
-from numpy import array, dot, inf, float64, zeros, asarray, isnan
+from numpy import array, inf, float64
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
-from pyoptools.misc.Poly2D.Poly2D cimport poly2d
+from pyoptools.misc.poly_2d.poly_2d cimport Poly2D
 from pyoptools.misc.definitions import inf_vect
 import cython
 cdef extern from "math.h":
     double sqrt(double)
     double copysign(double, double)
     double M_PI
-
-
-cimport numpy as np
-np.import_array()
 
 
 cdef class RPPMask(Surface):
@@ -47,34 +38,40 @@ cdef class RPPMask(Surface):
 
     The surface shape is given by the shape attribute
 
-    The phm attribute is a poly2d instance, that contains the polinomial
+    The phm attribute is a Poly2D instance, that contains the polinomial
     describing the phase modulation of the gratting. The X and Y input
     values of the polynomial are in microns.
 
     Example:
 
-        >>> g=RPPMask(shape=Rectangular(size=(10,10)), phm=poly2d([0,2*pi/15.,0]),M=[1])
+        >>> g=RPPMask(shape=Rectangular(size=(10,10)), phm=Poly2D([0,2*pi/15.,0]),M=[1])
 
     This is a 10 mm x 10 mm linear gratting that has a fringe each 15 microns
     '''
 
     # cdef np.ndarray k
-    cdef public poly2d phx
-    cdef public poly2d phy
-    cdef public poly2d phm
+    cdef public Poly2D phx
+    cdef public Poly2D phy
+    cdef public Poly2D phm
     cdef public list M
     # def __init__(self,k=(0,2*pi/1e-3),M=[1],**traits):
 
-    def __init__(self, poly2d phm=poly2d((0, 0, 0, 0, 0, 0)), M=[1], *args, **kwargs):
+    def __init__(self, Poly2D phm=None, M=None, *args, **kwargs):
         """
         phm represent the phase variations across the surface
         """
         Surface.__init__(self, *args, **kwargs)
-        self.phm = phm
-        dxdy = phm.dxdy()
-        self.phx = <poly2d > dxdy[0]
-        self.phy = <poly2d > dxdy[1]
-        self.M = M
+        if phm is None:
+            self.phm = Poly2D((0, 0, 0, 0, 0, 0))
+        else:
+            self.phm = phm
+        dxdy = self.phm.dxdy()
+        self.phx = <Poly2D > dxdy[0]
+        self.phy = <Poly2D > dxdy[1]
+        if M is None:
+            self.M =[1]
+        else:
+            self.M = M
 
         # Add attributes to the state list
         self.addkey("phm")
@@ -88,8 +85,8 @@ cdef class RPPMask(Surface):
         # ~ return(type(self),args,self.__getstate__())
         # ~
 
-    cpdef topo(self, x, y):
-        return zeros(asarray(x).shape)
+    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
+        return 0
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -100,9 +97,11 @@ cdef class RPPMask(Surface):
         # N_=array([0.,0.,1.])
 
         # Punto que pertenece al rayo "Origen" del rayo
-        cdef np.ndarray[np.float64_t, ndim=1] P1 = A.pos
+        # cdef np.ndarray[np.float64_t, ndim=1]
+        P1 = A.origin
         # Vector paralelo a la linea
-        cdef np.ndarray[np.float64_t, ndim=1] L1 = A.dir
+        # cdef np.ndarray[np.float64_t, ndim=1]
+        L1 = A.direction
 
         # if dot(N_,L1) ==0 : return inf_vect
         if L1[2] == 0:
@@ -118,23 +117,23 @@ cdef class RPPMask(Surface):
 
         return retval
 
-    cpdef np.ndarray normal(self, ri):
+    cpdef normal(self, ri):
         """Method that returns the normal to the surface
         """
         N_ = array((0., 0., 1.)).astype(float64)
         return (N_)
 
-    cpdef propagate(self, Ray ri, double ni, double nr):
+    cpdef list propagate(self, Ray ri, double ni, double nr):
         """Method that calculates the propagation of a ray through a diffraction
         gratting.
 
         This method uses all the units in millimeters
         """
         cdef double l, rx, ry, rz, k, d, kx, ky, ox, oy, oz, oz2, M
-        PI, P = self.int_nor(ri)
+        PI, _P = self.int_nor(ri)
         # Express wavelength in millimeters so all the method works in millimeters
         l = ri.wavelength*1e-3
-        rx, ry, rz = ri.dir
+        rx, ry, rz = ri.direction
         K = array((self.phx.peval(PI[0], PI[1]), self.phy.peval(PI[0], PI[1])))
         k = sqrt(K[0]**2+K[1]**2)
         if k != 0:
@@ -153,20 +152,24 @@ cdef class RPPMask(Surface):
             oz2 = rz**2 - 2*M*l/d*(rx*kx+ry*ky)-(M*l/d)**2
 
             if oz2 < 0:
-                print "warning: eliminating physically impossible ray"
-                ret.append(Ray(pos=PI, dir=ri.dir,
+                print("warning: eliminating physically impossible ray")
+                ret.append(Ray(origin=PI, direction=ri.direction,
                                intensity=0,
-                               wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
+                               wavelength=ri.wavelength, n=ni, label=ri.label,
+                               orig_surf=self.id))
             else:
                 oz = copysign(sqrt(oz2), rz)
-                # Check for transmitted or and reflected orders. Here intensities have no meaning
+                # Check for transmitted or and reflected orders. Here intensities
+                # have no meaning
                 if self.reflectivity != 1:
-                    ret.append(Ray(pos=PI, dir=(ox, oy, oz),
+                    ret.append(Ray(origin=PI, direction=(ox, oy, oz),
                                    intensity=ri.intensity/len(self.M),
-                                   wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
+                                   wavelength=ri.wavelength, n=ni, label=ri.label,
+                                   orig_surf=self.id))
                 if self.reflectivity != 0:
-                    ret.append(Ray(pos=PI, dir=(ox, oy, -oz),
+                    ret.append(Ray(origin=PI, direction=(ox, oy, -oz),
                                    intensity=ri.intensity/len(self.M),
-                                   wavelength=ri.wavelength, n=ni, label=ri.label, orig_surf=self.id))
+                                   wavelength=ri.wavelength, n=ni,
+                                   label=ri.label, orig_surf=self.id))
 
         return ret

@@ -1,16 +1,10 @@
-# cython: profile=True
 
 import numpy as np
 # from numpy import dot,arctan2, polyval, pi, indices, sort, cumsum, where
-from numpy.fft import fft2, fftshift, ifftshift
 import numpy.ma as ma
 from pyoptools.misc import *
-from time import time
-from pyoptools.misc.Poly2D import ord2i, poly2d
+from pyoptools.misc.poly_2d import ord2i, Poly2D
 from pyoptools.wavefront.field import Field
-
-cimport numpy as np
-np.import_array()
 
 cdef extern from "math.h":
     double sqrt(double) nogil
@@ -26,7 +20,8 @@ class PSurf:
     surface using a polynomial representation algorithm.
     """
 
-    def __init__(self, s, ni=1, nr=1, ilimit=0, slimit=1.3, l=.633e-3 , step=0.05, order=10, rsamples=(500, 500), zb=None):
+    def __init__(self, s, ni=1, nr=1, ilimit=0, slimit=1.3, l=.633e-3 ,
+                 step=0.05, order=10, rsamples=(500, 500), zb=None):
         """
 
         **ARGUMENTS**
@@ -34,15 +29,20 @@ class PSurf:
             ========= ==========================================================
             s         Optical surface to model
             ni,nr     Refraction index from the incident and refracted sides
-            ilimit    Inferior limit for incidence angle of the plane wave in radians
-            slimit    Superior limit for incidence angle of the plane wave in radians
-            l         Wavelength that will be used in the simulation. We need to find a solution for any wavelength
+            ilimit    Inferior limit for incidence angle of the plane wave in
+                      radians
+            slimit    Superior limit for incidence angle of the plane wave in
+                      radians
+            l         Wavelength that will be used in the simulation. We need to
+                      find a solution for any wavelength
             step      Step to be used to generate the interpolation data
             order     Order of the Taylor interpolation used
             rsamples  Tuple containing the number of ray samples to be used en
                       each direction
-            zb        Z position of the plane where the measurementas are made. The origin
-                      is the vertex of the surface. If None, an estimate position is taken.
+            zb        Z position of the plane where the measurementas are made.
+                      The origin
+                      is the vertex of the surface. If None, an estimate
+                      position is taken.
             ========= ==========================================================
 
         **Notes:**
@@ -52,14 +52,15 @@ class PSurf:
                - The intensity is normalized to 1
 
         """
-        self.pf, self.pi, self.zm=s.pw_cohef(ni, nr, ilimit, slimit, step, order, rsamples, zb)
+        self.pf, self.pi, self.zm=s.pw_cohef(ni, nr, ilimit, slimit, step,
+                                             order, rsamples, zb)
 
         # get the number of polynomial coheficients
         self.nc=ord2i(order)
 
         self.l=l
 
-    def wf_polys(self, np.ndarray[np.double_t, ndim=1] k):
+    def wf_polys(self, double [:] k):
         '''Return the polynomials that describe the wavefront
 
         (fase_poly, i_poly)
@@ -69,19 +70,20 @@ class PSurf:
         r=sqrt(k[0]**2+k[1]**2)
         iang =atan2(r, k[2])
 
-        cdef np.ndarray[np.double_t, ndim=1] cf=np.zeros((self.nc,), dtype=np.double)
-        cdef np.ndarray[np.double_t, ndim=1] ci=np.zeros((self.nc,), dtype=np.double)
+        cdef double [:] cf=np.zeros((self.nc,), dtype=np.double)
+        cdef double [:] ci=np.zeros((self.nc,), dtype=np.double)
         for i in range(self.nc):
             pof=self.pf[i]
             cf[i]=np.polyval(pof, iang)
             poi=self.pi[i]
             ci[i]=np.polyval(poi, iang)
 
-        df=poly2d(cf)
-        di=poly2d(ci)
+        df=Poly2D(cf)
+        di=Poly2D(ci)
         return df, di
 
-    def pw_evaluate(self, np.ndarray[np.double_t, ndim=1] k, samples=(512, 512), gpu=True):
+    def pw_evaluate(self, double [:] k, samples=(512, 512),
+                    gpu=True):
         """Plane wave evaluate
 
         **Arguments:**
@@ -94,7 +96,7 @@ class PSurf:
         r=sqrt(k[0]**2+k[1]**2)
         iang =atan2(r, k[2])
 
-        cdef np.ndarray[np.double_t, ndim=1] cf=np.zeros((self.nc,), dtype=np.double)
+        cdef double [:] cf=np.zeros((self.nc,), dtype=np.double)
         ci=np.zeros((self.nc,))
         for i in range(self.nc):
             pof=self.pf[i]
@@ -102,8 +104,8 @@ class PSurf:
             poi=self.pi[i]
             ci[i]=np.polyval(poi, iang)
 
-        df=poly2d(cf)
-        di=poly2d(ci)
+        df=Poly2D(cf)
+        di=Poly2D(ci)
 
         xxl, dx=np.linspace(-1., 1., samples[0], retstep=True)
         yyl, dy=np.linspace(-1., 1., samples[1], retstep=True)
@@ -111,8 +113,9 @@ class PSurf:
 
         # Create the circular mask
 
-        # There is a problem. Some of the pixels of the border of the aperture get an error
-        # Too big. I don't think this will be an issue, because it is just in the border.
+        # There is a problem. Some of the pixels of the border of the aperture get an
+        # error too big. I don't think this will be an issue, because it is just in the
+        # border.
 
         rm=np.where(xx**2+yy**2>1, True, False)
 
@@ -130,8 +133,9 @@ class PSurf:
         inte=ma.masked_array(ir, mask=rm)
         fdata=inte*np.exp(1.j*2*np.pi/self.l*f)
 
-        # fdata=fdata*fdata[samples[0]/2,samples[1]/2]/abs(fdata[samples[0]/2,samples[1]/2])
-        print "**-->", np.angle(fdata[samples[0]/2, samples[1]/2])
+        # fdata=
+        # fdata*fdata[samples[0]/2,samples[1]/2]/abs(fdata[samples[0]/2,samples[1]/2])
+        print("**-->", np.angle(fdata[samples[0]/2, samples[1]/2]))
         return Field(fdata, psize=(dx, dy), l=self.l)
 
     # @cython.boundscheck(False) # turn of bounds-checking for entire function
@@ -158,13 +162,13 @@ class PSurf:
 
         sx=dx*nx
         sy=dy*ny
-        print wf.shape, wf.res
+        print(wf.shape, wf.res)
         # Phase function calculation
         # cdef np.ndarray[np.complex128_t, ndim=3] a = \
         # np.zeros((3,3,3), dtype=np.complex128)
 
-        cdef np.ndarray[np.double_t, ndim=2] X  # = np.empty([nx, ny], dtype=np.double)
-        cdef np.ndarray[np.double_t, ndim=2] Y  # = np.zeros([nx, ny], dtype=np.double)
+        # cdef double [:, :] X  # = np.empty([nx, ny], dtype=np.double)
+        # cdef double [:, :] Y  # = np.zeros([nx, ny], dtype=np.double)
 
         X, Y=np.indices((nx, ny), dtype=np.double)
         X=X-nx/2
@@ -185,7 +189,7 @@ class PSurf:
         # Calculate the k vector corresponding to each sample of the fft2
         kx=(X/sx)
         ky=(Y/sy)
-        print sx, sy
+        print(sx, sy)
         kz=np.sqrt((1./wf.l)**2 -kx**2-ky**2)
 
         # Calculate the amplitude and phase of each plane wave
@@ -209,23 +213,26 @@ class PSurf:
         k=np.array((kx[ki[0], kj[0]], ky[ki[0], kj[0]], kz[ki[0], kj[0]]))
         # got_cl is importen from misc. Misc imports it from Poly2D
         r=a[ki[0], kj[0]]*self.pw_evaluate(k, samples, got_cl)
-        print "*****", len(ki), k/k[2], abs(a[ki[0], kj[0]]), k[0], k[1], k[2]
+        print("*****", len(ki), k/k[2], abs(a[ki[0], kj[0]]), k[0], k[1], k[2])
 
         for i in range(len(ki)-1):
-            print "*", i
-            k=np.array((kx[ki[i+1], kj[i+1]], ky[ki[i+1], kj[i+1]], kz[ki[i+1], kj[i+1]]))
-            print k/k[2], abs(a[ki[i+1], kj[i+1]])
+            print("*", i)
+            k=np.array((kx[ki[i+1], kj[i+1]],
+                        ky[ki[i+1], kj[i+1]],
+                        kz[ki[i+1], kj[i+1]]))
+            print(k/k[2], abs(a[ki[i+1], kj[i+1]]))
             r+=a[ki[i+1], kj[i+1]]*self.pw_evaluate(k, samples, got_cl)
 
-            # TODO: Important------------------------------- ###### Need to take into account the phase............
+            # TODO: Important------- ###### Need to take into account the phase.........
 
-            # Need to add the polynomials before evaluating the resulting field. Have to check if this is possible, or if
+            # Need to add the polynomials before evaluating the resulting field. Have to
+            # check if this is possible, or if
             # it is better to add the evaluated fields
             # Or if it is possible to do an interpolation in the fourier plane
 
             # resf=resf+resf*exp(1.j*)
             # ~ if i%1 ==0:
-                # ~ print "**", time()-ti
-                # ~ print "***",i, len(ki)
-                # ~ ti=time()
+            # ~     print "**", time()-ti
+            # ~     print "***",i, len(ki)
+            # ~     ti=time()
         return r

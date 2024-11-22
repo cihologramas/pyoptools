@@ -49,7 +49,7 @@ extensions = [
 # The warnings should not be generated in the documentation, so we suppress them.
 # This may create issues later on, so be careful.
 suppress_warnings = [
-    'nbsphinx',
+    "nbsphinx",
 ]
 apidoc_module_dir = "../pyoptools"
 apidoc_output_dir = ""
@@ -71,8 +71,8 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"pyOpTools"
-copyright = u"2020, Ricardo Amézquita Orozco"
+project = "pyOpTools"
+copyright = "2020, Ricardo Amézquita Orozco"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -209,8 +209,8 @@ latex_documents = [
     (
         "index",
         "pyOpTools.tex",
-        u"pyOpTools Documentation",
-        u"Ricardo Amézquita Orozco",
+        "pyOpTools Documentation",
+        "Ricardo Amézquita Orozco",
         "manual",
     ),
 ]
@@ -231,4 +231,3 @@ latex_documents = [
 
 # If false, no module index is generated.
 # latex_use_modindex = True
-

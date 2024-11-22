@@ -1,46 +1,20 @@
-# cython: profile=True
+cdef double[::1] norm_vect(double[::1] v)
+cdef double vector_length(double[::1] v)
 
-cimport numpy as np
+cdef double[::, ::1] rot_mat_i(double[::1] r)
+cdef double[::, ::1] rot_mat(double[::1] r)
 
+cdef double[::1] empty_vec(int length)
+cdef double[::1] zero_vec(int length)
+cdef double[::1] to_vector(object py_obj)
 
-cdef extern from "Python.h":
-
-        cdef void Py_INCREF(object)
-
-
-cdef extern from "numpy/arrayobject.h":
-
-    #cdef void import_array()
-
-    cdef object PyArray_ZEROS(int nd, np.npy_intp *dims, int typenum, int fortran)
-    cdef object PyArray_SimpleNew(int nd, np.npy_intp *dims, int typenum)
-    cdef object PyArray_EMPTY(int nd, np.npy_intp *dims, int typenum, int fortran)
-
-    int PyArray_ISCARRAY(np.ndarray instance)  # I can't get this one to work?!?
-
-    int PyArray_FLOAT
-    int PyArray_DOUBLE
+cpdef zero_memarray(tuple shape)
+cdef double[:, ::1] zero_memarray_2d(Py_ssize_t nx, Py_ssize_t ny)
+cdef double[:, :, ::1] zero_memarray_3d(Py_ssize_t nx, Py_ssize_t ny, Py_ssize_t nz)
 
 
-cdef inline np.ndarray norm_vect(np.ndarray v)
-cdef inline double vector_length(np.ndarray v)
+cpdef double[::1] dot_product_3x3_matrix_vector(double[:, :] matrix, double[:] vector)
 
-cdef inline np.ndarray rot_mat_i(np.ndarray r)
-cdef inline np.ndarray rot_mat(np.ndarray r)
-cdef np.ndarray mvdot(np.ndarray mat, np.ndarray vec)
-cdef np.ndarray mvdot1(np.ndarray mat, np.ndarray vec)
+cdef bint allclose_cython(double[::1] a, double[::1] b, double atol)
 
-# cdef rot_mat_i(np.ndarray[np.double_t, ndim=1] r):
-# cdef rot_mat(np.ndarray[np.double_t, ndim=1] r):
-# def unwrap(inph,in_p=(), double uv=2*np.pi, int nn =1):
-# cdef mvdot(np.ndarray[np.double_t, ndim=2, mode="c"] mat, np.ndarray[np.double_t, ndim=1, mode="c"] vec):
-
-cdef void mvdotf(np.float64_t *ret, np.float64_t * mat, np.float64_t * vec)
-
-
-cdef inline np.ndarray empty_mat(int M, int N)
-cdef inline np.ndarray empty_vec(int M)
-cdef inline np.ndarray zero_mat(int M, int N)
-cdef inline np.ndarray zero_vec(int M)
-cdef inline void clear_mat(np.ndarray A)
-cdef inline void clear_vec(np.ndarray x)
+cdef double norm_3d_vector(double[::1] vec)

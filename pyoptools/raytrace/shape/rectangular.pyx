@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-
-# cython: profile=True
-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amezquita Orozco
 # All rights reserved.
@@ -21,109 +16,174 @@
 """Module that defines the Rectangular class
 """
 
-#from enthought.traits.api import HasTraits, Float, Tuple, Int
-#from enthought.traits.ui.view import View, Item, Include,Group
 
 from pyoptools.raytrace.shape.shape cimport Shape
-
-
-from numpy import arange, meshgrid, where, linspace
+from pyoptools.misc.cmisc.eigen cimport Vector3d
 
 cdef class Rectangular(Shape):
-    ''' Class defining an rectangular shape. '''
+    """
+    Class defining a rectangular shape.
 
-    # Tuple that holds the size of the rectangle
-    # size=Tuple(Float(1.),Float(1.))
+    The `Rectangular` class represents a rectangular aperture or surface shape,
+    defined by its size. It inherits from the `Shape` class and implements
+    methods specific to rectangular shapes.
 
-    # Tuple that holds the number of samples to be used to build the mesh
-    #samples=Tuple(Int(30), Int(30))
+    Parameters
+    ----------
+    size : tuple of float, optional
+        A tuple `(width, height)` that defines the size of the rectangle.
+        Defaults to `(1.0, 1.0)`.
+    samples : tuple of int, optional
+        A tuple `(nx, ny)` that determines the number of samples used to
+        discretize the rectangle along its width and height, respectively.
+        Defaults to `(30, 30)`.
+    offset : tuple of float, optional
+        A tuple `(x_offset, y_offset)` that specifies the offset of the
+        rectangle from the origin. Defaults to `(0.0, 0.0)`.
 
-    def __init__(self, size=(1., 1.), samples=(30, 30), offset=(0, 0), *args, **kwargs):
-        Shape.__init__(self, *args, **kwargs)
+    Attributes
+    ----------
+    size : tuple of float
+        A tuple `(width, height)` representing the dimensions of the rectangle.
+    samples : tuple of int
+        A tuple `(nx, ny)` representing the number of samples along the width
+        and height of the rectangle.
+    offset : tuple of float
+        A tuple `(x_offset, y_offset)` representing the offset of the rectangle
+        from the origin.
+    """
+    def __init__(self, size=(1., 1.), samples=(30, 30), offset=(0, 0)):
+        Shape.__init__(self)
         self.size = (float(size[0]), float(size[1]))
-        self.samples = (float(samples[0]), float(samples[1]))
+        self.samples = (int(samples[0]), int(samples[1]))
         self.offset = (float(offset[0]), float(offset[1]))
-        self.addkey("size")
-        self.addkey("samples")
-        self.addkey("offset")
+        # self.addkey("size")
+        # self.addkey("samples")
+        # self.addkey("offset")
 
-    cpdef hit(self, p):
-        """Method  that returns True if a p=(x,y,z) point is inside the rectangle,
-        if not it returns False.
+    cdef bint hit_cy(self, Vector3d& point) noexcept nogil:
         """
-        x, y, z = p
-        dx, dy = self.size
-        ox, oy = self.offset
-        x = x-ox
-        y = y-oy
-        retval = where((x < -dx/2.) | (x > dx/2.) |
-                       (y < -dy/2.) | (y > dy/2.), False, True)
-        return retval
+        Determine if a point is inside the rectangular surface aperture.
 
-    cpdef bint fhit(self, double px, double py, double pz):
-        """This method returns TRUE if an p=(x,y,z)point is inside the surface
-        aperture if not it must return FALSE.
-        This is implemented for a point, in cython, to make it fast
+        This method checks whether a given point `p = (x, y, z)` lies within the
+        boundaries of the rectangular aperture. It returns `True` if the point is
+        inside the aperture and `False` otherwise. This method is implemented in
+        Cython to ensure fast execution.
+
+        Parameters
+        ----------
+        point : Vector3d&
+            A reference to a `Vector3d` object representing the coordinates `(x, y, z)`
+            of the point to be checked.
+
+        Returns
+        -------
+        bint
+            `True` if the point is within the rectangular surface aperture,
+            `False` otherwise.
+
         """
         cdef double dx, dy, ox, oy, opx, opy
+        cdef double px, py
+
+        px = point(0)
+        py = point(1)
+        # pz = point(2)
+
         dx, dy = self.size
         ox, oy = self.offset
         opx = px-ox
         opy = py-oy
-        if (opx < -dx/2.) | (opx > dx/2.) | (opy < -dy/2.) | (opy > dy/2.):
-            return False
-        else:
-            return True
 
-    # ~ cpdef polylist(self, topo):
-        # ~ """Method that returns a tuple (point_list, poly_list) for a rectangular mesh.
-        # ~
-        # ~ Attributes:
-        # ~ ===========
-        # ~
-        # ~ topo    Z=topo(x,y) is the function that gives the surface topography
-        # ~
-        # ~ The point list is a list of tuples (X,Y,Z) containing the coordinates of
-        # ~ the points used to build the surface mesh.
-        # ~ The poly_list is a list of tuples (n1,n2,n3,n3) containing the indices
-        # ~ of the points in the polylist used to build each polygon that will be
-        # ~ used to visualize the mesh.
-        # ~ """
-        # ~
-        # ~ dx,dy=self.size
-        # ~ nx, ny=self.samples
-        # ~ Xl=linspace(-dx/2.,dx/2.,int(nx))
-        # ~ Yl=linspace(-dy/2.,dy/2.,int(ny))
-        # ~ X, Y=meshgrid(Xl,Yl)
-        # ~ Z=topo(X, Y)
-        # ~
-        # ~ xs,ys= Z.shape
-# ~
-        # ~ points=[]
-        # ~ polylist=[]
-        # ~ i=0
-        # ~ for x in range(0,xs):
-           # ~ for y in range(0,ys):
-            #~ points.append([X[x,y],Y[x,y],Z[x,y]]);
-            # ~ if y>0 and x>0:
-            #~ polylist.append([i-1,i,i-ys,i-ys-1])
-            # ~ i=i+1
-        # ~
-        # ~ return points, polylist
+        return (opx >= -dx/2.) and (opx <= dx/2.) and (opy >= -dy/2.) and (opy <= dy/2.)
 
     cpdef pointlist(self):
+        """
+        Generate a list of points that adequately sample the rectangular shape.
+
+        This method returns two lists, `X` and `Y`, representing the X and Y
+        coordinates of points that sample the rectangular shape. The sampling
+        resolution is determined by the number of divisions along the width
+        and height of the rectangle, specified by the `samples` attribute.
+
+        The method explicitly calculates the grid points, taking into account
+        the size of the rectangle and its offset from the origin.
+
+        Returns
+        -------
+        tuple of lists
+            A tuple `(X, Y)` where `X` is a list of X coordinates and `Y` is a
+            list of Y coordinates for the sampled points on the rectangular shape.
+
+        Notes
+        -----
+        - The `samples` attribute defines the resolution of the sampling:
+            - `nx` (number of samples along the width) determines the number of
+            points along the X-axis.
+            - `ny` (number of samples along the height) determines the number of
+            points along the Y-axis.
+        - The points are calculated such that the grid spans from `-dx/2 + ox`
+        to `dx/2 + ox` in the X direction and from `-dy/2 + oy` to `dy/2 + oy`
+        in the Y direction, where `dx` and `dy` are the width and height of
+        the rectangle, and `ox` and `oy` are the offsets.
+        """
+
+        cdef double dx, dy, ox, oy
+        cdef int nx, ny
+        cdef list X, Y
+        cdef int i, j
+        cdef double step_x, step_y, x_val, y_val
+
         dx, dy = self.size
         nx, ny = self.samples
         ox, oy = self.offset
-        Xl = linspace(-dx/2.+ox, dx/2.+ox, int(nx))
-        Yl = linspace(-dy/2.+oy, dy/2.+oy, int(ny))
-        X, Y = meshgrid(Xl, Yl)
-        return X.ravel(), Y.ravel()
+
+        # Calculate step sizes
+        step_x = dx / (nx - 1) if nx > 1 else 0
+        step_y = dy / (ny - 1) if ny > 1 else 0
+
+        # Initialize empty lists for X and Y
+        X = []
+        Y = []
+
+        # Create the grid of points
+        for j in range(ny):
+            y_val = (-dy / 2.0) + oy + j * step_y
+            for i in range(nx):
+                x_val = (-dx / 2.0) + ox + i * step_x
+                X.append(x_val)
+                Y.append(y_val)
+
+        return X, Y
 
     cpdef limits(self):
         """
-        Returns the minimum limits for the aperture
+        Return the minimum and maximum limits of the rectangular aperture.
+
+        This method returns the minimum and maximum X and Y coordinates that
+        define the bounding box of the rectangular aperture. These limits are
+        calculated based on the size of the rectangle and its offset from the
+        origin.
+
+        Returns
+        -------
+        tuple of float
+            A tuple `(xmin, xmax, ymin, ymax)` where:
+            - `xmin` is the minimum X-coordinate, calculated as `-dx/2 + ox`.
+            - `xmax` is the maximum X-coordinate, calculated as `dx/2 + ox`.
+            - `ymin` is the minimum Y-coordinate, calculated as `-dy/2 + oy`.
+            - `ymax` is the maximum Y-coordinate, calculated as `dy/2 + oy`.
+
+        Notes
+        -----
+        - `dx` and `dy` represent the width and height of the rectangle,
+        respectively.
+        - `ox` and `oy` represent the X and Y offsets of the rectangle from
+        the origin.
+        - These limits define a rectangular bounding box that fully contains
+        the aperture.
         """
+        cdef float dx, dy, ox, oy
         dx, dy = self.size
         ox, oy = self.offset
         return -dx/2+ox, dx/2+ox, -dy/2+oy, dy/2+oy

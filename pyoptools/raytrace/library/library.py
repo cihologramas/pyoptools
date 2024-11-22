@@ -1,11 +1,12 @@
 from pyoptools.raytrace._comp_lib.optic_factory import optic_factory
 
-import ijson
+import orjson
 import warnings
 import sys
 
 from importlib_resources import files
 from pathlib import Path
+
 
 # This class overrides the module, to provide direct attribute and item access
 class LibraryModule:
@@ -132,22 +133,18 @@ sys.modules[__name__] = LibraryModule()
 class OpticCatalog:
     def __init__(self, catalog_path):
         self.catalog_path = catalog_path
-        self.jf = catalog_path.open(mode="rb")
+        with open(catalog_path, "rb") as f:
+            self.catalog_data = orjson.loads(f.read())
 
     def items(self):
-        gen = ijson.kvitems(self.jf, "", use_float=True)
-        self.jf.seek(0)
-        return gen
+        return self.catalog_data.items()
 
     def descriptor(self, part):
         """Return the dictionary-descriptor for optic with given part number."""
-        results = list(ijson.items(self.jf, part, use_float=True))
-        if results:
-            self.jf.seek(0)
-            return results[0]
-
-        self.jf.seek(0)
-        raise KeyError(f"{part} not in optic catalog {self.catalog_path.name}")
+        try:
+            return self.catalog_data[part]
+        except KeyError:
+            raise KeyError(f"{part} not in optic catalog {self.catalog_path.name}")
 
     def __getitem__(self, part):
         return optic_factory(**self.descriptor(part))
@@ -155,14 +152,11 @@ class OpticCatalog:
     def get(self, part):
         warnings.simplefilter("default")
         warnings.warn(
-            "This method is deprecated, you can use dictionary-style access" "instead",
+            "This method is deprecated, you can use dictionary-style access instead",
             DeprecationWarning,
         )
         return optic_factory(**self.descriptor(part))
 
     def parts(self):
         """Returns a list of all available optical component by part number."""
-        return [k for k, _ in self.items()]
-
-    def __del__(self):
-        self.jf.close()
+        return list(self.catalog_data.keys())
