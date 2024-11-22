@@ -10,7 +10,7 @@ jobs:
       matrix:
         # os: [ubuntu-24.04, windows-2019, macos-11]
         # python-version: ['3.8', '3.9', '3.10', '3.11']
-        os: [ubuntu-24.04]
+        os: [ubuntu-24.04]1]
         python-version: ['3.11']
     steps:
     - uses: actions/checkout@v4
@@ -41,34 +41,22 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip setuptools wheel twine setuptools_scm[toml]
-        pip install Cython==3.0.11 --config-settings="--install-option=--no-cython-compile"
+        python -m pip install --upgrade pip setuptools wheel
+        pip install Cython==3.0.11
         pip install cibuildwheel
 
-
-    # The env variable CIBW_BUILD is set here to be able to format matrix.python-version correctly
-    - name: Set CIBW_BUILD environment variable using Python
-      env:
-        PYTHON_VERSION: ${{ matrix.python-version }}
-      run: python ./.github/scripts/set_cibw_build_env.py
-
     - name: Build wheels
-      run: |
-        ls /usr/include/eigen3
-        ls /usr/include/eigen3/Eigen
-        python -m cibuildwheel --output-dir dist/
       env:
-        # CIBW_BUILD: "cp${{ matrix.python-version }}*"
+        CIBW_BUILD: "cp${{ matrix.python-version }}*"
         CIBW_SKIP: "*_i686 *musllinux* pp* *win32"
+      run: |
+        python -m cibuildwheel --output-dir dist/
 
     - name: Upload Distributions
       uses: actions/upload-artifact@v3
       with:
-        name: dist
-        path: |
-          dist/*.whl
-          dist/*.tar.gz
-          dist/*.zip
+        name: dist-${{ matrix.os }}-${{ matrix.python-version }}
+        path: dist/*
         retention-days: 7
 
   publish:
@@ -77,6 +65,10 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     steps:
       - uses: actions/download-artifact@v4.1.7
+        with:
+          path: dist
+          pattern: dist-*
+          merge-multiple: true
       - name: Publish distribution
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
