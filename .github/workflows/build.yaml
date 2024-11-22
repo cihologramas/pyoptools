@@ -11,6 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.9', '3.10', '3.11', '3.12']
 
     steps:
       - name: Check out code
@@ -19,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: ${{ matrix.python-version }}
 
       - name: Install cibuildwheel
         run: pip install cibuildwheel
@@ -30,20 +31,13 @@ jobs:
         run: |
           if [[ "$RUNNER_OS" == "Linux" ]]; then
             # Commands to run inside the build containers to install Eigen
-            echo "CIBW_BEFORE_ALL_LINUX<<EOF" >> $GITHUB_ENV
-            echo "yum install -y eigen3-devel && export EIGEN3_INCLUDE_DIR=/usr/include/eigen3" >> $GITHUB_ENV
-            echo "EOF" >> $GITHUB_ENV
-
-            echo "CIBW_ENVIRONMENT_LINUX<<EOF" >> $GITHUB_ENV
-            echo "EIGEN3_INCLUDE_DIR=/usr/include/eigen3" >> $GITHUB_ENV
-            echo "EOF" >> $GITHUB_ENV
+            echo "CIBW_BEFORE_ALL_LINUX='yum install -y eigen3-devel && export EIGEN3_INCLUDE_DIR=/usr/include/eigen3'" >> $GITHUB_ENV
+            echo "CIBW_ENVIRONMENT_LINUX='EIGEN3_INCLUDE_DIR=/usr/include/eigen3'" >> $GITHUB_ENV
           elif [[ "$RUNNER_OS" == "macOS" ]]; then
             brew update
             brew install eigen
             EIGEN_DIR=$(brew --prefix eigen)/include/eigen3
             echo "EIGEN3_INCLUDE_DIR=$EIGEN_DIR" >> $GITHUB_ENV
-            # Skip building for Python 3.8, 3.9, and 3.10 on macOS
-            echo "CIBW_SKIP=cp38-macosx_* cp39-macosx_* cp310-macosx_*" >> $GITHUB_ENV
           elif [[ "$RUNNER_OS" == "Windows" ]]; then
             choco install -y 7zip
             curl -L -o eigen.zip https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip
@@ -60,7 +54,7 @@ jobs:
       - name: Upload Wheels as Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: wheelhouse-${{ runner.os }}
+          name: wheelhouse-${{ runner.os }}-py${{ matrix.python-version }}
           path: wheelhouse
 
       # Upload Wheels to PyPI
