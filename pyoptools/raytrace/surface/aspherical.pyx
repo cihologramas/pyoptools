@@ -14,8 +14,6 @@
 '''Module that defines support for Aspherical optical surfaces
 '''
 
-
-from scipy.optimize import fsolve
 from pyoptools.misc.poly_2d.poly_2d cimport Poly2D
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
@@ -23,7 +21,9 @@ from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.misc.cmisc.eigen cimport Vector3d, VectorXd, convert_vectorXd_to_list, \
      assign_nan_to_vector3d
 
-from libc.math cimport sqrt
+from libc.math cimport sqrt, INFINITY
+
+cimport cython
 
 # from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
 
@@ -45,7 +45,7 @@ cdef class Aspherical(Surface):
     cdef public double Ax, Ay, Kx, Ky
     # TODO check the correct type
     cdef public Poly2D poly, DX, DY
-    cdef public double zmax, zmin
+    cdef public double xmin, xmax, ymin, ymax, zmax, zmin
 
     def __init__(self, Ax=0., Ay=0., Kx=0., Ky=0., poly=None, *args, **kwargs):
         Surface.__init__(self, *args, **kwargs)
@@ -89,6 +89,11 @@ cdef class Aspherical(Surface):
 
         cdef double dz = zmax - zmin
 
+        self.xmin = xmin
+        self.xmax = xmax
+        self.ymin = ymin
+        self.ymax = ymax
+
         # Increase a little the bound box just for safety
         self.zmax = zmax+0.01*dz
         self.zmin = zmin-0.01*dz
@@ -102,6 +107,7 @@ cdef class Aspherical(Surface):
         self.addkey("zmax")
         self.addkey("zmin")
 
+    @cython.cdivision(True)
     cdef double topo_cy(self, double x, double y) noexcept nogil:
         cdef double Ax = self.Ax
         cdef double Ay = self.Ay
@@ -171,6 +177,7 @@ cdef class Aspherical(Surface):
         Z = Dz * t + Oz
         return self.topo_cy(X, Y) - Z
 
+    @cython.cdivision(True)
     cdef double __df1(self, double t, Ray ray) noexcept nogil:
         """
         Numerically calculate the derivative of __f1 with respect to t
@@ -181,46 +188,106 @@ cdef class Aspherical(Surface):
         cdef double f_minus = self.__f1(t - h, ray)
         return (f_plus - f_minus) / (2 * h)
 
+    @cython.cdivision(True)
+    cdef bint find_t_range(self, Ray incident_ray, double& t_min_out, double& t_max_out) noexcept nogil:
+        cdef double t_min = 0
+        cdef double t_max = INFINITY
+        cdef double Ox = incident_ray._origin(0)
+        cdef double Oy = incident_ray._origin(1)
+        cdef double Oz = incident_ray._origin(2)
+        cdef double Dx = incident_ray._direction(0)
+        cdef double Dy = incident_ray._direction(1)
+        cdef double Dz = incident_ray._direction(2)
+        cdef double t1, t2
+
+        # For X dimension
+        if Dx != 0:
+            t1 = (self.xmin - Ox) / Dx
+            t2 = (self.xmax - Ox) / Dx
+            if t1 > t2:
+                t1, t2 = t2, t1
+            t_min = max(t_min, t1)
+            t_max = min(t_max, t2)
+        elif Ox < self.xmin or Ox > self.xmax:
+            return False
+
+        # For Y dimension
+        if Dy != 0:
+            t1 = (self.ymin - Oy) / Dy
+            t2 = (self.ymax - Oy) / Dy
+            if t1 > t2:
+                t1, t2 = t2, t1
+            t_min = max(t_min, t1)
+            t_max = min(t_max, t2)
+        elif Oy < self.ymin or Oy > self.ymax:
+            return False
+
+        # For Z dimension
+        if Dz != 0:
+            t1 = (self.zmin - Oz) / Dz
+            t2 = (self.zmax - Oz) / Dz
+            if t1 > t2:
+                t1, t2 = t2, t1
+            t_min = max(t_min, t1)
+            t_max = min(t_max, t2)
+        elif Oz < self.zmin or Oz > self.zmax:
+            return False
+
+        # Check if we have a valid range
+        if t_max <= t_min:
+            return False
+
+
+        t_min_out = t_min
+        t_max_out = t_max
+        return True
+
+
     cdef void _calculate_intersection(self,
                                       Ray incident_ray,
                                       Vector3d& intersection_point) noexcept nogil:
-        """
-        Calculate the point of intersection between a ray and the asphere.
+        cdef double t = 0.0
+        cdef double t_new = 0.0
+        cdef double Z, f, df
+        cdef int max_iterations = 100
+        cdef double epsilon = 1e-6
+        cdef Vector3d origin = incident_ray._origin
+        cdef Vector3d direction = incident_ray._direction
+        
+        cdef double fval_0
+        cdef double fval_1 = self.__f1(t, incident_ray)
 
-        This method returns the point of intersection between the surface
-        and the ray. The intersection point is calculated in the coordinate
-        system of the surface using an iterative process.
+        while t<200:
+            t=t+0.5
+            fval_0 = self.__f1(t, incident_ray)
 
-        Parameters
-        ----------
-        incident_ray : Ray
-            The incident ray in the coordinate system of the surface.
+            if fval_0*fval_1<0:
+                break
+            fval_1 = fval_0
 
-        Returns
-        -------
-        Vector3d
-            The point of intersection between the ray and the asphere.
+        
+        cdef double ta = t-0.5
+        cdef double tb = t+0.5
+        cdef double fa = self.__f1(ta, incident_ray)
+        cdef double fb = self.__f1(tb, incident_ray)
 
-        Notes
-        -----
-        The incident ray must be in the coordinate system of the surface.
-        """
-        cdef double t, Z
-        with gil:
-            t0 = 0
-            t_sol, _info, ier, _mesg = fsolve(self.__f1, t0, (incident_ray) ,
-                                              full_output=True)
-
-            if ier == 1:
-                t = t_sol[0]
-                Z=incident_ray._origin(2)+t*incident_ray._direction(2)
-
-                if self.zmax > Z > self.zmin:
-                    intersection_point = incident_ray._origin+incident_ray._direction*t
-                else:
-                    assign_nan_to_vector3d(intersection_point)
+        for i in range(max_iterations):
+            t = ta - fa*(tb-ta)/(fb-fa)
+            f = self.__f1(t, incident_ray)
+            if abs(f) < epsilon:
+                break
+            if fa*f<0:
+                tb = t
+                fb = f
             else:
-                assign_nan_to_vector3d(intersection_point)
+                ta = t
+                fa = f
+
+        if i == max_iterations - 1:
+            assign_nan_to_vector3d(intersection_point)
+        else:
+            intersection_point = origin + direction * t
+
 
     def _repr_(self):
         '''Return an string with the representation of an aspherical surface.
