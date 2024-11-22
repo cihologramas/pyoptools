@@ -58,8 +58,7 @@ jobs:
           CIBW_BUILD: cp38-* cp39-* cp310-* cp311-*
           CIBW_BEFORE_BUILD: pip install cython
           CIBW_ENVIRONMENT: EIGEN3_INCLUDE_DIR=$EIGEN3_INCLUDE_DIR
-        run: python -m cibuildwheel --output-dir wheelhouse --verbose
-
+        run: python -m cibuildwheel --output-dir wheelhouse
       #- name: Upload Wheels to PyPI
       #  uses: pypa/gh-action-pypi-publish@release/v1
       #  with:
