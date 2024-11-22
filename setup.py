@@ -1,28 +1,15 @@
 #!/usr/bin/env python
 import sys
+import os
 import subprocess
 import platform
 from setuptools import setup, Command
 from Cython.Build import cythonize
 from Cython.Build.Dependencies import default_create_extension
 
-def get_eigen_include():
-    system = platform.system()
 
-    if system == "Linux":
-        return "/usr/include/eigen3"  # Example path for Ubuntu 24.04
 
-    elif system == "Windows":
-        return "C:\\path\\to\\eigen"  # Example path for Windows 2019
-
-    elif system == "Darwin":
-        # Check macOS version here if needed
-        return "/usr/local/include/eigen3"  # Example path for macOS 11
-    
-    else:
-        raise ValueError("Unsupported operating system")
-
-eigen_include_path = get_eigen_include()
+eigen_include_path = os.environ.get('EIGEN3_INCLUDE_DIR', '/usr/include/eigen3')
 
 
 def create_extension(template, kwds: dict):
