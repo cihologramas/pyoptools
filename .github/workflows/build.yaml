@@ -2,7 +2,7 @@ name: Build and Publish Wheel
 
 on:
   push:
-    # tags: 'v*.*.*'
+    #tags: 'v*.*.*'
 
 jobs:
   build_wheels:
@@ -25,20 +25,21 @@ jobs:
       - name: Install cibuildwheel
         run: pip install cibuildwheel
 
-      # Set up Build Dependencies and Environment Variables
-      - name: Set up Build Dependencies and Environment Variables
+      - name: Set up Build Environment Variables
         shell: bash
         run: |
           if [[ "$RUNNER_OS" == "Linux" ]]; then
-            # Commands to run inside the build containers to install Eigen
-            echo "CIBW_BEFORE_ALL_LINUX='yum install -y eigen3-devel && export EIGEN3_INCLUDE_DIR=/usr/include/eigen3'" >> $GITHUB_ENV
-            echo "CIBW_ENVIRONMENT_LINUX='EIGEN3_INCLUDE_DIR=/usr/include/eigen3'" >> $GITHUB_ENV
+            # Install Eigen inside the Linux build container
+            echo "CIBW_BEFORE_ALL_LINUX=yum install -y eigen3-devel && export EIGEN3_INCLUDE_DIR=/usr/include/eigen3" >> $GITHUB_ENV
+            echo "CIBW_ENVIRONMENT_LINUX=EIGEN3_INCLUDE_DIR=/usr/include/eigen3" >> $GITHUB_ENV
           elif [[ "$RUNNER_OS" == "macOS" ]]; then
+            # Install Eigen using Homebrew
             brew update
             brew install eigen
             EIGEN_DIR=$(brew --prefix eigen)/include/eigen3
             echo "EIGEN3_INCLUDE_DIR=$EIGEN_DIR" >> $GITHUB_ENV
           elif [[ "$RUNNER_OS" == "Windows" ]]; then
+            # Install Eigen for Windows
             choco install -y 7zip
             curl -L -o eigen.zip https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip
             "C:\Program Files\7-Zip\7z.exe" x eigen.zip -oeigen
@@ -46,18 +47,15 @@ jobs:
             echo "EIGEN3_INCLUDE_DIR=$EIGEN_DIR" >> $GITHUB_ENV
           fi
 
-      # Build Wheels using cibuildwheel
       - name: Build Wheels
         run: cibuildwheel --output-dir wheelhouse
 
-      # Upload Wheels as Artifacts
       - name: Upload Wheels as Artifact
         uses: actions/upload-artifact@v3
         with:
           name: wheelhouse-${{ runner.os }}-py${{ matrix.python-version }}
           path: wheelhouse
 
-      # Upload Wheels to PyPI
       - name: Upload Wheels to PyPI
         if: startsWith(github.ref, 'refs/tags/v')
         uses: pypa/gh-action-pypi-publish@release/v1
