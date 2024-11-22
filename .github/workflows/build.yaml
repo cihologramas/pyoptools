@@ -6,11 +6,12 @@ on:
 
 jobs:
   build_wheel:
-    runs-on: ubuntu-24.04
+    runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
 
     steps:
@@ -21,32 +22,61 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+          architecture: 'x64'
 
-      - name: Install Build Dependencies
+      # Install Build Dependencies on Ubuntu
+      - name: Install Build Dependencies on Ubuntu
+        if: runner.os == 'Linux'
         run: |
-          sudo add-apt-repository ppa:deadsnakes/ppa
+          sudo add-apt-repository ppa:deadsnakes/ppa -y
           sudo apt-get update
           sudo apt-get install -y python${{ matrix.python-version }}-dev libeigen3-dev
-          pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade pip setuptools wheel build cython
+          echo "EIGEN3_INCLUDE_DIR=/usr/include/eigen3" >> $GITHUB_ENV
 
-      - name: Install Python Tools
+      # Install Build Dependencies on macOS
+      - name: Install Build Dependencies on macOS
+        if: runner.os == 'macOS'
         run: |
-          python -m pip install --upgrade pip setuptools wheel
-          python -m pip install build cython
+          brew update
+          brew install eigen
+          python -m pip install --upgrade pip setuptools wheel build cython
+          EIGEN_PATH=$(brew --prefix eigen)/include/eigen3
+          echo "EIGEN3_INCLUDE_DIR=$EIGEN_PATH" >> $GITHUB_ENV
+
+      # Install Build Dependencies on Windows
+      - name: Install Build Dependencies on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          # Install 7zip for extraction
+          choco install -y 7zip
+          # Download Eigen
+          Invoke-WebRequest -Uri 'https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip' -OutFile 'eigen.zip'
+          # Extract Eigen
+          & 'C:\Program Files\7-Zip\7z.exe' x eigen.zip -o"eigen"
+          # Set EIGEN3_INCLUDE_DIR environment variable
+          $eigen_include_dir = "${{ github.workspace }}\eigen\eigen-3.4.0"
+          echo "EIGEN3_INCLUDE_DIR=$eigen_include_dir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          # Upgrade pip and install build tools
+          python -m pip install --upgrade pip setuptools wheel build cython
 
       - name: Build Wheel
         env:
-          EIGEN3_INCLUDE_DIR: /usr/include/eigen3
+          EIGEN3_INCLUDE_DIR: ${{ env.EIGEN3_INCLUDE_DIR }}
         run: |
           python -m build --wheel
+
       - name: Upload Wheel as Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: dist
+          name: dist-${{ matrix.os }}-py${{ matrix.python-version }}
           path: dist
 
+      # Uncomment the following lines to upload to PyPI
       # - name: Upload Wheel to PyPI
-      #  uses: pypa/gh-action-pypi-publish@release/v1
-      #  with:
-      #    password: ${{ secrets.PYPI_API_TOKEN }}
-      #    packages_dir: dist
+      #   if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   with:
+      #     password: ${{ secrets.PYPI_API_TOKEN }}
+      #     packages_dir: dist
