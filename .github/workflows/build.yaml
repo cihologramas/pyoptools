@@ -73,6 +73,9 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     steps:
       - uses: actions/download-artifact@v4
+        with:
+          name: dist  # This should match the name used in the upload step
+          path: dist  # This ensures the artifacts are placed in the 'dist/' directory
       - name: Publish distribution
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
