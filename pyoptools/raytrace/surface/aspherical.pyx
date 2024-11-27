@@ -27,43 +27,63 @@ cimport cython
 
 cdef class Aspherical(Surface):
     """
-    Class that defines a high order aspherical surface.
+    Class representing a high-order aspherical optical surface.
 
     An aspherical surface is defined by the equation:
 
     Z = (Ax*x**2 + Ay*y**2) /
         (1 + sqrt(1 - (1+Kx)*Ax**2*x**2 - (1+Ky)*Ay**2*y**2))
-        + Poly2D()
+        + Poly2D(x, y)
 
-    The Poly2D is defined by an array in the same way as it is defined in the
-    TaylorPoly Class.
-
+    The aspherical surface combines a base aspheric shape with an additional
+    polynomial deformation term defined by Poly2D.
     Parameters
     ----------
     shape : Shape object
         The shape of the aspherical surface.
-    Ax : float
-        The x-axis curvature coefficient.
-    Ay : float
-        The y-axis curvature coefficient.
-    Kx : float
-        The x-axis conic constant.
-    Ky : float
-        The y-axis conic constant.
-    poly : array_like
-        Coefficients for the Poly2D term.
+    Ax : float, optional
+        X-axis curvature coefficient. Default is 0.
+    Ay : float, optional
+        Y-axis curvature coefficient. Default is 0.
+    Kx : float, optional
+        X-axis conic constant. Default is 0.
+    Ky : float, optional
+        Y-axis conic constant. Default is 0.
+    poly : Poly2D, optional
+        Polynomial surface deformation term. If None, a zero-order polynomial
+        is used (no deformation).
+    *args, **kwargs
+        Additional arguments passed to the parent Surface class.
 
+    Attributes
+    ----------
+    xmin, xmax : float
+        Bounds of the surface in the x direction.
+    ymin, ymax : float
+        Bounds of the surface in the y direction.
+    zmin, zmax : float
+        Bounds of the surface in the z direction.
+    DX, DY : Poly2D
+        Partial derivatives of the polynomial deformation term.
     Examples
     --------
     >>> from pyoptools.raytrace.surface import Aspherical
     >>> from pyoptools.raytrace.shape import Rectangle
-    >>> cs = Aspherical(shape=Rectangle(size=(5,5)), Ax=0.5, Ay=0.3, Kx=0.1, Ky=0.1,
-    ...                 poly=Poly2D((0,1,1)))
+    >>> from pyoptools.misc.poly_2d import Poly2D
+    >>> surface = Aspherical(
+    ...     shape=Rectangle(size=(5,5)),
+    ...     Ax=0.5,
+    ...     Ay=0.3,
+    ...     Kx=0.1,
+    ...     Ky=0.1,
+    ...     poly=Poly2D((0,1,1))
+    ... )
 
     Notes
     -----
-    The Poly2D term allows for additional surface deformation beyond the basic
-    aspherical equation.
+    The surface shape is determined by the combination of the base aspherical
+    equation and the polynomial deformation term. The polynomial term allows
+    for modeling complex surface irregularities or corrections.
     """
 
     cdef public double Ax, Ay, Kx, Ky
@@ -210,35 +230,22 @@ cdef class Aspherical(Surface):
 
         x = intersection_point(0)
         y = intersection_point(1)
-        # x, y, _z = intersection_point(0)
 
         dxA = (2*Ax*x)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1) + \
-            (Ax**2*(Kx+1)*x*(Ay*y**2+Ax*x**2)) / \
-            (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
-                (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
+              (Ax**2*(Kx+1)*x*(Ay*y**2+Ax*x**2)) / \
+              (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
+               (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
 
         dyA = (2*Ay*y)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)- \
-            (Ay**2*(-Ky-1)*y*(Ay*y**2+Ax*x**2)) / \
-            (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
-                (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
-
-        with gil:
-            print("**")
-            print( x,y,normal(0),normal(1),normal(2))
-            print( dxA, dyA)
-            a=x/0
+              (Ay**2*(-Ky-1)*y*(Ay*y**2+Ax*x**2)) / \
+              (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
+               (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
 
         dxP = self.DX.eval_cy(x, y)
         dyP = self.DY.eval_cy(x, y)
 
         normal = Vector3d(dxA+dxP, dyA+dyP, -1)
         normal.normalize()
-
-        
-        with gil:
-            print( x,y,normal(0),normal(1),normal(2))
-            print( dxA, dyA)
-            a=x/0
 
     cdef double __f1(self, double t, Ray iray) noexcept nogil:
         """
@@ -397,13 +404,15 @@ cdef class Aspherical(Surface):
         cdef Vector3d direction = incident_ray._direction
 
         cdef double fval_0
-        cdef double fval_1 = self.__f1(t, incident_ray)
+        cdef double fval_1
 
         cdef double t_min, t_max
         if not self.find_t_range(incident_ray, t_min, t_max):
             assign_nan_to_vector3d(intersection_point)
             return
+
         t=t_min
+        fval_1 = self.__f1(t, incident_ray)
         while t<t_max:
             t=t+0.5
             fval_0 = self.__f1(t, incident_ray)
