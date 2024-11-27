@@ -31,7 +31,7 @@ class RoundMirror(Component):
         radius=50.0,
         thickness=10,
         reflectivity=0.5,
-        filter_spec=("no_filter",),
+        filter_spec=("nofilter",),
         *args,
         **kwargs,
     ):
@@ -70,7 +70,7 @@ class RectMirror(Component):
         self,
         size=(50.0, 50.0, 10.0),
         reflectivity=0.5,
-        filter_spec=("no_filter",),
+        filter_spec=("nofilter",),
         *args,
         **kwargs,
     ):

@@ -25,8 +25,6 @@ from libc.math cimport sqrt, INFINITY
 
 cimport cython
 
-# from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
-
 cdef class Aspherical(Surface):
     """
     Class that defines a high order aspherical surface.
@@ -215,20 +213,32 @@ cdef class Aspherical(Surface):
         # x, y, _z = intersection_point(0)
 
         dxA = (2*Ax*x)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1) + \
-              (Ax**2*(Kx+1)*x*(Ay*y**2+Ax*x**2)) / \
-              (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
-                   (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
+            (Ax**2*(Kx+1)*x*(Ay*y**2+Ax*x**2)) / \
+            (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
+                (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
 
         dyA = (2*Ay*y)/(sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)- \
-              (Ay**2*(-Ky-1)*y*(Ay*y**2+Ax*x**2)) / \
-              (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
-                   (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
+            (Ay**2*(-Ky-1)*y*(Ay*y**2+Ax*x**2)) / \
+            (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1) *
+                (sqrt(Ay**2*(-Ky-1)*y**2-Ax**2*(Kx+1)*x**2+1)+1)**2)
+
+        with gil:
+            print("**")
+            print( x,y,normal(0),normal(1),normal(2))
+            print( dxA, dyA)
+            a=x/0
 
         dxP = self.DX.eval_cy(x, y)
         dyP = self.DY.eval_cy(x, y)
 
         normal = Vector3d(dxA+dxP, dyA+dyP, -1)
         normal.normalize()
+
+        
+        with gil:
+            print( x,y,normal(0),normal(1),normal(2))
+            print( dxA, dyA)
+            a=x/0
 
     cdef double __f1(self, double t, Ray iray) noexcept nogil:
         """

@@ -75,7 +75,7 @@ cdef class Surface(Picklable):
     def __init__(self,
                  reflectivity=0.,
                  shape=None,
-                 filter_spec=("nofilter",)):
+                 filter_spec=None):
         self.reflectivity = reflectivity
         self.shape = shape if shape is not None else Circular(radius=10.)
         self._hit_list = []
@@ -84,6 +84,10 @@ cdef class Surface(Picklable):
         # and when the system is created
 
         self.id = []
+
+
+        if filter_spec is None:
+            filter_spec = ("nofilter",)
 
         if not isinstance(filter_spec, tuple) or len(filter_spec) < 1:
             raise ValueError("filter_spec must be a non-empty tuple")
@@ -94,13 +98,13 @@ cdef class Surface(Picklable):
                 <ReflectivityFunctionPtr>self.constant_reflectivity
         elif filter_type == "shortpass":
             if len(filter_spec) != 2:
-                raise ValueError("Shortpass filter requires a cutoff parameter")
+                raise ValueError("Short-pass filter requires a cutoff parameter")
             self.cutoff = filter_spec[1]
             self.reflectivity_function = \
                 <ReflectivityFunctionPtr>self.shortpass_reflectivity
         elif filter_type == "longpass":
             if len(filter_spec) != 2:
-                raise ValueError("Longpass filter requires a cutoff parameter")
+                raise ValueError("Long-pass filter requires a cutoff parameter")
             self.cutoff = filter_spec[1]
             self.reflectivity_function = \
                 <ReflectivityFunctionPtr>self.longpass_reflectivity
