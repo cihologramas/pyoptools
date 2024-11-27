@@ -58,7 +58,7 @@ class PowellLens(Component):
             Ay=self.R,
             Kx=-1,
             Ky=self.K,
-            poly=poly2d((0, 0)),
+            poly=Poly2D((0, 0)),
         )
 
         self.surflist["S1"] = (__a_surf, (0, 0, 0), (0, 0, 0))
