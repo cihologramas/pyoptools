@@ -143,7 +143,6 @@ class BeamSplitingCube(BeamSplittingCube):
     .. warning:: Will be removed in the future"""
 
     def __init__(self, *argv, **kwargs):
-        warnings.simplefilter("default")
 
         warnings.warn(
             "This class will be deprecated (the spelling is not "

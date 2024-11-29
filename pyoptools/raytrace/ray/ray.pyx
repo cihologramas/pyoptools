@@ -20,7 +20,6 @@ cdef extern from "math.h":
     double sqrt(double)
 
 import warnings
-warnings.simplefilter("always")
 
 
 from pyoptools.misc.cmisc.eigen cimport Vector3d, Matrix3d, convert_vector3d_to_tuple, \
