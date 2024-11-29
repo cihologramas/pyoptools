@@ -30,6 +30,10 @@
 #   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Enable warnings in Jupyter
+import warnings
+warnings.filterwarnings('always', category=DeprecationWarning)
+
 """
 Package containing modules and submodules defining an *API* for optical
 raytracing and wave propagation calculations.

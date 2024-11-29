@@ -86,7 +86,6 @@ class LibraryModule:
         """Deprecated method. Simply use dictionary style access to get
         an optic given the part number.
         """
-        warnings.simplefilter("default")
         warnings.warn(
             "This method is deprecated, you can use dictionary-style access " "instead",
             DeprecationWarning,
@@ -150,7 +149,6 @@ class OpticCatalog:
         return optic_factory(**self.descriptor(part))
 
     def get(self, part):
-        warnings.simplefilter("default")
         warnings.warn(
             "This method is deprecated, you can use dictionary-style access instead",
             DeprecationWarning,
