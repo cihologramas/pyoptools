@@ -14,60 +14,88 @@
 
 '''Module that defines a reflective plane phase mask surface class
 '''
-from numpy import array, inf, float64
 from pyoptools.raytrace.ray.ray cimport Ray
-from pyoptools.raytrace.surface.surface cimport Surface
+from pyoptools.raytrace.surface.plane cimport Plane
 from pyoptools.misc.poly_2d.poly_2d cimport Poly2D
-from pyoptools.misc.definitions import inf_vect
+from pyoptools.misc.cmisc.eigen cimport Vector3d, Vector2d
 import cython
-cdef extern from "math.h":
-    double sqrt(double)
-    double copysign(double, double)
-    double M_PI
 
+from libc.math cimport sqrt, copysign, M_PI, INFINITY
 
-cdef class RPPMask(Surface):
-    '''Class to define a reflective plane phase mask.
+cdef class RPPMask(Plane):
+    """Reflective plane phase mask surface.
 
-    Description:
+    A class to define diffractive plane surfaces that can be either reflective,
+    transmissive, or both. The surface's behavior is controlled by its reflectivity:
+    1 for purely reflective, 0 for purely transmissive, or a value between 0 and 1
+    for both behaviors.
 
-    RPPMask  is a class to define diffractive plane surfaces.
-    If reflectivity is 1 the gratting is reflective, if it is 0 the
-    gratting is transmissive. If it is between 0 and 1, both transmitted
-    and reflected diffracted rays are shown.
+    Parameters
+    ----------
+    phm : Poly2D, optional
+        Polynomial describing the phase modulation of the grating.
+        The X and Y input values of the polynomial are in microns.
+        Default is a zero polynomial.
+    M : list, optional
+        List of diffraction orders to consider.
+        Default is [1].
+    *args, **kwargs
+        Additional arguments passed to the parent Plane class.
 
-    The surface shape is given by the shape attribute
+    Attributes
+    ----------
+    phm : Poly2D
+        Phase modulation polynomial
+    phx : Poly2D
+        X derivative of the phase modulation polynomial
+    phy : Poly2D
+        Y derivative of the phase modulation polynomial
+    M : list
+        Diffraction orders
 
-    The phm attribute is a Poly2D instance, that contains the polinomial
-    describing the phase modulation of the gratting. The X and Y input
-    values of the polynomial are in microns.
+    Notes
+    -----
+    The surface shape is given by the shape attribute inherited from the
+    parent class.
 
-    Example:
+    Examples
+    --------
+    Create a 10mm x 10mm linear grating with a fringe every 15 microns:
 
-        >>> g=RPPMask(shape=Rectangular(size=(10,10)), phm=Poly2D([0,2*pi/15.,0]),M=[1])
+    >>> g = RPPMask(shape=Rectangular(size=(10,10)),
+    ...             phm=Poly2D([0,2*pi/15.,0]),
+    ...             M=[1])
+    """
 
-    This is a 10 mm x 10 mm linear gratting that has a fringe each 15 microns
-    '''
-
-    # cdef np.ndarray k
     cdef public Poly2D phx
     cdef public Poly2D phy
     cdef public Poly2D phm
     cdef public list M
-    # def __init__(self,k=(0,2*pi/1e-3),M=[1],**traits):
 
     def __init__(self, Poly2D phm=None, M=None, *args, **kwargs):
+        """Initialize the RPPMask.
+
+        Parameters
+        ----------
+        phm : Poly2D, optional
+            Phase modulation polynomial
+        M : list, optional
+            Diffraction orders
+        *args, **kwargs
+            Arguments passed to parent class
         """
-        phm represent the phase variations across the surface
-        """
-        Surface.__init__(self, *args, **kwargs)
+        super().__init__(*args, **kwargs)
+
         if phm is None:
             self.phm = Poly2D((0, 0, 0, 0, 0, 0))
         else:
             self.phm = phm
+
         dxdy = self.phm.dxdy()
+
         self.phx = <Poly2D > dxdy[0]
         self.phy = <Poly2D > dxdy[1]
+
         if M is None:
             self.M =[1]
         else:
@@ -85,91 +113,127 @@ cdef class RPPMask(Surface):
         # ~ return(type(self),args,self.__getstate__())
         # ~
 
-    cdef inline double topo_cy(self, double x, double y) noexcept nogil:
-        return 0
+    @cython.cdivision(True)
+    cpdef list propagate(self, Ray incident_ray, double ni, double nr):
+        """Calculate the propagation of a ray through a diffraction grating.
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    cpdef _intersection(self, Ray A):
-        """Returns the intersection point between a ray and an the XY plane
+        This method implements the physical behavior of light when it encounters
+        a reflective plane phase mask, considering both transmitted and reflected
+        diffracted rays based on the surface's reflectivity.
+        Parameters
+        ----------
+        incident_ray : Ray
+            The incoming ray to be propagated
+        ni : float
+            Index of refraction of the incident medium
+        nr : float
+            Index of refraction of the refractive medium
 
-        """
-        # N_=array([0.,0.,1.])
+        Returns
+        -------
+        list
+            List of Ray objects representing the propagated rays (transmitted
+            and/or reflected) after interaction with the grating
 
-        # Punto que pertenece al rayo "Origen" del rayo
-        # cdef np.ndarray[np.float64_t, ndim=1]
-        P1 = A.origin
-        # Vector paralelo a la linea
-        # cdef np.ndarray[np.float64_t, ndim=1]
-        L1 = A.direction
-
-        # if dot(N_,L1) ==0 : return inf_vect
-        if L1[2] == 0:
-            return inf_vect
-
-        # print N_,P1,L1
-        # print dot(N_,-P1),dot(N_,L1)
-        # u=dot(N_,-P1)/dot(N_,L1)
-        cdef double u = -P1[2]/L1[2]
-        # Si u es muy grande, no hay intersección
-
-        retval = P1+u*L1
-
-        return retval
-
-    cpdef normal(self, ri):
-        """Method that returns the normal to the surface
-        """
-        N_ = array((0., 0., 1.)).astype(float64)
-        return (N_)
-
-    cpdef list propagate(self, Ray ri, double ni, double nr):
-        """Method that calculates the propagation of a ray through a diffraction
-        gratting.
-
-        This method uses all the units in millimeters
+        Notes
+        -----
+        - All units are in millimeters
+        - The intensity of the output rays is divided equally among the diffraction
+          orders
+        - Physically impossible rays (where oz2 < 0) are handled by returning the
+          incident ray direction with zero intensity
         """
         cdef double l, rx, ry, rz, k, d, kx, ky, ox, oy, oz, oz2, M
-        PI, _P = self.int_nor(ri)
-        # Express wavelength in millimeters so all the method works in millimeters
-        l = ri.wavelength*1e-3
-        rx, ry, rz = ri.direction
-        K = array((self.phx.peval(PI[0], PI[1]), self.phy.peval(PI[0], PI[1])))
-        k = sqrt(K[0]**2+K[1]**2)
+        cdef Vector3d intersection_point, normal_vector, result_dir
+
+        # Calculate intersection point and normal vector
+        self.intersection_cy(incident_ray, intersection_point)
+        self.normal_cy(intersection_point, normal_vector)
+
+        # Convert wavelength to millimeters
+        l = incident_ray.wavelength * 1e-3
+
+        # Get incident ray direction components
+        rx, ry, rz = incident_ray.direction
+
+        # Calculate phase gradient
+        cdef Vector2d K = Vector2d(
+            self.phx.eval_cy(intersection_point(0), intersection_point(1)),
+            self.phy.eval_cy(intersection_point(0), intersection_point(1))
+        )
+
+        # Calculate grating parameters
+        k = K.norm()
         if k != 0:
-            d = 2.*M_PI/k
-            kx, ky = K/k
+            d = 2. * M_PI / k
+            kx = K(0) / k
+            ky = K(1) / k
         else:
-            kx = 0
-            ky = 0
-            d = inf
+            kx = ky = 0
+            d = INFINITY
 
         ret = []
+        ray_intensity = incident_ray.intensity / len(self.M)
 
+        # Process each diffraction order
         for M in self.M:
-            ox = rx+M*l/d * kx
-            oy = ry+M*l/d * ky
-            oz2 = rz**2 - 2*M*l/d*(rx*kx+ry*ky)-(M*l/d)**2
+            ox = rx + M * l/d * kx
+            oy = ry + M * l/d * ky
+            oz2 = rz**2 - 2 * M * l/d * (rx*kx + ry*ky) - (M * l/d)**2
 
             if oz2 < 0:
-                print("warning: eliminating physically impossible ray")
-                ret.append(Ray(origin=PI, direction=ri.direction,
-                               intensity=0,
-                               wavelength=ri.wavelength, n=ni, label=ri.label,
-                               orig_surf=self.id))
+                print("Warning: eliminating physically impossible ray")
+                ret.append(Ray.fast_init(
+                    intersection_point,
+                    incident_ray._direction,
+                    0,  # Zero intensity for impossible rays
+                    incident_ray.wavelength,
+                    ni,
+                    incident_ray.label,
+                    incident_ray.draw_color,
+                    None,
+                    0,
+                    self.id,
+                    0,
+                    incident_ray._parent_cnt + 1
+                ))
             else:
                 oz = copysign(sqrt(oz2), rz)
-                # Check for transmitted or and reflected orders. Here intensities
-                # have no meaning
+
+                # Handle transmitted rays
                 if self.reflectivity != 1:
-                    ret.append(Ray(origin=PI, direction=(ox, oy, oz),
-                                   intensity=ri.intensity/len(self.M),
-                                   wavelength=ri.wavelength, n=ni, label=ri.label,
-                                   orig_surf=self.id))
+                    result_dir = Vector3d(ox, oy, oz)
+                    ret.append(Ray.fast_init(
+                        intersection_point,
+                        result_dir,
+                        ray_intensity,
+                        incident_ray.wavelength,
+                        ni,
+                        incident_ray.label,
+                        incident_ray.draw_color,
+                        None,
+                        0,
+                        self.id,
+                        0,
+                        incident_ray._parent_cnt + 1
+                    ))
+
+                # Handle reflected rays
                 if self.reflectivity != 0:
-                    ret.append(Ray(origin=PI, direction=(ox, oy, -oz),
-                                   intensity=ri.intensity/len(self.M),
-                                   wavelength=ri.wavelength, n=ni,
-                                   label=ri.label, orig_surf=self.id))
+                    result_dir = Vector3d(ox, oy, -oz)
+                    ret.append(Ray.fast_init(
+                        intersection_point,
+                        result_dir,
+                        ray_intensity,
+                        incident_ray.wavelength,
+                        ni,
+                        incident_ray.label,
+                        incident_ray.draw_color,
+                        None,
+                        0,
+                        self.id,
+                        0,
+                        incident_ray._parent_cnt + 1
+                    ))
 
         return ret

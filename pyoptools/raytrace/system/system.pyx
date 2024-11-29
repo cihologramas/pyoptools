@@ -25,7 +25,7 @@ from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.component.component cimport Component
 
-from libc.math cimport isinf, INFINITY
+from libc.math cimport isinf, INFINITY, isnan
 
 cdef class System(Picklable):
     """
@@ -384,7 +384,7 @@ cdef class System(Picklable):
         cdef int j, j1
         cdef double d0, d1
 
-        if ri.n is None:
+        if isnan(ri.n):
             ri.n=self.n
 
         cdef list dist_list=[]
@@ -602,7 +602,7 @@ cdef class System(Picklable):
                 "Propagated rays, and guide ray wavelength must match"
             # self.propagate_ray(ri)
             # ~ # Check if the ray comes from the media
-            if ri.n is None:
+            if isnan(ri.n):
                 ri.n=self.n
 
             self._p_rays.append(ri)
