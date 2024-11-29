@@ -110,17 +110,34 @@ def polyfit2d(x, y, z, int order=2):
     cdef int[:, :] potx_mv = potx
     cdef int[:, :] poty_mv = poty
 
-    potx_mv[:, :] = array(px, dtype="int32")[:]
-    poty_mv[:, :] = array(py, dtype="int32")[:]
+    # This was replaced by the loop
+    # potx_mv[:, :] = array(px, dtype="int32")[:]
+    # poty_mv[:, :] = array(py, dtype="int32")[:]
+
+    for i in range(nc):
+        for j in range(nc):
+            potx_mv[i, j] = px[j]
+            poty_mv[i, j] = py[j]
+
+    # Create temporary matrices for the transpose operation
+    cdef int[:, :] potx_t = empty((nc, nc), dtype="int32")
+    cdef int[:, :] poty_t = empty((nc, nc), dtype="int32")
+
+    # Create transpose matrices
+    for i in range(nc):
+        for j in range(nc):
+            potx_t[i, j] = px[i]  # This creates the transpose effect
+            poty_t[i, j] = py[i]  # This creates the transpose effect
 
     # The loop replace this as it is not allowed in cython memory views
     # potx_mv[:, :] += potx_mv.T
     # poty_mv[:, :] += poty_mv.T
 
+    # Add the original and transpose matrices
     for ir in range(nc):
         for ic in range(nc):
-            potx_mv[ir, ic] = potx_mv[ir, ic] + potx_mv[ic, ir]
-            poty_mv[ir, ic] = poty_mv[ir, ic] + poty_mv[ic, ir]
+            potx_mv[ir, ic] = potx_mv[ir, ic] + potx_t[ir, ic]
+            poty_mv[ir, ic] = poty_mv[ir, ic] + poty_t[ir, ic]
 
     # Create Vandermonde matrix
     mat = empty((nc, nc), dtype="double")
@@ -153,7 +170,7 @@ def polyfit2d(x, y, z, int order=2):
     ret_poly = Poly2D(cohef_mv[:, 0])
 
     # Calculate error
-    e = sqrt(power(za_mv - ret_poly.eval(xa_mv, ya_mv), 2).mean())
+    e = sqrt(power(za_mv - ret_poly.eval_1d(xa_mv, ya_mv), 2).mean())
 
     return ret_poly, e
 

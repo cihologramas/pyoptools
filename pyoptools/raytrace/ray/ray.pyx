@@ -20,6 +20,8 @@ cdef extern from "math.h":
     double sqrt(double)
 
 import warnings
+warnings.simplefilter("always")
+
 
 from pyoptools.misc.cmisc.eigen cimport Vector3d, Matrix3d, convert_vector3d_to_tuple, \
     assign_to_vector3d, compute_rotation_matrix, compute_rotation_matrix_i, is_approx, \
@@ -101,9 +103,6 @@ cdef class Ray:
 
         self.intensity=intensity
         self.wavelength=wavelength
-
-        # TODO: Check in all pyoptools where Ray.n is checked against None.
-        # It should be NaN
 
         if n is None:
             warnings.warn(

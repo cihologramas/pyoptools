@@ -393,9 +393,25 @@ cdef class Poly2D:
         z_array = np.zeros((n_rows, n_cols), dtype=np.float64)
 
         cdef double[:, ::1] z = z_array
+
+        cdef int i, j
+
         for i in range(n_rows):
             for j in range(n_cols):
                 z[i, j] = self.eval_cy(x[i, j], y[i, j])
+
+        return z_array
+
+    def eval_1d(self, double[:]x, double[:]y):
+        cdef int n_rows = x.shape[0]
+
+        # Allocate a NumPy array for the result
+        z_array = np.zeros((n_rows, ), dtype=np.float64)
+
+        cdef double[:] z = z_array
+        cdef int i
+        for i in range(n_rows):
+            z[i] = self.eval_cy(x[i], y[i])
 
         return z_array
 
