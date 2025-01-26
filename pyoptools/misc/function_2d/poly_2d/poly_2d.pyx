@@ -1,6 +1,6 @@
 
-from libc.math cimport sqrt, sqrt, floor
-from pyoptools.misc.cmisc.eigen cimport VectorXd, MatrixXd, \
+from libc.math cimport sqrt, floor
+from pyoptools.misc.cmisc.eigen cimport VectorXd, \
     convert_vectorXd_to_list
 import numpy as np
 
@@ -32,7 +32,7 @@ cdef class Poly2D:
 
         self._coeff = VectorXd(self._num_coeff)
 
-        # copy the python coheficient list to cython
+        # copy the python coefficient list to eigen vector
         for i in range(self._num_coeff):
             (<double*>(&(self._coeff(i))))[0] = coeff_py[i]
 
@@ -309,12 +309,7 @@ cdef class Poly2D:
         return f"Poly2D(coeff={convert_vectorXd_to_list(self._coeff)}," \
             f" order={self.order})"
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.cdivision(True)
-    @cython.nonecheck(False)
-    @cython.infer_types(True)
-    def dxdy(self):
+    cpdef tuple[Function2D, Function2D] dxdy(self):
         """
         Calculate the derivative with respect to X and Y for the polynomial.
 
@@ -371,36 +366,6 @@ cdef class Poly2D:
         for k in range(self._num_coeff):
             result += self._coeff(k) * (x ** self.px(k)) * (y ** self.py(k))
         return result
-
-    cdef void eval2d(self, MatrixXd& x, MatrixXd& y, MatrixXd& result) noexcept nogil:
-        cdef Py_ssize_t i, j, n_cols, n_rows
-
-        # Get dimensions
-        n_cols = x.cols()
-        n_rows = x.rows()
-        result.resize(n_rows, n_cols)
-
-        for i in range(n_rows):
-            for j in range(n_cols):
-                (<double*>(&(result(i, j))))[0] = self.eval_cy(x(i, j), y(i, j))
-
-    def eval(self, double[:, ::1] x, double[:, ::1] y):
-
-        cdef int n_rows = x.shape[0]
-        cdef int n_cols = x.shape[1]
-
-        # Allocate a NumPy array for the result
-        z_array = np.zeros((n_rows, n_cols), dtype=np.float64)
-
-        cdef double[:, ::1] z = z_array
-
-        cdef int i, j
-
-        for i in range(n_rows):
-            for j in range(n_cols):
-                z[i, j] = self.eval_cy(x[i, j], y[i, j])
-
-        return z_array
 
     def eval_1d(self, double[:]x, double[:]y):
         cdef int n_rows = x.shape[0]

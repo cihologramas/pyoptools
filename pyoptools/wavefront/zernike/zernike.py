@@ -25,7 +25,7 @@ from numpy import (
 )
 
 from numpy.ma import masked_array
-from pyoptools.misc.poly_2d import ord2i, indices_to_powers as i2pxpy, Poly2D
+from pyoptools.misc.function_2d.poly_2d.poly_2d import ord2i, indices_to_powers as i2pxpy, Poly2D
 
 
 def polar_array(Rmax=1.0, DS=0.1, pr=1.0):

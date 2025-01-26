@@ -2,7 +2,7 @@ from numpy import array, sqrt, power, ones, empty, arange
 from numpy.linalg import solve
 cimport cython
 from numpy.linalg import solve
-from pyoptools.misc.poly_2d.poly_2d cimport *
+from pyoptools.misc.function_2d.poly_2d.poly_2d cimport *
 # from pyoptools.misc.Poly2D import *
 
 cimport cython

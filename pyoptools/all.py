@@ -30,14 +30,7 @@
 #   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Enable warnings in Jupyter
 import warnings
-warnings.filterwarnings('always', category=DeprecationWarning)
-
-"""
-Package containing modules and submodules defining an *API* for optical
-raytracing and wave propagation calculations.
-"""
 
 # Import all pyoptools packages
 
@@ -48,8 +41,8 @@ from pyoptools.misc.definitions import *
 from pyoptools.misc.lsq import *
 from pyoptools.misc.pmisc import *
 from pyoptools.misc.plist import *
-from pyoptools.misc.poly_2d import *
-from pyoptools.misc.Poly1Drot import *
+from pyoptools.misc.function_2d.poly_2d import *
+from pyoptools.misc.function_2d.poly_r import *
 from pyoptools.misc.resources import *
 
 from pyoptools.raytrace.calc import *
@@ -67,9 +60,6 @@ from pyoptools.wavefront.calc import *
 from pyoptools.wavefront.psurfrep import *
 from pyoptools.wavefront.zernike import *
 
-
-#
-#
 # Import graphic packages This should be imported somewhere else
 from pyoptools.gui.plotutils import *
 
@@ -78,3 +68,6 @@ from pyoptools.gui.plotutils import *
 
 # Module implemented using pythreejs
 from pyoptools.gui.ipywidgets import *
+
+
+warnings.filterwarnings('always', category=DeprecationWarning)

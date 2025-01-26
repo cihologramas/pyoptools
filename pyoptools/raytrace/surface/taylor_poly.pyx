@@ -22,10 +22,10 @@ from numpy import array, dot, inf
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
 from scipy.optimize import fsolve, brentq
-from pyoptools.misc.poly_2d.poly_2d cimport Poly2D
+from pyoptools.misc.function_2d.poly_2d.poly_2d cimport Poly2D
 
 # from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
-from pyoptools.misc.poly_2d.poly_2d cimport *
+# from pyoptools.misc.poly_2d.poly_2d cimport *
 
 cdef class TaylorPoly(Surface):
     """**Class that defines a high order polynomical surface**

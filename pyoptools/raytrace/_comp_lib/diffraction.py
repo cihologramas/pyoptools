@@ -23,7 +23,7 @@ from math import pi, sin, cos
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Plane, RPPMask
 from pyoptools.raytrace.shape import Rectangular
-from pyoptools.misc.poly_2d.poly_2d import Poly2D
+from pyoptools.misc.function_2d.poly_2d.poly_2d import Poly2D
 
 
 class RectGratting(Component):

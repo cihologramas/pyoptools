@@ -22,7 +22,7 @@ from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
 from numpy import array, dot, inf
 from libc.math cimport sqrt
-from pyoptools.misc.poly_2d.poly_2d cimport Poly2D
+from pyoptools.misc.function_2d.poly_2d.poly_2d cimport Poly2D
 
 # from ray_trace.surface.taylor_poly import eval_poly,  Poly_DyDx
 
