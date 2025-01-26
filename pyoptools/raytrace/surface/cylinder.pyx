@@ -75,8 +75,8 @@ cdef class Cylinder(Surface):
         self.addkey("length")
 
     # cpdef np.ndarray intersection(self, Ray A):
-    cdef inline void intersection_cy(self, Ray incident_ray,
-                                     Vector3d& intersection_point):
+    cdef void _calculate_intersection(self, Ray incident_ray,
+                                      Vector3d& intersection_point) noexcept nogil:
         """
         Calculate the intersection point between a ray and the cylindrical surface.
 

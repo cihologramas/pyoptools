@@ -2,12 +2,12 @@
 Definition of a radially-symmetric aspheric lens.
 """
 
-from numpy import pi
+from math import pi
 
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import Aspherical, Cylinder, Plane, Aperture
 from pyoptools.raytrace.shape import Circular
-from pyoptools.misc.Poly1Drot import poly1Drot
+from pyoptools.misc.function_2d.poly_r.poly_r import PolyR
 
 from types import SimpleNamespace
 
@@ -127,10 +127,10 @@ class AsphericLens(Component):
             Ay=1.0 / s1_defn.roc,
             Kx=s1_defn.k,
             Ky=s1_defn.k,
-            poly=poly1Drot(s1_defn.polycoefficents),
+            poly=PolyR(s1_defn.polycoefficents),
         )
         if s1_defn.max_thickness is None:
-            s1_defn.max_thickness = s1_surf.topo(s1_defn.diameter / 2.0, 0)
+            s1_defn.max_thickness = s1_surf.get_z_at_point(s1_defn.diameter / 2.0, 0)
         side_thickness -= s1_defn.max_thickness
         self.surflist.append((s1_surf, (0, 0, 0), (0, 0, pi / 2)))
 
@@ -144,10 +144,10 @@ class AsphericLens(Component):
                 Ay=1.0 / s2_defn.roc,
                 Kx=s2_defn.k,
                 Ky=s2_defn.k,
-                poly=poly1Drot(s2_defn.polycoefficents),
+                poly=PolyR(s2_defn.polycoefficents),
             )
             if s2_defn.max_thickness is None:
-                s2_defn.max_thickness = s2_surf.topo(s2_defn.diameter / 2.0, 0)
+                s2_defn.max_thickness = s2_surf.get_z_at_point(s2_defn.diameter / 2.0, 0)
             side_thickness -= s2_defn.max_thickness
         self.surflist.append((s2_surf, (0, 0, thickness), (0, pi, pi / 2)))
 
@@ -180,6 +180,7 @@ class AsphericLens(Component):
         than the maximum diameter of the defined surface.
         Brim will be located at position z_position.
         """
+
         if self.outer_diameter > defn.diameter:
             brim = Aperture(
                 shape=Circular(radius=0.5 * self.outer_diameter),

@@ -16,7 +16,7 @@
 '''
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.plane cimport Plane
-from pyoptools.misc.poly_2d.poly_2d cimport Poly2D
+from pyoptools.misc.function_2d.poly_2d.poly_2d cimport Poly2D
 from pyoptools.misc.cmisc.eigen cimport Vector3d, Vector2d
 import cython
 

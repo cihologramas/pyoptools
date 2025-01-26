@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, Ricardo Amezquita Orozco <AUTHOR>
+# Copyright (c) 2007, Ricardo Amezquita Orozco
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the GPLv3
@@ -14,7 +14,8 @@
 '''Module that defines support for Aspherical optical surfaces
 '''
 
-from pyoptools.misc.poly_2d.poly_2d cimport Poly2D
+from pyoptools.misc.function_2d.function_2d cimport Function2D
+from pyoptools.misc.function_2d.poly_2d.poly_2d cimport Poly2D
 from pyoptools.raytrace.ray.ray cimport Ray
 from pyoptools.raytrace.surface.surface cimport Surface
 
@@ -22,6 +23,7 @@ from pyoptools.misc.cmisc.eigen cimport Vector3d, VectorXd, convert_vectorXd_to_
      assign_nan_to_vector3d
 
 from libc.math cimport sqrt, INFINITY
+import warnings
 
 cimport cython
 
@@ -36,7 +38,8 @@ cdef class Aspherical(Surface):
         + Poly2D(x, y)
 
     The aspherical surface combines a base aspheric shape with an additional
-    polynomial deformation term defined by Poly2D.
+    polynomial deformation term defined by Function2D.
+
     Parameters
     ----------
     shape : Shape object
@@ -69,7 +72,7 @@ cdef class Aspherical(Surface):
     --------
     >>> from pyoptools.raytrace.surface import Aspherical
     >>> from pyoptools.raytrace.shape import Rectangle
-    >>> from pyoptools.misc.poly_2d import Poly2D
+    >>> from pyoptools.misc.function_2d.poly_2d.poly_2d import Poly2D
     >>> surface = Aspherical(
     ...     shape=Rectangle(size=(5,5)),
     ...     Ax=0.5,
@@ -87,7 +90,7 @@ cdef class Aspherical(Surface):
     """
 
     cdef public double Ax, Ay, Kx, Ky
-    cdef public Poly2D poly, DX, DY
+    cdef public Function2D poly, DX, DY
     cdef public double xmin, xmax, ymin, ymax, zmax, zmin
 
     def __init__(self, Ax=0., Ay=0., Kx=0., Ky=0., poly=None, *args, **kwargs):
@@ -102,7 +105,7 @@ cdef class Aspherical(Surface):
         if poly is None:
             self.poly = Poly2D(convert_vectorXd_to_list(zero_c))
         else:
-            self.poly = <Poly2D>poly
+            self.poly = <Function2D>poly
 
         self.DX, self.DY = self.poly.dxdy()
 
@@ -316,7 +319,7 @@ cdef class Aspherical(Surface):
         This method uses the ray equation P(t) = O + tD, where O is the ray origin
         and D is the ray direction, to calculate intersections with the bounding box.
         """
-        cdef double t_min = 0
+        cdef double t_min = -INFINITY
         cdef double t_max = INFINITY
         cdef double Ox = incident_ray._origin(0)
         cdef double Oy = incident_ray._origin(1)
@@ -326,8 +329,10 @@ cdef class Aspherical(Surface):
         cdef double Dz = incident_ray._direction(2)
         cdef double t1, t2
 
+        cdef double epsilon = 1e-10
+
         # For X dimension
-        if Dx != 0:
+        if abs(Dx) > epsilon:  # Dx != 0
             t1 = (self.xmin - Ox) / Dx
             t2 = (self.xmax - Ox) / Dx
             if t1 > t2:
@@ -338,7 +343,7 @@ cdef class Aspherical(Surface):
             return False
 
         # For Y dimension
-        if Dy != 0:
+        if abs(Dy) > epsilon:  # Dy != 0:
             t1 = (self.ymin - Oy) / Dy
             t2 = (self.ymax - Oy) / Dy
             if t1 > t2:
@@ -349,7 +354,7 @@ cdef class Aspherical(Surface):
             return False
 
         # For Z dimension
-        if Dz != 0:
+        if abs(Dz) > epsilon:  # Dz != 0:
             t1 = (self.zmin - Oz) / Dz
             t2 = (self.zmax - Oz) / Dz
             if t1 > t2:
@@ -360,7 +365,7 @@ cdef class Aspherical(Surface):
             return False
 
         # Check if we have a valid range
-        if t_max <= t_min:
+        if t_max < 0:
             return False
 
         t_min_out = t_min
@@ -371,7 +376,7 @@ cdef class Aspherical(Surface):
                                       Ray incident_ray,
                                       Vector3d& intersection_point) noexcept nogil:
         """
-        Calculate the intersection point of a ray with the aspherical surface.
+        Calculate the intersection point between a ray and the aspherical surface.
 
         This method uses a combination of bracketing and the secant method to find
         the intersection point of an incident ray with the aspherical surface.
@@ -392,59 +397,95 @@ cdef class Aspherical(Surface):
         -----
         The method first finds a range of t values where the intersection might occur,
         then uses a bracketing method to narrow down the range, and finally applies
-        the secant method for precise intersection calculation. If no intersection
-        is found or the maximum number of iterations is reached, the intersection_point
-        is set to NaN values.
+        the secant method for precise intersection calculation.
+
+         Limitations
+        ----------
+        - The algorithm assumes a single intersection point. In cases where there are
+          multiple intersections (odd or even number), the result may be incorrect or
+          the ray may be ignored:
+          * Even number of intersections: the ray will be ignored (set to NaN)
+          * Odd number of intersections: the algorithm will proceed but may return
+            an incorrect intersection point, as it cannot distinguish between multiple
+            intersection points
+        - The algorithm may fail to converge after the maximum number of iterations
+          (default: 100). In such cases, the intersection point will be set to NaN
+          and the ray will be ignored.
+        - The method relies on a convergence tolerance (epsilon) of 1e-10. Points
+          requiring higher precision may not be accurately calculated.
+        - The intersection must occur within the bounds determined by the bounding box.
+          Intersections outside these bounds will not be detected.
+
+        If any of these limitations are encountered, the method will either return
+        potentially incorrect results or set the intersection_point to NaN values
+        and issue a warning.
         """
+        # Initialize variables for the intersection calculation
         cdef double t
         cdef double f
-        cdef int max_iterations = 100
-        cdef double epsilon = 1e-10
-        cdef Vector3d origin = incident_ray._origin
-        cdef Vector3d direction = incident_ray._direction
+        cdef int max_iterations = 100  # Maximum number of iterations for convergence
+        cdef double epsilon = 1e-10    # Tolerance for convergence
+        cdef Vector3d origin = incident_ray._origin        # Ray origin point
+        cdef Vector3d direction = incident_ray._direction  # Ray direction vector
 
-        cdef double fval_0
-        cdef double fval_1
-
+        # Variables to store the range of possible intersection points
         cdef double t_min, t_max
+
+        # Check if the ray intersects the bounding box
         if not self.find_t_range(incident_ray, t_min, t_max):
             assign_nan_to_vector3d(intersection_point)
             return
 
-        t=t_min
-        fval_1 = self.__f1(t, incident_ray)
-        while t<t_max:
-            t=t+0.5
-            fval_0 = self.__f1(t, incident_ray)
+        # Initialize bracketing interval endpoints and their function values
+        cdef double ta = t_min  # Start of interval
+        cdef double tb = t_max  # End of interval
+        cdef double fa = self.__f1(ta, incident_ray)  # Function value at start
+        cdef double fb = self.__f1(tb, incident_ray)  # Function value at end
 
-            if fval_0*fval_1<0:
-                break
-            fval_1 = fval_0
+        # Check if there's an odd number of intersections
+        # If fa*fb > 0, the ray either doesn't intersect or intersects an even
+        # number of times
+        if fa*fb > 0:
+            with gil:
+                warnings.warn(
+                    "The ray is intersecting the surface an even number of times. "
+                    "This is not supported at the moment, and the ray will be ignored.",
+                    RuntimeWarning,
+                )
 
-        if t>=t_max:
             assign_nan_to_vector3d(intersection_point)
             return
 
-        cdef double ta = t-0.5
-        cdef double tb = t
-        cdef double fa = fval_1
-        cdef double fb = fval_0
-
+        # Secant method iteration loop
         for i in range(max_iterations):
+            # Calculate new approximation using secant method
             t = ta - fa*(tb-ta)/(fb-fa)
             f = self.__f1(t, incident_ray)
+
+            # Check if we've reached desired accuracy
             if abs(f) < epsilon:
                 break
-            if fa*f<0:
+
+            # Update bracketing interval
+            if fa*f<0:  # If sign change between fa and f
                 tb = t
                 fb = f
-            else:
+            else:       # If sign change between f and fb
                 ta = t
                 fa = f
 
+        # If maximum iterations reached without convergence, set to NaN
         if i == max_iterations - 1:
+            with gil:
+                warnings.warn(
+                    "Maximum iterations reached without convergence in aspherical"
+                    "surface intersection calculation. The ray will be ignored.",
+                    RuntimeWarning,
+                )
+
             assign_nan_to_vector3d(intersection_point)
         else:
+            # Calculate the intersection point using the parameter t
             intersection_point = origin + direction * t
 
     def _repr_(self):

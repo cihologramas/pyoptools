@@ -22,7 +22,7 @@ from pyoptools.misc.picklable.picklable cimport Picklable
 
 from pyoptools.raytrace.shape.circular cimport Circular
 from pyoptools.raytrace.ray.ray cimport Ray
-from pyoptools.misc.poly_2d import ord2i
+from pyoptools.misc.function_2d.poly_2d.poly_2d import ord2i
 from pyoptools.misc.lsq import polyfit2d
 from scipy import interpolate
 from numpy.ma import array as ma_array
@@ -84,7 +84,6 @@ cdef class Surface(Picklable):
         # and when the system is created
 
         self.id = []
-
 
         if filter_spec is None:
             filter_spec = ("nofilter",)
@@ -176,7 +175,60 @@ cdef class Surface(Picklable):
         free(Z)
         return output
 
+    def get_z_at_point(self, double x, double y):
+        """
+        Python wrapper for calculating Z coordinate at a single point on the Surface.
+
+        This method provides a Python-accessible interface to topo_cy, allowing
+        calculation of the surface height at a single (X, Y) coordinate pair.
+
+        Parameters
+        ----------
+        x : double
+            The X coordinate of the point.
+        y : double
+            The Y coordinate of the point.
+
+        Returns
+        -------
+        double
+            The Z coordinate (height) of the surface at the specified point.
+
+        Note
+        ----
+        This is a wrapper around topo_cy which must be implemented in Surface
+        subclasses.
+        """
+
+        return self.topo_cy(x, y)
+
     cdef double topo_cy(self, double x, double y) noexcept nogil:
+        """
+        Core implementation for calculating Z coordinate at a point on the Surface.
+
+        This is the fundamental method for computing the surface height at a given
+        point. It must be overloaded by all Surface subclasses to define their
+        specific surface geometry.
+
+        Parameters
+        ----------
+        x : double
+            The X coordinate of the point.
+        y : double
+            The Y coordinate of the point.
+
+        Returns
+        -------
+        double
+            The Z coordinate (height) of the surface at the specified point.
+
+        Note
+        ----
+        This is a Cython method marked with noexcept and nogil for performance.
+        All Surface subclasses must override this method to implement their specific
+        surface geometry calculations.
+        """
+
         with gil:
             warn("Method topo_cy, from class Surface, should be overloaded" +
                  " in class "+self.__class__.__name__)

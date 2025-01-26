@@ -3,7 +3,7 @@ import numpy as np
 # from numpy import dot,arctan2, polyval, pi, indices, sort, cumsum, where
 import numpy.ma as ma
 from pyoptools.misc import *
-from pyoptools.misc.poly_2d import ord2i, Poly2D
+from pyoptools.misc.function_2d.poly_2d.poly_2d import ord2i, Poly2D
 from pyoptools.wavefront.field import Field
 
 cdef extern from "math.h":
