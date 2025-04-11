@@ -90,19 +90,19 @@ cdef class System(Picklable):
     """
 
     @property
-    def max_ray_parent_cnt(self):
-        if self._max_ray_parent_cnt > 0:
-            return self._max_ray_parent_cnt
+    def max_ray_parent(self):
+        if self._max_ray_parent > 0:
+            return self._max_ray_parent
         else:
             return None
 
-    @max_ray_parent_cnt.setter
-    def max_ray_parent_cnt(self, val):
+    @max_ray_parent.setter
+    def max_ray_parent(self, val):
 
         if val is None:
-            self._max_ray_parent_cnt = 0
+            self._max_ray_parent = 0
         else:
-            self._max_ray_parent_cnt = int(val)
+            self._max_ray_parent = int(val)
 
     @property
     def prop_ray(self):
@@ -118,7 +118,7 @@ cdef class System(Picklable):
     def complist(self, list):
         self._complist=plist(list)
 
-    def __init__(self, complist=None, n=1., max_ray_parent_cnt=None,
+    def __init__(self, complist=None, n=1., max_ray_parent=None,
                  intensity_threshold=0):
 
         # Look in the init os component to see why this in done this way
@@ -132,12 +132,12 @@ cdef class System(Picklable):
 
         # self.propagation_limit is integer, so if it is 0, then there is no limit
 
-        self.max_ray_parent_cnt = max_ray_parent_cnt
+        self.max_ray_parent = max_ray_parent
 
         self.intensity_threshold = intensity_threshold
 
         # Flag that indicates if a ray propagation was truncated or not by the
-        # intensity_threshold or the max_ray_parent_cnt condition
+        # intensity_threshold or the max_ray_parent condition
         # if 0 no truncation was done
 
         self._exit_status_flag = 0
@@ -149,12 +149,12 @@ cdef class System(Picklable):
 
             if isinstance(comp, System):
                 comp.n=self.n
-                comp.max_ray_parent_cnt = self.max_ray_parent_cnt
+                comp.max_ray_parent = self.max_ray_parent
                 comp.intensity_threshold = self.intensity_threshold
 
         # Add to the keys to the state key list
         Picklable.__init__(self, "complist", "n", "_np_rays", "_p_rays",
-                           "_max_ray_parent_cnt", "intensity_threshold")
+                           "_max_ray_parent", "intensity_threshold")
 
     # Dict type and list type interface to expose complist
 
@@ -550,8 +550,8 @@ cdef class System(Picklable):
                 # more than propagation_limit times
 
                 if i.intensity>self.intensity_threshold:
-                    if (self._max_ray_parent_cnt == 0 or
-                       i._parent_cnt<self.max_ray_parent_cnt):
+                    if (self._max_ray_parent == 0 or
+                       i._parent_cnt<self.max_ray_parent):
                         self.propagate_ray(i)
                     else:
                         self._exit_status_flag = 1
