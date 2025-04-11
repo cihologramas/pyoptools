@@ -85,7 +85,6 @@ cdef class Surface(Picklable):
 
         self.id = []
 
-
         if filter_spec is None:
             filter_spec = ("nofilter",)
 

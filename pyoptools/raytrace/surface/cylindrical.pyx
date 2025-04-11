@@ -222,6 +222,5 @@ cdef class Cylindrical(Surface):
             f"Cylindrical(shape={repr(self.shape)}, "
             f"reflectivity={self.reflectivity}, "
             f"curvature={self.curvature}, "
-            f"aperture_shape={repr(self.ap_shape)}, "
             f"id={self.id})"
         )
