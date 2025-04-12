@@ -96,7 +96,7 @@ cdef class Spherical(Surface):
         - This method uses the quadratic formula to find the intersection points
         and selects the valid one based on the direction of propagation.
         - There may be issues if the ray propagates along the X or Y direction
-        (i.e., if the ray is perpendicularto the Z-axis). This can lead
+        (i.e., if the ray is perpendicular to the Z-axis). This can lead
         to numerical instability, and a better solution may be required.
 
         """
