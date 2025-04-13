@@ -396,46 +396,60 @@ cdef class Surface(Picklable):
 
         This method calculates the intersection point of the given incident ray
         with the surface and stores the result in the provided
-        `intersection_point` vector. It also checks whether the ray intersects
-        within the defined boundary of the surface.
-        If the intersection occurs outside the surface's boundary, the method
-        sets `intersection_point_ptr` to a NaN `Vector3d`.
+        `intersection_point` vector. It performs multiple validation checks:
+        1. Whether the ray intersects within the defined boundary of the surface
+        2. Whether the intersection occurs in front of the ray origin (forward
+           propagation)
 
+        If any validation fails, the method sets `intersection_point` to a vector
+        of NaN values.
         Parameters
         ----------
         incident_ray : Ray
             The incident ray that intersects with the surface.
-        intersection_point : Vector3d
-            A eigen::Vector3d instance where the intersection point will be
-            stored. If the intersection is outside the surface boundary, this
-            will be set to a (NaN, NaN, NaN) vector.
-
+        intersection_point : Vector3d&
+            Reference to an eigen::Vector3d instance where the intersection point will
+            be stored. If the intersection is invalid, this will be set to
+            (NaN, NaN, NaN).
         Notes
         -----
-        - This method performs a check to ensure that the intersection occurs
-        within the defined boundary of the surface. If the intersection is
-        outside this boundary, it sets the intersection point to a
-        (NaN, NaN, NaN) vector.
-        - It is a Cython-specific, low-level function intended for internal
-        use.
-        - This method should be called by other Cython code that requires
-        direct access to the intersection calculation without Python object
-        overhead.
+        - This is a Cython-specific, low-level function intended for internal use.
+        - The method doesn't return a value; instead, it modifies the passed
+          `intersection_point`.
+        - Forward propagation is enforced by ensuring the intersection occurs in the
+          direction of the ray (positive distance).
         """
-        # Get ray intersection
+        # Calculate the intersection point between ray and surface
         self._calculate_intersection(incident_ray, intersection_point)
 
-        # Check if the intersection point is inside the shape
-        if not(self.shape.hit_cy(intersection_point)):
+        # Validation 1: Check if the intersection point is inside the surface boundary
+        if not self.shape.hit_cy(intersection_point):
+            assign_nan_to_vector3d(intersection_point)
+            return
+
+        # Validation 2: Check if the intersection is in front of the ray
+        # (forward propagation)
+        # Calculate distance along ray direction from origin to intersection
+        cdef double dist = (intersection_point -
+                            incident_ray._origin).dot(incident_ray._direction)
+
+        # If distance is negative or too small (numerical precision threshold),
+        # the intersection is invalid
+        if dist < 1.e-10:
             assign_nan_to_vector3d(intersection_point)
 
     def intersection(self, Ray incident_ray):
         """
-        Calculate the point of intersection between a ray and a surface.
+        Calculate the point of intersection between a ray and this surface.
 
         This method returns the point of intersection between the surface and
         the incident ray. The intersection point is calculated in the
         coordinate system of the surface.
+
+        This calculation is performed considering only the ray and this surface
+        in isolation. It does not take into account any other optical elements
+        that may be present in the system. For this method, the only existing
+        elements are the ray and the surface.
 
         If there is no point of intersection, such as when the ray is outside
         the surface's boundary, the method returns a tuple (NaN, NaN, NaN).
@@ -466,7 +480,7 @@ cdef class Surface(Picklable):
 
         This method computes the distance from the origin of the given incident
         ray to the intersection point on the surface. It calculates the
-        intersection point and stores it in `intersection_point_ptr`. If there
+        intersection point and stores it in `intersection_point`. If there
         is no valid intersection, the method sets the intersection point to
         NaN and returns infinity for the distance.
 
@@ -491,34 +505,31 @@ cdef class Surface(Picklable):
         due to rounding errors, the distance is considered infinite.
         - The method handles cases where the surface is ahead of or behind the
         ray, or when there is no valid intersection.
+        - Distances greater than 1e10 are considered as infinity to avoid
+        numerical precision issues with extremely distant intersections.
         """
+        # Calculate the intersection point and store it in intersection_point
         self.intersection_cy(incident_ray, intersection_point)
 
         cdef double dist
-        # Dist is positive if the current surface is ahead of the ray.
-        # If the surface is behind the ray, Dist becomes negative
-        # If there is no intersection, Dist becomes inf
-        # any(isinf(PI)):
+
+        # Check if any component of the intersection point is NaN, indicating
+        # no intersection
         if  (isnan(intersection_point(0)) or
              isnan(intersection_point(1)) or
              isnan(intersection_point(2))):
-
             dist = INFINITY
         else:
-            # Dist = dot(PI-iray.pos, iray.dir)
+            # Calculate the distance as the dot product of the vector from ray origin
+            # to intersection point with the ray direction
             dist = (intersection_point - incident_ray._origin). \
                 dot(incident_ray._direction)
 
+        # Treat extremely large distances (>1e10) as infinity
+        # This helps avoid numerical precision issues with very distant intersections
         if dist > 1e10:
             dist = INFINITY
 
-        # Because of rounding errors, some times when the distance should be 0
-        # It gives a very small number. A distance is too small, or 0 means
-        # that the ray was already refracted by the surface, and the surface
-        # is already behind the ray.
-
-        if dist < 1.e-10:
-            dist = INFINITY
         return dist
 
     def distance(self, incident_ray):
