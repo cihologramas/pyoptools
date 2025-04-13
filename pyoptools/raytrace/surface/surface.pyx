@@ -371,6 +371,7 @@ cdef class Surface(Picklable):
 
         # Validation 1: Check if the intersection point is inside the surface boundary
         if not self.shape.hit_cy(intersection_point):
+            assign_nan_to_vector3d(intersection_point)
             return
 
         # Validation 2: Check if the intersection is in front of the ray
