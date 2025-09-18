@@ -13,7 +13,7 @@ from numpy import array
 try:
     import pythreejs as py3js
 except ModuleNotFoundError:
-    print("need py3js installed to be able to plot systems in Jupyter notebooks")
+    print("need pythreejs installed to be able to plot systems in Jupyter notebooks")
 
 from numpy import pi, array, dot, sin, cos
 from math import sqrt
