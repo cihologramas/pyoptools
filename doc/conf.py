@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # pyOpTools documentation build configuration file, created by
 # sphinx-quickstart on Fri May 28 10:38:25 2010.

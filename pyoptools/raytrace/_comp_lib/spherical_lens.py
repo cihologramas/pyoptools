@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007, Ricardo Amézquita Orozco
 # All rights reserved.
