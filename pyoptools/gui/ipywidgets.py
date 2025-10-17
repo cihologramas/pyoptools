@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 """Module with functions and classes to represent the pyoptools objects
 in `jupyter notebooks <http://jupyter.org>`_.

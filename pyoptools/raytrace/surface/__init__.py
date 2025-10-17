@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
 
 """Module that defines all the classes that describe the optical surfaces
 """

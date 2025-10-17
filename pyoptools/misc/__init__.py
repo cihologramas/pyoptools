@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #   Copyright (c) 2007, 2008, 2009,2010 Ricardo Amézquita Orozco
 #   <ramezquitao@unal.edu.co>,
 #   All rights reserved.
@@ -32,3 +30,6 @@
 
 """Module with miscellaneous linear algebra functions
 """
+from .function_2d import poly_2d
+
+__all__ = ["poly_2d"]

@@ -1,6 +1,7 @@
 debian/python3-pyoptools/
 debian/.debhelper/
 venv/
+.venv/
 deb_dist/
 dist/
 build/
@@ -13,14 +14,14 @@ doc/pyoptools.*rst
 *.h
 *.so
 .idea
+*.o
 MANIFEST
 *gz
 *pyc
 .project
 .pydevproject
 .settings/
-*.ipynb_checkpoints
-*egg-info
+*.egg-info
 __pycache__
 .pybuild/
 debian/python3-pyoptools.debhelper.log
@@ -30,3 +31,6 @@ debian/files
 .coverage
 test_results.xml
 .eggs
+**/Untitled*.ipynb
+**/.ipynb_checkpoints
+uv.lock

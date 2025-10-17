@@ -2,7 +2,6 @@ from pyoptools.raytrace._comp_lib.optic_factory import optic_factory
 
 import orjson
 import warnings
-import sys
 
 from importlib_resources import files
 from pathlib import Path
@@ -124,9 +123,6 @@ class LibraryModule:
 
     def catalogs(self):
         return [catalog.stem for catalog in self._json_files()]
-
-
-sys.modules[__name__] = LibraryModule()
 
 
 class OpticCatalog:

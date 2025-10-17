@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Plotting utilities that depend only on Matplotlib. To be used in
 `jupyter notebooks <http://jupyter.org>`_
 

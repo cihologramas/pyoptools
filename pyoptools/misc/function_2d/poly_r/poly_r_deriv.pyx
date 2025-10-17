@@ -57,7 +57,7 @@ cdef class PolyRDeriv:
                              " use 0 or 1 for x/y.")
         self.axis = axis
 
-    cdef inline double eval_cy(self, double x, double y) noexcept nogil:
+    cdef double eval_cy(self, double x, double y) noexcept nogil:
         """Evaluate the derivative of the radial polynomial at point (x, y).
 
         This is a C-level function that computes the value of the derivative
