@@ -48,12 +48,6 @@ from scipy.optimize import fsolve
 from numpy.random import normal
 import multiprocessing as mp
 
-# ******Logger definition *******#
-# import logging
-
-# log= logging.getLogger("ray_trace.calc")
-
-
 def intersection(ray1, ray2, atol=1e-8):
     """
     Return the point of intersection between the rays ray1 and ray2.
@@ -145,9 +139,6 @@ def nearest_points(ray1, ray2):
     c1 = p1 + t1 * e1  # on ray 1
     c2 = p2 + t2 * e2  # on ray 2
 
-    # log.info("nearest points"+str(p1)+" "+str(p2))
-    # log.info("tvalues "+str(t1)+" "+str(t2))
-
     rv = (t1 >= 0) and (t2 >= 0)
 
     return c1, c2, np.linalg.norm(c2 - c1), rv
@@ -227,7 +218,6 @@ def chief_ray_search(
         algorithm
     """
 
-    # log.info("Entering chief_ray_search function")
     test_ray = Ray(wavelength=wavelength)
     opsys.clear_ray_list()
 
@@ -236,7 +226,6 @@ def chief_ray_search(
     nt = 0
     # Check the initial test ray
     retray = test_ray.ch_coord_sys_inv(o, (btx, bty, 0))
-    # log.info("Calculating test_ray")
     opsys.clear_ray_list()
     opsys.reset()
     opsys.ray_add(retray)
@@ -264,7 +253,6 @@ def chief_ray_search(
             x, y, z = ccds.hit_list[0][0]
             dist = sqrt(square(x) + square(y))
         except ValueError:
-            # log.info("CCD not hitted by ray")
             dist = inf
 
         if p_dist > dist:
@@ -275,7 +263,6 @@ def chief_ray_search(
             p_dist = dist
             nt = 0
             retray = tray
-            # log.info("distance to aperture center="+str(dist))
         if (nt > 10) and p_dist < inf:
             nt = 0
             w = w / 2
@@ -312,7 +299,6 @@ def pupil_location(opsys, ccds, opaxis):
            (xex,yex,zex) containing the exit pupil coordinates
     """
 
-    # log.info("Propagate Optical axis ray")
     opsys.clear_ray_list()
     opsys.reset()
     # opsys.ray_add(cray)
@@ -328,9 +314,6 @@ def pupil_location(opsys, ccds, opaxis):
     # aip = ccds.hit_list[0][0]
     air = ccds.hit_list[0][1]
 
-    # log.info("Optical Axis Intersection point= "+str(aip))
-    # log.info("Intersection Ray= "+str(air))
-
     # Getting Intersection point in global coordinates
 
     if len(air.childs) != 1:
@@ -338,8 +321,6 @@ def pupil_location(opsys, ccds, opaxis):
 
     # ip = air.childs[0].pos
     d = air.childs[0].direction
-    # log.info("Intersection point in world coordinates= "+str(ip))
-    # log.info("Direction of the optical axis at the intersection point"+str(d))
 
     # Todo: Check if the optical axis and the aperture are perpendicular
 
@@ -354,8 +335,6 @@ def pupil_location(opsys, ccds, opaxis):
     pvn = array((dot(pv1, pv1), dot(pv2, pv2), dot(pv3, pv3)))
 
     pvm = pv[pvn.argmax()]
-
-    # log.info("Displacement vector found: "+str(pvm))
 
     # Create ray to calculate the exit pupil
     expuray = air.childs[0].copy()
@@ -374,14 +353,11 @@ def pupil_location(opsys, ccds, opaxis):
     enp = enpuray.get_final_rays(inc_zeros=False)
     exp = expuray.get_final_rays(inc_zeros=False)
     oax = opaxis.get_final_rays(inc_zeros=False)
-    # log.info("enp="+str(enp))
-    # log.info("exp="+str(exp))
-    # log.info("oax="+str(oax))
+
     if len(enp) != 1 or len(exp) != 1 or len(oax) != 1:
         raise Exception(
             "The principal ray or the optical axis ray have more" " than one final ray"
         )
-    # log.info("Calculating entrance pupil location")
 
     # Find the nearest points between the rays.
     # Some times because of numerical errors, or some aberrations in the optical
@@ -398,7 +374,6 @@ def pupil_location(opsys, ccds, opaxis):
         print("pupil. The minimum distance is:", d)
         enpl = (p1 + p2) / 2
 
-    # log.info("Calculating exit pupil location")
     expl = intersection(oax[0], exp[0])[0]
     if (isnan(expl)).all():
         p1, p2, d, rv = nearest_points(oax[0], exp[0])
@@ -444,7 +419,6 @@ def paraxial_location(opsys, opaxis):
     around the optical axis.
     """
 
-    # log.info("Propagate Optical axis ray")
     opsys.clear_ray_list()
     opsys.reset()
     # opsys.ray_add(cray)
@@ -465,8 +439,6 @@ def paraxial_location(opsys, opaxis):
 
     pvm = pv[pvn.argmax()]
 
-    # log.info("Displacement vector found: "+str(pvm))
-
     # Create paraxial ray
 
     par_ray = opaxis.copy()
@@ -479,15 +451,12 @@ def paraxial_location(opsys, opaxis):
 
     par = par_ray.get_final_rays(inc_zeros=False)
     oax = opaxis.get_final_rays(inc_zeros=False)
-    # log.info("par="+str(par))
-    # log.info("oax="+str(oax))
 
     if len(par) != 1 or len(oax) != 1:
         raise Exception(
             "The paraxial ray or the optical axis ray have more" " than one final ray"
         )
 
-    # log.info("Calculating object location")
     expl = intersection(oax[0], par[0])
     return expl
 

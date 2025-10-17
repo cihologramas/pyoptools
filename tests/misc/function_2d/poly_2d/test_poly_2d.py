@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from pyoptools.misc.poly_2d.poly_2d import Poly2D, index_to_powers, indices_to_powers, pxpy2i, ord2i
+from pyoptools.misc.function_2d.poly_2d.poly_2d import Poly2D, index_to_powers, indices_to_powers, pxpy2i, ord2i
 
 def test_index_to_powers():
     assert index_to_powers(0) == (0, 0)

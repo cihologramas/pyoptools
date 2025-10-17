@@ -22,17 +22,18 @@ dependencies = [
     "matplotlib>=3.3.1",
     "orjson>=3.10.7",
     "Pillow>=10.0.1",
-    "pytest>=8.2.1",
-    "pytest-cov>=5.0.0",
-    "pep8>=1.7.1",
     "importlib-resources>=3.3.0"
 ]
 
 [project.optional-dependencies]
-test = ["pytest"]
+test = [
+    "pytest>=8.2.1",
+    "pytest-cov>=5.0.0"
+]
 
 [tool.setuptools]
-packages = { find = {} }
+packages = { find = { exclude = ["tests*", "doc*", "debian*"] } }
+
 [tool.setuptools.package-data]
 "pyoptools.raytrace.mat_lib" = [
     "data/glass/*",
@@ -61,10 +62,14 @@ ignore = ["E741"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q"
+addopts = "-ra -q --strict-markers"
 testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
 markers = [
     "linting: Python and Cython linting test",
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
 ]
 
 [dependency-groups]
@@ -72,4 +77,10 @@ dev = [
     "cython-lint>=0.18.0",
     "pycodestyle>=2.14.0",
     "setuptools>=80.9.0",
+    "pep8>=1.7.1",
 ]
+
+
+[tool.autopep8]
+max_line_length = 88
+aggressive = 1

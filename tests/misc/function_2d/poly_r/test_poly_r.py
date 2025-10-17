@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from numpy.testing import assert_array_almost_equal
-from pyoptools.misc.poly_r import PolyR
+from pyoptools.misc.function_2d.poly_r.poly_r import PolyR
 
 def test_poly_r_init():
     """Test PolyR initialization"""
