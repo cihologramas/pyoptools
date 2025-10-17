@@ -20,3 +20,4 @@ PyYAML
 importlib_resources
 sympy
 ijson
+furo
