@@ -33,6 +33,20 @@ test = ["pytest"]
 
 [tool.setuptools]
 packages = { find = {} }
+[tool.setuptools.package-data]
+"pyoptools.raytrace.mat_lib" = [
+    "data/glass/*",
+    "data/glass/*/*",
+    "data/glass/*/*/*",
+    "data/inorganic/*",
+    "data/inorganic/*/*",
+    "data/organic/*",
+    "data/organic/*/*",
+    "data/organic/*/*",
+    "data/aliases.json"
+]
+"pyoptools.raytrace.library" = ["catalogs/*"]
+
 
 [tool.setuptools_scm]
 version_scheme = "guess-next-dev"
@@ -51,4 +65,11 @@ addopts = "-ra -q"
 testpaths = ["tests"]
 markers = [
     "linting: Python and Cython linting test",
+]
+
+[dependency-groups]
+dev = [
+    "cython-lint>=0.18.0",
+    "pycodestyle>=2.14.0",
+    "setuptools>=80.9.0",
 ]

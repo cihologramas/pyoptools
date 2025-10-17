@@ -42,7 +42,7 @@ cdef class PolyR:
         self.dx = None
         self.dy = None
 
-    cdef inline double eval_cy(self, double x, double y) noexcept nogil:
+    cdef double eval_cy(self, double x, double y) noexcept nogil:
         """Evaluate the polynomial at point (x,y) in Cython.
 
         Parameters

@@ -30,3 +30,6 @@
 
 """Module with miscellaneous linear algebra functions
 """
+from .function_2d import poly_2d
+
+__all__ = ["poly_2d"]

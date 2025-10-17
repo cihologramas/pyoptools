@@ -356,7 +356,7 @@ cdef class Poly2D:
 
         return self.dx, self.dy
 
-    cdef inline double eval_cy(self, double x, double y) noexcept nogil:
+    cdef double eval_cy(self, double x, double y) noexcept nogil:
 
         cdef int k
         cdef double result = 0

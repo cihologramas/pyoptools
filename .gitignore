@@ -1,6 +1,7 @@
 debian/python3-pyoptools/
 debian/.debhelper/
 venv/
+.venv/
 deb_dist/
 dist/
 build/
@@ -32,3 +33,4 @@ test_results.xml
 .eggs
 **/Untitled*.ipynb
 **/.ipynb_checkpoints
+uv.lock
