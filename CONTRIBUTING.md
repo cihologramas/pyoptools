@@ -105,8 +105,36 @@ pytest tests/path/to/test_file.py::test_function_name
 - Prefer double quotes for strings (enforced by pre-commit hooks)
 - Use NumPy-style docstrings
 - Import order: standard library, third-party, local imports
+- Use specific exception types (ValueError, RuntimeError), not generic Exception
+- Type hints are encouraged for new code; use `from __future__ import annotations`
+- Encoding: UTF-8 for all files, LF line endings, files must end with newline
+- Naming: `lowercase_with_underscores` for functions/variables, `PascalCase` for classes
 
 For more detailed code style guidelines, see [`AGENTS.md`](AGENTS.md).
+
+## Project Structure
+
+- **Cython extensions**: `pyoptools/**/*.pyx` with corresponding `.pxd` headers
+- **Tests**: `tests/` directory, mirroring package structure; ensure tests exist for new modules
+- **Public API**: Use `__all__` to define exports in `__init__.py` files
+- **Component library**: `_comp_lib/` contains implementations; `comp_lib.py` is public wrapper
+- **Material data**: `mat_lib/data/` (glass, inorganic, organic, `aliases.json`)
+- **Vendor catalogs**: `library/catalogs/`
+- **Development notebooks**: `doc/notebooks/`, not repository root
+- **Never commit**: Compiled artifacts (`.c`, `.so`, `.cpp`), `__pycache__`, `.ipynb_checkpoints`, `Untitled*.ipynb`
+- **Import conventions**: Internal code may use `_comp_lib`, external users import from `comp_lib`
+
+## Build System
+
+This project uses a dual build configuration:
+
+- **pyproject.toml**: PEP 517/518 build system declaration, project metadata, and dependencies
+- **setup.py**: Required for custom Cython build logic including:
+  - Custom `create_extension` function for numpy API macros and platform-specific defines
+  - Runtime `EIGEN3_INCLUDE_DIR` environment variable handling
+  - Complex `cythonize()` configuration not expressible declaratively
+
+Both files must be maintained in sync — do not remove either.
 
 ## Utility Scripts
 

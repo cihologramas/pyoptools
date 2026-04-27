@@ -24,12 +24,51 @@ from pyoptools.raytrace.surface import Cylindrical, Plane
 
 
 class RoundMirror(Component):
+    """Circular mirror / beam splitter plate with optional wedge.
+
+    A round mirror or beam splitter plate with two flat surfaces (S1
+    reflective, S2 plain) and two cylindrical barrel surfaces (B1, B2).
+
+    When ``wedge_angle`` is non-zero, S2 is tilted around the Y-axis while
+    S1 remains perpendicular to the optical axis. This produces a wedge
+    beam splitter that deviates the transmitted beam and separates ghost
+    reflections — useful for both beam splitters and mirrors. The azimuthal direction of the wedge is controlled by
+    rotating the entire component around its Z-axis.
+
+    Parameters
+    ----------
+    radius : float
+        Radius of the circular aperture.
+    thickness : float
+        Plate thickness at the center (S1–S2 distance along Z).
+    reflectivity : float
+        Reflectivity of the front surface (S1), from 0 to 1.
+    filter_spec : tuple
+        Filter specification for S1. Default is no filter.
+    wedge_angle : float
+        Tilt angle (radians) of S2 around the Y-axis. Default is 0
+        (parallel faces, no wedge). The ``thickness`` value always
+        represents the center thickness.
+    *args, **kwargs
+        Passed to :class:`Component`.
+
+    Notes
+    -----
+    When ``wedge_angle`` is non-zero, only S2 is tilted; the barrel
+    surfaces (B1, B2) are not adjusted. This is valid for small wedge
+    angles (typically < 2 degrees), where the mismatch at the plate edge
+    is negligible. Larger angles leave a geometric gap/overlap between S2
+    and the barrel surfaces. No validation is performed on ``wedge_angle``;
+    the caller is expected to provide physically sensible values.
+    """
+
     def __init__(
         self,
         radius=50.0,
         thickness=10,
         reflectivity=0.5,
         filter_spec=("nofilter",),
+        wedge_angle=0.0,
         *args,
         **kwargs,
     ):
@@ -42,7 +81,7 @@ class RoundMirror(Component):
         __p_surf = Plane(shape=Circular(radius=radius))
 
         self.surflist["S1"] = (__a_surf, (0, 0, 0), (0, 0, 0))
-        self.surflist["S2"] = (__p_surf, (0, 0, thickness), (0, 0, 0))
+        self.surflist["S2"] = (__p_surf, (0, 0, thickness), (0, wedge_angle, 0))
 
         __c_surf_1 = Cylindrical(
             shape=Rectangular(size=(2.0 * radius, thickness)), curvature=1.0 / radius
