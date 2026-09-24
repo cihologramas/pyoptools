@@ -15,16 +15,15 @@
 """
 Definition of a CCD like object and helper functions
 """
-from PIL.Image import fromarray
-from scipy.interpolate import interp2d, bisplrep, bisplev
-from numpy import arange, ma, meshgrid, linspace
 
-from pyoptools.raytrace.component import Component
-from pyoptools.raytrace.surface import ArrayDetector, Plane
-from pyoptools.misc.pmisc import wavelength2RGB
+from numpy import linspace, ma, meshgrid
+from PIL.Image import fromarray
+from scipy.interpolate import bisplev, bisplrep
+
 from pyoptools.misc.lsq import polyfit2d
-from pyoptools.raytrace.shape import Shape
-from pyoptools.raytrace.shape import Rectangular
+from pyoptools.raytrace.component import Component
+from pyoptools.raytrace.shape import Rectangular, Shape
+from pyoptools.raytrace.surface import Plane
 
 # from gui.plotutils import plot, figure, cm,  legend
 
@@ -74,20 +73,6 @@ class CCD(Component):
         self.surflist["S1"] = (self.__d_surf, (0, 0, 0), (0, 0, 0))
         self.material = 1.0
 
-    # ~ def __reduce__(self):
-    # ~ args=() #self.intensity,self.wavelength,self.n ,self.label,self.parent,self.pop,self.orig_surf)
-    # ~ return(type(self),args,self.__getstate__())
-    # ~
-    # ~
-    # ~ #TODO: Check if there is a better way to do this, because we are
-    # ~ #rewriting the constructor values here
-    # ~
-    # ~ def __getstate__(self):
-    # ~ return self.__d_surf,self.size,self.surflist,self.material
-    # ~
-    # ~ def __setstate__(self,state):
-    # ~ self.__d_surf,self.size,self.surflist,self.material=state
-
     def get_image(self, size=(256, 256)):
         """
         Returns the ccd hit_list as a grayscale PIL image
@@ -108,67 +93,6 @@ class CCD(Component):
 
         data = self.__d_surf.get_color_histogram(size)
         return fromarray(data, high=255, low=0)
-
-    # ~ def im_show(self,fig=None, size=(256,256),cmap=cm.gray,title='Image',color=False):
-    # ~ """Shows a simulated image
-    # ~
-    # ~ *Attributes:*
-    # ~
-    # ~ *size*
-    # ~ Tuple (dx,dy) containing the image size in pixels. Use this
-    # ~ attribute to set the simulated resolution.
-    # ~ *cmap*
-    # ~ Color map to use in the image simulation. See the matplotlib.cm
-    # ~ module for information about colormaps.
-    # ~ *fig*
-    # ~ Pylab figure where the plot will be made. If set to None
-    # ~ a new figure will be created.
-    # ~ """
-    # ~ if fig == None:
-    # ~ fig=figure()
-    # ~
-    # ~ self.__d_surf.im_show(size,cmap,title,color)
-    # ~
-    # ~
-    # ~ def spot_diagram(self,fig=None, style="o",  label=None):
-    # ~ '''Plot a spot diagram in a pylab figure
-    # ~
-    # ~ Method that plots a spot diagram of the rays hitting the CCD.
-    # ~
-    # ~ *Attributes:*
-    # ~
-    # ~ *fig*
-    # ~ Pylab figure where the plot will be made. If set to None
-    # ~ a new figure will be created.
-    # ~
-    # ~ *style*
-    # ~ Symbol to be used to represent the spot. See the pylab plot
-    # ~ documentation for more information.
-    # ~
-    # ~ *label*
-    # ~ String containing the label to show in the figure for this spot diagram.
-    # ~ Can be used to identify different spot diagrams on the same figure.
-    # ~ '''
-    # ~
-    # ~ if fig == None:
-    # ~ fig=figure()
-    # ~ X=[]
-    # ~ Y=[]
-    # ~ COL=[]
-    # ~ if len(self.__d_surf._hit_list) >0:
-    # ~ for i in self.__d_surf._hit_list:
-    # ~ p=i[0]
-    # ~ # Hitlist[1] points to the incident ray
-    # ~ col=wavelength2RGB(i[1].wavelength)
-    # ~ X.append(p[0])
-    # ~ Y.append(p[1])
-    # ~ COL.append(col)
-    # ~ if label== None:
-    # ~ plot(X, Y, style,  figure=fig)
-    # ~ else:
-    # ~ plot(X, Y, style,label=label,figure=fig)
-    # ~ legend()
-    # ~ return fig
 
     def get_optical_path_map(self, size=(20, 20), mask=None):
         """Return the optical path of the rays hitting the detector.

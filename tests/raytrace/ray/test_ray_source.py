@@ -1,12 +1,14 @@
 # standard imports
 
 # third-party imports
+from math import nan
+
 import numpy as np
 
 # local imports
 import pyoptools.raytrace.ray.ray as ray
+
 import pyoptools.raytrace.ray.ray_source as ray_source
-from math import nan
 
 
 def beam_equal(beam1, beam2):

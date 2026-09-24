@@ -30,42 +30,38 @@
 
 import warnings
 
-# Import all pyoptools packages
+# This module has problems with MESA in buster is disabled for the moment
+# from pyoptools.gui.ipynbplotutils import *
+# Module implemented using pythreejs
+from pyoptools.gui.ipywidgets import *
+from pyoptools.gui.plotly_viewer import *
 
+# Import graphic packages This should be imported somewhere else
+from pyoptools.gui.plotutils import *
+
+# Import all pyoptools packages
 from pyoptools.misc.cmisc import *
 from pyoptools.misc.definitions import *
+from pyoptools.misc.function_2d.poly_2d import *
+from pyoptools.misc.function_2d.poly_r import *
 
 # from misc.frft import *
 from pyoptools.misc.lsq import *
-from pyoptools.misc.pmisc import *
 from pyoptools.misc.plist import *
-from pyoptools.misc.function_2d.poly_2d import *
-from pyoptools.misc.function_2d.poly_r import *
+from pyoptools.misc.pmisc import *
 from pyoptools.misc.resources import *
-
 from pyoptools.raytrace.calc import *
 from pyoptools.raytrace.comp_lib import *
 from pyoptools.raytrace.component import *
-from pyoptools.raytrace.library import library
+from pyoptools.raytrace.library import *
 from pyoptools.raytrace.mat_lib import *
 from pyoptools.raytrace.ray import *
 from pyoptools.raytrace.shape import *
 from pyoptools.raytrace.surface import *
 from pyoptools.raytrace.system import *
-
-from pyoptools.wavefront.field import *
 from pyoptools.wavefront.calc import *
+from pyoptools.wavefront.field import *
 from pyoptools.wavefront.psurfrep import *
 from pyoptools.wavefront.zernike import *
 
-# Import graphic packages This should be imported somewhere else
-from pyoptools.gui.plotutils import *
-
-# This module has problems with MESA in buster is disabled for the moment
-# from pyoptools.gui.ipynbplotutils import *
-
-# Module implemented using pythreejs
-from pyoptools.gui.ipywidgets import *
-
-
-warnings.filterwarnings('always', category=DeprecationWarning)
+warnings.filterwarnings("always", category=DeprecationWarning)

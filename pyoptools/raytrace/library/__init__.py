@@ -21,11 +21,18 @@ To support different import patterns used throughout the codebase, we expose:
 
 All three are set as attributes on the instance before the module replacement.
 """
-from .library import LibraryModule, OpticCatalog
+
 import sys
+
+from .library import LibraryModule, OpticCatalog
 
 _library_instance = LibraryModule()
 
+_library_instance.__name__ = __name__
+_library_instance.__doc__ = __doc__
+_library_instance.__file__ = __file__
+_library_instance.__path__ = __path__
+_library_instance.__package__ = __package__
 _library_instance.library = _library_instance
 _library_instance.LibraryModule = LibraryModule
 _library_instance.OpticCatalog = OpticCatalog

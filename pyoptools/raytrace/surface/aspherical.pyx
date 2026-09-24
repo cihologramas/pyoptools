@@ -427,6 +427,8 @@ cdef class Aspherical(Surface):
         cdef double epsilon = 1e-10    # Tolerance for convergence
         cdef Vector3d origin = incident_ray._origin        # Ray origin point
         cdef Vector3d direction = incident_ray._direction  # Ray direction vector
+        cdef bint converged = False
+        cdef int _i
 
         # Variables to store the range of possible intersection points
         cdef double t_min, t_max
@@ -457,13 +459,14 @@ cdef class Aspherical(Surface):
             return
 
         # Secant method iteration loop
-        for i in range(max_iterations):
+        for _i in range(max_iterations):
             # Calculate new approximation using secant method
             t = ta - fa*(tb-ta)/(fb-fa)
             f = self.__f1(t, incident_ray)
 
             # Check if we've reached desired accuracy
             if abs(f) < epsilon:
+                converged = True
                 break
 
             # Update bracketing interval
@@ -475,7 +478,7 @@ cdef class Aspherical(Surface):
                 fa = f
 
         # If maximum iterations reached without convergence, set to NaN
-        if i == max_iterations - 1:
+        if not converged:
             with gil:
                 warnings.warn(
                     "Maximum iterations reached without convergence in aspherical"

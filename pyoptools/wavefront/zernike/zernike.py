@@ -1,31 +1,32 @@
-"""Module defining the Zernike polynomials
-"""
+"""Module defining the Zernike polynomials"""
 
 # The location of some scipy functions has changed
 
 try:
-    from scipy import factorial, comb as binomial
+    from scipy import comb as binomial
+    from scipy import factorial
 except ImportError:
     # both moved to special in scipy1.0.0
     from scipy.special import comb as binomial
     from scipy.special import factorial
 
 from numpy import (
-    mgrid,
-    sqrt,
     arccos,
-    zeros,
-    transpose,
-    pi,
-    cos,
-    sin,
-    ones,
     array,
+    cos,
+    mgrid,
+    ones,
+    pi,
+    sin,
+    sqrt,
+    transpose,
     where,
+    zeros,
 )
-
 from numpy.ma import masked_array
-from pyoptools.misc.function_2d.poly_2d.poly_2d import ord2i, indices_to_powers as i2pxpy, Poly2D
+
+from pyoptools.misc.function_2d.poly_2d.poly_2d import Poly2D, ord2i
+from pyoptools.misc.function_2d.poly_2d.poly_2d import indices_to_powers as i2pxpy
 
 
 def polar_array(Rmax=1.0, DS=0.1, pr=1.0):
@@ -47,7 +48,7 @@ def polar_array(Rmax=1.0, DS=0.1, pr=1.0):
     ..  TODO:: This function should be moved to a auxiliary functions module
     """
 
-    X, Y = mgrid[-Rmax:Rmax + DS:DS, -Rmax:Rmax + DS:DS] / pr
+    X, Y = mgrid[-Rmax : Rmax + DS : DS, -Rmax : Rmax + DS : DS] / pr
     r = sqrt(X**2 + Y**2)
     th = arccos(transpose(X * 1.0 / r))
     th = where(th < 2.0 * pi, th, 0)
@@ -247,7 +248,7 @@ def i2nm(i):
     return n, m
 
 
-class ZernikeXY(object):
+class ZernikeXY:
     """
     Class used to evaluate the zernike polinomial with coheficients
     given by cohef, in Cartesian coordinates.

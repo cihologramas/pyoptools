@@ -1,5 +1,4 @@
-"""Method collection to make calculation for optical systems
-"""
+"""Method collection to make calculation for optical systems"""
 
 from .calc import (
     chief_ray_search,
@@ -15,7 +14,6 @@ from .calc import (
     pupil_location,
     ray_paths,
 )
-
 
 __all__ = [
     "chief_ray_search",

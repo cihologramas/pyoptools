@@ -16,11 +16,11 @@
 Definition of a spherical lens object and helper functions
 """
 
-from numpy import sqrt, pi, absolute, inf
+from numpy import absolute, inf, pi, sqrt
 
 from pyoptools.raytrace.component import Component
-from pyoptools.raytrace.surface import Spherical, Cylindrical, Plane
 from pyoptools.raytrace.shape import Circular, Rectangular
+from pyoptools.raytrace.surface import Cylindrical, Plane, Spherical
 
 
 class SphericalLens(Component):
@@ -75,7 +75,7 @@ class SphericalLens(Component):
         curvature_s1=1.0 / 200,
         curvature_s2=1.0 / 200,
         *args,
-        **kwargs
+        **kwargs,
     ):
         Component.__init__(self, *args, **kwargs)
         self.radius = radius
@@ -142,24 +142,6 @@ class SphericalLens(Component):
         self.surflist["B1"] = (__c_surf_1, (-self.radius, 0, zp), (pi / 2.0, 0, pi / 2))
 
         self.surflist["B2"] = (__c_surf_2, (self.radius, 0, zp), (-pi / 2.0, 0, pi / 2))
-
-    # ~ def __reduce__(self):
-    # ~ args=() #self.intensity,self.wavelength,self.n ,self.label,self.parent,self.pop,self.orig_surf)
-    # ~ return(type(self),args,self.__getstate__())
-    # ~
-    # ~
-    # ~ #TODO: Check if there is a better way to do this, because we are
-    # ~ #rewriting the constructor values here
-    # ~
-    # ~ def __getstate__(self):
-    # ~
-    # ~ return self.radius, self.thickness, self.curvature_s1, self.curvature_s2, \
-    # ~ self.__a_surf, self.__p_surf, self.surflist
-    # ~
-    # ~
-    # ~ def __setstate__(self,state):
-    # ~ self.radius, self.thickness, self.curvature_s1, self.curvature_s2, \
-    # ~ self.__a_surf, self.__p_surf, self.surflist = state
 
     def paraxial_constants(self, wavelength=0.58929, n=1.0):
         """Method to calculate the paraxial constants of a spherical lens

@@ -1,3 +1,4 @@
+"""Module with functions to define ray sources"""
 
 __all__ = [
     "parallel_beam_c",
@@ -6,10 +7,9 @@ __all__ = [
     "point_source_p",
     "point_source_r",
 ]
-"""Module with functions to define ray sources"""
 
 
-from numpy import sin, cos, pi
+from numpy import cos, pi, sin
 from numpy.random import normal
 
 from .ray import Ray

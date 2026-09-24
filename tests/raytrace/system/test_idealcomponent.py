@@ -1,10 +1,10 @@
-import pytest
-from math import isclose, sin, cos, radians
+from math import cos, isclose, radians, sin
 
 from pyoptools.raytrace.ray.ray import Ray
+from pyoptools.raytrace.shape.circular import Circular
 from pyoptools.raytrace.system.idealcomponent import IdealThickLens
 from pyoptools.raytrace.system.system import System
-from pyoptools.raytrace.shape.circular import Circular
+
 from pyoptools.raytrace.calc.calc import intersection
 
 

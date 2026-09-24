@@ -19,8 +19,8 @@ Definition of a mirror object and helper functions
 from math import pi
 
 from pyoptools.raytrace.component import Component
-from pyoptools.raytrace.surface import Cylindrical, Plane
 from pyoptools.raytrace.shape import Circular, Rectangular
+from pyoptools.raytrace.surface import Cylindrical, Plane
 
 
 class RoundMirror(Component):

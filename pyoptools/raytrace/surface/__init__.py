@@ -1,19 +1,19 @@
 """Module that defines all the classes that describe the optical surfaces"""
 
-from .surface import Surface
-from .cylindrical import Cylindrical
-from .plane import Plane
-from .spherical import Spherical
-from .detector import ArrayDetector
-from .opticalstop import OpticalStop, Aperture
-from .taylor_poly import TaylorPoly
-from .cylinder import Cylinder
 from .aspherical import Aspherical
-from .powell import Powell
-from .plane_mask import RPPMask
-from .idealsurface import IdealSurface
+from .cylinder import Cylinder
+from .cylindrical import Cylindrical
+from .detector import ArrayDetector
 from .idealpplanes import IdealPPlanes
+from .idealsurface import IdealSurface
+from .opticalstop import Aperture, OpticalStop
+from .plane import Plane
+from .plane_mask import RPPMask
+from .powell import Powell
 from .simpledmd import SimpleDMD
+from .spherical import Spherical
+from .surface import Surface
+from .taylor_poly import TaylorPoly
 
 __all__ = [
     "Surface",

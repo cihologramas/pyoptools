@@ -16,12 +16,12 @@
 Definition of a Diffraction grating object and helper functions
 """
 
-from math import pi, sin, cos
+from math import cos, pi, sin
 
-from pyoptools.raytrace.component import Component
-from pyoptools.raytrace.surface import Plane, RPPMask
-from pyoptools.raytrace.shape import Rectangular
 from pyoptools.misc.function_2d.poly_2d.poly_2d import Poly2D
+from pyoptools.raytrace.component import Component
+from pyoptools.raytrace.shape import Rectangular
+from pyoptools.raytrace.surface import Plane, RPPMask
 
 
 class RectGratting(Component):
@@ -33,7 +33,7 @@ class RectGratting(Component):
         angle=0,
         M=[1],
         *args,
-        **kwargs
+        **kwargs,
     ):
         Component.__init__(self, *args, **kwargs)
         self.size = size
@@ -42,7 +42,10 @@ class RectGratting(Component):
         lpmmy = lpmm * sin(angle)
         phf = Poly2D([0, 2 * pi * lpmmx, 2 * pi * lpmmy])
         __a_surf = RPPMask(
-            shape=Rectangular(size=(width, height)), phm=phf, reflectivity=reflectivity, M=M
+            shape=Rectangular(size=(width, height)),
+            phm=phf,
+            reflectivity=reflectivity,
+            M=M,
         )
         __p_surf = Plane(shape=Rectangular(size=(width, height)))
 

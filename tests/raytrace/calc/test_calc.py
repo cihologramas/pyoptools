@@ -1,16 +1,17 @@
-import pytest
-import numpy as np
 from itertools import permutations
 
+import numpy as np
+import pytest
+from pyoptools.raytrace.shape.circular import Circular
+from pyoptools.raytrace.system.system import System
+
+import pyoptools.raytrace.calc.calc as calc
 from pyoptools.raytrace._comp_lib.ccd import CCD
 from pyoptools.raytrace._comp_lib.spherical_lens import SphericalLens
 from pyoptools.raytrace._comp_lib.stop import Stop
-import pyoptools.raytrace.calc.calc as calc
 from pyoptools.raytrace.library import library
 from pyoptools.raytrace.mat_lib import material
 from pyoptools.raytrace.ray import Ray, parallel_beam_c
-from pyoptools.raytrace.shape.circular import Circular
-from pyoptools.raytrace.system.system import System
 
 
 def test_intersection():
@@ -105,7 +106,9 @@ def test_chief_ray_search():
 
     np.testing.assert_almost_equal(chief_ray.origin, [0, 10, 0])
     np.testing.assert_almost_equal(
-        chief_ray.direction, [3.58848263e-04, -9.26093228e-02, 9.95702458e-01], decimal=3
+        chief_ray.direction,
+        [3.58848263e-04, -9.26093228e-02, 9.95702458e-01],
+        decimal=3,
     )
     np.testing.assert_almost_equal(chief_ray.intensity, 1)
     np.testing.assert_almost_equal(chief_ray.wavelength, 0.58929)
@@ -119,7 +122,7 @@ def test_chief_ray_search():
 def test_pupil_location():
     assert False
 
-@pytest.mark.skip(reason="This is failing")
+
 def test_paraxial_location():
     lens1 = library.Edmund["45179"]  # f=200 r= 25
     optical_axis = Ray(origin=(0, 0, -10000), direction=(0, 0, 1), wavelength=0.55)
@@ -146,7 +149,6 @@ def test_paraxial_location():
     assert not real_
 
 
-@pytest.mark.skip(reason="Test for find_aperture is pending.")
 def test_find_aperture():
     for p in permutations([11, 13, 17, 19]):
         ccd_size = (p[0], p[1])
@@ -159,7 +161,6 @@ def test_find_aperture():
         assert result.shape == aperture_size
 
 
-@pytest.mark.skip(reason="find_ppp seems to be failing")
 def test_find_ppp():
     lens1 = library.Edmund["45179"]  # f=200 r= 25
     optical_axis = Ray(origin=(0, 0, -10), direction=(0, 0, 1), wavelength=0.55)

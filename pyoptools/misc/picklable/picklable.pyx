@@ -16,7 +16,6 @@ cdef class Picklable:
         '''
         Method needed to be able to pickle a surface.
         '''
-        # print "in SYSTEM reduce creating a ", type(self)," class"
         return(type(self), (), self.__getstate__())
 
     def __getstate__(self):
@@ -29,14 +28,14 @@ cdef class Picklable:
             state[key]=t
 
         if hasattr(self, "__dict__"):
-            for k, v in self.__dict__.iteritems():
+            for k, v in self.__dict__.items():
                 state[k]=v
 
         return state
 
     def __setstate__(self, state):
         "Fill the current state"
-        for k, v in state.iteritems():
+        for k, v in state.items():
             setattr(self, k, v)
 
     cdef addkey(self, key):

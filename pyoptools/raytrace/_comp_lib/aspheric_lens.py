@@ -3,13 +3,12 @@ Definition of a radially-symmetric aspheric lens.
 """
 
 from math import pi
-
-from pyoptools.raytrace.component import Component
-from pyoptools.raytrace.surface import Aspherical, Cylinder, Plane, OpticalStop
-from pyoptools.raytrace.shape import Circular
-from pyoptools.misc.function_2d.poly_r.poly_r import PolyR
-
 from types import SimpleNamespace
+
+from pyoptools.misc.function_2d.poly_r.poly_r import PolyR
+from pyoptools.raytrace.component import Component
+from pyoptools.raytrace.shape import Circular
+from pyoptools.raytrace.surface import Aspherical, Cylinder, OpticalStop, Plane
 
 
 class AsphericLens(Component):

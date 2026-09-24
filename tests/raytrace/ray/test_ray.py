@@ -1,7 +1,8 @@
-import pytest
+from math import nan
+
 import numpy as np
 import pyoptools.raytrace.ray.ray as ray
-from math import nan
+
 
 def test_ray_equal():
     "Rays with exactly same attributes are equals."
@@ -436,9 +437,24 @@ def test_ch_coord_sys():
     assert ray.Ray.almost_equal(ray_expected, ray_calculated)
 
 
-@pytest.mark.skip(reason="Test for get_final_rays is pending.")
 def test_get_final_rays():
-    pass
+    r_root = ray.Ray(origin=(0, 0, 0), direction=(0, 0, 1), intensity=1.0)
+    assert r_root.get_final_rays() == [r_root]
+
+    r_child1 = ray.Ray(origin=(0, 0, 10), direction=(0, 0, 1), intensity=0.5)
+    r_child2 = ray.Ray(origin=(0, 0, 10), direction=(0, 1, 0), intensity=0.0)
+    r_root.add_child(r_child1)
+    r_root.add_child(r_child2)
+
+    final_all = r_root.get_final_rays(inc_zeros=True)
+    assert len(final_all) == 2
+    assert r_child1 in final_all
+    assert r_child2 in final_all
+
+    final_nonzero = r_root.get_final_rays(inc_zeros=False)
+    assert len(final_nonzero) == 1
+    assert r_child1 in final_nonzero
+    assert r_child2 not in final_nonzero
 
 
 def test_copy():
@@ -467,16 +483,45 @@ def test_reverse():
     assert ray.Ray.almost_equal(ray_expected, ray_calculated)
 
 
-@pytest.mark.skip(reason="Test for add_child is pending.")
 def test_add_child():
-    pass
+    r_parent = ray.Ray(origin=(0, 0, 0), direction=(0, 0, 1), intensity=1.0)
+    r_child1 = ray.Ray(origin=(0, 0, 5), direction=(0, 0, 1), intensity=0.8)
+    r_child2 = ray.Ray(origin=(0, 0, 5), direction=(1, 0, 0), intensity=0.2)
+
+    r_parent.add_child(r_child1)
+    assert r_child1.parent is r_parent
+    assert r_child1.order == 0
+    assert len(r_parent.childs) == 1
+    assert r_parent.childs[0] is r_child1
+
+    r_parent.add_child(r_child2)
+    assert r_child2.parent is r_parent
+    assert r_child2.order == 1
+    assert len(r_parent.childs) == 2
+    assert r_parent.childs[1] is r_child2
 
 
-@pytest.mark.skip(reason="Test for optical_path_parent is pending.")
 def test_optical_path_parent():
-    pass
+    r_root = ray.Ray(origin=(0, 0, 0), direction=(0, 0, 1), intensity=1.0, n=1.5)
+    assert r_root.optical_path_parent() == 0.0
+
+    r_child1 = ray.Ray(origin=(0, 0, 10), direction=(0, 0, 1), intensity=1.0, n=2.0)
+    r_root.add_child(r_child1)
+    assert np.isclose(r_child1.optical_path_parent(), 15.0)
+
+    r_grandchild = ray.Ray(origin=(0, 0, 15), direction=(0, 0, 1), intensity=1.0)
+    r_child1.add_child(r_grandchild)
+    assert np.isclose(r_grandchild.optical_path_parent(), 25.0)
 
 
-@pytest.mark.skip(reason="Test for optical_path is pending.")
 def test_optical_path():
-    pass
+    r_zero = ray.Ray(origin=(0, 0, 0), direction=(0, 0, 1), intensity=0.0)
+    assert r_zero.optical_path() == 0.0
+
+    r_no_children = ray.Ray(origin=(0, 0, 0), direction=(0, 0, 1), intensity=1.0)
+    assert np.isinf(r_no_children.optical_path())
+
+    r_parent = ray.Ray(origin=(0, 0, 0), direction=(0, 0, 1), intensity=1.0, n=1.5)
+    r_child = ray.Ray(origin=(0, 0, 10), direction=(0, 0, 1), intensity=1.0)
+    r_parent.add_child(r_child)
+    assert np.isclose(r_parent.optical_path(), 15.0)

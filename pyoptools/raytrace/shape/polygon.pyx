@@ -8,114 +8,132 @@
 #
 #
 # Author:          Ricardo Amezquita Orozco
-# Description:     Rectangle definition module
+# Description:     Polygon shape definition module
 # Symbols Defined: Polygon
 # ------------------------------------------------------------------------------
 
 from pyoptools.raytrace.shape.shape cimport Shape
-from pyoptools.misc.cmisc.eigen cimport Vector3d, Vector2d, \
-    assign_tuple_to_vector2d
+from pyoptools.misc.cmisc.eigen cimport Vector3d, Vector2d
+
 
 cdef class Polygon(Shape):
+    """Class defining an arbitrary polygonal aperture shape.
 
+    Parameters
+    ----------
+    coord : sequence of (float, float), optional
+        List or tuple of 2D vertex coordinates defining the polygon perimeter
+        in counter-clockwise or clockwise order. Minimum 3 vertices.
+        Defaults to `((0, 0), (0, 100), (100, 0))`.
+    samples : int, optional
+        Number of subdivisions for internal mesh sampling. Defaults to 10.
     """
-    class defining a polygonal shape
-
-     Args:
-        coords (tuple): Tuple containing the coordinates of the 3 corners
-            of a  triangle. Each coordinate is a(float, float) tuple.
-        samples (int): Number of subdivitions per side used to sample the
-            triangle.
-
-    Todo:
-        * This class is a copy of the Triangular class. Need to be implemented
-          correctly.
-   """
 
     def __init__(self, coord=((0, 0), (0, 100), (100, 0)), samples=10, *args, **kwargs):
         Shape.__init__(self, *args, **kwargs)
 
-        # self.coord=coord
-        assign_tuple_to_vector2d(coord[0], self.point_a)
-        assign_tuple_to_vector2d(coord[1], self.point_b)
-        assign_tuple_to_vector2d(coord[2], self.point_c)
+        if len(coord) < 3:
+            raise ValueError("A polygon must have at least 3 vertices.")
 
-        self.samples=samples
+        self._coord = tuple((float(p[0]), float(p[1])) for p in coord)
+        self.samples = samples
 
-        # Register picklable attributes
-        # self.addkey("point_a")
-        # self.addkey("point_b")
-        # self.addkey("point_c")
+        self.poly_points.clear()
+        cdef Vector2d pt
+        for p in self._coord:
+            pt = Vector2d(p[0], p[1])
+            self.poly_points.push_back(pt)
 
-        # self.addkey("samples")
+    @property
+    def coord(self):
+        """Return the coordinates of the polygon vertices."""
+        return self._coord
 
     def __reduce__(self):
-
-        args=(self.coord, self.samples)
-        return(type(self), args)
+        args = (self._coord, self.samples)
+        return (type(self), args)
 
     cdef bint hit_cy(self, Vector3d &point) noexcept nogil:
-        """This method returns TRUE if an p=(x,y,z)point is inside the surface
-        aperture if not it must return FALSE.
-        This is implemented for a point, in cython, to make it fast
-        """
-        cdef double dot00, dot01, dot02, dot11, dot12, invDenom, u, v
+        """Return True if point (x, y, z) lies within the polygon aperture."""
+        cdef double px = point(0)
+        cdef double py = point(1)
+        cdef int n = self.poly_points.size()
+        if n < 3:
+            return False
 
-        cdef double px, py
+        cdef bint inside = False
+        cdef int i, j = n - 1
+        cdef double xi, yi, xj, yj
 
-        px = point(0)
-        py = point(1)
+        for i in range(n):
+            xi = self.poly_points[i](0)
+            yi = self.poly_points[i](1)
+            xj = self.poly_points[j](0)
+            yj = self.poly_points[j](1)
 
-        cdef Vector2d P = Vector2d(px, py)  # = array((px, py))
-        # A=array(self.coord[0])
-        # B=array(self.coord[1])
-        # C=array(self.coord[2])
+            if ((yi > py) != (yj > py)) and (
+                px < (xj - xi) * (py - yi) / (yj - yi) + xi
+            ):
+                inside = not inside
+            j = i
 
-        cdef Vector2d v0 = self.point_c - self.point_a  # C-A
-        cdef Vector2d v1 = self.point_b - self.point_a  # B-A
-        cdef Vector2d v2 = P - self.point_a  # P-A
-
-        dot00=v0.dot(v0)  # dot(v0, v0)
-        dot01=v0.dot(v1)  # dot(v0, v1)
-        dot02=v0.dot(v2)  # dot(v0, v2)
-        dot11=v1.dot(v1)  # dot(v1, v1)
-        dot12=v1.dot(v2)  # dot(v1, v2)
-
-        invDenom=1./(dot00 * dot11 - dot01 * dot01)
-
-        u = (dot11 * dot02 - dot01 * dot12) * invDenom
-        v = (dot00 * dot12 - dot01 * dot02) * invDenom
-
-        # Check if point is in triangle
-        return (u > 0) and (v > 0) and (u + v < 1)
-
-    cpdef pointlist(self):
-
-        cdef int i, j
-
-        cdef Vector2d A = self.point_a
-        cdef Vector2d B = self.point_b
-        cdef Vector2d C = self.point_c
-        cdef Vector2d P0, P1, P
-        # Get the mesh points
-        cdef list X=[]
-        cdef list Y=[]
-
-        for i in range(self.samples+1):
-            P0= A+((B-A)*<double>i)/<double>self.samples
-            P1= A+((C-A)*<double>i)/<double>self.samples
-            for j in range(i+1):
-                if i!=0:
-                    P=P0+(P1-P0)*(<double>j/i)
-                else:
-                    P=P0
-                X.append(P(0))
-                Y.append(P(1))
-        return X, Y
+        return inside
 
     cpdef limits(self):
-        """
-        Returns the minimum limits for the aperture
-        """
-        dx, dy=self.size
-        return -dx/2, dx/2, -dy/2, dy/2
+        """Return the bounding box (xmin, xmax, ymin, ymax) of the polygon."""
+        cdef int n = self.poly_points.size()
+        if n == 0:
+            return 0.0, 0.0, 0.0, 0.0
+
+        cdef double xmin = self.poly_points[0](0)
+        cdef double xmax = xmin
+        cdef double ymin = self.poly_points[0](1)
+        cdef double ymax = ymin
+        cdef double x, y
+        cdef int i
+
+        for i in range(1, n):
+            x = self.poly_points[i](0)
+            y = self.poly_points[i](1)
+            if x < xmin:
+                xmin = x
+            if x > xmax:
+                xmax = x
+            if y < ymin:
+                ymin = y
+            if y > ymax:
+                ymax = y
+
+        return xmin, xmax, ymin, ymax
+
+    cpdef pointlist(self):
+        """Return lists (X, Y) of mesh points for surface representation."""
+        cdef list X = []
+        cdef list Y = []
+        cdef int n = self.poly_points.size()
+        cdef int i, j
+
+        for i in range(n):
+            X.append(self.poly_points[i](0))
+            Y.append(self.poly_points[i](1))
+
+        cdef double xmin, xmax, ymin, ymax
+        xmin, xmax, ymin, ymax = self.limits()
+
+        cdef int samples = max(self.samples, 2)
+        cdef double dx = (xmax - xmin) / <double>samples
+        cdef double dy = (ymax - ymin) / <double>samples
+        cdef Vector3d test_pt
+        cdef double px, py
+
+        if dx > 0 and dy > 0:
+            for i in range(1, samples):
+                px = xmin + i * dx
+                for j in range(1, samples):
+                    py = ymin + j * dy
+                    test_pt = Vector3d(px, py, 0.0)
+                    if self.hit_cy(test_pt):
+                        X.append(px)
+                        Y.append(py)
+
+        return X, Y

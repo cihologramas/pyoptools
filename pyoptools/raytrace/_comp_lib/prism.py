@@ -16,12 +16,13 @@
 Definition of a prism object and helper functions
 """
 
-from numpy import sqrt, pi, absolute
+from math import cos, radians, sin
+
+from numpy import pi, sqrt
 
 from pyoptools.raytrace.component import Component
+from pyoptools.raytrace.shape import Polygon, Rectangular, Triangular
 from pyoptools.raytrace.surface import Plane
-from pyoptools.raytrace.shape import Rectangular, Triangular
-from math import cos, radians, sin
 
 
 class RightAnglePrism(Component):
@@ -55,7 +56,7 @@ class RightAnglePrism(Component):
         reflega=0,
         reflegb=0,
         *args,
-        **kwargs
+        **kwargs,
     ):
         Component.__init__(self, *args, **kwargs)
 
@@ -88,23 +89,6 @@ class RightAnglePrism(Component):
         self.surflist["S4"] = (__e1, (0, self.height / 2, 0), (pi / 2, -pi / 2, 0))
         self.surflist["S5"] = (__e2, (0, -self.height / 2, 0), (pi / 2, -pi / 2, 0))
 
-    # ~ def __reduce__(self):
-    # ~ args=() #self.intensity,self.wavelength,self.n ,self.label,self.parent,self.pop,self.orig_surf)
-    # ~ return(type(self),args,self.__getstate__())
-    # ~
-    # ~
-    # ~ #TODO: Check if there is a better way to do this, because we are
-    # ~ #rewriting the constructor values here
-    # ~
-    # ~ def __getstate__(self):
-    # ~ return self.width, self.height, self.reflectivity, self.__a_face, \
-    # ~ self.__b_face, self.__h_face, self.__e1, self.__e2,\
-    # ~ self.surflist
-    # ~
-    # ~ def __setstate__(self,state):
-    # ~ self.width, self.height, self.reflectivity, self.__a_face, \
-    # ~ self.__b_face, self.__h_face, self.__e1, self.__e2, self.surflist=state
-
 
 class PentaPrism(Component):
     """Class to define a pentaprism
@@ -116,17 +100,7 @@ class PentaPrism(Component):
     :type material: float or
         :class:`~pyoptools.raytrace.mat_lib.material.Material`'s subclass
         instance
-
-    .. warning::
-
-        The pentaprism has no upper or lower surface. Care must be taken to
-        avoid rays entering or exiting by such apertures.
-
-        .. todo:: Fix this
-
     """
-
-    # TODO: El pentaprisma está abierto por arriba y por abajo. Hay que definir las superficies para cerrarlo
 
     def __init__(self, s, *args, **kwargs):
 
@@ -140,12 +114,25 @@ class PentaPrism(Component):
         d1 = d * sin(radians(22.5) / 2.0)
         s5 = Plane(shape=Rectangular(size=(2 * sqrt(2) * d1, s)))
 
+        half_s = s / 2.0
+        # 5 vertices of the pentaprism cross-section in XZ
+        p1 = (half_s, -half_s)
+        p2 = (-half_s, -half_s)
+        p3 = (-half_s - d1 - (d / 2.0) * sin(radians(22.5)), half_s)
+        p4 = (-half_s, half_s + d1 + (d / 2.0) * sin(radians(22.5)))
+        p5 = (half_s, half_s)
+        poly_coords = (p1, p2, p3, p4, p5)
+
+        s6 = Plane(shape=Polygon(coord=poly_coords))
+        s7 = Plane(shape=Polygon(coord=poly_coords))
+
         self.surflist["S1"] = (s1, (0, 0, -s / 2.0), (0, 0, 0))
         self.surflist["S2"] = (s2, (s / 2.0, 0, 0), (0, pi / 2, 0))
         self.surflist["S3"] = (s3, (0, 0, s / 2.0 + d1), (0, pi / 8, 0))
         self.surflist["S4"] = (s4, (-s / 2.0 - d1, 0, 0), (0, 3 * pi / 8, 0))
         self.surflist["S5"] = (s5, (-s / 2.0 - d1, 0, s / 2.0 + d1), (0, -pi / 4, 0))
-        # ,material=get_material("N-BK7"))
+        self.surflist["S6"] = (s6, (0, half_s, 0), (pi / 2, 0, 0))
+        self.surflist["S7"] = (s7, (0, -half_s, 0), (pi / 2, 0, 0))
 
 
 class DovePrism(Component):
@@ -153,25 +140,17 @@ class DovePrism(Component):
 
     :param s: Height and depth of the dove prism
     :type s: float
-    :param l: Width of the dove prism (length of the longest side)
-    :type l: float
+    :param length: Width of the dove prism (length of the longest side)
+    :type length: float
     :param material: Material of the prism
     :type material: float or
         :class:`~pyoptools.raytrace.mat_lib.material.Material`'s subclass
         instance
-
-    .. warning::
-
-        The pentaprism has no upper or lower surface. Care must be taken to
-        avoid rays entering or exiting by such apertures.
-
-        .. todo:: Fix this
     """
 
-    # TODO: El prismadove está abierto por arriba y por abajo. Hay que definir las superficies para cerrarlo
     def __init__(self, s, length, *args, **kwargs):
         # s alto o profundidad del prisma
-        # l Longitud del lado mas largo del prisma
+        # length Longitud del lado mas largo del prisma
 
         # La referencia del prisma de dove esta en el centro del prisma
 
@@ -189,8 +168,23 @@ class DovePrism(Component):
         # lado corto del prisma
         s4 = Plane(shape=Rectangular(size=(length - 2 * s, s)))
 
+        half_l = length / 2.0
+        top_half_l = half_l - s
+        half_s = s / 2.0
+        # Trapezoid vertices in XZ plane
+        poly_coords = (
+            (-half_l, -half_s),
+            (half_l, -half_s),
+            (top_half_l, half_s),
+            (-top_half_l, half_s),
+        )
+        s5 = Plane(shape=Polygon(coord=poly_coords))
+        s6 = Plane(shape=Polygon(coord=poly_coords))
+
         sp1 = (length - s) / 2.0
         self.surflist["S1"] = (s1, (-sp1, 0, 0), (0, -pi / 4, 0))
         self.surflist["S2"] = (s2, (sp1, 0, 0), (0, pi / 4, 0))
         self.surflist["S3"] = (s3, (0, 0, -s / 2.0), (0, 0, 0))
         self.surflist["S4"] = (s4, (0, 0, s / 2.0), (0, 0, 0))
+        self.surflist["S5"] = (s5, (0, half_s, 0), (pi / 2, 0, 0))
+        self.surflist["S6"] = (s6, (0, -half_s, 0), (pi / 2, 0, 0))

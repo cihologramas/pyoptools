@@ -1,21 +1,16 @@
-
 """
 Modulo con clases y funciones auxiliares.
 """
 
-
-from numpy import array, float64
-from pyoptools.misc.definitions import inf_vect
-
 from pyoptools.raytrace.surface.surface cimport Surface
 from pyoptools.raytrace.ray.ray cimport Ray
-
-from pyoptools.misc.cmisc.eigen cimport Vector3d, assign_nan_to_vector3d, \
-                                        assign_doubles_to_vector3d
+from pyoptools.misc.cmisc.eigen cimport (
+    Vector3d,
+    assign_nan_to_vector3d,
+    assign_doubles_to_vector3d,
+)
 from libc.math cimport fabs, isnan
 
-from pyoptools.misc.cmisc.eigen cimport Vector3d, assign_nan_to_vector3d, \
-                                        assign_doubles_to_vector3d
 
 cdef class IdealSurface(Surface):
     """
@@ -42,17 +37,19 @@ cdef class IdealSurface(Surface):
     cdef inline double topo_cy(self, double x, double y) noexcept nogil:
         return 0
 
-
-    cdef void _calculate_intersection(self,
-                                    Ray incident_ray,
-                                    Vector3d& intersection_point) noexcept nogil:
+    cdef void _calculate_intersection(
+        self,
+        Ray incident_ray,
+        Vector3d& intersection_point,
+    ) noexcept nogil:
         """
         Calculate the intersection point between a ray and the XY plane (z = 0).
 
         Parameters
         ----------
         incident_ray : Ray
-            The incoming ray for which the intersection with the plane is to be calculated.
+            The incoming ray for which the intersection with the plane is to be
+            calculated.
         intersection_point : Vector3d&
             Output: intersection point in the surface coordinate system.
             If there is no valid intersection, this vector is set to NaN.
@@ -91,10 +88,11 @@ cdef class IdealSurface(Surface):
 
         assign_doubles_to_vector3d(X, Y, Z, intersection_point)
 
-
-    cdef void _calculate_normal(self,
-                                Vector3d& intersection_point,
-                                Vector3d& normal) noexcept nogil:
+    cdef void _calculate_normal(
+        self,
+        Vector3d& intersection_point,
+        Vector3d& normal,
+    ) noexcept nogil:
         """
         Calculate the normal vector to the XY plane (z = 0).
 
@@ -108,8 +106,7 @@ cdef class IdealSurface(Surface):
         # Constant normal for z=0 plane
         assign_doubles_to_vector3d(0.0, 0.0, 1.0, normal)
 
-
-    #@cython.cdivision(True)
+    # @cython.cdivision(True)
     cpdef list propagate(self, Ray incident_ray, double ni, double nr):
         """
         Propagate a ray through an ideal focusing surface with focal length self.f.
@@ -139,7 +136,11 @@ cdef class IdealSurface(Surface):
         self.intersection_cy(incident_ray, intersection_point)
 
         # If no intersection, return empty list (intersection_point set to NaN)
-        if isnan(intersection_point(0)) or isnan(intersection_point(1)) or isnan(intersection_point(2)):
+        if (
+            isnan(intersection_point(0))
+            or isnan(intersection_point(1))
+            or isnan(intersection_point(2))
+        ):
             return []
 
         dirv = incident_ray._direction
@@ -154,76 +155,85 @@ cdef class IdealSurface(Surface):
         scale = self.f / fabs(rz)
         FP = dirv * scale
 
-        # Spectral / constant reflectivity handling (same convention as spherical example)
+        # Spectral / constant reflectivity handling (same as spherical example)
         reflect = self.reflectivity_function(self, incident_ray.wavelength)
         if reflect > 1.0 or reflect < 0.0:
             raise ValueError
 
-        # Build rays: transmitted (ideal focusing) and/or reflected
-        # Transmitted direction
-        d = FP - intersection_point
-        if self.f < 0.0:
-            d = -d
-        d.normalize()
-
-        # Reflected direction
         cdef Vector3d rdir
         rdir = intersection_point - FP
         rdir.normalize()
 
-        if (reflect == 0.0):
-            # Pure transmission
-            return [Ray.fast_init(intersection_point,
-                                d,
-                                incident_ray.intensity,
-                                incident_ray.wavelength,
-                                nr,
-                                incident_ray.label,
-                                incident_ray.draw_color,
-                                None,
-                                0.,
-                                self.id,
-                                0,
-                                incident_ray._parent_cnt + 1)]
+        # Transmitted direction: from intersection towards FP (same as spherical)
+        d = FP - intersection_point
+        d.normalize()
 
-        elif (reflect == 1.0):
+        if reflect == 0.0:
+            # Pure transmission
+            return [
+                Ray.fast_init(
+                    intersection_point,
+                    d,
+                    incident_ray.intensity,
+                    incident_ray.wavelength,
+                    nr,
+                    incident_ray.label,
+                    incident_ray.draw_color,
+                    None,
+                    0.0,
+                    self.id,
+                    0,
+                    incident_ray._parent_cnt + 1,
+                )
+            ]
+
+        elif reflect == 1.0:
             # Pure reflection
-            return [Ray.fast_init(intersection_point,
-                                rdir,
-                                incident_ray.intensity,
-                                incident_ray.wavelength,
-                                ni,
-                                incident_ray.label,
-                                incident_ray.draw_color,
-                                None,
-                                0.,
-                                self.id,
-                                0,
-                                incident_ray._parent_cnt + 1)]
+            return [
+                Ray.fast_init(
+                    intersection_point,
+                    rdir,
+                    incident_ray.intensity,
+                    incident_ray.wavelength,
+                    ni,
+                    incident_ray.label,
+                    incident_ray.draw_color,
+                    None,
+                    0.0,
+                    self.id,
+                    0,
+                    incident_ray._parent_cnt + 1,
+                )
+            ]
         else:
             # Beam-splitter behavior: split intensity
-            return [Ray.fast_init(intersection_point,
-                                d,
-                                incident_ray.intensity * (1.0 - reflect),
-                                incident_ray.wavelength,
-                                nr,
-                                incident_ray.label,
-                                incident_ray.draw_color,
-                                None,
-                                0.,
-                                self.id,
-                                0,
-                                incident_ray._parent_cnt + 1),
-                    Ray.fast_init(intersection_point,
-                                rdir,
-                                incident_ray.intensity * reflect,
-                                incident_ray.wavelength,
-                                ni,
-                                incident_ray.label,
-                                incident_ray.draw_color,
-                                None,
-                                0.,
-                                self.id,
-                                0,
-                                incident_ray._parent_cnt + 1)]
-
+            return [
+                Ray.fast_init(
+                    intersection_point,
+                    d,
+                    incident_ray.intensity * (1.0 - reflect),
+                    incident_ray.wavelength,
+                    nr,
+                    incident_ray.label,
+                    incident_ray.draw_color,
+                    None,
+                    0.0,
+                    self.id,
+                    0,
+                    incident_ray._parent_cnt + 1,
+                ),
+                Ray.fast_init(
+                    intersection_point,
+                    rdir,
+                    incident_ray.intensity * reflect,
+                    incident_ray.wavelength,
+                    ni,
+                    incident_ray.label,
+                    incident_ray.draw_color,
+                    None,
+                    0.0,
+                    self.id,
+                    0,
+                    incident_ray._parent_cnt + 1,
+                ),
+            ]

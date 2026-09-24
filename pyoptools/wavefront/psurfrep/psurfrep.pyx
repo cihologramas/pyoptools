@@ -203,8 +203,6 @@ class PSurf:
         cs=cs/cs[-1]
         # Get the value where the truncation must occur
         i=where(cs>pt)[0][0]-1
-        # ~ print cs
-        # ~ print i
 
         # eliminate the unwanted components
         # ks=where(abs(a)>sd[i],a,0)
@@ -231,8 +229,4 @@ class PSurf:
             # Or if it is possible to do an interpolation in the fourier plane
 
             # resf=resf+resf*exp(1.j*)
-            # ~ if i%1 ==0:
-            # ~     print "**", time()-ti
-            # ~     print "***",i, len(ki)
-            # ~     ti=time()
         return r

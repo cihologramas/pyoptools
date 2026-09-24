@@ -1,8 +1,8 @@
-from collections import namedtuple
-
 #  from collections.abc import MutableSequence
 from abc import abstractmethod
+from collections import namedtuple
 from math import isinf
+
 from numpy import array, dot
 
 PRay = namedtuple("PRay", ["y", "u"])
@@ -141,7 +141,6 @@ class PSystem:  # (MutableSequence):
         UL = [ray.u]
 
         for s in self.surfaces:
-
             ray = s.propagate(ray, na)
             na = s.n
             Z = Z + s.d
@@ -195,7 +194,7 @@ class PSystem:  # (MutableSequence):
             if isinstance(s0, PImg):
                 if s0.h is None:
                     hobj = self.surfaces[0].h
-                    if not isinf(hobj) and not (hobj is None):
+                    if not isinf(hobj) and hobj is not None:
                         pr = self.get_principal_ray()
                         Z, Y, U = self.propagate(pr)
                         h = Y[-1]
@@ -217,8 +216,9 @@ class PSystem:  # (MutableSequence):
 
 
 if __name__ == "__main__":
-    import pylab as pl
     from math import inf
+
+    import pylab as pl
 
     SP = [
         ["OBJ", {"d": inf, "n": 1.0, "h": None}],

@@ -1,4 +1,3 @@
-
 """Method collection to obtain optical system information
 
 This module contains a method collection to obtain information, and analyze
@@ -20,33 +19,34 @@ __all__ = [
     "ray_paths",
 ]
 
-import numpy as np
+import multiprocessing as mp
 
-from pyoptools.raytrace.ray import Ray
+import numpy as np
+from numpy import (
+    array,
+    dot,
+    inf,
+    isnan,
+    mgrid,
+    nan,
+    pi,
+    sqrt,
+    square,
+    where,
+)
+from numpy.random import normal
+from scipy.optimize import fsolve
+
 from pyoptools.misc.pmisc import cross
-from pyoptools.raytrace.system import System
-from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.comp_lib import CCD
-from pyoptools.raytrace.surface import Spherical
+from pyoptools.raytrace.component import Component
+from pyoptools.raytrace.ray import Ray
 
 # from gui.plot_frame import PlotFrame
 from pyoptools.raytrace.shape import Circular
+from pyoptools.raytrace.surface import Spherical
+from pyoptools.raytrace.system import System
 
-from numpy import (
-    inf,
-    sqrt,
-    square,
-    pi,
-    dot,
-    array,
-    isnan,
-    nan,
-    mgrid,
-    where,
-)
-from scipy.optimize import fsolve
-from numpy.random import normal
-import multiprocessing as mp
 
 def intersection(ray1, ray2, atol=1e-8):
     """
@@ -233,7 +233,7 @@ def chief_ray_search(
     try:
         x, y, z = ccds.hit_list[0][0]
         dist = sqrt(square(x) + square(y))
-    except ValueError:
+    except (ValueError, IndexError):
         dist = inf
 
     p_dist = dist
@@ -252,7 +252,7 @@ def chief_ray_search(
         try:
             x, y, z = ccds.hit_list[0][0]
             dist = sqrt(square(x) + square(y))
-        except ValueError:
+        except (ValueError, IndexError):
             dist = inf
 
         if p_dist > dist:
@@ -269,7 +269,6 @@ def chief_ray_search(
         # limit the minimum value of w
         if w < 0.0000001:
             w = 0.0000001
-    # print p_dist,ntry
     return retray
 
 
@@ -356,7 +355,7 @@ def pupil_location(opsys, ccds, opaxis):
 
     if len(enp) != 1 or len(exp) != 1 or len(oax) != 1:
         raise Exception(
-            "The principal ray or the optical axis ray have more" " than one final ray"
+            "The principal ray or the optical axis ray have more than one final ray"
         )
 
     # Find the nearest points between the rays.
@@ -454,7 +453,7 @@ def paraxial_location(opsys, opaxis):
 
     if len(par) != 1 or len(oax) != 1:
         raise Exception(
-            "The paraxial ray or the optical axis ray have more" " than one final ray"
+            "The paraxial ray or the optical axis ray have more than one final ray"
         )
 
     expl = intersection(oax[0], par[0])
@@ -498,10 +497,9 @@ def find_aperture(ccd, size=(50, 50)):
     hl = ccd.hit_list
     sx, sy = ccd.size
     tx, ty = size
-    dx, dy = sx / (tx - 1), sy / (ty - 1)
     CG = mgrid[
-        float(-sx / 2.0):float(sx / 2.0 + dx):float(dx),
-        float(-sy / 2.0):float(sy / 2.0 + dy):float(dy),
+        float(-sx / 2.0) : float(sx / 2.0) : complex(0, tx),
+        float(-sy / 2.0) : float(sy / 2.0) : complex(0, ty),
     ]
 
     rm = sqrt(CG[0] ** 2 + CG[1] ** 2)
@@ -644,7 +642,6 @@ def get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None):
     opsys.reset()
 
     # Propagate the rays
-    # print "***", raylist
     opsys.ray_add(raylist)
     opsys.propagate()
     # pf=PlotFrame(opsys=opsys)
@@ -674,7 +671,6 @@ def get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None):
                 (ccds, (0, 0, 0), (0, 0, 0)),
             ]
         )
-    # print rl
 
     dummy = System(
         complist=[
@@ -690,7 +686,6 @@ def get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None):
     hcl = []
     opl = []
     for ip, r in ccd.hit_list:
-        # print ip
         x, y, z = ip
         # TODO: This should not be done using the label
         d = float(r.label) - r.optical_path()
@@ -702,8 +697,6 @@ def get_optical_path_ep(opsys, opaxis, raylist, stop=None, r=None):
     # data=bisplev(array(range(-20,20)),array(range(-20,20)),rv)
 
     # data=(data-data.mean())
-
-    # print "Gaussian reference sphere radius =",sqrt(dot(impos-exp,impos-exp))
 
 
 def find_reference_sphere_radius(ip, pl):
@@ -747,9 +740,7 @@ def find_reference_sphere_radius(ip, pl):
     def F(z):
         dist = pla - (sqrt(ipa[:, 0] ** 2 + ipa[:, 1] ** 2 + (ipa[:, 2] - z) ** 2) - z)
         u = sqrt((dist**2).sum())
-        # print "*", u
         # u=dist[-1]
-        # print u
         return u
 
     r = fsolve(F, -10.0)
@@ -797,8 +788,8 @@ def parallel_propagate(os, r, np=None):
     r_list = []
     r_list.append((os, r[: nr / cpus]))
     for i in range(2, cpus):
-        r_list.append((os, r[(nr / cpus) * (i - 1):(nr / cpus) * (i)]))
-    r_list.append((os, r[(nr / cpus) * (cpus - 1):]))
+        r_list.append((os, r[(nr / cpus) * (i - 1) : (nr / cpus) * (i)]))
+    r_list.append((os, r[(nr / cpus) * (cpus - 1) :]))
     osi = pool.map(aux_paral_f, r_list)
 
     pool.close()
@@ -858,8 +849,8 @@ def parallel_propagate_ns(os, rg, dp, r, np=None):
     r_list.append((os, rg, dp, r[: nr / cpus]))
     for i in range(2, cpus):
         # os,rg,dp,rb=x
-        r_list.append((os, rg, dp, r[(nr / cpus) * (i - 1):(nr / cpus) * (i)]))
-    r_list.append((os, rg, dp, r[(nr / cpus) * (cpus - 1):]))
+        r_list.append((os, rg, dp, r[(nr / cpus) * (i - 1) : (nr / cpus) * (i)]))
+    r_list.append((os, rg, dp, r[(nr / cpus) * (cpus - 1) :]))
     osi = pool.map(aux_paral_f_ns, r_list)
 
     pool.close()

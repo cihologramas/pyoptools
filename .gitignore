@@ -33,4 +33,3 @@ test_results.xml
 .eggs
 **/Untitled*.ipynb
 **/.ipynb_checkpoints
-uv.lock

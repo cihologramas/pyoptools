@@ -1,23 +1,26 @@
-
 """Module with functions and classes to represent the pyoptools objects
 in `jupyter notebooks <http://jupyter.org>`_.
 """
 
-from pyoptools.raytrace.system import System
-from pyoptools.raytrace.component import Component
-from pyoptools.misc.pmisc import wavelength2RGB, cross, rot_x, rot_y, rot_z
 from numpy import array
+
+from pyoptools.misc.pmisc import cross, rot_x, rot_y, rot_z, wavelength2RGB
+from pyoptools.raytrace.component import Component
+from pyoptools.raytrace.system import System
 
 try:
     import pythreejs as py3js
 except ModuleNotFoundError:
-    print("need pythreejs installed to be able to plot systems in Jupyter notebooks")
+    py3js = None
 
-from numpy import pi, array, dot, sin, cos
 from math import sqrt
-from matplotlib import colors
 
-__all__ = ["Plot3D"]
+from matplotlib import colors
+from numpy import cos, dot, pi, sin
+
+from pyoptools.gui.plotly_viewer import plot_system_plotly
+
+__all__ = ["Plot3D", "plot_system_plotly"]
 
 
 def create_transformation_matrix(P, D):
@@ -304,7 +307,6 @@ def ray2list(ray):
         P2 = P1 + 10.0 * array(ray.direction)
 
     if ray.intensity != 0:
-
         line = [list(P1), list(P2)]
         rays.append(line)
 
@@ -408,7 +410,6 @@ def sys2mesh(os):
             s.add(ray2mesh(i))
 
         # Draw Components
-        n = 0
         for comp in os.complist:
             C, P, D = comp
             c = comp2mesh(C, P, D)
@@ -417,7 +418,13 @@ def sys2mesh(os):
 
 
 def Plot3D(
-    S, size=(800, 200), center=(0, 0, 0), rot=[(pi / 3.0, pi / 6.0, 0)], scale=1
+    S,
+    size=(800, 500),
+    center=(0, 0, 0),
+    rot=[(pi / 3.0, pi / 6.0, 0)],
+    scale=1,
+    backend="auto",
+    **kwargs,
 ):
     """
     Creates a 3D interactive visualization of an optical system, component,
@@ -467,6 +474,24 @@ def Plot3D(
         and a scale factor of 1.
     """
     width, height = size
+
+    # Modern Plotly 3D backend (works across Marimo, JupyterLab 4, VS Code, and browser)
+    if backend in ("auto", "plotly"):
+        try:
+            return plot_system_plotly(
+                S,
+                width=int(width * scale),
+                height=int(height * scale),
+                **kwargs,
+            )
+        except Exception:
+            if backend == "plotly":
+                raise
+
+    if py3js is None:
+        raise ImportError(
+            "pythreejs is not installed. To use the 3D viewer, install plotly or pythreejs."
+        )
 
     light = py3js.DirectionalLight(
         color="#ffffff", intensity=0.7, position=[0, 1000, 0]

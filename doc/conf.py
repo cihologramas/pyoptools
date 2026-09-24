@@ -234,3 +234,6 @@ latex_documents = [
 
 # If false, no module index is generated.
 # latex_use_modindex = True
+
+# Avoid running notebooks during doc build if kernel is unavailable
+nbsphinx_execute = 'never'

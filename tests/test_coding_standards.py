@@ -1,47 +1,45 @@
 import os
+from subprocess import run
+
 import pytest
-import pycodestyle  # This is the updated name for the pep8 tool
-from subprocess import run, PIPE
 
 import pyoptools
-
-PEP8_ADDITIONAL_IGNORE = ["E501"]
-
-EXCLUDE_FILES = []
-
 
 EXCLUDE_CYTHON_FILES = []
 
 
 @pytest.mark.linting
 def test_pep8_conformance():
+    """Verify that all pure Python files adhere to PEP8/Ruff standards."""
     dirname = os.path.dirname(pyoptools.__file__)
-    pep8style = pycodestyle.StyleGuide()
+    tests_dir = os.path.join(os.path.dirname(dirname), "tests")
 
-    # Extend the number of PEP8 guidelines which are not checked.
-    pep8style.options.ignore = pep8style.options.ignore + tuple(PEP8_ADDITIONAL_IGNORE)
-    pep8style.options.exclude.extend(EXCLUDE_FILES)
-    pep8style.options.filename = ["*.py"]
-
-    result = pep8style.check_files([dirname])
-    msg = "Found Python code syntax errors (and warnings)."
-    assert result.total_errors == 0, msg
+    result = run(
+        ["ruff", "check", dirname, tests_dir],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, (
+        f"Ruff found lint errors:\n{result.stdout}{result.stderr}"
+    )
 
 
 @pytest.mark.linting
 def test_cython_conformance():
+    """Verify that all Cython files adhere to cython-lint standards."""
     dirname = os.path.dirname(pyoptools.__file__)
 
     for root, dirs, files in os.walk(dirname):
         for file in files:
-            if (
-                file.endswith(".pyx") or file.endswith(".pxd")
-            ) and file not in EXCLUDE_CYTHON_FILES:
+            if file.endswith((".pyx", ".pxd")) and file not in EXCLUDE_CYTHON_FILES:
                 filepath = os.path.join(root, file)
                 result = run(
-                    ["cython-lint", filepath], stdout=PIPE, stderr=PIPE, text=True
+                    ["cython-lint", filepath],
+                    capture_output=True,
+                    text=True,
+                    check=False,
                 )
-
-                assert (
-                    result.returncode == 0
-                ), f"Found Cython code syntax errors in {file}:\n{result.stdout}{result.stderr}"
+                assert result.returncode == 0, (
+                    f"Found Cython code syntax errors in {file}:\n{result.stdout}{result.stderr}"
+                )

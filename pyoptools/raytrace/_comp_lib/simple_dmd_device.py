@@ -20,11 +20,11 @@ with a parallelepiped structure consisting of a SimpleDMD surface as the front
 face and OpticalStop surfaces on the other five faces.
 """
 
-from math import pi, radians
+from math import pi
 
 from pyoptools.raytrace.component import Component
-from pyoptools.raytrace.surface import SimpleDMD, OpticalStop
 from pyoptools.raytrace.shape import Rectangular
+from pyoptools.raytrace.surface import OpticalStop, SimpleDMD
 
 
 class SimpleDMDDevice(Component):

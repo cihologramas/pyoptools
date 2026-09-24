@@ -1,7 +1,7 @@
-from .shape import Shape
-from .rectangular import Rectangular
 from .circular import Circular
-from .triangular import Triangular
 from .polygon import Polygon
+from .rectangular import Rectangular
+from .shape import Shape
+from .triangular import Triangular
 
 __all__ = ["Shape", "Circular", "Rectangular", "Triangular", "Polygon"]

@@ -1,14 +1,46 @@
-import sys
 import os
 import subprocess
-import platform
-from setuptools import setup, Command
+import sys
+
 from Cython.Build import cythonize
 from Cython.Build.Dependencies import default_create_extension
+from setuptools import Command, setup
 
 
+def get_eigen_include_path():
+    # 1. Environment variable
+    env_path = os.environ.get("EIGEN3_INCLUDE_DIR")
+    if env_path and (
+        os.path.exists(os.path.join(env_path, "Eigen", "Dense"))
+        or os.path.exists(env_path)
+    ):
+        return env_path
 
-eigen_include_path = os.environ.get('EIGEN3_INCLUDE_DIR', '/usr/include/eigen3')
+    # 2. Python package providing Eigen headers (managed via uv/pip)
+    try:
+        import eigency
+
+        for inc in eigency.get_includes():
+            if os.path.exists(os.path.join(inc, "Eigen", "Dense")):
+                return inc
+    except ImportError:
+        pass
+
+    # 3. Standard system locations
+    for candidate in [
+        "/usr/include/eigen3",
+        "/usr/local/include/eigen3",
+        "/opt/homebrew/include/eigen3",
+    ]:
+        if os.path.exists(os.path.join(candidate, "Eigen", "Dense")) or os.path.exists(
+            candidate
+        ):
+            return candidate
+
+    return "/usr/include/eigen3"
+
+
+eigen_include_path = get_eigen_include_path()
 
 
 def create_extension(template, kwds: dict):
@@ -46,7 +78,6 @@ class TestCommand(Command):
 
 
 if __name__ == "__main__":
-    # allow setup.py to run from another directory
     setup(
         ext_modules=cythonize(
             "pyoptools/**/*.pyx",
@@ -57,5 +88,4 @@ if __name__ == "__main__":
         use_scm_version=True,
         include_package_data=True,
         cmdclass={"test": TestCommand},
-        setup_requires=["setuptools_scm", "Cython"]
     )

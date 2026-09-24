@@ -18,9 +18,10 @@ Definition of compound lens objects and helper functions
 
 from math import isnan
 
+from pyoptools.raytrace.mat_lib import material
 from pyoptools.raytrace.system import System
-from pyoptools.raytrace.comp_lib import SphericalLens
-from pyoptools.raytrace.mat_lib import Material, material
+
+from .spherical_lens import SphericalLens
 
 
 class Doublet(System):
@@ -65,7 +66,7 @@ class Doublet(System):
         material_l1=1.0,
         material_l2=1.0,
         *args,
-        **kwarks
+        **kwarks,
     ):
         System.__init__(self, *args, **kwarks)
         self.radius = radius
@@ -166,7 +167,7 @@ class AirSpacedDoublet(System):
         material_l1=1.0,
         material_l2=1.0,
         *args,
-        **kwarks
+        **kwarks,
     ):
         System.__init__(self, *args, **kwarks)
         self.radius = radius
@@ -287,6 +288,6 @@ class MultiLens(System):
                 )
                 0, 0, p + th0 / 2
 
-                self.complist["C{}".format(nn)] = (lens, (0, 0, p + th0 / 2), (0, 0, 0))
+                self.complist[f"C{nn}"] = (lens, (0, 0, p + th0 / 2), (0, 0, 0))
                 nn = nn + 1
             p = p + th0

@@ -70,11 +70,9 @@ def s2d(kx, ky, nx, ny):
     uy=ky - (arange(ny).astype(float64))  # -int(ny/2))
     ux= ux.reshape(1, nx)
     uy=uy.reshape(1, ny)
-    #    print ux.shape, uy.shapefield.py
     sx=s(ux, nx)
     sy=s(uy, ny)
 
-    # print sx.shape, sy.shape
     # TODO: Verify if the correct expression is
     # dot(sx.transpose(),sy) or dot(sy.transpose(),sx)
     # retval=dot(sx.transpose(),sy)
@@ -619,14 +617,9 @@ cdef class Field:
                  ifbi,)
         #        local_size=(16,16)
         #        )
-        # print "nota: Al usar el metodo de integración de simpson, hay que tener"
         #       "un buen"
-        # print "muestreo en el campo objeto. Si se tiene un solo pixel en 1 y lo demas"
         #       " en 0 "
-        # print "Puede haber problemas, por que el muestreo no es adecuado."
-        # print "Para generar frentes de onda creados por un filtro espacial, tratar de"
         #        "hallar "
-        # print "la solución teorica"
 
         cl.enqueue_read_buffer(queue0, ifbr, ifr).wait()
         cl.enqueue_read_buffer(queue0, ifbi, ifi).wait()
@@ -833,7 +826,6 @@ cdef class Field:
             dyp=l*z/sy
 
         if z<0:
-            # ~ data=fftshift(ifft2(ifftshift(self.data)))
             data=ifftshift(ifft2(fftshift(self.data)))
             dxp=-l*z/sx
             dyp=-l*z/sy

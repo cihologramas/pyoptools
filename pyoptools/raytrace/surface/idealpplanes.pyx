@@ -48,8 +48,6 @@ cdef class IdealPPlanes(Surface):
         if L1(2) == 0:
             assign_nan_to_vector3d(intersection_point)
 
-        # print N_,P1,L1
-        # print dot(N_,-P1),dot(N_,L1)
         # u=dot(N_,-P1)/dot(N_,L1)
 
         cdef double u, u1, u2
@@ -116,7 +114,6 @@ cdef class IdealPPlanes(Surface):
                            label=incident_ray.label,
                            orig_surf=self.id))
         if self.reflectivity != 0:
-            # print "not 0"
             temp_vect = intersection_point-FP
             ret.append(Ray(origin=convert_vector3d_to_tuple(intersection_point),
                            direction=convert_vector3d_to_tuple(temp_vect),
@@ -125,5 +122,4 @@ cdef class IdealPPlanes(Surface):
                            n=ni, label=incident_ray.label,
                            orig_surf=self.id))
 
-        # print self.reflectivity
         return ret

@@ -1,14 +1,15 @@
-import numpy as np
-from struct import Struct
-from pathlib import Path
-from enum import Enum, auto
-import json
-import sys
+import argparse
 import csv
+import json
+import re
+import sys
 import textwrap
 import traceback
-import argparse
-import re
+from enum import Enum, auto
+from pathlib import Path
+from struct import Struct
+
+import numpy as np
 
 from pyoptools.raytrace.mat_lib import material
 
@@ -27,7 +28,7 @@ def find_key(key, lines):
     try:
         rv = ""
         for s in list(filter(lambda x: x.startswith(key), lines)):
-            rv = rv + s[len(key) + 1:]
+            rv = rv + s[len(key) + 1 :]
     except IndexError:
         # key not found
         rv = ""
@@ -54,7 +55,7 @@ def zmf_decode(data, a, b):
     iv = np.cos(655 * (np.pi / 180) * iv) + iv
     p = np.arange(len(data))
     k = 13.2 * (iv + np.sin(17 * (p + 3))) * (p + 1)
-    k = (int(("{:.8e}".format(_))[4:7]) for _ in k)
+    k = (int((f"{_:.8e}")[4:7]) for _ in k)
     # data = np.fromstring(data, np.uint8)
     data = np.frombuffer(data, np.uint8).copy()
     data ^= np.fromiter(k, np.uint8, len(data))
@@ -105,9 +106,6 @@ class SingletImporter(OpticImporter):
 
     def definition(self):
 
-        c0 = self.surflist[0]["CURV"][0]
-        c1 = self.surflist[1]["CURV"][0]
-        d0 = self.surflist[0]["DISZ"][0]
         # Not all lenses have DIAM in both surfaces
         if "DIAM" in self.surflist[0] and "DIAM" in self.surflist[1]:
             r0 = self.surflist[0]["DIAM"][0]
@@ -191,7 +189,6 @@ class AsphericImporter(OpticImporter):
         return checktype(self.surflist, "EVENASPH")
 
     def definition(self):
-        # print('Importing aspheric')
 
         self.lens_data["type"] = "AsphericLens"
         self.lens_data["thickness"] = None
@@ -219,7 +216,6 @@ class AsphericImporter(OpticImporter):
         first_aspheric_index = None
         for i, s in enumerate(self.surflist):
             if "TYPE" in s and s["TYPE"][0] == "EVENASPH" and s["CURV"][0] != 0.0:
-
                 if first_aspheric_index is None:
                     first_aspheric_index = i
 
@@ -355,7 +351,6 @@ class DoubletImporter(OpticImporter):
 
 
 class AirSpacedDoubletImporter(OpticImporter):
-
     def valid(self):
         return len(self.surflist) == 4
 
@@ -373,13 +368,6 @@ class AirSpacedDoubletImporter(OpticImporter):
         # assert r0==r1 and r1== r2 and r2 ==r3 Esto no siempre se cumple
 
         r0 = self.surflist[0]["DIAM"][0]
-        r1 = self.surflist[1]["DIAM"][0]
-        r2 = self.surflist[2]["DIAM"][0]
-        r3 = self.surflist[3]["DIAM"][0]
-
-        # Verificar que las superficies son iguales, si no emitir un error
-        # assert r0==r1 and r1== r2 and r2 ==r3 #Esto no siempre se cumple
-
         self.lens_data["radius"] = r0
 
         self.lens_data["material_l1"] = self.surflist[0]["GLAS"][0]
@@ -542,7 +530,7 @@ class ZmfImporter:
                 assert len(description) == li[7]
                 description = zmf_decode(description, li[8], li[9])
                 description = description.decode("latin1")
-                assert description.startswith("VERS {:06d}\n".format(li[1]))
+                assert description.startswith(f"VERS {li[1]:06d}\n")
 
                 if match_name is None:
                     self.zmx_data[li[0]] = description
@@ -555,7 +543,7 @@ class ZmfImporter:
         for k, v in self.zmx_data.items():
             try:
                 descriptor = self.pyot_descriptor(k)
-            except Exception as ex:
+            except Exception:
                 print(f"Exception converting element {k}\n")
                 print("Raw data : \n")
                 print(textwrap.indent(v, " " * 4))
@@ -597,8 +585,6 @@ class ZmfImporter:
                 break
             line = surfaces.pop(0)
             header.append(line)
-
-        lens_data = {}
 
         description = find_key("NOTE 0", header)
         name = find_key("NAME", header)
@@ -642,12 +628,7 @@ class ZmfImporter:
 
         # Flag
         if any(ex in description for ex in self.manual_exclusions):
-            # print(f"\n *** \n Manually excluded : {key}")
-            # print(libdata[key])
-            # print('\n')
             # for s in surflist:
-            #    print(s)
-            # print('\n *** \n')
             return FailedImport.manual_exclusion
 
         # Delete the object plane and the image plane
@@ -733,7 +714,7 @@ def main():
         "-p",
         "--part",
         type=str,
-        help=("optional : for decoding just one part. " "Omit to decode all"),
+        help=("optional : for decoding just one part. Omit to decode all"),
     )
     parser.add_argument(
         "-o",
@@ -741,8 +722,7 @@ def main():
         required=False,
         action="store_true",
         help=(
-            "Output .json and .csv files. "
-            "If not specified, output will be to terminal."
+            "Output .json and .csv files. If not specified, output will be to terminal."
         ),
     )
     parser.add_argument(

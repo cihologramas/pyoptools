@@ -1,9 +1,9 @@
+from inspect import signature
+
 from pyoptools.raytrace import comp_lib as cl
 from pyoptools.raytrace.component import Component
-from pyoptools.raytrace.system import System
 from pyoptools.raytrace.mat_lib import material
-
-from inspect import signature
+from pyoptools.raytrace.system import System
 
 
 def optic_factory(**kwargs):

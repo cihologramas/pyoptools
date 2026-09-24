@@ -15,7 +15,6 @@
 """Module that defines the optical system class System()
 """
 
-from numpy import asarray, array, all, isinf as npisinf
 
 from pyoptools.raytrace.ray.ray cimport Ray
 
@@ -175,13 +174,13 @@ cdef class System(Picklable):
 
     # Return an iterator so this can be used similar to a list
     def __iter__(self):
-        return self._complist.itervalues()
+        return iter(self._complist.values())
 
     def iteritems(self):
-        return self._complist.iteritems()
+        return iter(self._complist.items())
 
     def iter(self):
-        return self._complist.iter()
+        return iter(self._complist.values())
 
     def clear(self):
         return self._complist.clear()
@@ -190,10 +189,10 @@ cdef class System(Picklable):
         return self._complist.items()
 
     def iterkeys(self):
-        return self._complist.iterkeys()
+        return iter(self._complist.keys())
 
     def itervalues(self):
-        return self._complist.itervalues()
+        return iter(self._complist.values())
 
     def keys(self):
         return self._complist.keys()
@@ -214,13 +213,13 @@ cdef class System(Picklable):
         return self._complist.values()
 
     def viewitems(self):
-        return self._complist.viewitems()
+        return self._complist.items()
 
     def viewkeys(self):
-        return self._complist.viewkeys()
+        return self._complist.keys()
 
     def viewvalues(self):
-        return self._complist.viewvalues()
+        return self._complist.values()
 
     def clear_ray_list(self):
         """ Clear the ray lists of the system
@@ -242,11 +241,11 @@ cdef class System(Picklable):
                 if isinstance(i, Ray):
                     self._np_rays.append(i)
                 else:
-                    raise Exception, "Not a valid Ray"
+                    raise TypeError("Not a valid Ray")
         elif isinstance(ray, Ray):
             self._np_rays.append(ray)
         else:
-            raise Exception, "Not a valid Ray"
+            raise TypeError("Not a valid Ray")
 
     def propagate(self, update_ids=True):
         """ Propagates all the rays in the non propagated list.
@@ -292,9 +291,9 @@ cdef class System(Picklable):
             try:
                 O=O[k][0]
             except KeyError:
-                raise KeyError, "Invalid path.  Key %s does not exist" %k
+                raise KeyError(f"Invalid path. Key {k} does not exist")
             except TypeError:
-                raise TypeError, "Invalid path. Path too long, key %s does not exist" %k
+                raise TypeError(f"Invalid path. Path too long, key {k} does not exist")
         assert isinstance(O, Surface), "Error in path: Path too short"
 
         return O
@@ -309,9 +308,9 @@ cdef class System(Picklable):
                 C=O
                 O=O[k][0]
             except KeyError:
-                raise KeyError, "Invalid path.  Key %s does not exist" %k
+                raise KeyError(f"Invalid path. Key {k} does not exist")
             except TypeError:
-                raise TypeError, "Invalid path. Path too long, key %s does not exist" %k
+                raise TypeError(f"Invalid path. Path too long, key {k} does not exist")
         assert isinstance(C, Component), "Error in path: Path too short"
         return C
 
@@ -381,69 +380,61 @@ cdef class System(Picklable):
         cdef tuple[double, double, double] P, D, PSR, DSR, PSR0, DSR0, PSR1, \
             DSR1
 
-        cdef int j, j1
-        cdef double d0, d1
+        cdef double d0 = INFINITY
+        cdef double d1 = INFINITY
+        cdef object comp0 = None, comp1 = None
+        cdef object surf0 = None, surf1 = None
+        cdef object pi0 = None, pi1 = None
+        cdef double d
+        cdef object C
+        cdef Ray R
 
         if isnan(ri.n):
             ri.n=self.n
 
-        cdef list dist_list=[]
-        cdef list surf_list=[]
-        cdef list comp_list=[]
-        cdef list pi_list=[]
-        # Calculate the path length followed by the ray until it intersects all
-        # the components and subsystems
+        # Calculate the path length followed by the ray until it intersects
+        # the components and subsystems, tracking the two nearest components.
+        for comp_item in self.complist:
+            C, P, D = comp_item
+            # Reorient ray to the element coordinate system and compute
+            # distance to intersection
+            R = ri.ch_coord_sys(P, D)
 
-        # Note: C can be component or subsystem, so for the moment we will
-        # leave it as a python object
+            Dist = C.distance(R)
+            d = Dist[0]
 
-        cdef object C
-        for i in self.complist:
-            C, P, D = i
-            comp_list.append((C, P, D))
-            # Reorientar el rayo, al sistema de coordenadas del elemento
-            # y calcular el recorrido del rayo hasta chocar con la
-            # el elemento
-            R=ri.ch_coord_sys(P, D)
+            if d < d0 or comp0 is None:
+                # Shift current best to second best
+                d1 = d0
+                comp1 = comp0
+                surf1 = surf0
+                pi1 = pi0
 
-            Dist=C.distance(R)
-
-            dist_list.append(Dist[0])
-
-            pi_list.append(Dist[1])
-
-            surf_list.append(Dist[2])
+                d0 = d
+                comp0 = comp_item
+                surf0 = Dist[2]
+                pi0 = Dist[1]
+            elif d < d1 or comp1 is None:
+                d1 = d
+                comp1 = comp_item
+                surf1 = Dist[2]
+                pi1 = Dist[1]
 
         # Check if there are more components in front of the ray
         # if not, return the original ray
-
-        if all(npisinf(array(dist_list))):
+        if isinf(d0):
             return ri
 
-        # Sort the components by distance
-        sort_list=asarray(dist_list).argsort()
-
-        # Take the 2 nearest components. If there is only one component assume the 2nd
-        # component at infinitum
-        j=sort_list[0]
-        d0=dist_list[j]
-
         # Add ray to the hit list
-        surf_list[j]._hit_list.append((pi_list[j], ri))
+        surf0._hit_list.append((pi0, ri))
 
         # TODO: The hitlists of the surfaces inside a subsystem are not accurate
         # because the rays are in the subsystem coordinate system, and not in
         # world coordinate system.
-        if len(sort_list)>1:
-            j1=sort_list[1]
-            d1=dist_list[j1]
-        else:
+        if comp1 is None:
             d1 = INFINITY
-        # Si las compomentes mas cercanas no estan en contacto, calcular la
-        # propagacion a travez de la componente mas cercana
-        # Nota_: La comparacion de punto flotante no esta funcionando. Para
-        # que funcione toca definir un epsilon, en el que se consideran
-        # nulas las diferencias
+        # If the closest components are not in contact within numerical tolerance,
+        # propagate through the closest component
 
         # If the closest components are not in contact calculate the propagation
         # using the closest surface.
@@ -456,10 +447,9 @@ cdef class System(Picklable):
         # leave it as a standard python object
         cdef object SR
 
-        if isinstance(comp_list[j][0], System):
-            # Leer el elemento que primero intersecta el rayo, asi como
-            # su posicion y orientacion
-            SR, PSR, DSR=comp_list[j]
+        if isinstance(comp0[0], System):
+            # Read the first intersected subsystem, position, and orientation
+            SR, PSR, DSR=comp0
             # SR.reset()
             SR.clear_ray_list()
 
@@ -475,12 +465,12 @@ cdef class System(Picklable):
             for i in RT.childs:
                 ri.add_child(i)
 
-        # Verificar si no hay componentes en contacto
+        # Check if components are not in contact
         elif abs(d0-d1)>N_EPS:
 
             # Get the nearest element to the ray origin, as well as its
             # position and orientation
-            SR, PSR, DSR=comp_list[j]
+            SR, PSR, DSR=comp0
 
             # Change the ray to the coordinate system of the element
 
@@ -499,17 +489,16 @@ cdef class System(Picklable):
                 ri.add_child(ri_)
         else:
 
-            # There are 2 objects in contactt
-            # Object 1
+            # Two components in contact:
+            # Component 1
 
-            SR0, PSR0, DSR0=comp_list[j]
-            # Object 2
-            SR1, PSR1, DSR1=comp_list[j1]
+            SR0, PSR0, DSR0=comp0
+            # Component 2
+            SR1, PSR1, DSR1=comp1
             # Add ray to the hit list
-            surf_list[j1]._hit_list.append((pi_list[j1], ri))
+            surf1._hit_list.append((pi1, ri))
             n0=SR0.n(ri.wavelength)
             n1=SR1.n(ri.wavelength)
-            # print 1
             # Calculate the refraction for both components
 
             R0=ri.ch_coord_sys(PSR0, DSR0)
@@ -521,9 +510,11 @@ cdef class System(Picklable):
 
             # TODO: Need to find a solution when the two surfaces return more
             # than one ray.
-            if (len(ri_n0)>1)and(len(ri_n1)>1):
-                raise Exception, "The two surfaces in contact, can not produce "\
-                                 "both more than one propagated ray"
+            if (len(ri_n0) > 1) and (len(ri_n1) > 1):
+                raise RuntimeError(
+                    "The two surfaces in contact cannot produce both "
+                    "more than one propagated ray"
+                )
             elif len(ri_n0)>1:
                 for i in ri_n0:
                     ri_=i.ch_coord_sys_inv(PSR0, DSR0)
@@ -559,8 +550,9 @@ cdef class System(Picklable):
                     self._exit_status_flag = 1
 
             else:
-                raise Exception, \
-                    "Error, a a ray can not be parent and child at the same time"
+                raise RuntimeError(
+                    "Error, a ray cannot be parent and child at the same time"
+                )
 
         return ri
 
@@ -601,7 +593,6 @@ cdef class System(Picklable):
             assert ri.wavelength==gr.wavelength, \
                 "Propagated rays, and guide ray wavelength must match"
             # self.propagate_ray(ri)
-            # ~ # Check if the ray comes from the media
             if isnan(ri.n):
                 ri.n=self.n
 
@@ -674,28 +665,28 @@ cdef class System(Picklable):
             that is closest to the ray (distance,point of intersection, surface)
         """
         # cdef np.ndarray P,D
-        cdef list dist_list=[]
-        cdef list pi_list=[]
-        cdef list surf_list=[]
-        # print self.complist
+        cdef double min_d = INFINITY
+        cdef double d
+        cdef object min_pi = None
+        cdef object min_surf = None
+        cdef object C
+        cdef Ray R
+
         for comp in self.complist:
-            C, P, D =comp
-            # C,P,D = i
-            # Reorientar el rayo, al sistema de coordenadas del elemento
-            # y calcular el recorrido del rayo hasta chocar con la
-            # el elemento
-            R=ri.ch_coord_sys(P, D)
+            C, P, D = comp
+            # Reorient ray to the element coordinate system and compute
+            # distance to intersection
+            R = ri.ch_coord_sys(P, D)
 
-            Dist=C.distance(R)
+            Dist = C.distance(R)
+            d = Dist[0]
 
-            dist_list.append(Dist[0])
+            if d < min_d or min_surf is None:
+                min_d = d
+                min_pi = Dist[1]
+                min_surf = Dist[2]
 
-            pi_list.append(Dist[1])
-            surf_list.append(Dist[2])
-
-        mini=asarray(dist_list).argmin()
-
-        return dist_list[mini], pi_list[mini], surf_list[mini]
+        return min_d, min_pi, min_surf
 
     def merge(self, os):
         """

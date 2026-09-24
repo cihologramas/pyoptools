@@ -16,10 +16,10 @@
 Definition of a spherical lens object and helper functions
 """
 
+from pyoptools.misc.function_2d.poly_2d import Poly2D
 from pyoptools.raytrace.component import Component
-from pyoptools.raytrace.surface import Aspherical, Plane
 from pyoptools.raytrace.shape import Circular
-from pyoptools.misc.function_2d.poly_2d import *
+from pyoptools.raytrace.surface import Aspherical, Plane
 
 
 class PowellLens(Component):

@@ -23,25 +23,12 @@ The aspherical optical surface, is modeled as a taylor polynomial.
 This module is not working and should not be used
 """
 
+import sympy
 from numpy import (
     array,
-    asarray,
-    arange,
-    polyadd,
-    polymul,
-    polysub,
-    polyval,
-    dot,
-    inf,
-    roots,
-    zeros,
-    meshgrid,
     sqrt,
-    where,
-    abs,
+    zeros,
 )
-
-import sympy
 
 from pyoptools.raytrace.surface.taylor_poly import TaylorPoly
 

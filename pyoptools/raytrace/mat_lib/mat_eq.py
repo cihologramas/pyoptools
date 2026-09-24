@@ -1,4 +1,3 @@
-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007-2021, Ricardo Amézquita Orozco
 # All rights reserved.
@@ -21,10 +20,12 @@ https://refractiveindex.info/database/doc/Dispersion%20formulas.pdf for the
 dispersion formulas
 
 """
-import yaml
-import numpy
+
 import io
 from math import sqrt
+
+import numpy
+import yaml
 
 
 class ModelNotImplemented(Exception):
@@ -49,7 +50,6 @@ class Material:
         if cl is None:
             self.__coef__ = coef
         else:
-
             self.__coef__ = numpy.zeros(cl)
             self.__coef__[: coef.size] = coef
 
@@ -88,7 +88,11 @@ class Sellmeier(Material):
     def n(self, wavelength=0.58929):
         n2 = 1 + self.__coef__[0]
         for i in range(1, 17, 2):
-            n2 = n2 + (self.__coef__[i] * wavelength**2 / (wavelength**2 - self.__coef__[i + 1] ** 2))
+            n2 = n2 + (
+                self.__coef__[i]
+                * wavelength**2
+                / (wavelength**2 - self.__coef__[i + 1] ** 2)
+            )
         return sqrt(n2)
 
 
@@ -104,7 +108,11 @@ class Sellmeier_2(Material):
     def n(self, wavelength=0.58929):
         n2 = 1 + self.__coef__[0]
         for i in range(1, 17, 2):
-            n2 = n2 + (self.__coef__[i] * wavelength**2 / (wavelength**2 - self.__coef__[i + 1]))
+            n2 = n2 + (
+                self.__coef__[i]
+                * wavelength**2
+                / (wavelength**2 - self.__coef__[i + 1])
+            )
         return sqrt(n2)
 
 
@@ -191,8 +199,6 @@ def from_yml(file_path):
     https://refractiveindex.info/about
     """
     # with open(filename, encoding='utf-8') as f:
-
-    # print('opening ', file_path)
 
     with file_path.open(encoding="utf-8") as f:
         mat = yaml.load(f, Loader=yaml.FullLoader)

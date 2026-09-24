@@ -1,20 +1,20 @@
 from mako.template import Template
-from pyoptools.misc.resources import has_double_support, has_amd_double_support
+
+from pyoptools.misc.resources import has_amd_double_support, has_double_support
 
 # ojo, toca solucionar esta importacion en caso de que no exista pypencl
 
 try:
-    from pyfft.cl import Plan
     import pyopencl as cl
     import pyopencl.array as cl_array
+    from pyfft.cl import Plan
 except ImportError:
     pass
 
 
-from numpy.fft import fft2, ifft2, fftshift, ifftshift
-from numpy import angle, exp, pi, complex128, zeros, sqrt, int32, zeros_like, ones
+from numpy import angle, complex128, exp, int32, ones, pi, zeros, zeros_like
+from numpy.fft import fft2, fftshift, ifft2, ifftshift
 from numpy.random import random
-
 
 KERNEL = """
     //There are some operations that are not defined in the RV770 GPUs
@@ -183,13 +183,11 @@ def gs_mod(idata, itera=10, osize=256):
     cut = osize // 2
 
     zone = zeros_like(idata)
-    zone[M / 2 - cut:M / 2 + cut, N / 2 - cut:N / 2 + cut] = 1
+    zone[M / 2 - cut : M / 2 + cut, N / 2 - cut : N / 2 + cut] = 1
     zone = zone.astype(bool)
 
     mask = exp(2.0j * pi * random(idata.shape))
     mask[zone] = 0
-
-    # ~ imshow(abs(mask)),colorbar()
 
     fdata = fftshift(
         fft2(ifftshift(idata + mask))
@@ -199,10 +197,6 @@ def gs_mod(idata, itera=10, osize=256):
         fdata = exp(1.0j * angle(fdata))
 
         rdata = ifftshift(ifft2(fftshift(fdata)))
-        # ~ e= (abs(rdata[zone])-idata[zone]).std()
-        # ~ if e>ea:
-        # ~
-        # ~ break
         rdata[zone] = exp(1.0j * angle(rdata[zone])) * (idata[zone])
         fdata = fftshift(fft2(ifftshift(rdata)))
     fdata = exp(1.0j * angle(fdata))
@@ -267,11 +261,9 @@ def gs_gpu(idata, itera=100):
 
     fdata = fdata_gpu.get()
 
-    # ~ prg.norm(queue, fdata_gpu.shape, None,fdata_gpu.data)
     fdata = ifftshift(fdata)
     fdata = exp(1.0j * angle(fdata))
 
-    # ~ fdata=fdata_gpu.get()
     return fdata
 
 
@@ -302,7 +294,7 @@ def gs_mod_gpu(idata, itera=10, osize=256):
     plan.execute(idata_gpu.data, fdata_gpu.data)
 
     mask = exp(2.0j * pi * random(idata.shape))
-    mask[512 - cut:512 + cut, 512 - cut:512 + cut] = 0
+    mask[512 - cut : 512 + cut, 512 - cut : 512 + cut] = 0
 
     idata_gpu = cl_array.to_device(queue, ifftshift(idata + mask).astype("complex128"))
     fdata_gpu = cl_array.empty_like(idata_gpu)
@@ -315,7 +307,6 @@ def gs_mod_gpu(idata, itera=10, osize=256):
     for i in range(itera):
         prg.norm(queue, fdata_gpu.shape, None, fdata_gpu.data)
         plan.execute(fdata_gpu.data, rdata_gpu.data, inverse=True)
-        # ~ prg.norm1(queue, rdata_gpu.shape,None,rdata_gpu.data,idata_gpu.data,error_gpu.data, int32(cut))
         norm1 = prg.norm1
         norm1.set_scalar_arg_dtypes([None, None, None, int32])
         norm1(
@@ -330,10 +321,6 @@ def gs_mod_gpu(idata, itera=10, osize=256):
 
         # e = sqrt(cl_array.sum(error_gpu).get()) / (2 * cut)
 
-        # ~ if e>ea:
-        # ~
-        # ~ break
-        # ~ ea=e
         plan.execute(rdata_gpu.data, fdata_gpu.data)
 
     fdata = fdata_gpu.get()

@@ -7,7 +7,6 @@ from .ray_source import (
     point_source_r,
 )
 
-
 __all__ = [
     "Ray",
     "parallel_beam_c",

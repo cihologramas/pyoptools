@@ -107,12 +107,6 @@ cdef class RPPMask(Plane):
         self.addkey("phy")
         self.addkey("M")
 
-    # ~ def __reduce__(self):
-        # ~
-        # ~ args=(self.phm, self.M, self.reflectivity, self.shape)
-        # ~ return(type(self),args,self.__getstate__())
-        # ~
-
     @cython.cdivision(True)
     cpdef list propagate(self, Ray incident_ray, double ni, double nr):
         """Calculate the propagation of a ray through a diffraction grating.

@@ -4,6 +4,7 @@ requires = [
     "setuptools_scm>=8",
     "wheel",
     "Cython==3.0.11",
+    "eigency",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -14,6 +15,7 @@ description = "Python tools for simulation of optical systems"
 authors = [{ name = "Ricardo Amézquita Orozco", email = "ramezquitao@cihologramas.com" }]
 license = { file = "LICENSE.txt" }
 readme = "README.md"
+requires-python = ">=3.10"
 dependencies = [
     "numpy>=1.26.2",
     "scipy>=1.5.2",
@@ -22,7 +24,8 @@ dependencies = [
     "matplotlib>=3.3.1",
     "orjson>=3.10.7",
     "Pillow>=10.0.1",
-    "importlib-resources>=3.3.0"
+    "importlib-resources>=3.3.0",
+    "plotly>=5.0.0"
 ]
 
 [project.optional-dependencies]
@@ -72,15 +75,41 @@ markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
 ]
 
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+extend-exclude = [
+    "*.pyx",
+    "*.pxd",
+    "build",
+    "dist",
+    "doc",
+    "debian",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+]
+ignore = [
+    "E501",  # line length (matching existing repo policy)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/all.py" = ["F403", "F405"]
+"**/gs.py" = ["F403", "F405"]
+"**/__init__.py" = ["F401", "F403"]
+"**/comp_lib.py" = ["F401"]
+"tests/**" = ["E402", "F401", "F403", "F405"]
+
 [dependency-groups]
 dev = [
     "cython-lint>=0.18.0",
-    "pycodestyle>=2.14.0",
+    "ruff>=0.8.0",
     "setuptools>=80.9.0",
-    "pep8>=1.7.1",
+    "pytest>=8.2.1",
+    "pytest-cov>=5.0.0",
 ]
-
-
-[tool.autopep8]
-max_line_length = 88
-aggressive = 1

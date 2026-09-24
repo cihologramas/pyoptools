@@ -5,7 +5,6 @@ from pyoptools.raytrace.mat_lib.mat_eq import Material as OpticalMaterial
 
 
 class TestMaterial(unittest.TestCase):
-
     def test_access(self):
 
         n = 1.5214

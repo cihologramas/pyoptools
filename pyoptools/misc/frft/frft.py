@@ -2,8 +2,8 @@
 
 # third-party imports
 import numpy as np
+from numpy import exp, indices, pi, sqrt, zeros
 from numpy.fft import fft, ifft
-from numpy import zeros, pi, indices, exp, sqrt
 
 # local imports
 
@@ -32,7 +32,7 @@ def _frft2(x, alpha):
     z = zeros((2 * p, n), dtype=complex)
 
     j = indices(z.shape)[0]
-    y[(p - m) // 2:(p + m) // 2, :] = x * exp(
+    y[(p - m) // 2 : (p + m) // 2, :] = x * exp(
         -1.0j * pi * (j[0:m] ** 2) * float(alpha) / m
     )
 
@@ -63,34 +63,3 @@ def rs_kernel(x=0.0, y=0.0, z=0.0, n=1.0):
     ikR = 1.0j * k * R
     R3 = R2 * R
     return (z / (2 * pi * R3)) * exp(ikR) * (1.0 - ikR)
-
-
-# ~ nd=1024
-# ~ data=zeros((nd,nd))
-# ~ csize=10
-# ~ data[nd/2-csize:nd/2+csize,nd/2-csize:nd/2+csize]=1
-# ~
-# ~ nx,ny=data.shape
-# ~
-# ~ dx,dy=0.5e-3,0.5e-3
-# ~
-# ~ X,Y=indices((nx,ny))
-# ~
-# ~ ux=(X-nx/2)*dx; uy=(Y-ny/2)*dy #mirar cual es el tamano adecuado para hacer el calculo
-# ~
-# ~ rs=rs_kernel(x=ux, y=uy, z=250., n=1.)
-# ~
-# ~
-# ~
-# ~ RS=fft2(fftshift(rs))
-# ~ U=frft2(data,1)
-# ~ #U=fft2(data)
-# ~
-# ~ odata=frft2(RS*U,-1)
-# ~ #odata=ifft2(RS*U)
-# ~ #figure()
-# ~ #imshow(data)
-# ~ figure()
-# ~ imshow(abs(odata));colorbar()
-# ~
-# ~

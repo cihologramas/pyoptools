@@ -1,13 +1,12 @@
 """Minimal test suite for SimpleDMD surface."""
 
-from math import radians, isclose, sqrt, pi
+from math import isclose, radians, sqrt
+
 import pytest
-
-from pyoptools.raytrace.surface.simpledmd import SimpleDMD
-from pyoptools.raytrace.shape.rectangular import Rectangular
-from pyoptools.raytrace.shape.circular import Circular
 from pyoptools.raytrace.ray.ray import Ray
-
+from pyoptools.raytrace.shape.circular import Circular
+from pyoptools.raytrace.shape.rectangular import Rectangular
+from pyoptools.raytrace.surface.simpledmd import SimpleDMD
 
 # ============================================================================
 # Section 1: Instantiation and Basic Validation
@@ -94,7 +93,7 @@ def test_simpledmd_cardinal_directions_normals():
     For tilt=30°, test (on/off) direction angles of 0, 90, 180, 270 deg:
     - At each position, normal should match precomputed, fixed expected values (regression, not math test)
     """
-    from math import radians, isclose
+    from math import isclose, radians
 
     tilt_deg = 30
     tilt = radians(tilt_deg)
@@ -176,7 +175,7 @@ def test_simpledmd_on_state_normal():
     normal = dmd.normal((0, 0, 0))
 
     # Expected normal for tilt along +X axis
-    from math import sin, cos
+    from math import cos, sin
 
     expected_x = sin(tilt) * cos(direction)
     expected_y = sin(tilt) * sin(direction)
@@ -207,7 +206,7 @@ def test_simpledmd_off_state_normal():
     normal = dmd.normal((0, 0, 0))
 
     # Expected normal
-    from math import sin, cos
+    from math import cos, sin
 
     expected_x = sin(tilt) * cos(off_dir)
     expected_y = sin(tilt) * sin(off_dir)

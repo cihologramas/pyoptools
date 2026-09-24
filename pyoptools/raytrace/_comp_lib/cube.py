@@ -17,14 +17,15 @@ Definition of beam splitting cube object and helper functions
 """
 
 import warnings
+
 from numpy import pi
 
-from pyoptools.raytrace.system import System
 from pyoptools.raytrace.component import Component
-from pyoptools.raytrace.comp_lib import RightAnglePrism
-from pyoptools.raytrace.mat_lib import Material
-from pyoptools.raytrace.surface import Plane
 from pyoptools.raytrace.shape import Rectangular
+from pyoptools.raytrace.surface import Plane
+from pyoptools.raytrace.system import System
+
+from .prism import RightAnglePrism
 
 
 class Block(Component):
@@ -60,22 +61,8 @@ class Block(Component):
         self.surflist["S5"] = (__lf_surf, (-width / 2, 0, 0), (0, pi / 2, 0))
         self.surflist["S6"] = (__rg_surf, (width / 2, 0, 0), (0, pi / 2, 0))
 
-    # ~ def __reduce__(self):
-    # ~ args=() #self.intensity,self.wavelength,self.n ,self.label,self.parent,self.pop,self.orig_surf)
-    # ~ return(type(self),args,self.__getstate__())
-
     # TODO: Check if there is a better way to do this, because we are
     # rewriting the constructor values here
-
-    # ~ def __getstate__(self):
-    # ~ return self.size, self.__a_surf, self.__p_surf, self.__u_surf,\
-    # ~ self.__l_surf, self.__lf_surf, self.__rg_surf, \
-    # ~ self.surflist
-    # ~
-    # ~ def __setstate__(self,state):
-    # ~ self.size, self.__a_surf, self.__p_surf, self.__u_surf,\
-    # ~ self.__l_surf, self.__lf_surf, self.__rg_surf, \
-    # ~ self.surflist=state
 
 
 class BeamSplittingCube(System):
@@ -117,22 +104,6 @@ class BeamSplittingCube(System):
         self.complist["C1"] = (__prism1, (0, 0, 0), (0, -pi / 2, 0))
         self.complist["C2"] = (__prism2, (0, 0, 0), (0, -3 * pi / 2, 0))
 
-    # ~ def __reduce__(self):
-    # ~ args=() #self.intensity,self.wavelength,self.n ,self.label,self.parent,self.pop,self.orig_surf)
-    # ~ return(type(self),args,self.__getstate__())
-    # ~
-    # ~
-    # ~ #TODO: Check if there is a better way to do this, because we are
-    # ~ #rewriting the constructor values here
-    # ~
-    # ~ def __getstate__(self):
-    # ~ return self.size, self.reflectivity, self.material, self.__prism1,\
-    # ~ self.__prism2, self.complist
-    # ~
-    # ~ def __setstate__(self,state):
-    # ~ self.size, self.reflectivity, self.material, self.__prism1,\
-    # ~ self.__prism2, self.complist = state
-
 
 class BeamSplitingCube(BeamSplittingCube):
     """Deprecated class, please use the one with the correct spelling
@@ -147,6 +118,6 @@ class BeamSplitingCube(BeamSplittingCube):
             "correct) . Please fix your code by using "
             "BeamSplittingCube instead",
             DeprecationWarning,
-            stacklevel=2
+            stacklevel=2,
         )
         super().__init__(*argv, **kwargs)

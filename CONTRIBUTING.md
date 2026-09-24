@@ -6,7 +6,7 @@ Thank you for your interest in contributing to pyOpTools! This document provides
 
 ### Prerequisites
 
-- Python 3.8 or higher
+- Python 3.10 or higher
 - C++ compiler (for Cython extensions)
 - Git
 
@@ -18,7 +18,13 @@ git clone https://github.com/cihologramas/pyoptools.git
 cd pyoptools
 ```
 
-2. Install the package in editable mode with development dependencies:
+2. Using uv (Recommended):
+```bash
+uv sync
+uv run python setup.py build_ext --inplace
+```
+
+Or using pip:
 ```bash
 pip install -e .[test]
 ```

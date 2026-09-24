@@ -91,11 +91,7 @@ cdef class Powell(Surface):
         self.addkey("zmax")
         self.addkey("zmin")
 
-    # ~ def __reduce__(self):
-        # ~
-        # ~ args=(self.Ax, self.Ay, self.Kx, self.Ky, self.poly,
         #         self.reflectivity, self.shape)
-        # ~ return(type(self),args,self.__getstate__())
 
     cdef double topo_cy(self, double x, double y) noexcept nogil:
         """**Returns the Z value for a given X and Y**

@@ -1,53 +1,65 @@
 Installing pyOpTools
 ====================
 
-Getting it
-----------
+Requirements
+------------
 
-pyOpTools can be downloaded from the project GitHub repository at:
+* Python 3.10 or newer (tested on Python 3.10 - 3.13)
+* Linux, macOS, or Windows
+* A C/C++ compiler and Eigen headers (if installing from source or building extensions)
 
-    https://github.com/cihologramas/pyoptools
+Installing with uv (Recommended)
+--------------------------------
+
+If you use `uv <https://docs.astral.sh/uv/>`_:
+
+.. code-block:: bash
+
+    # In a uv project:
+    uv add pyoptools
+
+    # Or in a virtual environment:
+    uv pip install pyoptools
 
 Installing via pip
 ------------------
 
-No matter if you're using Windows, Mac OS, or Linux, you can easily install 
-pyOpTools. Jupyter Lab is a dependency of the pyoptools package, so it will 
-also be installed automatically when you install pyoptools using `pip`. Using 
-the installed Jupyter Lab you should be able to  run all the examples in this
-documentation without any trouble.
-
-Just run this command:
+You can install the latest release of pyOpTools directly from PyPI using ``pip``:
 
 .. code-block:: bash
 
     pip install pyoptools
 
-This will install the latest version of pyoptools along with Jupyter Lab, so 
-you're all set to run the examples hassle-free.
+For interactive notebooks with 3D visualization, you can also install JupyterLab and Plotly:
 
+.. code-block:: bash
 
-Installing it in Debian 12 (should work on any Debian derivative)
------------------------------------------------------------------
+    pip install pyoptools jupyterlab plotly
 
-The preferred method for installing pyOpTools, particularly on "Debian derivative"
-Linux distributions, is to install it as a system package. To generate the 
-pyoptools .deb package, simply navigate to the project root and execute the
-following command:
+Building from Source
+--------------------
+
+To install pyOpTools from source for development:
+
+.. code-block:: bash
+
+    # 1. Clone repository
+    git clone https://github.com/cihologramas/pyoptools.git
+    cd pyoptools
+
+    # 2. Install dependencies and compile extensions
+    uv sync
+    uv run python setup.py build_ext --inplace
+
+    # Or with pip:
+    pip install -e .
+
+Installing in Debian / Ubuntu as a System Package
+-------------------------------------------------
+
+To generate and install a Debian ``.deb`` package:
 
 .. code-block:: bash
 
     make deb
-
-Executing this command will generate a .deb package outside the pyOpTool's 
-source root tree. To install the generated package, use the following command:
-
-.. code-block:: bash
-
-    dpkg -i python3-pyoptools_<version>_<platform>.deb
-
-
-Make sure to adjust the <version> and <platform> parameters accordingly. This 
-method eliminates the need for virtual environments and ensures a smooth 
-installation process.
-
+    sudo dpkg -i ../python3-pyoptools_<version>_<platform>.deb

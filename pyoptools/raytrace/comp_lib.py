@@ -33,16 +33,16 @@ __all__ = sorted(
     ]
 )
 
-from ._comp_lib.spherical_lens import SphericalLens
 from ._comp_lib.aspheric_lens import AsphericLens
-from ._comp_lib.cylindrical_lens import CylindricalLens
 from ._comp_lib.ccd import CCD
-from ._comp_lib.prism import RightAnglePrism, PentaPrism, DovePrism
-from ._comp_lib.cube import Block, BeamSplitingCube, BeamSplittingCube
-from ._comp_lib.compound_lens import Doublet, AirSpacedDoublet, MultiLens
-from ._comp_lib.stop import Stop
-from ._comp_lib.ideallens import IdealLens, IdealTLens
-from ._comp_lib.mirror import RoundMirror, RectMirror
+from ._comp_lib.compound_lens import AirSpacedDoublet, Doublet, MultiLens
+from ._comp_lib.cube import BeamSplitingCube, BeamSplittingCube, Block
+from ._comp_lib.cylindrical_lens import CylindricalLens
 from ._comp_lib.diffraction import RectGratting
+from ._comp_lib.ideallens import IdealLens, IdealTLens
+from ._comp_lib.mirror import RectMirror, RoundMirror
 from ._comp_lib.powell_lens import PowellLens
+from ._comp_lib.prism import DovePrism, PentaPrism, RightAnglePrism
 from ._comp_lib.simple_dmd_device import SimpleDMDDevice
+from ._comp_lib.spherical_lens import SphericalLens
+from ._comp_lib.stop import Stop

@@ -28,34 +28,17 @@ import os
 
 cpdef int detectCPUs():
     """
-    Detects the number of CPUs on a system. Cribbed from pp.
+    Detects the number of CPUs on a system.
     """
-    # Linux, Unix and MacOS:
-    if hasattr(os, "sysconf"):
-        if "SC_NPROCESSORS_ONLN" in os.sysconf_names:
-            # Linux & Unix:
-            ncpus = os.sysconf("SC_NPROCESSORS_ONLN")
-            if isinstance(ncpus, int) and ncpus > 0:
-                return ncpus
-        else:  # OSX:
-            return int(os.popen2("sysctl -n hw.ncpu")[1].read())
-    # Windows:
-    if "NUMBER_OF_PROCESSORS" in os.environ:
-        ncpus = int(os.environ["NUMBER_OF_PROCESSORS"])
-        if ncpus > 0:
-            return ncpus
-    return 1  # Default
+    cdef int ncpus = os.cpu_count() or 1
+    return ncpus if ncpus > 0 else 1
 
 cpdef bint detectOpenCL():
-    got_cl=True
     try:
-        import pyopencl as cl
+        import pyopencl
+        return pyopencl is not None
     except ImportError:
-        got_cl=False
-    # TODO: the dir is to use cl, and to avoid errors in the linter. It is not
-    # doing anything. Need to find a better solution so the dir can be removed
-    dir(cl)
-    return got_cl
+        return False
 
 cpdef has_double_support(dev):
     for ext in dev.extensions.split(" "):

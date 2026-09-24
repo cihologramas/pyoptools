@@ -1,8 +1,8 @@
-from pyoptools.all import *
-from time import time
-from numpy import exp, pi, angle, ones
+from numpy import angle, exp, ones, pi
+from numpy.fft import fft2, fftshift, ifft2, ifftshift
 from numpy.random import random
-from numpy.fft import fft2, ifft2, fftshift, ifftshift
+
+from pyoptools.all import *
 
 
 def ffGS(z, target, estimate=None, iterations=20, error=None):
@@ -64,13 +64,13 @@ def ffGS(z, target, estimate=None, iterations=20, error=None):
         dye = target.l * z / sy
         estimate = Field(data=edata, psize=(dxe, dye), l=target.l)
 
-    assert (
-        estimate.shape == target.shape
-    ), "The estimate field, and the target field, must have the same shape"
+    assert estimate.shape == target.shape, (
+        "The estimate field, and the target field, must have the same shape"
+    )
 
-    assert (
-        target.l == estimate.l
-    ), "The wave lengths for the reference beam, and the target must be equal"
+    assert target.l == estimate.l, (
+        "The wave lengths for the reference beam, and the target must be equal"
+    )
 
     sx, sy = target.size
     dxe = target.l * z / sx
@@ -78,9 +78,9 @@ def ffGS(z, target, estimate=None, iterations=20, error=None):
 
     dx, dy = estimate.res
 
-    assert (dxe == dx) and (
-        dye == dy
-    ), "The resolution for the reference beam, and the target must be equal"
+    assert (dxe == dx) and (dye == dy), (
+        "The resolution for the reference beam, and the target must be equal"
+    )
 
     holo = estimate
     eabs = estimate.abs()
@@ -89,7 +89,6 @@ def ffGS(z, target, estimate=None, iterations=20, error=None):
     ntarget = target.abs() / target.abs().max()
 
     for n in range(iterations):
-
         if n != 0:
             holo = imp.propagate_fraunhofer(-z)
 
@@ -174,13 +173,13 @@ def fftGS(z, target, estimate=None, iterations=20, error=None, flagRand=True):
         dye = target.l * z / sy
         estimate = Field(data=edata, psize=(dxe, dye), l=target.l)
 
-    assert (
-        estimate.shape == target.shape
-    ), "The estimate field, and the target field, must have the same shape"
+    assert estimate.shape == target.shape, (
+        "The estimate field, and the target field, must have the same shape"
+    )
 
-    assert (
-        target.l == estimate.l
-    ), "The wave lengths for the reference beam, and the target must be equal"
+    assert target.l == estimate.l, (
+        "The wave lengths for the reference beam, and the target must be equal"
+    )
 
     sx, sy = target.size
     dxe = target.l * z / sx
@@ -188,9 +187,9 @@ def fftGS(z, target, estimate=None, iterations=20, error=None, flagRand=True):
 
     dx, dy = estimate.res
 
-    assert (dxe == dx) and (
-        dye == dy
-    ), "The resolution for the reference beam, and the target must be equal"
+    assert (dxe == dx) and (dye == dy), (
+        "The resolution for the reference beam, and the target must be equal"
+    )
 
     holo = estimate.data
     eabs = estimate.abs()
@@ -199,7 +198,6 @@ def fftGS(z, target, estimate=None, iterations=20, error=None, flagRand=True):
     ntarget = target.abs() / target.abs().max()
 
     for n in range(iterations):
-
         if n != 0:
             holo = fftshift(fft2(ifftshift(imp)))
 
@@ -281,13 +279,13 @@ def frGS(z, target, estimate=None, iterations=20, error=None):
         dye = target.l * z / sy
         estimate = Field(data=edata, psize=(dxe, dye), l=target.l)
 
-    assert (
-        estimate.shape == target.shape
-    ), "The estimate field, and the target field, must have the same shape"
+    assert estimate.shape == target.shape, (
+        "The estimate field, and the target field, must have the same shape"
+    )
 
-    assert (
-        target.l == estimate.l
-    ), "The wave lengths for the reference beam, and the target must be equal"
+    assert target.l == estimate.l, (
+        "The wave lengths for the reference beam, and the target must be equal"
+    )
 
     sx, sy = target.size
     dxe = target.l * z / sx
@@ -295,9 +293,9 @@ def frGS(z, target, estimate=None, iterations=20, error=None):
 
     dx, dy = estimate.res
 
-    assert (dxe == dx) and (
-        dye == dy
-    ), "The resolution for the reference beam, and the target must be equal"
+    assert (dxe == dx) and (dye == dy), (
+        "The resolution for the reference beam, and the target must be equal"
+    )
 
     holo = estimate
     eabs = estimate.abs()
@@ -306,7 +304,6 @@ def frGS(z, target, estimate=None, iterations=20, error=None):
     ntarget = target.abs() / target.abs().max()
 
     for n in range(iterations):
-
         if n != 0:
             holo = imp.propagate_fresnel(-z)
 
@@ -388,21 +385,21 @@ def asGS(z, target, estimate=None, iterations=20, error=None):
         dye = target.l * z / sy
         estimate = Field(data=edata, psize=(dxe, dye), l=target.l)
 
-    assert (
-        estimate.shape == target.shape
-    ), "The estimate field, and the target field, must have the same shape"
+    assert estimate.shape == target.shape, (
+        "The estimate field, and the target field, must have the same shape"
+    )
 
-    assert (
-        target.l == estimate.l
-    ), "The wave lengths for the reference beam, and the target must be equal"
+    assert target.l == estimate.l, (
+        "The wave lengths for the reference beam, and the target must be equal"
+    )
 
     dxe, dye = target.res
 
     dx, dy = estimate.res
 
-    assert (dxe == dx) and (
-        dye == dy
-    ), "The resolution for the estimate beam, and the target must be equal"
+    assert (dxe == dx) and (dye == dy), (
+        "The resolution for the estimate beam, and the target must be equal"
+    )
 
     holo = estimate
     eabs = estimate.abs()
@@ -411,7 +408,6 @@ def asGS(z, target, estimate=None, iterations=20, error=None):
     ntarget = target.abs() / target.abs().max()
 
     for n in range(iterations):
-
         if n != 0:
             holo = imp.propagate_ae(-z)
 

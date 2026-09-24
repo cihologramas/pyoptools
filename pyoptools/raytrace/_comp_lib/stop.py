@@ -16,11 +16,8 @@
 Definition of stop components
 """
 
-from numpy import sqrt, pi, absolute
-
 from pyoptools.raytrace.component import Component
 from pyoptools.raytrace.surface import OpticalStop
-from pyoptools.raytrace.shape import Shape
 
 
 class Stop(Component):
@@ -62,17 +59,3 @@ class Stop(Component):
         # self.ap_shape=ap_shape
         face = OpticalStop(shape=shape, ap_shape=ap_shape)
         self.surflist["S1"] = (face, (0, 0, 0), (0, 0, 0))
-
-    # ~ def __reduce__(self):
-    # ~ args=(None,None) #self.intensity,self.wavelength,self.n ,self.label,self.parent,self.pop,self.orig_surf)
-    # ~ return(type(self),args,self.__getstate__())
-    # ~
-    # ~
-    # ~ #TODO: Check if there is a better way to do this, because we are
-    # ~ #rewriting the constructor values here
-    # ~
-    # ~ def __getstate__(self):
-    # ~ return self.shape, self.ap_shape, self.__face,self.surflist
-    # ~
-    # ~ def __setstate__(self,state):
-    # ~ self.shape, self.ap_shape, self.__face,self.surflist=state

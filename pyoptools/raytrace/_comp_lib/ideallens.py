@@ -2,11 +2,10 @@
 Modulo con clases y funciones auxiliares.
 """
 
-from pyoptools.raytrace.surface.idealsurface import IdealSurface
-from pyoptools.raytrace.surface.idealpplanes import IdealPPlanes
-
-from pyoptools.raytrace.shape import Rectangular
 from pyoptools.raytrace.component import Component
+from pyoptools.raytrace.shape import Rectangular
+from pyoptools.raytrace.surface.idealpplanes import IdealPPlanes
+from pyoptools.raytrace.surface.idealsurface import IdealSurface
 from pyoptools.raytrace.surface.opticalstop import OpticalStop
 from pyoptools.raytrace.system.system import System
 

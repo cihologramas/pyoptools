@@ -1,14 +1,16 @@
+import tempfile
+
 import pytest
-from pyoptools.raytrace.library import library
+
 from pyoptools.raytrace._comp_lib.optic_factory import optic_factory
 from pyoptools.raytrace._comp_lib.spherical_lens import SphericalLens
-import tempfile
+from pyoptools.raytrace.library import library
 
 
 @pytest.mark.skip(reason="Skipping this test for now takes too long")
 def test_all_optics():
     for i, (part, descriptor) in enumerate(library.items()):
-        optic = optic_factory(**descriptor)
+        _optic = optic_factory(**descriptor)
 
 
 def test_direct_access():
@@ -41,8 +43,9 @@ def test_parts():
 
 
 def test_user_lib():
-    ntf = tempfile.NamedTemporaryFile("w", suffix=".json")
-    with ntf as fp:
+    import os
+
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as fp:
         fp.write(
             """
            {
@@ -59,10 +62,13 @@ def test_user_lib():
             }
         """
         )
-        fp.flush()
-        fp.seek(0)
+        temp_name = fp.name
 
-        library.add(ntf.name)
+    try:
+        library.add(temp_name)
 
         assert library.descriptor("a_test_lens")["thickness"] == 3.5
         assert library.descriptor("a_test_lens")["description"] == "test"
+    finally:
+        if os.path.exists(temp_name):
+            os.remove(temp_name)

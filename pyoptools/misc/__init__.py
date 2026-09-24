@@ -28,8 +28,8 @@
 #   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-"""Module with miscellaneous linear algebra functions
-"""
+"""Module with miscellaneous linear algebra functions"""
+
 from .function_2d import poly_2d
 
 __all__ = ["poly_2d"]
