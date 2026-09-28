@@ -25,7 +25,9 @@ dependencies = [
     "orjson>=3.10.7",
     "Pillow>=10.0.1",
     "importlib-resources>=3.3.0",
-    "plotly>=5.0.0"
+    "plotly>=5.0.0",
+    "mako",
+    "sympy"
 ]
 
 [project.optional-dependencies]
