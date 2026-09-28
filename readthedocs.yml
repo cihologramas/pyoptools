@@ -19,7 +19,10 @@ build:
   jobs:
     post_checkout:
       - git fetch --unshallow || true
-      - git fetch --tags || true
+      - git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*' || true
+      - git fetch --all --tags || true
+    pre_install:
+      - git update-index --assume-unchanged doc/conf.py || true
 
     # You can also specify other tool versions:
     # nodejs: "20"
@@ -37,7 +40,7 @@ build:
 python:
   install:
     - requirements: doc/requirements.txt
-    - method: setuptools
+    - method: pip
       path: .
 
 
