@@ -78,11 +78,13 @@ copyright = "2020, Ricardo Amézquita Orozco"
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
-# Get version dynamically from installed package. If the installed metadata is
-# unavailable (e.g. a shallow clone without tags on Read the Docs), fall back to
-# resolving the version directly from git with setuptools_scm, then to the RTD
-# tag, and finally to "0.0.0", logging the real error at each failed step.
+# Get version dynamically from the installed package metadata. If that is
+# unavailable (e.g. the package is installed without version metadata on Read
+# the Docs), fall back to resolving the version directly from git, then to the
+# Read the Docs git identifier, and finally to "0.0.0", logging the real error
+# at each failed step.
 _log = logging.getLogger(__name__)
+_repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 
 def _resolve_version():
@@ -94,11 +96,23 @@ def _resolve_version():
         _log.exception("Could not read the installed pyoptools version")
 
     try:
-        from setuptools_scm import get_version as get_scm_version
+        import subprocess
 
-        return get_scm_version(root=os.path.abspath(".."))
+        described = subprocess.check_output(
+            ["git", "describe", "--tags", "--always"],
+            cwd=_repo_root,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+        described = described[1:] if described[:1] == "v" else described
+        if described[:1].isdigit():
+            base, _, rest = described.partition("-")
+            if rest:
+                count, _, revision = rest.partition("-g")
+                return f"{base}.post{count}+g{revision}" if revision else base
+            return base
     except Exception:
-        _log.exception("Could not resolve the pyoptools version with setuptools_scm")
+        _log.exception("Could not resolve the pyoptools version from git")
 
     identifier = os.environ.get("READTHEDOCS_GIT_IDENTIFIER", "")
     if identifier[:1] == "v" and identifier[1:2].isdigit():
