@@ -257,6 +257,16 @@ def test_parallel_beam_p():
     assert beam_almost_equal(calculated, expected)
 
 
+def test_polar_sources_preserve_draw_color():
+    draw_color = "rebeccapurple"
+
+    parallel_beam = ray_source.parallel_beam_p(num_rays=(2, 3), draw_color=draw_color)
+    point_source = ray_source.point_source_p(num_rays=(2, 3), draw_color=draw_color)
+
+    assert all(ray_.draw_color == draw_color for ray_ in parallel_beam)
+    assert all(ray_.draw_color == draw_color for ray_ in point_source)
+
+
 def test_point_source_c():
     # point_source_c(origin=(0.,0.,0.),direction=(0.,0.,0),span=(pi/8,pi/8)\
     #                      ,num_rays=(10,10),wavelength=0.58929, label="")

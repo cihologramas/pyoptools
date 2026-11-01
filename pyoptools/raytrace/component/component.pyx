@@ -1,4 +1,6 @@
 # distutils: language = c++
+from math import isfinite
+
 from pyoptools.misc.plist.plist cimport plist
 from pyoptools.misc.picklable.picklable cimport Picklable
 from pyoptools.raytrace.mat_lib import Material
@@ -87,7 +89,8 @@ cdef class Component(Picklable):
                     ret_list.append((convert_vector3d_to_tuple(pi_c), R))
             return tuple(ret_list)
 
-    def __init__(self, surflist=None, material=1.):
+    def __init__(self, surflist=None, material=1., render_color="#CBD5E1",
+                 render_opacity=0.5, render_smooth=False, render_thickness=0.):
 
         # surflist defaults to None to avoid mutable default argument issues.
 
@@ -97,8 +100,17 @@ cdef class Component(Picklable):
             self.surflist = surflist
 
         self.material = material
+        if not 0. <= render_opacity <= 1.:
+            raise ValueError("render_opacity must be between 0 and 1")
+        if not isfinite(render_thickness) or render_thickness < 0.:
+            raise ValueError("render_thickness must be finite and non-negative")
+        self.render_color = render_color
+        self.render_opacity = render_opacity
+        self.render_smooth = render_smooth
+        self.render_thickness = render_thickness
 
-        Picklable.__init__(self, "_surflist", "_material")
+        Picklable.__init__(self, "_surflist", "_material", "render_color",
+                           "render_opacity", "render_smooth", "render_thickness")
 
     def __repr__(self):
         '''Return an string with the representation of the optical component

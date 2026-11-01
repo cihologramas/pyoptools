@@ -51,6 +51,9 @@ class CylindricalLens(Component):
         *args,
         **kwargs,
     ):
+        kwargs.setdefault("render_color", "#BAE6FD")
+        kwargs.setdefault("render_opacity", 0.45)
+        kwargs.setdefault("render_smooth", True)
         Component.__init__(self, *args, **kwargs)
         self.size = size
         w, h = self.size

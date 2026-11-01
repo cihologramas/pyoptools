@@ -54,8 +54,12 @@ class Stop(Component):
     # __face = Instance(Aperture)
 
     def __init__(self, shape=None, ap_shape=None, **traits):
+        traits.setdefault("render_color", "#1E293B")
+        traits.setdefault("render_opacity", 0.95)
+        traits.setdefault("render_smooth", False)
+        traits.setdefault("render_thickness", 0.1)
         Component.__init__(self, **traits)
         # self.shape=shape
         # self.ap_shape=ap_shape
-        face = OpticalStop(shape=shape, ap_shape=ap_shape)
+        face = OpticalStop(shape=shape, ap_shape=ap_shape, render_thickness=None)
         self.surflist["S1"] = (face, (0, 0, 0), (0, 0, 0))

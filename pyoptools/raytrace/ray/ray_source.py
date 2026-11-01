@@ -110,7 +110,11 @@ def parallel_beam_p(
 
     ret_val = [
         Ray(
-            origin=(0, 0, 0), direction=(0, 0, 1), wavelength=wavelength, label=label
+            origin=(0, 0, 0),
+            direction=(0, 0, 1),
+            wavelength=wavelength,
+            label=label,
+            draw_color=draw_color,
         ).ch_coord_sys_inv(origin, direction)
     ]
     nr, nt = num_rays
@@ -229,7 +233,11 @@ def point_source_p(
 
     ret_val = [
         Ray(
-            origin=(0, 0, 0), direction=(0, 0, 1), wavelength=wavelength, label=label
+            origin=(0, 0, 0),
+            direction=(0, 0, 1),
+            wavelength=wavelength,
+            label=label,
+            draw_color=draw_color,
         ).ch_coord_sys_inv(origin, direction)
     ]
 

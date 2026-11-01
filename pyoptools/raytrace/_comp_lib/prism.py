@@ -58,6 +58,9 @@ class RightAnglePrism(Component):
         *args,
         **kwargs,
     ):
+        kwargs.setdefault("render_color", "#38BDF8")
+        kwargs.setdefault("render_opacity", 0.40)
+        kwargs.setdefault("render_smooth", False)
         Component.__init__(self, *args, **kwargs)
 
         self.width = width
@@ -103,7 +106,9 @@ class PentaPrism(Component):
     """
 
     def __init__(self, s, *args, **kwargs):
-
+        kwargs.setdefault("render_color", "#38BDF8")
+        kwargs.setdefault("render_opacity", 0.40)
+        kwargs.setdefault("render_smooth", False)
         Component.__init__(self, *args, **kwargs)
 
         s1 = Plane(shape=Rectangular(size=(s, s)))
@@ -154,6 +159,9 @@ class DovePrism(Component):
 
         # La referencia del prisma de dove esta en el centro del prisma
 
+        kwargs.setdefault("render_color", "#38BDF8")
+        kwargs.setdefault("render_opacity", 0.40)
+        kwargs.setdefault("render_smooth", False)
         Component.__init__(self, *args, **kwargs)
 
         d = 1.4142135623730951 * s

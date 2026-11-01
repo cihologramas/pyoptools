@@ -23,6 +23,30 @@ from pyoptools.raytrace.shape import Circular, Rectangular
 from pyoptools.raytrace.surface import Cylindrical, Plane
 
 
+def _get_surface_render_color(self):
+    """Return the render color of the reflective S1 surface."""
+    return self.surflist["S1"][0].render_color
+
+
+def _set_surface_render_color(self, color):
+    self.surflist["S1"][0].render_color = color
+
+
+def _get_surface_render_opacity(self):
+    """Return the render opacity of the reflective S1 surface."""
+    return self.surflist["S1"][0].render_opacity
+
+
+def _set_surface_render_opacity(self, opacity):
+    self.surflist["S1"][0].render_opacity = opacity
+
+
+_surface_render_color = property(_get_surface_render_color, _set_surface_render_color)
+_surface_render_opacity = property(
+    _get_surface_render_opacity, _set_surface_render_opacity
+)
+
+
 class RoundMirror(Component):
     """Circular mirror / beam splitter plate with optional wedge.
 
@@ -49,8 +73,19 @@ class RoundMirror(Component):
         Tilt angle (radians) of S2 around the Y-axis. Default is 0
         (parallel faces, no wedge). The ``thickness`` value always
         represents the center thickness.
+    surface_render_color : matplotlib color
+        Display color for the reflective S1 surface. Default is ``"#8b03a6"``.
+    surface_render_opacity : float
+        Display opacity for the reflective S1 surface. Default is ``1.0``.
     *args, **kwargs
         Passed to :class:`Component`.
+
+    Attributes
+    ----------
+    surface_render_color : matplotlib color
+        Read/write alias for the reflective S1 surface color.
+    surface_render_opacity : float
+        Read/write alias for the reflective S1 surface opacity.
 
     Notes
     -----
@@ -62,6 +97,9 @@ class RoundMirror(Component):
     the caller is expected to provide physically sensible values.
     """
 
+    surface_render_color = _surface_render_color
+    surface_render_opacity = _surface_render_opacity
+
     def __init__(
         self,
         radius=50.0,
@@ -69,14 +107,21 @@ class RoundMirror(Component):
         reflectivity=0.5,
         filter_spec=("nofilter",),
         wedge_angle=0.0,
+        surface_render_color="#8b03a6",
+        surface_render_opacity=1.0,
         *args,
         **kwargs,
     ):
+        kwargs.setdefault("render_color", "#E2E8F0")
+        kwargs.setdefault("render_opacity", 0.90)
+        kwargs.setdefault("render_smooth", False)
         Component.__init__(self, *args, **kwargs)
         __a_surf = Plane(
             shape=Circular(radius=radius),
             reflectivity=reflectivity,
             filter_spec=filter_spec,
+            render_color=surface_render_color,
+            render_opacity=surface_render_opacity,
         )
         __p_surf = Plane(shape=Circular(radius=radius))
 
@@ -103,14 +148,51 @@ class RoundMirror(Component):
 
 
 class RectMirror(Component):
+    """Rectangular mirror or beam splitter plate.
+
+    The mirror has a reflective rectangular front surface (S1), a plain back
+    surface (S2), and four side surfaces. The reflective S1 surface can be
+    visually styled independently of the component body.
+
+    Parameters
+    ----------
+    size : tuple of float
+        Width, height, and thickness of the plate.
+    reflectivity : float
+        Reflectivity of the front surface (S1), from 0 to 1.
+    filter_spec : tuple
+        Filter specification for S1. Default is no filter.
+    surface_render_color : matplotlib color
+        Display color for the reflective S1 surface. Default is ``"#8b03a6"``.
+    surface_render_opacity : float
+        Display opacity for the reflective S1 surface. Default is ``1.0``.
+    *args, **kwargs
+        Passed to :class:`Component`.
+
+    Attributes
+    ----------
+    surface_render_color : matplotlib color
+        Read/write alias for the reflective S1 surface color.
+    surface_render_opacity : float
+        Read/write alias for the reflective S1 surface opacity.
+    """
+
+    surface_render_color = _surface_render_color
+    surface_render_opacity = _surface_render_opacity
+
     def __init__(
         self,
         size=(50.0, 50.0, 10.0),
         reflectivity=0.5,
         filter_spec=("nofilter",),
+        surface_render_color="#8b03a6",
+        surface_render_opacity=1.0,
         *args,
         **kwargs,
     ):
+        kwargs.setdefault("render_color", "#E2E8F0")
+        kwargs.setdefault("render_opacity", 0.90)
+        kwargs.setdefault("render_smooth", False)
         Component.__init__(self, *args, **kwargs)
         self.size = size
         width, height, length = self.size
@@ -119,6 +201,8 @@ class RectMirror(Component):
             shape=Rectangular(size=(width, height)),
             reflectivity=reflectivity,
             filter_spec=filter_spec,
+            render_color=surface_render_color,
+            render_opacity=surface_render_opacity,
         )
         __p_surf = Plane(shape=Rectangular(size=(width, height)))
 
